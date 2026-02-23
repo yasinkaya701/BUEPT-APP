@@ -1,0 +1,182 @@
+[
+    {
+        "id": 1,
+        "pair": [
+            "Desert",
+            "Dessert"
+        ],
+        "definitions": [
+            "A barren area of land",
+            "A sweet course eaten at the end of a meal"
+        ],
+        "phonetics": [
+            "/ˈdɛz.ərt/",
+            "/dɪˈzɜːrt/"
+        ]
+    },
+    {
+        "id": 2,
+        "pair": [
+            "Accept",
+            "Except"
+        ],
+        "definitions": [
+            "To receive or agree to",
+            "Not including"
+        ],
+        "phonetics": [
+            "/əkˈsɛpt/",
+            "/ɪkˈsɛpt/"
+        ]
+    },
+    {
+        "id": 3,
+        "pair": [
+            "Affect",
+            "Effect"
+        ],
+        "definitions": [
+            "To influence (verb)",
+            "A result or consequence (noun)"
+        ],
+        "phonetics": [
+            "/əˈfɛkt/",
+            "/ɪˈfɛkt/"
+        ]
+    },
+    {
+        "id": 4,
+        "pair": [
+            "Lose",
+            "Loose"
+        ],
+        "definitions": [
+            "To be deprived of",
+            "Not firmly or tightly fixed"
+        ],
+        "phonetics": [
+            "/luːz/",
+            "/luːs/"
+        ]
+    },
+    {
+        "id": 5,
+        "pair": [
+            "Quiet",
+            "Quite"
+        ],
+        "definitions": [
+            "Making little or no noise",
+            "To a certain or fairly significant extent"
+        ],
+        "phonetics": [
+            "/ˈkwaɪ.ət/",
+            "/kwaɪt/"
+        ]
+    },
+    {
+        "id": 6,
+        "pair": [
+            "Than",
+            "Then"
+        ],
+        "definitions": [
+            "Used for comparison",
+            "At that time; next"
+        ],
+        "phonetics": [
+            "/ðæn/",
+            "/ðɛn/"
+        ]
+    },
+    {
+        "id": 7,
+        "pair": [
+            "Breath",
+            "Breathe"
+        ],
+        "definitions": [
+            "The air taken into or expelled from the lungs (noun)",
+            "Take air into the lungs and then expel it (verb)"
+        ],
+        "phonetics": [
+            "/brɛθ/",
+            "/briːð/"
+        ]
+    },
+    {
+        "id": 8,
+        "pair": [
+            "Principal",
+            "Principle"
+        ],
+        "definitions": [
+            "Most important; or the head of a school",
+            "A fundamental truth or proposition"
+        ],
+        "phonetics": [
+            "/ˈprɪn.sə.pəl/",
+            "/ˈprɪn.sə.pəl/"
+        ]
+    },
+    {
+        "id": 9,
+        "pair": [
+            "Stationary",
+            "Stationery"
+        ],
+        "definitions": [
+            "Not moving",
+            "Writing and other office materials"
+        ],
+        "phonetics": [
+            "/ˈsteɪ.ʃəˌnɛri/",
+            "/ˈsteɪ.ʃəˌnɛri/"
+        ]
+    },
+    {
+        "id": 10,
+        "pair": [
+            "Bare",
+            "Bear"
+        ],
+        "definitions": [
+            "Not clothed or covered",
+            "To carry a weight or endure; or the animal"
+        ],
+        "phonetics": [
+            "/bɛər/",
+            "/bɛər/"
+        ]
+    },
+    {
+        "id": 11,
+        "pair": [
+            "Complement",
+            "Compliment"
+        ],
+        "definitions": [
+            "A thing that completes or brings to perfection",
+            "A polite expression of praise or admiration"
+        ],
+        "phonetics": [
+            "/ˈkɒm.plɪ.mənt/",
+            "/ˈkɒm.plɪ.mənt/"
+        ]
+    },
+    {
+        "id": 12,
+        "pair": [
+            "Iterate",
+            "Itinerant"
+        ],
+        "definitions": [
+            "To perform or utter repeatedly",
+            "Traveling from place to place"
+        ],
+        "phonetics": [
+            "/ˈɪt.ə.reɪt/",
+            "/aɪˈtɪn.ər.ənt/"
+        ]
+    }
+]

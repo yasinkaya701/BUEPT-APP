@@ -1,0 +1,414 @@
+[
+    {
+        "id": "sp_p1_01",
+        "level": "P1",
+        "category": "Personal",
+        "title": "Your Daily Routine",
+        "prompt": "Describe your typical daily routine. What do you do in the morning, afternoon, and evening?",
+        "type": "description",
+        "time": "1 min",
+        "tips": [
+            "Use present simple tense",
+            "Include time expressions: first, then, after that",
+            "Mention at least 5 activities"
+        ],
+        "vocab": [
+            "wake up",
+            "commute",
+            "routine",
+            "schedule",
+            "leisure"
+        ],
+        "model_answer": "I usually wake up at 7 a.m. and have a light breakfast. Then I commute to university by bus, which takes about 30 minutes. In the afternoon, I attend lectures and study in the library. After that, I return home, have dinner with my family, and spend some leisure time reading or watching a documentary before going to bed at around 11.",
+        "follow_up": [
+            "Do you prefer having a fixed routine or a flexible schedule? Why?",
+            "How has your routine changed compared to a year ago?"
+        ]
+    },
+    {
+        "id": "sp_p1_02",
+        "level": "P1",
+        "category": "Personal",
+        "title": "Your Hometown",
+        "prompt": "Describe the town or city you are from. What are its best features?",
+        "type": "description",
+        "time": "1 min",
+        "tips": [
+            "Use 'there is / there are' structures",
+            "Include adjectives for description",
+            "Mention location, size, and key features"
+        ],
+        "vocab": [
+            "located",
+            "historical",
+            "vibrant",
+            "neighbourhood",
+            "landmark"
+        ],
+        "model_answer": "I am from Ankara, which is the capital city of Turkey. It is located in the centre of the country. Ankara is a vibrant city with many universities, museums, and historical landmarks. One of the most famous sites is Anıtkabir, the mausoleum of Atatürk. The city is well-connected by public transport, which makes commuting quite convenient.",
+        "follow_up": [
+            "What would you change about your hometown if you could?",
+            "Do you think you will live there in the future?"
+        ]
+    },
+    {
+        "id": "sp_p1_03",
+        "level": "P1",
+        "category": "Personal",
+        "title": "A Favourite Book or Film",
+        "prompt": "Talk about a book or film you enjoyed recently. What is it about and why did you like it?",
+        "type": "description",
+        "time": "1 min",
+        "tips": [
+            "Use past simple to describe the story",
+            "Use adjectives to express opinions",
+            "Explain why you recommend it"
+        ],
+        "vocab": [
+            "plot",
+            "character",
+            "protagonist",
+            "recommend",
+            "insightful"
+        ],
+        "model_answer": "One film I recently enjoyed is 'The Pursuit of Happyness'. It tells the story of a man who struggles with poverty while trying to provide for his son. I found the film very inspiring because it shows how determination and hard work can lead to success despite difficult circumstances. The main character, played by Will Smith, delivered a truly convincing performance.",
+        "follow_up": [
+            "How do books and films influence people's views?",
+            "Do you prefer reading books or watching films? Why?"
+        ]
+    },
+    {
+        "id": "sp_p2_01",
+        "level": "P2",
+        "category": "Education",
+        "title": "Online vs In-person Learning",
+        "prompt": "Compare online learning and in-person learning. What are the advantages and disadvantages of each?",
+        "type": "comparison",
+        "time": "90 sec",
+        "tips": [
+            "Use comparative structures: 'more... than', 'whereas', 'on the other hand'",
+            "Give at least one advantage and one disadvantage for each",
+            "End with a balanced conclusion"
+        ],
+        "vocab": [
+            "flexibility",
+            "engagement",
+            "collaborative",
+            "self-discipline",
+            "face-to-face"
+        ],
+        "model_answer": "Online learning offers considerable flexibility, as students can study at their own pace from any location. However, it tends to reduce face-to-face interaction, which can negatively affect collaborative skills. In contrast, in-person learning provides a more structured environment and encourages immediate communication with peers and instructors. On the other hand, it lacks the convenience of remote access. Overall, a blended approach that combines both methods appears to be the most effective.",
+        "follow_up": [
+            "Which do you personally prefer and why?",
+            "How has technology changed education in Turkey?"
+        ]
+    },
+    {
+        "id": "sp_p2_02",
+        "level": "P2",
+        "category": "Technology",
+        "title": "Social Media and Society",
+        "prompt": "Discuss the impact of social media on modern society. Is the overall effect positive or negative?",
+        "type": "discussion",
+        "time": "90 sec",
+        "tips": [
+            "Present both sides before giving your opinion",
+            "Use discourse markers: 'firstly', 'in addition', 'nevertheless'",
+            "Support claims with examples"
+        ],
+        "vocab": [
+            "connectivity",
+            "misinformation",
+            "engagement",
+            "cyberbullying",
+            "influence"
+        ],
+        "model_answer": "Social media has transformed the way people communicate and share information. On the positive side, it enables instant global connectivity and has become a powerful platform for raising social awareness. However, it also facilitates the spread of misinformation and can contribute to cyberbullying and mental health issues, particularly among young people. In my view, the overall impact is mixed, and it ultimately depends on how responsibly individuals use these platforms.",
+        "follow_up": [
+            "Should social media be regulated by governments?",
+            "How do you personally use social media?"
+        ]
+    },
+    {
+        "id": "sp_p2_03",
+        "level": "P2",
+        "category": "Environment",
+        "title": "Environmental Awareness",
+        "prompt": "Talk about one environmental problem that concerns you most. What can be done to address it?",
+        "type": "problem-solution",
+        "time": "90 sec",
+        "tips": [
+            "Name a specific problem",
+            "Use modal verbs for suggestions: could, should, must",
+            "Mention individual and government actions"
+        ],
+        "vocab": [
+            "climate change",
+            "sustainable",
+            "emissions",
+            "awareness",
+            "renewable"
+        ],
+        "model_answer": "The environmental issue that concerns me most is climate change, driven primarily by greenhouse gas emissions. Rising temperatures are causing more frequent extreme weather events worldwide. To address this, governments must transition to renewable energy sources and implement stricter regulations on industrial pollution. At the individual level, people could reduce their carbon footprint by using public transport, minimising waste, and consuming less meat. Raising awareness through education is also essential.",
+        "follow_up": [
+            "Do you think individuals can really make a difference?",
+            "What role should universities play in environmental issues?"
+        ]
+    },
+    {
+        "id": "sp_p3_01",
+        "level": "P3",
+        "category": "Academic",
+        "title": "The Role of Technology in Education",
+        "prompt": "To what extent has technology improved the quality of education? Use examples to support your view.",
+        "type": "argument",
+        "time": "2 min",
+        "tips": [
+            "Take a clear stance",
+            "Use hedging language: 'to a large extent', 'it could be argued'",
+            "Include a counter-argument and refutation"
+        ],
+        "vocab": [
+            "facilitate",
+            "innovation",
+            "curriculum",
+            "pedagogical",
+            "digital literacy"
+        ],
+        "model_answer": "Technology has undeniably transformed education in numerous positive ways. Digital platforms provide access to vast resources that were previously unavailable to many learners, particularly in developing regions. Interactive tools and simulation software also make abstract concepts more tangible. Nevertheless, it could be argued that an over-reliance on technology may hinder the development of critical thinking if students passively consume content. However, when technology is integrated thoughtfully into pedagogical practice, it can significantly enhance both access and quality of learning.",
+        "follow_up": [
+            "What are the risks of depending too heavily on technology in schools?",
+            "How can teachers adapt to an increasingly digital classroom?"
+        ]
+    },
+    {
+        "id": "sp_p3_02",
+        "level": "P3",
+        "category": "Academic",
+        "title": "Globalisation and Identity",
+        "prompt": "Some argue that globalisation threatens cultural identity. Do you agree or disagree? Discuss with examples.",
+        "type": "argument",
+        "time": "2 min",
+        "tips": [
+            "Define key terms briefly",
+            "Acknowledge the counterargument",
+            "Use specific examples from different cultures"
+        ],
+        "vocab": [
+            "homogenisation",
+            "cultural diversity",
+            "preserve",
+            "dominant",
+            "assimilation"
+        ],
+        "model_answer": "Globalisation has brought remarkable connectivity, yet its cultural implications are debated. Critics argue that the dominance of Western media and consumer culture leads to cultural homogenisation, threatening the diversity of local traditions. This is evident in the declining use of minority languages and the global spread of similar fashion and food trends. However, I would argue that globalisation does not necessarily erase cultural identity; rather, it can create hybrid cultures that blend local and global influences. The key lies in whether communities actively preserve their heritage while engaging with the world.",
+        "follow_up": [
+            "Has globalisation affected Turkish culture? In what ways?",
+            "What responsibility do governments have in protecting cultural heritage?"
+        ]
+    },
+    {
+        "id": "sp_p3_03",
+        "level": "P3",
+        "category": "Society",
+        "title": "Work-Life Balance",
+        "prompt": "In modern societies, maintaining work-life balance is increasingly difficult. What are the causes and consequences of this trend?",
+        "type": "cause-effect",
+        "time": "2 min",
+        "tips": [
+            "Identify at least 2 causes and 2 effects",
+            "Use causal language: 'as a result', 'this leads to', 'due to'",
+            "Mention possible solutions"
+        ],
+        "vocab": [
+            "demanding",
+            "burnout",
+            "productivity",
+            "boundary",
+            "well-being"
+        ],
+        "model_answer": "The difficulty of achieving work-life balance in contemporary societies stems from several interconnected factors. Firstly, the digital revolution has blurred the boundary between professional and personal time, as employees are expected to remain constantly reachable. Additionally, economic pressures drive many people to work longer hours to meet rising living costs. As a consequence, many individuals experience burnout, which negatively affects both mental health and long-term productivity. Organisations must therefore implement flexible working policies and foster cultures that genuinely respect personal time.",
+        "follow_up": [
+            "Do employers have a moral responsibility to protect employees' well-being?",
+            "How does poor work-life balance affect society as a whole?"
+        ]
+    },
+    {
+        "id": "sp_p4_01",
+        "level": "P4",
+        "category": "Academic",
+        "title": "Artificial Intelligence and the Future of Work",
+        "prompt": "Critically evaluate the claim that artificial intelligence will ultimately create more jobs than it displaces.",
+        "type": "critical",
+        "time": "2 min",
+        "tips": [
+            "Evaluate both optimistic and pessimistic perspectives",
+            "Use academic hedging: 'evidence suggests', 'it remains debatable'",
+            "Draw a nuanced conclusion"
+        ],
+        "vocab": [
+            "displacement",
+            "automation",
+            "emerging industries",
+            "augment",
+            "structural unemployment"
+        ],
+        "model_answer": "The claim that AI will generate more employment than it eliminates is frequently advanced by technological optimists, who point to the emergence of new industries centred on AI development, data science, and human-machine collaboration. Historical precedent from the Industrial Revolution lends some support to this view. However, evidence also suggests that today's automation is qualitatively different, capable of displacing cognitive as well as manual labour. Structural unemployment may disproportionately affect lower-skilled workers who face barriers to retraining. A more accurate conclusion is that AI's net impact on employment will depend heavily on the pace of change and the effectiveness of social policy responses.",
+        "follow_up": [
+            "What responsibility do governments have in managing AI-driven unemployment?",
+            "Should AI development be regulated internationally? Why or why not?"
+        ]
+    },
+    {
+        "id": "sp_p4_02",
+        "level": "P4",
+        "category": "Academic",
+        "title": "Ethics of Genetic Engineering",
+        "prompt": "To what extent should genetic engineering of humans be permitted? Critically discuss the ethical boundaries.",
+        "type": "critical",
+        "time": "2 min",
+        "tips": [
+            "Define genetic engineering in context",
+            "Address therapeutic vs enhancement distinction",
+            "Engage with ethical frameworks: autonomy, equity, harm"
+        ],
+        "vocab": [
+            "genome",
+            "therapeutic",
+            "enhancement",
+            "ethical boundaries",
+            "regulation"
+        ],
+        "model_answer": "Genetic engineering of humans presents profound ethical dilemmas that resist simple resolution. Therapeutic applications — such as correcting single-gene disorders — command relatively broad ethical support, provided informed consent and rigorous safety protocols are observed. The more contentious territory concerns genetic enhancement for non-medical traits such as intelligence or physical attributes. Critics argue this could exacerbate social inequality and undermine human dignity, while proponents contend that parents have a right to give children optimal life prospects. I would argue that a principled distinction must be maintained between treatment and enhancement, with the latter subject to strict international regulation to prevent a genetic stratification of society.",
+        "follow_up": [
+            "How might genetic enhancement change social inequality?",
+            "Who should have authority over genetic engineering research?"
+        ]
+    },
+    {
+        "id": "sp_p4_03",
+        "level": "P4",
+        "category": "Society",
+        "title": "Media and Democracy",
+        "prompt": "Critically assess the role of the media in strengthening or undermining democratic processes.",
+        "type": "critical",
+        "time": "2 min",
+        "tips": [
+            "Distinguish between different media types (social, broadcast, print)",
+            "Use precise academic vocabulary",
+            "Evaluate rather than simply describe"
+        ],
+        "vocab": [
+            "accountability",
+            "pluralism",
+            "disinformation",
+            "fourth estate",
+            "political polarisation"
+        ],
+        "model_answer": "The media occupies a paradoxical position in contemporary democratic systems. Historically, a free press has served as the 'fourth estate', holding power to account and informing citizens necessary for meaningful political participation. However, the fragmentation of the media landscape in the digital age has given rise to echo chambers and the rapid spread of disinformation, which can distort public discourse and deepen political polarisation. While traditional broadcast media often maintain editorial standards that constrain partisan excess, algorithmically-driven social media platforms frequently prioritise engagement over accuracy. It is therefore reductive to characterise the media as either a guardian or an enemy of democracy; both tendencies coexist and their relative weight varies by context.",
+        "follow_up": [
+            "How can media literacy be improved among citizens?",
+            "Should social media platforms be held legally responsible for disinformation?"
+        ]
+    },
+    {
+        "id": "sp_p1_04",
+        "level": "P1",
+        "category": "Personal",
+        "title": "A Person You Admire",
+        "prompt": "Talk about a person you admire — a family member, friend, or public figure. Why do you admire them?",
+        "type": "description",
+        "time": "1 min",
+        "tips": [
+            "Give specific reasons",
+            "Use adjectives and relative clauses",
+            "Share a specific story or achievement"
+        ],
+        "vocab": [
+            "admire",
+            "inspire",
+            "determination",
+            "achievement",
+            "role model"
+        ],
+        "model_answer": "The person I admire most is my grandfather, who is a retired teacher. Despite growing up in difficult circumstances, he educated himself and became a primary school teacher for over 30 years. I admire him because he never stopped learning even after retirement — he recently started learning English at the age of 72. His determination and positive attitude are qualities I try to emulate.",
+        "follow_up": [
+            "Do you think everyone needs a role model? Why?"
+        ]
+    },
+    {
+        "id": "sp_p2_04",
+        "level": "P2",
+        "category": "Health",
+        "title": "Mental Health Awareness",
+        "prompt": "Discuss why mental health has become an increasingly important topic in recent years. What can be done to improve mental health awareness?",
+        "type": "discussion",
+        "time": "90 sec",
+        "tips": [
+            "Use cause-effect language",
+            "Mention both societal and individual solutions",
+            "Avoid stigmatising language"
+        ],
+        "vocab": [
+            "stigma",
+            "well-being",
+            "counselling",
+            "awareness",
+            "stress management"
+        ],
+        "model_answer": "Mental health has gained significant attention in recent years, partly due to increased research highlighting its impact on overall well-being and productivity. The pressures of academic life, economic uncertainty, and social media comparison have all contributed to rising rates of anxiety and depression, particularly among young people. To improve awareness, educational institutions should integrate mental health curricula into programmes, and governments must increase funding for affordable counselling services. Reducing the stigma around seeking help is also essential.",
+        "follow_up": [
+            "Do you think universities do enough to support student mental health?"
+        ]
+    },
+    {
+        "id": "sp_p3_04",
+        "level": "P3",
+        "category": "Society",
+        "title": "Gender Equality in the Workplace",
+        "prompt": "Despite progress, gender inequality in the workplace persists in many countries. Discuss the main barriers and propose solutions.",
+        "type": "problem-solution",
+        "time": "2 min",
+        "tips": [
+            "Identify structural and cultural barriers",
+            "Use evidence-based examples where possible",
+            "Propose concrete policy solutions"
+        ],
+        "vocab": [
+            "gender pay gap",
+            "glass ceiling",
+            "representation",
+            "unconscious bias",
+            "parental leave"
+        ],
+        "model_answer": "Despite legislative advances, gender inequality in the workplace remains a significant challenge globally. Key barriers include unconscious bias in hiring and promotion decisions, the disproportionate burden of unpaid care work on women, and a lack of female representation in senior leadership — often described as the 'glass ceiling'. The gender pay gap persists even in sectors where women are well-represented numerically. To address these structural inequalities, organisations should implement transparent pay audits, provide equal and accessible parental leave for all genders, and establish mentoring programmes for women entering leadership roles.",
+        "follow_up": [
+            "Do you think gender quotas are an effective solution? Why or why not?"
+        ]
+    },
+    {
+        "id": "sp_p4_04",
+        "level": "P4",
+        "category": "Academic",
+        "title": "Higher Education and Inequality",
+        "prompt": "To what extent does higher education reinforce rather than reduce social inequality? Critically discuss.",
+        "type": "critical",
+        "time": "2 min",
+        "tips": [
+            "Interrogate assumptions about higher education as a social leveller",
+            "Discuss access, debt, and returns to education",
+            "Draw a nuanced, evidenced conclusion"
+        ],
+        "vocab": [
+            "meritocracy",
+            "socioeconomic",
+            "access",
+            "credential inflation",
+            "social mobility"
+        ],
+        "model_answer": "Higher education is frequently portrayed as a vehicle for social mobility, yet evidence suggests its role is more ambiguous. In systems where tuition fees are high and student debt is substantial, access tends to correlate with socioeconomic background, reproducing rather than disrupting class hierarchies. Furthermore, the market returns to a degree are increasingly stratified by institutional prestige, disadvantaging graduates from less well-resourced universities. Credential inflation means that a bachelor's degree now delivers diminishing marginal returns, particularly for lower-income students who forego earnings during study. However, it would be an overstatement to conclude that higher education merely reproduces inequality; first-generation graduates do experience meaningful upward mobility. Reform towards need-based funding and needs-sensitive admissions is essential to realise the egalitarian promise of higher education.",
+        "follow_up": [
+            "Should university education be free? Who should bear the cost?"
+        ]
+    }
+]

@@ -1,0 +1,355 @@
+{
+    "can": [
+        "be able to",
+        "have the ability to",
+        "be capable of",
+        "have the capacity to"
+    ],
+    "make": [
+        "create",
+        "produce",
+        "generate",
+        "manufacture",
+        "construct",
+        "formulate"
+    ],
+    "do": [
+        "perform",
+        "execute",
+        "conduct",
+        "carry out",
+        "accomplish",
+        "achieve"
+    ],
+    "have": [
+        "possess",
+        "own",
+        "acquire",
+        "obtain",
+        "contain",
+        "include"
+    ],
+    "get": [
+        "obtain",
+        "acquire",
+        "receive",
+        "gain",
+        "secure",
+        "procure"
+    ],
+    "good": [
+        "beneficial",
+        "advantageous",
+        "positive",
+        "valuable",
+        "excellent",
+        "superb"
+    ],
+    "bad": [
+        "detrimental",
+        "harmful",
+        "negative",
+        "adverse",
+        "poor",
+        "unfavorable"
+    ],
+    "big": [
+        "significant",
+        "substantial",
+        "considerable",
+        "major",
+        "vast",
+        "enormous"
+    ],
+    "small": [
+        "minor",
+        "insignificant",
+        "marginal",
+        "negligible",
+        "minimal"
+    ],
+    "say": [
+        "state",
+        "claim",
+        "argue",
+        "assert",
+        "declare",
+        "express",
+        "mention"
+    ],
+    "think": [
+        "believe",
+        "consider",
+        "assume",
+        "presume",
+        "suppose"
+    ],
+    "know": [
+        "understand",
+        "recognize",
+        "comprehend",
+        "perceive",
+        "realize"
+    ],
+    "use": [
+        "utilize",
+        "employ",
+        "apply",
+        "operate",
+        "leverage",
+        "exploit"
+    ],
+    "help": [
+        "assist",
+        "aid",
+        "support",
+        "facilitate",
+        "benefit"
+    ],
+    "show": [
+        "demonstrate",
+        "illustrate",
+        "display",
+        "reveal",
+        "indicate",
+        "exhibit"
+    ],
+    "give": [
+        "provide",
+        "offer",
+        "supply",
+        "present",
+        "grant",
+        "deliver"
+    ],
+    "find": [
+        "discover",
+        "identify",
+        "detect",
+        "uncover",
+        "determine"
+    ],
+    "look": [
+        "observe",
+        "examine",
+        "inspect",
+        "investigate",
+        "analyze"
+    ],
+    "thing": [
+        "element",
+        "factor",
+        "aspect",
+        "item",
+        "object",
+        "concept",
+        "issue"
+    ],
+    "part": [
+        "component",
+        "section",
+        "segment",
+        "portion",
+        "element"
+    ],
+    "problem": [
+        "issue",
+        "challenge",
+        "difficulty",
+        "complication",
+        "dilemma"
+    ],
+    "idea": [
+        "concept",
+        "notion",
+        "thought",
+        "perspective",
+        "viewpoint"
+    ],
+    "way": [
+        "method",
+        "approach",
+        "manner",
+        "strategy",
+        "technique"
+    ],
+    "place": [
+        "location",
+        "site",
+        "spot",
+        "venue",
+        "position"
+    ],
+    "man": [
+        "individual",
+        "person",
+        "human being"
+    ],
+    "woman": [
+        "individual",
+        "person",
+        "human being"
+    ],
+    "child": [
+        "infant",
+        "toddler",
+        "youngster",
+        "adolescent",
+        "youth"
+    ],
+    "student": [
+        "pupil",
+        "learner",
+        "scholar",
+        "undergraduate"
+    ],
+    "teacher": [
+        "educator",
+        "instructor",
+        "tutor",
+        "lecturer",
+        "professor"
+    ],
+    "important": [
+        "crucial",
+        "vital",
+        "essential",
+        "significant",
+        "paramount",
+        "pivotal"
+    ],
+    "necessary": [
+        "essential",
+        "required",
+        "mandatory",
+        "indispensable",
+        "crucial"
+    ],
+    "new": [
+        "novel",
+        "modern",
+        "recent",
+        "contemporary",
+        "innovative"
+    ],
+    "old": [
+        "ancient",
+        "historical",
+        "traditional",
+        "obsolete",
+        "outdated"
+    ],
+    "hard": [
+        "difficult",
+        "challenging",
+        "complex",
+        "demanding",
+        "arduous"
+    ],
+    "easy": [
+        "simple",
+        "straightforward",
+        "effortless",
+        "uncomplicated"
+    ],
+    "fast": [
+        "rapid",
+        "quick",
+        "swift",
+        "speedy",
+        "accelerated"
+    ],
+    "slow": [
+        "gradual",
+        "leisurely",
+        "sluggish",
+        "delayed",
+        "prolonged"
+    ],
+    "happy": [
+        "content",
+        "satisfied",
+        "pleased",
+        "delighted",
+        "joyful"
+    ],
+    "sad": [
+        "depressed",
+        "melancholy",
+        "miserable",
+        "sorrowful",
+        "unhappy"
+    ],
+    "success": [
+        "achievement",
+        "accomplishment",
+        "triumph",
+        "victory"
+    ],
+    "failure": [
+        "defeat",
+        "breakdown",
+        "collapse",
+        "disaster"
+    ],
+    "increase": [
+        "rise",
+        "grow",
+        "expand",
+        "escalate",
+        "surge",
+        "multiply"
+    ],
+    "decrease": [
+        "fall",
+        "decline",
+        "drop",
+        "reduce",
+        "diminish",
+        "shrink"
+    ],
+    "improve": [
+        "enhance",
+        "upgrade",
+        "refine",
+        "boost",
+        "elevate",
+        "better"
+    ],
+    "worsen": [
+        "deteriorate",
+        "degrade",
+        "aggravate",
+        "exacerbate",
+        "decline"
+    ],
+    "start": [
+        "begin",
+        "commence",
+        "initiate",
+        "launch",
+        "embark"
+    ],
+    "stop": [
+        "cease",
+        "halt",
+        "terminate",
+        "conclude",
+        "finish",
+        "end"
+    ],
+    "change": [
+        "alter",
+        "modify",
+        "adjust",
+        "transform",
+        "convert"
+    ],
+    "continue": [
+        "proceed",
+        "persist",
+        "maintain",
+        "sustain",
+        "endure"
+    ]
+}

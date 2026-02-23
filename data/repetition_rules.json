@@ -1,0 +1,7 @@
+{
+  "min_count": 3,
+  "stopwords": [
+    "the","a","an","and","or","but","so","because","of","to","in","on","for","with","is","are","was","were","be","been","being",
+    "this","that","these","those","it","its","they","their","them","we","our","you","your","i","my","he","she","his","her"
+  ]
+}

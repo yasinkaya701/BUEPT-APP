@@ -1,0 +1,102 @@
+[
+  {
+    "id": "pod_news_up_first",
+    "title": "Up First",
+    "source": "NPR",
+    "category": "News",
+    "level": "B1-B2",
+    "duration": "10-15 min",
+    "focus": "Fast headline comprehension and key-detail capture",
+    "url": "https://partners.npr.org/podcasts/510318/up-first"
+  },
+  {
+    "id": "pod_news_today_in_focus",
+    "title": "Today in Focus",
+    "source": "The Guardian",
+    "category": "News",
+    "level": "B2-C1",
+    "duration": "20-35 min",
+    "focus": "Deep news analysis and viewpoint tracking",
+    "url": "https://www.theguardian.com/news/series/todayinfocus"
+  },
+  {
+    "id": "pod_news_global_bbc",
+    "title": "Global News Podcast",
+    "source": "BBC World Service",
+    "category": "News",
+    "level": "B1-B2",
+    "duration": "25-35 min",
+    "focus": "International news, speaker accents, detail listening",
+    "url": "https://www.bbc.co.uk/programmes/p02nq0gn/episodes/downloads"
+  },
+  {
+    "id": "pod_academic_ted_daily",
+    "title": "TED Talks Daily",
+    "source": "TED Audio Collective",
+    "category": "Academic",
+    "level": "B2-C1",
+    "duration": "10-25 min",
+    "focus": "Idea structure, argument flow, academic speaking style",
+    "url": "https://www.ted.com/podcasts/ted-talks-daily"
+  },
+  {
+    "id": "pod_academic_oxford_colloquy",
+    "title": "The Oxford Colloquy",
+    "source": "University of Oxford",
+    "category": "Academic",
+    "level": "B2-C1",
+    "duration": "20-45 min",
+    "focus": "Lecture-style reasoning and advanced vocabulary",
+    "url": "https://podcasts.ox.ac.uk/series/oxford-colloquy"
+  },
+  {
+    "id": "pod_academic_oxford_interviews",
+    "title": "Interviews with Oxonians",
+    "source": "University of Oxford",
+    "category": "Academic",
+    "level": "B2-C1",
+    "duration": "15-35 min",
+    "focus": "Academic interviews and discipline-specific terms",
+    "url": "https://podcasts.ox.ac.uk/series/interviews-oxonians"
+  },
+  {
+    "id": "pod_science_nature",
+    "title": "Nature Podcast",
+    "source": "Nature",
+    "category": "Science",
+    "level": "B2-C1",
+    "duration": "20-30 min",
+    "focus": "Research summaries, scientific argument extraction",
+    "url": "https://podcasts.apple.com/us/podcast/nature-podcast/id81934659"
+  },
+  {
+    "id": "pod_science_scientific_american",
+    "title": "Science Quickly",
+    "source": "Scientific American",
+    "category": "Science",
+    "level": "B1-B2",
+    "duration": "8-20 min",
+    "focus": "Short-form science listening and technical gist",
+    "url": "https://www.scientificamerican.com/podcast/science-quickly/"
+  },
+  {
+    "id": "pod_analysis_freakonomics",
+    "title": "Freakonomics Radio",
+    "source": "Freakonomics Radio Network",
+    "category": "Analysis",
+    "level": "B2-C1",
+    "duration": "35-55 min",
+    "focus": "Data-based discussion, inference and critical listening",
+    "url": "https://freakonomics.com/podcasts/"
+  },
+  {
+    "id": "pod_news_daily_nyt",
+    "title": "The Daily",
+    "source": "The New York Times",
+    "category": "News",
+    "level": "B2-C1",
+    "duration": "20-30 min",
+    "focus": "Journalistic narration and evidence-based reporting",
+    "url": "https://podcasts.apple.com/us/podcast/the-daily/id1200361736"
+  }
+]

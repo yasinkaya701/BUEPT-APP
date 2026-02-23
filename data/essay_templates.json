@@ -1,0 +1,216 @@
+[
+    {
+        "id": "t1_graph",
+        "type": "Task 1 – Graph/Chart",
+        "title": "Describing Trends & Data",
+        "buept_note": "BUEPT Task 1: 180-200 words, 20 minutes. Describe what you see — do NOT give opinions.",
+        "template": {
+            "intro": [
+                "The {chart_type} illustrates {topic} over the period of {period}.",
+                "The {chart_type} provides information about {topic}, comparing {categories}.",
+                "As can be seen from the {chart_type}, {main_trend} during {period}."
+            ],
+            "overview": [
+                "Overall, it is clear that {main_observation}, while {secondary_observation}.",
+                "In general, the most notable feature is that {key_point}."
+            ],
+            "body": [
+                "Looking at {category_1} first, it {verb_trend} from {value_1} to {value_2} between {year_1} and {year_2}.",
+                "In contrast, {category_2} experienced a {adjective} {noun_trend}, reaching {peak} in {year}.",
+                "The figures for {category} remained relatively stable throughout the period, hovering around {value}.",
+                "A particularly striking feature is that {observation}, which suggests {interpretation}."
+            ]
+        },
+        "key_phrases": {
+            "describing_increase": [
+                "rose significantly",
+                "increased sharply",
+                "climbed steadily",
+                "surged to",
+                "grew dramatically",
+                "soared to a peak of"
+            ],
+            "describing_decrease": [
+                "fell considerably",
+                "dropped sharply",
+                "declined gradually",
+                "plummeted to",
+                "decreased markedly",
+                "reached its lowest point"
+            ],
+            "describing_stability": [
+                "remained relatively constant",
+                "stayed roughly the same",
+                "levelled off at",
+                "showed little variation",
+                "plateaued at"
+            ],
+            "approximation": [
+                "approximately",
+                "roughly",
+                "just over",
+                "just under",
+                "nearly",
+                "around",
+                "almost"
+            ],
+            "comparison": [
+                "by contrast",
+                "in comparison",
+                "while",
+                "whereas",
+                "on the other hand",
+                "unlike",
+                "compared to"
+            ]
+        },
+        "sample_essay": "The bar chart illustrates the proportion of people using public transport in four European cities — London, Paris, Berlin, and Rome — in 2000 and 2020.\n\nOverall, it is evident that public transport usage increased in all four cities over the two-decade period, with Paris recording the most dramatic rise.\n\nIn 2000, London had the highest proportion of commuters using public transport at 52%, followed closely by Paris at 48%. By 2020, Paris had overtaken London, reaching 71%, while London's figure climbed to 63%. Berlin and Rome both showed moderate increases, rising from 41% and 35% respectively to 55% and 49% by the end of the period.\n\nThe most notable change was in Paris, which surged by 23 percentage points — the largest increase among the four cities. In contrast, Rome, despite its improvement, still recorded the lowest usage in 2020 at 49%.",
+        "common_mistakes": [
+            "Giving personal opinions (e.g. 'I think this is bad') — describe only",
+            "Not using past tense for historical data",
+            "Ignoring units (%, millions, etc.)",
+            "Starting every sentence with 'There was an increase'",
+            "Not writing an overview paragraph"
+        ]
+    },
+    {
+        "id": "t2_opinion",
+        "type": "Task 2 – Opinion Essay",
+        "title": "Agree / Disagree Essay",
+        "buept_note": "BUEPT Task 2: 250-300 words, 40 minutes. State a clear position and support it throughout.",
+        "template": {
+            "intro": [
+                "In recent years, the question of whether {topic} has become a subject of considerable debate. While some argue that {opposing_view}, I firmly believe that {your_position}.",
+                "It is often claimed that {statement}. Although this view holds some merit, I would contend that {counterpoint}.",
+                "The issue of {topic} is one that divides opinion. This essay will argue that {thesis}, providing evidence to support this stance."
+            ],
+            "body_1_agree": [
+                "The most compelling reason to support this view is that {reason_1}. For instance, {example_1}, which clearly demonstrates {link}.",
+                "A central argument in favour of {position} is {reason}. Studies have shown that {evidence}, suggesting that {implication}.",
+                "Proponents of this view often highlight the fact that {point}. This is particularly evident in {context}, where {example}."
+            ],
+            "body_2_concession": [
+                "Admittedly, those who oppose this view argue that {opposing_point}. While it is true that {partial_concession}, this does not outweigh the fact that {rebuttal}.",
+                "Critics may point out that {counterargument}. However, on closer examination, {response_to_counter}."
+            ],
+            "conclusion": [
+                "In conclusion, despite the opposing arguments, I maintain that {restate_thesis}. If {condition}, then {outcome}.",
+                "To summarise, the evidence strongly suggests that {summary}. It is therefore imperative that {call_to_action}.",
+                "Overall, while {acknowledgement}, I believe the benefits of {position} far outweigh the drawbacks."
+            ]
+        },
+        "key_phrases": {
+            "introducing_arguments": [
+                "To begin with,",
+                "First and foremost,",
+                "One of the primary reasons is that",
+                "A key consideration is",
+                "Arguably, the most significant factor is"
+            ],
+            "adding_points": [
+                "Furthermore,",
+                "In addition,",
+                "Moreover,",
+                "What is more,",
+                "Another crucial aspect is",
+                "Equally important,"
+            ],
+            "giving_examples": [
+                "For example,",
+                "For instance,",
+                "To illustrate,",
+                "A case in point is",
+                "This is exemplified by"
+            ],
+            "concession_rebuttal": [
+                "Admittedly,",
+                "It must be acknowledged that",
+                "While it is true that",
+                "Despite this,",
+                "Nevertheless,",
+                "Even so,",
+                "That said,"
+            ],
+            "conclusion_starters": [
+                "In conclusion,",
+                "To conclude,",
+                "In summary,",
+                "To summarise,",
+                "Overall,",
+                "Taking everything into account,"
+            ],
+            "academic_hedging": [
+                "It could be argued that",
+                "The evidence suggests that",
+                "It seems reasonable to assume that",
+                "Research indicates that",
+                "There is growing evidence to support the idea that"
+            ]
+        },
+        "sample_essay": "In recent years, the question of whether universities should make attendance compulsory has become a subject of considerable debate. While some argue that students should have the freedom to manage their own time, I firmly believe that mandatory attendance benefits both academic performance and personal development.\n\nThe most compelling reason to support compulsory attendance is that regular classroom engagement significantly improves academic outcomes. Studies conducted at several Turkish universities, including Bogazici University, have consistently shown that students who attend lectures regularly achieve higher grades and develop stronger critical-thinking skills. Furthermore, attending classes enables students to participate in discussions, ask questions, and receive immediate feedback — benefits that self-study simply cannot replicate.\n\nAdmittedly, critics argue that forcing students to attend undermines their autonomy and may discourage independent learning. While it is true that some highly motivated students perform equally well without strict attendance requirements, this does not negate the fact that the majority of students benefit from the structure and accountability that scheduled classes provide.\n\nIn conclusion, despite valid concerns regarding student autonomy, I maintain that compulsory attendance fosters discipline, promotes learning, and ultimately produces more capable graduates. Universities should therefore enforce reasonable attendance policies while remaining responsive to students' individual needs.",
+        "bogazici_topics": [
+            "The role of technology in education",
+            "Environmental responsibility and individual action",
+            "Brain drain and its effects on developing countries",
+            "The value of a university degree in the modern economy",
+            "Social media and its impact on mental health",
+            "Whether governments should prioritise economic growth over environmental protection",
+            "The advantages and disadvantages of globalisation",
+            "Should English be the global language of instruction?",
+            "The pros and cons of remote working",
+            "Arts education versus STEM — which is more important?"
+        ],
+        "common_mistakes": [
+            "Not stating a clear position in the introduction",
+            "Using informal language (e.g. 'a lot', 'stuff', 'things')",
+            "Giving only one body paragraph",
+            "Not using topic sentences to begin each paragraph",
+            "Repeating the same words/phrases throughout (use synonyms!)",
+            "Going below 250 words — aim for 280-300",
+            "Failing to link ideas with discourse connectors"
+        ]
+    },
+    {
+        "id": "t2_discussion",
+        "type": "Task 2 – Discussion Essay",
+        "title": "Discuss Both Views",
+        "buept_note": "Present BOTH sides fairly, then give your opinion in the conclusion.",
+        "template": {
+            "intro": [
+                "There is ongoing debate as to whether {topic}. This essay will examine both sides of the argument before reaching a conclusion.",
+                "People hold differing views about {topic}. Whilst some believe that {view_1}, others maintain that {view_2}. Both perspectives will be discussed below."
+            ],
+            "body_view_1": [
+                "On the one hand, those who argue in favour of {view_1} contend that {reason}. {example_or_evidence}. This perspective is understandable given that {context}."
+            ],
+            "body_view_2": [
+                "On the other hand, supporters of {view_2} claim that {reason}. {example}. They point out that {additional_point}."
+            ],
+            "conclusion": [
+                "In conclusion, although there are valid arguments on both sides, I personally believe that {your_position} because {brief_reason}."
+            ]
+        },
+        "key_phrases": {
+            "one_hand_other": [
+                "On the one hand,",
+                "On the other hand,",
+                "From one perspective,",
+                "From another perspective,",
+                "Some people believe that",
+                "Others, however, argue that"
+            ],
+            "balanced_view": [
+                "Both views have merit.",
+                "There are strong arguments on both sides.",
+                "Whilst X has advantages, Y also offers significant benefits."
+            ]
+        },
+        "sample_essay": "People hold differing views about whether children should be taught foreign languages from an early age. Whilst some believe that early exposure to a second language is highly beneficial, others maintain that it can interfere with the development of the child's native language.\n\nOn the one hand, proponents of early language learning argue that children are particularly adept at acquiring languages due to their brain plasticity. Research suggests that children who learn a foreign language before the age of seven are more likely to develop native-like fluency than those who begin in adolescence. Additionally, bilingualism has been linked to enhanced cognitive abilities, including better problem-solving skills and greater mental flexibility.\n\nOn the other hand, critics contend that introducing a second language too early may confuse young learners and hinder the development of their mother tongue. This concern is particularly relevant in communities where children are still consolidating their first language. Moreover, if foreign language instruction is of poor quality, it may create negative attitudes towards language learning in general.\n\nIn conclusion, although there are valid arguments on both sides, I personally believe that the benefits of early language learning outweigh the risks, provided that teaching is well-structured and supportive of both the native and foreign languages simultaneously.",
+        "bogazici_topics": [],
+        "common_mistakes": [
+            "Taking a one-sided approach in a 'discuss both views' question",
+            "Not using appropriate connectors (On the one hand / On the other hand)",
+            "Giving your personal opinion in the body paragraphs before the conclusion"
+        ]
+    }
+]

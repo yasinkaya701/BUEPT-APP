@@ -1,0 +1,50 @@
+[
+  {
+    "id": "bc_listen_a2",
+    "title": "British Council Listening A2",
+    "level": "A2",
+    "source_url": "https://learnenglish.britishcouncil.org/skills/listening/a2-listening"
+  },
+  {
+    "id": "bc_listen_b1",
+    "title": "British Council Listening B1",
+    "level": "B1",
+    "source_url": "https://learnenglish.britishcouncil.org/skills/listening/b1-listening"
+  },
+  {
+    "id": "bc_listen_b2",
+    "title": "British Council Listening B2",
+    "level": "B2",
+    "source_url": "https://learnenglish.britishcouncil.org/skills/listening/b2-listening"
+  },
+  {
+    "id": "bc_listen_c1",
+    "title": "British Council Listening C1",
+    "level": "C1",
+    "source_url": "https://learnenglish.britishcouncil.org/skills/listening/c1-listening"
+  },
+  {
+    "id": "bne_listen",
+    "title": "Breaking News English (Audio + Quiz)",
+    "level": "Mixed",
+    "source_url": "https://breakingnewsenglish.com/"
+  },
+  {
+    "id": "listen_a_minute",
+    "title": "Listen A Minute",
+    "level": "Mixed",
+    "source_url": "https://listenaminute.com/"
+  },
+  {
+    "id": "bc_audio_zone",
+    "title": "British Council Audio Zone",
+    "level": "B2\u2013C1",
+    "source_url": "https://learnenglish.britishcouncil.org/general-english/audio-zone"
+  },
+  {
+    "id": "bc_video_series",
+    "title": "British Council Video Series",
+    "level": "A1\u2013C1",
+    "source_url": "https://learnenglish.britishcouncil.org/general-english/video-series"
+  }
+]

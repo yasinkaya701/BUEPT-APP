@@ -1,0 +1,50 @@
+[
+  {
+    "id": "wasc_paragraph",
+    "title": "Paragraph Writing (Self-Study)",
+    "items": [
+      "Definition paragraph",
+      "Cause/Effect paragraph",
+      "Problem-Solution paragraph",
+      "Opinion paragraph",
+      "Compare/Contrast paragraph",
+      "Reaction paragraph"
+    ],
+    "source_name": "WASC",
+    "source_url": "https://wasc.bogazici.edu.tr/en/self-study-materials-how-write-paragraph"
+  },
+  {
+    "id": "wasc_essay",
+    "title": "Essay Writing (Self-Study)",
+    "items": [
+      "Definition essay",
+      "Compare/Contrast essay",
+      "Cause-Effect essay",
+      "Problem-Solution essay",
+      "Argumentative essay",
+      "Reaction essay"
+    ],
+    "source_name": "WASC",
+    "source_url": "https://wasc.bogazici.edu.tr/en/self-study-materials-how-write-paragraph"
+  },
+  {
+    "id": "wasc_videos",
+    "title": "Paragraph Writing Videos",
+    "items": [
+      "How to write a paragraph",
+      "Paragraph structure",
+      "Basic paragraph structure",
+      "Paragraph unity and coherence",
+      "Paragraph order and completeness",
+      "How to write an introduction paragraph",
+      "3 tips for writing a good paragraph",
+      "How to write a topic sentence",
+      "Identifying the topic sentence",
+      "A good topic sentence",
+      "Sample paragraph",
+      "How to write a descriptive paragraph"
+    ],
+    "source_name": "WASC",
+    "source_url": "https://wasc.bogazici.edu.tr/en/self-study-materials-how-write-paragraph"
+  }
+]

@@ -73,3 +73,9 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Local build artifacts
+*.apk
+build.log
+build2.log
+ios_build_error.log

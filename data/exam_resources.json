@@ -1,0 +1,26 @@
+[
+  {
+    "id": "buept_general",
+    "title": "BUEPT General Information (YADYOK)",
+    "note": "Official BUEPT page",
+    "source_url": "https://yadyok.bogazici.edu.tr/en/pages/buept/2440"
+  },
+  {
+    "id": "buept_test_content",
+    "title": "Test Content & Scoring (YADYOK)",
+    "note": "Official section descriptions and scoring",
+    "source_url": "https://yadyok.bogazici.edu.tr/en/pages/test-content-and-scoring/2443"
+  },
+  {
+    "id": "buept_test_content_alt",
+    "title": "Test Content & Scoring (Alternate)",
+    "note": "Alternate official URL",
+    "source_url": "https://yadyok.bogazici.edu.tr/en/buept/test-content"
+  },
+  {
+    "id": "english_proficiency",
+    "title": "English Language Proficiency (Boğaziçi)",
+    "note": "Equivalent exams & rules",
+    "source_url": "https://intl.bogazici.edu.tr/english-language-proficiency"
+  }
+]

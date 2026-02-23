@@ -1,0 +1,2927 @@
+[
+  {
+    "id": "g_p1_01",
+    "level": "P1",
+    "title": "Articles (a/an/the)",
+    "time": "6 min",
+    "explain": "Articles show whether a noun is specific or general. Use 'a' before nouns starting with a consonant sound (a book, a university), 'an' before vowel sounds (an apple, an hour). Use 'the' when the speaker and listener both know which thing is meant (the book on the table, the sun). Use no article with plural or uncountable nouns used in general statements (Water is important. Dogs are loyal). Common errors for Turkish learners: omitting 'the' when it is required, or using 'a' where 'the' is needed.\n\nKey rules:\n- First mention = a/an; second mention = the\n- Unique things: the moon, the internet, the government\n- General plural/uncountable: no article\n- Jobs/roles with 'be': She is a teacher (not 'the teacher')",
+    "questions": [
+      {
+        "q": "She is ___ engineer.",
+        "options": [
+          "a",
+          "an",
+          "the",
+          "—"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "I bought ___ book yesterday. ___ book was very interesting.",
+        "options": [
+          "a / The",
+          "the / A",
+          "an / The",
+          "a / A"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Can you close ___ window, please?",
+        "options": [
+          "a",
+          "an",
+          "the",
+          "—"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "___ gold is a valuable metal.",
+        "options": [
+          "A",
+          "An",
+          "The",
+          "—"
+        ],
+        "answer": 3
+      },
+      {
+        "q": "He plays ___ piano every evening.",
+        "options": [
+          "a",
+          "an",
+          "the",
+          "—"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "There is ___ university near my house.",
+        "options": [
+          "a",
+          "an",
+          "the",
+          "—"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "___ sun rises in the east.",
+        "options": [
+          "A",
+          "An",
+          "The",
+          "—"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "She has ___ hour to finish her work.",
+        "options": [
+          "a",
+          "an",
+          "the",
+          "—"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "I saw ___ old friend of mine at ___ party.",
+        "options": [
+          "an / a",
+          "a / the",
+          "an / the",
+          "a / a"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "My sister is ___ teacher. ___ teacher works at a local school.",
+        "options": [
+          "the / A",
+          "a / The",
+          "an / The",
+          "a / A"
+        ],
+        "answer": 1
+      }
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "g_p1_02",
+    "level": "P1",
+    "title": "There is / There are",
+    "time": "6 min",
+    "explain": "Use 'there is' (there's) with singular countable nouns and uncountable nouns. Use 'there are' with plural countable nouns. Questions: Is there...? / Are there...? Negatives: There isn't (there is not) / There aren't (there are not). Common errors: using 'there is' with plural nouns, or forgetting inversion in questions. In academic writing, 'there is/are' can introduce new information into a text.\n\nKey rules:\n- Singular/uncountable → there is\n- Plural → there are\n- Question: Is there / Are there\n- Negative: there isn't / there aren't",
+    "questions": [
+      {
+        "q": "___ a pen on the desk.",
+        "options": [
+          "There is",
+          "There are",
+          "There be",
+          "There has"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "___ many students in the library.",
+        "options": [
+          "There is",
+          "There are",
+          "There were",
+          "There has"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "___ any milk in the fridge?",
+        "options": [
+          "Are there",
+          "There is",
+          "Is there",
+          "Have there"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "___ some water in the bottle.",
+        "options": [
+          "There are",
+          "There is",
+          "There were",
+          "Are there"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "___ three cafeterias on campus.",
+        "options": [
+          "There is",
+          "There are",
+          "There were",
+          "There has been"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "There ___ not enough chairs for everyone.",
+        "options": [
+          "is",
+          "are",
+          "be",
+          "been"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "___ a lot of traffic this morning.",
+        "options": [
+          "There are",
+          "There were",
+          "There is",
+          "There have"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "___ any questions about the lesson?",
+        "options": [
+          "Is there",
+          "Has there",
+          "Are there",
+          "Were there"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "There ___ a problem with the internet connection.",
+        "options": [
+          "are",
+          "is",
+          "be",
+          "have"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "There ___ no students in the classroom yet.",
+        "options": [
+          "is",
+          "are",
+          "was",
+          "has"
+        ],
+        "answer": 1
+      }
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "g_p2_01",
+    "level": "P2",
+    "title": "Subject–Verb Agreement",
+    "time": "7 min",
+    "explain": "The verb must agree with its subject in number and person. Singular subjects take singular verbs; plural subjects take plural verbs. Tricky cases: collective nouns (the committee decides), indefinite pronouns (everyone is), compound subjects joined by 'or/nor' (the teacher or students are), subjects separated from verbs by long phrases. Academic writing error: treating uncountable nouns as plural (information are → information is). Turkish learners often apply present simple -s incorrectly or forget it.\n\nKey rules:\n- Each / Every / Neither + singular verb\n- Either…or / Neither…nor: verb agrees with closer noun\n- Collective nouns: usually singular in American English\n- Uncountable nouns: always singular",
+    "questions": [
+      {
+        "q": "The committee ___ meeting tomorrow.",
+        "options": [
+          "are",
+          "is",
+          "were",
+          "have"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Neither the teacher nor the students ___ aware of the problem.",
+        "options": [
+          "was",
+          "were",
+          "is",
+          "has"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Everyone in the class ___ passed the exam.",
+        "options": [
+          "have",
+          "has",
+          "were",
+          "are"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "The data ___ collected over three months.",
+        "options": [
+          "was",
+          "were",
+          "is",
+          "are"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Each of the students ___ a unique project.",
+        "options": [
+          "submit",
+          "submits",
+          "have submitted",
+          "are submitting"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "The information provided in the reports ___ outdated.",
+        "options": [
+          "are",
+          "is",
+          "were",
+          "have been"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Either John or his colleagues ___ responsible.",
+        "options": [
+          "is",
+          "are",
+          "was",
+          "were"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "A number of students ___ absent today.",
+        "options": [
+          "is",
+          "was",
+          "are",
+          "has"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "The news about the changes ___ surprised everyone.",
+        "options": [
+          "have",
+          "has",
+          "were",
+          "are"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "My family ___ from three different cities.",
+        "options": [
+          "come",
+          "comes",
+          "are coming",
+          "has come"
+        ],
+        "answer": 0
+      }
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "g_p2_02",
+    "level": "P2",
+    "title": "Past Simple vs Present Perfect",
+    "time": "8 min",
+    "explain": "Past simple describes a completed action at a specific time in the past (I graduated in 2020. She called yesterday.). Present perfect connects a past action to the present: experience, change, or unfinished time (I have visited Paris. She has already sent the email. They have lived here since 2015.). Key contrast: never use present perfect with specific finished-time adverbials (yesterday, last week, in 2019, an hour ago) — use past simple instead. Signal words: PAST SIMPLE = yesterday, last __, ago, in [year], when; PRESENT PERFECT = since, for, already, yet, just, ever, never, recently, so far.\n\nKey rules:\n- Specific past time + past simple\n- Experience/change/unfinished → present perfect\n- 'Since' + point in time; 'for' + duration",
+    "questions": [
+      {
+        "q": "I ___ (never / visit) Japan, but I'd love to go.",
+        "options": [
+          "never visited",
+          "have never visited",
+          "had never visited",
+          "was never visiting"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "She ___ (call) me last night.",
+        "options": [
+          "has called",
+          "called",
+          "had called",
+          "calls"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "We ___ (not / finish) the project yet.",
+        "options": [
+          "didn't finish",
+          "haven't finished",
+          "hadn't finished",
+          "don't finish"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "He ___ (work) at that company since 2018.",
+        "options": [
+          "worked",
+          "has worked",
+          "was working",
+          "had worked"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "___ you ___ (see) this film before?",
+        "options": [
+          "Did / see",
+          "Have / seen",
+          "Had / seen",
+          "Do / see"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "They ___ (move) to Istanbul two years ago.",
+        "options": [
+          "have moved",
+          "moved",
+          "had moved",
+          "are moving"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "I ___ (just / send) you the report.",
+        "options": [
+          "just sent",
+          "have just sent",
+          "had just sent",
+          "just send"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "She ___ (meet) him when she was at university.",
+        "options": [
+          "has met",
+          "met",
+          "meets",
+          "had been meeting"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "So far, the researchers ___ (identify) three main causes.",
+        "options": [
+          "identified",
+          "have identified",
+          "had identified",
+          "identify"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "___ you ___ (finish) your assignment yesterday?",
+        "options": [
+          "Have / finished",
+          "Did / finish",
+          "Had / finished",
+          "Do / finish"
+        ],
+        "answer": 1
+      }
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "g_p3_01",
+    "level": "P3",
+    "title": "Relative Clauses",
+    "time": "8 min",
+    "explain": "Relative clauses modify nouns. Defining (restrictive) clauses identify the noun and are not separated by commas. Non-defining (non-restrictive) clauses add extra information and use commas. Pronouns: who/that (people), which/that (things), whose (possession), where (place), when (time). In defining clauses 'that' can replace who/which; in non-defining clauses use who/which (NOT that). The relative pronoun can be omitted when it is the object of the relative clause. Common errors: using 'which' for people, or adding extra subject pronoun (The book which I bought it → The book which I bought).\n\nKey rules:\n- Defining: no commas, 'that' possible\n- Non-defining: commas, no 'that'\n- Object pronoun = omissible\n- Do NOT repeat the pronoun inside the clause",
+    "questions": [
+      {
+        "q": "The professor ___ teaches our linguistics course has published three books.",
+        "options": [
+          "which",
+          "who",
+          "whose",
+          "whom"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "That is the building ___ the conference will be held.",
+        "options": [
+          "which",
+          "who",
+          "where",
+          "that"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "The research ___ was published last year challenged previous assumptions.",
+        "options": [
+          "who",
+          "which",
+          "whose",
+          "whom"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "The student ___ essay was selected will present at the symposium.",
+        "options": [
+          "who",
+          "that",
+          "whose",
+          "which"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "I remember the day ___ we first met.",
+        "options": [
+          "which",
+          "where",
+          "who",
+          "when"
+        ],
+        "answer": 3
+      },
+      {
+        "q": "The article, ___ was written by a leading expert, received widespread attention.",
+        "options": [
+          "that",
+          "which",
+          "who",
+          "whom"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "She is the person ___ I was talking about.",
+        "options": [
+          "whose",
+          "which",
+          "whom",
+          "where"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "The company ___ products I prefer has gone out of business.",
+        "options": [
+          "that",
+          "which",
+          "who",
+          "whose"
+        ],
+        "answer": 3
+      },
+      {
+        "q": "This is one of the most important discoveries ___ have been made this century.",
+        "options": [
+          "who",
+          "whom",
+          "that",
+          "whose"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "My friend Tom, ___ studies medicine, is very dedicated.",
+        "options": [
+          "that",
+          "whose",
+          "who",
+          "which"
+        ],
+        "answer": 2
+      }
+    ],
+    "difficulty": "medium+"
+  },
+  {
+    "id": "g_p3_02",
+    "level": "P3",
+    "title": "Conditionals (Type 2)",
+    "time": "9 min",
+    "explain": "Zero conditional: If + present simple, present simple. Used for facts/laws (If you heat water to 100°C, it boils.). First conditional: If + present simple, will + base verb. Likely/possible future (If it rains, I will cancel.). Second conditional: If + past simple, would + base verb. Unreal/imaginary present-future (If I had more time, I would read more.). Note: 'If I were' is standard in academic/formal English (not 'If I was'). Third conditional: If + past perfect, would have + past participle. Unreal past (If she had studied, she would have passed.). Common errors: mixing tenses ('If I would have' is wrong — avoid would in the if-clause).\n\nKey rules:\n- No 'would' in the if-clause\n- Type 2: use 'were' not 'was' for all subjects in formal writing\n- Type 3: past perfect + would have + past participle",
+    "questions": [
+      {
+        "q": "If you mix red and blue, you ___ purple.",
+        "options": [
+          "get",
+          "would get",
+          "will get",
+          "got"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "If she studies hard, she ___ the exam.",
+        "options": [
+          "pass",
+          "would pass",
+          "will pass",
+          "passed"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "If I ___ a car, I would drive to work.",
+        "options": [
+          "have",
+          "had",
+          "will have",
+          "would have"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "If they ___ the deadline, they would have submitted on time.",
+        "options": [
+          "met",
+          "had met",
+          "meet",
+          "would meet"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "If I were you, I ___ that opportunity.",
+        "options": [
+          "take",
+          "took",
+          "would take",
+          "will take"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "If he had taken the medicine, he ___ better now.",
+        "options": [
+          "feels",
+          "felt",
+          "would feel",
+          "will feel"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "Unless you ___ now, you will miss the bus.",
+        "options": [
+          "leave",
+          "left",
+          "will leave",
+          "would leave"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "She ___ faster if she practised more.",
+        "options": [
+          "reads",
+          "read",
+          "would read",
+          "will read"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "If the data ___ correctly, the results would have been different.",
+        "options": [
+          "were recorded",
+          "had been recorded",
+          "has been recorded",
+          "are recorded"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "What ___ you do if you lost your passport abroad?",
+        "options": [
+          "will",
+          "would",
+          "do",
+          "did"
+        ],
+        "answer": 1
+      }
+    ],
+    "difficulty": "medium+"
+  },
+  {
+    "id": "g_p4_01",
+    "level": "P4",
+    "title": "Parallel Structures",
+    "time": "9 min",
+    "explain": "Parallel structure means that items in a list or comparison must be in the same grammatical form. This applies to: coordinating conjunctions (and, but, or), correlative conjunctions (both…and, either…or, neither…nor, not only…but also), and comparisons. Example error: 'She likes reading, to write, and swim.' → Correct: 'She likes reading, writing, and swimming.' In academic writing, parallel structure gives sentences clarity and logical balance. Common errors: mixing infinitives and gerunds, mixing noun phrases and clauses, inconsistent verb forms in a list.\n\nKey rules:\n- Match all items in a series (all nouns, all -ing, all infinitives…)\n- Correlative conjunctions: both X and Y must be same form\n- Comparisons: as X as Y (same form)",
+    "questions": [
+      {
+        "q": "The report was clear, concise, and ___.",
+        "options": [
+          "was informative",
+          "informative",
+          "had information",
+          "informatively"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Not only did she complete the project, but she also ___ a detailed summary.",
+        "options": [
+          "provides",
+          "provided",
+          "providing",
+          "to provide"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "The committee must review the proposal, ___ amendments, and vote.",
+        "options": [
+          "suggest",
+          "suggesting",
+          "to suggest",
+          "having suggested"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Students are expected to attend lectures, ___ assignments, and sit exams.",
+        "options": [
+          "completing",
+          "complete",
+          "to complete",
+          "completed"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Either the manager will resign or she ___ the policy.",
+        "options": [
+          "changing",
+          "changes",
+          "to change",
+          "change"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Her skills include analysing data, ___ reports, and presenting findings.",
+        "options": [
+          "to write",
+          "wrote",
+          "writing",
+          "written"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "The study was critiqued for being too narrow in scope and ___ in methodology.",
+        "options": [
+          "it lacks rigour",
+          "lacking rigour",
+          "to lack rigour",
+          "rigour lacking"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Both the introduction ___ the conclusion must reference the thesis.",
+        "options": [
+          "or",
+          "nor",
+          "and",
+          "but"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "She enjoys reading academic papers, ___ to conferences, and collaborating with peers.",
+        "options": [
+          "to present",
+          "presents",
+          "presenting",
+          "having presented"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "The manager asked staff to arrive on time, ___ the dress code, and attend briefings.",
+        "options": [
+          "following",
+          "follow",
+          "followed",
+          "to follow"
+        ],
+        "answer": 1
+      }
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": "g_p4_02",
+    "level": "P4",
+    "title": "Advanced Modifiers",
+    "time": "9 min",
+    "explain": "A modifier describes or limits another word. It must be placed as close as possible to the word it modifies. Misplaced modifier: the modifier is in the wrong position and modifies the wrong word. Example: 'She almost drove her children to school every day.' (almost = nearly every day — but position suggests almost drove, not almost every). Dangling modifier: the modifier has no logical subject in the sentence. Example: 'Walking to campus, the rain started.' (Who was walking? The rain was not walking.) Fix: make sure the subject of the modifier matches the subject of the main clause. Common in academic writing: participial phrases, prepositional phrases, adjective clauses.\n\nKey rules:\n- Place modifier next to what it modifies\n- Introductory -ing/-ed phrase must share subject with main clause\n- 'Only', 'merely', 'nearly', 'almost' — position matters",
+    "questions": [
+      {
+        "q": "Which sentence is correct?",
+        "options": [
+          "Having reviewed the data, the conclusion was written.",
+          "Having reviewed the data, the researchers wrote the conclusion.",
+          "Having reviewed the data by the researchers, the conclusion was written.",
+          "The conclusion, having reviewed the data, was written."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Only ___ understands the full implications of the research.",
+        "options": [
+          "the lead researcher",
+          "the research understands",
+          "the lead researcher who",
+          "the implications"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Which is a dangling modifier?",
+        "options": [
+          "Walking into the lab, the scientists saw the results.",
+          "Walking into the lab, the results were immediately clear.",
+          "After walking into the lab, the scientists recorded their findings.",
+          "The scientists, walking into the lab, noticed the equipment."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "She nearly ___ the entire budget on one project.",
+        "options": [
+          "spent",
+          "had spent",
+          "was spending",
+          "spends"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "The study, ___ last year, has been widely cited.",
+        "options": [
+          "were published",
+          "publishing",
+          "published",
+          "to publish"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "Which sentence uses the modifier 'only' correctly?",
+        "options": [
+          "He only told me that he failed.",
+          "Only he told me that he failed.",
+          "He told only me that he failed.",
+          "Both B and C are correct depending on meaning."
+        ],
+        "answer": 3
+      },
+      {
+        "q": "Exhausted from the long journey, ___.",
+        "options": [
+          "the hotel room was a relief.",
+          "she found the hotel room a relief.",
+          "the relief came from the hotel room.",
+          "it was a relief, the hotel room."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "The paper ___ submitted last week has been accepted.",
+        "options": [
+          "which it was",
+          "that it was",
+          "that was",
+          "which was it"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "Which is a misplaced modifier?",
+        "options": [
+          "I almost read the whole report in one sitting.",
+          "I read almost the whole report in one sitting.",
+          "Almost I read the whole report in one sitting.",
+          "I read the whole report almost in one sitting."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Corrected from the error, ___.",
+        "options": [
+          "the editor improved the draft significantly.",
+          "the draft was significantly improved by the editor.",
+          "significant improvement came from correcting the draft.",
+          "the draft, the editor corrected it."
+        ],
+        "answer": 1
+      }
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": "g_p1_03",
+    "level": "P1",
+    "difficulty": "easy",
+    "title": "Imperatives & Classroom Instructions",
+    "time": "10 min",
+    "explain": "Imperatives are used to give instructions, directions, advice, requests, or orders. The base form of the verb is used (no subject). Positive: 'Open your books.' Negative: 'Don't talk during the exam.' Polite imperatives: 'Please sit down.' / 'Could you please...'\n\nKey rules:\n- Positive: verb (base) + object/complement\n- Negative: Don't / Do not + verb (base)\n- Add 'please' for politeness\n- Classroom instructions: Listen carefully. / Turn to page 10. / Work in pairs.",
+    "questions": [
+      {
+        "q": "___ your books to page 10.",
+        "options": [
+          "Open",
+          "Opens",
+          "Opened",
+          "Opening"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Don't ___ late.",
+        "options": [
+          "be",
+          "is",
+          "are",
+          "been"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "___ the window, please.",
+        "options": [
+          "Close",
+          "Closes",
+          "Closed",
+          "Closing"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Don't ___ your phone in class.",
+        "options": [
+          "use",
+          "uses",
+          "used",
+          "using"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "___ quietly.",
+        "options": [
+          "Listen",
+          "Listens",
+          "Listened",
+          "Listening"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Please ___ your name here.",
+        "options": [
+          "write",
+          "writes",
+          "wrote",
+          "writing"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "___ the door after you.",
+        "options": [
+          "Shut",
+          "Shuts",
+          "Shuted",
+          "Shutting"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Don't ___ on the desk.",
+        "options": [
+          "stand",
+          "stands",
+          "stood",
+          "standing"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "___ carefully.",
+        "options": [
+          "Read",
+          "Reads",
+          "Reading",
+          "Readed"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Don't ___ the instructions.",
+        "options": [
+          "ignore",
+          "ignores",
+          "ignored",
+          "ignoring"
+        ],
+        "answer": 0
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "You open the door.",
+        "correct": "Open the door.",
+        "note": "No subject in imperatives"
+      },
+      {
+        "wrong": "Don't to speak.",
+        "correct": "Don't speak.",
+        "note": "Don't + base verb (no 'to')"
+      },
+      {
+        "wrong": "Please you sit down.",
+        "correct": "Please sit down.",
+        "note": "No subject needed"
+      }
+    ]
+  },
+  {
+    "id": "g_p2_03",
+    "level": "P2",
+    "difficulty": "medium",
+    "title": "Comparatives & Superlatives",
+    "time": "12 min",
+    "explain": "Comparatives compare two things. Add -er for short adjectives (bigger, faster) or use 'more' before longer adjectives (more important, more difficult). Use 'than' to connect. Superlatives describe the extreme in a group. Use 'the' + -est (the tallest) or 'the most' + adjective (the most significant). Irregular: good→better→best, bad→worse→worst, far→further→furthest. Double consonant rule: big→bigger, hot→hotter.\n\nKey rules:\n- Short adj (1-2 syl): -er / -est\n- Long adj (3+ syl): more / the most\n- Irregular: good/better/best, bad/worse/worst\n- Equality: as + adj + as (She is as tall as her sister.)\n- 'Than' used with comparative, 'the' used with superlative",
+    "questions": [
+      {
+        "q": "This book is ___ than that one.",
+        "options": [
+          "interesting",
+          "more interesting",
+          "most interesting",
+          "interest"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "He is the ___ student in class.",
+        "options": [
+          "tall",
+          "taller",
+          "tallest",
+          "more tall"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "My house is ___ than yours.",
+        "options": [
+          "big",
+          "bigger",
+          "biggest",
+          "more big"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "This is the ___ exam of the year.",
+        "options": [
+          "difficult",
+          "more difficult",
+          "most difficult",
+          "difficulter"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "English is ___ than math for me.",
+        "options": [
+          "easy",
+          "easier",
+          "easiest",
+          "more easy"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "She is the ___ runner in the team.",
+        "options": [
+          "fast",
+          "faster",
+          "fastest",
+          "more fast"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "This coffee is ___ than yesterday.",
+        "options": [
+          "good",
+          "better",
+          "best",
+          "more good"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "He is the ___ person I know.",
+        "options": [
+          "kind",
+          "kinder",
+          "kindest",
+          "most kind"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "This road is ___ than the old one.",
+        "options": [
+          "safe",
+          "safer",
+          "safest",
+          "more safe"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "That was the ___ movie I have seen.",
+        "options": [
+          "bad",
+          "worse",
+          "worst",
+          "more bad"
+        ],
+        "answer": 2
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "She is more tall than him.",
+        "correct": "She is taller than him.",
+        "note": "Short adj: -er, not 'more'"
+      },
+      {
+        "wrong": "He is the most smart student.",
+        "correct": "He is the smartest student.",
+        "note": "Short adj: the -est"
+      },
+      {
+        "wrong": "This is more better than that.",
+        "correct": "This is better than that.",
+        "note": "Never 'more' + irregular comparative"
+      }
+    ]
+  },
+  {
+    "id": "g_p3_03",
+    "level": "P3",
+    "difficulty": "medium+",
+    "title": "Relative Clauses (Defining)",
+    "time": "14 min",
+    "explain": "Defining (restrictive) relative clauses identify which person or thing we mean. They cannot be removed without changing the meaning. No commas are used. Who = people, Which = things, That = people or things (informal), Where = places, When = times, Whose = possession. Non-defining clauses add extra information and use commas. 'That' is NOT used in non-defining clauses.\n\nKey rules:\n- who/that for people: The student who passed OR The student that passed\n- which/that for things: The book which/that I read\n- whose for possession: The man whose car was stolen\n- where for places: The city where she grew up\n- Non-defining: use commas and 'which' (not 'that')",
+    "questions": [
+      {
+        "q": "The man ___ lives next door is a doctor.",
+        "options": [
+          "who",
+          "which",
+          "where",
+          "when"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "This is the book ___ I told you about.",
+        "options": [
+          "who",
+          "which",
+          "where",
+          "when"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "The city ___ I was born is Ankara.",
+        "options": [
+          "who",
+          "which",
+          "where",
+          "when"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "I like people ___ are honest.",
+        "options": [
+          "who",
+          "which",
+          "where",
+          "when"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "The movie ___ we watched was great.",
+        "options": [
+          "who",
+          "which",
+          "where",
+          "when"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "The day ___ we met was rainy.",
+        "options": [
+          "who",
+          "which",
+          "where",
+          "when"
+        ],
+        "answer": 3
+      },
+      {
+        "q": "The school ___ he studies is new.",
+        "options": [
+          "where",
+          "which",
+          "who",
+          "when"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "The teacher ___ teaches us is strict.",
+        "options": [
+          "who",
+          "which",
+          "where",
+          "when"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "The phone ___ I bought is expensive.",
+        "options": [
+          "who",
+          "which",
+          "where",
+          "when"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "The reason ___ he left is unknown.",
+        "options": [
+          "why",
+          "which",
+          "where",
+          "when"
+        ],
+        "answer": 0
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "The student which passed got an A.",
+        "correct": "The student who passed got an A.",
+        "note": "'Which' is for things, not people"
+      },
+      {
+        "wrong": "The book, that I liked, was long.",
+        "correct": "The book, which I liked, was long.",
+        "note": "Non-defining: 'which', not 'that'"
+      },
+      {
+        "wrong": "The place where I live it is cold.",
+        "correct": "The place where I live is cold.",
+        "note": "No pronoun after 'where'"
+      }
+    ]
+  },
+  {
+    "id": "g_p4_03",
+    "level": "P4",
+    "difficulty": "hard",
+    "title": "Inversion for Emphasis",
+    "time": "16 min",
+    "explain": "Inversion reverses the normal subject-verb order for emphasis, typically after negative adverbials. Common triggers: Never, Rarely, Seldom, Hardly, Scarcely, No sooner, Not only, Little, Under no circumstances. Structure: Negative adverb + auxiliary + subject + main verb. Example: 'Never have I seen such dedication.' (NOT: Never I have seen...)\n\nKey rules:\n- After negative adverbs: inversion with auxiliary (do/does/did, have/has, modal)\n- 'No sooner ... than', 'Hardly ... when': past perfect inversion\n- 'Not only ... but also': inversion in first clause\n- Used in formal written English for rhetorical effect",
+    "questions": [
+      {
+        "q": "Never ___ I seen such a result.",
+        "options": [
+          "have",
+          "has",
+          "had",
+          "did"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Rarely ___ he arrive on time.",
+        "options": [
+          "does",
+          "do",
+          "did",
+          "has"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Not only ___ she pass, but she got the highest score.",
+        "options": [
+          "did",
+          "does",
+          "has",
+          "is"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Only after the lecture ___ I understand the theory.",
+        "options": [
+          "did",
+          "do",
+          "does",
+          "have"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Seldom ___ we witness such events.",
+        "options": [
+          "do",
+          "does",
+          "did",
+          "has"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Under no circumstances ___ you enter the lab.",
+        "options": [
+          "should",
+          "shall",
+          "are",
+          "do"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Hardly ___ the meeting started when it ended.",
+        "options": [
+          "had",
+          "has",
+          "did",
+          "do"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "No sooner ___ he arrived than he left.",
+        "options": [
+          "had",
+          "has",
+          "did",
+          "was"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Only then ___ she realize the mistake.",
+        "options": [
+          "did",
+          "does",
+          "has",
+          "is"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Little ___ they know about the plan.",
+        "options": [
+          "do",
+          "does",
+          "did",
+          "have"
+        ],
+        "answer": 0
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "Never I have seen such chaos.",
+        "correct": "Never have I seen such chaos.",
+        "note": "Inversion: auxiliary before subject"
+      },
+      {
+        "wrong": "Not only she failed, but also lost her scholarship.",
+        "correct": "Not only did she fail, but she also lost her scholarship.",
+        "note": "Inversion + auxiliary 'did'"
+      },
+      {
+        "wrong": "Hardly he had arrived when it began.",
+        "correct": "Hardly had he arrived when it began.",
+        "note": "Past perfect inversion after 'Hardly'"
+      }
+    ]
+  },
+  {
+    "id": "g_p3_04",
+    "level": "P3",
+    "title": "Advanced Clause Structures (Inversion, Emphasis, Reduced Clauses)",
+    "time": "20 min",
+    "difficulty": "hard",
+    "explain": "Advanced clause structures include inversion, cleft sentences, reduced relative clauses, and absolute constructions. Cleft sentences emphasise a specific element: 'It is hard work that leads to success.' Reduced relative clauses omit 'who/which + be': 'The man sitting by the window' (= who is sitting). Absolute clauses express accompanying circumstances: 'The work completed, they went home.'\n\nKey rules:\n- Cleft: It is/was + emphasis + that/who + rest\n- Reduced relative (active): V+ing replacing 'who/which + is/are'\n- Reduced relative (passive): V+ed replacing 'who/which + was/were'\n- Absolute: noun phrase + participle, separated by comma",
+    "questions": [
+      {
+        "options": [
+          "reviewed",
+          "had reviewed",
+          "was reviewing",
+          "has reviewed"
+        ],
+        "answer": 1,
+        "explain": "Inversion after 'Only after' uses past perfect to show completed action before change.",
+        "q": "Only after the committee ______ the report did the policy change."
+      },
+      {
+        "options": [
+          "we have seen",
+          "have we seen",
+          "we saw",
+          "did we saw"
+        ],
+        "answer": 1,
+        "explain": "Negative adverbs trigger inversion: 'Rarely have we seen'.",
+        "q": "Rarely ______ such a rapid shift in public opinion."
+      },
+      {
+        "options": [
+          "which",
+          "what",
+          "that",
+          "whom"
+        ],
+        "answer": 2,
+        "explain": "Cleft sentence: 'It was X that...'",
+        "q": "It was the budget cuts ______ delayed the project."
+      },
+      {
+        "options": [
+          "arrive",
+          "arriving",
+          "who arrived",
+          "were arriving"
+        ],
+        "answer": 1,
+        "explain": "Reduced relative clause replaces 'who arrived'.",
+        "q": "The students ______ late were asked to wait outside."
+      },
+      {
+        "options": [
+          "he missed",
+          "did he miss",
+          "he had missed",
+          "he misses"
+        ],
+        "answer": 1,
+        "explain": "Inversion with 'Not only'.",
+        "q": "Not only ______ the deadline, but he also ignored the warnings."
+      },
+      {
+        "options": [
+          "is",
+          "are",
+          "be",
+          "being"
+        ],
+        "answer": 0,
+        "explain": "Cleft structure: 'What X emphasizes is Y'.",
+        "q": "What the study emphasizes ______ the need for replication."
+      },
+      {
+        "options": [
+          "published",
+          "publishing",
+          "was published",
+          "is published"
+        ],
+        "answer": 0,
+        "explain": "Reduced clause for passive: 'published in 2019'.",
+        "q": "The article, ______ in 2019, challenged earlier assumptions."
+      },
+      {
+        "options": [
+          "do",
+          "did",
+          "have",
+          "are"
+        ],
+        "answer": 0,
+        "explain": "Inversion with present simple: 'Seldom do researchers...'.",
+        "q": "Seldom ______ researchers agree so quickly."
+      },
+      {
+        "options": [
+          "which",
+          "that",
+          "what",
+          "who"
+        ],
+        "answer": 1,
+        "explain": "Cleft: 'It is not X that...'.",
+        "q": "It is not the tools ______ determine outcomes but the method."
+      },
+      {
+        "options": [
+          "which",
+          "that",
+          "what",
+          "who"
+        ],
+        "answer": 0,
+        "explain": "Non‑restrictive relative clause requires 'which'.",
+        "q": "The proposal, ______ the committee rejected, was revised."
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "It is the teacher who he helped us.",
+        "correct": "It was the teacher who helped us.",
+        "note": "Cleft: no extra pronoun after 'who'"
+      },
+      {
+        "wrong": "The student who is sitting there is my friend.",
+        "correct": "The student sitting there is my friend.",
+        "note": "Reduced relative by omitting 'who is'"
+      },
+      {
+        "wrong": "The work was completed, they went home.",
+        "correct": "The work completed, they went home.",
+        "note": "Absolute clause form"
+      }
+    ]
+  },
+  {
+    "id": "g_p3_05",
+    "level": "P3",
+    "title": "Advanced Verb Patterns and Modality",
+    "time": "20 min",
+    "difficulty": "hard",
+    "explain": "Advanced verb patterns: Some verbs take to-infinitive (decide, want, manage, hope, refuse, fail). Others take -ing (enjoy, avoid, consider, risk, deny, suggest, dislike). Some take both with different meanings: 'remember to do' (obligation) vs 'remember doing' (memory); 'stop to do' (in order to) vs 'stop doing' (cease). Advanced modality: must/have to (obligation), should/ought to (advice), could have/should have (past ability/regret), might have (past possibility).\n\nKey rules:\n- to-inf after: want, decide, refuse, manage, fail, hope\n- -ing after: enjoy, avoid, deny, risk, consider, dislike\n- should have + past participle = regret/criticism\n- could have + past participle = unrealised past ability",
+    "questions": [
+      {
+        "options": [
+          "is",
+          "was",
+          "be",
+          "being"
+        ],
+        "answer": 0,
+        "explain": "Present reporting verbs often use present in academic prose.",
+        "q": "The findings suggest that the sample ______ representative of the population."
+      },
+      {
+        "options": [
+          "to repeat",
+          "repeating",
+          "repeat",
+          "to repeating"
+        ],
+        "answer": 0,
+        "explain": "Advise + to‑infinitive.",
+        "q": "Researchers advised ______ the analysis with a larger dataset."
+      },
+      {
+        "options": [
+          "is",
+          "was",
+          "be",
+          "being"
+        ],
+        "answer": 2,
+        "explain": "Subjunctive after recommend: 'that it be revised'.",
+        "q": "The committee recommended that the proposal ______ revised before approval."
+      },
+      {
+        "options": [
+          "are",
+          "were",
+          "be",
+          "being"
+        ],
+        "answer": 0,
+        "explain": "Current possibility -> present form.",
+        "q": "We cannot rule out the possibility that the results ______ biased."
+      },
+      {
+        "options": [
+          "make",
+          "to make",
+          "making",
+          "made"
+        ],
+        "answer": 2,
+        "explain": "Avoid + gerund.",
+        "q": "The team avoided ______ any claims beyond the evidence."
+      },
+      {
+        "options": [
+          "increase",
+          "to increase",
+          "increasing",
+          "increased"
+        ],
+        "answer": 1,
+        "explain": "Expected + to‑infinitive.",
+        "q": "The policy is expected ______ employment growth in the short term."
+      },
+      {
+        "options": [
+          "would perform",
+          "will perform",
+          "performs",
+          "performed"
+        ],
+        "answer": 0,
+        "explain": "Third conditional with inverted 'Had'.",
+        "q": "Had the data been cleaned properly, the model ______ more accurately."
+      },
+      {
+        "options": [
+          "requires",
+          "required",
+          "require",
+          "requiring"
+        ],
+        "answer": 0,
+        "explain": "Present reporting: 'argues that ... requires'.",
+        "q": "The author argues that the theory ______ revision rather than replacement."
+      },
+      {
+        "options": [
+          "has",
+          "have",
+          "had",
+          "having"
+        ],
+        "answer": 0,
+        "explain": "Whether + singular noun: 'intervention has'.",
+        "q": "It remains unclear whether the intervention ______ any long‑term benefits."
+      },
+      {
+        "options": [
+          "be",
+          "being",
+          "been",
+          "to be"
+        ],
+        "answer": 0,
+        "explain": "Modal passive: should + be + past participle.",
+        "q": "The results should ______ interpreted with caution."
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "She managed doing the task alone.",
+        "correct": "She managed to do the task alone.",
+        "note": "'Manage' takes to-infinitive"
+      },
+      {
+        "wrong": "He avoided to make mistakes.",
+        "correct": "He avoided making mistakes.",
+        "note": "'Avoid' takes -ing"
+      },
+      {
+        "wrong": "You should to study harder.",
+        "correct": "You should study harder.",
+        "note": "Modal + bare infinitive (no 'to')"
+      }
+    ]
+  },
+  {
+    "id": "g_p4_04",
+    "level": "P4",
+    "title": "Mixed Advanced Grammar (Nominalization, Parallelism, Complex Syntax)",
+    "time": "20 min",
+    "difficulty": "hard",
+    "explain": "Nominalisation converts verbs/adjectives into nouns for formal academic style: investigate→investigation, decide→decision, significant→significance, analyse→analysis. Parallelism: all items in a list or comparison must share the same grammatical form. Complex syntax: embedding relative clauses, adverbial clauses, and nominal clauses within one sentence to create information-dense academic prose.\n\nKey rules:\n- Replace verb phrases with noun phrases in academic writing\n- Parallel: 'Reading, writing, and speaking' (all -ing); NOT 'Reading, to write, and speak'\n- Embedded clauses: 'The assumption that globalisation improves living standards is debatable.'\n- Avoid informal contractions and first-person in formal academic prose",
+    "questions": [
+      {
+        "options": [
+          "implement",
+          "implementation",
+          "implementing",
+          "implemented"
+        ],
+        "answer": 1,
+        "explain": "Nominalization: noun form after 'rapid'.",
+        "q": "The rapid ______ of the policy created confusion among staff."
+      },
+      {
+        "options": [
+          "reduce",
+          "reducing",
+          "to reduce",
+          "reduced"
+        ],
+        "answer": 1,
+        "explain": "Parallel gerunds: measuring, improving, reducing.",
+        "q": "The study focuses on measuring accuracy, improving reliability, and ______ bias."
+      },
+      {
+        "options": [
+          "they",
+          "which",
+          "that",
+          "who"
+        ],
+        "answer": 1,
+        "explain": "Refers to 'forms' with non‑restrictive 'which'.",
+        "q": "Students who are enrolled in the program must submit their forms, ______ must be signed by an advisor."
+      },
+      {
+        "options": [
+          "allow",
+          "allowed",
+          "allowing",
+          "to allow"
+        ],
+        "answer": 2,
+        "explain": "Participle clause shows result: 'allowing'.",
+        "q": "The report was completed ahead of schedule, ______ the team to revise it twice."
+      },
+      {
+        "options": [
+          "lacked",
+          "lacking",
+          "lacks",
+          "lack"
+        ],
+        "answer": 0,
+        "explain": "Past simple matches 'rejected'.",
+        "q": "The committee rejected the proposal not because it was risky but because it ______ clear evidence."
+      },
+      {
+        "options": [
+          "gives",
+          "give",
+          "gave",
+          "giving"
+        ],
+        "answer": 1,
+        "explain": "Subjunctive after 'essential that'.",
+        "q": "It is essential that each participant ______ informed consent."
+      },
+      {
+        "options": [
+          "interesting",
+          "interestingly",
+          "interest",
+          "interested"
+        ],
+        "answer": 0,
+        "explain": "Adjective after 'while' modifying 'findings'.",
+        "q": "The findings, while ______, do not fully explain the trend."
+      },
+      {
+        "options": [
+          "create",
+          "creates",
+          "creating",
+          "created"
+        ],
+        "answer": 1,
+        "explain": "Present simple for general aim and effect.",
+        "q": "The policy aims to increase access and to reduce costs, but it ______ unintended consequences."
+      },
+      {
+        "options": [
+          "can",
+          "could",
+          "should",
+          "did"
+        ],
+        "answer": 0,
+        "explain": "Inversion with 'Only by' -> modal before subject.",
+        "q": "Only by integrating the datasets ______ a reliable conclusion be drawn."
+      },
+      {
+        "options": [
+          "logic",
+          "logical",
+          "logically",
+          "logician"
+        ],
+        "answer": 1,
+        "explain": "Parallel adjectives: accuracy, clarity, logical argumentation.",
+        "q": "The workshop emphasized accuracy, clarity, and ______ argumentation."
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "We decided to investigate what caused this.",
+        "correct": "An investigation into the causes was conducted.",
+        "note": "Nominalisation for formal style"
+      },
+      {
+        "wrong": "She likes swimming, to hike, and run.",
+        "correct": "She likes swimming, hiking, and running.",
+        "note": "Parallel -ing across the list"
+      },
+      {
+        "wrong": "It was announced that the results they were significant.",
+        "correct": "It was announced that the results were significant.",
+        "note": "No repeated subject in embedded clause"
+      }
+    ]
+  },
+  {
+    "id": "g_p4_05",
+    "level": "P4",
+    "title": "Academic Error Analysis (Editing in Context)",
+    "time": "20 min",
+    "difficulty": "hard",
+    "explain": "Academic error analysis requires identifying and correcting multiple error types within context: subject-verb agreement, article use, preposition choice, tense consistency, pronoun reference, and word form errors. Editing in context means understanding the whole paragraph, not just isolated sentences — discourse-level errors (wrong pronoun reference, misplaced modifier, illogical sequence) are common in BUEPT P4 tasks.\n\nKey editing checklist:\n- Subject-verb: Does the verb match the subject (singular/plural)?\n- Tense: Is the tense consistent throughout the passage?\n- Article: First mention = a/an; specific/known = the; general plural = no article\n- Word form: adjective vs adverb vs noun; correct suffix\n- Pronoun: Does 'it/they' refer clearly to the correct noun?",
+    "questions": [
+      {
+        "options": [
+          "The data show that the results are inconsistent.",
+          "The data shows that the results are inconsistent.",
+          "The data show that the results is inconsistent.",
+          "The data is showing that the results are inconsistent."
+        ],
+        "answer": 0,
+        "explain": "'Data' takes plural in formal academic style; 'results' is plural.",
+        "q": "Choose the correct revision: The data shows that the results is inconsistent."
+      },
+      {
+        "options": [
+          "Because the model was complex, the explanation was unclear.",
+          "The model was complex, therefore the explanation was unclear.",
+          "Because the model was complex, so the explanation was unclear.",
+          "The explanation was unclear, therefore because the model was complex."
+        ],
+        "answer": 0,
+        "explain": "Remove double connectors ('because' + 'therefore').",
+        "q": "Choose the correct revision: Because the model was complex, therefore the explanation was unclear."
+      },
+      {
+        "options": [
+          "The researcher reported the participants were informed.",
+          "The researcher reported the participants was inform.",
+          "The researcher reported the participant were informed.",
+          "The researcher reported the participants being informed."
+        ],
+        "answer": 0,
+        "explain": "Agreement: participants -> were; reported + clause.",
+        "q": "Choose the correct revision: The researcher reported the participants was informed."
+      },
+      {
+        "options": [
+          "The policy aims to improve access and reduce costs.",
+          "The policy aims to improving access and reducing costs.",
+          "The policy aims to improved access and reducing costs.",
+          "The policy aims improve access and reduce costs."
+        ],
+        "answer": 0,
+        "explain": "Parallel verb forms after 'aims to'.",
+        "q": "Choose the correct revision: The policy aims to improve access, and reducing costs."
+      },
+      {
+        "options": [
+          "The committee discussed the proposal in detail.",
+          "The committee discussed about the proposal in detail.",
+          "The committee was discussed the proposal in detail.",
+          "The committee discussed to the proposal in detail."
+        ],
+        "answer": 0,
+        "explain": "Discuss is transitive; no 'about'.",
+        "q": "Choose the correct revision: The committee discussed about the proposal in detail."
+      },
+      {
+        "options": [
+          "Each of the students has submitted their drafts.",
+          "Each of the students have submitted their draft.",
+          "Each of the students were submitted their drafts.",
+          "Each of the students submitting their drafts."
+        ],
+        "answer": 0,
+        "explain": "Each is singular -> has; plural pronoun acceptable in modern usage.",
+        "q": "Choose the correct revision: Each of the students have submitted their drafts."
+      },
+      {
+        "options": [
+          "The results are significant, despite the small sample.",
+          "The results are significant, despite the sample was small.",
+          "The results are significant, although the sample was small.",
+          "Both A and C"
+        ],
+        "answer": 3,
+        "explain": "Despite takes noun phrase; although takes a clause.",
+        "q": "Choose the correct revision: The results are significant, despite the sample was small."
+      },
+      {
+        "options": [
+          "This finding suggests expanding the study.",
+          "This finding suggests to expand the study.",
+          "This finding suggests expand the study.",
+          "This finding suggests that to expand the study."
+        ],
+        "answer": 0,
+        "explain": "Suggest + gerund; or suggest that + clause.",
+        "q": "Choose the correct revision: This finding suggests to expand the study."
+      },
+      {
+        "options": [
+          "The equipment, which was expensive, was repaired.",
+          "The equipment, which were expensive, were repaired.",
+          "The equipments, which was expensive, was repaired.",
+          "The equipment were expensive, was repaired."
+        ],
+        "answer": 0,
+        "explain": "Equipment is uncountable singular.",
+        "q": "Choose the correct revision: The equipment, which were expensive, was repaired."
+      },
+      {
+        "options": [
+          "Hardly had the lecture begun when the fire alarm rang.",
+          "Hardly the lecture had begun when the fire alarm rang.",
+          "Hardly did the lecture begun when the fire alarm rang.",
+          "Hardly the lecture begun when the fire alarm rang."
+        ],
+        "answer": 0,
+        "explain": "Inversion after 'Hardly' with past perfect.",
+        "q": "Choose the correct revision: Hardly the lecture had begun when the fire alarm rang."
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "The data shows that there is many problems.",
+        "correct": "The data show that there are many problems.",
+        "note": "'Data' is plural; 'many' requires plural verb"
+      },
+      {
+        "wrong": "The research, that was conducted in 2020, were thorough.",
+        "correct": "The research, which was conducted in 2020, was thorough.",
+        "note": "'Which' for non-defining; 'research' is singular"
+      },
+      {
+        "wrong": "She provided an useful analysis.",
+        "correct": "She provided a useful analysis.",
+        "note": "'useful' starts with 'y' sound → 'a', not 'an'"
+      }
+    ]
+  },
+  {
+    "id": "g_p3_06",
+    "level": "P3",
+    "title": "Discourse Grammar (Cohesion, Reference, Substitution)",
+    "time": "20 min",
+    "difficulty": "hard",
+    "explain": "Discourse grammar focuses on how texts hang together through cohesion and coherence. Reference: using pronouns/demonstratives to refer back (anaphora) or forward (cataphora). Substitution: replacing a word/clause with 'so', 'do so', 'one'. Ellipsis: omitting words that are understood from context ('I can swim, and so can she.'). Lexical cohesion: using synonyms, hyponyms, superordinates, repetition to link ideas.\n\nKey rules:\n- Pronoun reference must be clear and unambiguous\n- 'This/These' summarise preceding ideas; 'Such' + noun classifies\n- Substitution: 'I think so' / 'I believe so'; 'do so' = refers to previous action\n- Theme-rheme: old info → new info within sentences to ensure flow",
+    "questions": [
+      {
+        "options": [
+          "they",
+          "it",
+          "their",
+          "them"
+        ],
+        "answer": 1,
+        "explain": "'Committee' is a collective noun; singular reference is acceptable in formal style.",
+        "q": "The committee reviewed the reports, and ______ concluded that revisions were necessary."
+      },
+      {
+        "options": [
+          "nevertheless",
+          "moreover",
+          "instead",
+          "otherwise"
+        ],
+        "answer": 0,
+        "explain": "Contrast between cost and value.",
+        "q": "The experiment was costly; ______, it produced valuable data."
+      },
+      {
+        "options": [
+          "so",
+          "that",
+          "it",
+          "one"
+        ],
+        "answer": 0,
+        "explain": "Substitution: 'did so' replaces the previous verb phrase.",
+        "q": "The first study focused on adults, while the second did ______ on adolescents."
+      },
+      {
+        "options": [
+          "It",
+          "This",
+          "These",
+          "They"
+        ],
+        "answer": 1,
+        "explain": "'This' refers to the whole previous clause/idea.",
+        "q": "The policy reduces emissions. ______ improves public health."
+      },
+      {
+        "options": [
+          "Therefore",
+          "However",
+          "Similarly",
+          "Meanwhile"
+        ],
+        "answer": 0,
+        "explain": "Cause‑effect connector.",
+        "q": "The data were incomplete. ______, the analysis was postponed."
+      },
+      {
+        "options": [
+          "is",
+          "are",
+          "be",
+          "being"
+        ],
+        "answer": 1,
+        "explain": "'Solutions' is plural, so 'are' is correct.",
+        "q": "The report outlines the problem and suggests solutions; the latter ______ more convincing."
+      },
+      {
+        "options": [
+          "also",
+          "either",
+          "neither",
+          "both"
+        ],
+        "answer": 0,
+        "explain": "Adds a second item to the criticism.",
+        "q": "The professor criticized the methods and ______ the interpretation."
+      },
+      {
+        "options": [
+          "which",
+          "that",
+          "whom",
+          "what"
+        ],
+        "answer": 0,
+        "explain": "Non‑restrictive relative clause: 'of which'.",
+        "q": "The survey covered 12 regions, of ______ six were urban."
+      },
+      {
+        "options": [
+          "in contrast",
+          "for instance",
+          "as a result",
+          "in addition"
+        ],
+        "answer": 0,
+        "explain": "Contrast between price and durability.",
+        "q": "The device is cheaper; ______, it is less durable."
+      },
+      {
+        "options": [
+          "it",
+          "they",
+          "this",
+          "that"
+        ],
+        "answer": 0,
+        "explain": "Refers to 'model' as singular.",
+        "q": "The new model is efficient, and ______ has a shorter training time."
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "John told Mark that he had failed. He was angry.",
+        "correct": "John told Mark that he had failed. John was angry.",
+        "note": "Ambiguous 'he' — specify the referent"
+      },
+      {
+        "wrong": "The experiment was a success. This was surprising.",
+        "correct": "The experiment was a success. This outcome was surprising.",
+        "note": "'This + noun' is clearer than bare 'This'"
+      },
+      {
+        "wrong": "She wanted to go, and I wanted to go to.",
+        "correct": "She wanted to go, and so did I.",
+        "note": "Use ellipsis with 'so did I'"
+      }
+    ]
+  },
+  {
+    "id": "g_p3_07",
+    "level": "P3",
+    "title": "Complex Noun Phrases and Modifier Order",
+    "time": "20 min",
+    "difficulty": "hard",
+    "explain": "Complex noun phrases can include pre-modifiers (adjectives, nouns, participles before the noun) and post-modifiers (prepositional phrases, relative clauses, infinitives, participles after the noun). Order of adjectives: opinion→size→age→shape→colour→origin→material→purpose + NOUN. In academic writing, noun phrases often carry most of the information: 'the rapid economic development of East Asia in the 1980s'.\n\nKey rules:\n- Adjective order: opinion, size, age, shape, colour, origin, material\n- Pre-modifiers: participle phrases before noun: 'the recently published study'\n- Post-modifiers: PP or relative clause after noun: 'the study published last year'\n- Nominalised heads: 'an increase in...', 'a decline in...'",
+    "questions": [
+      {
+        "options": [
+          "short‑term",
+          "short term",
+          "short‑termly",
+          "shorted"
+        ],
+        "answer": 0,
+        "explain": "Compound adjective before a noun uses a hyphen.",
+        "q": "The lab reported a significant ______ increase in emissions."
+      },
+      {
+        "options": [
+          "intensive three‑week",
+          "three‑week intensive",
+          "three weeks intensive",
+          "intensive three weeks"
+        ],
+        "answer": 0,
+        "explain": "Opinion/quality adjective precedes measurement modifier.",
+        "q": "The study examined the effects of ______ training programs."
+      },
+      {
+        "options": [
+          "yesterday",
+          "that was controversial",
+          "with revisions",
+          "on campus"
+        ],
+        "answer": 1,
+        "explain": "Post‑modifier clarifies which proposal.",
+        "q": "The committee approved the proposal to revise the policy ______."
+      },
+      {
+        "options": [
+          "with limited data",
+          "who were senior",
+          "during summer",
+          "at the university"
+        ],
+        "answer": 0,
+        "explain": "Modifier attaches to 'models', not 'researchers'.",
+        "q": "We interviewed researchers working on climate models ______."
+      },
+      {
+        "options": [
+          "community health",
+          "health community",
+          "community healthy",
+          "healthily community"
+        ],
+        "answer": 0,
+        "explain": "Noun‑noun modifier order is standard.",
+        "q": "The department funded a student‑led ______ initiative."
+      },
+      {
+        "options": [
+          "environment",
+          "environmental",
+          "environmentally",
+          "environments"
+        ],
+        "answer": 1,
+        "explain": "Adjective form needed before noun.",
+        "q": "The policy aims to reduce long‑term ______ risks."
+      },
+      {
+        "options": [
+          "who were trained",
+          "that was confidential",
+          "which were anonymized",
+          "from the survey"
+        ],
+        "answer": 2,
+        "explain": "Relative clause refers to data, not assistants or April.",
+        "q": "We reviewed the data collected by assistants in April ______."
+      },
+      {
+        "options": [
+          "assessment",
+          "assess",
+          "assessing",
+          "assessed"
+        ],
+        "answer": 0,
+        "explain": "Noun form required.",
+        "q": "The report includes an evidence‑based ______ of intervention outcomes."
+      },
+      {
+        "options": [
+          "privacy",
+          "privately",
+          "privatize",
+          "private"
+        ],
+        "answer": 0,
+        "explain": "Noun‑noun modifier.",
+        "q": "The company adopted a strict ______ policy for data access."
+      },
+      {
+        "options": [
+          "argument",
+          "argue",
+          "argued",
+          "arguing"
+        ],
+        "answer": 0,
+        "explain": "Noun required after article.",
+        "q": "She presented the findings in a well‑structured ______."
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "a metal old big container",
+        "correct": "a big old metal container",
+        "note": "Adjective order: size → age → material"
+      },
+      {
+        "wrong": "The published recently report attracted attention.",
+        "correct": "The recently published report attracted attention.",
+        "note": "Adverb modifies participle: 'recently published'"
+      },
+      {
+        "wrong": "The results of the experiment which we conducted it last year",
+        "correct": "The results of the experiment conducted last year",
+        "note": "Reduced relative: omit 'which we conducted it'"
+      }
+    ]
+  },
+  {
+    "id": "g_p4_06",
+    "level": "P4",
+    "title": "Mixed Advanced Grammar (Conditionals, Inversion, Ellipsis)",
+    "time": "20 min",
+    "difficulty": "hard",
+    "explain": "This task tests mixed advanced grammar: mixed conditionals (combining Type 2 and 3), inversion after negative adverbials, and ellipsis in formal writing. Mixed conditional: 'If I had studied harder (past), I would be more confident now (present).' Ellipsis in formal style: 'The results were positive, as were the implications.' Advanced inversion: 'Only when all data had been collected were conclusions drawn.'\n\nKey rules:\n- Mixed conditional: if + past perfect, would/could + bare inf (present result)\n- Inversion after 'only when/after/if': auxiliary + subject\n- Ellipsis: avoid repeating the same verb phrase; use auxiliaries\n- 'So do I / Neither do I' — agreement structures",
+    "questions": [
+      {
+        "options": [
+          "might",
+          "will",
+          "would have",
+          "had"
+        ],
+        "answer": 0,
+        "explain": "Inverted conditional: 'Were X to..., Y might...'.",
+        "q": "Were the data to be reanalyzed, the conclusions ______ change."
+      },
+      {
+        "options": [
+          "were",
+          "had",
+          "did",
+          "have"
+        ],
+        "answer": 1,
+        "explain": "No sooner + past perfect inversion.",
+        "q": "No sooner ______ the results published than critics responded."
+      },
+      {
+        "options": [
+          "were",
+          "is",
+          "has been",
+          "had been"
+        ],
+        "answer": 0,
+        "explain": "Second conditional uses past form for hypothetical present.",
+        "q": "If the sample size ______ larger, the estimate would be more reliable."
+      },
+      {
+        "options": [
+          "in places",
+          "to read",
+          "than expected",
+          "by far"
+        ],
+        "answer": 0,
+        "explain": "Ellipsis; phrase fits the comparison.",
+        "q": "The report is more comprehensive than the previous one, though less detailed ______."
+      },
+      {
+        "options": [
+          "would have been",
+          "would be",
+          "is",
+          "was"
+        ],
+        "answer": 0,
+        "explain": "Third conditional with inversion.",
+        "q": "Had it not been for the grant, the project ______ canceled."
+      },
+      {
+        "options": [
+          "could",
+          "can",
+          "did",
+          "has"
+        ],
+        "answer": 0,
+        "explain": "Inversion after 'Only when'.",
+        "q": "Only when the errors were corrected ______ the model perform reliably."
+      },
+      {
+        "options": [
+          "will too",
+          "will",
+          "would",
+          "do"
+        ],
+        "answer": 0,
+        "explain": "Elliptical addition: 'will too'.",
+        "q": "If the policy is implemented, the short‑term costs will rise, and the long‑term benefits ______."
+      },
+      {
+        "options": [
+          "were",
+          "are",
+          "be",
+          "being"
+        ],
+        "answer": 0,
+        "explain": "Suppose + past form for hypothetical.",
+        "q": "Suppose the results ______ invalid; the entire argument collapses."
+      },
+      {
+        "options": [
+          "was",
+          "were",
+          "is",
+          "are"
+        ],
+        "answer": 0,
+        "explain": "Inversion with 'So + adj + be + subject'.",
+        "q": "So complex ______ the dataset that manual analysis was impossible."
+      },
+      {
+        "options": [
+          "to",
+          "do",
+          "doing",
+          "did"
+        ],
+        "answer": 0,
+        "explain": "Ellipsis: 'chose not to'.",
+        "q": "The team could have expanded the study, but chose not ______."
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "If she studied harder, she would have passed.",
+        "correct": "If she had studied harder, she would have passed. / If she studied harder, she would pass.",
+        "note": "Don't mix past simple and 'would have' (Type 3 vs Type 2)"
+      },
+      {
+        "wrong": "Only when the results arrived, she relaxed.",
+        "correct": "Only when the results arrived did she relax.",
+        "note": "Inversion required after 'Only when'"
+      },
+      {
+        "wrong": "She passed, and I passed too.",
+        "correct": "She passed, and so did I.",
+        "note": "Ellipsis with 'so did I'"
+      }
+    ]
+  },
+  {
+    "id": "g_p4_07",
+    "level": "P4",
+    "title": "Academic Style and Precision (Articles, Prepositions, Register)",
+    "time": "20 min",
+    "difficulty": "hard",
+    "explain": "Academic style requires precision in articles, prepositions, and register. Articles: 'the' is required for unique entities, previously mentioned items, and post-modified nouns ('the study conducted in 2020'). Prepositions: depend on + noun/gerund, consist of, result in, contribute to, independent of, based on, derived from, associated with. Register: avoid contractions, slang, or casual hedging ('kind of', 'basically') in academic prose.\n\nKey preposition + noun collocations:\n- an increase IN, a decrease IN, a change IN\n- research ON/INTO, a study OF, an analysis OF\n- result IN (cause→effect), result FROM (effect←cause)\n- associated WITH, dependent ON, independent OF",
+    "questions": [
+      {
+        "options": [
+          "an",
+          "a",
+          "the",
+          "—"
+        ],
+        "answer": 3,
+        "explain": "Uncountable 'evidence' takes no article in general reference.",
+        "q": "The study provides ______ evidence of a causal link."
+      },
+      {
+        "options": [
+          "by",
+          "at",
+          "in",
+          "with"
+        ],
+        "answer": 1,
+        "explain": "Fixed phrase: 'at random'.",
+        "q": "The participants were selected ______ random from the registry."
+      },
+      {
+        "options": [
+          "on",
+          "in",
+          "at",
+          "for"
+        ],
+        "answer": 1,
+        "explain": "Specialize in.",
+        "q": "The researcher specializes ______ computational linguistics."
+      },
+      {
+        "options": [
+          "to",
+          "with",
+          "of",
+          "for"
+        ],
+        "answer": 1,
+        "explain": "Consistent with.",
+        "q": "The results are consistent ______ earlier findings."
+      },
+      {
+        "options": [
+          "for",
+          "of",
+          "about",
+          "to"
+        ],
+        "answer": 2,
+        "explain": "Concern about.",
+        "q": "The committee expressed concern ______ the ethical implications."
+      },
+      {
+        "options": [
+          "deep",
+          "thorough",
+          "big",
+          "large"
+        ],
+        "answer": 1,
+        "explain": "Academic register prefers 'thorough'.",
+        "q": "The report offers a ______ analysis of the data."
+      },
+      {
+        "options": [
+          "in",
+          "with",
+          "at",
+          "by"
+        ],
+        "answer": 0,
+        "explain": "In detail.",
+        "q": "The findings were discussed ______ detail in the appendix."
+      },
+      {
+        "options": [
+          "controlled",
+          "controlling",
+          "control",
+          "controls"
+        ],
+        "answer": 0,
+        "explain": "Adjective form.",
+        "q": "The experiment was conducted under ______ conditions."
+      },
+      {
+        "options": [
+          "knowledge",
+          "know",
+          "knowing",
+          "known"
+        ],
+        "answer": 0,
+        "explain": "Noun needed.",
+        "q": "We have little ______ of the long‑term impact."
+      },
+      {
+        "options": [
+          "point",
+          "pointing",
+          "pointed",
+          "points"
+        ],
+        "answer": 0,
+        "explain": "Singular noun after 'an important'.",
+        "q": "The article raises an important ______ about bias."
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "The research was based in previous findings.",
+        "correct": "The research was based on previous findings.",
+        "note": "'Based on' — fixed preposition collocation"
+      },
+      {
+        "wrong": "There was an increase of student enrolment.",
+        "correct": "There was an increase in student enrolment.",
+        "note": "'Increase in' — not 'of'"
+      },
+      {
+        "wrong": "The results was analysed by scientists.",
+        "correct": "The results were analysed by scientists.",
+        "note": "'Results' = plural → 'were'"
+      }
+    ]
+  },
+  {
+    "id": "g_p3_08",
+    "level": "P3",
+    "title": "Multi‑Error Paragraph Editing I",
+    "time": "25 min",
+    "difficulty": "hard",
+    "explain": "Multi-error editing tasks present a short paragraph with several grammar errors. Common errors include: wrong tense, incorrect article, subject-verb disagreement, wrong preposition, dangling modifier, and word-form error. Strategy: (1) Read the whole paragraph for meaning. (2) Identify the error type. (3) Apply the relevant rule. (4) Check that the corrected sentence sounds natural in context.\n\nCommon error types to scan for:\n- Tense inconsistency within a paragraph\n- Article (a/an/the/—) before nouns\n- Preposition collocations\n- Adjective vs adverb confusion (high vs highly, real vs really)\n- Dangling/misplaced modifiers",
+    "questions": [
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The survey were conducted in three cities and shows that public transport is underused. Many respondents prefers driving because buses are infrequent and tickets is expensive. To improve usage, the report suggest investing in schedules and reducing fares.",
+          "The survey was conducted in three cities and shows that public transport is underused. Many respondents prefer driving because buses are infrequent and tickets are expensive. To improve usage, the report suggests investing in schedules and reducing fares.",
+          "The survey was conducted in three city and show that public transport are underused. Many respondents prefer drive because buses was infrequent and tickets are expensive. To improve usage, the report suggests to invest in schedules and reducing fares.",
+          "The survey was conducted in three cities and shows that public transport is underused. Many respondents prefer driving because buses is infrequent and tickets are expensive. To improve usage, the report suggest investing on schedules and reduce fares."
+        ],
+        "answer": 1,
+        "explain": "Corrects subject‑verb agreement, plurals, and verb patterns consistently."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The experiment aimed to test the hypothesis that sleep affects memory. Although the sample was small, the results was significant and indicate a strong correlation. However, the author caution that further studies are needed.",
+          "The experiment aimed to test the hypothesis that sleep affects memory. Although the sample was small, the results were significant and indicated a strong correlation. However, the author cautions that further studies are needed.",
+          "The experiment aimed testing the hypothesis that sleep affects memory. Although the sample was small, the results were significant and indicates a strong correlation. However, the author cautions further studies are needed.",
+          "The experiment aimed to test the hypothesis that sleep affects memory. Although the sample was small, the result were significant and indicate a strong correlation. However, the author caution that further studies are need."
+        ],
+        "answer": 1,
+        "explain": "Fixes agreement, tense consistency, and reporting verb form."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "Technology have improved communication, but it also create new problems. People rely on messages more than face‑to‑face talk, which lead to misunderstandings. These issues can be reduced if users are trained and the platforms is designed carefully.",
+          "Technology has improved communication, but it also creates new problems. People rely on messages more than face‑to‑face talk, which leads to misunderstandings. These issues can be reduced if users are trained and the platforms are designed carefully.",
+          "Technology has improved communication, but it also create new problems. People rely on messages more than face‑to‑face talk, which lead to misunderstandings. These issues can be reduced if users are trained and the platforms is designed carefully.",
+          "Technology has improved communication, but it also creates new problem. People rely on messages more than face‑to‑face talk, which leads to misunderstanding. These issues can be reduced if users are trained and the platforms are designing carefully."
+        ],
+        "answer": 1,
+        "explain": "Corrects agreement, plural nouns, and verb forms across clauses."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The report focuses on energy efficiency in buildings. It recommend that insulation is improved and windows replaced. Such measures reduces consumption and are cost‑effective over time.",
+          "The report focuses on energy efficiency in buildings. It recommends that insulation be improved and windows replaced. Such measures reduce consumption and are cost‑effective over time.",
+          "The report focuses in energy efficiency in buildings. It recommends that insulation is improved and windows replaced. Such measures reduces consumption and is cost‑effective over time.",
+          "The report focuses on energy efficiency in buildings. It recommend that insulation to be improved and windows are replaced. Such measures reduce consumption and are cost‑effective over time."
+        ],
+        "answer": 1,
+        "explain": "Subjunctive after recommend, agreement, and preposition choice."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "Students often procrastinate because tasks seem difficult. This behavior lead to stress, and it also reducing performance. To solve this, instructors can provide clear milestones and encourages early drafts.",
+          "Students often procrastinate because tasks seem difficult. This behavior leads to stress, and it also reduces performance. To solve this, instructors can provide clear milestones and encourage early drafts.",
+          "Students often procrastinate because tasks seems difficult. This behavior leads to stress, and it also reduce performance. To solve this, instructors can provide clear milestones and encouraging early drafts.",
+          "Students often procrastinate because tasks seem difficult. This behavior leads to stress, and it also reduces performances. To solve this, instructors can provides clear milestones and encourage early drafts."
+        ],
+        "answer": 1,
+        "explain": "Fixes agreement, verb forms, and parallel structure."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The company expanded rapidly, therefore, it struggled with coordination. Departments worked in isolation, which results in duplicated efforts. A shared database were proposed to solve the problem.",
+          "The company expanded rapidly; therefore, it struggled with coordination. Departments worked in isolation, which resulted in duplicated efforts. A shared database was proposed to solve the problem.",
+          "The company expanded rapidly, therefore it struggled with coordination. Departments worked in isolation, which result in duplicated efforts. A shared database was propose to solve the problem.",
+          "The company expanded rapidly; therefore it struggled with coordination. Departments worked in isolation, which resulted in duplicated efforts. A shared database were proposed to solve the problem."
+        ],
+        "answer": 1,
+        "explain": "Punctuation, tense, and agreement corrected."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "Research show that bilingual students can develop stronger executive control. However, the effect depends on proficiency and the context where they learn. These factors are often ignored in public debates.",
+          "Research shows that bilingual students can develop stronger executive control. However, the effect depends on proficiency and the context in which they learn. These factors are often ignored in public debates.",
+          "Research shows that bilingual students can develop stronger executive control. However, the effect depend on proficiency and the context which they learn. These factor are often ignored in public debates.",
+          "Research show that bilingual students can develop stronger executive control. However, the effect depends on proficiency and the context in which they learn. These factors are often ignored at public debates."
+        ],
+        "answer": 1,
+        "explain": "Agreement and relative clause precision."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The lecturer explained the theory, but the examples were confusing. Students asked for clarification, and the lecturer provide it at the end. This response improved understanding.",
+          "The lecturer explained the theory, but the examples were confusing. Students asked for clarification, and the lecturer provided it at the end. This response improved understanding.",
+          "The lecturer explained the theory, but the examples was confusing. Students asked for clarification, and the lecturer provided it in the end. This response improved understandings.",
+          "The lecturer explained the theory, but the examples were confusing. Students asked for clarification, and the lecturer provide it in the end. This response improved understanding."
+        ],
+        "answer": 1,
+        "explain": "Past tense consistency and preposition choice."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The policy aims to increase access to healthcare, and to reduce costs. It will also improve quality. These goals require coordination between agencies and to create new standards.",
+          "The policy aims to increase access to healthcare and reduce costs. It will also improve quality. These goals require coordination between agencies and the creation of new standards.",
+          "The policy aims increasing access to healthcare and reduce costs. It will also improve quality. These goals requires coordination between agencies and to create new standards.",
+          "The policy aims to increase access to healthcare, and to reduce costs. It will also improve quality. These goals requires coordination between agencies and creating new standards."
+        ],
+        "answer": 1,
+        "explain": "Parallel structure and nominalization corrected."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The study was limited by a small sample size, nevertheless, the conclusions are useful. The authors acknowledge these limitations and they call for replication.",
+          "The study was limited by a small sample size; nevertheless, the conclusions are useful. The authors acknowledge these limitations and call for replication.",
+          "The study was limited by a small sample size, nevertheless the conclusions are useful. The authors acknowledge these limitations and they calls for replication.",
+          "The study was limited by a small sample size; nevertheless the conclusions are useful. The authors acknowledge these limitations and calling for replication."
+        ],
+        "answer": 1,
+        "explain": "Connector punctuation and agreement fixed."
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "Working late into the night, the results surprised us.",
+        "correct": "Working late into the night, we were surprised by the results.",
+        "note": "Dangling modifier: 'Working' must refer to the subject 'we'"
+      },
+      {
+        "wrong": "She works real hard to achieve her goals.",
+        "correct": "She works really hard to achieve her goals.",
+        "note": "'Really' is an adverb modifying 'hard'"
+      },
+      {
+        "wrong": "In 1990, researchers study the effects of pollution.",
+        "correct": "In 1990, researchers studied the effects of pollution.",
+        "note": "Past time marker 'In 1990' requires past simple"
+      }
+    ]
+  },
+  {
+    "id": "g_p4_08",
+    "level": "P4",
+    "title": "Multi‑Error Paragraph Editing II",
+    "time": "25 min",
+    "difficulty": "hard",
+    "explain": "Advanced multi-error paragraph editing at P4 level involves discourse-level issues alongside sentence-level errors. You may need to fix: incorrect relative pronoun, inappropriate register, incorrect use of inversion, wrong modal perfect, or a nominalization error. Read for global meaning first, then edit sentence by sentence. Focus on: formal register, appropriate hedging (it is argued that, evidence suggests), and accurate use of passive voice in academic writing.\n\nAdvanced editing focus:\n- Modal perfects: should have / could have / must have + past participle\n- Passive voice appropriateness: 'The study was conducted' (not 'They conducted the study')\n- Avoiding first-person in formal academic writing\n- Coherence: ensure each sentence follows logically from the previous",
+    "questions": [
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The evidence indicate that the intervention were effective, though only in the short term. Because the follow‑up period was brief, therefore long‑term effects remain unclear. Future studies should address this limitation.",
+          "The evidence indicates that the intervention was effective, though only in the short term. Because the follow‑up period was brief, long‑term effects remain unclear. Future studies should address this limitation.",
+          "The evidence indicates that the intervention was effective, though only in the short term. Because the follow‑up period was brief, therefore long‑term effects remains unclear. Future studies should address this limitation.",
+          "The evidence indicate that the intervention was effective, though only in the short term. Because the follow‑up period was brief, long‑term effects remain unclear. Future studies should to address this limitation."
+        ],
+        "answer": 1,
+        "explain": "Agreement and connector use corrected."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "Not only the data were incomplete, but also the sampling procedure were flawed. These issues undermine the validity of the findings, and the report should be revised.",
+          "Not only were the data incomplete, but the sampling procedure was also flawed. These issues undermine the validity of the findings, and the report should be revised.",
+          "Not only were the data incomplete, but also the sampling procedure was flawed. These issue undermine the validity of the findings, and the report should be revise.",
+          "Not only the data was incomplete, but the sampling procedure was also flawed. These issues undermines the validity of the findings, and the report should be revised."
+        ],
+        "answer": 1,
+        "explain": "Inversion and agreement corrected."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The committee requested that the protocol is updated and that all staff are trained. These steps is necessary before implementation.",
+          "The committee requested that the protocol be updated and that all staff be trained. These steps are necessary before implementation.",
+          "The committee requested that the protocol to be updated and that all staff are trained. These steps are necessary before implementation.",
+          "The committee requested that the protocol be updated and that all staff be trained. These step are necessary before implementation."
+        ],
+        "answer": 1,
+        "explain": "Subjunctive after request and agreement."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "Although the policy was intended to reduce costs, it resulted in fewer services. This outcome was unexpected, and it suggest that the assumptions was incorrect.",
+          "Although the policy was intended to reduce costs, it resulted in fewer services. This outcome was unexpected, and it suggests that the assumptions were incorrect.",
+          "Although the policy was intended to reduce costs, it resulted in fewer services. This outcome was unexpected, and it suggest that the assumptions were incorrect.",
+          "Although the policy was intended to reducing costs, it resulted in fewer services. This outcome was unexpected, and it suggests that the assumptions was incorrect."
+        ],
+        "answer": 1,
+        "explain": "Tense, agreement, and verb form corrected."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The report provides a summary of the data and discusses their implications. However, the analysis lacks depth, which limit its usefulness for policy‑makers.",
+          "The report provides a summary of the data and discusses their implications. However, the analysis lacks depth, which limits its usefulness for policy‑makers.",
+          "The report provides a summary of the data and discusses its implications. However, the analysis lack depth, which limits its usefulness for policy‑makers.",
+          "The report provides a summary of the data and discuss their implications. However, the analysis lacks depth, which limits its usefulness for policy‑makers."
+        ],
+        "answer": 1,
+        "explain": "Agreement and pronoun reference corrected."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The students were asked to submit their essays, but few of them did so. This suggests that the instructions was unclear or that the deadline were too soon.",
+          "The students were asked to submit their essays, but few of them did so. This suggests that the instructions were unclear or that the deadline was too soon.",
+          "The students were asked to submit their essays, but few of them did so. This suggest that the instructions were unclear or that the deadline was too soon.",
+          "The students were asked to submit their essays, but few of them did so. This suggests that the instructions was unclear or that the deadline were too soon."
+        ],
+        "answer": 1,
+        "explain": "Agreement across plural and singular nouns."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The results, which were collected in April, indicates a clear trend. This trend is consistent with earlier studies and supports the main hypothesis.",
+          "The results, which were collected in April, indicate a clear trend. This trend is consistent with earlier studies and supports the main hypothesis.",
+          "The results, which were collected in April, indicate a clear trend. This trend are consistent with earlier studies and supports the main hypothesis.",
+          "The results, which were collected in April, indicates a clear trend. This trend are consistent with earlier studies and support the main hypothesis."
+        ],
+        "answer": 1,
+        "explain": "Agreement with plural 'results' and 'trend'."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "If the data had been checked more carefully, the error could be avoided. This shows the importance of systematic review.",
+          "If the data had been checked more carefully, the error could have been avoided. This shows the importance of systematic review.",
+          "If the data had been checked more carefully, the error could avoided. This shows the importance of a systematic review.",
+          "If the data had been checked more carefully, the error could have avoid. This shows the importance of systematic review."
+        ],
+        "answer": 1,
+        "explain": "Third conditional needs 'could have been avoided'."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The project was completed on time; however, the budget were exceeded. The final report recommends that the team establish clearer priorities.",
+          "The project was completed on time; however, the budget was exceeded. The final report recommends that the team establish clearer priorities.",
+          "The project was completed on time; however, the budget was exceeded. The final report recommend that the team establish clearer priorities.",
+          "The project was completed on time; however, the budget were exceeded. The final report recommends that the team establishing clearer priorities."
+        ],
+        "answer": 1,
+        "explain": "Agreement and verb form corrected."
+      },
+      {
+        "q": "Choose the best edited version of the paragraph:",
+        "options": [
+          "The authors claimed that the model is valid, but they provided little evidence. This weakens the argument and raises questions about reliability.",
+          "The authors claimed that the model was valid, but they provided little evidence. This weakens the argument and raises questions about reliability.",
+          "The authors claimed that the model was valid, but they provides little evidence. This weakens the argument and raises questions about reliability.",
+          "The authors claimed that the model is valid, but they provided little evidence. This weaken the argument and raise questions about reliability."
+        ],
+        "answer": 1,
+        "explain": "Reported speech with past tense and agreement."
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "The committee should looked into this matter.",
+        "correct": "The committee should have looked into this matter.",
+        "note": "Modal perfect: should have + past participle"
+      },
+      {
+        "wrong": "They show in the study that pollution levels increased.",
+        "correct": "The study shows that pollution levels increased.",
+        "note": "Formal: 'the study shows' (not 'they show')"
+      },
+      {
+        "wrong": "Not only the participants were confused, but also the researchers.",
+        "correct": "Not only were the participants confused, but the researchers were also.",
+        "note": "Inversion required after 'Not only'"
+      }
+    ]
+  },
+  {
+    "id": "g_p4_09",
+    "level": "P4",
+    "title": "Advanced Clause Control and Inversion",
+    "time": "12 min",
+    "difficulty": "hard",
+    "explain": "Advanced clause control includes: complex embedded clauses with multiple layers, controlled use of inversion for emphasis, and sophisticated use of conditionals. Embedded clause: 'The claim that technology improves productivity, which many economists support, remains contested.' Inversion: 'Only by addressing the root causes can sustainable progress be achieved.' Conditional variety: Type 0 (facts), Type 1 (possible), Type 2 (hypothetical), Type 3 (past unreal), Mixed (past condition → present result).\n\nKey rules:\n- Embedded noun clause: 'that' + full clause as subject/object\n- Emphatic inversion: Only by/when/if + inversion (aux+subject)\n- Sentence variety: vary between simple, compound, complex, and compound-complex\n- Avoid run-on sentences through correct use of relative clauses and conjunctions",
+    "questions": [
+      {
+        "q": "Not only ___ the data incomplete, but the sampling method was also biased.",
+        "options": [
+          "was",
+          "were",
+          "is",
+          "are"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Had the participants ___ informed, the consent process would have been valid.",
+        "options": [
+          "been properly",
+          "properly been",
+          "properly",
+          "being properly"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "The committee recommended ___ the policy and ___ further consultation.",
+        "options": [
+          "to revise / to seek",
+          "revising / seeking",
+          "revise / seek",
+          "to revise / seeking"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "___ the limited budget, the team completed the pilot study.",
+        "options": [
+          "Despite",
+          "Although",
+          "Because of",
+          "Whereas"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "The results, while ___, require cautious interpretation.",
+        "options": [
+          "promising",
+          "promise",
+          "promised",
+          "to promise"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "The model assumes ___ linearity and ___ independence.",
+        "options": [
+          "both / both",
+          "either / or",
+          "neither / nor",
+          "both / and"
+        ],
+        "answer": 3
+      },
+      {
+        "q": "Only after the replication study ___ the findings widely accepted.",
+        "options": [
+          "was",
+          "were",
+          "did",
+          "has"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "The authors suggested that the method ___ revised before publication.",
+        "options": [
+          "is",
+          "be",
+          "was",
+          "to be"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "The participants, ___ from three regions, completed the survey online.",
+        "options": [
+          "recruited",
+          "recruiting",
+          "to recruit",
+          "recruit"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Hardly ___ the analysis when new data arrived.",
+        "options": [
+          "they had finished",
+          "had they finished",
+          "did they finished",
+          "they finished"
+        ],
+        "answer": 1
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "The fact which he lied was discovered.",
+        "correct": "The fact that he had lied was discovered.",
+        "note": "Noun (appositive) clause: use 'that', not 'which'; past perfect for prior event"
+      },
+      {
+        "wrong": "Only by study hard can students improve.",
+        "correct": "Only by studying hard can students improve.",
+        "note": "'By' + gerund (-ing); inversion: 'can students improve'"
+      },
+      {
+        "wrong": "If she would study, she would pass.",
+        "correct": "If she studied, she would pass.",
+        "note": "Type 2: 'if' clause uses past simple, not 'would'"
+      }
+    ]
+  },
+  {
+    "id": "g_acad_01",
+    "level": "P4",
+    "title": "Advanced Inversion (Negative Adverbials)",
+    "time": "10 min",
+    "explain": "Inversion in Academic English happens when a sentence starts with a restrictive or negative adverbial (e.g., Never, Rarely, Seldom, Not only, Under no circumstances, On no account). The subject and auxiliary verb invert, as if forming a question. For example: 'Under no circumstances should you leave.' This structure is heavily favored in formal and academic writing to add emphasis.",
+    "questions": [
+      {
+        "q": "Not only ________ the ecosystem, but it also poisoned the groundwater.",
+        "options": [
+          "the oil spill devastated",
+          "did the oil spill devastate",
+          "was the oil spill devastated",
+          "devastated the oil spill"
+        ],
+        "answer": 1,
+        "explain": "Because the sentence starts with 'Not only', the auxiliary 'did' must invert with the subject 'the oil spill'."
+      }
+    ]
+  },
+  {
+    "id": "g_acad_02",
+    "level": "P4",
+    "title": "Reduced Relative Clauses (Active and Passive)",
+    "time": "12 min",
+    "explain": "Relative clauses can be reduced to participles to make academic writing more concise. If the verb in the clause is active, it becomes present participle (V-ing): 'The scientists who conduct the research...' -> 'The scientists conducting the research...'. If passive, it becomes a past participle (V3): 'The data which was collected by the team...' -> 'The data collected by the team...'.",
+    "questions": [
+      {
+        "q": "The sociological data ________ during the massive urban sprawl study was highly controversial.",
+        "options": [
+          "collecting",
+          "was collected",
+          "collected",
+          "which collecting"
+        ],
+        "answer": 2,
+        "explain": "The data 'which was collected' corresponds to the passive reduced clause 'collected'."
+      }
+    ]
+  }
+]

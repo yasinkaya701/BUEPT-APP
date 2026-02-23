@@ -1,0 +1,56 @@
+[
+  {
+    "id": "listening_task_1",
+    "title": "Listening Task 1",
+    "focus": "Main idea + detail",
+    "time": "8-12 min",
+    "level": "P1-P2",
+    "source_name": "WASC",
+    "source_url": "https://wasc.bogazici.edu.tr/en/self-study-materials-how-write-paragraph"
+  },
+  {
+    "id": "listening_task_2",
+    "title": "Listening Task 2",
+    "focus": "Note-taking",
+    "time": "8-12 min",
+    "level": "P2",
+    "source_name": "WASC",
+    "source_url": "https://wasc.bogazici.edu.tr/en/self-study-materials-how-write-paragraph"
+  },
+  {
+    "id": "listening_task_3",
+    "title": "Listening Task 3",
+    "focus": "Inference",
+    "time": "8-12 min",
+    "level": "P2-P3",
+    "source_name": "WASC",
+    "source_url": "https://wasc.bogazici.edu.tr/en/self-study-materials-how-write-paragraph"
+  },
+  {
+    "id": "listening_task_4",
+    "title": "Listening Task 4",
+    "focus": "Detail + inference",
+    "time": "8-12 min",
+    "level": "P3",
+    "source_name": "WASC",
+    "source_url": "https://wasc.bogazici.edu.tr/en/self-study-materials-how-write-paragraph"
+  },
+  {
+    "id": "listening_task_5",
+    "title": "Listening Task 5",
+    "focus": "Summary",
+    "time": "8-12 min",
+    "level": "P3-P4",
+    "source_name": "WASC",
+    "source_url": "https://wasc.bogazici.edu.tr/en/self-study-materials-how-write-paragraph"
+  },
+  {
+    "id": "listening_task_6",
+    "title": "Listening Task 6",
+    "focus": "Full practice",
+    "time": "8-12 min",
+    "level": "P4",
+    "source_name": "WASC",
+    "source_url": "https://wasc.bogazici.edu.tr/en/self-study-materials-how-write-paragraph"
+  }
+]

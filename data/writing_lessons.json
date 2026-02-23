@@ -1,0 +1,27 @@
+{
+  "essay_overview": {
+    "title": "Essay Structure (Boğaziçi Prep)",
+    "points": [
+      "Introduction: hook + background + clear thesis",
+      "Body 1: topic sentence + explanation + example",
+      "Body 2: topic sentence + explanation + example",
+      "Conclusion: restate thesis + summary + final comment"
+    ]
+  },
+  "paragraph_unity": {
+    "title": "Unity & Coherence",
+    "points": [
+      "Each paragraph develops one main idea",
+      "Use transitions to connect ideas logically",
+      "Avoid unrelated sentences and repetition"
+    ]
+  },
+  "thesis": {
+    "title": "Thesis Statement",
+    "points": [
+      "State your position clearly",
+      "Limit the scope: not too broad",
+      "Mention main reasons briefly"
+    ]
+  }
+}

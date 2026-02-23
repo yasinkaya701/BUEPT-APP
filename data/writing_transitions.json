@@ -1,0 +1,7 @@
+{
+  "addition": ["Moreover,", "Furthermore,", "In addition,", "Also,"],
+  "contrast": ["However,", "On the other hand,", "In contrast,", "Nevertheless,"],
+  "cause_effect": ["As a result,", "Therefore,", "Consequently,", "Thus,"],
+  "example": ["For example,", "For instance,", "To illustrate,"],
+  "conclusion": ["In conclusion,", "To sum up,", "Overall,"]
+}

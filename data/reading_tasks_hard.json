@@ -1,0 +1,809 @@
+[
+  {
+    "id": "r_p3_h01",
+    "level": "P3",
+    "title": "Urban Heat and Public Health",
+    "time": "25 min",
+    "text": "Cities tend to be warmer than surrounding rural areas, a phenomenon known as the urban heat island effect. Dense construction materials absorb solar radiation during the day and release heat slowly at night, which keeps nighttime temperatures elevated. This pattern can increase energy use, worsen air quality, and raise health risks, especially for older adults and outdoor workers. Researchers have found that neighborhoods with less tree cover and more asphalt often experience the highest heat burden. These findings have led some cities to adopt mitigation strategies such as reflective roofing, expanded green spaces, and redesigned street layouts that improve airflow.\n\nHowever, implementing these measures is not merely a technical challenge. Funding constraints, competing political priorities, and unequal distribution of green infrastructure can limit the effectiveness of heat‑reduction plans. Critics argue that policies sometimes prioritize commercial districts while leaving low‑income areas exposed. Supporters counter that early projects can demonstrate value and attract further investment. The debate therefore centers on how to design interventions that are both scientifically effective and socially equitable.\n\nRecent studies also caution that short‑term temperature reductions may not be sufficient if regional climate trends continue to intensify. Adaptation, they suggest, should combine immediate cooling tactics with long‑term resilience planning, including housing standards and public health outreach.",
+    "questions": [
+      {
+        "q": "What is the primary cause of higher nighttime temperatures in cities?",
+        "options": [
+          "Rural areas reflect more sunlight during the night",
+          "Construction materials store heat and release it slowly",
+          "Urban residents use more air conditioning at night",
+          "Wind patterns reverse after sunset"
+        ],
+        "answer": 1,
+        "explain": "The passage states that dense materials absorb radiation and release heat slowly at night.",
+        "skill": "detail"
+      },
+      {
+        "q": "Which neighborhoods experience the greatest heat burden?",
+        "options": [
+          "Those with higher elevation",
+          "Those with more trees and parks",
+          "Those with less tree cover and more asphalt",
+          "Those located near rivers"
+        ],
+        "answer": 2,
+        "explain": "The passage links higher heat burden to less tree cover and more asphalt.",
+        "skill": "detail"
+      },
+      {
+        "q": "Why do some critics oppose current heat‑reduction policies?",
+        "options": [
+          "They believe heat islands are exaggerated",
+          "They argue policies favor commercial districts",
+          "They think reflective roofing is ineffective",
+          "They prefer rural solutions"
+        ],
+        "answer": 1,
+        "explain": "Critics say policies prioritize commercial districts and neglect low‑income areas.",
+        "skill": "inference"
+      },
+      {
+        "q": "What does the author suggest about short‑term temperature reductions?",
+        "options": [
+          "They are sufficient on their own",
+          "They are ineffective and should be abandoned",
+          "They should be combined with long‑term resilience planning",
+          "They are unnecessary if trees are planted"
+        ],
+        "answer": 2,
+        "explain": "The passage recommends combining immediate tactics with long‑term planning.",
+        "skill": "main_idea"
+      },
+      {
+        "q": "Which strategy is mentioned as a mitigation measure?",
+        "options": [
+          "Building taller residential towers",
+          "Reflective roofing",
+          "Relocating factories",
+          "Closing public transit"
+        ],
+        "answer": 1,
+        "explain": "Reflective roofing is explicitly listed among strategies.",
+        "skill": "detail"
+      },
+      {
+        "q": "The phrase \"the debate therefore centers on\" signals: ",
+        "options": [
+          "a conclusion about temperature trends",
+          "a shift to the key controversy",
+          "a summary of research methods",
+          "a personal opinion"
+        ],
+        "answer": 1,
+        "explain": "It introduces the central controversy in the policy discussion.",
+        "skill": "discourse"
+      },
+      {
+        "q": "What is implied about funding constraints?",
+        "options": [
+          "They make technical solutions impossible",
+          "They can restrict how widely solutions are applied",
+          "They are no longer a problem for cities",
+          "They only affect rural areas"
+        ],
+        "answer": 1,
+        "explain": "The passage says funding can limit effectiveness of heat‑reduction plans.",
+        "skill": "inference"
+      },
+      {
+        "q": "Which option best summarizes the passage?",
+        "options": [
+          "Urban heat is a minor issue solved by planting trees",
+          "Heat islands have technical and social dimensions requiring layered responses",
+          "Cities should avoid green infrastructure due to cost",
+          "Nighttime temperatures are unrelated to construction materials"
+        ],
+        "answer": 1,
+        "explain": "The text emphasizes technical causes and social equity concerns plus resilience.",
+        "skill": "summary"
+      },
+      {
+        "q": "What role do early projects play, according to supporters?",
+        "options": [
+          "They replace long‑term planning",
+          "They demonstrate value and attract investment",
+          "They shift heat burden to other areas",
+          "They end political debate"
+        ],
+        "answer": 1,
+        "explain": "Supporters argue early projects can show value and draw funding.",
+        "skill": "detail"
+      },
+      {
+        "q": "Which statement is true based on the passage?",
+        "options": [
+          "Air quality is unaffected by heat islands",
+          "Older adults face higher health risks in heat islands",
+          "Nighttime temperatures are lower in cities",
+          "Only energy use increases"
+        ],
+        "answer": 1,
+        "explain": "The passage notes higher health risks for older adults and outdoor workers.",
+        "skill": "detail"
+      }
+    ]
+  },
+  {
+    "id": "r_p4_h02",
+    "level": "P4",
+    "title": "Automation and the Nature of Work",
+    "time": "27 min",
+    "text": "Public discussion about automation often swings between two extremes: optimism that technology will eliminate drudgery and pessimism that it will erase jobs. Yet historical evidence suggests a more complex pattern. Mechanization has repeatedly displaced specific tasks while creating new categories of work, frequently in areas that did not previously exist. The key question, therefore, is not whether jobs will vanish, but how quickly workers can transition into roles that demand different skills.\n\nEconomists describe this challenge as a problem of adjustment rather than absolute scarcity. When a machine takes over a routine task, the value of complementary skills, such as analysis, design, or interpersonal communication, can rise. However, these shifts are not automatic. Training programs, wage supports, and credentialing systems determine who can access new opportunities. Without coordinated policy, the benefits of automation may accumulate unevenly, widening inequality.\n\nSome firms have tried to address these risks by redesigning jobs instead of eliminating them. For instance, in logistics, automation can handle repetitive sorting while workers oversee exceptions, manage safety protocols, and optimize workflows. This approach suggests that the future of work is not purely technological but also organizational. It depends on how institutions choose to integrate tools with human expertise.\n\nThe passage implies that the social outcome of automation is contingent rather than predetermined. In other words, policy and organizational choices will shape whether technology expands opportunity or concentrates advantage.",
+    "questions": [
+      {
+        "q": "What does the author identify as the \"key question\" about automation?",
+        "options": [
+          "Whether machines can replace all human labor",
+          "How fast workers can move into new roles",
+          "Why companies prefer automation",
+          "Whether wages will increase"
+        ],
+        "answer": 1,
+        "explain": "The passage states the key question is the speed of transition to new roles.",
+        "skill": "main_idea"
+      },
+      {
+        "q": "What is meant by \"adjustment rather than absolute scarcity\"?",
+        "options": [
+          "Jobs disappear permanently",
+          "The main challenge is adapting to new skill demands",
+          "Automation reduces overall productivity",
+          "There are too few workers"
+        ],
+        "answer": 1,
+        "explain": "The phrase emphasizes adaptation and skill shifts rather than total job loss.",
+        "skill": "inference"
+      },
+      {
+        "q": "Which example illustrates job redesign?",
+        "options": [
+          "Workers replaced entirely by machines",
+          "Automation handling sorting while workers manage exceptions",
+          "Firms ending training programs",
+          "Robots negotiating contracts"
+        ],
+        "answer": 1,
+        "explain": "The logistics example shows humans overseeing exceptions and workflows.",
+        "skill": "detail"
+      },
+      {
+        "q": "According to the passage, what happens to complementary skills when routine tasks are automated?",
+        "options": [
+          "They become less valuable",
+          "They can increase in value",
+          "They disappear",
+          "They are irrelevant"
+        ],
+        "answer": 1,
+        "explain": "The passage says complementary skills can rise in value.",
+        "skill": "detail"
+      },
+      {
+        "q": "What condition influences who benefits from automation?",
+        "options": [
+          "Weather patterns",
+          "Training and credentialing systems",
+          "Tax rates alone",
+          "Machine error rates"
+        ],
+        "answer": 1,
+        "explain": "Access to training and credentials shapes who benefits.",
+        "skill": "detail"
+      },
+      {
+        "q": "The author’s stance on automation can best be described as: ",
+        "options": [
+          "Strictly pessimistic",
+          "Strictly optimistic",
+          "Balanced and conditional",
+          "Uninformed"
+        ],
+        "answer": 2,
+        "explain": "The passage frames outcomes as contingent on policy and institutions.",
+        "skill": "tone"
+      },
+      {
+        "q": "What does \"contingent rather than predetermined\" imply?",
+        "options": [
+          "Outcomes depend on choices",
+          "Outcomes are fixed by technology",
+          "Automation is random",
+          "Policy has no effect"
+        ],
+        "answer": 0,
+        "explain": "The passage says outcomes depend on policy and organizational choices.",
+        "skill": "inference"
+      },
+      {
+        "q": "Which statement is supported by the passage?",
+        "options": [
+          "Automation always increases inequality",
+          "Automation always creates more jobs",
+          "Institutions influence how benefits are distributed",
+          "Workers do not need new skills"
+        ],
+        "answer": 2,
+        "explain": "The passage highlights the role of institutions and policy.",
+        "skill": "detail"
+      },
+      {
+        "q": "What is the function of the logistics example in the passage?",
+        "options": [
+          "To show automation can eliminate all human labor",
+          "To illustrate a hybrid human‑machine workflow",
+          "To argue that logistics is irrelevant",
+          "To provide historical evidence"
+        ],
+        "answer": 1,
+        "explain": "It illustrates how jobs can be redesigned rather than removed.",
+        "skill": "function"
+      },
+      {
+        "q": "Which title best fits the passage?",
+        "options": [
+          "Why Automation Always Harms Workers",
+          "Automation and Adjustment in the Labor Market",
+          "The End of All Jobs",
+          "Machines as the Only Source of Productivity"
+        ],
+        "answer": 1,
+        "explain": "The passage stresses adjustment and institutional choices.",
+        "skill": "summary"
+      }
+    ]
+  },
+  {
+    "id": "r_p3_mtr2_03",
+    "level": "P3",
+    "title": "The Science of Murder (More to Read II)",
+    "time": "25 min",
+    "text": "Painful as it is to think about, murder has become a grim fact of modern society. Solving a murder involves more than the contributions of the police and witnesses. It also involves the detailed work of people in the fields of forensic science and medicine: scientists and doctors who analyze evidence to help solve murders.\n\nToday the evidence of forensic science ranges from footprints to blood samples, from hair analyses to identification of bite marks. The forensic scientists' work begins at the scene of the crime, and their first piece of evidence is a body - a dead body.\n\nBefore the body is removed to the morgue, the location of every item of the scene is diagrammed, and then the search is begun for physical evidence that could identify the killer. The killer could have left saliva on a cigarette butt, fingerprints on a glass, hairs on a hat, or blood from a cut on any surface. Once the possible sources of evidence are identified, investigators must be careful to protect them, because evidence may easily be destroyed.\n\nThe next step is the medical examination, and an examiner will arrive at the scene to confirm the death and check the body for injuries. The body will then be shipped to the morgue, where a forensic autopsy will be performed. This procedure involves close examination of both the outside and inside of the body. The specialist will study the hands and face for signs that a fight took place and will remove any evidence, such as a bullet, that is in the body. He or she will also send samples of body organs to the laboratory to see if the victim took any drugs.\n\nBesides testing the body for evidence, forensic technicians must also analyze all evidence the police have collected from the scene. If the murder involved a shooting, ballistics experts (specialists in firearms and ammunition) are involved in the investigation. Using a microscope, they try to match bullets taken from the scene and identify the gun. They also examine gunpowder around a bullet hole to estimate firing distance and infer details about the weapon.\n\nHair can be matched with increasing accuracy. People's hair can differ in color, texture, thickness, and many other characteristics. Blood-sample testing, called serology, has also become a highly useful tool in criminal investigations.",
+    "questions": [
+      {
+        "q": "What is the main role of forensic scientists in murder cases?",
+        "options": [
+          "To replace police officers at crime scenes",
+          "To analyze evidence that helps solve crimes",
+          "To question witnesses in court",
+          "To decide the punishment for suspects"
+        ],
+        "answer": 1,
+        "explain": "The text states that forensic experts analyze evidence to help solve murders.",
+        "skill": "main_idea"
+      },
+      {
+        "q": "Which evidence type is explicitly mentioned in the passage?",
+        "options": [
+          "Voice recordings",
+          "Email records",
+          "Blood samples",
+          "Satellite images"
+        ],
+        "answer": 2,
+        "explain": "The passage lists blood samples among key forensic evidence types.",
+        "skill": "detail"
+      },
+      {
+        "q": "Why must investigators protect possible evidence carefully?",
+        "options": [
+          "Because evidence can be destroyed easily",
+          "Because evidence is always expensive",
+          "Because only judges can handle evidence",
+          "Because evidence must be moved immediately"
+        ],
+        "answer": 0,
+        "explain": "The text says evidence can disappear if not protected properly.",
+        "skill": "detail"
+      },
+      {
+        "q": "In the passage, what does \"This procedure\" refer to?",
+        "options": [
+          "The transport of suspects",
+          "The forensic autopsy",
+          "The police interview",
+          "The courtroom trial"
+        ],
+        "answer": 1,
+        "explain": "\"This procedure\" refers to the forensic autopsy in the morgue.",
+        "skill": "reference"
+      },
+      {
+        "q": "Why are body organ samples sent to the laboratory?",
+        "options": [
+          "To estimate the victim's age",
+          "To check whether the victim took drugs",
+          "To compare fingerprints",
+          "To identify the victim's family"
+        ],
+        "answer": 1,
+        "explain": "The passage says organ samples are tested for drug intake.",
+        "skill": "detail"
+      },
+      {
+        "q": "What is the function of gunpowder analysis in this text?",
+        "options": [
+          "To identify the victim's blood type",
+          "To estimate shooting distance and weapon clues",
+          "To prove who called the police",
+          "To identify the witness list"
+        ],
+        "answer": 1,
+        "explain": "Experts examine gunpowder to infer distance and weapon details.",
+        "skill": "detail"
+      },
+      {
+        "q": "Which statement is true according to the passage?",
+        "options": [
+          "Hair analysis is no longer used",
+          "Serology is blood-sample testing",
+          "Autopsies only examine the outside of the body",
+          "Forensic science started with DNA tests"
+        ],
+        "answer": 1,
+        "explain": "The passage explicitly defines serology as blood testing.",
+        "skill": "detail"
+      },
+      {
+        "q": "What overall message does the passage emphasize?",
+        "options": [
+          "Witness memory is enough to solve every case",
+          "Forensic work is central to modern murder investigations",
+          "Only ballistics experts matter in murder cases",
+          "Medical examiners never work at crime scenes"
+        ],
+        "answer": 1,
+        "explain": "The text repeatedly highlights the critical role of forensic science.",
+        "skill": "summary"
+      }
+    ]
+  },
+  {
+    "id": "r_p4_mtr2_04",
+    "level": "P4",
+    "title": "DNA Fingerprinting (More to Read II)",
+    "time": "27 min",
+    "text": "The characteristics of living organisms, including humans, are essentially determined by information contained within DNA inherited from parents. Organisms with different characteristics have different DNA sequences. DNA fingerprinting is a rapid way to compare DNA patterns between organisms.\n\nAlthough DNA fingerprinting is highly powerful, nothing in science is one hundred percent guaranteed. In criminal investigation, a DNA match indicates a probability rather than absolute certainty. That probability can be extremely high, but it is still expressed statistically.\n\nThe probability of a DNA fingerprint belonging to a specific person must be high, especially in criminal cases, because the result may support guilt or innocence. This concern has led some legal systems to re-open past convictions when DNA evidence was later reanalyzed.\n\nA DNA fingerprint differs from a conventional fingerprint in important ways. It is present in every cell, tissue, and organ of the body and cannot be altered by known treatments. It is now possible to test tiny biological samples, including hair or degraded matter, and obtain a DNA profile.\n\nDNA databases have expanded in many places, and this has made matching faster. Police can compare crime-scene evidence with existing profiles, even when no local suspect has been identified yet. At the same time, some people argue that wider DNA collection may raise privacy concerns.",
+    "questions": [
+      {
+        "q": "According to the passage, what primarily determines the characteristics of living organisms?",
+        "options": [
+          "Weather conditions",
+          "Inherited DNA information",
+          "School education",
+          "Diet alone"
+        ],
+        "answer": 1,
+        "explain": "The passage says inherited DNA is the essential determinant.",
+        "skill": "detail"
+      },
+      {
+        "q": "How does the text describe certainty in DNA fingerprinting?",
+        "options": [
+          "Always absolute",
+          "Mostly unreliable",
+          "Probabilistic, not absolute",
+          "Unrelated to statistics"
+        ],
+        "answer": 2,
+        "explain": "The passage clearly states that DNA matches are expressed as probabilities.",
+        "skill": "main_idea"
+      },
+      {
+        "q": "Why is high match probability especially important in criminal cases?",
+        "options": [
+          "To speed up media reporting",
+          "Because outcomes affect guilt or innocence",
+          "To reduce court paperwork",
+          "Because all crimes are identical"
+        ],
+        "answer": 1,
+        "explain": "The text links high probability to fair decisions on guilt and innocence.",
+        "skill": "inference"
+      },
+      {
+        "q": "Which statement about DNA fingerprints is correct?",
+        "options": [
+          "They appear only on fingertips",
+          "They can be changed easily by surgery",
+          "They are found across cells, tissues, and organs",
+          "They disappear after death immediately"
+        ],
+        "answer": 2,
+        "explain": "The passage says DNA profiles are present in all body cells/tissues/organs.",
+        "skill": "detail"
+      },
+      {
+        "q": "What sample type can now be used for DNA profiling?",
+        "options": [
+          "Only fresh blood",
+          "Only bone fragments",
+          "Tiny samples such as hair, including degraded matter",
+          "Only fingerprints on glass"
+        ],
+        "answer": 2,
+        "explain": "The text states that tiny and degraded biological samples can be tested.",
+        "skill": "detail"
+      },
+      {
+        "q": "What is one practical effect of expanded DNA databases?",
+        "options": [
+          "They eliminate all false positives",
+          "They make matching evidence faster",
+          "They remove the need for courts",
+          "They make police interviews unnecessary"
+        ],
+        "answer": 1,
+        "explain": "The passage says larger databases speed up evidence matching.",
+        "skill": "detail"
+      },
+      {
+        "q": "Which concern is presented as a counterpoint to broader DNA collection?",
+        "options": [
+          "Higher electricity costs",
+          "Privacy concerns",
+          "Lower literacy rates",
+          "Fewer laboratory workers"
+        ],
+        "answer": 1,
+        "explain": "The final paragraph notes objections about privacy.",
+        "skill": "detail"
+      },
+      {
+        "q": "Which title best summarizes this passage?",
+        "options": [
+          "DNA Fingerprinting: Power, Limits, and Legal Impact",
+          "How to Build a Microscope",
+          "Why Fingerprints Are Useless",
+          "The History of Telephone Networks"
+        ],
+        "answer": 0,
+        "explain": "The passage covers DNA use, probabilistic limits, legal use, and privacy.",
+        "skill": "summary"
+      }
+    ]
+  },
+  {
+    "id": "r_p3_mtr3_05",
+    "level": "P3",
+    "title": "Academic Integrity in the Age of AI (More to Read III)",
+    "time": "25 min",
+    "text": "Universities have long considered academic integrity a core value. Traditionally, this meant not copying from books, articles, or classmates without proper citation. In recent years, however, new tools have complicated this principle. AI writing assistants can produce fluent paragraphs in seconds, and students may submit this output as if it were their own work.\n\nSome instructors argue that these tools should be banned entirely, because they make plagiarism easier and blur authorship. Others suggest a more nuanced approach: permit AI support for brainstorming and language polishing, but require students to disclose when and how the tool was used. This position treats AI as a calculator for language rather than a replacement for thinking.\n\nResearch on student behavior indicates that strict bans are difficult to enforce consistently. Detection software can flag suspicious passages, but false positives occur, and polished student writing may be misclassified. Over-reliance on automated detection can also damage trust between instructors and students.\n\nAs a result, many departments are shifting from purely punitive policies toward assessment design. They use in-class writing, oral defenses, draft portfolios, and reflective commentaries that ask students to explain their choices. These methods make it harder to outsource thinking and easier to evaluate actual understanding.\n\nAt the same time, institutions recognize equity concerns. Not all students have equal access to paid AI tools or advanced digital literacy. If courses quietly assume such access, assessment may become less fair. Transparent rules and support workshops can reduce this gap.\n\nThe most effective policies appear to combine clear boundaries, practical guidance, and revised assessment practices. In this model, integrity is not just about catching misconduct; it is about building habits of responsible authorship.",
+    "questions": [
+      {
+        "q": "What central challenge does the passage describe?",
+        "options": [
+          "Libraries are closing too early",
+          "AI tools complicate traditional ideas of academic integrity",
+          "Students no longer write essays",
+          "Citation rules have been removed"
+        ],
+        "answer": 1,
+        "explain": "The passage focuses on how AI changes authorship and integrity.",
+        "skill": "main_idea"
+      },
+      {
+        "q": "What is the 'nuanced approach' mentioned in paragraph 2?",
+        "options": [
+          "Ban all AI tools permanently",
+          "Allow AI for limited support with disclosure",
+          "Grade only multiple-choice exams",
+          "Ignore AI use completely"
+        ],
+        "answer": 1,
+        "explain": "The text proposes controlled use plus transparency.",
+        "skill": "detail"
+      },
+      {
+        "q": "Why is detection software described as imperfect?",
+        "options": [
+          "It only works in science classes",
+          "It cannot read citations",
+          "It can produce false positives and misclassify writing",
+          "It is always too expensive to use"
+        ],
+        "answer": 2,
+        "explain": "The passage explicitly mentions false positives and misclassification.",
+        "skill": "detail"
+      },
+      {
+        "q": "What is implied about punitive-only policies?",
+        "options": [
+          "They are sufficient in all contexts",
+          "They are being replaced by assessment redesign in many departments",
+          "They improve trust automatically",
+          "They eliminate all misconduct"
+        ],
+        "answer": 1,
+        "explain": "The passage states that many departments now redesign assessments.",
+        "skill": "inference"
+      },
+      {
+        "q": "Which practice is listed as part of redesigned assessment?",
+        "options": [
+          "Shorter library hours",
+          "Oral defenses and draft portfolios",
+          "Removing writing tasks",
+          "Using only final exams"
+        ],
+        "answer": 1,
+        "explain": "Oral defenses and draft portfolios are named directly.",
+        "skill": "detail"
+      },
+      {
+        "q": "What equity concern is raised?",
+        "options": [
+          "Some students lack equal access to paid AI tools and digital skills",
+          "Students in cities write faster",
+          "Teachers cannot access journals",
+          "Only engineering students use AI"
+        ],
+        "answer": 0,
+        "explain": "The passage notes unequal access and digital literacy differences.",
+        "skill": "detail"
+      },
+      {
+        "q": "How does the final paragraph define effective policy?",
+        "options": [
+          "Pure surveillance and punishment",
+          "No rules, only trust",
+          "Clear boundaries, guidance, and assessment redesign",
+          "Full AI automation of grading"
+        ],
+        "answer": 2,
+        "explain": "This exact combination is stated in the conclusion.",
+        "skill": "summary"
+      },
+      {
+        "q": "Which statement would the author most likely support?",
+        "options": [
+          "Integrity policies should focus only on catching cheaters",
+          "Responsible authorship should be taught through course design and transparency",
+          "AI use should remain undocumented",
+          "Detection tools should replace teacher judgment"
+        ],
+        "answer": 1,
+        "explain": "The passage emphasizes habit-building and responsible authorship.",
+        "skill": "inference"
+      }
+    ]
+  },
+  {
+    "id": "r_p4_mtr3_06",
+    "level": "P4",
+    "title": "Attention Economy and Deep Work (More to Read III)",
+    "time": "28 min",
+    "text": "Digital platforms are designed to capture and retain attention. Notifications, recommendation feeds, and infinite scrolling are not accidental features; they are products of an economic model that monetizes user engagement. In this model, sustained focus is not profitable unless it occurs within the platform itself.\n\nFor students, this creates a structural conflict. Academic tasks often require deep work: uninterrupted periods of concentration in which complex ideas are processed, evaluated, and connected. Yet students now study in an environment engineered for constant interruption. Even short disruptions can leave cognitive residue, reducing efficiency after the interruption ends.\n\nSome researchers distinguish between time spent and quality of attention. Two students may both study for three hours, but one may alternate every few minutes between notes and social media, while the other works in focused blocks. Learning outcomes differ because fragmented attention reduces the depth of encoding and retrieval pathways.\n\nAttempts to solve this problem often focus on willpower. However, behavior studies suggest that environment design is more reliable than motivation alone. Students who disable notifications, use site blockers, and pre-commit to specific work intervals report fewer context switches and higher task completion. In other words, systems outperform intentions.\n\nThis does not mean all digital tools are harmful. Some tools support deep work by reducing administrative burden, organizing references, or automating routine tasks. The key distinction is whether a tool serves a defined objective or continuously competes for attention. Productive technology is instrument-like; extractive technology is feed-like.\n\nEducational institutions can respond by teaching attention management explicitly. Workshops on task batching, recovery breaks, and deliberate practice can be as important as workshops on citation style. If attention is a scarce cognitive resource, then managing it is not a personal preference but an academic skill.\n\nThe broader implication is cultural. A society that normalizes continuous partial attention may produce faster reactions but weaker reasoning. Deep work is slower, but it is often where durable understanding is formed.",
+    "questions": [
+      {
+        "q": "What is the passage's main claim about digital platforms?",
+        "options": [
+          "They are neutral tools with no design bias",
+          "They are designed to maximize attention capture",
+          "They are mainly built for education",
+          "They reduce interruptions by default"
+        ],
+        "answer": 1,
+        "explain": "The first paragraph states this directly.",
+        "skill": "main_idea"
+      },
+      {
+        "q": "In the passage, 'deep work' refers to:",
+        "options": [
+          "Group discussion in short intervals",
+          "Long periods of uninterrupted concentration",
+          "Fast reactions to notifications",
+          "Administrative organization tasks"
+        ],
+        "answer": 1,
+        "explain": "Deep work is defined as uninterrupted concentration on complex tasks.",
+        "skill": "detail"
+      },
+      {
+        "q": "What is 'cognitive residue' in this context?",
+        "options": [
+          "Physical tiredness after exercise",
+          "Memory loss from long-term stress",
+          "Reduced efficiency after interruptions",
+          "A software bug in study apps"
+        ],
+        "answer": 2,
+        "explain": "The passage links interruptions to lingering attention costs.",
+        "skill": "vocabulary"
+      },
+      {
+        "q": "Why can equal study time lead to different outcomes?",
+        "options": [
+          "Because time never predicts learning",
+          "Because fragmented attention lowers depth of learning",
+          "Because social media improves recall",
+          "Because notes are not useful"
+        ],
+        "answer": 1,
+        "explain": "The text contrasts time quantity with attention quality.",
+        "skill": "inference"
+      },
+      {
+        "q": "What solution does the passage consider more reliable than willpower alone?",
+        "options": [
+          "Studying only at night",
+          "Environment design (blockers, notification control, pre-commitment)",
+          "Reading faster",
+          "Using more social apps"
+        ],
+        "answer": 1,
+        "explain": "Behavior studies in paragraph 4 support system-based design.",
+        "skill": "detail"
+      },
+      {
+        "q": "How does the author distinguish productive vs extractive technology?",
+        "options": [
+          "Productive tools are always free",
+          "Extractive tools are used only by teenagers",
+          "Productive tools serve goals; extractive tools compete for attention",
+          "There is no meaningful distinction"
+        ],
+        "answer": 2,
+        "explain": "Paragraph 5 makes this distinction explicitly.",
+        "skill": "detail"
+      },
+      {
+        "q": "What role should institutions play, according to the passage?",
+        "options": [
+          "Ignore attention management",
+          "Teach attention management as an academic skill",
+          "Ban all digital tools",
+          "Replace teachers with software"
+        ],
+        "answer": 1,
+        "explain": "The passage calls for explicit training in attention management.",
+        "skill": "detail"
+      },
+      {
+        "q": "Which statement best reflects the final implication?",
+        "options": [
+          "Faster reactions always produce better reasoning",
+          "Continuous partial attention may weaken reasoning quality",
+          "Deep work is obsolete",
+          "Culture has no effect on cognition"
+        ],
+        "answer": 1,
+        "explain": "The conclusion contrasts quick reaction culture with durable reasoning.",
+        "skill": "summary"
+      }
+    ]
+  },
+  {
+    "id": "r_p5_h07",
+    "level": "P5",
+    "title": "Algorithmic Proctoring and Assessment Validity",
+    "time": "28 min",
+    "text": "Universities that expanded online assessment during emergency periods often adopted algorithmic proctoring systems to deter cheating. These platforms typically combine webcam monitoring, keystroke logs, and identity checks, then assign a risk score for each exam session. Administrators argue that such tools preserve academic standards in large classes where manual review is impractical. They also note that proctoring logs can document irregular events, which appears to increase procedural consistency.\n\nYet measurement specialists caution that consistency should not be confused with validity. A system may flag movement, eye direction, or background noise with technical precision while still misclassifying honest behavior as suspicious. Students with unstable internet, shared living spaces, or disability related accommodations may trigger alerts more frequently for reasons unrelated to misconduct. If these false positives influence grades, the test could end up measuring students' circumstances as much as their knowledge.\n\nRecent policy discussions therefore focus on proportional use. Instead of relying on automated flags as final evidence, institutions are experimenting with layered safeguards: shorter open-resource exams, random oral follow-ups, and transparent appeal channels. In this model, technology supports human judgment rather than replacing it. The central policy question is not whether integrity matters, but how to protect integrity without undermining fairness and construct validity.",
+    "questions": [
+      {
+        "q": "Why do administrators support algorithmic proctoring in large classes?",
+        "options": [
+          "It eliminates the need for exams",
+          "It makes manual review unnecessary in many cases",
+          "It guarantees zero cheating",
+          "It lowers tuition costs"
+        ],
+        "answer": 1,
+        "explain": "The passage says administrators value proctoring because manual review is impractical at scale.",
+        "skill": "detail"
+      },
+      {
+        "q": "What distinction do measurement specialists emphasize?",
+        "options": [
+          "Consistency is more important than fairness",
+          "Validity should be separated from consistency",
+          "Risk scores should replace grades",
+          "Online exams are always invalid"
+        ],
+        "answer": 1,
+        "explain": "The text states that consistent flagging does not automatically mean valid measurement.",
+        "skill": "main_idea"
+      },
+      {
+        "q": "Which factor may increase false positive alerts?",
+        "options": [
+          "Using shorter exams",
+          "Having a private test center",
+          "Shared living spaces and unstable internet",
+          "Submitting answers early"
+        ],
+        "answer": 2,
+        "explain": "The passage explicitly mentions shared spaces and unstable internet as non-misconduct triggers.",
+        "skill": "detail"
+      },
+      {
+        "q": "What is implied by the phrase 'measuring students' circumstances as much as their knowledge'?",
+        "options": [
+          "Exams should ignore technical issues",
+          "Scores may reflect environment-related disadvantages",
+          "Knowledge cannot be assessed online",
+          "Only oral exams are fair"
+        ],
+        "answer": 1,
+        "explain": "The author implies external conditions can distort what the assessment captures.",
+        "skill": "inference"
+      },
+      {
+        "q": "Which practice belongs to the 'layered safeguards' approach?",
+        "options": [
+          "Treating automated flags as final proof",
+          "Removing all appeal options",
+          "Random oral follow-ups",
+          "Banning open-resource exams"
+        ],
+        "answer": 2,
+        "explain": "Random oral follow-ups are listed as one of the layered safeguards.",
+        "skill": "detail"
+      },
+      {
+        "q": "What is the function of the final paragraph?",
+        "options": [
+          "It introduces historical background",
+          "It proposes a balanced policy direction",
+          "It argues for abolishing online learning",
+          "It presents statistical evidence"
+        ],
+        "answer": 1,
+        "explain": "The final paragraph shifts to policy solutions and a proportional model.",
+        "skill": "function"
+      },
+      {
+        "q": "In the proposed model, technology should primarily:",
+        "options": [
+          "replace instructors' decisions",
+          "be ignored in grading",
+          "support human judgment",
+          "focus only on identity checks"
+        ],
+        "answer": 2,
+        "explain": "The passage explicitly says technology should support, not replace, human judgment.",
+        "skill": "detail"
+      },
+      {
+        "q": "Which statement best reflects the author's tone?",
+        "options": [
+          "Uncritical enthusiasm",
+          "Absolute rejection",
+          "Analytical and cautious",
+          "Humorous and informal"
+        ],
+        "answer": 2,
+        "explain": "The passage weighs benefits and risks, then recommends proportionate use.",
+        "skill": "tone"
+      },
+      {
+        "q": "What is identified as the central policy question?",
+        "options": [
+          "Whether cheating exists",
+          "How to protect integrity without sacrificing fairness and validity",
+          "How to maximize surveillance intensity",
+          "Whether to remove all online exams"
+        ],
+        "answer": 1,
+        "explain": "The final sentence frames integrity and fairness-validity as joint goals.",
+        "skill": "summary"
+      },
+      {
+        "q": "Which claim is supported by the passage?",
+        "options": [
+          "Automated systems always classify behavior correctly",
+          "Procedural consistency alone proves exam quality",
+          "False positives can have equity consequences",
+          "Appeal channels weaken standards"
+        ],
+        "answer": 2,
+        "explain": "The passage argues false positives may affect some students unfairly.",
+        "skill": "inference"
+      }
+    ]
+  }
+]

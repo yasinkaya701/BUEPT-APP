@@ -1,0 +1,62 @@
+[
+  {
+    "id": "harvard_strategies",
+    "title": "Harvard Writing Center \u2013 Strategies for Essay Writing",
+    "note": "Comprehensive guide (thesis, intro, body, transitions, conclusions)",
+    "source_url": "https://writingcenter.fas.harvard.edu/pages/strategies-essay-writing"
+  },
+  {
+    "id": "harvard_organizing",
+    "title": "Harvard Writing Center \u2013 Tips for Organizing Your Essay",
+    "note": "Practical structure and paragraph planning",
+    "source_url": "https://writingcenter.fas.harvard.edu/tips-organizing-your-essay"
+  },
+  {
+    "id": "harvard_pdf",
+    "title": "Harvard Writing Center \u2013 Strategies PDF",
+    "note": "Downloadable full handbook",
+    "source_url": "https://writingcenter.fas.harvard.edu/sites/g/files/omnuum451/files/2024-03/Strategies%20for%20Essay%20Writing--Complete_0.pdf"
+  },
+  {
+    "id": "purdue_thesis_pdf",
+    "title": "Purdue OWL \u2013 Thesis Statement (PDF)",
+    "note": "Short guide to thesis statements",
+    "source_url": "https://owl.purdue.edu/owl/subject_specific_writing/writing_in_literature/writing_about_world_literature/documents/20160502112940_1009_thesis_statement.pdf"
+  },
+  {
+    "id": "purdue_general_writing",
+    "title": "Purdue OWL \u2013 General Writing Resources",
+    "note": "Writing process, style, and general FAQs",
+    "source_url": "https://owl.purdue.edu/owl/general_writing/index.html"
+  },
+  {
+    "id": "purdue_thesis_strong",
+    "title": "Purdue OWL \u2013 Developing Strong Thesis Statements",
+    "note": "Thesis guidance for argumentative writing",
+    "source_url": "https://owl.purdue.edu/owl/general_writing/academic_writing/establishing_arguments/index.html"
+  },
+  {
+    "id": "purdue_thesis_tips",
+    "title": "Purdue OWL \u2013 Thesis Statement Tips",
+    "note": "Practical tips and examples",
+    "source_url": "https://owl.purdue.edu/owl/general_writing/the_writing_process/thesis_statement_tips.html"
+  },
+  {
+    "id": "bc_writing_skills",
+    "title": "British Council Writing Skills",
+    "note": "Model texts + level-based practice",
+    "source_url": "https://learnenglish.britishcouncil.org/skills/writing"
+  },
+  {
+    "id": "write_improve",
+    "title": "Write & Improve (Cambridge)",
+    "note": "Free writing practice with instant feedback",
+    "source_url": "https://writeandimprove.com/"
+  },
+  {
+    "id": "write_improve_info",
+    "title": "Write & Improve \u2013 Free Practice Overview",
+    "note": "Explains tasks and CEFR scoring",
+    "source_url": "https://writeandimprove.com/free"
+  }
+]

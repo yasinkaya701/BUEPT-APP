@@ -1,0 +1,162 @@
+[
+  {
+    "id": "g_p3_h01",
+    "level": "P3",
+    "title": "Complex Clauses and Concision",
+    "time": "8 min",
+    "difficulty": "hard",
+    "explain": "Focus on clause reduction, relative clauses, and precise connectors. Prefer concise structures without losing meaning.",
+    "questions": [
+      {
+        "q": "The policy, ___ last year, reduced energy use by 12 percent.",
+        "options": ["introducing", "introduced", "was introduced", "introduce"],
+        "answer": 1,
+        "explain": "Use a reduced relative clause: 'introduced last year'.",
+        "skill": "clause_reduction"
+      },
+      {
+        "q": "The report argues that the findings are robust; ___, it calls for further replication.",
+        "options": ["therefore", "however", "moreover", "consequently"],
+        "answer": 1,
+        "explain": "The second clause contrasts with the first, so 'however' fits.",
+        "skill": "cohesion"
+      },
+      {
+        "q": "The lab built a model ___ explains the variance across regions.",
+        "options": ["who", "whom", "that", "where"],
+        "answer": 2,
+        "explain": "A restrictive relative clause for a thing uses 'that' (or 'which').",
+        "skill": "relative_clauses"
+      },
+      {
+        "q": "The committee rejected the proposal, ___ its expected benefits.",
+        "options": ["despite", "although", "because", "since"],
+        "answer": 0,
+        "explain": "Use 'despite' + noun phrase. 'Although' would need a clause.",
+        "skill": "concessive_structures"
+      },
+      {
+        "q": "The students submitted their drafts, many of ___ were incomplete.",
+        "options": ["who", "whom", "which", "that"],
+        "answer": 2,
+        "explain": "Non‑human antecedent requires 'which'.",
+        "skill": "relative_clauses"
+      },
+      {
+        "q": "The survey was expanded ___ more reliable data could be obtained.",
+        "options": ["so that", "in spite of", "unless", "rather than"],
+        "answer": 0,
+        "explain": "Purpose is best expressed with 'so that' + clause.",
+        "skill": "purpose"
+      },
+      {
+        "q": "The article is compelling; ___, some claims lack evidence.",
+        "options": ["nevertheless", "for example", "in contrast", "as a result"],
+        "answer": 0,
+        "explain": "Contrast with concession: 'nevertheless'.",
+        "skill": "discourse_markers"
+      },
+      {
+        "q": "The team used a larger sample, ___ the original study relied on only 40 participants.",
+        "options": ["whereas", "therefore", "so that", "because of"],
+        "answer": 0,
+        "explain": "Use 'whereas' to contrast two clauses.",
+        "skill": "contrast"
+      },
+      {
+        "q": "The new procedure is cheaper, not ___ more accurate.",
+        "options": ["just", "rather", "only", "even"],
+        "answer": 3,
+        "explain": "The fixed pattern is 'not only ... but also' or 'not even'. Here: 'not even more accurate'.",
+        "skill": "focus_adverbs"
+      },
+      {
+        "q": "Participants were excluded ___ they had not completed the consent form.",
+        "options": ["so that", "because", "although", "unless"],
+        "answer": 1,
+        "explain": "A cause is needed: 'because'.",
+        "skill": "cause_effect"
+      }
+    ]
+  },
+  {
+    "id": "g_p4_h02",
+    "level": "P4",
+    "title": "Inversion and Advanced Conditionals",
+    "time": "9 min",
+    "difficulty": "hard",
+    "explain": "Practice inversion, mixed conditionals, and formal academic structures.",
+    "questions": [
+      {
+        "q": "___ the funding been approved, the project would have started in May.",
+        "options": ["Had", "If", "Were", "Should"],
+        "answer": 0,
+        "explain": "Inversion for past unreal condition: 'Had the funding been approved'.",
+        "skill": "inversion"
+      },
+      {
+        "q": "If the data ___ correctly, the model would not have failed.",
+        "options": ["were processed", "had been processed", "are processed", "process"],
+        "answer": 1,
+        "explain": "Past unreal condition requires past perfect: 'had been processed'.",
+        "skill": "conditionals"
+      },
+      {
+        "q": "Were the results to replicate, the theory ___ stronger support.",
+        "options": ["will receive", "receives", "would receive", "has received"],
+        "answer": 2,
+        "explain": "Inverted conditional uses 'would' for the result.",
+        "skill": "inversion"
+      },
+      {
+        "q": "Not only ___ the response time improve, but errors also declined.",
+        "options": ["did", "does", "has", "had"],
+        "answer": 0,
+        "explain": "After 'not only' in past tense, use 'did' + base verb.",
+        "skill": "inversion"
+      },
+      {
+        "q": "Had the team known about the delay, they ___ the schedule earlier.",
+        "options": ["adjust", "would adjust", "would have adjusted", "adjusted"],
+        "answer": 2,
+        "explain": "Past unreal condition result: 'would have adjusted'.",
+        "skill": "conditionals"
+      },
+      {
+        "q": "If it were not for the grant, the study ___ possible.",
+        "options": ["is not", "was not", "would not be", "would not have been"],
+        "answer": 2,
+        "explain": "Present unreal condition: 'would not be'.",
+        "skill": "conditionals"
+      },
+      {
+        "q": "Should the experiment fail again, the team ___ the method.",
+        "options": ["revises", "will revise", "would revise", "revised"],
+        "answer": 1,
+        "explain": "Inverted first conditional: 'Should ..., will ...'.",
+        "skill": "inversion"
+      },
+      {
+        "q": "Only after the revision ___ the article accepted.",
+        "options": ["was", "were", "is", "has"],
+        "answer": 0,
+        "explain": "Inversion after 'Only after': 'Only after ... was the article accepted'.",
+        "skill": "inversion"
+      },
+      {
+        "q": "If she ___ more time, she would have run a second analysis.",
+        "options": ["has", "had", "would have", "were"],
+        "answer": 1,
+        "explain": "Mixed conditional: past time reference with 'had'.",
+        "skill": "mixed_conditionals"
+      },
+      {
+        "q": "Seldom ___ such a comprehensive dataset been published.",
+        "options": ["has", "have", "had", "do"],
+        "answer": 0,
+        "explain": "Inversion after a negative adverb: 'Seldom has ...'.",
+        "skill": "inversion"
+      }
+    ]
+  }
+]

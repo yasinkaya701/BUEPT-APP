@@ -1,0 +1,20 @@
+[
+  {
+    "id": "reading_wasc_resources",
+    "title": "BUEPT Reading Extra Practice Resources",
+    "focus": "Updated reading resources list",
+    "time": "15-25 min",
+    "level": "P1-P4",
+    "source_name": "WASC",
+    "source_url": "https://wasc.bogazici.edu.tr/en/events/buept-reading-extra-practice-resources"
+  },
+  {
+    "id": "reading_online_resources",
+    "title": "Online Reading Resources (BUEPT)",
+    "focus": "External reading materials list",
+    "time": "10-30 min",
+    "level": "P1-P4",
+    "source_name": "BUOWL",
+    "source_url": "https://buowl.bogazici.edu.tr/online-resources"
+  }
+]

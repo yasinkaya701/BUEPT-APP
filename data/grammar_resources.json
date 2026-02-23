@@ -1,0 +1,38 @@
+[
+  {
+    "id": "bc_grammar",
+    "title": "LearnEnglish Grammar (British Council)",
+    "note": "Detailed explanations + exercises by level",
+    "source_url": "https://learnenglish.britishcouncil.org/grammar"
+  },
+  {
+    "id": "bc_reference",
+    "title": "English Grammar Reference (British Council)",
+    "note": "Clear reference topics + examples",
+    "source_url": "https://learnenglish.britishcouncil.org/grammar/english-grammar-reference"
+  },
+  {
+    "id": "bc_grammar_guide",
+    "title": "How to Use the LearnEnglish Grammar Section",
+    "note": "Guide to using grammar lessons and reference effectively",
+    "source_url": "https://learnenglish.britishcouncil.org/english-levels/improve-your-english-level/how-use-learnenglish-grammar-section"
+  },
+  {
+    "id": "bc_grammar_app",
+    "title": "LearnEnglish Grammar App",
+    "note": "Official app with level packs and tests",
+    "source_url": "https://learnenglish.britishcouncil.org/apps/learnenglish-grammar"
+  },
+  {
+    "id": "grammaring",
+    "title": "Grammaring Exercises",
+    "note": "Free exercises by topic (gapfill, MCQ, matching)",
+    "source_url": "https://www.grammaring.com/english-grammar-exercises"
+  },
+  {
+    "id": "grammar_exercises",
+    "title": "GrammarExercises.org",
+    "note": "Large collection of free grammar practice",
+    "source_url": "https://grammarexercises.org/"
+  }
+]

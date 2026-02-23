@@ -1,0 +1,392 @@
+[
+  {
+    "id": "l_p3_h01",
+    "level": "P3",
+    "title": "Campus Policy Brief: Attendance and Learning",
+    "time": "20 min",
+    "type": "selective",
+    "transcript": "Good afternoon, everyone. Today I will summarize the committee's policy brief on attendance and learning outcomes. Our data show that attendance correlates with performance, but the relationship is not perfectly linear. Students who attend at least eighty percent of sessions tend to earn higher grades, yet past that threshold the gains level off.\n\nThe committee recommends three changes. First, courses should publish attendance expectations clearly in the syllabus, including how absences affect participation grades. Second, instructors should provide short weekly checkpoints, such as quizzes or reflections, to keep students engaged. Third, departments should expand support for students with documented scheduling conflicts, especially those with part‑time jobs or caregiving responsibilities.\n\nWe also reviewed concerns about fairness. Some faculty worry that strict attendance rules disadvantage students who face health or transportation challenges. The brief addresses this by encouraging flexible make‑up options and by requiring instructors to explain the learning rationale behind any penalties.\n\nTo be clear, the committee is not proposing mandatory attendance for every class. Instead, it emphasizes transparency, consistent expectations, and early intervention when students disengage. We believe these measures are practical and can be implemented without major budget increases.",
+    "questions": [
+      {
+        "q": "What attendance level is associated with higher grades, according to the brief?",
+        "options": [
+          "At least 60 percent",
+          "At least 70 percent",
+          "At least 80 percent",
+          "At least 90 percent"
+        ],
+        "answer": 2,
+        "explain": "The speaker says students who attend at least eighty percent perform better.",
+        "skill": "detail"
+      },
+      {
+        "q": "Which recommendation is NOT mentioned?",
+        "options": [
+          "Clear expectations in the syllabus",
+          "Weekly checkpoints",
+          "Mandatory attendance for all classes",
+          "Support for scheduling conflicts"
+        ],
+        "answer": 2,
+        "explain": "The committee does not propose mandatory attendance for every class.",
+        "skill": "detail"
+      },
+      {
+        "q": "What is the purpose of weekly checkpoints?",
+        "options": [
+          "To replace final exams",
+          "To track engagement regularly",
+          "To reduce workload for instructors",
+          "To eliminate participation grades"
+        ],
+        "answer": 1,
+        "explain": "Checkpoints are suggested to keep students engaged week by week.",
+        "skill": "function"
+      },
+      {
+        "q": "Which group is highlighted as needing support for scheduling conflicts?",
+        "options": [
+          "International students",
+          "Students with part‑time jobs or caregiving duties",
+          "Students in online courses",
+          "Graduate teaching assistants"
+        ],
+        "answer": 1,
+        "explain": "The brief mentions part‑time jobs and caregiving responsibilities.",
+        "skill": "detail"
+      },
+      {
+        "q": "What concern do some faculty raise?",
+        "options": [
+          "Attendance rules may be unfair to some students",
+          "Quizzes are too difficult",
+          "Participation grades are illegal",
+          "Budget cuts will increase"
+        ],
+        "answer": 0,
+        "explain": "Some faculty worry strict rules disadvantage students with challenges.",
+        "skill": "detail"
+      },
+      {
+        "q": "How does the brief respond to fairness concerns?",
+        "options": [
+          "By removing attendance expectations",
+          "By encouraging flexible make‑ups and clear rationale",
+          "By lowering academic standards",
+          "By increasing tuition"
+        ],
+        "answer": 1,
+        "explain": "It suggests flexible make‑ups and explains the learning rationale.",
+        "skill": "inference"
+      },
+      {
+        "q": "What is the committee’s overall stance on attendance?",
+        "options": [
+          "Strict enforcement in all courses",
+          "No attendance expectations at all",
+          "Transparency and early intervention without universal mandates",
+          "Attendance should replace grading"
+        ],
+        "answer": 2,
+        "explain": "The brief emphasizes transparency and early intervention, not universal mandates.",
+        "skill": "main_idea"
+      },
+      {
+        "q": "What does the speaker say about budget impact?",
+        "options": [
+          "Major increases are required",
+          "Measures can be implemented without major increases",
+          "The budget is irrelevant",
+          "Funding will be cut"
+        ],
+        "answer": 1,
+        "explain": "The final sentence notes no major budget increases are needed.",
+        "skill": "detail"
+      },
+      {
+        "q": "Which point best captures the relationship between attendance and performance?",
+        "options": [
+          "Performance rises steadily with every additional class",
+          "Performance improves up to a threshold, then levels off",
+          "Performance is unrelated to attendance",
+          "Performance drops after sixty percent attendance"
+        ],
+        "answer": 1,
+        "explain": "The speaker notes gains level off beyond a threshold.",
+        "skill": "inference"
+      },
+      {
+        "q": "What is the main goal of the brief?",
+        "options": [
+          "To eliminate participation grades",
+          "To create a standardized, transparent attendance approach",
+          "To make all courses optional",
+          "To remove student support services"
+        ],
+        "answer": 1,
+        "explain": "The brief focuses on clarity, consistency, and support.",
+        "skill": "summary"
+      }
+    ]
+  },
+  {
+    "id": "l_p4_h02",
+    "level": "P4",
+    "title": "Research Talk: Memory, Sleep, and Learning",
+    "time": "22 min",
+    "type": "careful",
+    "transcript": "Thanks for coming. I will describe a study on memory consolidation during sleep. We asked participants to learn pairs of words at 9 p.m. and then assigned them to one of two groups: a sleep group and a wake group. The sleep group went home and slept normally. The wake group stayed in the lab and watched calm documentaries to avoid new learning. Both groups were tested at 9 a.m.\n\nOn average, the sleep group recalled about twenty percent more pairs. But the interesting result is how this benefit varied. Participants with high initial learning showed smaller gains, while those with weaker initial performance improved the most. We interpret this as evidence that sleep helps stabilize fragile memories.\n\nWe also looked at the timing of sleep. When sleep occurred immediately after learning, the benefit was stronger than when participants stayed awake for three hours before sleeping. This suggests a time‑sensitive window for consolidation.\n\nNow, there are limitations. We used a relatively small sample and only one type of learning task. Also, we did not measure brain activity directly, so we cannot make strong claims about mechanisms. Even so, the results align with previous research and support the idea that scheduling sleep shortly after study can improve retention.",
+    "questions": [
+      {
+        "q": "What did participants learn at 9 p.m.?",
+        "options": [
+          "Math formulas",
+          "Word pairs",
+          "Historical dates",
+          "Picture sequences"
+        ],
+        "answer": 1,
+        "explain": "The study asked participants to learn pairs of words at 9 p.m.",
+        "skill": "detail"
+      },
+      {
+        "q": "What activity did the wake group do overnight?",
+        "options": [
+          "Stayed awake and studied new material",
+          "Watched calm documentaries",
+          "Played memory games",
+          "Listened to lectures"
+        ],
+        "answer": 1,
+        "explain": "The wake group watched calm documentaries to avoid new learning.",
+        "skill": "detail"
+      },
+      {
+        "q": "How much better did the sleep group recall on average?",
+        "options": [
+          "About 10 percent",
+          "About 20 percent",
+          "About 30 percent",
+          "About 40 percent"
+        ],
+        "answer": 1,
+        "explain": "The speaker says the sleep group recalled about twenty percent more.",
+        "skill": "detail"
+      },
+      {
+        "q": "Who benefited the most from sleep?",
+        "options": [
+          "Participants with high initial learning",
+          "Participants with weak initial performance",
+          "Participants who stayed awake longer",
+          "Participants with prior sleep deprivation"
+        ],
+        "answer": 1,
+        "explain": "Those with weaker initial performance improved the most.",
+        "skill": "inference"
+      },
+      {
+        "q": "What does the term \"time‑sensitive window\" refer to?",
+        "options": [
+          "A long‑term effect of sleep over weeks",
+          "A period soon after learning when sleep is most beneficial",
+          "The testing time at 9 a.m.",
+          "The duration of documentaries"
+        ],
+        "answer": 1,
+        "explain": "It refers to the stronger benefit when sleep occurs soon after learning.",
+        "skill": "inference"
+      },
+      {
+        "q": "Which limitation is mentioned?",
+        "options": [
+          "Participants did not consent",
+          "Multiple learning tasks were used",
+          "Small sample size",
+          "Brain activity was measured directly"
+        ],
+        "answer": 2,
+        "explain": "The speaker notes a relatively small sample size.",
+        "skill": "detail"
+      },
+      {
+        "q": "What claim does the speaker avoid making?",
+        "options": [
+          "That sleep can improve retention",
+          "That consolidation has a time window",
+          "That brain mechanisms are proven",
+          "That sleep group recalled more"
+        ],
+        "answer": 2,
+        "explain": "They did not measure brain activity, so mechanisms are not claimed.",
+        "skill": "inference"
+      },
+      {
+        "q": "What is the main conclusion?",
+        "options": [
+          "Sleep right after study can improve memory retention",
+          "Watching documentaries improves memory",
+          "High performers benefit most from sleep",
+          "Sleep has no effect on memory"
+        ],
+        "answer": 0,
+        "explain": "The results support sleep soon after study to improve retention.",
+        "skill": "main_idea"
+      },
+      {
+        "q": "Why did the researchers avoid new learning for the wake group?",
+        "options": [
+          "To keep them entertained",
+          "To prevent interference with memory",
+          "To match the sleep group",
+          "To shorten the study"
+        ],
+        "answer": 1,
+        "explain": "New learning could interfere with memory consolidation.",
+        "skill": "inference"
+      },
+      {
+        "q": "What does the speaker say about consistency with prior research?",
+        "options": [
+          "The results contradict earlier studies",
+          "The results align with previous research",
+          "No prior research exists",
+          "Prior research was ignored"
+        ],
+        "answer": 1,
+        "explain": "They say the results align with previous research.",
+        "skill": "detail"
+      }
+    ]
+  },
+  {
+    "id": "l_p5_h03",
+    "level": "P5",
+    "title": "Seminar Briefing: Water Policy Under Climate Uncertainty",
+    "time": "24 min",
+    "type": "careful",
+    "transcript": "Thank you for joining this briefing. Today I will summarize the policy dilemma facing regional water agencies. Historically, planners relied on long-term averages to estimate supply, but climate volatility has made those baselines less reliable. In some years, reservoirs fill quickly after extreme storms; in others, prolonged dry spells reduce inflow far below historical norms. Designing one rigid allocation rule for both conditions has become increasingly difficult.\n\nOur team compared two planning models. The first prioritizes efficiency by allocating most water to high-value sectors under normal forecasts. The second emphasizes resilience by reserving a strategic buffer, even when short-term indicators look favorable. Efficiency performs well in stable years, but it can amplify shortages when forecasts fail. Resilience appears costlier at first because some capacity remains unused, yet it reduces emergency restrictions during severe drought periods.\n\nStakeholder interviews reveal why implementation remains contentious. Agricultural groups worry that reserve targets will limit seasonal flexibility, while municipal utilities fear public backlash when conservation measures are announced too early. Nevertheless, both groups support clearer trigger thresholds and transparent communication.\n\nThe recommendation is not to abandon efficiency, but to embed adaptive rules: update allocations monthly, publish uncertainty ranges, and pair restrictions with targeted compensation for the most affected users. In other words, policy should manage risk explicitly rather than assuming average conditions will return.",
+    "questions": [
+      {
+        "q": "Why are historical baselines less reliable now?",
+        "options": [
+          "Data collection has stopped",
+          "Climate volatility causes wider year-to-year variation",
+          "Reservoir technology is outdated",
+          "Water demand no longer changes"
+        ],
+        "answer": 1,
+        "explain": "The speaker says climate volatility has weakened the reliability of long-term averages.",
+        "skill": "detail"
+      },
+      {
+        "q": "What is a key feature of the resilience model?",
+        "options": [
+          "Using all capacity immediately",
+          "Reserving a strategic buffer",
+          "Ignoring drought forecasts",
+          "Allocating only to agriculture"
+        ],
+        "answer": 1,
+        "explain": "The resilience model keeps a reserve buffer even under favorable signals.",
+        "skill": "detail"
+      },
+      {
+        "q": "How does the efficiency model behave when forecasts are wrong?",
+        "options": [
+          "It improves emergency response",
+          "It amplifies shortage risk",
+          "It becomes identical to resilience",
+          "It eliminates uncertainty"
+        ],
+        "answer": 1,
+        "explain": "The briefing states efficiency can amplify shortages under forecast failure.",
+        "skill": "inference"
+      },
+      {
+        "q": "Why does resilience seem expensive initially?",
+        "options": [
+          "It requires new desalination plants",
+          "Some capacity remains unused in the short term",
+          "It bans industrial use",
+          "It increases leak rates"
+        ],
+        "answer": 1,
+        "explain": "The speaker notes resilience appears costlier because part of capacity is held in reserve.",
+        "skill": "detail"
+      },
+      {
+        "q": "What concern do agricultural stakeholders raise?",
+        "options": [
+          "Monthly updates are too frequent",
+          "Reserve targets may reduce seasonal flexibility",
+          "Municipal demand is underestimated",
+          "Compensation is always delayed"
+        ],
+        "answer": 1,
+        "explain": "Agricultural groups worry reserve targets constrain seasonal flexibility.",
+        "skill": "detail"
+      },
+      {
+        "q": "What common ground appears across stakeholder groups?",
+        "options": [
+          "Rejecting all restrictions",
+          "Supporting clear thresholds and transparent communication",
+          "Preferring fixed annual allocations",
+          "Avoiding public reporting"
+        ],
+        "answer": 1,
+        "explain": "Both groups support clearer triggers and transparent communication.",
+        "skill": "main_idea"
+      },
+      {
+        "q": "What does 'manage risk explicitly' imply in context?",
+        "options": [
+          "Assume average years will return soon",
+          "Design policy around uncertainty, not certainty",
+          "Eliminate all short-term forecasts",
+          "Prioritize one sector permanently"
+        ],
+        "answer": 1,
+        "explain": "The recommendation is to incorporate uncertainty ranges and adaptive updates.",
+        "skill": "inference"
+      },
+      {
+        "q": "Which measure is part of the final recommendation?",
+        "options": [
+          "Update allocations monthly",
+          "Freeze allocations for five years",
+          "Stop publishing forecasts",
+          "End compensation programs"
+        ],
+        "answer": 0,
+        "explain": "Monthly allocation updates are explicitly recommended.",
+        "skill": "detail"
+      },
+      {
+        "q": "What is the overall stance of the speaker?",
+        "options": [
+          "Efficiency should always dominate",
+          "Resilience should replace all economic goals",
+          "A balanced adaptive policy is needed",
+          "No planning model is useful"
+        ],
+        "answer": 2,
+        "explain": "The speaker recommends embedding adaptive rules while not abandoning efficiency.",
+        "skill": "tone"
+      },
+      {
+        "q": "Which title best summarizes the talk?",
+        "options": [
+          "Why Forecasts Are Useless",
+          "Choosing Between Agriculture and Cities",
+          "Balancing Efficiency and Resilience in Water Allocation",
+          "Ending Conservation Policies"
+        ],
+        "answer": 2,
+        "explain": "The transcript compares efficiency vs resilience and proposes adaptive balance.",
+        "skill": "summary"
+      }
+    ]
+  }
+]

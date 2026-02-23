@@ -1,0 +1,3102 @@
+[
+  {
+    "id": "buept_01",
+    "title": "BUEPT Sample 1",
+    "sections": {
+      "reading": {
+        "passage": "Urban planners increasingly promote mixed-use neighborhoods to reduce commuting time and improve community interaction. By placing housing, shops, offices, and public services within walking distance, cities aim to lower traffic congestion, reduce air pollution, and make daily life more convenient. Residents can access groceries, schools, and workplaces without long drives, which can save money and time. This model also supports local businesses because people are more likely to shop in nearby stores when they do not need to travel far.\n\nSupporters argue that mixed-use development creates stronger communities. When people live, work, and spend leisure time in the same area, they are more likely to know their neighbors. This social connection can increase safety and encourage civic participation. Mixed-use planning often includes public spaces such as small parks, cafés, and community centers, which provide informal meeting points. These features make neighborhoods feel more welcoming and can improve overall quality of life.\n\nHowever, critics raise several concerns. One issue is gentrification. When a neighborhood becomes more attractive, property values can rise, and long-term residents may be pushed out due to higher rents. Another concern is that mixed-use development can increase noise and reduce privacy, especially if residential areas are placed next to restaurants or entertainment venues. Critics also argue that not all neighborhoods have equal access to these investments, which can widen social inequality between districts.\n\nPolicy design therefore matters. Cities that want the benefits of mixed-use development must also create protections for affordability. Affordable housing programs, rent controls, or subsidies can help keep existing residents in place. Good zoning policies can balance commercial and residential needs by limiting noisy businesses in certain areas and requiring green buffers. Transportation planning also remains important, because mixed-use does not eliminate the need for public transit; it changes travel patterns rather than removing travel entirely.\n\nOverall, mixed-use development offers clear advantages, but it is not a simple solution. It requires careful planning, transparency, and long-term community engagement. When designed responsibly, it can reduce congestion, support local economies, and create more connected neighborhoods. When designed poorly, it can increase inequality and social tension. The passage suggests that mixed-use planning is best seen as a tool that must be combined with social policy and consistent management.",
+        "questions": [
+          {
+            "q": "What is a goal of mixed-use neighborhoods?",
+            "options": [
+              "Increase travel time",
+              "Reduce congestion",
+              "Remove local shops",
+              "Limit public space"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is a goal of mixed-use neighborhoods?",
+              "options": [
+                "Increase travel time",
+                "Reduce congestion",
+                "Remove local shops",
+                "Limit public space"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What social benefit is mentioned?",
+            "options": [
+              "More isolation",
+              "Stronger community ties",
+              "Less interaction",
+              "No public spaces"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which social benefit is mentioned?",
+              "options": [
+                "More isolation",
+                "Stronger community ties",
+                "Less interaction",
+                "No public spaces"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What risk do critics mention?",
+            "options": [
+              "Gentrification",
+              "Lower taxes",
+              "More privacy",
+              "Less noise"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Which risk do critics mention?",
+              "options": [
+                "Gentrification",
+                "Lower taxes",
+                "More privacy",
+                "Less noise"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Why are affordable housing programs needed?",
+            "options": [
+              "To reduce zoning",
+              "To keep residents in place",
+              "To remove public transit",
+              "To increase car use"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Why are affordable housing programs needed?",
+              "options": [
+                "To reduce zoning",
+                "To keep residents in place",
+                "To remove public transit",
+                "To increase car use"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What can poor zoning cause?",
+            "options": [
+              "Balanced needs",
+              "Noise and privacy problems",
+              "Lower rents",
+              "More parks"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which can poor zoning cause?",
+              "options": [
+                "Balanced needs",
+                "Noise and privacy problems",
+                "Lower rents",
+                "More parks"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is said about transportation planning?",
+            "options": [
+              "It is unnecessary",
+              "It remains important",
+              "It removes travel",
+              "It replaces zoning"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is said about transportation planning?",
+              "options": [
+                "It is unnecessary",
+                "It remains important",
+                "It removes travel",
+                "It replaces zoning"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is a benefit to local businesses?",
+            "options": [
+              "Fewer customers",
+              "More nearby shopping",
+              "Longer commutes",
+              "Less foot traffic"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is a benefit to local businesses?",
+              "options": [
+                "Fewer customers",
+                "More nearby shopping",
+                "Longer commutes",
+                "Less foot traffic"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What does the passage say about inequality?",
+            "options": [
+              "It never changes",
+              "It can increase",
+              "It disappears",
+              "It is unrelated"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which does the passage say about inequality?",
+              "options": [
+                "It never changes",
+                "It can increase",
+                "It disappears",
+                "It is unrelated"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is the overall conclusion?",
+            "options": [
+              "Mixed-use is always harmful",
+              "Mixed-use requires careful planning",
+              "Mixed-use ends public transit",
+              "Mixed-use is unnecessary"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is the overall conclusion?",
+              "options": [
+                "Mixed-use is always harmful",
+                "Mixed-use requires careful planning",
+                "Mixed-use ends public transit",
+                "Mixed-use is unnecessary"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is mixed-use best seen as?",
+            "options": [
+              "A single solution",
+              "A tool combined with policy",
+              "A replacement for zoning",
+              "A short-term trend"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is mixed-use best seen as?",
+              "options": [
+                "A single solution",
+                "A tool combined with policy",
+                "A replacement for zoning",
+                "A short-term trend"
+              ],
+              "answer": 1
+            }
+          }
+        ]
+      },
+      "listening": {
+        "transcript": "The lecturer explains that effective note‑taking focuses on key ideas rather than every word. Students should listen for signpost phrases such as 'the main point is' or 'in contrast'. After the lecture, rewriting notes in a cleaner format helps memory.",
+        "questions": [
+          {
+            "q": "What does the lecturer say is the focus of effective note‑taking?",
+            "options": [
+              "Every word",
+              "Key ideas",
+              "Exact spelling",
+              "Speed only"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Effective note‑taking emphasizes ___ over writing everything.",
+              "options": [
+                "details",
+                "key ideas",
+                "handwriting",
+                "speed"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "Which type of phrases should students listen for?",
+            "options": [
+              "Greetings",
+              "Signpost phrases",
+              "Jokes",
+              "Definitions only"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Students should pay attention to ___ phrases.",
+              "options": [
+                "signpost",
+                "slang",
+                "advertising",
+                "introductory"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Which phrase is given as an example of a signpost?",
+            "options": [
+              "“by the way”",
+              "“the main point is”",
+              "“for instance”",
+              "“to be honest”"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "An example signpost phrase is ___.",
+              "options": [
+                "“in short”",
+                "“the main point is”",
+                "“at least”",
+                "“by the way”"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What should students do after the lecture?",
+            "options": [
+              "Discard notes",
+              "Rewrite notes neatly",
+              "Record the lecture again",
+              "Memorize every sentence"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "After class, students should ___ their notes.",
+              "options": [
+                "rewrite",
+                "delete",
+                "photograph",
+                "ignore"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Why is rewriting notes recommended?",
+            "options": [
+              "To impress the teacher",
+              "To help memory",
+              "To reduce writing time",
+              "To avoid participation"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Rewriting notes is suggested because it ___ memory.",
+              "options": [
+                "hurts",
+                "helps",
+                "replaces",
+                "confuses"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What mistake does the lecturer implicitly warn against?",
+            "options": [
+              "Listening too slowly",
+              "Trying to capture every word",
+              "Using abbreviations",
+              "Sitting near the front"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "The lecture discourages students from ___.",
+              "options": [
+                "summarizing",
+                "writing every word",
+                "reviewing notes",
+                "listening for structure"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "Which strategy supports identifying main points?",
+            "options": [
+              "Ignoring structure",
+              "Noting contrast markers",
+              "Writing long quotes",
+              "Skipping examples"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Listening for contrast markers helps you ___.",
+              "options": [
+                "miss details",
+                "identify main ideas",
+                "avoid notes",
+                "write faster"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is the overall purpose of signpost phrases?",
+            "options": [
+              "Add humor",
+              "Guide the listener",
+              "Replace examples",
+              "Slow down the talk"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Signposts mainly ___ the listener.",
+              "options": [
+                "confuse",
+                "guide",
+                "interrupt",
+                "distract"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "Which action is most aligned with the lecture advice?",
+            "options": [
+              "Copying slides verbatim",
+              "Summarizing sections",
+              "Ignoring transitions",
+              "Writing only definitions"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "A recommended approach is to ___ key sections.",
+              "options": [
+                "summarize",
+                "erase",
+                "ignore",
+                "repeat"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The lecturer’s advice mainly aims to improve:",
+            "options": [
+              "Handwriting style",
+              "Recall and comprehension",
+              "Lecture length",
+              "Exam difficulty"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "The advice is meant to improve ___ of lectures.",
+              "options": [
+                "appearance",
+                "recall",
+                "duration",
+                "speed"
+              ],
+              "answer": 1
+            }
+          }
+        ]
+      },
+      "grammar": {
+        "questions": [
+          {
+            "q": "Each student ___ a unique ID card.",
+            "options": [
+              "have",
+              "has",
+              "are",
+              "were"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Every participant ___ a badge.",
+              "options": [
+                "have",
+                "has",
+                "are",
+                "were"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "The committee ___ its decision yesterday.",
+            "options": [
+              "announce",
+              "announced",
+              "announcing",
+              "announces"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "The team ___ the result last night.",
+              "options": [
+                "announces",
+                "announced",
+                "announcing",
+                "announce"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "If the data ___ accurate, the report will be revised.",
+            "options": [
+              "is",
+              "are",
+              "were",
+              "be"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "If the evidence ___ strong, we will proceed.",
+              "options": [
+                "is",
+                "are",
+                "were",
+                "be"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Students must submit the form ___ Friday.",
+            "options": [
+              "in",
+              "by",
+              "at",
+              "on"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Please finish the task ___ Monday.",
+              "options": [
+                "by",
+                "in",
+                "at",
+                "on"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The library has ___ quiet rooms than last year.",
+            "options": [
+              "many",
+              "more",
+              "most",
+              "much"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "This campus has ___ study areas now.",
+              "options": [
+                "more",
+                "much",
+                "most",
+                "many"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Neither the teacher nor the students ___ late.",
+            "options": [
+              "was",
+              "were",
+              "is",
+              "be"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Neither the manager nor the staff ___ present.",
+              "options": [
+                "was",
+                "were",
+                "is",
+                "be"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "Urban planning, ___ focuses on community design, affects daily life.",
+            "options": [
+              "which",
+              "who",
+              "where",
+              "when"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "A policy, ___ was revised recently, changed the rules.",
+              "options": [
+                "which",
+                "who",
+                "where",
+                "when"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The proposal was rejected ___ it lacked evidence.",
+            "options": [
+              "because",
+              "although",
+              "unless",
+              "while"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The plan failed ___ it was underfunded.",
+              "options": [
+                "because",
+                "although",
+                "unless",
+                "while"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The project will start ___ the budget is approved.",
+            "options": [
+              "as soon as",
+              "even though",
+              "unless",
+              "so that"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "We will begin ___ the results arrive.",
+              "options": [
+                "as soon as",
+                "even though",
+                "unless",
+                "so that"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The policy aims ___ reduce traffic.",
+            "options": [
+              "to",
+              "for",
+              "at",
+              "by"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The program aims ___ improve literacy.",
+              "options": [
+                "to",
+                "for",
+                "at",
+                "by"
+              ],
+              "answer": 0
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "buept_02",
+    "title": "BUEPT Sample 2",
+    "sections": {
+      "reading": {
+        "passage": "Online education has expanded rapidly due to technological advances and changing expectations about how learning should occur. Many students appreciate the flexibility of online classes because they can study at their own pace and fit lessons around work or family responsibilities. For students in remote areas, online programs remove geographic barriers and allow access to universities that would otherwise be unreachable. Digital platforms also provide quick access to lecture recordings, notes, and discussion boards.\n\nDespite these advantages, online education presents challenges. Some students struggle with motivation when learning alone, and they miss the structure of physical classrooms. Peer interaction can be weaker, which reduces opportunities for collaboration and informal learning. In addition, technical problems such as poor internet connectivity can interrupt learning. Teachers also face difficulties in evaluating participation and ensuring academic integrity when students are not physically present.\n\nHybrid models have emerged as a response to these challenges. In a hybrid system, students attend some classes in person while completing other activities online. This approach combines the flexibility of digital learning with the social benefits of face-to-face interaction. Students can build relationships with classmates during in-person sessions and then continue discussions online. Hybrid courses often include interactive projects, group assignments, and in-class workshops that develop communication skills.\n\nHowever, hybrid models require careful planning. If schedules are inconsistent, students may become confused about expectations. Teachers must design courses so that online and in-person components support each other, rather than repeat the same content. Institutions also need to provide training for instructors who are adapting to new teaching technologies. Without this support, hybrid models may become inefficient or frustrating for both teachers and learners.\n\nThe passage concludes that online and hybrid education can improve access and flexibility, but only if they are managed thoughtfully. Technology alone does not guarantee success; effective learning depends on structure, interaction, and support. When institutions invest in guidance and clear expectations, online and hybrid systems can become sustainable options for modern education.",
+        "questions": [
+          {
+            "q": "What is a key advantage of online education?",
+            "options": [
+              "Less flexibility",
+              "Access for remote students",
+              "No recordings",
+              "No discussion"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is a key advantage of online education?",
+              "options": [
+                "Less flexibility",
+                "Access for remote students",
+                "No recordings",
+                "No discussion"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is a challenge of online learning?",
+            "options": [
+              "Strong peer interaction",
+              "Weak motivation for some",
+              "Perfect integrity",
+              "No technology"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is a challenge of online learning?",
+              "options": [
+                "Strong peer interaction",
+                "Weak motivation for some",
+                "Perfect integrity",
+                "No technology"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What do hybrid models combine?",
+            "options": [
+              "Only online content",
+              "Online and face-to-face learning",
+              "No lectures",
+              "Only exams"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which do hybrid models combine?",
+              "options": [
+                "Only online content",
+                "Online and face-to-face learning",
+                "No lectures",
+                "Only exams"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "Why might hybrid schedules fail?",
+            "options": [
+              "Clear expectations",
+              "Inconsistent planning",
+              "Teacher training",
+              "Student support"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Why might hybrid schedules fail?",
+              "options": [
+                "Clear expectations",
+                "Inconsistent planning",
+                "Teacher training",
+                "Student support"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What must teachers design carefully?",
+            "options": [
+              "Sports events",
+              "Course structure",
+              "Parking rules",
+              "Cafeteria menus"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which must teachers design carefully?",
+              "options": [
+                "Sports events",
+                "Course structure",
+                "Parking rules",
+                "Cafeteria menus"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is required for instructors?",
+            "options": [
+              "No training",
+              "Training in technology",
+              "Less preparation",
+              "No feedback"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is required for instructors?",
+              "options": [
+                "No training",
+                "Training in technology",
+                "Less preparation",
+                "No feedback"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What does online education allow?",
+            "options": [
+              "Geographic barriers",
+              "Flexible pacing",
+              "No access",
+              "Less material"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which does online education allow?",
+              "options": [
+                "Geographic barriers",
+                "Flexible pacing",
+                "No access",
+                "Less material"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is a benefit of in-person sessions?",
+            "options": [
+              "Reduced interaction",
+              "Social collaboration",
+              "Lower structure",
+              "No projects"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is a benefit of in-person sessions?",
+              "options": [
+                "Reduced interaction",
+                "Social collaboration",
+                "Lower structure",
+                "No projects"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What does the passage conclude?",
+            "options": [
+              "Technology alone ensures success",
+              "Effective learning needs structure and support",
+              "Hybrid models are useless",
+              "Online learning removes teachers"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which does the passage conclude?",
+              "options": [
+                "Technology alone ensures success",
+                "Effective learning needs structure and support",
+                "Hybrid models are useless",
+                "Online learning removes teachers"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What problem can technical issues cause?",
+            "options": [
+              "Faster learning",
+              "Interrupted learning",
+              "More motivation",
+              "Shorter courses"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which problem can technical issues cause?",
+              "options": [
+                "Faster learning",
+                "Interrupted learning",
+                "More motivation",
+                "Shorter courses"
+              ],
+              "answer": 1
+            }
+          }
+        ]
+      },
+      "listening": {
+        "transcript": "A student asks about office hours. The professor says she is available on Tuesdays from 2 to 4 p.m., and by appointment on Fridays.",
+        "questions": [
+          {
+            "q": "When is the professor available without appointment?",
+            "options": [
+              "Mondays 9–11",
+              "Tuesdays 2–4",
+              "Wednesdays 3–5",
+              "Fridays 10–12"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Office hours are on ___.",
+              "options": [
+                "Tuesday afternoons",
+                "Thursday mornings",
+                "Friday evenings",
+                "Monday noon"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What does the professor say about Fridays?",
+            "options": [
+              "No availability",
+              "By appointment only",
+              "Open drop‑in hours",
+              "Online only"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "On Fridays, students must ___.",
+              "options": [
+                "drop in freely",
+                "make an appointment",
+                "email notes",
+                "wait outside"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "If a student wants to meet on Friday, what should they do?",
+            "options": [
+              "Show up at 2 p.m.",
+              "Schedule ahead",
+              "Attend a lecture",
+              "Ask another professor"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "A Friday meeting requires ___ first.",
+              "options": [
+                "a reservation",
+                "a lecture",
+                "a quiz",
+                "a lab"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Which detail is explicitly mentioned?",
+            "options": [
+              "Office location",
+              "Specific time range",
+              "Exam date",
+              "Assignment deadline"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "The professor gives a ___ for office hours.",
+              "options": [
+                "time range",
+                "grading scale",
+                "room change",
+                "textbook list"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "How should students plan if they miss Tuesday hours?",
+            "options": [
+              "Wait until next week",
+              "Request a Friday appointment",
+              "Cancel the course",
+              "Use a study group only"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "If Tuesday doesn’t work, students can ___ on Friday.",
+              "options": [
+                "drop in",
+                "book an appointment",
+                "call the dean",
+                "skip"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is the main purpose of the conversation?",
+            "options": [
+              "Discuss grades",
+              "Ask about office hours",
+              "Change class time",
+              "Request extra credit"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "The student is asking about the professor’s ___.",
+              "options": [
+                "research topic",
+                "office hours",
+                "grading policy",
+                "vacation"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "Which statement is true?",
+            "options": [
+              "Office hours are daily",
+              "Tuesday hours are fixed",
+              "Friday hours are open drop‑in",
+              "No appointment is required"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "The professor has a set time on ___.",
+              "options": [
+                "Tuesday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What is NOT mentioned?",
+            "options": [
+              "Tuesday time",
+              "Friday appointment policy",
+              "Office location",
+              "Student question"
+            ],
+            "answer": 2,
+            "similar": {
+              "q": "The speaker does NOT mention the office ___.",
+              "options": [
+                "location",
+                "hours",
+                "policy",
+                "day"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The professor’s availability on Fridays is:",
+            "options": [
+              "Unrestricted",
+              "By request",
+              "Not possible",
+              "Only online"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Friday meetings are ___ only.",
+              "options": [
+                "walk‑in",
+                "appointment",
+                "group",
+                "random"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "Which choice best summarizes the information?",
+            "options": [
+              "Office hours are only online",
+              "Drop‑in Tuesday, appointment Friday",
+              "Friday drop‑in, Tuesday appointment",
+              "No office hours this semester"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Summary: Tuesday drop‑in; Friday by ___.",
+              "options": [
+                "call",
+                "appointment",
+                "email only",
+                "absence"
+              ],
+              "answer": 1
+            }
+          }
+        ]
+      },
+      "grammar": {
+        "questions": [
+          {
+            "q": "Students who arrive late ___ a seat at the back.",
+            "options": [
+              "must take",
+              "must took",
+              "must taking",
+              "must takes"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Visitors who arrive late ___ in the lobby.",
+              "options": [
+                "must wait",
+                "must waited",
+                "must waiting",
+                "must waits"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The professor is available on Tuesdays ___ 2 and 4 p.m.",
+            "options": [
+              "between",
+              "among",
+              "during",
+              "over"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Office hours are ___ 9 and 11.",
+              "options": [
+                "between",
+                "among",
+                "during",
+                "over"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "If you want a Friday meeting, you ___ make an appointment.",
+            "options": [
+              "should",
+              "could",
+              "might",
+              "would"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "To meet on Friday, you ___ schedule ahead.",
+              "options": [
+                "should",
+                "could",
+                "might",
+                "would"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "She ___ been teaching online for two years.",
+            "options": [
+              "has",
+              "have",
+              "is",
+              "was"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "He ___ lived here since 2022.",
+              "options": [
+                "has",
+                "have",
+                "is",
+                "was"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The assignment must be submitted ___ the deadline.",
+            "options": [
+              "before",
+              "behind",
+              "after",
+              "through"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Send the form ___ noon.",
+              "options": [
+                "before",
+                "behind",
+                "after",
+                "through"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Not only the students but also the instructor ___ present.",
+            "options": [
+              "was",
+              "were",
+              "are",
+              "be"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Not only the staff but also the manager ___ absent.",
+              "options": [
+                "was",
+                "were",
+                "are",
+                "be"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The policy, ___ was updated last year, changed attendance rules.",
+            "options": [
+              "which",
+              "who",
+              "where",
+              "when"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The guideline, ___ was revised, is stricter now.",
+              "options": [
+                "which",
+                "who",
+                "where",
+                "when"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The professor said she ___ available on Tuesday.",
+            "options": [
+              "would be",
+              "is",
+              "are",
+              "be"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "She said she ___ email later.",
+              "options": [
+                "would",
+                "will",
+                "is",
+                "be"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Students should prepare questions ___ meeting the professor.",
+            "options": [
+              "before",
+              "after",
+              "during",
+              "without"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Review the text ___ the tutorial.",
+              "options": [
+                "before",
+                "after",
+                "during",
+                "without"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The course is demanding; ___, it is very useful.",
+            "options": [
+              "however",
+              "because",
+              "since",
+              "although"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The test was hard; ___, most students passed.",
+              "options": [
+                "however",
+                "because",
+                "since",
+                "although"
+              ],
+              "answer": 0
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "buept_03",
+    "title": "BUEPT Sample 3",
+    "sections": {
+      "reading": {
+        "passage": "Renewable energy sources such as wind and solar power are critical to reducing dependence on fossil fuels. These sources produce far less pollution and can be replenished naturally. Many governments invest in renewables to reduce carbon emissions and meet international climate goals. Wind farms and solar panels are increasingly visible in both rural and urban areas, demonstrating a global shift in energy priorities.\n\nA major challenge, however, is intermittency. Wind does not always blow, and sunlight is not constant. This means renewable energy production can fluctuate, while energy demand remains steady. When supply drops unexpectedly, power grids can become unstable. To solve this problem, energy storage technologies are essential. Advanced batteries, pumped hydro systems, and emerging innovations such as hydrogen storage allow surplus energy to be stored and used later.\n\nStorage systems are expensive, and their development requires long-term investment. Critics argue that without sufficient storage, renewables cannot replace fossil fuels at a large scale. Supporters respond that storage costs are decreasing as technology improves and manufacturing expands. Additionally, smart grid technology can help manage energy demand by shifting use to times when renewable supply is high.\n\nPolicy also plays a role. Governments can encourage adoption through subsidies, tax incentives, and research funding. They can also modernize energy grids to handle decentralized energy production, since renewable energy often comes from many small sources rather than a few large plants. Public acceptance is important as well. Communities may resist wind farms or large solar projects due to concerns about landscape changes or local wildlife.\n\nThe passage suggests that renewables are essential but require coordination between technology, policy, and community engagement. Without storage and grid modernization, renewable energy systems remain fragile. With them, renewable energy becomes a reliable and scalable alternative.",
+        "questions": [
+          {
+            "q": "Why are renewables important?",
+            "options": [
+              "They increase pollution",
+              "They reduce fossil dependence",
+              "They eliminate storage",
+              "They stop electricity"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Why are renewables important?",
+              "options": [
+                "They increase pollution",
+                "They reduce fossil dependence",
+                "They eliminate storage",
+                "They stop electricity"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is intermittency?",
+            "options": [
+              "Stable supply",
+              "Fluctuating supply",
+              "Lower demand",
+              "No sunlight"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is intermittency?",
+              "options": [
+                "Stable supply",
+                "Fluctuating supply",
+                "Lower demand",
+                "No sunlight"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What helps stabilize renewables?",
+            "options": [
+              "Storage technologies",
+              "More fossil fuels",
+              "Longer commutes",
+              "Less research"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Which helps stabilize renewables?",
+              "options": [
+                "Storage technologies",
+                "More fossil fuels",
+                "Longer commutes",
+                "Less research"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Why are storage systems criticized?",
+            "options": [
+              "Too cheap",
+              "Too expensive",
+              "Too small",
+              "Too simple"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Why are storage systems criticized?",
+              "options": [
+                "Too cheap",
+                "Too expensive",
+                "Too small",
+                "Too simple"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "How can smart grids help?",
+            "options": [
+              "Increase demand peaks",
+              "Shift demand",
+              "Remove storage",
+              "Close stations"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "How can smart grids help?",
+              "options": [
+                "Increase demand peaks",
+                "Shift demand",
+                "Remove storage",
+                "Close stations"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What role do subsidies play?",
+            "options": [
+              "Discourage adoption",
+              "Encourage adoption",
+              "Remove incentives",
+              "Ban renewables"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which role do subsidies play?",
+              "options": [
+                "Discourage adoption",
+                "Encourage adoption",
+                "Remove incentives",
+                "Ban renewables"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What issue can communities have?",
+            "options": [
+              "Landscape concerns",
+              "Free energy",
+              "No impact",
+              "Zero change"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Which issue can communities have?",
+              "options": [
+                "Landscape concerns",
+                "Free energy",
+                "No impact",
+                "Zero change"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What does the passage suggest?",
+            "options": [
+              "Renewables are enough alone",
+              "Coordination is required",
+              "Storage is optional",
+              "Policy is irrelevant"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which does the passage suggest?",
+              "options": [
+                "Renewables are enough alone",
+                "Coordination is required",
+                "Storage is optional",
+                "Policy is irrelevant"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What must be modernized?",
+            "options": [
+              "Only parks",
+              "Energy grids",
+              "Libraries",
+              "Hospitals"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which must be modernized?",
+              "options": [
+                "Only parks",
+                "Energy grids",
+                "Libraries",
+                "Hospitals"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is the main conclusion?",
+            "options": [
+              "Renewables are impossible",
+              "Storage + policy enable reliability",
+              "Fossil fuels are best",
+              "No action is needed"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is the main conclusion?",
+              "options": [
+                "Renewables are impossible",
+                "Storage + policy enable reliability",
+                "Fossil fuels are best",
+                "No action is needed"
+              ],
+              "answer": 1
+            }
+          }
+        ]
+      },
+      "listening": {
+        "transcript": "The speaker explains that procrastination often comes from fear of failure. Breaking tasks into smaller steps and setting short deadlines can reduce anxiety and increase motivation.",
+        "questions": [
+          {
+            "q": "What is presented as a common cause of procrastination?",
+            "options": [
+              "Lack of interest",
+              "Fear of failure",
+              "Too much free time",
+              "Poor internet"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "The speaker links procrastination to ___.",
+              "options": [
+                "fear of failure",
+                "low grades",
+                "late nights",
+                "social media"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Which strategy is recommended to reduce anxiety?",
+            "options": [
+              "Ignore deadlines",
+              "Break tasks into smaller steps",
+              "Wait for inspiration",
+              "Work all night"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "A suggested strategy is to ___ tasks.",
+              "options": [
+                "delay",
+                "break down",
+                "avoid",
+                "combine"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What effect do short deadlines have?",
+            "options": [
+              "Increase stress",
+              "Reduce anxiety",
+              "Eliminate effort",
+              "Lower motivation"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Short deadlines can ___ anxiety.",
+              "options": [
+                "raise",
+                "reduce",
+                "hide",
+                "create"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What does the speaker say about motivation?",
+            "options": [
+              "It declines with planning",
+              "It increases with small steps",
+              "It is unrelated to deadlines",
+              "It depends on luck"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Small steps tend to ___ motivation.",
+              "options": [
+                "reduce",
+                "increase",
+                "replace",
+                "confuse"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "Which is the best summary?",
+            "options": [
+              "Procrastination is harmless",
+              "Fear triggers delay; structured steps help",
+              "Deadlines always cause failure",
+              "Motivation comes only from rewards"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Summary: fear → delay; steps + short deadlines → ___.",
+              "options": [
+                "worse habits",
+                "progress",
+                "confusion",
+                "avoidance"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "The speaker suggests breaking tasks into smaller steps mainly to:",
+            "options": [
+              "Make them easier to start",
+              "Avoid responsibility",
+              "Increase boredom",
+              "Fill more time"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Breaking tasks down makes them easier to ___.",
+              "options": [
+                "start",
+                "forget",
+                "avoid",
+                "criticize"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Which statement is NOT supported?",
+            "options": [
+              "Fear can cause delay",
+              "Small steps help",
+              "Short deadlines reduce anxiety",
+              "Procrastination is always laziness"
+            ],
+            "answer": 3,
+            "similar": {
+              "q": "The speaker does NOT say procrastination is ___.",
+              "options": [
+                "caused by fear",
+                "reduced by steps",
+                "linked to anxiety",
+                "always laziness"
+              ],
+              "answer": 3
+            }
+          },
+          {
+            "q": "What is the relationship between anxiety and procrastination?",
+            "options": [
+              "Unrelated",
+              "Anxiety can contribute to delay",
+              "Anxiety prevents delay",
+              "Anxiety cures delay"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Anxiety can ___ procrastination.",
+              "options": [
+                "prevent",
+                "reduce",
+                "contribute to",
+                "ignore"
+              ],
+              "answer": 2
+            }
+          },
+          {
+            "q": "Which action aligns with the advice?",
+            "options": [
+              "Set one huge deadline",
+              "Set short deadlines",
+              "Wait until last day",
+              "Avoid planning"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "The speaker recommends ___ deadlines.",
+              "options": [
+                "short",
+                "no",
+                "vague",
+                "endless"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The speaker’s goal is to:",
+            "options": [
+              "Blame students",
+              "Offer strategies to overcome procrastination",
+              "Promote longer breaks",
+              "Discourage planning"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "The purpose is to give ___ for procrastination.",
+              "options": [
+                "excuses",
+                "strategies",
+                "punishments",
+                "grades"
+              ],
+              "answer": 1
+            }
+          }
+        ]
+      },
+      "grammar": {
+        "questions": [
+          {
+            "q": "Procrastination often ___ from fear of failure.",
+            "options": [
+              "results",
+              "result",
+              "resulting",
+              "resulted"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Anxiety often ___ in avoidance.",
+              "options": [
+                "results",
+                "result",
+                "resulting",
+                "resulted"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Breaking tasks into smaller steps ___ reduce anxiety.",
+            "options": [
+              "can",
+              "must",
+              "would",
+              "should"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Short deadlines ___ increase motivation.",
+              "options": [
+                "can",
+                "must",
+                "would",
+                "should"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "She suggested ___ a short deadline for each task.",
+            "options": [
+              "setting",
+              "set",
+              "to set",
+              "sets"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "He recommended ___ the project weekly.",
+              "options": [
+                "reviewing",
+                "review",
+                "to review",
+                "reviews"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "If you ___ early, you reduce stress.",
+            "options": [
+              "start",
+              "starts",
+              "started",
+              "starting"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "If you ___ your work, you feel calmer.",
+              "options": [
+                "plan",
+                "plans",
+                "planned",
+                "planning"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The speaker emphasized ___ tasks into smaller parts.",
+            "options": [
+              "dividing",
+              "divide",
+              "divided",
+              "divides"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "She emphasized ___ goals into steps.",
+              "options": [
+                "breaking",
+                "break",
+                "broke",
+                "breaks"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Motivation tends to increase ___ progress is visible.",
+            "options": [
+              "when",
+              "although",
+              "unless",
+              "before"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Confidence grows ___ results appear.",
+              "options": [
+                "when",
+                "although",
+                "unless",
+                "before"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The task was difficult; ___, he finished it.",
+            "options": [
+              "nevertheless",
+              "because",
+              "since",
+              "although"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The essay was long; ___, she completed it.",
+              "options": [
+                "nevertheless",
+                "because",
+                "since",
+                "although"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "She is ___ to be late again.",
+            "options": [
+              "unlikely",
+              "possible",
+              "able",
+              "surely"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "It is ___ that he will miss the meeting.",
+              "options": [
+                "unlikely",
+                "possible",
+                "able",
+                "surely"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The plan focuses ___ manageable steps.",
+            "options": [
+              "on",
+              "in",
+              "at",
+              "by"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The lecture focused ___ key ideas.",
+              "options": [
+                "on",
+                "in",
+                "at",
+                "by"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The strategy is effective ___ it reduces anxiety.",
+            "options": [
+              "because",
+              "although",
+              "unless",
+              "while"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The method works ___ it is simple.",
+              "options": [
+                "because",
+                "although",
+                "unless",
+                "while"
+              ],
+              "answer": 0
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "buept_04",
+    "title": "BUEPT Sample 4",
+    "sections": {
+      "reading": {
+        "passage": "Public libraries have evolved far beyond their traditional role of lending books. In many cities, libraries now function as community centers that offer digital access, workshops, and safe study spaces. This shift is especially important for students who lack quiet environments at home or reliable internet access. Libraries provide computers, databases, and free Wi-Fi, which help reduce educational inequality.\n\nLibraries also support lifelong learning. Workshops on job applications, language skills, and digital literacy attract adults who wish to improve their qualifications. Reading clubs and public lectures bring residents together and strengthen social ties. During exam periods, libraries often extend their hours and become key spaces for focused study. These services position libraries as essential public institutions rather than optional cultural facilities.\n\nFunding, however, is a major challenge. Many libraries face budget cuts, which reduce staff and limit operating hours. Without proper maintenance, physical spaces become less safe or appealing. Digital services also require ongoing investment in technology and training. Librarians must keep up with new tools and guide users in evaluating online sources. This workload increases even as budgets shrink.\n\nTo address these pressures, libraries increasingly form partnerships with schools, universities, and nonprofit organizations. These partnerships provide resources, volunteers, and expertise. Some libraries also develop community outreach programs, offering mobile services to neighborhoods without nearby branches. Such initiatives expand access and demonstrate the library’s value to the public.\n\nThe passage concludes that libraries remain essential in a digital society. They provide equitable access to knowledge, support community development, and offer safe spaces for learning. Continued investment in libraries is therefore seen as an investment in the social and educational health of a community.",
+        "questions": [
+          {
+            "q": "How have libraries evolved?",
+            "options": [
+              "Only lend books",
+              "Community centers",
+              "Private clubs",
+              "Closed spaces"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "How have libraries evolved?",
+              "options": [
+                "Only lend books",
+                "Community centers",
+                "Private clubs",
+                "Closed spaces"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What do libraries provide digitally?",
+            "options": [
+              "Wi-Fi and databases",
+              "Cars",
+              "Food",
+              "No tech"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Which do libraries provide digitally?",
+              "options": [
+                "Wi-Fi and databases",
+                "Cars",
+                "Food",
+                "No tech"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Why are libraries important for students?",
+            "options": [
+              "No study spaces",
+              "Quiet study spaces",
+              "No computers",
+              "No resources"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Why are libraries important for students?",
+              "options": [
+                "No study spaces",
+                "Quiet study spaces",
+                "No computers",
+                "No resources"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What supports lifelong learning?",
+            "options": [
+              "Workshops and clubs",
+              "Closing hours",
+              "Fines",
+              "No events"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Which supports lifelong learning?",
+              "options": [
+                "Workshops and clubs",
+                "Closing hours",
+                "Fines",
+                "No events"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What is a major challenge?",
+            "options": [
+              "Too much funding",
+              "Budget cuts",
+              "No visitors",
+              "Too many staff"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is a major challenge?",
+              "options": [
+                "Too much funding",
+                "Budget cuts",
+                "No visitors",
+                "Too many staff"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "Why is technology training needed?",
+            "options": [
+              "To avoid digital tools",
+              "To support new tools",
+              "To close libraries",
+              "To reduce access"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Why is technology training needed?",
+              "options": [
+                "To avoid digital tools",
+                "To support new tools",
+                "To close libraries",
+                "To reduce access"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What can partnerships provide?",
+            "options": [
+              "Resources and volunteers",
+              "Fewer users",
+              "Less outreach",
+              "Less support"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Which can partnerships provide?",
+              "options": [
+                "Resources and volunteers",
+                "Fewer users",
+                "Less outreach",
+                "Less support"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What do outreach programs do?",
+            "options": [
+              "Reduce access",
+              "Expand access",
+              "Remove services",
+              "Close branches"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which do outreach programs do?",
+              "options": [
+                "Reduce access",
+                "Expand access",
+                "Remove services",
+                "Close branches"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is the main conclusion?",
+            "options": [
+              "Libraries are outdated",
+              "Libraries are essential",
+              "Libraries should close",
+              "Libraries replace universities"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is the main conclusion?",
+              "options": [
+                "Libraries are outdated",
+                "Libraries are essential",
+                "Libraries should close",
+                "Libraries replace universities"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is NOT mentioned?",
+            "options": [
+              "Workshops",
+              "Mobile services",
+              "Digital access",
+              "Private ownership"
+            ],
+            "answer": 3,
+            "similar": {
+              "q": "Which is NOT mentioned?",
+              "options": [
+                "Workshops",
+                "Mobile services",
+                "Digital access",
+                "Private ownership"
+              ],
+              "answer": 3
+            }
+          }
+        ]
+      },
+      "listening": {
+        "transcript": "In this short interview, the researcher notes that sleep quality affects memory consolidation. Regular sleep schedules and reduced screen time before bed can improve recall.",
+        "questions": [
+          {
+            "q": "What does the researcher say sleep quality affects?",
+            "options": [
+              "Hearing",
+              "Memory consolidation",
+              "Appetite only",
+              "Muscle strength"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Sleep quality impacts ___.",
+              "options": [
+                "memory consolidation",
+                "handwriting",
+                "vocabulary size",
+                "vision"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Which habit is recommended?",
+            "options": [
+              "Irregular sleep times",
+              "Regular sleep schedules",
+              "Late‑night studying",
+              "Frequent naps only"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "A recommended habit is a ___ sleep schedule.",
+              "options": [
+                "regular",
+                "random",
+                "short",
+                "late"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What should be reduced before bed?",
+            "options": [
+              "Water intake",
+              "Screen time",
+              "Exercise",
+              "Reading"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "The researcher advises reducing ___ before bed.",
+              "options": [
+                "screen time",
+                "sleep time",
+                "practice",
+                "notes"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What is the main topic of the interview?",
+            "options": [
+              "Diet and memory",
+              "Sleep and memory",
+              "Exercise routines",
+              "Study techniques"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "The interview focuses on sleep and ___.",
+              "options": [
+                "memory",
+                "travel",
+                "cost",
+                "music"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Which statement is supported?",
+            "options": [
+              "Poor sleep improves recall",
+              "Sleep quality supports memory",
+              "Only naps matter",
+              "Screens improve recall"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Good sleep is linked to better ___.",
+              "options": [
+                "recall",
+                "noise",
+                "stress",
+                "hunger"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The researcher suggests that:",
+            "options": [
+              "Schedule consistency helps recall",
+              "Screen time has no effect",
+              "Memory is fixed",
+              "Sleep is irrelevant"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Consistent schedules can ___ recall.",
+              "options": [
+                "improve",
+                "harm",
+                "replace",
+                "ignore"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What is NOT mentioned?",
+            "options": [
+              "Memory consolidation",
+              "Screen time",
+              "Diet",
+              "Sleep schedules"
+            ],
+            "answer": 2,
+            "similar": {
+              "q": "The speaker does NOT mention ___.",
+              "options": [
+                "diet",
+                "sleep schedules",
+                "memory",
+                "screens"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "If a student wants better recall, the advice implies they should:",
+            "options": [
+              "Sleep less",
+              "Reduce screen time before bed",
+              "Study only at night",
+              "Skip schedules"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "For better recall: reduce ___ before bed.",
+              "options": [
+                "noise",
+                "screens",
+                "sleep",
+                "light"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "The term “memory consolidation” is closest in meaning to:",
+            "options": [
+              "Memory loss",
+              "Stabilizing memories",
+              "Instant memorization",
+              "Physical exercise"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Consolidation means memories become more ___.",
+              "options": [
+                "stable",
+                "random",
+                "short",
+                "irrelevant"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Which summary best fits the interview?",
+            "options": [
+              "Sleep does not affect learning",
+              "Sleep quality and routine improve memory",
+              "Only naps matter for recall",
+              "Screens are unrelated to sleep"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Summary: good sleep + routine → better ___.",
+              "options": [
+                "memory",
+                "diet",
+                "speed",
+                "music"
+              ],
+              "answer": 0
+            }
+          }
+        ]
+      },
+      "grammar": {
+        "questions": [
+          {
+            "q": "Sleep quality ___ memory consolidation.",
+            "options": [
+              "affects",
+              "affect",
+              "affecting",
+              "affected"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Diet quality ___ concentration.",
+              "options": [
+                "affects",
+                "affect",
+                "affecting",
+                "affected"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "A regular sleep schedule can ___ recall.",
+            "options": [
+              "improve",
+              "improves",
+              "improved",
+              "improving"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Consistent routines can ___ performance.",
+              "options": [
+                "improve",
+                "improves",
+                "improved",
+                "improving"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The researcher advised ___ screen time before bed.",
+            "options": [
+              "reducing",
+              "reduce",
+              "reduced",
+              "reduces"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Experts advise ___ caffeine late.",
+              "options": [
+                "reducing",
+                "reduce",
+                "reduced",
+                "reduces"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "If you sleep well, your memory ___ better.",
+            "options": [
+              "works",
+              "work",
+              "worked",
+              "working"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "If you rest well, you ___ better.",
+              "options": [
+                "perform",
+                "performs",
+                "performed",
+                "performing"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The study suggests that screens ___ sleep quality.",
+            "options": [
+              "can reduce",
+              "reduces",
+              "reducing",
+              "reduced"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Late‑night screens ___ recall.",
+              "options": [
+                "can reduce",
+                "reduces",
+                "reducing",
+                "reduced"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Regular schedules are recommended ___ they support recall.",
+            "options": [
+              "because",
+              "although",
+              "unless",
+              "while"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "We follow routines ___ they help memory.",
+              "options": [
+                "because",
+                "although",
+                "unless",
+                "while"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The data ___ collected over six months.",
+            "options": [
+              "were",
+              "was",
+              "are",
+              "be"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The results ___ published last week.",
+              "options": [
+                "were",
+                "was",
+                "are",
+                "be"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "This interview is about how sleep ___ learning.",
+            "options": [
+              "affects",
+              "affect",
+              "affecting",
+              "affected"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The lecture explains how stress ___ memory.",
+              "options": [
+                "affects",
+                "affect",
+                "affecting",
+                "affected"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Students should avoid screens ___ going to bed.",
+            "options": [
+              "before",
+              "after",
+              "during",
+              "without"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Avoid coffee ___ sleeping.",
+              "options": [
+                "before",
+                "after",
+                "during",
+                "without"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Better sleep leads ___ improved recall.",
+            "options": [
+              "to",
+              "for",
+              "with",
+              "by"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Practice leads ___ better results.",
+              "options": [
+                "to",
+                "for",
+                "with",
+                "by"
+              ],
+              "answer": 0
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "buept_05",
+    "title": "BUEPT Sample 5",
+    "sections": {
+      "reading": {
+        "passage": "Social media platforms prioritize engagement because it drives advertising revenue and user retention. Algorithms are designed to show content that users are likely to react to, which often includes emotionally charged or controversial posts. While this design can increase time spent on platforms, it also influences how people consume information. Users may see a narrow range of views, reinforcing existing beliefs rather than encouraging balanced understanding.\n\nThis phenomenon is often called an echo chamber. In an echo chamber, users are surrounded by opinions that mirror their own, making alternative viewpoints seem less credible or even invisible. Over time, this can increase polarization and reduce the ability to engage in constructive debate. Researchers have found that people who primarily receive information through social media may overestimate the popularity of their own views because they rarely encounter opposing perspectives.\n\nHowever, social media also has positive effects. It connects communities, allows rapid sharing of information, and gives voice to marginalized groups. During emergencies or political events, social platforms can mobilize support and spread important updates quickly. The challenge is to balance these benefits with the risks of misinformation and ideological isolation.\n\nDigital literacy education is one proposed solution. When users understand how algorithms work, they can interpret information more critically and seek diverse sources. Platforms can also adjust their recommendation systems to promote credible information and reduce the spread of harmful content. Governments and civil society organizations may support these efforts through public awareness campaigns and policy guidelines.\n\nThe passage suggests that social media is neither entirely harmful nor entirely beneficial. Its impact depends on how it is designed and how users interact with it. Responsible use, transparency, and digital education are necessary to ensure that social media contributes positively to public discourse.",
+        "questions": [
+          {
+            "q": "Why do platforms prioritize engagement?",
+            "options": [
+              "To reduce ads",
+              "To increase revenue",
+              "To slow content",
+              "To remove users"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Why do platforms prioritize engagement?",
+              "options": [
+                "To reduce ads",
+                "To increase revenue",
+                "To slow content",
+                "To remove users"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is an echo chamber?",
+            "options": [
+              "Diverse viewpoints",
+              "Reinforced beliefs",
+              "Random content",
+              "No interaction"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is an echo chamber?",
+              "options": [
+                "Diverse viewpoints",
+                "Reinforced beliefs",
+                "Random content",
+                "No interaction"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What can echo chambers increase?",
+            "options": [
+              "Polarization",
+              "Balance",
+              "Trust",
+              "Sleep"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Which can echo chambers increase?",
+              "options": [
+                "Polarization",
+                "Balance",
+                "Trust",
+                "Sleep"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What positive effect is mentioned?",
+            "options": [
+              "Community connection",
+              "No information",
+              "Less voice",
+              "More isolation"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Which positive effect is mentioned?",
+              "options": [
+                "Community connection",
+                "No information",
+                "Less voice",
+                "More isolation"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What is a proposed solution?",
+            "options": [
+              "Avoid education",
+              "Digital literacy",
+              "Hide algorithms",
+              "Ban platforms"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is a proposed solution?",
+              "options": [
+                "Avoid education",
+                "Digital literacy",
+                "Hide algorithms",
+                "Ban platforms"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What can platforms adjust?",
+            "options": [
+              "Recommendation systems",
+              "Weather",
+              "Traffic",
+              "Universities"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Which can platforms adjust?",
+              "options": [
+                "Recommendation systems",
+                "Weather",
+                "Traffic",
+                "Universities"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What can users do?",
+            "options": [
+              "Seek diverse sources",
+              "Ignore information",
+              "Avoid learning",
+              "Only one view"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Which can users do?",
+              "options": [
+                "Seek diverse sources",
+                "Ignore information",
+                "Avoid learning",
+                "Only one view"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What does the passage conclude?",
+            "options": [
+              "Social media is always harmful",
+              "Impact depends on design and use",
+              "Social media is perfect",
+              "No regulation is needed"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which does the passage conclude?",
+              "options": [
+                "Social media is always harmful",
+                "Impact depends on design and use",
+                "Social media is perfect",
+                "No regulation is needed"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is a risk of emotional content?",
+            "options": [
+              "Less engagement",
+              "Misinformation spread",
+              "More balance",
+              "No reaction"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Which is a risk of emotional content?",
+              "options": [
+                "Less engagement",
+                "Misinformation spread",
+                "More balance",
+                "No reaction"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "What is necessary for positive impact?",
+            "options": [
+              "Transparency and education",
+              "Secrecy",
+              "No policies",
+              "No users"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Which is necessary for positive impact?",
+              "options": [
+                "Transparency and education",
+                "Secrecy",
+                "No policies",
+                "No users"
+              ],
+              "answer": 0
+            }
+          }
+        ]
+      },
+      "listening": {
+        "transcript": "The announcer describes a new recycling program. Residents will receive separate bins for glass, paper, and plastic. Collection will take place on Wednesdays, replacing the previous Friday schedule.",
+        "questions": [
+          {
+            "q": "What is being announced?",
+            "options": [
+              "A new recycling program",
+              "A new parking fee",
+              "A library renovation",
+              "A bus strike"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The announcer introduces a new ___.",
+              "options": [
+                "recycling program",
+                "exam policy",
+                "tuition plan",
+                "weather alert"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What will residents receive?",
+            "options": [
+              "One large bin",
+              "Separate bins for materials",
+              "Only paper bins",
+              "No bins"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Residents will get ___ bins.",
+              "options": [
+                "separate",
+                "smaller",
+                "metal",
+                "unused"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Which materials are mentioned?",
+            "options": [
+              "Glass, paper, plastic",
+              "Metal, wood, cloth",
+              "Food, oil, batteries",
+              "Paper, batteries, glass"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The bins are for glass, paper, and ___.",
+              "options": [
+                "plastic",
+                "food",
+                "metal",
+                "wood"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "When will collection occur now?",
+            "options": [
+              "Monday",
+              "Wednesday",
+              "Friday",
+              "Sunday"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Collection will take place on ___.",
+              "options": [
+                "Wednesday",
+                "Friday",
+                "Saturday",
+                "Tuesday"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What change is mentioned?",
+            "options": [
+              "New schedule replacing Friday",
+              "New schedule replacing Monday",
+              "No schedule change",
+              "Twice‑weekly pickup"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The new schedule replaces the old ___ pickup.",
+              "options": [
+                "Friday",
+                "Tuesday",
+                "Monday",
+                "Sunday"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Which statement is true?",
+            "options": [
+              "Pickup remains on Friday",
+              "Bins are separated by material",
+              "Only plastic is collected",
+              "Residents must buy bins"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "The program requires sorting by ___.",
+              "options": [
+                "material",
+                "size",
+                "color",
+                "weight"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "What is the main purpose of the announcement?",
+            "options": [
+              "Explain new recycling rules",
+              "Invite to a meeting",
+              "Cancel a service",
+              "Raise taxes"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The purpose is to inform residents about ___.",
+              "options": [
+                "recycling changes",
+                "weather updates",
+                "parking rules",
+                "bus routes"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Which detail is NOT mentioned?",
+            "options": [
+              "Separate bins",
+              "Wednesday pickup",
+              "Friday schedule change",
+              "Fee increase"
+            ],
+            "answer": 3,
+            "similar": {
+              "q": "A fee increase is ___.",
+              "options": [
+                "mentioned",
+                "not mentioned",
+                "required",
+                "announced"
+              ],
+              "answer": 1
+            }
+          },
+          {
+            "q": "The previous collection day was:",
+            "options": [
+              "Wednesday",
+              "Friday",
+              "Monday",
+              "Saturday"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Before the change, pickup was on ___.",
+              "options": [
+                "Friday",
+                "Wednesday",
+                "Sunday",
+                "Tuesday"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "If residents sort correctly, they should use:",
+            "options": [
+              "One mixed bin",
+              "Three separate bins",
+              "Only glass bin",
+              "Only paper bin"
+            ],
+            "answer": 1,
+            "similar": {
+              "q": "Correct sorting requires ___ bins.",
+              "options": [
+                "three separate",
+                "one large",
+                "two mixed",
+                "no"
+              ],
+              "answer": 0
+            }
+          }
+        ]
+      },
+      "grammar": {
+        "questions": [
+          {
+            "q": "Residents will receive bins ___ glass, paper, and plastic.",
+            "options": [
+              "for",
+              "to",
+              "by",
+              "with"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The boxes are ___ recycling.",
+              "options": [
+                "for",
+                "to",
+                "by",
+                "with"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Collection will now take place ___ Wednesdays.",
+            "options": [
+              "on",
+              "in",
+              "at",
+              "by"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Pickup occurs ___ Mondays.",
+              "options": [
+                "on",
+                "in",
+                "at",
+                "by"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The old schedule ___ replaced by a Wednesday pickup.",
+            "options": [
+              "was",
+              "were",
+              "is",
+              "be"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The old rule ___ replaced last year.",
+              "options": [
+                "was",
+                "were",
+                "is",
+                "be"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Residents should separate materials ___ recycling.",
+            "options": [
+              "for",
+              "to",
+              "by",
+              "with"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Waste should be sorted ___ disposal.",
+              "options": [
+                "for",
+                "to",
+                "by",
+                "with"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The announcer said the new program ___ next week.",
+            "options": [
+              "starts",
+              "start",
+              "starting",
+              "started"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The policy ___ next month.",
+              "options": [
+                "starts",
+                "start",
+                "starting",
+                "started"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "If residents don’t sort, the system ___ effective.",
+            "options": [
+              "won’t be",
+              "isn’t",
+              "wasn’t",
+              "aren’t"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "Without sorting, recycling ___ efficient.",
+              "options": [
+                "won’t be",
+                "isn’t",
+                "wasn’t",
+                "aren’t"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The bins are provided so that recycling ___ easier.",
+            "options": [
+              "is",
+              "are",
+              "be",
+              "being"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The checklist helps so that errors ___ fewer.",
+              "options": [
+                "are",
+                "is",
+                "be",
+                "being"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "Recycling programs aim ___ reduce landfill waste.",
+            "options": [
+              "to",
+              "for",
+              "at",
+              "by"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The policy aims ___ reduce emissions.",
+              "options": [
+                "to",
+                "for",
+                "at",
+                "by"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The change is announced ___ inform residents.",
+            "options": [
+              "to",
+              "for",
+              "at",
+              "by"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The notice was sent ___ inform students.",
+              "options": [
+                "to",
+                "for",
+                "at",
+                "by"
+              ],
+              "answer": 0
+            }
+          },
+          {
+            "q": "The schedule changed from Friday ___ Wednesday.",
+            "options": [
+              "to",
+              "for",
+              "at",
+              "by"
+            ],
+            "answer": 0,
+            "similar": {
+              "q": "The class moved from Monday ___ Tuesday.",
+              "options": [
+                "to",
+                "for",
+                "at",
+                "by"
+              ],
+              "answer": 0
+            }
+          }
+        ]
+      }
+    }
+  }
+]

@@ -1,0 +1,193 @@
+{
+  "general": {
+    "intro": [
+      "This essay discusses ___ and explains why ___.",
+      "There are several reasons to support the view that ___.",
+      "The issue of ___ has become important because ___.",
+      "While it is often argued that ___, this essay contends that ___.",
+      "This essay addresses the issue of __ and evaluates its implications.",
+      "In recent years, the question of __ has become increasingly significant.",
+      "The topic of __ raises important academic and social considerations."
+    ],
+    "body": [
+      "One major reason is that ___.",
+      "A clear example of this can be seen in ___.",
+      "This point is supported by ___.",
+      "Not only does ___, but it also ___.",
+      "One key factor is __, which shapes outcomes by __.",
+      "A second consideration is __, often overlooked in public debate.",
+      "From an academic perspective, __ can be interpreted as __."
+    ],
+    "conclusion": [
+      "In conclusion, the evidence suggests that ___.",
+      "Therefore, it is reasonable to conclude that ___.",
+      "Overall, ___ is the most convincing position.",
+      "Taken together, these points indicate that ___.",
+      "Overall, the evidence suggests that __ remains a central concern.",
+      "In conclusion, a balanced approach that considers __ is essential.",
+      "To sum up, the issue of __ requires careful evaluation rather than simple answers."
+    ]
+  },
+  "argumentative": {
+    "intro": [
+      "This essay argues that ___ because ___ and ___.",
+      "There are compelling reasons to support the view that ___.",
+      "Although some believe that ___, a closer look shows that ___.",
+      "This essay argues that __ is the most reasonable position because __ and __.",
+      "Although some argue __, this essay contends that __."
+    ],
+    "body": [
+      "Opponents may claim that ___; however, ___.",
+      "The strongest argument in favor is ___.",
+      "It is not the case that ___; rather, ___.",
+      "Even if ___ is true, it does not follow that ___.",
+      "The strongest argument for __ is __, as demonstrated by __.",
+      "Critics claim __; however, this view ignores __.",
+      "Another compelling reason is __, which leads to __."
+    ],
+    "conclusion": [
+      "Given these points, ___ should be supported.",
+      "For these reasons, the argument for ___ is stronger.",
+      "Ultimately, the benefits of ___ outweigh the drawbacks.",
+      "For these reasons, the argument that __ is more convincing than __.",
+      "Ultimately, the evidence favors __, and opposing claims are less persuasive."
+    ]
+  },
+  "problem_solution": {
+    "intro": [
+      "A major problem in modern society is ___.",
+      "This issue has grown because ___.",
+      "Unless addressed, ___ will lead to ___.",
+      "The problem of __ has intensified due to __.",
+      "This essay analyzes __ and proposes practical solutions."
+    ],
+    "body": [
+      "One practical solution is ___.",
+      "Another effective measure would be ___.",
+      "A policy‑level response could involve ___.",
+      "A combined approach would be more effective than ___.",
+      "A key problem is __, which results in __.",
+      "One effective solution would be __, because __.",
+      "Another approach is __, which could reduce __."
+    ],
+    "conclusion": [
+      "If these solutions are implemented, ___.",
+      "Addressing ___ now will prevent ___.",
+      "In conclusion, addressing __ requires a combination of __ and __.",
+      "If these solutions are implemented, the impact of __ can be reduced."
+    ]
+  },
+  "cause_effect": {
+    "intro": [
+      "Several factors have contributed to ___.",
+      "This trend is mainly caused by ___.",
+      "The rise of ___ can be traced to ___.",
+      "This essay examines the causes and effects of __ in modern society.",
+      "The phenomenon of __ can be explained by several key causes and consequences."
+    ],
+    "body": [
+      "The first cause is ___.",
+      "As a result, ___ happens.",
+      "A further effect of this is ___.",
+      "The interaction of ___ and ___ intensifies ___.",
+      "One major cause is __, which leads to __.",
+      "As a result of __, societies tend to __.",
+      "A further consequence is __, often underestimated by policymakers."
+    ],
+    "conclusion": [
+      "In short, ___ leads to ___ in the long term.",
+      "If ___ continues, ___ is likely to follow.",
+      "In summary, __ produces significant effects that cannot be ignored.",
+      "Recognizing these causes and consequences is essential for effective solutions."
+    ]
+  },
+  "compare_contrast": {
+    "intro": [
+      "This essay compares ___ and ___ in terms of ___.",
+      "Although ___ and ___ share similarities, they differ in ___.",
+      "At first glance, ___ and ___ appear similar; however, ___.",
+      "This essay compares __ and __ in terms of __.",
+      "Although __ and __ share similarities, they differ significantly in __."
+    ],
+    "body": [
+      "One similarity is ___.",
+      "In contrast, ___ differs because ___.",
+      "Whereas ___ tends to ___, ___ is more likely to ___.",
+      "Unlike ___, ___ places greater emphasis on ___.",
+      "Both __ and __ emphasize __; however, they diverge in __.",
+      "A major difference is that __, whereas __."
+    ],
+    "conclusion": [
+      "Overall, ___ is more suitable because ___.",
+      "Thus, the choice between ___ and ___ depends on ___.",
+      "Overall, while both options have strengths, __ appears more effective.",
+      "To conclude, the comparison highlights that __ depends on context."
+    ]
+  },
+  "opinion": {
+    "intro": [
+      "In my opinion, ___ is beneficial because ___.",
+      "I believe that ___ should be encouraged.",
+      "From my perspective, ___ is preferable to ___.",
+      "In my view, __ because __ and __.",
+      "I firmly believe that __, despite common objections."
+    ],
+    "body": [
+      "First, ___.",
+      "Second, ___.",
+      "Perhaps the most convincing reason is ___.",
+      "The primary reason is __, which results in __.",
+      "Another reason is __, as it directly affects __."
+    ],
+    "conclusion": [
+      "For these reasons, I strongly support ___.",
+      "Therefore, ___ deserves greater attention.",
+      "Therefore, I maintain that __ is the most sensible choice.",
+      "In short, my position is that __, for the reasons discussed."
+    ]
+  },
+  "definition": {
+    "intro": [
+      "___ can be defined as ___.",
+      "A clear definition of ___ is ___.",
+      "In academic contexts, ___ refers to ___.",
+      "__ can be defined as __, which implies __.",
+      "The concept of __ refers to __ and is often misunderstood."
+    ],
+    "body": [
+      "One important characteristic is ___.",
+      "Another key feature is ___.",
+      "A common misconception is that ___; in fact, ___.",
+      "One essential feature of __ is __.",
+      "A second defining element is __, distinguishing it from __."
+    ],
+    "conclusion": [
+      "Therefore, ___ refers to ___.",
+      "In sum, ___ is best understood as ___.",
+      "In short, __ is best understood as __ with key characteristics __.",
+      "Thus, a clear definition of __ helps clarify debates about __."
+    ]
+  },
+  "reaction": {
+    "intro": [
+      "The idea of ___ raises several reactions.",
+      "After considering ___, it is clear that ___.",
+      "While ___ may seem appealing, it also ___.",
+      "In response to the statement that __, this essay evaluates its validity.",
+      "The claim that __ deserves careful analysis because __."
+    ],
+    "body": [
+      "One reaction is ___.",
+      "Another response is ___.",
+      "This perspective is influenced by ___.",
+      "I agree with __ to the extent that __; however, __.",
+      "A critical weakness in the claim is __, which suggests __."
+    ],
+    "conclusion": [
+      "Overall, ___ should be viewed as ___.",
+      "Ultimately, a balanced response requires ___.",
+      "Overall, the statement is partially valid, but it overlooks __.",
+      "Therefore, a more balanced view would acknowledge __."
+    ]
+  }
+}

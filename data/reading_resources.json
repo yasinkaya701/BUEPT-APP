@@ -1,0 +1,44 @@
+[
+  {
+    "id": "bc_read_a2",
+    "title": "British Council Reading A2",
+    "level": "A2",
+    "source_url": "https://learnenglish.britishcouncil.org/skills/reading/a2-reading"
+  },
+  {
+    "id": "bc_read_b1",
+    "title": "British Council Reading B1",
+    "level": "B1",
+    "source_url": "https://learnenglish.britishcouncil.org/skills/reading/b1-reading"
+  },
+  {
+    "id": "bc_read_b2",
+    "title": "British Council Reading B2",
+    "level": "B2",
+    "source_url": "https://learnenglish.britishcouncil.org/skills/reading/b2-reading"
+  },
+  {
+    "id": "bc_read_c1",
+    "title": "British Council Reading C1",
+    "level": "C1",
+    "source_url": "https://learnenglish.britishcouncil.org/skills/reading/c1-reading"
+  },
+  {
+    "id": "bc_story_zone",
+    "title": "Story Zone B2\u2013C1",
+    "level": "B2\u2013C1",
+    "source_url": "https://learnenglish.britishcouncil.org/general-english/story-zone/b2-c1-stories"
+  },
+  {
+    "id": "bne_read",
+    "title": "Breaking News English (Reading + Activities)",
+    "level": "Mixed",
+    "source_url": "https://breakingnewsenglish.com/"
+  },
+  {
+    "id": "bc_story_zone_b2c1",
+    "title": "British Council Story Zone (B2\u2013C1)",
+    "level": "B2\u2013C1",
+    "source_url": "https://learnenglish.britishcouncil.org/general-english/story-zone/b2-c1-stories"
+  }
+]

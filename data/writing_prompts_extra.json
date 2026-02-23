@@ -1,0 +1,382 @@
+[
+  {
+    "level": "P1",
+    "type": "opinion",
+    "task": "paragraph",
+    "prompt": "Students should study in the morning rather than at night. Do you agree?",
+    "keywords": [
+      "education",
+      "habits"
+    ]
+  },
+  {
+    "level": "P1",
+    "type": "definition",
+    "task": "paragraph",
+    "prompt": "Define 'responsibility' and explain why it matters to students.",
+    "keywords": [
+      "society",
+      "education"
+    ]
+  },
+  {
+    "level": "P1",
+    "type": "cause_effect",
+    "task": "paragraph",
+    "prompt": "What causes students to feel stress during exams?",
+    "keywords": [
+      "education",
+      "health"
+    ]
+  },
+  {
+    "level": "P1",
+    "type": "problem_solution",
+    "task": "paragraph",
+    "prompt": "What problems do first-year students face, and how can they solve them?",
+    "keywords": [
+      "education",
+      "society"
+    ]
+  },
+  {
+    "level": "P1",
+    "type": "compare_contrast",
+    "task": "paragraph",
+    "prompt": "Compare studying alone and studying with friends.",
+    "keywords": [
+      "education",
+      "habits"
+    ]
+  },
+  {
+    "level": "P2",
+    "type": "opinion",
+    "task": "paragraph",
+    "prompt": "Online education can be as effective as face-to-face education. Do you agree?",
+    "keywords": [
+      "education",
+      "technology"
+    ]
+  },
+  {
+    "level": "P2",
+    "type": "cause_effect",
+    "task": "paragraph",
+    "prompt": "What are the effects of using smartphones in class?",
+    "keywords": [
+      "education",
+      "technology"
+    ]
+  },
+  {
+    "level": "P2",
+    "type": "problem_solution",
+    "task": "paragraph",
+    "prompt": "Universities should reduce student anxiety. What solutions can they offer?",
+    "keywords": [
+      "education",
+      "health"
+    ]
+  },
+  {
+    "level": "P2",
+    "type": "compare_contrast",
+    "task": "paragraph",
+    "prompt": "Compare city life and campus life.",
+    "keywords": [
+      "society",
+      "culture"
+    ]
+  },
+  {
+    "level": "P2",
+    "type": "argumentative",
+    "task": "essay",
+    "prompt": "Universities should require all students to take ethics courses. Discuss.",
+    "keywords": [
+      "education",
+      "society"
+    ]
+  },
+  {
+    "level": "P3",
+    "type": "opinion",
+    "task": "essay",
+    "prompt": "Governments should invest more in public transport than highways. Discuss.",
+    "keywords": [
+      "society",
+      "economy"
+    ]
+  },
+  {
+    "level": "P3",
+    "type": "cause_effect",
+    "task": "essay",
+    "prompt": "Explain the causes and effects of climate-related migration.",
+    "keywords": [
+      "environment",
+      "society"
+    ]
+  },
+  {
+    "level": "P3",
+    "type": "problem_solution",
+    "task": "essay",
+    "prompt": "What problems does misinformation create and how can societies respond?",
+    "keywords": [
+      "media",
+      "society"
+    ]
+  },
+  {
+    "level": "P3",
+    "type": "compare_contrast",
+    "task": "essay",
+    "prompt": "Compare renewable energy sources and fossil fuels in terms of sustainability.",
+    "keywords": [
+      "environment",
+      "economy"
+    ]
+  },
+  {
+    "level": "P3",
+    "type": "argumentative",
+    "task": "essay",
+    "prompt": "Some believe technology makes people less social. Do you agree?",
+    "keywords": [
+      "technology",
+      "society"
+    ]
+  },
+  {
+    "level": "P4",
+    "type": "argumentative",
+    "task": "essay",
+    "prompt": "Globalization benefits national economies more than it harms local cultures. Discuss.",
+    "keywords": [
+      "economy",
+      "culture"
+    ]
+  },
+  {
+    "level": "P4",
+    "type": "cause_effect",
+    "task": "essay",
+    "prompt": "Analyze the causes and consequences of income inequality.",
+    "keywords": [
+      "economy",
+      "society"
+    ]
+  },
+  {
+    "level": "P4",
+    "type": "problem_solution",
+    "task": "essay",
+    "prompt": "How can universities balance academic freedom with social responsibility?",
+    "keywords": [
+      "education",
+      "society"
+    ]
+  },
+  {
+    "level": "P4",
+    "type": "compare_contrast",
+    "task": "essay",
+    "prompt": "Compare the effectiveness of online and hybrid learning models.",
+    "keywords": [
+      "education",
+      "technology"
+    ]
+  },
+  {
+    "level": "P4",
+    "type": "opinion",
+    "task": "essay",
+    "prompt": "Should governments regulate artificial intelligence development?",
+    "keywords": [
+      "technology",
+      "society"
+    ]
+  },
+  {
+    "level": "P2",
+    "type": "argumentative",
+    "task": "essay",
+    "prompt": "Argue for or against the use of AI tools in schools. Give two reasons and one example.",
+    "keywords": [
+      "ai",
+      "education",
+      "ethics"
+    ],
+    "source": "WASC Additional Writing Topics"
+  },
+  {
+    "level": "P3",
+    "type": "argumentative",
+    "task": "essay",
+    "prompt": "Do you support standardized testing? Defend your position and suggest an alternative if you disagree.",
+    "keywords": [
+      "assessment",
+      "fairness",
+      "education"
+    ],
+    "source": "WASC Additional Writing Topics"
+  },
+  {
+    "level": "P3",
+    "type": "argumentative",
+    "task": "essay",
+    "prompt": "Take a position on digital piracy and justify it with two arguments.",
+    "keywords": [
+      "copyright",
+      "ethics",
+      "access"
+    ],
+    "source": "WASC Additional Writing Topics"
+  },
+  {
+    "level": "P2",
+    "type": "opinion",
+    "task": "paragraph",
+    "prompt": "Write a paragraph about your daily routine, using time-order connectors.",
+    "keywords": [
+      "routine",
+      "daily",
+      "sequence"
+    ],
+    "source": "WASC Additional Writing Topics"
+  },
+  {
+    "level": "P2",
+    "type": "reaction",
+    "task": "paragraph",
+    "prompt": "Write a short review of a book, movie, series, song, or game and explain why you recommend it.",
+    "keywords": [
+      "review",
+      "opinion",
+      "evaluation"
+    ],
+    "source": "WASC Additional Writing Topics"
+  },
+  {
+    "level": "P3",
+    "type": "reaction",
+    "task": "essay",
+    "prompt": "Write a one‑page review of a book, movie, series, or song. Include strengths and weaknesses.",
+    "keywords": [
+      "review",
+      "analysis",
+      "evaluation"
+    ],
+    "source": "WASC Additional Writing Topics"
+  },
+  {
+    "level": "P2",
+    "type": "opinion",
+    "task": "paragraph",
+    "prompt": "Write a paragraph about a person who inspires you and explain why.",
+    "keywords": [
+      "inspiration",
+      "role model",
+      "values"
+    ],
+    "source": "WASC Additional Writing Topics"
+  },
+  {
+    "level": "P3",
+    "type": "definition",
+    "task": "essay",
+    "prompt": "Write an essay about one defining detail of your identity and why it matters.",
+    "keywords": [
+      "identity",
+      "self",
+      "values"
+    ],
+    "source": "WASC Additional Writing Topics"
+  },
+  {
+    "level": "P2",
+    "type": "opinion",
+    "task": "paragraph",
+    "prompt": "Reflect on your time at Boğaziçi University and describe one important lesson you learned.",
+    "keywords": [
+      "reflection",
+      "experience",
+      "learning"
+    ],
+    "source": "WASC Additional Writing Topics"
+  },
+  {
+    "level": "P3",
+    "type": "reaction",
+    "task": "essay",
+    "prompt": "Write a letter to your 50‑year‑old self, including goals and advice.",
+    "keywords": [
+      "future",
+      "goals",
+      "reflection"
+    ],
+    "source": "WASC Additional Writing Topics"
+  },
+  {
+    "level": "P3",
+    "type": "reaction",
+    "task": "essay",
+    "prompt": "Write a formal request letter about a specific academic need and include a polite closing.",
+    "keywords": [
+      "formal",
+      "request",
+      "polite"
+    ],
+    "source": "WASC Additional Writing Topics"
+  },
+  {
+    "level": "P4",
+    "type": "argumentative",
+    "task": "essay",
+    "prompt": "Write a satirical essay about a modern habit or trend, using irony to make a serious point.",
+    "keywords": [
+      "satire",
+      "irony",
+      "argument"
+    ],
+    "source": "WASC Additional Writing Topics"
+  },
+  {
+    "level": "P3",
+    "type": "reaction",
+    "task": "essay",
+    "prompt": "Write an imaginary recommendation letter for a student or employee, with concrete examples.",
+    "keywords": [
+      "recommendation",
+      "evaluation",
+      "examples"
+    ],
+    "source": "WASC Additional Writing Topics"
+  },
+  {
+    "level": "P2",
+    "type": "cause_effect",
+    "task": "paragraph",
+    "prompt": "Discuss causes or effects of heavy traffic in a city. Use at least two causes or effects.",
+    "keywords": [
+      "traffic",
+      "urban",
+      "causes"
+    ],
+    "source": "ITU ILC Writing Resources"
+  },
+  {
+    "level": "P2",
+    "type": "cause_effect",
+    "task": "paragraph",
+    "prompt": "Discuss causes or effects of social media use. Provide one concrete example.",
+    "keywords": [
+      "social media",
+      "effects",
+      "technology"
+    ],
+    "source": "ITU ILC Writing Resources"
+  }
+]

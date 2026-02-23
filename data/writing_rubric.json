@@ -1,0 +1,20 @@
+{
+  "title": "BUEPT Writing Rubric (20)",
+  "categories": [
+    {"name": "Grammar", "max": 4, "desc": "Accuracy, variety, sentence control"},
+    {"name": "Vocabulary", "max": 4, "desc": "Range, precision, academic tone"},
+    {"name": "Organization", "max": 4, "desc": "Coherence, cohesion, paragraphing"},
+    {"name": "Content", "max": 4, "desc": "Task response, development, relevance"},
+    {"name": "Mechanics", "max": 4, "desc": "Spelling, punctuation, formatting"}
+  ],
+  "checklist": [
+    "Clear thesis / topic sentence",
+    "Each paragraph has one main idea",
+    "Evidence or example in each body paragraph",
+    "Transitions between paragraphs",
+    "Accurate grammar (S-V agreement, articles)",
+    "Avoid repetition; use synonyms",
+    "Academic tone (no slang)",
+    "Conclusion restates main points"
+  ]
+}
