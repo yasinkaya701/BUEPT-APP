@@ -8,24 +8,26 @@ import { useAppState } from '../context/AppState';
 const FACULTIES = ["Engineering", "Economics", "Arts & Sciences", "Education", "Law"];
 
 export default function SignupScreen({ navigation }) {
-    const { login } = useAppState();
+    const { register } = useAppState();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [faculty, setFaculty] = useState('');
+    const [error, setError] = useState('');
+    const [submitting, setSubmitting] = useState(false);
 
-    const handleSignup = () => {
-        // AppState will technically handle the saving logic when login is called.
-        // In Epic 5 Phase 2, we will route faculty payload to AppState as well.
-        if (name) {
-            login(name);
-        } else {
-            login("New Student");
+    const handleSignup = async () => {
+        setError('');
+        setSubmitting(true);
+        const result = await register({ name, email, password, faculty });
+        setSubmitting(false);
+        if (!result?.ok) {
+            setError(result?.error || 'Account could not be created.');
         }
     };
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
@@ -33,7 +35,7 @@ export default function SignupScreen({ navigation }) {
                 <Text style={styles.headerText}>Create Account</Text>
             </View>
 
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+            <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
                 <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
 
                     <Text style={styles.inputLabel}>Full Name</Text>
@@ -88,9 +90,15 @@ export default function SignupScreen({ navigation }) {
                         />
                     </View>
 
-                    <TouchableOpacity style={styles.loginBtn} onPress={handleSignup}>
-                        <Text style={styles.loginBtnText}>Register Now</Text>
-                        <Ionicons name="checkmark-circle" size={20} color="#fff" style={{ marginLeft: 8 }} />
+                    {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
+                    <TouchableOpacity style={[styles.loginBtn, submitting && styles.loginBtnDisabled]} onPress={handleSignup} disabled={submitting}>
+                        <Text style={styles.loginBtnText}>{submitting ? 'Creating Account...' : 'Register Now'}</Text>
+                        <Ionicons name="checkmark-circle" size={20} color="#fff" style={styles.loginBtnIcon} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.switchBtn} onPress={() => navigation.navigate('Login')}>
+                        <Text style={styles.switchBtnText}>Already registered? <Text style={styles.switchLink}>Sign In</Text></Text>
                     </TouchableOpacity>
 
                 </ScrollView>
@@ -101,6 +109,7 @@ export default function SignupScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
+    flex: { flex: 1 },
     header: { flexDirection: 'row', alignItems: 'center', padding: spacing.xl, paddingBottom: spacing.md },
     backBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.05)', justifyContent: 'center', alignItems: 'center', marginRight: spacing.md },
     headerText: { fontSize: 24, fontWeight: '900', color: colors.primaryDark, fontFamily: typography.fontHeadline },
@@ -119,5 +128,11 @@ const styles = StyleSheet.create({
     facultyTextActive: { color: colors.primary, fontWeight: '900' },
 
     loginBtn: { backgroundColor: colors.primary, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: spacing.lg, borderRadius: radius.pill, marginTop: spacing.md, ...shadow.sm },
-    loginBtnText: { color: '#fff', fontSize: 16, fontWeight: '800' }
+    loginBtnDisabled: { opacity: 0.6 },
+    loginBtnText: { color: '#fff', fontSize: 16, fontWeight: '800' },
+    loginBtnIcon: { marginLeft: 8 },
+    errorText: { color: colors.errorDark, fontSize: 13, lineHeight: 18, marginTop: -8, marginBottom: spacing.md },
+    switchBtn: { alignItems: 'center', marginTop: spacing.xl, padding: spacing.md },
+    switchBtnText: { fontSize: 14, color: colors.muted, fontWeight: '600' },
+    switchLink: { color: colors.primary, fontWeight: '800' },
 });

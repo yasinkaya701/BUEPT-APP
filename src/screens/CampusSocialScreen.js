@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
@@ -32,7 +32,7 @@ export default function CampusSocialScreen({ navigation }) {
     const currentList = [...LEADERBOARD_DB[activeTab]].sort((a, b) => b.score - a.score);
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
@@ -70,16 +70,16 @@ export default function CampusSocialScreen({ navigation }) {
                         const isYou = user.name === 'You';
                         return (
                             <Card key={user.id} style={[styles.rankCard, isYou && styles.rankCardYou]}>
-                                <Text style={[styles.rankNum, idx < 3 && { color: colors.primaryDark }]}>#{idx + 1}</Text>
+                                <Text style={[styles.rankNum, idx < 3 && styles.rankNumTop]}>#{idx + 1}</Text>
 
                                 <View style={styles.avatarWrap}>
                                     <Ionicons name="person-circle" size={40} color={isYou ? colors.primary : colors.muted} />
                                 </View>
 
                                 <View style={styles.nameWrap}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <Text style={[styles.userName, isYou && { color: colors.primaryDark }]}>{user.name}</Text>
-                                        {user.badge === 'crown' && <Ionicons name="flash" size={14} color="#f1c40f" style={{ marginLeft: 4 }} />}
+                                    <View style={styles.nameRow}>
+                                        <Text style={[styles.userName, isYou && styles.userNameYou]}>{user.name}</Text>
+                                        {user.badge === 'crown' && <Ionicons name="flash" size={14} color="#f1c40f" style={styles.badgeIcon} />}
                                     </View>
                                     <Text style={styles.userScore}>{user.score} XP</Text>
                                 </View>
@@ -90,7 +90,7 @@ export default function CampusSocialScreen({ navigation }) {
                     })}
                 </View>
 
-                <View style={{ height: 40 }} />
+                <View style={styles.bottomSpacer} />
             </ScrollView>
         </Screen>
     );
@@ -120,10 +120,15 @@ const styles = StyleSheet.create({
     rankCard: { flexDirection: 'row', alignItems: 'center', padding: spacing.md, borderRadius: radius.lg, backgroundColor: '#fff', ...shadow.slight },
     rankCardYou: { backgroundColor: colors.primarySoft, borderWidth: 1, borderColor: colors.primary },
     rankNum: { fontSize: 18, fontWeight: '900', color: colors.muted, width: 40, textAlign: 'center' },
+    rankNumTop: { color: colors.primaryDark },
     avatarWrap: { marginHorizontal: spacing.sm },
+    nameRow: { flexDirection: 'row', alignItems: 'center' },
     nameWrap: { flex: 1 },
     userName: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: 2 },
+    userNameYou: { color: colors.primaryDark },
     userScore: { fontSize: 13, color: colors.muted, fontWeight: '700' },
     youBadge: { backgroundColor: colors.primary, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4 },
-    youBadgeText: { fontSize: 10, fontWeight: '900', color: '#fff' }
+    youBadgeText: { fontSize: 10, fontWeight: '900', color: '#fff' },
+    badgeIcon: { marginLeft: 4 },
+    bottomSpacer: { height: 40 },
 });

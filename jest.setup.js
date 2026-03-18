@@ -19,3 +19,17 @@ jest.mock('react-native-tts', () => ({
 jest.mock('react-native-webview', () => ({
   WebView: 'WebView'
 }));
+
+jest.mock('@react-native-voice/voice', () => ({
+  onSpeechStart: null,
+  onSpeechEnd: null,
+  onSpeechError: null,
+  onSpeechResults: null,
+  onSpeechVolumeChanged: null,
+  start: jest.fn(),
+  stop: jest.fn(),
+  destroy: jest.fn(() => Promise.resolve()),
+  removeAllListeners: jest.fn(),
+}));
+
+jest.mock('react-native-vector-icons/Ionicons', () => 'Ionicons');

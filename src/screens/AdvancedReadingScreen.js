@@ -60,7 +60,7 @@ export default function AdvancedReadingScreen({ navigation }) {
     };
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
@@ -87,7 +87,7 @@ export default function AdvancedReadingScreen({ navigation }) {
 
                 </Card>
 
-                <View style={{ height: 40 }} />
+                <View style={styles.bottomSpacer} />
             </ScrollView>
 
             {/* Definition Modal */}
@@ -99,7 +99,7 @@ export default function AdvancedReadingScreen({ navigation }) {
                                 <View style={styles.modalHeader}>
                                     <Text style={styles.modalWordText}>{selectedWord.text}</Text>
                                     <TouchableOpacity onPress={() => speakEnglish(selectedWord.text, { rate: 0.48 })}>
-                                        <Ionicons name="volume-medium" size={24} color={colors.primary} style={{ marginRight: 16 }} />
+                                        <Ionicons name="volume-medium" size={24} color={colors.primary} style={styles.modalAudioIcon} />
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => setSelectedWord(null)}>
                                         <Ionicons name="close-circle" size={28} color={colors.muted} />
@@ -140,5 +140,7 @@ const styles = StyleSheet.create({
     modalContent: { backgroundColor: '#fff', borderTopLeftRadius: radius.xl, borderTopRightRadius: radius.xl, padding: spacing.xl, paddingBottom: 40, ...shadow.lg },
     modalHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.md },
     modalWordText: { fontSize: 24, fontWeight: '900', color: colors.primaryDark, flex: 1, textTransform: 'capitalize' },
-    modalDefText: { fontSize: 16, color: colors.text, lineHeight: 24 }
+    modalDefText: { fontSize: 16, color: colors.text, lineHeight: 24 },
+    modalAudioIcon: { marginRight: 16 },
+    bottomSpacer: { height: 40 },
 });

@@ -46,14 +46,14 @@ export default function CurriculumSyncScreen({ navigation }) {
         }
     };
 
-    const getColorForStatus = (status) => {
-        if (status === 'completed') return colors.success;
-        if (status === 'in_progress') return '#f39c12';
-        return colors.muted;
+    const getStatusStyle = (status) => {
+        if (status === 'completed') return styles.statusSuccess;
+        if (status === 'in_progress') return styles.statusProgress;
+        return styles.statusPending;
     };
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
@@ -103,9 +103,9 @@ export default function CurriculumSyncScreen({ navigation }) {
                                 </View>
                                 <View style={styles.taskTextWrap}>
                                     <Text style={styles.taskTitle}>{task.title}</Text>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
-                                        <View style={[styles.statusDot, { backgroundColor: getColorForStatus(task.status) }]} />
-                                        <Text style={[styles.statusText, { color: getColorForStatus(task.status) }]}>
+                                    <View style={styles.statusRow}>
+                                        <View style={[styles.statusDot, getStatusStyle(task.status)]} />
+                                        <Text style={[styles.statusText, getStatusStyle(task.status)]}>
                                             {task.status.replace('_', ' ').toUpperCase()}
                                         </Text>
                                     </View>
@@ -116,7 +116,7 @@ export default function CurriculumSyncScreen({ navigation }) {
                     </>
                 )}
 
-                <View style={{ height: 40 }} />
+                <View style={styles.bottomSpacer} />
             </ScrollView>
         </Screen>
     );
@@ -150,8 +150,13 @@ const styles = StyleSheet.create({
     taskTitle: { fontSize: 15, fontWeight: '700', color: colors.text, marginBottom: 2 },
     statusDot: { width: 8, height: 8, borderRadius: 4, marginRight: 6 },
     statusText: { fontSize: 10, fontWeight: '800' },
+    statusRow: { flexDirection: 'row', alignItems: 'center', marginTop: 4 },
+    statusSuccess: { color: colors.success, backgroundColor: colors.success },
+    statusProgress: { color: '#f39c12', backgroundColor: '#f39c12' },
+    statusPending: { color: colors.muted, backgroundColor: colors.muted },
 
     emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 80 },
     emptyTitle: { fontSize: typography.h3, fontWeight: '800', color: colors.muted, marginTop: spacing.md, marginBottom: spacing.xs },
-    emptyDesc: { fontSize: 13, color: colors.muted, textAlign: 'center', lineHeight: 20, paddingHorizontal: spacing.xl }
+    emptyDesc: { fontSize: 13, color: colors.muted, textAlign: 'center', lineHeight: 20, paddingHorizontal: spacing.xl },
+    bottomSpacer: { height: 40 },
 });

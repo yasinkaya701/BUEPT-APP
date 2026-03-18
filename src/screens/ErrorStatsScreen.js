@@ -26,7 +26,7 @@ export default function ErrorStatsScreen({ navigation }) {
     }, [grammarErrors]);
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <Text style={styles.h1}>Error Statistics</Text>
             <Text style={styles.sub}>Review your common mistakes to improve faster</Text>
 

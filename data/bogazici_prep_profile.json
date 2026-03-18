@@ -1,0 +1,126 @@
+{
+  "lastVerified": "2026-02-28",
+  "examFramework": {
+    "name": "BUEPT (official framework)",
+    "sections": [
+      {
+        "key": "listening",
+        "label": "Listening",
+        "weightPercent": 30,
+        "format": "Selective + Careful listening; each recording is played once."
+      },
+      {
+        "key": "reading",
+        "label": "Reading",
+        "weightPercent": 40,
+        "format": "Two texts with around 10 questions per text."
+      },
+      {
+        "key": "writing",
+        "label": "Writing",
+        "weightPercent": 30,
+        "format": "Two essays; each task has a 40-minute writing limit."
+      }
+    ],
+    "coreRules": [
+      "Writing section requires at least 56 average.",
+      "Overall pass is based on section thresholds plus total score policy announced by YADYOK."
+    ]
+  },
+  "programs": [
+    {
+      "level": "P1",
+      "weeklyMinutes": 1410,
+      "onlineMinutes": 0,
+      "focus": "Core language foundation and intensive classroom progression."
+    },
+    {
+      "level": "P2",
+      "weeklyMinutes": 1410,
+      "onlineMinutes": 0,
+      "focus": "Integrated skills with stronger reading/listening coverage."
+    },
+    {
+      "level": "P3",
+      "weeklyMinutes": 1170,
+      "onlineMinutes": 0,
+      "focus": "Upper-intermediate skill development and exam preparation."
+    },
+    {
+      "level": "P4",
+      "weeklyMinutes": 480,
+      "onlineMinutes": 400,
+      "focus": "Academic reading, listening, writing; grammar as support."
+    }
+  ],
+  "attendancePolicy": {
+    "minAttendancePercent": 85,
+    "maxAbsencePercent": 15,
+    "notes": [
+      "Since 2024-2025, attendance and accepted-report limits are managed under a single 15% absence cap.",
+      "If 15% is exceeded, students lose related in-term exam rights and continue with the next available exam cycle."
+    ]
+  },
+  "gradingPolicy": {
+    "examCountPerYear": 10,
+    "fall": [
+      "Quiz I",
+      "Quiz II",
+      "Midterm I",
+      "Speaking I",
+      "Final I"
+    ],
+    "spring": [
+      "Quiz III",
+      "Quiz IV",
+      "Midterm II",
+      "Speaking II",
+      "Final II"
+    ],
+    "winterBueptRule": "Winter BUEPT eligibility is tied to P2-P4 average requirements; P1 students are not eligible."
+  },
+  "partialPassPolicy": {
+    "summary": "Partial pass applies to students who completed two semesters in prep.",
+    "details": [
+      "Component exemptions start with Spring proficiency exam.",
+      "Exempted components are valid for one year."
+    ]
+  },
+  "officialSources": [
+    {
+      "id": "yadyok_buept_general",
+      "title": "BUEPT General Information",
+      "url": "https://yadyok.bogazici.edu.tr/en/pages/buept/2440"
+    },
+    {
+      "id": "yadyok_test_content",
+      "title": "BUEPT Test Content and Scoring",
+      "url": "https://yadyok.bogazici.edu.tr/en/pages/test-content-and-scoring/2443"
+    },
+    {
+      "id": "yadyok_programs",
+      "title": "Prep Programs (P1-P4)",
+      "url": "https://yadyok.bogazici.edu.tr/en/pages/programs/2403"
+    },
+    {
+      "id": "yadyok_grades",
+      "title": "Grades and Exam Weights",
+      "url": "https://yadyok.bogazici.edu.tr/en/pages/grades/2404"
+    },
+    {
+      "id": "yadyok_attendance",
+      "title": "Attendance and Health Reports",
+      "url": "https://yadyok.bogazici.edu.tr/en/pages/attendance-and-health-reports/2407"
+    },
+    {
+      "id": "yadyok_partial_pass",
+      "title": "Partial Pass Rules",
+      "url": "https://yadyok.bogazici.edu.tr/en/pages/partial-pass/2445"
+    },
+    {
+      "id": "boun_academic_calendar",
+      "title": "Bogazici Academic Calendar",
+      "url": "https://akademiktakvim.bogazici.edu.tr/en"
+    }
+  ]
+}

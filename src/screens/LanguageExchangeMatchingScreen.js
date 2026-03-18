@@ -111,7 +111,7 @@ export default function LanguageExchangeMatchingScreen({ navigation }) {
     };
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
@@ -128,13 +128,13 @@ export default function LanguageExchangeMatchingScreen({ navigation }) {
 
             {currentIndex < MATCHES.length && (
                 <View style={styles.actionRow}>
-                    <TouchableOpacity style={[styles.actionBtn, { borderColor: colors.error }]} onPress={() => forceSwipe('left')}>
+                    <TouchableOpacity style={[styles.actionBtn, styles.actionBtnError]} onPress={() => forceSwipe('left')}>
                         <Ionicons name="close" size={32} color={colors.error} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.actionBtn, { borderColor: colors.accent, width: 60, height: 60, borderRadius: 30 }]} onPress={() => forceSwipe('up')}>
+                    <TouchableOpacity style={[styles.actionBtn, styles.actionBtnAccent]} onPress={() => forceSwipe('up')}>
                         <Ionicons name="star" size={28} color={colors.accent} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.actionBtn, { borderColor: colors.success }]} onPress={() => forceSwipe('right')}>
+                    <TouchableOpacity style={[styles.actionBtn, styles.actionBtnSuccess]} onPress={() => forceSwipe('right')}>
                         <Ionicons name="heart" size={32} color={colors.success} />
                     </TouchableOpacity>
                 </View>
@@ -162,7 +162,7 @@ const MatchCard = ({ item }) => (
                 <Text style={styles.langLabel}>Fluent In</Text>
                 <Text style={styles.langValue}>{item.fluent}</Text>
             </View>
-            <View style={{ width: 1, backgroundColor: 'rgba(0,0,0,0.1)', height: 30 }} />
+            <View style={styles.langDivider} />
             <View style={styles.langItem}>
                 <Text style={styles.langLabel}>Learning</Text>
                 <Text style={styles.langValue}>{item.learning}</Text>
@@ -206,6 +206,11 @@ const styles = StyleSheet.create({
 
     actionRow: { flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingBottom: spacing.xxl, paddingTop: spacing.md },
     actionBtn: { width: 70, height: 70, borderRadius: 35, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center', borderWidth: 2, ...shadow.slight },
+    actionBtnError: { borderColor: colors.error },
+    actionBtnSuccess: { borderColor: colors.success },
+    actionBtnAccent: { borderColor: colors.accent, width: 60, height: 60, borderRadius: 30 },
+
+    langDivider: { width: 1, backgroundColor: 'rgba(0,0,0,0.1)', height: 30 },
 
     noMoreCards: { alignItems: 'center', justifyContent: 'center', padding: spacing.xl },
     noMoreTitle: { fontSize: typography.h2, fontWeight: '800', color: colors.primary, marginVertical: spacing.sm },

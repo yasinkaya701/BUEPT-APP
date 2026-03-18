@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "termKey": "spring_2026",
+    "name": "2025-2026 Spring Term Calendar",
+    "sourceFile": "Bogazici Academic Calendar (Spring)",
+    "generatedAt": "2026-02-28",
+    "termStart": "2026-02-16",
+    "termEnd": "2026-06-05"
+  },
+  "holidays": [
+    {
+      "date": "2026-04-23",
+      "name": "National Sovereignty and Children's Day",
+      "source": "Public Holiday"
+    },
+    {
+      "date": "2026-05-01",
+      "name": "Labour and Solidarity Day",
+      "source": "Public Holiday"
+    },
+    {
+      "date": "2026-05-19",
+      "name": "Commemoration of Ataturk, Youth and Sports Day",
+      "source": "Public Holiday"
+    }
+  ],
+  "academicEvents": [
+    {
+      "id": "spring_registration",
+      "startDate": "2026-02-16",
+      "endDate": "2026-02-20",
+      "title": "Spring Registration and Orientation",
+      "type": "registration",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "id": "spring_classes_begin",
+      "startDate": "2026-02-23",
+      "endDate": "2026-02-23",
+      "title": "Classes Begin (Spring)",
+      "type": "classes",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "id": "spring_add_drop",
+      "startDate": "2026-03-02",
+      "endDate": "2026-03-04",
+      "title": "Add/Drop Period",
+      "type": "registration",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "id": "sfl_spring_quiz_1",
+      "startDate": "2026-03-18",
+      "endDate": "2026-03-18",
+      "title": "SFL Quiz 1",
+      "type": "exam",
+      "source": "YADYOK Spring Exam Milestones"
+    },
+    {
+      "id": "sfl_spring_midterm_1",
+      "startDate": "2026-04-15",
+      "endDate": "2026-04-15",
+      "title": "SFL Midterm 1",
+      "type": "exam",
+      "source": "YADYOK Spring Exam Milestones"
+    },
+    {
+      "id": "sfl_spring_quiz_2",
+      "startDate": "2026-05-13",
+      "endDate": "2026-05-13",
+      "title": "SFL Quiz 2",
+      "type": "exam",
+      "source": "YADYOK Spring Exam Milestones"
+    },
+    {
+      "id": "spring_last_day_classes",
+      "startDate": "2026-05-29",
+      "endDate": "2026-05-29",
+      "title": "Last Day of Classes",
+      "type": "classes",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "id": "spring_finals",
+      "startDate": "2026-06-01",
+      "endDate": "2026-06-10",
+      "title": "Final Exams",
+      "type": "exam",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "id": "spring_makeups",
+      "startDate": "2026-06-15",
+      "endDate": "2026-06-17",
+      "title": "Make-up Exams",
+      "type": "exam",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    }
+  ],
+  "notes": [
+    "Spring calendar is focused on term timeline, holidays and exam milestones.",
+    "Course section schedules reuse the uploaded fall schedule matrix until a spring matrix is uploaded."
+  ]
+}

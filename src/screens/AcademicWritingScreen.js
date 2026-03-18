@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
-import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
+import { colors, spacing, typography, radius } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { isDemoAiConfigured, requestDemoModule } from '../utils/demoAi';
 
 export default function AcademicWritingScreen({ navigation }) {
     const [topic, setTopic] = useState('');
     const [stance, setStance] = useState('');
     const [generatedText, setGeneratedText] = useState('');
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [source, setSource] = useState(isDemoAiConfigured('generic') ? 'online-ready' : 'offline');
 
-    const generateEssayTemplate = () => {
-        if (!topic.trim() || !stance.trim()) {
-            Alert.alert("Missing Info", "Please provide both a topic and a stance.");
-            return;
-        }
-
-        const template = `Title: The Impact of ${topic}
+    const buildFallbackTemplate = () => {
+        return `Title: The Impact of ${topic}
 
 Introduction:
 In recent years, the issue of ${topic.toLowerCase()} has sparked considerable debate. While some argue against it, it is unequivocally clear that ${stance.toLowerCase()}. This essay will argue that ${stance.toLowerCase()} because of its significant societal benefits.
@@ -29,8 +27,34 @@ Furthermore, the implications of ${stance.toLowerCase()} extend beyond immediate
 
 Conclusion:
 In conclusion, the evidence strongly supports the assertion that ${stance.toLowerCase()}. As society continues to navigate ${topic.toLowerCase()}, prioritizing this stance will yield the most optimal outcomes.`;
+    };
 
-        setGeneratedText(template);
+    const generateEssayTemplate = async () => {
+        if (!topic.trim() || !stance.trim()) {
+            Alert.alert("Missing Info", "Please provide both a topic and a stance.");
+            return;
+        }
+        setIsGenerating(true);
+        try {
+            const payload = await requestDemoModule('academic_writing_template', {
+                topic: topic.trim(),
+                stance: stance.trim(),
+                level: 'B2',
+            });
+            const draft = payload?.template || payload?.text || payload?.essay || '';
+            if (draft && String(draft).trim()) {
+                setGeneratedText(String(draft));
+                setSource(payload?.source || 'online');
+            } else {
+                setGeneratedText(buildFallbackTemplate());
+                setSource('offline');
+            }
+        } catch (_) {
+            setGeneratedText(buildFallbackTemplate());
+            setSource('offline');
+        } finally {
+            setIsGenerating(false);
+        }
     };
 
     const copyToClipboard = () => {
@@ -38,7 +62,7 @@ In conclusion, the evidence strongly supports the assertion that ${stance.toLowe
     };
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
@@ -46,10 +70,11 @@ In conclusion, the evidence strongly supports the assertion that ${stance.toLowe
                 <View>
                     <Text style={styles.pageTitle}>Writing Studio</Text>
                     <Text style={styles.pageSub}>Essay Constructor</Text>
+                    <Text style={styles.sourceText}>Template source: {source}</Text>
                 </View>
             </View>
 
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+            <KeyboardAvoidingView style={styles.flexFill} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
                 <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
 
                     <Card style={styles.builderCard}>
@@ -70,9 +95,9 @@ In conclusion, the evidence strongly supports the assertion that ${stance.toLowe
                             onChangeText={setStance}
                         />
 
-                        <TouchableOpacity style={styles.generateBtn} onPress={generateEssayTemplate}>
-                            <Text style={styles.generateBtnText}>Generate Custom Template</Text>
-                            <Ionicons name="flash" size={16} color="#fff" style={{ marginLeft: 8 }} />
+                        <TouchableOpacity style={styles.generateBtn} onPress={generateEssayTemplate} disabled={isGenerating}>
+                            {isGenerating ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.generateBtnText}>Generate Custom Template</Text>}
+                            {!isGenerating ? <Ionicons name="flash" size={16} color="#fff" style={styles.generateIcon} /> : null}
                         </TouchableOpacity>
                     </Card>
 
@@ -100,7 +125,7 @@ In conclusion, the evidence strongly supports the assertion that ${stance.toLowe
                         </View>
                     )}
 
-                    <View style={{ height: 40 }} />
+                    <View style={styles.bottomSpacer} />
                 </ScrollView>
             </KeyboardAvoidingView>
         </Screen>
@@ -113,6 +138,7 @@ const styles = StyleSheet.create({
     backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
     pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
     pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+    sourceText: { fontSize: 12, color: colors.muted, marginTop: 2 },
 
     scroll: { paddingHorizontal: spacing.xl },
 
@@ -133,5 +159,8 @@ const styles = StyleSheet.create({
     resultArea: { minHeight: 400, fontSize: 14, color: colors.text, lineHeight: 24, textAlignVertical: 'top' },
 
     emptyState: { alignItems: 'center', paddingVertical: spacing.xxl },
-    emptyText: { fontSize: 13, color: colors.muted, textAlign: 'center', paddingHorizontal: 40, marginTop: spacing.md, lineHeight: 20 }
+    emptyText: { fontSize: 13, color: colors.muted, textAlign: 'center', paddingHorizontal: 40, marginTop: spacing.md, lineHeight: 20 },
+    flexFill: { flex: 1 },
+    generateIcon: { marginLeft: 8 },
+    bottomSpacer: { height: 40 },
 });

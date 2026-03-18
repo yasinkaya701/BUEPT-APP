@@ -3,7 +3,7 @@
  */
 import React, { useState, useRef } from 'react';
 import {
-  Text, StyleSheet, View, TouchableOpacity, ScrollView, Animated
+  Text, StyleSheet, View, TouchableOpacity, Animated
 } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
@@ -11,6 +11,8 @@ import Button from '../components/Button';
 import { colors, spacing, typography, shadow } from '../theme/tokens';
 import buept from '../../data/buept_exams.json';
 import { useAppState } from '../context/AppState';
+import examResources from '../../data/exam_resources.json';
+import prepProfile from '../../data/bogazici_prep_profile.json';
 
 const EXAM_MODES = [
   { key: 'timed', label: '⏱ Timed Mode', desc: 'Real exam conditions. Timer runs.' },
@@ -23,11 +25,19 @@ const DIFFICULTY_COLOR = {
   Hard: { bg: '#FFEBEE', text: '#B71C1C', border: '#EF9A9A' },
 };
 
+const SECTION_ICONS = {
+  reading: '📖',
+  listening: '🎧',
+  writing: '✍️',
+};
+
 export default function ExamsScreen({ navigation }) {
   const [selectedMode, setSelectedMode] = useState('timed');
   const [selectedExam, setSelectedExam] = useState(null);
   const { mockResults = [] } = useAppState() || {};
   const fadeAnim = useRef(new Animated.Value(1)).current;
+  const officialSections = prepProfile.examFramework?.sections || [];
+  const policyNotes = prepProfile.examFramework?.coreRules || [];
 
   const bestScore = (examId) => {
     const results = mockResults.filter(r => r.examId === examId);
@@ -50,10 +60,16 @@ export default function ExamsScreen({ navigation }) {
     });
   };
 
+  const getQuestionCount = (exam) => {
+    const sec = exam?.sections || {};
+    return ['reading', 'listening', 'grammar', 'writing']
+      .reduce((sum, key) => sum + (Array.isArray(sec[key]?.questions) ? sec[key].questions.length : 0), 0);
+  };
+
   return (
     <Screen scroll contentStyle={styles.container}>
       <Text style={styles.h1}>📋 BUEPT Exams</Text>
-      <Text style={styles.sub}>Practice with official-style exam papers</Text>
+      <Text style={styles.sub}>Official framework + BUEPT-oriented mock practice</Text>
 
       {/* Score summary */}
       {mockResults.length > 0 && (
@@ -104,20 +120,21 @@ export default function ExamsScreen({ navigation }) {
 
       {/* Quick Stats bar */}
       <Card style={styles.tipsCard}>
-        <Text style={styles.tipsTitle}>💡 BUEPT Exam Structure</Text>
-        {[
-          ['Reading', '30 min', '~15 questions', '📖'],
-          ['Listening', '25 min', '~10 questions', '🎧'],
-          ['Grammar/Vocab', '20 min', '~20 questions', '📝'],
-          ['Writing', '60 min', '2 tasks', '✍️'],
-        ].map(([skill, time, qs, icon]) => (
-          <View key={skill} style={styles.structRow}>
-            <Text style={styles.structIcon}>{icon}</Text>
-            <Text style={styles.structSkill}>{skill}</Text>
-            <Text style={styles.structTime}>{time}</Text>
-            <Text style={styles.structQs}>{qs}</Text>
+        <Text style={styles.tipsTitle}>💡 Official BUEPT Structure (YADYOK)</Text>
+        {officialSections.map((section) => (
+          <View key={section.key} style={styles.structRow}>
+            <Text style={styles.structIcon}>{SECTION_ICONS[section.key] || '•'}</Text>
+            <Text style={styles.structSkill}>{section.label}</Text>
+            <Text style={styles.structTime}>{section.weightPercent}%</Text>
+            <Text style={styles.structQs}>{section.format}</Text>
           </View>
         ))}
+        {policyNotes.map((note) => (
+          <Text key={note} style={styles.policyHint}>• {note}</Text>
+        ))}
+        <Text style={styles.policyHintMuted}>
+          In-app mock papers currently focus on Reading + Listening + Language Use practice. Use Writing module for full essay simulation.
+        </Text>
       </Card>
 
       {/* Exam cards */}
@@ -149,7 +166,7 @@ export default function ExamsScreen({ navigation }) {
 
                 {/* Tag row */}
                 <View style={styles.tagRow}>
-                  {['Full Exam', 'Timed', `${exam.questions?.length || '?'} Questions`].map(tag => (
+                  {['Full Exam', 'Timed', `${getQuestionCount(exam)} Questions`].map(tag => (
                     <View key={tag} style={styles.tag}>
                       <Text style={styles.tagText}>{tag}</Text>
                     </View>
@@ -178,14 +195,20 @@ export default function ExamsScreen({ navigation }) {
       {/* External resources */}
       <Card style={[styles.card, styles.resourceCard]}>
         <Text style={styles.sectionLabel}>Official Resources</Text>
-        <TouchableOpacity
-          style={styles.resourceRow}
-          onPress={() => navigation.navigate('WebViewer', { url: 'https://buept.bogazici.edu.tr', title: 'BUEPT Official' })}
-        >
-          <Text style={styles.resourceText}>🌐 buept.bogazici.edu.tr</Text>
-          <Text style={styles.resourceArrow}>›</Text>
-        </TouchableOpacity>
-        <Text style={styles.resourceHint}>Past papers and announcements</Text>
+        {examResources.map((resource) => (
+          <TouchableOpacity
+            key={resource.id}
+            style={styles.resourceRow}
+            onPress={() => navigation.navigate('WebViewer', { url: resource.source_url, title: resource.title })}
+          >
+            <View style={styles.resourceCopyWrap}>
+              <Text style={styles.resourceText}>{resource.title}</Text>
+              <Text style={styles.resourceHint}>{resource.note}</Text>
+            </View>
+            <Text style={styles.resourceArrow}>›</Text>
+          </TouchableOpacity>
+        ))}
+        <Text style={styles.resourceStamp}>Source sync: {prepProfile.lastVerified}</Text>
       </Card>
     </Screen>
   );
@@ -220,11 +243,13 @@ const styles = StyleSheet.create({
 
   tipsCard: { marginBottom: spacing.lg, backgroundColor: colors.surfaceAlt },
   tipsTitle: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
-  structRow: { flexDirection: 'row', gap: spacing.sm, paddingVertical: spacing.xs, borderBottomWidth: 1, borderBottomColor: colors.secondary, alignItems: 'center' },
+  structRow: { flexDirection: 'row', gap: spacing.sm, paddingVertical: spacing.xs, borderBottomWidth: 1, borderBottomColor: colors.secondary, alignItems: 'flex-start' },
   structIcon: { fontSize: 16, width: 24 },
   structSkill: { flex: 1, fontSize: typography.small, color: colors.text, fontFamily: typography.fontHeadline },
-  structTime: { fontSize: typography.small, color: colors.primary, width: 60 },
-  structQs: { fontSize: typography.small, color: colors.muted, width: 90, textAlign: 'right' },
+  structTime: { fontSize: typography.small, color: colors.primary, width: 52, fontFamily: typography.fontHeadline },
+  structQs: { flex: 2, fontSize: typography.small, color: colors.muted, lineHeight: 18 },
+  policyHint: { marginTop: spacing.xs, fontSize: typography.small, color: colors.text, lineHeight: 18 },
+  policyHintMuted: { marginTop: spacing.sm, fontSize: typography.small, color: colors.muted, lineHeight: 18 },
 
   examCard: { marginBottom: spacing.md },
   examCardSelected: { borderColor: colors.primary, borderWidth: 2 },
@@ -249,8 +274,10 @@ const styles = StyleSheet.create({
 
   card: { marginBottom: spacing.md },
   resourceCard: { backgroundColor: colors.surfaceAlt },
-  resourceRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing.sm },
-  resourceText: { flex: 1, fontSize: typography.body, color: colors.primary, fontFamily: typography.fontHeadline },
+  resourceRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing.sm, borderBottomWidth: 1, borderBottomColor: colors.secondary },
+  resourceCopyWrap: { flex: 1, paddingRight: spacing.sm },
+  resourceText: { fontSize: typography.small, color: colors.primary, fontFamily: typography.fontHeadline },
   resourceArrow: { fontSize: 20, color: colors.muted },
-  resourceHint: { fontSize: typography.small, color: colors.muted },
+  resourceHint: { marginTop: 2, fontSize: typography.xsmall, color: colors.muted },
+  resourceStamp: { marginTop: spacing.sm, fontSize: typography.xsmall, color: colors.muted },
 });

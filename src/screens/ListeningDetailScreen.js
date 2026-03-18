@@ -12,6 +12,7 @@ import {
   Text, StyleSheet, View, TouchableOpacity,
   ScrollView, Animated, TextInput
 } from 'react-native';
+import { WebView } from 'react-native-webview';
 import Tts from 'react-native-tts';
 import { useTts } from '../hooks/useTts';
 import Screen from '../components/Screen';
@@ -24,6 +25,7 @@ import hardTasks from '../../data/listening_tasks_hard.json';
 import { useAppState } from '../context/AppState';
 import { buildSimilarQuestion } from '../utils/similarQuestion';
 import { buildListeningOpenEndedPrompts } from '../utils/openEndedPrompts';
+import { deriveListeningKeywords, evaluateListeningModel } from '../utils/listeningModel';
 
 const tasks = [...baseTasks, ...hardTasks];
 const RATES = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1.0];
@@ -102,6 +104,20 @@ function detectSignposts(text = '') {
   return SIGNPOSTS.filter((item) => lower.includes(item));
 }
 
+function ModelBar({ label, value }) {
+  return (
+    <View style={styles.modelBarBlock}>
+      <View style={styles.modelBarHeader}>
+        <Text style={styles.modelBarLabel}>{label}</Text>
+        <Text style={styles.modelBarValue}>{value}%</Text>
+      </View>
+      <View style={styles.modelBarTrack}>
+        <View style={[styles.modelBarFill, { width: `${Math.max(0, Math.min(100, Number(value || 0)))}%` }]} />
+      </View>
+    </View>
+  );
+}
+
 export default function ListeningDetailScreen({ route, navigation }) {
   const taskId = route?.params?.taskId;
   const task = useMemo(
@@ -129,19 +145,23 @@ export default function ListeningDetailScreen({ route, navigation }) {
   const [dictationSeed, setDictationSeed] = useState(0);
   const [dictationInput, setDictationInput] = useState('');
   const [dictationResult, setDictationResult] = useState(null);
+  const [listeningModel, setListeningModel] = useState(null);
   const listeningFeedback = useMemo(() => (checked ? buildListeningFeedback(task, answers) : null), [checked, task, answers]);
+  const derivedKeywords = useMemo(() => deriveListeningKeywords(task), [task]);
   const keywordScore = useMemo(() => {
-    const keys = (task?.keywords || []).map((k) => String(k || '').toLowerCase());
+    const keys = derivedKeywords.map((k) => String(k || '').toLowerCase());
     if (!keys.length) return { used: 0, total: 0 };
     const lowerNotes = String(noteText || '').toLowerCase();
     const used = keys.filter((k) => lowerNotes.includes(k)).length;
     return { used, total: keys.length };
-  }, [task?.keywords, noteText]);
+  }, [derivedKeywords, noteText]);
   const dictationTarget = useMemo(() => buildDictationTarget(sentences, dictationSeed), [sentences, dictationSeed]);
   const signposts = useMemo(() => detectSignposts(task?.transcript || ''), [task?.transcript]);
 
   const intervalRef = useRef(null);
   const sentenceIdxRef = useRef(0);
+  const webviewRef = useRef(null);
+  const [webviewPlaying, setWebviewPlaying] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const highlightAnim = useRef(new Animated.Value(0)).current;
   const { addListeningResult } = useAppState();
@@ -206,18 +226,78 @@ export default function ListeningDetailScreen({ route, navigation }) {
   }, [clearProgress]);
 
   // ── Play / Pause ──────────────────────────────────────────────────────────
+  const handleWebviewMessage = (event) => {
+    const msg = event.nativeEvent.data;
+    if (msg.startsWith('playing:') || msg.startsWith('next:')) {
+      const idx = parseInt(msg.split(':')[1], 10);
+      setActiveSentence(idx);
+      setWebviewPlaying(true);
+      Animated.sequence([
+        Animated.timing(highlightAnim, { toValue: 0, duration: 80, useNativeDriver: false }),
+        Animated.timing(highlightAnim, { toValue: 1, duration: 200, useNativeDriver: false }),
+      ]).start();
+    } else if (msg === 'ended') {
+      setWebviewPlaying(false);
+      setActiveSentence(-1);
+    }
+  };
+
   const handlePlayPause = useCallback(async () => {
-    if (isPlaying) {
+    if (webviewPlaying || isPlaying) {
       stopAll();
       clearProgress();
+      setWebviewPlaying(false);
+      webviewRef.current?.injectJavaScript(`if(window.currentAudio){window.currentAudio.pause();}`);
       return;
     }
-    try {
-      try { Tts.stop(); } catch (e) { }
-      await speakWord(task.transcript || '');
+
+    setWebviewPlaying(true);
+    
+    // Fallback logic: Native MP3 URL vs Google TTS chunks
+    if (task.audioUrl) {
+      const script = `
+          if(window.currentAudio) { window.currentAudio.pause(); }
+          window.currentAudio = new Audio('${task.audioUrl}');
+          window.currentAudio.playbackRate = ${rate};
+          window.currentAudio.onended = function() {
+              window.ReactNativeWebView.postMessage('ended');
+          };
+          window.currentAudio.play();
+          window.ReactNativeWebView.postMessage('playing:0'); // Generic playing state
+          true;
+      `;
+      webviewRef.current?.injectJavaScript(script);
+      
+      // We don't have accurate sentence-level timing for raw MP3s easily without a subtitle file,
+      // so we use a generic sentence playing animation fallback
       startSentenceProgress();
-    } catch (_) { }
-  }, [isPlaying, task.transcript, speakWord, stopAll, startSentenceProgress, clearProgress]);
+    } else {
+      // Play using Google Translate Neural TTS Chunking
+      const urls = sentences.map(s => `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&hl=en-US&q=${encodeURIComponent(s.slice(0, 199))}`);
+      const script = `
+          window.audioList = ${JSON.stringify(urls)};
+          window.audioIdx = 0;
+          if(window.currentAudio) { window.currentAudio.pause(); }
+          window.currentAudio = new Audio(window.audioList[window.audioIdx]);
+          window.currentAudio.playbackRate = ${rate};
+          window.currentAudio.onended = function() {
+             window.audioIdx++;
+             if (window.audioIdx < window.audioList.length) {
+                window.currentAudio.src = window.audioList[window.audioIdx];
+                window.currentAudio.playbackRate = ${rate};
+                window.currentAudio.play();
+                window.ReactNativeWebView.postMessage('next:' + window.audioIdx);
+             } else {
+                window.ReactNativeWebView.postMessage('ended');
+             }
+          };
+          window.currentAudio.play();
+          window.ReactNativeWebView.postMessage('playing:0');
+          true;
+      `;
+      webviewRef.current?.injectJavaScript(script);
+    }
+  }, [webviewPlaying, isPlaying, stopAll, clearProgress, sentences, rate, task.audioUrl, startSentenceProgress]);
 
   // ── Answers / Score ───────────────────────────────────────────────────────
   const select = (qi, oi) => { if (!checked) setAnswers(p => ({ ...p, [qi]: oi })); };
@@ -228,6 +308,13 @@ export default function ListeningDetailScreen({ route, navigation }) {
     task.questions?.forEach((q, i) => { if (answers[i] === q.answer) correct++; });
     setScore(`${correct} / ${task.questions?.length}`);
     addListeningResult({ taskId: task.id, score: correct, total: task.questions?.length });
+    setListeningModel(evaluateListeningModel({
+      task,
+      answers,
+      noteText,
+      dictationResult,
+      signposts,
+    }));
     setChecked(true);
   };
 
@@ -282,8 +369,8 @@ export default function ListeningDetailScreen({ route, navigation }) {
         <Card style={styles.playerCard}>
           {/* Play / Pause */}
           <TouchableOpacity style={styles.playBtn} onPress={handlePlayPause} activeOpacity={0.85}>
-            <Text style={styles.playIcon}>{isPlaying ? '⏸' : '▶'}</Text>
-            <Text style={styles.playLabel}>{isPlaying ? 'Pause' : 'Play Transcript'}</Text>
+            <Text style={styles.playIcon}>{webviewPlaying || isPlaying ? '⏸' : '▶'}</Text>
+            <Text style={styles.playLabel}>{webviewPlaying || isPlaying ? 'Pause' : 'Play Audio'}</Text>
           </TouchableOpacity>
 
           {/* Speed selector */}
@@ -366,6 +453,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
         <OpenEndedPracticeCard
           title="Open-Ended Listening Questions"
           prompts={openEndedPrompts}
+          idealClusters={task?.ideal_clusters || null}
           placeholder="Write your listening response..."
         />
 
@@ -385,6 +473,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
 
         <Card style={styles.card}>
           <Text style={styles.h3}>Cornell Notes</Text>
+          <Text style={styles.sub}>Aim to capture these high-value lecture words: {derivedKeywords.slice(0, 6).join(', ') || 'No keyword set available.'}</Text>
           <TextInput
             style={styles.notesInput}
             multiline
@@ -489,6 +578,88 @@ export default function ListeningDetailScreen({ route, navigation }) {
           </Card>
         )}
 
+        {listeningModel && (
+          <Card style={styles.card}>
+            <Text style={styles.h3}>Listening Model</Text>
+            <Text style={styles.sub}>Overall: {listeningModel.overall}% • {listeningModel.band}</Text>
+            <View style={styles.modelTrack}>
+              <View style={[styles.modelFill, { width: `${listeningModel.overall}%` }]} />
+            </View>
+            <View style={styles.modelPillRow}>
+              <View style={styles.modelPill}>
+                <Text style={styles.modelPillLabel}>Weakest area</Text>
+                <Text style={styles.modelPillValue}>{listeningModel.weakestDimension?.label || '—'}</Text>
+              </View>
+              <View style={styles.modelPill}>
+                <Text style={styles.modelPillLabel}>Keyword notes</Text>
+                <Text style={styles.modelPillValue}>{listeningModel.noteQuality.keywordHits}/{listeningModel.noteQuality.keywordTarget}</Text>
+              </View>
+              <View style={styles.modelPill}>
+                <Text style={styles.modelPillLabel}>Signposts used</Text>
+                <Text style={styles.modelPillValue}>{listeningModel.signpost.noteHits}/{listeningModel.signpost.transcriptCount}</Text>
+              </View>
+            </View>
+
+            <Text style={styles.feedbackTitle}>Dimension Scores</Text>
+            <ModelBar label="Comprehension" value={listeningModel.dimensions.comprehension} />
+            <ModelBar label="Detail Tracking" value={listeningModel.dimensions.detailTracking} />
+            <ModelBar label="Main Idea" value={listeningModel.dimensions.gistTracking} />
+            <ModelBar label="Inference / Tone" value={listeningModel.dimensions.inferenceControl} />
+            <ModelBar label="Note Taking" value={listeningModel.dimensions.noteTaking} />
+            <ModelBar label="Dictation" value={listeningModel.dimensions.dictationPrecision} />
+
+            {listeningModel.strongest.length > 0 ? (
+              <>
+                <Text style={styles.feedbackTitle}>Strongest Areas</Text>
+                {listeningModel.strongest.map((item) => (
+                  <Text key={item} style={styles.correct}>• {item}</Text>
+                ))}
+              </>
+            ) : null}
+            {listeningModel.weaknesses.length > 0 ? (
+              <>
+                <Text style={styles.feedbackTitle}>Weak Areas</Text>
+                {listeningModel.weaknesses.map((item) => (
+                  <Text key={item} style={styles.incorrect}>• {item}</Text>
+                ))}
+              </>
+            ) : null}
+            {listeningModel.insights.length > 0 ? (
+              <>
+                <Text style={styles.feedbackTitle}>Model Insights</Text>
+                {listeningModel.insights.map((item) => (
+                  <Text key={item} style={styles.bodyLine}>• {item}</Text>
+                ))}
+              </>
+            ) : null}
+            <Text style={styles.feedbackTitle}>Target Keywords</Text>
+            <View style={styles.signpostRow}>
+              {listeningModel.derivedKeywords.slice(0, 8).map((item) => (
+                <View key={item} style={styles.signpostChip}>
+                  <Text style={styles.signpostText}>{item}</Text>
+                </View>
+              ))}
+            </View>
+            <Text style={styles.feedbackTitle}>Question Skill Breakdown</Text>
+            {[
+              ['Detail', listeningModel.skillBreakdown.detail],
+              ['Main idea', listeningModel.skillBreakdown.gist],
+              ['Inference', listeningModel.skillBreakdown.inference],
+              ['Vocabulary', listeningModel.skillBreakdown.vocabulary],
+            ].map(([label, bucket]) => (
+              bucket?.total ? (
+                <Text key={label} style={styles.bodyLine}>
+                  • {label}: {bucket.correct}/{bucket.total} ({bucket.score}%)
+                </Text>
+              ) : null
+            ))}
+            <Text style={styles.feedbackTitle}>Next Actions</Text>
+            {listeningModel.actions.map((step) => (
+              <Text key={step} style={styles.bodyLine}>• {step}</Text>
+            ))}
+          </Card>
+        )}
+
         {/* ── Questions ── */}
         {task.questions?.map((q, qi) => (
           <Card key={qi} style={styles.card}>
@@ -564,11 +735,27 @@ export default function ListeningDetailScreen({ route, navigation }) {
           </Card>
         ))}
       </Animated.View>
+      <WebView 
+        ref={webviewRef} 
+        source={{ html: '<html><body></body></html>' }} 
+        style={styles.hiddenWebView}
+        onMessage={handleWebviewMessage}
+        mediaPlaybackRequiresUserAction={false}
+        allowsInlineMediaPlayback={true}
+      />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  hiddenWebView: {
+    width: 1,
+    height: 1,
+    opacity: 0,
+    position: 'absolute',
+    top: -100,
+    left: -100,
+  },
   container: { paddingBottom: 40 },
 
   h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },
@@ -742,5 +929,73 @@ const styles = StyleSheet.create({
   },
 
   row: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.sm },
+  modelTrack: {
+    height: 8,
+    borderRadius: 999,
+    backgroundColor: '#E2E8F0',
+    overflow: 'hidden',
+    marginBottom: spacing.sm,
+  },
+  modelFill: {
+    height: '100%',
+    backgroundColor: colors.primary,
+  },
+  modelPillRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  modelPill: {
+    flexGrow: 1,
+    flexBasis: 120,
+    borderWidth: 1,
+    borderColor: '#D7E4FA',
+    borderRadius: 12,
+    backgroundColor: '#F8FBFF',
+    padding: spacing.sm,
+  },
+  modelPillLabel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 4,
+    fontFamily: typography.fontHeadline,
+  },
+  modelPillValue: {
+    fontSize: typography.small,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+  },
+  modelBarBlock: {
+    marginBottom: spacing.sm,
+  },
+  modelBarHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 6,
+  },
+  modelBarLabel: {
+    fontSize: typography.small,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+  },
+  modelBarValue: {
+    fontSize: typography.small,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+  },
+  modelBarTrack: {
+    height: 10,
+    borderRadius: 999,
+    backgroundColor: '#E6EEF9',
+    overflow: 'hidden',
+  },
+  modelBarFill: {
+    height: '100%',
+    backgroundColor: colors.primary,
+    borderRadius: 999,
+  },
   similarBox: { marginTop: spacing.md, paddingTop: spacing.sm, borderTopWidth: 1, borderTopColor: colors.secondary },
 });

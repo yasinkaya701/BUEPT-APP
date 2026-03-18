@@ -167,7 +167,7 @@ export default function VideoLessonPlayerScreen({ route, navigation }) {
 
   if (!valid) {
     return (
-      <Screen contentStyle={styles.container}>
+      <Screen scroll contentStyle={styles.container}>
         <Card>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.error}>Video URL is missing or invalid.</Text>

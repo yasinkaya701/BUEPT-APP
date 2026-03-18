@@ -2,9 +2,9 @@ import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { Alert, View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Screen from '../components/Screen';
 import Card from '../components/Card';
-import { colors, spacing, typography, radius } from '../theme/tokens';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
     BADGE_CONFIG,
@@ -158,6 +158,7 @@ export default function DemoFeaturesScreen() {
     const [compareA, setCompareA] = useState('placement');
     const [compareB, setCompareB] = useState('ai_speaking');
     const [preflight, setPreflight] = useState(DEFAULT_PREFLIGHT);
+    const [showAdvanced, setShowAdvanced] = useState(false);
     const liveModules = useMemo(() => DEMO_MODULES.filter((m) => !!m.route), []);
 
     useEffect(() => {
@@ -340,16 +341,6 @@ export default function DemoFeaturesScreen() {
         });
         return sorted.slice(0, 3);
     }, [favoriteIds, recentIds]);
-    const profileHighlights = useMemo(() => {
-        const live = DEMO_MODULES.filter((m) => !!m.route && activeProfile.categories.includes(m.category));
-        const byTagBoost = [...live].sort((a, b) => {
-            const aTags = (a.tags || []).filter((t) => activeProfile.focusTags.includes(String(t).toLowerCase())).length;
-            const bTags = (b.tags || []).filter((t) => activeProfile.focusTags.includes(String(t).toLowerCase())).length;
-            if (aTags !== bTags) return bTags - aTags;
-            return modulePriority(b, favoriteIds, recentIds) - modulePriority(a, favoriteIds, recentIds);
-        });
-        return byTagBoost.slice(0, 4);
-    }, [activeProfile, favoriteIds, recentIds]);
     const demoScore = useMemo(() => {
         const livePct = Math.round((stats.available / Math.max(1, stats.total)) * 100);
         const favWeight = Math.min(100, favoriteIds.length * 8);
@@ -358,12 +349,6 @@ export default function DemoFeaturesScreen() {
         const label = score >= 85 ? 'Showcase Ready' : score >= 70 ? 'Strong Demo' : 'In Progress';
         return { score, label };
     }, [stats, favoriteIds, recentIds]);
-    const profileScore = useMemo(() => {
-        const profileLive = DEMO_MODULES.filter((m) => activeProfile.categories.includes(m.category) && !!m.route).length;
-        const profileTotal = DEMO_MODULES.filter((m) => activeProfile.categories.includes(m.category)).length;
-        const pct = profileTotal ? Math.round((profileLive / profileTotal) * 100) : 0;
-        return { profileLive, profileTotal, pct };
-    }, [activeProfile]);
     const openPack = useCallback((pack) => {
         const mods = (pack?.moduleIds || [])
             .map((id) => DEMO_MODULES.find((m) => m.id === id))
@@ -617,45 +602,56 @@ export default function DemoFeaturesScreen() {
     };
 
     return (
-        <Screen contentStyle={styles.container}>
+        <SafeAreaView style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-                    <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
+                    <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
                 </TouchableOpacity>
-                <View style={{ flex: 1 }}>
+                <View style={styles.headerTitleWrap}>
                     <Text style={styles.headerTitle}>Feature Hub</Text>
                     <Text style={styles.headerSub}>{stats.available}/{stats.total} playable modules</Text>
                 </View>
             </View>
 
+            <Card style={styles.heroCard}>
+                <View style={styles.heroHead}>
+                    <View style={styles.heroCopy}>
+                        <Text style={styles.heroEyebrow}>Showcase Workspace</Text>
+                        <Text style={styles.heroTitle}>BUEPT Demo Suite</Text>
+                        <Text style={styles.heroBody}>
+                            Access all specialized academic modules from a single command center. Use filters to narrow down by skill or assessment type.
+                        </Text>
+                    </View>
+                    <View style={styles.heroMetric}>
+                        <Text style={styles.heroMetricValue}>{demoScore.score}%</Text>
+                        <Text style={styles.heroMetricLabel}>{demoScore.label}</Text>
+                    </View>
+                </View>
+                <View style={styles.readinessBarTrack}>
+                    <View style={[styles.readinessBarFill, { width: `${demoScore.score}%` }]} />
+                </View>
+            </Card>
+
             <View style={styles.statsRow}>
-                <View style={styles.statCard}>
-                    <Text style={styles.statValue}>{stats.available}</Text>
-                    <Text style={styles.statLabel}>Live</Text>
-                </View>
-                <View style={styles.statCard}>
-                    <Text style={styles.statValue}>{stats.aiModules}</Text>
-                    <Text style={styles.statLabel}>AI Tools</Text>
-                </View>
                 <TouchableOpacity
                     onPress={() => setAvailableOnly(v => !v)}
                     style={[styles.quickToggle, availableOnly && styles.quickToggleActive]}
                 >
-                    <Ionicons name={availableOnly ? 'checkmark-circle' : 'filter'} size={14} color={availableOnly ? '#fff' : colors.primary} />
+                    <Ionicons name={availableOnly ? 'checkmark-circle' : 'filter'} size={14} color={availableOnly ? '#fff' : '#0F3F7F'} />
                     <Text style={[styles.quickToggleText, availableOnly && styles.quickToggleTextActive]}>
                         Live only
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={openRandomLive} style={styles.quickAction}>
-                    <Ionicons name="shuffle" size={14} color={colors.primary} />
+                    <Ionicons name="shuffle" size={14} color="#0F3F7F" />
                     <Text style={styles.quickActionText}>Random</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => setShowComingSoon(v => !v)}
                     style={[styles.quickAction, !showComingSoon && styles.quickActionActive]}
                 >
-                    <Ionicons name={showComingSoon ? 'eye' : 'eye-off'} size={14} color={showComingSoon ? colors.primary : '#fff'} />
+                    <Ionicons name={showComingSoon ? 'eye' : 'eye-off'} size={14} color={showComingSoon ? "#0F3F7F" : '#fff'} />
                     <Text style={[styles.quickActionText, !showComingSoon && styles.quickActionTextActive]}>
                         Coming Soon
                     </Text>
@@ -669,52 +665,47 @@ export default function DemoFeaturesScreen() {
                     <Text style={styles.microStatAction}>Open Favorites</Text>
                 </TouchableOpacity>
             </View>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.profileRow}>
-                {DEMO_PROFILES.map((p) => (
-                    <TouchableOpacity
-                        key={p.id}
-                        onPress={() => setProfileId(p.id)}
-                        style={[styles.profileChip, profileId === p.id && styles.profileChipActive]}
-                    >
-                        <Ionicons name={p.id === 'teacher' ? 'school' : 'person'} size={14} color={profileId === p.id ? '#fff' : colors.primary} />
-                        <Text style={[styles.profileChipText, profileId === p.id && styles.profileChipTextActive]}>{p.label}</Text>
-                    </TouchableOpacity>
-                ))}
-            </ScrollView>
-            <View style={styles.readinessRow}>
-                <View style={styles.readinessBox}>
-                    <Text style={styles.readinessValue}>{demoScore.score}%</Text>
-                    <Text style={styles.readinessLabel}>{demoScore.label}</Text>
-                </View>
-                <View style={styles.readinessBarTrack}>
-                    <View style={[styles.readinessBarFill, { width: `${demoScore.score}%` }]} />
-                </View>
-                <Text style={styles.profileMeta}>Profile coverage: {profileScore.profileLive}/{profileScore.profileTotal} live ({profileScore.pct}%)</Text>
+            <View style={styles.advancedToggleRow}>
+                <Text style={styles.advancedToggleLabel}>Advanced demo controls</Text>
+                <TouchableOpacity onPress={() => setShowAdvanced((v) => !v)} style={styles.advancedToggleBtn}>
+                    <Ionicons name={showAdvanced ? 'chevron-up' : 'chevron-down'} size={14} color={colors.primaryDark} />
+                    <Text style={styles.advancedToggleText}>{showAdvanced ? 'Hide' : 'Show'}</Text>
+                </TouchableOpacity>
             </View>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.packRow}>
-                {DEMO_PACKS.map((pack) => (
-                    <TouchableOpacity key={pack.id} onPress={() => openPack(pack)} style={styles.packChip}>
-                        <Ionicons name="rocket" size={14} color={colors.primary} />
-                        <Text style={styles.packChipText}>{pack.label}</Text>
-                    </TouchableOpacity>
-                ))}
-            </ScrollView>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.packRow}>
-                {highlightedModules.map((m) => (
-                    <TouchableOpacity key={`hl-${m.id}`} onPress={() => openModule(m)} style={styles.highlightChip}>
-                        <Ionicons name={m.icon} size={14} color={m.color} />
-                        <Text style={styles.highlightChipText}>{m.title}</Text>
-                    </TouchableOpacity>
-                ))}
-            </ScrollView>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.packRow}>
-                {profileHighlights.map((m) => (
-                    <TouchableOpacity key={`pf-${m.id}`} onPress={() => openModule(m)} style={styles.highlightChip}>
-                        <Ionicons name={m.icon} size={14} color={m.color} />
-                        <Text style={styles.highlightChipText}>{m.title}</Text>
-                    </TouchableOpacity>
-                ))}
-            </ScrollView>
+            {showAdvanced ? (
+                <>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.profileRow}>
+                    {DEMO_PROFILES.map((p) => (
+                        <TouchableOpacity
+                            key={p.id}
+                            onPress={() => setProfileId(p.id)}
+                            style={[styles.profileChip, profileId === p.id && styles.profileChipActive]}
+                        >
+                            <Ionicons name={p.id === 'teacher' ? 'school' : 'person'} size={14} color={profileId === p.id ? '#fff' : '#0F3F7F'} />
+                            <Text style={[styles.profileChipText, profileId === p.id && styles.profileChipTextActive]}>{p.label}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.packRow}>
+                    {DEMO_PACKS.map((pack) => (
+                        <TouchableOpacity key={pack.id} onPress={() => openPack(pack)} style={styles.packChip}>
+                            <Ionicons name="rocket" size={14} color="#0F3F7F" />
+                            <Text style={styles.packChipText}>{pack.label}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.packRow}>
+                    {highlightedModules.map((m) => (
+                        <TouchableOpacity key={`hl-${m.id}`} onPress={() => openModule(m)} style={styles.highlightChip}>
+                            <Ionicons name={m.icon} size={14} color={m.color} />
+                            <Text style={styles.highlightChipText}>{m.title}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+                </>
+            ) : null}
+            {showAdvanced ? (
+                <>
             <Card style={styles.preflightCard}>
                 <Text style={styles.preflightTitle}>Showtime Preflight</Text>
                 <Text style={styles.preflightMeta}>{preflightDone}/{Object.keys(DEFAULT_PREFLIGHT).length} done • {preflightPct}%</Text>
@@ -935,6 +926,8 @@ export default function DemoFeaturesScreen() {
                     </Text>
                 </View>
             )}
+                </>
+            ) : null}
 
             <View style={styles.sortRow}>
                 {[
@@ -1010,7 +1003,7 @@ export default function DemoFeaturesScreen() {
 
             {/* Search bar */}
             <View style={styles.searchWrap}>
-                <Ionicons name="search" size={18} color={colors.muted} style={{ marginLeft: 12 }} />
+                <Ionicons name="search" size={18} color={colors.muted} style={styles.searchIcon} />
                 <TextInput
                     style={styles.searchInput}
                     placeholder="Search modules..."
@@ -1021,7 +1014,7 @@ export default function DemoFeaturesScreen() {
                     returnKeyType="search"
                 />
                 {searchQuery.length > 0 && (
-                    <TouchableOpacity onPress={() => setSearchQuery('')} style={{ padding: 8 }}>
+                    <TouchableOpacity onPress={() => setSearchQuery('')} style={styles.searchClearBtn}>
                         <Ionicons name="close-circle" size={18} color={colors.muted} />
                     </TouchableOpacity>
                 )}
@@ -1118,9 +1111,9 @@ export default function DemoFeaturesScreen() {
                                 <Ionicons
                                     name={mod.route ? 'play-circle' : 'time-outline'}
                                     size={14}
-                                    color={mod.route ? colors.primary : colors.muted}
+                                    color={mod.route ? '#0F3F7F' : colors.muted}
                                 />
-                                <Text style={[styles.launchText, { color: mod.route ? colors.primary : colors.muted }]}>
+                                <Text style={[styles.launchText, mod.route ? styles.launchTextActive : styles.launchTextInactive]}>
                                     {mod.route ? 'Open Module →' : 'Coming Soon'}
                                 </Text>
                             </View>
@@ -1128,34 +1121,96 @@ export default function DemoFeaturesScreen() {
                     </TouchableOpacity>
                 ))}
 
-                <View style={{ height: 40 }} />
+                <View style={styles.listSpacer} />
             </ScrollView>
-        </Screen>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.background },
+    container: { flex: 1, backgroundColor: '#FFFFFF' },
+    mainScroll: { paddingBottom: 120 },
 
-    header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: spacing.xl, paddingTop: spacing.md, paddingBottom: spacing.sm },
-    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    headerTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    headerSub: { fontSize: typography.xsmall, color: colors.muted, fontWeight: '600' },
-    statsRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: spacing.xl, marginBottom: spacing.sm },
-    statCard: { flex: 1, backgroundColor: '#fff', borderWidth: 1, borderColor: 'rgba(0,0,0,0.06)', borderRadius: radius.md, paddingVertical: 8, alignItems: 'center' },
-    statValue: { fontSize: 16, color: colors.primaryDark, fontWeight: '800' },
-    statLabel: { fontSize: 11, color: colors.muted, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.4 },
-    quickToggle: { flexDirection: 'row', alignItems: 'center', gap: 5, borderWidth: 1, borderColor: colors.primary, paddingHorizontal: 10, paddingVertical: 8, borderRadius: radius.md, backgroundColor: colors.primarySoft },
-    quickToggleActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-    quickToggleText: { fontSize: 12, color: colors.primary, fontWeight: '700' },
+    header: { 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        paddingHorizontal: spacing.xl, 
+        paddingTop: spacing.md, 
+        paddingBottom: spacing.sm,
+        backgroundColor: '#0F3F7F'
+    },
+    headerTitleWrap: {
+        flex: 1,
+    },
+    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(255,255,255,0.1)' },
+    headerTitle: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: '#FFFFFF', fontWeight: '800' },
+    headerSub: { fontSize: typography.xsmall, color: '#BFDBFE', fontWeight: '600' },
+
+    heroCard: {
+        margin: spacing.xl,
+        marginTop: 0,
+        backgroundColor: '#0F3F7F',
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        borderBottomLeftRadius: radius.xl,
+        borderBottomRightRadius: radius.xl,
+        padding: spacing.lg,
+        paddingTop: spacing.md,
+        ...shadow.md,
+    },
+    heroHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: spacing.md },
+    heroCopy: { flex: 1 },
+    heroEyebrow: { fontSize: 10, color: '#BFDBFE', fontWeight: '800', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 },
+    heroTitle: { fontSize: 24, color: '#FFFFFF', fontWeight: '900', marginBottom: 6 },
+    heroBody: { fontSize: 13, color: '#DBEAFE', lineHeight: 18, opacity: 0.9 },
+    heroMetric: { alignItems: 'flex-end' },
+    heroMetricValue: { fontSize: 28, color: '#FFFFFF', fontWeight: '900' },
+    heroMetricLabel: { fontSize: 10, color: '#BFDBFE', fontWeight: '700', textTransform: 'uppercase' },
+
+    readinessBarTrack: { marginTop: spacing.md, height: 6, borderRadius: radius.pill, backgroundColor: 'rgba(255,255,255,0.1)' },
+    readinessBarFill: { height: '100%', backgroundColor: '#60A5FA', borderRadius: radius.pill },
+
+    statsRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: spacing.xl, marginBottom: spacing.md },
+    quickToggle: { flexDirection: 'row', alignItems: 'center', gap: 6, borderWidth: 1, borderColor: '#0F3F7F', paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.pill, backgroundColor: '#eff6ff' },
+    quickToggleActive: { backgroundColor: '#0F3F7F', borderColor: '#0F3F7F' },
+    quickToggleText: { fontSize: 12, color: '#0F3F7F', fontWeight: '700' },
     quickToggleTextActive: { color: '#fff' },
-    quickAction: { flexDirection: 'row', alignItems: 'center', gap: 5, borderWidth: 1, borderColor: 'rgba(0,0,0,0.08)', paddingHorizontal: 10, paddingVertical: 8, borderRadius: radius.md, backgroundColor: '#fff' },
-    quickActionActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-    quickActionText: { fontSize: 12, color: colors.primary, fontWeight: '700' },
+    quickAction: { flexDirection: 'row', alignItems: 'center', gap: 6, borderWidth: 1, borderColor: 'rgba(15,63,127,0.1)', paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.pill, backgroundColor: '#fff' },
+    quickActionActive: { backgroundColor: '#0F3F7F', borderColor: '#0F3F7F' },
+    quickActionText: { fontSize: 12, color: '#0F3F7F', fontWeight: '700' },
     quickActionTextActive: { color: '#fff' },
     microStatsRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: spacing.xl, marginBottom: spacing.sm },
     microStatText: { fontSize: 11, color: colors.muted, fontWeight: '700' },
     microStatAction: { fontSize: 11, color: colors.primary, fontWeight: '800' },
+    advancedToggleRow: {
+        marginTop: spacing.sm,
+        marginBottom: spacing.md,
+        paddingHorizontal: spacing.xl,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    advancedToggleLabel: {
+        fontSize: 11,
+        fontWeight: '800',
+        color: colors.muted,
+        textTransform: 'uppercase',
+        letterSpacing: 0.6,
+    },
+    advancedToggleBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+        backgroundColor: '#E8F0FF',
+        borderRadius: 999,
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+    },
+    advancedToggleText: {
+        fontSize: 11,
+        fontWeight: '800',
+        color: colors.primaryDark,
+    },
     profileRow: { paddingHorizontal: spacing.xl, gap: 8, paddingBottom: spacing.xs },
     profileChip: { flexDirection: 'row', alignItems: 'center', gap: 6, borderWidth: 1, borderColor: colors.primary, borderRadius: radius.pill, paddingHorizontal: 10, paddingVertical: 6, backgroundColor: '#fff' },
     profileChipActive: { backgroundColor: colors.primary, borderColor: colors.primary },
@@ -1165,8 +1220,6 @@ const styles = StyleSheet.create({
     readinessBox: { flexDirection: 'row', alignItems: 'baseline', gap: 8 },
     readinessValue: { fontSize: 22, color: colors.primaryDark, fontWeight: '900' },
     readinessLabel: { fontSize: 12, color: colors.muted, fontWeight: '700' },
-    readinessBarTrack: { marginTop: 6, height: 8, borderRadius: radius.pill, backgroundColor: '#E2E8F0', overflow: 'hidden' },
-    readinessBarFill: { height: '100%', backgroundColor: colors.primary },
     profileMeta: { marginTop: 4, fontSize: 11, color: colors.muted, fontWeight: '700' },
     packRow: { paddingHorizontal: spacing.xl, paddingBottom: spacing.xs, gap: 8 },
     packChip: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: '#fff', borderWidth: 1, borderColor: colors.secondary, borderRadius: radius.pill, paddingHorizontal: 11, paddingVertical: 7 },
@@ -1254,6 +1307,12 @@ const styles = StyleSheet.create({
     recentChipText: { fontSize: 12, color: colors.text, fontWeight: '600' },
 
     searchWrap: { flexDirection: 'row', alignItems: 'center', marginHorizontal: spacing.xl, marginBottom: spacing.sm, backgroundColor: 'rgba(0,0,0,0.04)', borderRadius: radius.pill, height: 42 },
+    searchIcon: {
+        marginLeft: 12,
+    },
+    searchClearBtn: {
+        padding: 8,
+    },
     searchInput: { flex: 1, height: '100%', paddingHorizontal: spacing.sm, fontSize: 14, color: colors.text },
 
     catScrollWrap: { minHeight: 46, marginBottom: spacing.sm },
@@ -1288,8 +1347,11 @@ const styles = StyleSheet.create({
     launchRowActive: { backgroundColor: colors.primarySoft },
     launchRowInactive: { backgroundColor: 'rgba(0,0,0,0.03)' },
     launchText: { fontSize: 12, fontWeight: '700' },
+    launchTextActive: { color: '#0F3F7F' },
+    launchTextInactive: { color: colors.muted },
 
     emptyState: { alignItems: 'center', paddingVertical: 60 },
+    listSpacer: { height: 40 },
     emptyTitle: { fontSize: typography.h3, fontWeight: '800', color: colors.muted, marginTop: spacing.md },
     emptySub: { fontSize: typography.small, color: colors.muted, marginTop: spacing.xs },
     emptyActionBtn: { marginTop: spacing.md, backgroundColor: colors.primarySoft, paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.pill, borderWidth: 1, borderColor: 'rgba(0,0,0,0.06)' },

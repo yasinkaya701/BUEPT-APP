@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
-import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
+import { colors, spacing, typography, radius } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function EmailTemplateDesignerScreen({ navigation }) {
@@ -60,7 +60,7 @@ Best regards,
     };
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
@@ -71,14 +71,14 @@ Best regards,
                 </View>
             </View>
 
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+            <KeyboardAvoidingView style={styles.flexFill} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
                 <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
 
                     <Card style={styles.builderCard}>
                         <Text style={styles.builderHead}>Configure Variables</Text>
 
                         <View style={styles.row}>
-                            <View style={{ flex: 1, marginRight: spacing.sm }}>
+                            <View style={styles.colLeft}>
                                 <Text style={styles.inputLabel}>Professor Name</Text>
                                 <TextInput
                                     style={styles.input}
@@ -87,7 +87,7 @@ Best regards,
                                     onChangeText={setProfName}
                                 />
                             </View>
-                            <View style={{ flex: 1 }}>
+                            <View style={styles.colRight}>
                                 <Text style={styles.inputLabel}>Course Code</Text>
                                 <TextInput
                                     style={styles.input}
@@ -105,14 +105,14 @@ Best regards,
                                 onPress={() => setReasonType('extension')}
                             >
                                 <Ionicons name="time-outline" size={16} color={reasonType === 'extension' ? '#fff' : colors.primaryDark} />
-                                <Text style={[styles.typeBtnText, reasonType === 'extension' && { color: '#fff' }]}>Extension</Text>
+                                <Text style={[styles.typeBtnText, reasonType === 'extension' && styles.typeBtnTextActive]}>Extension</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.typeBtn, reasonType === 'recommendation' && styles.typeBtnActive]}
                                 onPress={() => setReasonType('recommendation')}
                             >
                                 <Ionicons name="document-text-outline" size={16} color={reasonType === 'recommendation' ? '#fff' : colors.primaryDark} />
-                                <Text style={[styles.typeBtnText, reasonType === 'recommendation' && { color: '#fff' }]}>Recommendation</Text>
+                                <Text style={[styles.typeBtnText, reasonType === 'recommendation' && styles.typeBtnTextActive]}>Recommendation</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -145,7 +145,7 @@ Best regards,
                         </View>
                     )}
 
-                    <View style={{ height: 40 }} />
+                    <View style={styles.bottomSpacer} />
                 </ScrollView>
             </KeyboardAvoidingView>
         </Screen>
@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
     typeBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.03)', padding: spacing.md, borderRadius: radius.md, borderWidth: 1, borderColor: 'rgba(0,0,0,0.05)' },
     typeBtnActive: { backgroundColor: colors.primaryDark, borderColor: colors.primaryDark },
     typeBtnText: { fontSize: 13, fontWeight: '800', color: colors.primaryDark, marginLeft: 6 },
+    typeBtnTextActive: { color: '#fff' },
 
     generateBtn: { backgroundColor: colors.primary, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: spacing.md, borderRadius: radius.md },
     generateBtnText: { color: '#fff', fontWeight: '800', fontSize: 15 },
@@ -184,5 +185,10 @@ const styles = StyleSheet.create({
     resultArea: { minHeight: 250, fontSize: 14, color: colors.text, lineHeight: 22, textAlignVertical: 'top' },
 
     emptyState: { alignItems: 'center', paddingVertical: spacing.xxl },
-    emptyText: { fontSize: 13, color: colors.muted, textAlign: 'center', paddingHorizontal: 40, marginTop: spacing.md, lineHeight: 20 }
+    emptyText: { fontSize: 13, color: colors.muted, textAlign: 'center', paddingHorizontal: 40, marginTop: spacing.md, lineHeight: 20 },
+
+    flexFill: { flex: 1 },
+    colLeft: { flex: 1, marginRight: spacing.sm },
+    colRight: { flex: 1 },
+    bottomSpacer: { height: 40 }
 });

@@ -1,1279 +1,987 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Text, StyleSheet, View, Modal, Pressable, Linking, TextInput, Clipboard } from 'react-native';
+import { StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Chip from '../components/Chip';
 import Screen from '../components/Screen';
-import { colors, spacing, typography } from '../theme/tokens';
+import { colors, shadow, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
-import rubricData from '../../data/writing_rubric.json';
-import { checkOnlineFeedback, summarizeMatches, requestParaphrase } from '../utils/onlineFeedback';
-import { getWordEntry } from '../utils/dictionary';
-import { suggestSynonyms } from '../utils/synonymSuggest';
+import { checkOnlineFeedback, summarizeMatches, requestParaphrase, requestWritingRevision } from '../utils/onlineFeedback';
+import { lookupSynonymsForWord, suggestSynonyms } from '../utils/synonymSuggest';
 import { countWords } from '../utils/ys9Mock';
 import { detectBasicErrors } from '../utils/basicErrorDetect';
+import { scoreWritingRubric } from '../utils/rubricScoring';
+import { getAiSourceMeta } from '../utils/aiWorkspace';
 
-function InlineFeedback({ report }) {
-  if (!report?.inline_segments?.length) {
-    return <Text style={styles.body}>{report?.inline_feedback || ''}</Text>;
+const TABS = ['overview', 'rewrite', 'tools', 'deep review'];
+
+function formatLabel(value = '') {
+  return String(value || '')
+    .replace(/[_-]+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function uniqueStrings(items = []) {
+  const seen = new Set();
+  return items.filter((item) => {
+    const value = String(item || '').trim();
+    if (!value) return false;
+    const key = value.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function splitSentences(text) {
+  const safe = String(text || '').trim();
+  if (!safe) return [];
+  const parts = safe.match(/[^.!?]+[.!?]*/g);
+  if (!parts) return [safe];
+  const seen = new Set();
+  return parts
+    .map((item) => item.trim())
+    .filter((item) => item.length > 15)
+    .filter((item) => {
+      const key = item.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+}
+
+const PROMPT_STOPWORDS = new Set([
+  'about', 'after', 'also', 'because', 'could', 'essay', 'explain', 'should', 'their', 'there',
+  'these', 'those', 'which', 'would', 'while', 'with', 'your', 'from', 'into', 'than', 'this',
+  'that', 'have', 'what', 'when', 'where', 'why', 'does', 'make', 'many', 'much', 'some',
+]);
+
+function extractPromptSignals(promptText = '', keywords = []) {
+  if (Array.isArray(keywords) && keywords.length) {
+    return uniqueStrings(keywords).slice(0, 6);
   }
+  return uniqueStrings(
+    (String(promptText || '').toLowerCase().match(/[a-z][a-z-]{3,}/g) || [])
+      .filter((word) => !PROMPT_STOPWORDS.has(word))
+  ).slice(0, 6);
+}
+
+function buildPromptCoverage(text = '', promptText = '', keywords = []) {
+  const signals = extractPromptSignals(promptText, keywords);
+  if (!signals.length) return { signals: [], covered: [], missing: [], ratio: 0 };
+  const lower = String(text || '').toLowerCase();
+  const covered = signals.filter((item) => lower.includes(String(item).toLowerCase()));
+  const missing = signals.filter((item) => !covered.includes(item));
+  return {
+    signals,
+    covered,
+    missing,
+    ratio: Math.round((covered.length / signals.length) * 100),
+  };
+}
+
+function buildSubmissionDecision({ rubric = {}, targetDelta = 0, grammarIssueCount = 0, coverage = {}, paragraphCount = 0 }) {
+  const reasons = [];
+  let label = 'Ready';
+  if (targetDelta < 0) reasons.push(`Add ${Math.abs(targetDelta)} more words of development.`);
+  if ((coverage.missing || []).length) reasons.push(`Cover missing task signals: ${(coverage.missing || []).slice(0, 3).join(', ')}.`);
+  if (grammarIssueCount >= 4) reasons.push(`Resolve ${grammarIssueCount} grammar hotspots before final submission.`);
+  if (paragraphCount <= 1) reasons.push('Break the response into clearer paragraph units.');
+  if (Number(rubric.readiness || 0) < 70) label = 'Revise Now';
+  else if (reasons.length) label = 'Almost Ready';
+  return {
+    label,
+    reasons: reasons.slice(0, 4),
+  };
+}
+
+function buildRewriteRoute({ coverage = {}, grammarIssueCount = 0, fixes = [], targetDelta = 0 }) {
+  const route = [];
+  route.push({
+    key: 'coverage',
+    title: 'Fix task response first',
+    body: (coverage.missing || []).length
+      ? `Bring in these missing prompt signals: ${(coverage.missing || []).slice(0, 3).join(', ')}.`
+      : 'Task coverage looks stable. Keep the same focus while revising.',
+  });
+  route.push({
+    key: 'control',
+    title: 'Clean sentence control',
+    body: grammarIssueCount
+      ? `There are ${grammarIssueCount} grammar alerts. Clean those before style upgrades.`
+      : 'Grammar control looks stable enough for revision.',
+  });
+  route.push({
+    key: 'development',
+    title: 'Tighten development',
+    body: targetDelta < 0
+      ? `You are ${Math.abs(targetDelta)} words below target. Add one explained reason or example.`
+      : (fixes[0] || 'Use the rewrite to tighten organization and word choice.'),
+  });
+  return route;
+}
+
+function MetricTile({ label, value, tone = 'default' }) {
   return (
-    <Text style={styles.body}>
-      {report.inline_segments.map((seg, i) => (
-        <Text
-          key={`${i}-${seg.tag || 'plain'}`}
-          style={[styles.inlineText, seg.tag ? styles[`tag_${seg.tag}`] : null]}
-        >
-          {seg.text}
-        </Text>
-      ))}
-    </Text>
+    <View style={[styles.metricTile, tone === 'accent' && styles.metricTileAccent]}>
+      <Text style={[styles.metricValue, tone === 'accent' && styles.metricValueAccent]}>{value}</Text>
+      <Text style={styles.metricLabel}>{label}</Text>
+    </View>
   );
 }
 
-export default function FeedbackScreen() {
-  const { report, addUserWord, essayText, generateReport, level, writingEngine, setWritingEngine } = useAppState();
+function ScoreRow({ item }) {
+  const widthPct = `${Math.max(10, Math.round((item.score / item.max) * 100))}%`;
+  return (
+    <View style={styles.scoreRow}>
+      <View style={styles.scoreHead}>
+        <Text style={styles.bodyStrong}>{item.name}</Text>
+        <Text style={styles.sub}>{item.score}/{item.max}</Text>
+      </View>
+      <View style={styles.track}>
+        <View style={[styles.fill, { width: widthPct }]} />
+      </View>
+    </View>
+  );
+}
+
+export default function FeedbackScreen({ navigation }) {
+  const { width } = useWindowDimensions();
+  const isWide = width >= 1040;
+  const {
+    report,
+    addUserWord,
+    essayText,
+    generateReport,
+    level,
+    writingEngine,
+    setWritingEngine,
+  } = useAppState();
+
   const [autoGenerated, setAutoGenerated] = useState(false);
-  const [autoOnline, setAutoOnline] = useState(false);
-  const wwItems = report?.ww_explanations || [];
-  const nextSteps = report?.next_steps || [];
-  const repetition = report?.repetition || [];
+  const [activeTab, setActiveTab] = useState('overview');
+  const [onlineStatus, setOnlineStatus] = useState('idle');
+  const [onlineSummary, setOnlineSummary] = useState(null);
+  const [onlineBuckets, setOnlineBuckets] = useState({ Grammar: [], Vocabulary: [], Mechanics: [], Style: [] });
+  const [onlineError, setOnlineError] = useState('');
+  const [paraphraseStatus, setParaphraseStatus] = useState('idle');
+  const [paraphraseError, setParaphraseError] = useState('');
+  const [paraphrases, setParaphrases] = useState([]);
+  const [revisionStatus, setRevisionStatus] = useState('idle');
+  const [revisionError, setRevisionError] = useState('');
+  const [revisionResult, setRevisionResult] = useState(null);
+  const [synonymInput, setSynonymInput] = useState('');
+  const [synonymResults, setSynonymResults] = useState([]);
+  const [grammarPluginEnabled, setGrammarPluginEnabled] = useState(true);
+
+  useEffect(() => {
+    if (!report && essayText && !autoGenerated) {
+      generateReport({ text: essayText, type: 'general', level });
+      setAutoGenerated(true);
+    }
+  }, [report, essayText, autoGenerated, generateReport, level]);
+
   const sourceText = essayText || report?.raw_text || report?.inline_feedback || '';
-  const metrics = report?.metrics || { words: 0, sentences: 0, paragraphs: 0, avgSentence: 0 };
+  const promptText = report?.prompt_text || '';
   const liveWordCount = countWords(sourceText);
-  const liveCharCount = sourceText.length;
   const liveParagraphCount = sourceText.trim()
-    ? sourceText.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean).length
+    ? sourceText.split(/\n{2,}/).map((item) => item.trim()).filter(Boolean).length
     : 0;
   const liveUniqueWords = sourceText.trim()
-    ? new Set(
-      sourceText
-        .toLowerCase()
-        .match(/[a-z']+/g) || []
-    ).size
+    ? new Set((sourceText.toLowerCase().match(/[a-z']+/g) || [])).size
     : 0;
   const estReadMinutes = liveWordCount > 0 ? Math.max(1, Math.round(liveWordCount / 180)) : 0;
   const levelWordTarget = { P1: 80, P2: 120, P3: 180, P4: 250 }[String(level || '').toUpperCase()] || 150;
   const targetDelta = liveWordCount - levelWordTarget;
   const targetState = targetDelta >= 0 ? 'On target' : `${Math.abs(targetDelta)} words below target`;
-  const criteria = report?.criteria_flags || null;
-  const strengths = report?.strengths || [];
-  const issues = report?.issues || [];
-  const diagnostics = report?.diagnostics || [];
-  const sentenceFeedback = report?.sentence_feedback || [];
-  const paragraphFeedback = report?.paragraph_feedback || [];
-  const priorityFixes = report?.priority_fixes || [];
-  const cohesionStats = report?.cohesion_stats || { linkers: 0, cohesionScore: 0, used: [] };
-  const sentenceCorrections = report?.sentence_corrections || [];
-  const criticalErrors = report?.critical_errors || [];
-  const scaffold = report?.scaffold || [];
-  const scaffoldExamples = report?.scaffold_examples || [];
-  const thesisSuggestions = report?.thesis_suggestions || [];
-  const claimEvidence = report?.claimEvidence || { claimCount: 0, evidenceCount: 0 };
-  const checklistGaps = report?.checklist_gaps || [];
-  const styleFeedback = report?.style_feedback || [];
-  const weakWords = report?.weak_words || []
-  const keywordCoverage = report?.keyword_coverage || { total: 0, used: 0, hits: [] };
-  const structure = report?.structure || { hasIntroSignal: false, hasConclusionSignal: false, paraCount: 0 };
-  const cohesionAdvice = report?.cohesion_advice || [];
-  const rubric = report?.rubric || { Grammar: 0, Vocabulary: 0, Organization: 0, Content: 0, Mechanics: 0, Total: 0 };
-  const writing9 = report?.writing9_style || null;
-  const paraphraseBank = report?.paraphrase_bank || [];
-  const variantDiffs = report?.revised_variant_diffs || [];
-  const cefrSummary = report?.cefr_summary || [];
-  const [onlineStatus, setOnlineStatus] = useState("idle");
-  const [onlineBuckets, setOnlineBuckets] = useState({ Grammar: [], Vocabulary: [], Mechanics: [], Style: [] });
-  const [onlineSummary, setOnlineSummary] = useState(null);
-  const [showAllOnline, setShowAllOnline] = useState(false);
-  const [onlineError, setOnlineError] = useState("");
-  const [onlineSegments, setOnlineSegments] = useState([]);
-  const [onlineRevised, setOnlineRevised] = useState("");
-  const [activeMatch, setActiveMatch] = useState(null);
-  const [paraphraseModal, setParaphraseModal] = useState(null);
-  const [onlineMatchStates, setOnlineMatchStates] = useState({});
-  const [paraphraseStatus, setParaphraseStatus] = useState('idle');
-  const [paraphraseError, setParaphraseError] = useState('');
-  const [paraphrases, setParaphrases] = useState([]);
-  const [synonymInput, setSynonymInput] = useState('');
-  const [synonymResults, setSynonymResults] = useState([]);
-  const [grammarPluginEnabled, setGrammarPluginEnabled] = useState(true);
   const grammarPluginIssues = useMemo(() => detectBasicErrors(sourceText), [sourceText]);
-  const ENGINES = [
-    { key: 'hybrid', label: 'Hybrid (Best)' },
-    { key: 'online', label: 'Online (LanguageTool)' },
-    { key: 'local', label: 'Local (Rule-based)' }
-  ];
-  useEffect(() => {
-    if (!report && essayText && !autoGenerated) {
-      generateReport({ text: essayText, type: "general", level });
-      setAutoGenerated(true);
-    }
-  }, [report, essayText, autoGenerated, generateReport, level]);
-  const applyOnlineFixes = (text, matches = []) => {
-    if (!text) return '';
-    const usable = matches
-      .filter((m) => typeof m.offset === 'number' && typeof m.length === 'number' && m.replacements?.length)
-      .sort((a, b) => b.offset - a.offset);
-    let out = text;
-    usable.forEach((m) => {
-      const rep = m.replacements[0]?.value;
-      if (!rep) return;
-      out = out.slice(0, m.offset) + rep + out.slice(m.offset + m.length);
-    });
-    return out;
-  };
-  const applyOnlineFixesWithState = (text, matches = [], stateMap = {}) => {
-    if (!text) return '';
-    const usable = matches
-      .filter((m, idx) => {
-        if (!(typeof m.offset === 'number' && typeof m.length === 'number' && m.replacements?.length)) return false;
-        const key = `${m.offset}-${m.length}-${idx}`;
-        return stateMap[key] !== 'rejected';
-      })
-      .sort((a, b) => b.offset - a.offset);
-    let out = text;
-    usable.forEach((m) => {
-      const rep = m.replacements[0]?.value;
-      if (!rep) return;
-      out = out.slice(0, m.offset) + rep + out.slice(m.offset + m.length);
-    });
-    return out;
-  };
+  const compactRubric = useMemo(
+    () => scoreWritingRubric({ text: sourceText, prompt: promptText, targetWords: levelWordTarget }),
+    [sourceText, promptText, levelWordTarget]
+  );
+  const promptCoverage = useMemo(
+    () => buildPromptCoverage(sourceText, promptText, report?.keywords || []),
+    [sourceText, promptText, report?.keywords]
+  );
 
-  const splitSentences = (text) => {
-    const safe = String(text || '').trim();
-    if (!safe) return [];
-    const parts = safe.match(/[^.!?]+[.!?]*/g);
-    if (!parts) return [safe];
-    const seen = new Set();
-    return parts
-      .map((s) => s.trim())
-      .filter((s) => s.length > 15)
-      .filter((s) => {
-        const key = s.toLowerCase();
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      });
-  };
+  const strengths = uniqueStrings([...(compactRubric.strengths || []), ...(report?.strengths || [])]).slice(0, 5);
+  const fixes = uniqueStrings([
+    ...(report?.priority_fixes || []),
+    ...(compactRubric.improvements || []),
+    ...(report?.issues || []),
+    ...(report?.diagnostics || []),
+  ]).slice(0, 6);
+  const checklist = uniqueStrings([...(compactRubric.nextStepChecklist || []), ...(report?.next_steps || [])]).slice(0, 5);
+  const sentenceUpgrades = report?.sentence_corrections?.slice(0, 4) || [];
+  const paragraphFeedback = report?.paragraph_feedback?.slice(0, 4) || [];
+  const criticalErrors = report?.critical_errors?.slice(0, 6) || [];
+  const weakWords = report?.weak_words?.slice(0, 6) || [];
+  const repetition = report?.repetition || [];
+  const paraphraseBank = report?.paraphrase_bank || [];
+  const advancedRewrite = report?.revised_advanced || '';
+  const revisedVariants = report?.revised_variants || [];
+  const inlineLegend = report?.inline_legend || {};
+  const revisionSourceMeta = getAiSourceMeta(revisionResult?.source || 'local-writing-revision');
+  const submissionDecision = useMemo(
+    () => buildSubmissionDecision({
+      rubric: compactRubric,
+      targetDelta,
+      grammarIssueCount: grammarPluginIssues.length,
+      coverage: promptCoverage,
+      paragraphCount: liveParagraphCount,
+    }),
+    [compactRubric, targetDelta, grammarPluginIssues.length, promptCoverage, liveParagraphCount]
+  );
+  const rewriteRoute = useMemo(
+    () => buildRewriteRoute({
+      coverage: promptCoverage,
+      grammarIssueCount: grammarPluginIssues.length,
+      fixes,
+      targetDelta,
+    }),
+    [promptCoverage, grammarPluginIssues.length, fixes, targetDelta]
+  );
+  const ENGINES = [
+    { key: 'hybrid', label: 'Hybrid' },
+    { key: 'online', label: 'Online' },
+    { key: 'local', label: 'Local' },
+  ];
 
   const runParaphrase = useCallback(async () => {
     try {
       setParaphraseStatus('loading');
       setParaphraseError('');
-      const source = essayText || report?.raw_text || report?.inline_feedback || '';
-      if (!source.trim()) {
+      if (!sourceText.trim()) {
         setParaphraseStatus('error');
         setParaphraseError('No text to paraphrase.');
         return;
       }
-      const sentences = splitSentences(source).slice(0, 12);
+      const sentences = splitSentences(sourceText).slice(0, 12);
       const res = await requestParaphrase(sentences);
       setParaphrases(res || []);
       setParaphraseStatus('done');
-    } catch (e) {
+    } catch (error) {
       setParaphraseStatus('error');
-      setParaphraseError(e.message || 'Paraphrase failed');
+      setParaphraseError(error.message || 'Paraphrase failed.');
     }
-  }, [report, essayText]);
-
-  const formatOnlineMatch = (m) => {
-    const ctx = m.context || {};
-    const snippet = ctx.text || '';
-    const bad = snippet && typeof ctx.offset === 'number' ? snippet.slice(ctx.offset, ctx.offset + ctx.length) : '';
-    const entry = bad ? getWordEntry(bad.toLowerCase()) : null;
-    const synonyms = entry?.synonyms?.slice(0, 4) || [];
-    return {
-      bad,
-      message: m.message,
-      replacements: (m.replacements || []).slice(0, 4).map((r) => r.value),
-      synonyms
-    };
-  };
+  }, [sourceText]);
 
   const runOnlineFeedback = useCallback(async () => {
     try {
-      setOnlineStatus("loading");
-      setOnlineError("");
-      const sourceDraft = essayText || report?.raw_text || report?.inline_feedback || '';
-      if (!sourceDraft.trim()) {
-        setOnlineStatus("error");
-        setOnlineError("No text to send.");
+      setOnlineStatus('loading');
+      setOnlineError('');
+      if (!sourceText.trim()) {
+        setOnlineStatus('error');
+        setOnlineError('No text to send.');
         return;
       }
-      if (sourceDraft.length > 20000) {
-        setOnlineStatus("error");
-        setOnlineError("Text too long for free online feedback (20,000 chars max).");
+      if (sourceText.length > 20000) {
+        setOnlineStatus('error');
+        setOnlineError('Text too long for online feedback (20,000 chars max).');
         return;
       }
-      const res = await checkOnlineFeedback(sourceDraft);
-      const matches = res.matches || [];
-      const summary = summarizeMatches(matches);
-      setOnlineBuckets(summary.buckets);
+      const res = await checkOnlineFeedback(sourceText);
+      const summary = summarizeMatches(res.matches || []);
       setOnlineSummary(summary);
-      const sorted = matches
-        .filter((m) => typeof m.offset === 'number' && typeof m.length === 'number')
-        .sort((a, b) => a.offset - b.offset);
-      let cursor = 0;
-      const segs = [];
-      sorted.forEach((m) => {
-        const start = m.offset;
-        const end = m.offset + m.length;
-        const cat = (m.rule?.category?.id || m.rule?.category?.name || '').toLowerCase();
-        const tag = cat.includes('grammar') || cat.includes('syntax')
-          ? 'grammar'
-          : (cat.includes('style') || cat.includes('word') || cat.includes('vocab') ? 'vocab' : 'mechanics');
-        if (start > cursor) segs.push({ text: sourceDraft.slice(cursor, start) });
-        segs.push({ text: sourceDraft.slice(start, end), tag, match: m });
-        cursor = end;
-      });
-      if (cursor < sourceDraft.length) segs.push({ text: sourceDraft.slice(cursor) });
-      setOnlineSegments(segs);
-      const initialState = {};
-      matches.forEach((m, idx) => {
-        if (typeof m.offset === 'number' && typeof m.length === 'number') {
-          initialState[`${m.offset}-${m.length}-${idx}`] = 'pending';
-        }
-      });
-      setOnlineMatchStates(initialState);
-      setOnlineRevised(applyOnlineFixes(sourceDraft, matches));
-      setOnlineStatus("done");
-    } catch (e) {
-      setOnlineStatus("error");
-      setOnlineError(e.message || "Online feedback failed");
+      setOnlineBuckets(summary.buckets);
+      setOnlineStatus('done');
+    } catch (error) {
+      setOnlineStatus('error');
+      setOnlineError(error.message || 'Online feedback failed.');
     }
-  }, [report, essayText]);
-  useEffect(() => {
-    if (report && onlineStatus === "idle" && !autoOnline && writingEngine !== 'local') {
-      setAutoOnline(true);
-      runOnlineFeedback();
-    }
-  }, [report, onlineStatus, autoOnline, writingEngine, runOnlineFeedback]);
+  }, [sourceText]);
 
-  const saveRepeatedWords = () => {
-    repetition.forEach((r) => addUserWord(r.word));
-  };
-  const saveParaphraseWords = () => {
-    paraphraseBank.forEach((p) => addUserWord(p.word));
-  };
+  const runWritingRevision = useCallback(async () => {
+    try {
+      setRevisionStatus('loading');
+      setRevisionError('');
+      const res = await requestWritingRevision({
+        text: sourceText,
+        prompt: promptText,
+        level: String(level || 'B2').toUpperCase(),
+        task: report?.type === 'reaction' || report?.type === 'definition' ? 'paragraph' : 'essay',
+      });
+      setRevisionResult(res);
+      setRevisionStatus('done');
+    } catch (error) {
+      setRevisionStatus('error');
+      setRevisionError(error.message || 'AI revision failed.');
+    }
+  }, [sourceText, promptText, level, report?.type]);
+
   const runSynonymLookup = () => {
     const term = synonymInput.trim().toLowerCase();
     if (!term) {
       setSynonymResults([]);
       return;
     }
-    const entry = getWordEntry(term);
-    const fromEntry = entry?.synonyms || [];
-    if (fromEntry.length > 0) {
-      setSynonymResults(fromEntry.slice(0, 10));
+    const direct = lookupSynonymsForWord(term, 10);
+    if (direct.length) {
+      setSynonymResults(direct);
       return;
     }
     const fallback = suggestSynonyms(term) || [];
-    setSynonymResults(fallback.slice(0, 10));
+    setSynonymResults((fallback?.[0]?.synonyms || []).slice(0, 10));
   };
 
-  const buildExample = (word, synonym) => {
-    const base = word || 'word';
-    const syn = synonym || word;
-    return `Using “${syn}” instead of “${base}” can improve academic tone.`;
+  const saveWeakWords = () => {
+    weakWords.forEach((item) => addUserWord(item.word));
+    repetition.forEach((item) => addUserWord(item.word));
   };
-  const findExampleSentence = (fullText, term) => {
-    if (!fullText || !term) return '';
-    const parts = fullText.match(/[^.!?]+[.!?]*/g);
-    const sentences = (parts || [fullText]).map((s) => s.trim()).filter(Boolean);
-    const safe = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const re = new RegExp(`\\b${safe}\\b`, 'i');
-    return sentences.find((s) => re.test(s)) || '';
-  };
-  const totalOnlineIssues = onlineBuckets.Grammar.length + onlineBuckets.Vocabulary.length + onlineBuckets.Mechanics.length + onlineBuckets.Style.length;
-  const onlineScore = Math.max(0, 20 - Math.min(10, Math.round(totalOnlineIssues / 2)));
-  const hybridScore = Math.round((rubric.Total + onlineScore) / 2);
-  const currentMatchKey = (m) => {
-    if (!m) return '';
-    const idx = m.__idx ?? 0;
-    return `${m.offset}-${m.length}-${idx}`;
-  };
-  const setMatchState = (m, state) => {
-    if (!m) return;
-    const key = currentMatchKey(m);
-    setOnlineMatchStates((prev) => ({ ...prev, [key]: state }));
-  };
-  useEffect(() => {
-    const baseText = essayText || report?.raw_text || report?.inline_feedback || '';
-    if (!baseText) return;
-    const matches = onlineSegments.filter((s) => s.match).map((s) => s.match);
-    if (!matches.length) return;
-    setOnlineRevised(applyOnlineFixesWithState(baseText, matches, onlineMatchStates || {}));
-  }, [onlineMatchStates, onlineSegments, report, essayText]);
 
-  return (
-    <Screen scroll contentStyle={styles.content}>
-      <Text style={styles.h1}>BUEPT Writing Feedback</Text>
+  const saveParaphraseWords = () => {
+    paraphraseBank.forEach((item) => addUserWord(item.word));
+  };
+
+  if (!sourceText.trim()) {
+    return (
+      <Screen scroll contentStyle={styles.content}>
+        <Card style={styles.card}>
+          <Text style={styles.h1}>Writing Scoreboard</Text>
+          <Text style={styles.sub}>No draft found yet. Write something first, then come back for feedback.</Text>
+          <Button label="Open Writing Workspace" onPress={() => navigation.navigate('WritingEditor')} />
+        </Card>
+      </Screen>
+    );
+  }
+
+  const renderOverview = () => (
+    <>
+      <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Top Strengths</Text>
+          {strengths.length ? strengths.map((item) => <Text key={item} style={styles.body}>• {item}</Text>) : <Text style={styles.sub}>No clear strengths detected yet.</Text>}
+        </Card>
+
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Top Fixes</Text>
+          {fixes.length ? fixes.map((item) => <Text key={item} style={styles.body}>• {item}</Text>) : <Text style={styles.sub}>No urgent fixes listed.</Text>}
+        </Card>
+      </View>
+
+      <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Rubric Breakdown</Text>
+          {compactRubric.categories.map((item) => (
+            <ScoreRow key={item.name} item={item} />
+          ))}
+        </Card>
+
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Next Draft Plan</Text>
+          {checklist.map((item) => <Text key={item} style={styles.body}>• {item}</Text>)}
+          <View style={styles.sectionDivider} />
+          <Text style={styles.body}>Target words: {levelWordTarget}</Text>
+          <Text style={styles.body}>Current words: {liveWordCount}</Text>
+          <Text style={styles.body}>Paragraphs: {liveParagraphCount}</Text>
+          <Text style={styles.body}>Unique words: {liveUniqueWords}</Text>
+        </Card>
+      </View>
+
+      <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Task Coverage</Text>
+          <Text style={styles.sub}>
+            Coverage: {promptCoverage.covered.length}/{promptCoverage.signals.length || 0} · {promptCoverage.ratio}%
+          </Text>
+          {promptCoverage.covered.length ? (
+            <View style={styles.signalRow}>
+              {promptCoverage.covered.map((item) => (
+                <View key={`coverage-good-${item}`} style={[styles.signalPill, styles.signalPillGood]}>
+                  <Text style={[styles.signalPillText, styles.signalPillTextGood]}>{item}</Text>
+                </View>
+              ))}
+            </View>
+          ) : null}
+          {promptCoverage.missing.length ? (
+            <>
+              <Text style={styles.sectionLabel}>Missing</Text>
+              <View style={styles.signalRow}>
+                {promptCoverage.missing.map((item) => (
+                  <View key={`coverage-missing-${item}`} style={[styles.signalPill, styles.signalPillWarn]}>
+                    <Text style={[styles.signalPillText, styles.signalPillTextWarn]}>{item}</Text>
+                  </View>
+                ))}
+              </View>
+            </>
+          ) : (
+            <Text style={styles.body}>No obvious task-signal gap detected.</Text>
+          )}
+        </Card>
+
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Submission Decision</Text>
+          <Text style={styles.bodyStrong}>{submissionDecision.label}</Text>
+          {submissionDecision.reasons.length ? submissionDecision.reasons.map((item) => (
+            <Text key={item} style={styles.body}>• {item}</Text>
+          )) : (
+            <Text style={styles.body}>The draft is structurally stable enough to move into final polishing.</Text>
+          )}
+        </Card>
+      </View>
+
       <Card style={styles.card}>
-        <Text style={styles.h3}>Quick Actions</Text>
-        <Text style={styles.sub}>Run checks or generate paraphrase without scrolling.</Text>
-        <View style={styles.saveRow}>
+        <Text style={styles.h3}>Grammar Snapshot</Text>
+        <Text style={styles.sub}>Basic plugin: {grammarPluginEnabled ? 'On' : 'Off'}</Text>
+        {grammarPluginEnabled ? (
+          grammarPluginIssues.length ? grammarPluginIssues.slice(0, 10).map((item) => <Text key={item} style={styles.body}>• {item}</Text>) : <Text style={styles.body}>No basic grammar issue detected.</Text>
+        ) : (
+          <Text style={styles.body}>Turn it on in Tools if you want quick grammar alerts.</Text>
+        )}
+      </Card>
+    </>
+  );
+
+  const renderRewrite = () => (
+    <>
+      <Card style={styles.card}>
+        <Text style={styles.h3}>Revision Route</Text>
+        <Text style={styles.sub}>Use this order before you trust any rewrite output.</Text>
+        {rewriteRoute.map((item, index) => (
+          <View key={item.key} style={styles.routeRow}>
+            <Text style={styles.routeIndex}>{index + 1}</Text>
+            <View style={styles.routeBody}>
+              <Text style={styles.bodyStrong}>{item.title}</Text>
+              <Text style={styles.body}>{item.body}</Text>
+            </View>
+          </View>
+        ))}
+      </Card>
+
+      <Card style={styles.card}>
+        <View style={styles.sectionRow}>
+          <Text style={styles.h3}>AI Revision Endpoint</Text>
           <Button
-            label={onlineStatus === 'loading' ? 'Checking...' : 'Run Online'}
-            variant="secondary"
-            onPress={runOnlineFeedback}
-            disabled={onlineStatus === 'loading' || writingEngine === 'local'}
+            label={revisionStatus === 'loading' ? 'Revising...' : 'Run AI Revision'}
+            onPress={runWritingRevision}
+            disabled={revisionStatus === 'loading'}
+            icon="sparkles-outline"
           />
+        </View>
+        <Text style={styles.sub}>This calls the backend writing revision endpoint and returns a stricter BUEPT-oriented rewrite.</Text>
+        {revisionError ? <Text style={styles.body}>Error: {revisionError}</Text> : null}
+        {revisionResult ? (
+          <>
+            <View style={styles.sourceRow}>
+              <View style={styles.sourcePill}>
+                <Text style={styles.sourcePillText}>{revisionSourceMeta.label}</Text>
+              </View>
+              {revisionResult.model ? <Text style={styles.sourceModel}>{revisionResult.model}</Text> : null}
+            </View>
+            <Text style={styles.bodyBlock}>{revisionResult.revisedText}</Text>
+            {revisionResult.summary ? <Text style={styles.sub}>{revisionResult.summary}</Text> : null}
+            {revisionResult.strengths?.length ? (
+              <View style={styles.block}>
+                <Text style={styles.bodyStrong}>What is already working</Text>
+                {revisionResult.strengths.map((item) => <Text key={`rev-strength-${item}`} style={styles.body}>• {item}</Text>)}
+              </View>
+            ) : null}
+            {revisionResult.fixes?.length ? (
+              <View style={styles.block}>
+                <Text style={styles.bodyStrong}>What still needs work</Text>
+                {revisionResult.fixes.map((item) => <Text key={`rev-fix-${item}`} style={styles.body}>• {item}</Text>)}
+              </View>
+            ) : null}
+            {revisionResult.rubricNotes?.length ? (
+              <View style={styles.block}>
+                <Text style={styles.bodyStrong}>Rubric notes</Text>
+                {revisionResult.rubricNotes.map((item) => <Text key={`rev-note-${item}`} style={styles.body}>• {item}</Text>)}
+              </View>
+            ) : null}
+            {revisionResult.diagnostic ? <Text style={styles.diagnosticText}>Diagnostic: {revisionResult.diagnostic}</Text> : null}
+            <View style={styles.actionRow}>
+              <Button
+                label="Edit AI Revision"
+                variant="secondary"
+                onPress={() => navigation.navigate('WritingEditor', { draftText: revisionResult.revisedText, prompt: promptText || undefined, promptMeta: { type: report?.type } })}
+                icon="create-outline"
+              />
+            </View>
+          </>
+        ) : (
+          <Text style={styles.sub}>No AI revision generated yet.</Text>
+        )}
+      </Card>
+
+      <Card style={styles.card}>
+        <Text style={styles.h3}>Local Improved Version</Text>
+        <Text style={styles.bodyBlock}>{report?.revised || 'No rewrite generated yet.'}</Text>
+        <View style={styles.actionRow}>
           <Button
-            label={paraphraseStatus === 'loading' ? 'Paraphrasing...' : 'Paraphrase'}
-            onPress={runParaphrase}
-            disabled={paraphraseStatus === 'loading'}
+            label="Edit This Version"
+            onPress={() => navigation.navigate('WritingEditor', { draftText: report?.revised || sourceText, prompt: promptText || undefined, promptMeta: { type: report?.type } })}
+            icon="create-outline"
           />
         </View>
       </Card>
 
+      {advancedRewrite ? (
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Advanced Rewrite</Text>
+          <Text style={styles.bodyBlock}>{advancedRewrite}</Text>
+        </Card>
+      ) : null}
+
+      {revisedVariants.length ? (
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Alternative Versions</Text>
+          {revisedVariants.map((item, index) => (
+            <View key={`variant-${index}`} style={styles.block}>
+              <Text style={styles.sectionLabel}>Variant {index + 1}</Text>
+              <Text style={styles.bodyBlock}>{item}</Text>
+            </View>
+          ))}
+        </Card>
+      ) : null}
+
+      {sentenceUpgrades.length ? (
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Sentence Upgrades</Text>
+          {sentenceUpgrades.map((item, index) => (
+            <View key={`sentence-${index}`} style={styles.block}>
+              <Text style={styles.bodyStrong}>Original</Text>
+              <Text style={styles.bodyBlock}>{item.sentence}</Text>
+              <Text style={styles.bodyStrong}>Revised</Text>
+              <Text style={styles.bodyBlock}>{item.revised}</Text>
+              {item.reasons?.length ? <Text style={styles.sub}>Why: {item.reasons.join(' | ')}</Text> : null}
+            </View>
+          ))}
+        </Card>
+      ) : null}
+    </>
+  );
+
+  const renderTools = () => (
+    <>
       <Card style={styles.card}>
-        <Text style={styles.h3}>Writing Model</Text>
-        <View style={styles.chips}>
-          {ENGINES.map((e) => (
-            <Chip
-              key={e.key}
-              label={e.label}
-              active={writingEngine === e.key}
-              onPress={() => setWritingEngine(e.key)}
-            />
+        <Text style={styles.h3}>Writing Engine</Text>
+        <View style={styles.chipRow}>
+          {ENGINES.map((item) => (
+            <Chip key={item.key} label={item.label} active={writingEngine === item.key} onPress={() => setWritingEngine(item.key)} />
           ))}
         </View>
         <Text style={styles.sub}>
-          {writingEngine === 'hybrid' && 'Hybrid = Local rubric + Online checks'}
-          {writingEngine === 'online' && 'Online = LanguageTool only'}
-          {writingEngine === 'local' && 'Local = Offline rule-based only'}
+          {writingEngine === 'hybrid' && 'Hybrid combines local rubric scoring with optional online checks.'}
+          {writingEngine === 'online' && 'Online uses external grammar checking when available.'}
+          {writingEngine === 'local' && 'Local keeps the flow offline and stable.'}
         </Text>
       </Card>
 
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Word Count & Readiness</Text>
-        <Text style={styles.body}>
-          Words: {liveWordCount} • Unique: {liveUniqueWords} • Characters: {liveCharCount}
-        </Text>
-        <Text style={styles.sub}>
-          Paragraphs: {liveParagraphCount} • Est. read time: {estReadMinutes ? `${estReadMinutes} min` : '0 min'}
-        </Text>
-        <Text style={styles.sub}>
-          Level target ({String(level || '').toUpperCase()}): {levelWordTarget} • {targetState}
-        </Text>
-      </Card>
+      <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>
+        <Card style={styles.card}>
+          <View style={styles.sectionRow}>
+            <Text style={styles.h3}>Online Check</Text>
+            <Button
+              label={onlineStatus === 'loading' ? 'Checking...' : 'Run'}
+              variant="secondary"
+              onPress={runOnlineFeedback}
+              disabled={onlineStatus === 'loading' || writingEngine === 'local'}
+            />
+          </View>
+          {writingEngine === 'local' ? <Text style={styles.sub}>Online check is disabled in Local mode.</Text> : null}
+          {onlineError ? <Text style={styles.body}>Error: {onlineError}</Text> : null}
+          {onlineSummary ? (
+            <>
+              <Text style={styles.body}>Total issues: {onlineSummary.total}</Text>
+              <Text style={styles.body}>Grammar: {onlineBuckets.Grammar.length}</Text>
+              <Text style={styles.body}>Vocabulary: {onlineBuckets.Vocabulary.length}</Text>
+              <Text style={styles.body}>Mechanics: {onlineBuckets.Mechanics.length}</Text>
+              <Text style={styles.body}>Style: {onlineBuckets.Style.length}</Text>
+            </>
+          ) : (
+            <Text style={styles.sub}>Run this only after the local draft review looks stable.</Text>
+          )}
+        </Card>
 
-      <Card style={styles.card}>
-        <View style={styles.saveRow}>
-          <Text style={styles.h3}>Auto Grammar Plugin</Text>
-          <Button
-            label={grammarPluginEnabled ? 'On' : 'Off'}
-            variant={grammarPluginEnabled ? 'primary' : 'secondary'}
-            onPress={() => setGrammarPluginEnabled((v) => !v)}
+        <Card style={styles.card}>
+          <View style={styles.sectionRow}>
+            <Text style={styles.h3}>Paraphrase</Text>
+            <Button label={paraphraseStatus === 'loading' ? 'Running...' : 'Generate'} variant="secondary" onPress={runParaphrase} disabled={paraphraseStatus === 'loading'} />
+          </View>
+          {paraphraseError ? <Text style={styles.body}>Error: {paraphraseError}</Text> : null}
+          {paraphrases.length ? paraphrases.slice(0, 6).map((item, index) => (
+            <View key={`paraphrase-${index}`} style={styles.block}>
+              <Text style={styles.sectionLabel}>Sentence {index + 1}</Text>
+              {item.original ? <Text style={styles.sub}>Original: {item.original}</Text> : null}
+              <Text style={styles.body}>{item.paraphrase}</Text>
+            </View>
+          )) : <Text style={styles.sub}>Generate sentence-level paraphrases for revision ideas.</Text>}
+        </Card>
+      </View>
+
+      <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Synonym Finder</Text>
+          <TextInput
+            style={styles.input}
+            value={synonymInput}
+            onChangeText={setSynonymInput}
+            placeholder="Enter one word"
+            placeholderTextColor={colors.muted}
+            autoCapitalize="none"
           />
+          <View style={styles.actionRow}>
+            <Button label="Find Synonyms" variant="secondary" onPress={runSynonymLookup} icon="search-outline" />
+          </View>
+          {synonymResults.length ? <Text style={styles.body}>Suggestions: {synonymResults.join(', ')}</Text> : <Text style={styles.sub}>No lookup yet.</Text>}
+        </Card>
+
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Vocab Capture</Text>
+          <Text style={styles.body}>Repeated words: {repetition.length}</Text>
+          <Text style={styles.body}>Weak replacements: {weakWords.length}</Text>
+          <Text style={styles.body}>Paraphrase bank: {paraphraseBank.length}</Text>
+          <View style={styles.actionRow}>
+            <Button label="Save Weak Words" variant="secondary" onPress={saveWeakWords} icon="bookmark-outline" />
+            <Button label="Save Paraphrase Bank" variant="secondary" onPress={saveParaphraseWords} icon="copy-outline" />
+          </View>
+        </Card>
+      </View>
+
+      <Card style={styles.card}>
+        <View style={styles.sectionRow}>
+          <Text style={styles.h3}>Basic Grammar Plugin</Text>
+          <Button label={grammarPluginEnabled ? 'On' : 'Off'} variant={grammarPluginEnabled ? 'primary' : 'secondary'} onPress={() => setGrammarPluginEnabled((value) => !value)} />
         </View>
         {grammarPluginEnabled ? (
-          grammarPluginIssues.length > 0 ? (
-            grammarPluginIssues.slice(0, 12).map((issue, idx) => (
-              <Text key={idx} style={styles.body}>• {issue}</Text>
-            ))
-          ) : (
-            <Text style={styles.sub}>No basic grammar issue detected.</Text>
-          )
+          grammarPluginIssues.length ? grammarPluginIssues.slice(0, 12).map((item) => <Text key={item} style={styles.body}>• {item}</Text>) : <Text style={styles.body}>No basic grammar issue detected.</Text>
         ) : (
           <Text style={styles.sub}>Plugin is disabled.</Text>
         )}
       </Card>
+    </>
+  );
 
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Synonym Finder</Text>
-        <Text style={styles.sub}>Type one word and get quick synonyms.</Text>
-        <TextInput
-          style={styles.input}
-          value={synonymInput}
-          onChangeText={setSynonymInput}
-          placeholder="Enter a word (e.g. important)"
-          placeholderTextColor={colors.muted}
-          autoCapitalize="none"
-        />
-        <View style={styles.saveRow}>
-          <Button label="Find Synonyms" variant="secondary" onPress={runSynonymLookup} />
+  const renderDeepReview = () => (
+    <>
+      <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Paragraph Diagnostics</Text>
+          {paragraphFeedback.length ? paragraphFeedback.map((item) => (
+            <View key={`paragraph-${item.index}`} style={styles.block}>
+              <Text style={styles.bodyStrong}>Paragraph {item.index}</Text>
+              <Text style={styles.body}>Sentences: {item.length}</Text>
+              <Text style={styles.body}>Topic sentence: {item.hasTopic ? 'Yes' : 'No'}</Text>
+              <Text style={styles.body}>Example present: {item.hasExample ? 'Yes' : 'No'}</Text>
+              <Text style={styles.body}>Concluding sentence: {item.hasConcluding ? 'Yes' : 'No'}</Text>
+            </View>
+          )) : <Text style={styles.sub}>No paragraph diagnostics yet.</Text>}
+        </Card>
+
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Critical Errors</Text>
+          {criticalErrors.length ? criticalErrors.map((item) => (
+            <View key={`${item.text}-${item.tag}`} style={styles.block}>
+              <Text style={styles.bodyStrong}>{item.text} ({item.tag})</Text>
+              <Text style={styles.sub}>{item.why}</Text>
+              <Text style={styles.body}>Fix: {item.suggestion}</Text>
+            </View>
+          )) : <Text style={styles.sub}>No critical errors listed.</Text>}
+        </Card>
+      </View>
+
+      <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Weak Word Replacements</Text>
+          {weakWords.length ? weakWords.map((item) => (
+            <Text key={item.word} style={styles.body}>• {item.word} ({item.count}) → {item.synonyms.length ? item.synonyms.join(', ') : 'upgrade wording'}</Text>
+          )) : <Text style={styles.sub}>No weak word list generated.</Text>}
+        </Card>
+
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Inline Review Legend</Text>
+          {Object.entries(inlineLegend).length ? Object.entries(inlineLegend).map(([key, label]) => (
+            <Text key={key} style={styles.body}>• {formatLabel(key)}: {label}</Text>
+          )) : <Text style={styles.sub}>No inline legend available.</Text>}
+          {report?.cefr ? <Text style={[styles.sub, { marginTop: spacing.sm }]}>Estimated CEFR: {report.cefr}</Text> : null}
+          {report?.writing9_style?.band ? <Text style={styles.sub}>Band estimate: {report.writing9_style.band}</Text> : null}
+        </Card>
+      </View>
+    </>
+  );
+
+  return (
+    <Screen scroll contentStyle={styles.content}>
+      <Card style={styles.heroCard} glow>
+        <Text style={styles.h1}>Writing Scoreboard</Text>
+        <Text style={styles.sub}>{compactRubric.feedbackSummary}</Text>
+
+        <View style={styles.metricRow}>
+          <MetricTile label="Score" value={`${compactRubric.total}/20`} tone="accent" />
+          <MetricTile label="Band" value={compactRubric.band} />
+          <MetricTile label="Readiness" value={`${compactRubric.readiness}%`} />
+          <MetricTile label="Words" value={`${liveWordCount}`} />
         </View>
-        {synonymResults.length > 0 ? (
-          <Text style={styles.body}>Suggestions: {synonymResults.join(', ')}</Text>
-        ) : (
-          <Text style={styles.sub}>No result yet.</Text>
-        )}
+
+        <View style={styles.metricRow}>
+          <MetricTile label="Paragraphs" value={`${liveParagraphCount}`} />
+          <MetricTile label="Unique Words" value={`${liveUniqueWords}`} />
+          <MetricTile label="Read Time" value={estReadMinutes ? `${estReadMinutes} min` : '0 min'} />
+          <MetricTile label="Target" value={targetState} />
+        </View>
+
+        <View style={styles.actionRow}>
+          <Button label="Back to Editor" variant="secondary" onPress={() => navigation.navigate('WritingEditor', { draftText: sourceText, prompt: promptText || undefined, promptMeta: { type: report?.type } })} icon="create-outline" />
+          <Button label="Run Online Check" variant="ghost" onPress={runOnlineFeedback} disabled={writingEngine === 'local' || onlineStatus === 'loading'} icon="globe-outline" />
+          <Button label="Paraphrase" onPress={runParaphrase} disabled={paraphraseStatus === 'loading'} icon="sparkles-outline" />
+        </View>
       </Card>
 
-      {writingEngine !== 'online' && report && (
-        <>
-          <Card style={styles.card}>
-            <Text style={styles.h3}>Section 1 – Bravo</Text>
-            <Text style={styles.body}>{report.bravo}</Text>
-            {report.type && <Text style={styles.sub}>Type: {report.type}</Text>}
-          </Card>
+      <View style={styles.tabRow}>
+        {TABS.map((item) => (
+          <Chip key={item} label={formatLabel(item)} active={activeTab === item} onPress={() => setActiveTab(item)} />
+        ))}
+      </View>
 
-          <Card style={styles.card}>
-            <Text style={styles.h3}>Writing Snapshot</Text>
-            <Text style={styles.body}>Words: {metrics.words} • Sentences: {metrics.sentences} • Paragraphs: {metrics.paragraphs} • Avg sentence: {metrics.avgSentence}</Text>
-            <Text style={styles.sub}>Live word count: {liveWordCount}</Text>
-            <Text style={styles.sub}>Lexical variety (TTR): {metrics.ttr} • Academic words: {metrics.academicCount}</Text>
-            <Text style={styles.sub}>Cohesion: {cohesionStats.cohesionScore}/4 • Linkers: {cohesionStats.linkers}</Text>
-            {cohesionStats.used?.length > 0 && (
-              <Text style={styles.sub}>Used linkers: {cohesionStats.used.join(', ')}</Text>
-            )}
-            <Text style={styles.sub}>Claims: {claimEvidence.claimCount} • Evidence: {claimEvidence.evidenceCount}</Text>
-            <Text style={styles.sub}>Intro signal: {structure.hasIntroSignal ? 'Yes' : 'No'} • Conclusion signal: {structure.hasConclusionSignal ? 'Yes' : 'No'}</Text>
-            {keywordCoverage.total > 0 && (
-              <Text style={styles.sub}>
-                Keyword coverage: {keywordCoverage.used}/{keywordCoverage.total} ({keywordCoverage.hits.join(', ') || '—'})
-              </Text>
-            )}
-          </Card>
-
-          <Card style={styles.card}>
-            <Text style={styles.h3}>Paraphrase Sentences (API)</Text>
-            <Text style={styles.sub}>Generate paraphrases for your sentences using the feedback API.</Text>
-            <Button
-              label={paraphraseStatus === 'loading' ? 'Paraphrasing...' : 'Generate Paraphrases'}
-              onPress={runParaphrase}
-              disabled={paraphraseStatus === 'loading'}
-            />
-            {paraphraseError ? <Text style={styles.sub}>Error: {paraphraseError}</Text> : null}
-          {paraphraseStatus === 'done' && paraphrases.length > 0 && (
-              <View>
-                {paraphrases.map((p, i) => {
-                  const original = typeof p === 'string' ? '' : (p.original || p.source || p.text || '');
-                  const para = typeof p === 'string' ? p : (p.paraphrase || p.result || p.alt || p.output || '');
-                  return (
-                    <View key={i} style={styles.resultItem}>
-                      {original ? <Text style={styles.sub}>Original: {original}</Text> : <Text style={styles.sub}>Sentence #{i + 1}</Text>}
-                      <Text style={styles.body}>Paraphrase: {para}</Text>
-                    </View>
-                  );
-                })}
-                <Text style={styles.sub}>Tip: paraphrases are suggestions; keep your original meaning while revising.</Text>
-              </View>
-            )}
-          </Card>
-
-          <Card style={styles.card}>
-            <Text style={styles.h3}>Strengths</Text>
-            {strengths.map((s, i) => (
-              <Text key={i} style={styles.body}>• {s}</Text>
-            ))}
-          </Card>
-
-          <Card style={styles.card}>
-            <Text style={styles.h3}>Key Issues</Text>
-            {issues.map((s, i) => (
-              <Text key={i} style={styles.body}>• {s}</Text>
-            ))}
-          </Card>
-
-          {priorityFixes.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Priority Fixes</Text>
-              {priorityFixes.map((s, i) => (
-                <Text key={i} style={styles.body}>• {s}</Text>
-              ))}
-            </Card>
-          )}
-
-          {diagnostics.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Diagnostics</Text>
-              {diagnostics.map((s, i) => (
-                <Text key={i} style={styles.body}>• {s}</Text>
-              ))}
-            </Card>
-          )}
-
-          {criticalErrors.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Critical Errors (Top 15)</Text>
-              {criticalErrors.map((e, i) => (
-                <View key={i} style={styles.block}>
-                  <Text style={styles.body}>• {e.text} ({e.tag})</Text>
-                  <Text style={styles.sub}>{e.why}</Text>
-                  <Text style={styles.sub}>Fix: {e.suggestion}</Text>
-                </View>
-              ))}
-            </Card>
-          )}
-
-          {sentenceFeedback.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Sentence-Level Fixes</Text>
-              {sentenceFeedback.map((f, i) => (
-                <View key={i} style={styles.block}>
-                  <Text style={styles.body}>• {f.issue}</Text>
-                  <Text style={styles.sub}>“{f.sentence}”</Text>
-                  <Text style={styles.sub}>Fix: {f.fix}</Text>
-                </View>
-              ))}
-            </Card>
-          )}
-
-          {sentenceCorrections.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Sentence Corrections (Highlighted)</Text>
-              {sentenceCorrections.map((s, i) => (
-                <View key={i} style={styles.block}>
-                  <Text style={styles.body}>Original: “{s.sentence}”</Text>
-                  <Text style={styles.sub}>Revised: “{s.revised}”</Text>
-                  {s.tags?.length > 0 && (
-                    <View style={styles.tagRow}>
-                      {s.tags.map((t) => (
-                        <View key={`${i}-${t}`} style={[styles.tagChip, styles[`tag_${t}`]]}>
-                          <Text style={styles.tagText}>{t.toUpperCase()}</Text>
-                        </View>
-                      ))}
-                    </View>
-                  )}
-                  {s.reasons?.length > 0 && (
-                    <Text style={styles.sub}>Why: {s.reasons.join(' | ')}</Text>
-                  )}
-                </View>
-              ))}
-            </Card>
-          )}
-
-          {paragraphFeedback.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Paragraph Diagnostics</Text>
-              {paragraphFeedback.map((p) => (
-                <View key={p.index} style={styles.block}>
-                  <Text style={styles.body}>Paragraph {p.index}: {p.length} sentence(s)</Text>
-                  <Text style={styles.sub}>Topic sentence: {p.hasTopic ? 'Yes' : 'No'}</Text>
-                  <Text style={styles.sub}>Example present: {p.hasExample ? 'Yes' : 'No'}</Text>
-                  <Text style={styles.sub}>Concluding sentence: {p.hasConcluding ? 'Yes' : 'No'}</Text>
-                </View>
-              ))}
-            </Card>
-          )}
-
-
-          {scaffold.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Ideal Structure (Scaffold)</Text>
-              {scaffold.map((s, i) => (
-                <Text key={i} style={styles.body}>• {s}</Text>
-              ))}
-            </Card>
-          )}
-
-          {scaffoldExamples.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Scaffold Examples</Text>
-              {scaffoldExamples.map((s, i) => (
-                <Text key={i} style={styles.body}>• {s}</Text>
-              ))}
-            </Card>
-          )}
-
-          {thesisSuggestions.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Thesis Suggestions</Text>
-              {thesisSuggestions.map((s, i) => (
-                <Text key={i} style={styles.body}>• {s}</Text>
-              ))}
-            </Card>
-          )}
-
-          {checklistGaps.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Checklist Gaps</Text>
-              {checklistGaps.map((s, i) => (
-                <Text key={i} style={styles.body}>• {s}</Text>
-              ))}
-            </Card>
-          )}
-
-          {styleFeedback.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Style Feedback</Text>
-              {styleFeedback.map((s, i) => (
-                <Text key={i} style={styles.body}>• {s}</Text>
-              ))}
-            </Card>
-          )}
-
-          {weakWords.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Weak Word Replacements</Text>
-              {weakWords.map((w, i) => (
-                <Text key={i} style={styles.body}>
-                  • {w.word} ({w.count}) → {w.synonyms.length ? w.synonyms.join(', ') : 'synonyms pending'}
-                </Text>
-              ))}
-            </Card>
-          )}
-
-          {cohesionAdvice.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Cohesion Advice</Text>
-              {cohesionAdvice.map((s, i) => (
-                <Text key={i} style={styles.body}>• {s}</Text>
-              ))}
-            </Card>
-          )}
-
-
-          <Card style={styles.card}>
-            <Text style={styles.h3}>Section 2 – Inline Feedback</Text>
-            <InlineFeedback report={report} />
-            {report.inline_legend && (
-              <View style={styles.legend}>
-                {Object.entries(report.inline_legend).map(([k, label]) => (
-                  <View key={k} style={styles.legendItem}>
-                    <View style={[styles.legendSwatch, styles[`tag_${k}`]]} />
-                    <Text style={styles.legendLabel}>
-                      {label}{report.error_summary?.[k] ? ` (${report.error_summary[k]})` : ''}
-                    </Text>
-                  </View>
-                ))}
-              </View>
-            )}
-            <View style={styles.block}>
-              <Text style={styles.h4}>Wrong Word Choice (ww)</Text>
-              {wwItems.map((w, i) => (
-                <Text key={i} style={styles.body}>
-                  {w.wrong} → {w.better.join(', ')} ({w.why})
-                </Text>
-              ))}
-            </View>
-          </Card>
-
-          <Card style={[styles.card, styles.revisedCard]}>
-            <View style={styles.revisedHeader}>
-              <Text style={styles.h3}>✍️ Improved Version</Text>
-              <Pressable
-                onPress={() => Clipboard.setString(report.revised || '')}
-                style={styles.copyBtn}
-              >
-                <Text style={styles.copyBtnText}>📋 Copy</Text>
-              </Pressable>
-            </View>
-            <Text style={styles.revisedText}>{report.revised}</Text>
-          </Card>
-
-          {report.revised_advanced ? (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Section 3b – Revised Version (Advanced)</Text>
-              <Text style={styles.body}>{report.revised_advanced}</Text>
-            </Card>
-          ) : null}
-
-          {report.revised_variants?.length ? (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Section 3c – Alternative Rewrites</Text>
-              {report.revised_variants.map((v, i) => (
-                <View key={i} style={styles.block}>
-                  <Text style={styles.sub}>Variant {i + 1}</Text>
-                  <Text style={styles.body}>{v}</Text>
-                  {variantDiffs[i]?.added?.length ? (
-                    <View style={styles.tagRow}>
-                      {variantDiffs[i].added.map((w) => (
-                        <View key={`${i}-${w}`} style={styles.wordChip}>
-                          <Text style={styles.wordChipText}>{w}</Text>
-                        </View>
-                      ))}
-                    </View>
-                  ) : null}
-                </View>
-              ))}
-            </Card>
-          ) : null}
-
-          <Card style={styles.card}>
-            <Text style={styles.h3}>Section 4 – Next Step</Text>
-            {nextSteps.map((s, i) => (
-              <Text key={i} style={styles.body}>• {s}</Text>
-            ))}
-          </Card>
-
-          <Card style={styles.card}>
-            <Text style={styles.h3}>📊 {rubricData.title}</Text>
-            {/* Total score prominent display */}
-            <View style={styles.totalScoreRow}>
-              <Text style={styles.totalScoreNum}>{rubric.Total}</Text>
-              <Text style={styles.totalScoreDenom}>/20</Text>
-              <Text style={styles.totalScoreLabel}>{rubric.Total >= 16 ? '🏆 Excellent' : rubric.Total >= 12 ? '✅ Good' : rubric.Total >= 8 ? '⚠️ Fair' : '📝 Needs Work'}</Text>
-            </View>
-            {rubricData.categories.map((c) => {
-              const score = rubric[c.name] || 0;
-              const pct = (score / c.max) * 100;
-              const barColor = pct >= 75 ? '#4CAF50' : pct >= 50 ? '#FF9800' : '#F44336';
-              return (
-                <View key={c.name} style={styles.rubricItem}>
-                  <View style={styles.rubricLabelRow}>
-                    <Text style={styles.rubricName}>{c.name}</Text>
-                    <Text style={styles.rubricScore}>{score}/{c.max}</Text>
-                  </View>
-                  <View style={styles.progressTrack}>
-                    <View style={[styles.progressFill, { width: `${pct}%`, backgroundColor: barColor }]} />
-                  </View>
-                  <Text style={styles.rubricDesc}>{c.desc}</Text>
-                </View>
-              );
-            })}
-          </Card>
-
-          {writing9 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Overall Band Score</Text>
-              <Text style={styles.body}>Band: {writing9.band} • CEFR: {report.cefr} • Score: {rubric.Total}/20</Text>
-              {writing9.overall_comment ? <Text style={styles.sub}>{writing9.overall_comment}</Text> : null}
-              {Object.entries(writing9.criteria).map(([k, v]) => (
-                <Text key={k} style={styles.body}>{k}: {v}</Text>
-              ))}
-              {writing9.band_descriptors && (
-                <View style={styles.block}>
-                  <Text style={styles.h4}>Band Descriptors</Text>
-                  {Object.entries(writing9.band_descriptors).map(([k, v]) => (
-                    <Text key={k} style={styles.sub}>• {k}: {v}</Text>
-                  ))}
-                </View>
-              )}
-              {writing9.criteria_comments && (
-                <View style={styles.block}>
-                  <Text style={styles.h4}>Band‑Style Comments</Text>
-                  {Object.entries(writing9.criteria_comments).map(([k, list]) => (
-                    <View key={k} style={styles.block}>
-                      <Text style={styles.body}>• {k}</Text>
-                      {(list || []).map((c, i) => (
-                        <Text key={`${k}-${i}`} style={styles.sub}>- {c}</Text>
-                      ))}
-                    </View>
-                  ))}
-                </View>
-              )}
-            </Card>
-          )}
-
-          {criteria && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Criteria Checklist</Text>
-              <Text style={styles.h4}>Task Achievement</Text>
-              <Text style={styles.body}>• Complete response: {criteria.task.completeResponse ? 'Yes' : 'No'}</Text>
-              <Text style={styles.body}>• Appropriate word count: {criteria.task.appropriateWordCount ? 'Yes' : 'No'}</Text>
-              <Text style={styles.body}>• Words: {metrics.words}</Text>
-              <Text style={styles.body}>• Paragraphs (3+): {criteria.task.paragraphs ? 'Yes' : 'No'}</Text>
-              <Text style={styles.body}>• Clear and comprehensive ideas: {criteria.task.clearIdeas ? 'Yes' : 'No'}</Text>
-              <Text style={styles.body}>• Relevant examples: {criteria.task.relevantExamples ? 'Yes' : 'No'}</Text>
-
-              <Text style={styles.h4}>Coherence & Cohesion</Text>
-              <Text style={styles.body}>• Logical structure: {criteria.cohesion.logicalStructure ? 'Yes' : 'No'}</Text>
-              <Text style={styles.body}>• Introduction & conclusion: {criteria.cohesion.introConclusion ? 'Yes' : 'No'}</Text>
-              <Text style={styles.body}>• Supported main points: {criteria.cohesion.supportedMainPoints ? 'Yes' : 'No'}</Text>
-              <Text style={styles.body}>• Accurate linking words: {criteria.cohesion.accurateLinkingWords ? 'Yes' : 'No'}</Text>
-              <Text style={styles.body}>• Variety in linkers: {criteria.cohesion.varietyInLinkingWords ? 'Yes' : 'No'}</Text>
-
-              <Text style={styles.h4}>Lexical Resource</Text>
-              <Text style={styles.body}>• Varied vocabulary: {criteria.lexical.variedVocabulary ? 'Yes' : 'No'}</Text>
-              <Text style={styles.body}>• Word form/spelling OK: {criteria.lexical.spellingWordForm ? 'Yes' : 'No'}</Text>
-
-              <Text style={styles.h4}>Grammar Range & Accuracy</Text>
-              <Text style={styles.body}>• Mix of complex/simple sentences: {criteria.grammar.mixComplexSimple ? 'Yes' : 'No'}</Text>
-              <Text style={styles.body}>• Grammar mostly correct: {criteria.grammar.clearCorrectGrammar ? 'Yes' : 'No'}</Text>
-            </Card>
-          )}
-
-          <Card style={styles.card}>
-            <Text style={styles.h3}>Online Feedback (Free API)</Text>
-            <Text style={styles.body}>Uses LanguageTool free API for extra checks.</Text>
-            <Pressable onPress={() => Linking.openURL('https://languagetool.org')}>
-              <Text style={styles.link}>Powered by LanguageTool</Text>
-            </Pressable>
-            <Button
-              label={writingEngine === 'local' ? 'Online Disabled (Local Only)' : (onlineStatus === 'loading' ? 'Checking…' : 'Run Online Feedback')}
-              onPress={runOnlineFeedback}
-              disabled={onlineStatus === 'loading' || writingEngine === 'local'}
-            />
-            {onlineError ? <Text style={styles.sub}>Error: {onlineError}</Text> : null}
-            {onlineStatus === 'done' && (
-              <View style={styles.block}>
-                <Text style={styles.h4}>Online Matches (Rubric-Aligned)</Text>
-                <Text style={styles.body}>
-                  Grammar: {onlineBuckets.Grammar.length} •
-                  Vocabulary: {onlineBuckets.Vocabulary.length} •
-                  Mechanics: {onlineBuckets.Mechanics.length} •
-                  Style: {onlineBuckets.Style.length}
-                </Text>
-                {onlineSummary ? (
-                  <Text style={styles.sub}>Total issues: {onlineSummary.total}</Text>
-                ) : null}
-                <View style={styles.onlineActions}>
-                  <Button
-                    label="Apply All"
-                    onPress={() => {
-                      const next = {};
-                      Object.keys(onlineMatchStates || {}).forEach((k) => { next[k] = 'accepted'; });
-                      setOnlineMatchStates(next);
-                    }}
-                  />
-                  <Button
-                    label="Reject All"
-                    variant="secondary"
-                    onPress={() => {
-                      const next = {};
-                      Object.keys(onlineMatchStates || {}).forEach((k) => { next[k] = 'rejected'; });
-                      setOnlineMatchStates(next);
-                    }}
-                  />
-                </View>
-                <Button
-                  label={showAllOnline ? 'Hide Details' : 'Show All Online Issues'}
-                  variant="secondary"
-                  onPress={() => setShowAllOnline((v) => !v)}
-                />
-
-                {['Grammar', 'Vocabulary', 'Mechanics', 'Style'].map((k) => (
-                  <View key={k} style={styles.block}>
-                    <Text style={styles.h4}>{k}</Text>
-                    {(showAllOnline ? onlineBuckets[k] : onlineBuckets[k].slice(0, 4)).map((m, i) => {
-                      const fm = formatOnlineMatch(m);
-                      return (
-                        <View key={`${k}-${i}`} style={[styles.onlineItem, styles[`online_${k.toLowerCase()}`]]}>
-                          <Text style={styles.body}>• {fm.message}</Text>
-                          {fm.bad ? <Text style={styles.sub}>Issue: “{fm.bad}”</Text> : null}
-                          {fm.replacements.length > 0 && (
-                            <Text style={styles.sub}>Suggestions: {fm.replacements.join(', ')}</Text>
-                          )}
-                          {fm.synonyms.length > 0 && (
-                            <Text style={styles.sub}>Synonyms: {fm.synonyms.join(', ')}</Text>
-                          )}
-                        </View>
-                      );
-                    })}
-                    {!showAllOnline && onlineBuckets[k].length > 4 && (
-                      <Text style={styles.sub}>+ {onlineBuckets[k].length - 4} more</Text>
-                    )}
-                  </View>
-                ))}
-              </View>
-            )}
-            {writingEngine === 'hybrid' && onlineStatus === 'done' && (
-              <View style={styles.block}>
-                <Text style={styles.h4}>Hybrid Score</Text>
-                <Text style={styles.body}>Local Score: {rubric.Total}/20</Text>
-                <Text style={styles.body}>Online Score: {onlineScore}/20</Text>
-                <Text style={styles.body}>Hybrid Total: {hybridScore}/20</Text>
-              </View>
-            )}
-            {onlineStatus === 'done' && onlineSegments.length > 0 && (
-              <View style={styles.block}>
-                <Text style={styles.h4}>Highlighted Online Issues</Text>
-                <Text style={styles.body}>
-                  {onlineSegments.map((seg, i) => (
-                    seg.tag ? (
-                      <Text
-                        key={`${i}-${seg.tag || 'plain'}`}
-                        style={[styles.inlinePress, styles[`online_${seg.tag}`]]}
-                        onPress={() => setActiveMatch({ ...seg.match, __idx: i })}
-                      >
-                        {seg.text}
-                      </Text>
-                    ) : (
-                      <Text key={`${i}-${seg.tag || 'plain'}`}>{seg.text}</Text>
-                    )
-                  ))}
-                </Text>
-              </View>
-            )}
-            {onlineStatus === 'done' && onlineRevised ? (
-              <View style={styles.block}>
-                <Text style={styles.h4}>Auto Revised Version (Online)</Text>
-                <Text style={styles.body}>{onlineRevised}</Text>
-              </View>
-            ) : null}
-          </Card>
-
-          {paraphraseBank.length > 0 && (
-            <Card style={styles.card}>
-              <Text style={styles.h3}>Paraphrase Bank</Text>
-              {paraphraseBank.map((p, i) => (
-                <View key={i} style={styles.block}>
-                  <Text style={styles.body}>{p.word}</Text>
-                  <View style={styles.tagRow}>
-                    {p.synonyms.slice(0, 6).map((s) => (
-                      <Pressable key={`${p.word}-${s}`} onPress={() => setParaphraseModal({ word: p.word, synonym: s })} style={styles.wordChipAlt}>
-                        <Text style={styles.wordChipText}>{s}</Text>
-                      </Pressable>
-                    ))}
-                  </View>
-                </View>
-              ))}
-              <View style={styles.saveRow}>
-                <Button label="Save Paraphrase Words" onPress={saveParaphraseWords} />
-              </View>
-            </Card>
-          )}
-
-          <Card style={styles.card}>
-            <Text style={styles.h3}>CEFR Summary</Text>
-            <Text style={styles.body}>{report.cefr}</Text>
-            {cefrSummary.length > 0 && (
-              <View style={styles.block}>
-                {cefrSummary.map((s, i) => (
-                  <Text key={i} style={styles.sub}>{s}</Text>
-                ))}
-              </View>
-            )}
-          </Card>
-
-          <Card style={styles.card}>
-            <Text style={styles.h3}>Repetition & Synonyms</Text>
-            {repetition.map((r, i) => (
-              <Text key={i} style={styles.body}>
-                {r.word} → {r.synonyms.length ? r.synonyms.join(', ') : 'synonyms pending'}
-              </Text>
-            ))}
-            <View style={styles.saveRow}>
-              <Button label="Save Words" onPress={saveRepeatedWords} />
-            </View>
-          </Card>
-        </>
-      )}
-
-      {writingEngine === 'online' && (
-        <Card style={styles.card}>
-          <Text style={styles.h3}>Online-Only Mode</Text>
-          <Text style={styles.body}>Local rubric and offline feedback are hidden. Only online results are shown.</Text>
-        </Card>
-      )}
-
-
-      <Modal visible={!!paraphraseModal} transparent animationType="fade">
-        <Pressable style={styles.modalBackdrop} onPress={() => setParaphraseModal(null)}>
-          <Pressable style={styles.modalCard} onPress={() => { }}>
-            <Text style={styles.h3}>Paraphrase Example</Text>
-            {paraphraseModal ? (
-              <>
-                <Text style={styles.body}>Word: {paraphraseModal.word}</Text>
-                <Text style={styles.body}>Synonym: {paraphraseModal.synonym}</Text>
-                {(() => {
-                  const source = essayText || report?.raw_text || report?.inline_feedback || '';
-                  const example = findExampleSentence(source, paraphraseModal.word) || findExampleSentence(source, paraphraseModal.synonym);
-                  return example ? (
-                    <Text style={styles.sub}>Example: {example}</Text>
-                  ) : (
-                    <Text style={styles.sub}>{buildExample(paraphraseModal.word, paraphraseModal.synonym)}</Text>
-                  );
-                })()}
-              </>
-            ) : null}
-            <View style={styles.modalActions}>
-              <Button label="Add to Vocab" onPress={() => {
-                if (paraphraseModal?.word) addUserWord(paraphraseModal.word);
-                if (paraphraseModal?.synonym) addUserWord(paraphraseModal.synonym);
-                setParaphraseModal(null);
-              }} />
-              <Button label="Close" variant="ghost" onPress={() => setParaphraseModal(null)} />
-            </View>
-          </Pressable>
-        </Pressable>
-      </Modal>
-
-      <Modal visible={!!activeMatch} transparent animationType="fade">
-        <Pressable style={styles.modalBackdrop} onPress={() => setActiveMatch(null)}>
-          <Pressable style={styles.modalCard} onPress={() => { }}>
-            <Text style={styles.h3}>Online Suggestion</Text>
-            {activeMatch ? (
-              <>
-                <Text style={styles.body}>{activeMatch.message}</Text>
-                {activeMatch.context ? (
-                  <Text style={styles.sub}>
-                    {activeMatch.context.text}
-                  </Text>
-                ) : null}
-                {activeMatch.replacements?.length ? (
-                  <Text style={styles.body}>
-                    Suggestions: {activeMatch.replacements.slice(0, 6).map((r) => r.value).join(', ')}
-                  </Text>
-                ) : null}
-                {(() => {
-                  const ctx = activeMatch.context || {};
-                  const bad = ctx.text && typeof ctx.offset === 'number'
-                    ? ctx.text.slice(ctx.offset, ctx.offset + ctx.length)
-                    : '';
-                  const entry = bad ? getWordEntry(bad.toLowerCase()) : null;
-                  const synonyms = entry?.synonyms?.slice(0, 6) || [];
-                  return synonyms.length ? (
-                    <Text style={styles.body}>Synonyms: {synonyms.join(', ')}</Text>
-                  ) : null;
-                })()}
-              </>
-            ) : null}
-            <View style={styles.modalActions}>
-              <Button
-                label="Accept"
-                onPress={() => {
-                  setMatchState(activeMatch, 'accepted');
-                  setActiveMatch(null);
-                }}
-              />
-              <Button
-                label="Reject"
-                variant="secondary"
-                onPress={() => {
-                  setMatchState(activeMatch, 'rejected');
-                  setActiveMatch(null);
-                }}
-              />
-              <Button label="Close" variant="ghost" onPress={() => setActiveMatch(null)} />
-            </View>
-          </Pressable>
-        </Pressable>
-      </Modal>
+      {activeTab === 'overview' ? renderOverview() : null}
+      {activeTab === 'rewrite' ? renderRewrite() : null}
+      {activeTab === 'tools' ? renderTools() : null}
+      {activeTab === 'deep review' ? renderDeepReview() : null}
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   content: {
-    paddingBottom: spacing.xl
+    paddingBottom: spacing.xl,
+  },
+  heroCard: {
+    marginBottom: spacing.md,
+    backgroundColor: '#F4F8FF',
+    borderColor: '#C7DBFF',
+    ...shadow.sm,
+  },
+  card: {
+    marginBottom: spacing.md,
   },
   h1: {
     fontSize: typography.h1,
     fontFamily: typography.fontHeadline,
     color: colors.text,
-    marginBottom: spacing.md
+    marginBottom: spacing.xs,
   },
   h3: {
     fontSize: typography.h3,
     fontFamily: typography.fontHeadline,
-    marginBottom: spacing.sm
-  },
-  h4: {
-    fontSize: typography.body,
-    fontFamily: typography.fontHeadline,
-    marginTop: spacing.sm,
-    marginBottom: spacing.xs
-  },
-  body: {
-    fontSize: typography.body,
-    fontFamily: typography.fontBody
+    color: colors.text,
+    marginBottom: spacing.xs,
   },
   sub: {
     fontSize: typography.small,
     color: colors.muted,
-    marginBottom: spacing.sm
-  },
-  link: {
-    color: colors.primary,
-    fontSize: typography.small,
-    marginBottom: spacing.sm,
-    textDecorationLine: 'underline'
-  },
-  inlineText: {
-    lineHeight: 22
-  },
-  inlinePress: {
-    lineHeight: 22
-  },
-  tag_ww: {
-    backgroundColor: '#FDE2E2'
-  },
-  tag_sv: {
-    backgroundColor: '#FFF3CD'
-  },
-  tag_cap: {
-    backgroundColor: '#E2F0FF'
-  },
-  tag_wo: {
-    backgroundColor: '#E7F7E2'
-  },
-  tag_art: {
-    backgroundColor: '#EDE7FF'
-  },
-  tag_punc: {
-    backgroundColor: '#F2F2F2'
-  },
-  tag_tense: {
-    backgroundColor: '#FFE6E6'
-  },
-  tag_prep: {
-    backgroundColor: '#E6FFF5'
-  },
-  tag_pron: {
-    backgroundColor: '#FFF1E6'
-  },
-  tag_rep: {
-    backgroundColor: '#E8E6FF'
-  },
-  legend: {
-    marginTop: spacing.sm,
-    marginBottom: spacing.sm,
-    gap: spacing.xs
-  },
-  chips: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginBottom: spacing.sm
-  },
-  legendItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs
-  },
-  legendSwatch: {
-    width: 14,
-    height: 14,
-    borderRadius: 4
-  },
-  legendLabel: {
-    fontSize: typography.small,
-    color: colors.muted
-  },
-  card: {
-    marginBottom: spacing.lg
-  },
-  block: {
-    marginTop: spacing.sm
-  },
-  onlineItem: {
-    padding: spacing.sm,
-    borderRadius: 10,
-    backgroundColor: colors.surface,
-    marginTop: spacing.sm
-  },
-  resultItem: {
-    padding: spacing.sm,
-    borderRadius: 10,
-    backgroundColor: colors.surface,
-    marginTop: spacing.sm
-  },
-  online_grammar: {
-    backgroundColor: '#FFE9D6'
-  },
-  online_vocab: {
-    backgroundColor: '#E6F4FF'
-  },
-  online_mechanics: {
-    backgroundColor: '#E9F7E3'
-  },
-  onlineActions: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    marginTop: spacing.sm,
-    marginBottom: spacing.sm
-  },
-  modalBackdrop: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.35)',
-    justifyContent: 'center',
-    padding: spacing.lg
-  },
-  modalCard: {
-    backgroundColor: colors.surface,
-    borderRadius: 16,
-    padding: spacing.lg
-  },
-  modalActions: {
-    marginTop: spacing.md,
-    gap: spacing.xs
-  },
-  saveRow: {
-    marginTop: spacing.md
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 10,
-    backgroundColor: colors.surface,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    fontSize: typography.body,
-    color: colors.text,
-    marginBottom: spacing.sm
-  },
-  // Rubric progress bar styles
-  totalScoreRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: spacing.xs,
     marginBottom: spacing.md,
-    backgroundColor: colors.surface,
-    padding: spacing.md,
-    borderRadius: 12,
+    lineHeight: 20,
   },
-  totalScoreNum: {
-    fontSize: 42,
-    fontFamily: typography.fontHeadline,
-    color: colors.primary,
-  },
-  totalScoreDenom: {
-    fontSize: typography.h3,
-    color: colors.muted,
-    fontFamily: typography.fontHeadline,
-  },
-  totalScoreLabel: {
-    fontSize: typography.body,
+  body: {
+    fontSize: typography.small,
     color: colors.text,
-    flex: 1,
-    textAlign: 'right',
+    marginBottom: 4,
+    lineHeight: 20,
+  },
+  bodyStrong: {
+    fontSize: typography.small,
+    color: colors.text,
     fontFamily: typography.fontHeadline,
-  },
-  rubricItem: {
-    marginBottom: spacing.md,
-  },
-  rubricLabelRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     marginBottom: 4,
   },
-  rubricName: {
-    fontSize: typography.body,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-  },
-  rubricScore: {
-    fontSize: typography.body,
-    fontFamily: typography.fontHeadline,
-    color: colors.primary,
-  },
-  progressTrack: {
-    height: 8,
-    backgroundColor: colors.surface,
-    borderRadius: 4,
-    overflow: 'hidden',
-    marginBottom: 4,
-  },
-  progressFill: {
-    height: '100%',
-    borderRadius: 4,
-  },
-  rubricDesc: {
-    fontSize: typography.small,
-    color: colors.muted,
-  },
-  // Revised / improved version styles
-  revisedCard: {
-    borderWidth: 2,
-    borderColor: colors.primary,
-  },
-  revisedHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.sm,
-  },
-  revisedText: {
+  bodyBlock: {
     fontSize: typography.body,
     color: colors.text,
     lineHeight: 24,
-    fontFamily: typography.fontBody,
   },
-  copyBtn: {
-    backgroundColor: colors.surface,
+  metricRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  metricTile: {
+    minWidth: 120,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderRadius: 18,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#D8E3F6',
+  },
+  metricTileAccent: {
+    backgroundColor: '#EAF1FF',
+    borderColor: '#C5D8FF',
+  },
+  metricValue: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+  },
+  metricValueAccent: {
+    color: colors.primaryDark,
+  },
+  metricLabel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+    marginTop: 2,
+  },
+  actionRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+  },
+  tabRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  panelGrid: {
+    gap: spacing.md,
+  },
+  panelGridWide: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  scoreRow: {
+    marginBottom: spacing.sm,
+  },
+  scoreHead: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: spacing.xs,
+  },
+  track: {
+    height: 8,
+    borderRadius: 999,
+    backgroundColor: '#DFE7F5',
+    overflow: 'hidden',
+  },
+  fill: {
+    height: '100%',
+    backgroundColor: colors.primaryDark,
+    borderRadius: 999,
+  },
+  sectionDivider: {
+    height: 1,
+    backgroundColor: '#E4ECF9',
+    marginVertical: spacing.md,
+  },
+  chipRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  sectionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  input: {
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: 16,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
+    borderWidth: 1,
+    borderColor: '#D7E2F4',
+    fontSize: typography.body,
+    color: colors.text,
+    marginBottom: spacing.md,
+  },
+  block: {
+    marginBottom: spacing.md,
+  },
+  sectionLabel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+    marginBottom: spacing.xs,
+  },
+  signalRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.xs,
+    marginBottom: spacing.sm,
+  },
+  signalPill: {
     paddingHorizontal: spacing.sm,
     paddingVertical: spacing.xs,
-    borderRadius: 8,
+    borderRadius: 999,
     borderWidth: 1,
-    borderColor: colors.secondary,
   },
-  copyBtnText: {
-    fontSize: typography.small,
-    color: colors.primary,
+  signalPillGood: {
+    backgroundColor: '#ECFDF3',
+    borderColor: '#86EFAC',
+  },
+  signalPillWarn: {
+    backgroundColor: '#FFF7ED',
+    borderColor: '#FDBA74',
+  },
+  signalPillText: {
+    fontSize: typography.xsmall,
     fontFamily: typography.fontHeadline,
+  },
+  signalPillTextGood: {
+    color: '#166534',
+  },
+  signalPillTextWarn: {
+    color: '#B45309',
+  },
+  sourceRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  routeRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  routeIndex: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    overflow: 'hidden',
+    backgroundColor: '#EAF1FF',
+    color: colors.primaryDark,
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    paddingTop: 3,
+  },
+  routeBody: {
+    flex: 1,
+  },
+  sourcePill: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: 999,
+    backgroundColor: colors.primarySoft,
+    borderWidth: 1,
+    borderColor: '#C8D8F8',
+  },
+  sourcePillText: {
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+  },
+  sourceModel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+  },
+  diagnosticText: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    marginBottom: spacing.md,
+    lineHeight: 18,
   },
 });

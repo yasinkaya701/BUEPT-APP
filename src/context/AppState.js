@@ -32,10 +32,48 @@ import { calculateXpForAction } from '../utils/gamification';
 const STORAGE_ERROR_WORDS = '@buept_error_words';
 const STORAGE_GRAMMAR_ERRORS = '@buept_grammar_errors';
 const STORAGE_DEMO_SEEDED = '@buept_demo_seeded_v1';
+const STORAGE_USER_PROFILE = '@buept_user_profile_v1';
+const SCREEN_TIME_TICK_SECONDS = 5;
+const SCREEN_TIME_PERSIST_MS = 15000;
 async function loadErrorWords() { try { const v = await AsyncStorage.getItem(STORAGE_ERROR_WORDS); return v ? JSON.parse(v) : {}; } catch { return {}; } }
 async function saveErrorWords(d) { try { await AsyncStorage.setItem(STORAGE_ERROR_WORDS, JSON.stringify(d)); } catch { } }
 async function loadGrammarErrors() { try { const v = await AsyncStorage.getItem(STORAGE_GRAMMAR_ERRORS); return v ? JSON.parse(v) : {}; } catch { return {}; } }
 async function saveGrammarErrors(d) { try { await AsyncStorage.setItem(STORAGE_GRAMMAR_ERRORS, JSON.stringify(d)); } catch { } }
+async function loadUserProfile() {
+  try {
+    const raw = await AsyncStorage.getItem(STORAGE_USER_PROFILE);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+async function saveUserProfile(profile) {
+  try {
+    if (profile) await AsyncStorage.setItem(STORAGE_USER_PROFILE, JSON.stringify(profile));
+    else await AsyncStorage.removeItem(STORAGE_USER_PROFILE);
+  } catch { }
+}
+
+function normalizeEmail(value = '') {
+  return String(value || '').trim().toLowerCase();
+}
+
+function deriveAcademicFocus(profile = null) {
+  const faculty = String(profile?.faculty || '').trim();
+  return faculty || 'General';
+}
+
+function buildDemoProfile() {
+  return {
+    name: 'Demo Student',
+    email: 'demo@buept.app',
+    faculty: 'General',
+    role: 'Demo Student',
+    mode: 'demo',
+    createdAt: new Date().toISOString(),
+    lastLoginAt: new Date().toISOString(),
+  };
+}
 
 const AppStateContext = createContext(null);
 
@@ -46,6 +84,10 @@ async function saveAuthToken(t) { try { if (t) await AsyncStorage.setItem(STORAG
 export function AppStateProvider({ children }) {
   const [userToken, setUserToken] = useState(null);
   const [academicFocus, setAcademicFocus] = useState('General'); // Tied to Signup
+  const [userProfile, setUserProfile] = useState(null);
+  const [authReady, setAuthReady] = useState(false);
+  const [postAuthRoute, setPostAuthRoute] = useState(null);
+  const postAuthRouteRef = useRef(null);
 
   const [level, setLevel] = useState('P2');
   const [writingEngine, setWritingEngine] = useState('online');
@@ -57,6 +99,8 @@ export function AppStateProvider({ children }) {
   const [listeningHistory, setListeningHistory] = useState([]);
   const [grammarHistory, setGrammarHistory] = useState([]);
   const [screenTime, setScreenTime] = useState({ date: null, seconds: 0 });
+  const screenTimeRef = useRef({ date: null, seconds: 0 });
+  const lastScreenTimePersistRef = useRef(0);
   const appStateRef = useRef(RNAppState.currentState);
   const timerRef = useRef(null);
   const [userWords, setUserWords] = useState([]);
@@ -137,7 +181,7 @@ export function AppStateProvider({ children }) {
           loadedGrammarErrors,
           loadedXp,
           loadedToken,
-          seededFlag,
+          loadedProfile,
         ] = await Promise.all([
           loadUserWords(),
           loadUnknownWords(),
@@ -155,7 +199,7 @@ export function AppStateProvider({ children }) {
           loadGrammarErrors(),
           loadXP(),
           loadAuthToken(),
-          AsyncStorage.getItem(STORAGE_DEMO_SEEDED),
+          loadUserProfile(),
         ]);
         if (!mounted) return;
         setUserWords(loadedUserWords);
@@ -173,21 +217,14 @@ export function AppStateProvider({ children }) {
         setErrorWords(loadedErrorWords);
         setGrammarErrors(loadedGrammarErrors);
         setXp(loadedXp);
-        setUserToken(loadedToken);
-
-        const isFreshProfile =
-          !loadedHistory.length &&
-          !loadedMockHistory.length &&
-          !loadedReadingHistory.length &&
-          !loadedListeningHistory.length &&
-          !loadedGrammarHistory.length &&
-          !loadedUserWords.length &&
-          !loadedUnknownWords.length;
-        if (isFreshProfile && seededFlag !== '1') {
-          applyDemoData();
-        }
+        setUserProfile(loadedProfile);
+        setAcademicFocus(deriveAcademicFocus(loadedProfile));
+        // Prevent async hydration from overriding a just-completed login action.
+        setUserToken((prev) => (prev ? prev : loadedToken));
       } catch {
         // keep defaults
+      } finally {
+        if (mounted) setAuthReady(true);
       }
     })();
     return () => { mounted = false; };
@@ -239,7 +276,15 @@ export function AppStateProvider({ children }) {
   }, [grammarHistory]);
 
   useEffect(() => {
-    saveScreenTime(screenTime);
+    screenTimeRef.current = screenTime;
+  }, [screenTime]);
+
+  useEffect(() => {
+    const now = Date.now();
+    if (now - lastScreenTimePersistRef.current >= SCREEN_TIME_PERSIST_MS || screenTime.seconds === 0) {
+      lastScreenTimePersistRef.current = now;
+      saveScreenTime(screenTime);
+    }
   }, [screenTime]);
 
   useEffect(() => {
@@ -250,16 +295,108 @@ export function AppStateProvider({ children }) {
     saveAuthToken(userToken);
   }, [userToken]);
 
-  const login = useCallback((tokenPayload) => {
-    setUserToken(tokenPayload || 'student_token');
-    // In a real app we would parse JWT here to extract academicFocus.
-    if (tokenPayload === 'Engineering' || tokenPayload === 'Economics') {
-      setAcademicFocus(tokenPayload);
+  useEffect(() => {
+    saveUserProfile(userProfile);
+  }, [userProfile]);
+
+  useEffect(() => {
+    postAuthRouteRef.current = postAuthRoute;
+  }, [postAuthRoute]);
+
+  const login = useCallback(async (payload = null) => {
+    if (payload && typeof payload === 'object') {
+      const nextRoute = typeof payload.nextRoute === 'string' ? payload.nextRoute : null;
+      if (payload.mode === 'demo') {
+        const demoProfile = buildDemoProfile();
+        await applyDemoData();
+        setUserProfile(demoProfile);
+        setAcademicFocus('General');
+        setUserToken('demo_student');
+        setPostAuthRoute(nextRoute);
+        return { ok: true, mode: 'demo' };
+      }
+
+      const email = normalizeEmail(payload.email);
+      const password = String(payload.password || '');
+      if (!email || !password) {
+        return { ok: false, error: 'Enter your university email and password.' };
+      }
+      const storedEmail = normalizeEmail(userProfile?.email);
+      if (!storedEmail) {
+        return { ok: false, error: 'No account found on this device. Create one first.' };
+      }
+      if (storedEmail !== email) {
+        return { ok: false, error: 'This email does not match the saved account on this device.' };
+      }
+      if (String(userProfile?.password || '') !== password) {
+        return { ok: false, error: 'Incorrect password.' };
+      }
+      const nextProfile = {
+        ...userProfile,
+        lastLoginAt: new Date().toISOString(),
+        mode: userProfile?.mode || 'standard',
+      };
+      setUserProfile(nextProfile);
+      setAcademicFocus(deriveAcademicFocus(nextProfile));
+      setUserToken(email);
+      setPostAuthRoute(nextRoute);
+      return { ok: true, mode: 'standard' };
     }
+
+    setUserToken(payload || 'student_token');
+    return { ok: true };
+  }, [applyDemoData, userProfile]);
+
+  const register = useCallback(async ({
+    name = '',
+    email = '',
+    password = '',
+    faculty = '',
+  } = {}) => {
+    const trimmedName = String(name || '').trim();
+    const normalizedEmail = normalizeEmail(email);
+    const normalizedFaculty = String(faculty || '').trim() || 'General';
+    const cleanPassword = String(password || '');
+
+    if (trimmedName.length < 2) {
+      return { ok: false, error: 'Enter your full name.' };
+    }
+    if (!normalizedEmail.endsWith('.edu.tr') && !normalizedEmail.endsWith('@boun.edu.tr')) {
+      return { ok: false, error: 'Use a valid university email.' };
+    }
+    if (cleanPassword.length < 6) {
+      return { ok: false, error: 'Password must be at least 6 characters.' };
+    }
+
+    const profile = {
+      name: trimmedName,
+      email: normalizedEmail,
+      password: cleanPassword,
+      faculty: normalizedFaculty,
+      role: 'Student',
+      mode: 'standard',
+      createdAt: new Date().toISOString(),
+      lastLoginAt: new Date().toISOString(),
+    };
+    setUserProfile(profile);
+    setAcademicFocus(deriveAcademicFocus(profile));
+    setUserToken(normalizedEmail);
+    setPostAuthRoute(null);
+    return { ok: true };
   }, []);
 
   const logout = useCallback(() => {
+    setPostAuthRoute(null);
     setUserToken(null);
+  }, []);
+
+  const consumePostAuthRoute = useCallback(() => {
+    const nextRoute = postAuthRouteRef.current;
+    if (nextRoute) {
+      postAuthRouteRef.current = null;
+      setPostAuthRoute(null);
+    }
+    return nextRoute;
   }, []);
 
   useEffect(() => {
@@ -271,14 +408,14 @@ export function AppStateProvider({ children }) {
     const tick = () => {
       const today = new Date().toISOString().slice(0, 10);
       setScreenTime((prev) => {
-        if (prev.date !== today) return { date: today, seconds: 1 };
-        return { ...prev, seconds: prev.seconds + 1 };
+        if (prev.date !== today) return { date: today, seconds: SCREEN_TIME_TICK_SECONDS };
+        return { ...prev, seconds: prev.seconds + SCREEN_TIME_TICK_SECONDS };
       });
     };
 
     const startTimer = () => {
       if (timerRef.current) return;
-      timerRef.current = setInterval(tick, 1000);
+      timerRef.current = setInterval(tick, SCREEN_TIME_TICK_SECONDS * 1000);
     };
     const stopTimer = () => {
       if (timerRef.current) {
@@ -292,7 +429,10 @@ export function AppStateProvider({ children }) {
     const sub = RNAppState.addEventListener('change', (next) => {
       appStateRef.current = next;
       if (next === 'active') startTimer();
-      else stopTimer();
+      else {
+        stopTimer();
+        saveScreenTime(screenTimeRef.current);
+      }
     });
 
     return () => {
@@ -351,6 +491,15 @@ export function AppStateProvider({ children }) {
     setUserWords((prev) => {
       if (prev.find((x) => x.word === w)) return prev;
       return [entry, ...prev];
+    });
+  }, []);
+
+  const addUserWordObject = useCallback((entry) => {
+    if (!entry || !entry.word) return;
+    const w = entry.word.trim().toLowerCase();
+    setUserWords((prev) => {
+      if (prev.find((x) => x.word === w)) return prev;
+      return [{ ...entry, word: w }, ...prev];
     });
   }, []);
 
@@ -433,9 +582,15 @@ export function AppStateProvider({ children }) {
 
   const value = useMemo(() => ({
     userToken,
+    authReady,
+    userProfile,
+    isDemoUser: userProfile?.mode === 'demo',
+    postAuthRoute,
+    consumePostAuthRoute,
     academicFocus,
     setAcademicFocus,
     login,
+    register,
     logout,
     level,
     setLevel,
@@ -460,6 +615,7 @@ export function AppStateProvider({ children }) {
     xp,
     setReviews,
     addUserWord,
+    addUserWordObject,
     addUnknownWord,
     clearUnknownWords,
     recordKnown,
@@ -478,16 +634,16 @@ export function AppStateProvider({ children }) {
     addXp,
     applyDemoData,
   }), [
-    userToken, academicFocus,
+    userToken, authReady, userProfile, postAuthRoute, academicFocus,
     level, writingEngine, essayText, report, history, mockHistory,
     readingHistory, listeningHistory, grammarHistory, screenTime,
     userWords, unknownWords, vocabStats, favoritePrompts, reviews,
     errorWords, grammarErrors, xp,
     generateReport, setActiveReportById, addMockResult, addReadingResult,
-    addListeningResult, addGrammarResult, addUserWord, addUnknownWord,
+    addListeningResult, addGrammarResult, addUserWord, addUserWordObject, addUnknownWord,
     clearUnknownWords, recordKnown, recordUnknown, toggleFavoritePrompt,
     recordQuizError, recordGrammarError, clearErrorWords, clearGrammarErrors,
-    addXp, applyDemoData, login, logout,
+    addXp, applyDemoData, login, register, logout, consumePostAuthRoute,
   ]);
 
   return (

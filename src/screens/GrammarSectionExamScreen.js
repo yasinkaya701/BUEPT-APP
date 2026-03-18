@@ -6,9 +6,10 @@ import Button from '../components/Button';
 import { colors, spacing, typography } from '../theme/tokens';
 import baseTasks from '../../data/grammar_tasks.json';
 import hardTasks from '../../data/grammar_tasks_hard.json';
+import testEnglishTasks from '../../data/test_english_grammar_tasks.json';
 import { useAppState } from '../context/AppState';
 
-const allTasks = [...baseTasks, ...hardTasks];
+const allTasks = [...baseTasks, ...hardTasks, ...testEnglishTasks];
 
 function shuffle(list, seed = 1) {
   const arr = [...list];

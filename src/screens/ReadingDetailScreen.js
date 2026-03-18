@@ -19,6 +19,7 @@ import { useAppState } from '../context/AppState';
 import { getWordEntry } from '../utils/dictionary';
 import { buildSimilarQuestion } from '../utils/similarQuestion';
 import { buildReadingOpenEndedPrompts } from '../utils/openEndedPrompts';
+import { evaluateReadingModel } from '../utils/readingModel';
 import clozeTasks from '../../data/reading_cloze.json';
 
 const tasks = [...baseTasks, ...hardTasks, ...clozeTasks];
@@ -95,7 +96,7 @@ function ClozeQuestion({ q, qi, answers, checked, onSelect }) {
       </View>
       {/* Options */}
       <Text style={styles.clozeHint}>Choose the best option to fill the blank:</Text>
-      {q.options.map((opt, oi) => (
+      {q.options?.map((opt, oi) => (
         <TouchableOpacity
           key={oi}
           style={[
@@ -178,6 +179,8 @@ function WordTooltip({ entry, position, onClose }) {
 export default function ReadingDetailScreen({ route, navigation }) {
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
+  const useSplitLayout = isLandscape && width >= 680;
+  // We remove horizontal scroll minimums to let it split 50/50 perfectly
   const taskId = route?.params?.taskId;
   const task = useMemo(() => tasks.find(t => t.id === taskId) || tasks[0], [taskId]);
   const hasValidTask = Boolean(task && Array.isArray(task.questions));
@@ -199,6 +202,7 @@ export default function ReadingDetailScreen({ route, navigation }) {
   const [scanPick, setScanPick] = useState(null);
   const [scanChecked, setScanChecked] = useState(false);
   const [showOnlyMissed, setShowOnlyMissed] = useState(false);
+  const [readingModel, setReadingModel] = useState(null);
 
   const { addReadingResult } = useAppState();
   const answeredCount = useMemo(() => Object.keys(answers).length, [answers]);
@@ -230,6 +234,15 @@ export default function ReadingDetailScreen({ route, navigation }) {
     task.questions.forEach((q, i) => { if (answers[i] === q.answer) correct++; });
     setScore(`${correct} / ${task.questions.length}`);
     addReadingResult({ taskId: task.id, score: correct, total: task.questions.length });
+    setReadingModel(evaluateReadingModel({
+      task,
+      answers,
+      evidenceNote,
+      paragraphStatus,
+      scanChecked,
+      scanPick,
+      scanTarget,
+    }));
     setChecked(true);
   };
 
@@ -264,6 +277,107 @@ export default function ReadingDetailScreen({ route, navigation }) {
     const s = sec % 60;
     return `${m}:${String(s).padStart(2, '0')}`;
   };
+
+  const progressAndTimerCards = (
+    <>
+      <Card style={styles.card}>
+        <Text style={styles.h3}>Progress</Text>
+        <Text style={styles.body}>Answered: {answeredCount}/{task.questions.length}</Text>
+        <View style={styles.row}>
+          <Button label={checked ? '✓ Checked' : 'Check Answers'} onPress={check} disabled={checked || answeredCount === 0} />
+          <Button label="Back" variant="secondary" onPress={() => navigation.goBack()} />
+        </View>
+      </Card>
+
+      <Card style={styles.card}>
+        <Text style={styles.h3}>Skim Timer</Text>
+        <Text style={styles.body}>Use 2-minute skim before detailed reading.</Text>
+        <Text style={styles.skimTimerText}>{formatTime(skimSec)}</Text>
+        <View style={styles.row}>
+          <Button label={skimRunning ? 'Pause' : 'Start'} variant="secondary" onPress={() => setSkimRunning((v) => !v)} />
+          <Button label="Reset 2:00" variant="secondary" onPress={() => { setSkimSec(120); setSkimRunning(false); }} />
+        </View>
+      </Card>
+    </>
+  );
+
+  const analysisCards = (
+    <>
+      {readingFeedback && (
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Reading Feedback</Text>
+          <Text style={styles.sub}>Accuracy: {readingFeedback.accuracy}% ({readingFeedback.correct}/{readingFeedback.total})</Text>
+          {readingFeedback.strengths.length > 0 && (
+            <>
+              <Text style={styles.feedbackTitle}>Strong Areas</Text>
+              {readingFeedback.strengths.map((s) => (
+                <Text key={s} style={styles.correct}>• {s}</Text>
+              ))}
+            </>
+          )}
+          {readingFeedback.fixes.length > 0 && (
+            <>
+              <Text style={styles.feedbackTitle}>Top Fixes</Text>
+              {readingFeedback.fixes.map((s) => (
+                <Text key={s} style={styles.incorrect}>• {s}</Text>
+              ))}
+            </>
+          )}
+          {readingFeedback.missed.length > 0 && (
+            <>
+              <Text style={styles.feedbackTitle}>Missed Questions</Text>
+              {readingFeedback.missed.slice(0, 3).map((m) => (
+                <View key={`miss-${m.index}`} style={styles.missedRow}>
+                  <Text style={styles.answer}>Q{m.index}: {m.q}</Text>
+                  {m.explain ? <Text style={styles.explain}>{m.explain}</Text> : null}
+                </View>
+              ))}
+            </>
+          )}
+          {readingFeedback.skillBreakdown.length > 0 && (
+            <>
+              <Text style={styles.feedbackTitle}>Skill Breakdown</Text>
+              {readingFeedback.skillBreakdown.map((s) => (
+                <Text key={s.name} style={styles.answer}>
+                  {s.name}: {s.pct}% ({s.correct}/{s.total})
+                </Text>
+              ))}
+            </>
+          )}
+          <View style={[styles.row, { marginTop: spacing.sm }]}>
+            <Button
+              label={showOnlyMissed ? 'Show All Questions' : 'Show Only Missed'}
+              variant="secondary"
+              onPress={() => setShowOnlyMissed((v) => !v)}
+            />
+          </View>
+        </Card>
+      )}
+      {readingModel && (
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Reading Model</Text>
+          <Text style={styles.sub}>Overall: {readingModel.overall}% • {readingModel.band}</Text>
+          <View style={styles.modelTrack}>
+            <View style={[styles.modelFill, { width: `${readingModel.overall}%` }]} />
+          </View>
+          <Text style={styles.feedbackTitle}>Dimension Scores</Text>
+          {Object.entries(readingModel.dimensions).map(([name, val]) => (
+            <Text key={name} style={styles.answer}>• {name}: {val}%</Text>
+          ))}
+          {readingModel.weaknesses.length > 0 ? (
+            <>
+              <Text style={styles.feedbackTitle}>Weak Areas</Text>
+              <Text style={styles.incorrect}>• {readingModel.weaknesses.join(' • ')}</Text>
+            </>
+          ) : null}
+          <Text style={styles.feedbackTitle}>Next Actions</Text>
+          {readingModel.actions.map((step) => (
+            <Text key={step} style={styles.answer}>• {step}</Text>
+          ))}
+        </Card>
+      )}
+    </>
+  );
 
   const passageCards = (
     <>
@@ -382,6 +496,7 @@ export default function ReadingDetailScreen({ route, navigation }) {
       <OpenEndedPracticeCard
         title="Open-Ended Reading Questions"
         prompts={openEndedPrompts}
+        idealClusters={task?.ideal_clusters || null}
         placeholder="Write your reading response..."
       />
 
@@ -496,7 +611,7 @@ export default function ReadingDetailScreen({ route, navigation }) {
   );
 
   return (
-    <Screen scroll={!isLandscape} contentStyle={styles.container}>
+    <Screen scroll={!useSplitLayout} contentStyle={styles.container}>
       {!hasValidTask ? (
         <Card style={styles.card}>
           <Text style={styles.h3}>Reading task is unavailable.</Text>
@@ -507,92 +622,55 @@ export default function ReadingDetailScreen({ route, navigation }) {
         <>
       <Text style={styles.h1}>{task.title}</Text>
       <Text style={styles.sub}>Level {task.level} • {task.time}</Text>
-      {isLandscape ? (
-        <Card style={styles.card}>
-          <Text style={styles.h3}>Landscape Layout</Text>
-          <Text style={styles.sub}>Passage is on the left, questions are on the right.</Text>
+      <Card style={styles.readingDeskCard}>
+        <View style={styles.readingDeskHeader}>
+          <Text style={styles.readingDeskTitle}>Reading Desk</Text>
+          <Text style={styles.readingDeskMode}>{useSplitLayout ? 'Split Mode' : 'Classic Mode'}</Text>
+        </View>
+        <Text style={styles.readingDeskSub}>
+          {useSplitLayout
+            ? 'Passage is fixed on the left. Questions and feedback stay on the right.'
+            : 'Portrait/classic layout is active. Rotate to landscape for split reading.'}
+        </Text>
+        <View style={styles.readingDeskMetaRow}>
+          <Text style={styles.readingDeskMeta}>Questions: {task.questions.length}</Text>
+          <Text style={styles.readingDeskMeta}>Answered: {answeredCount}</Text>
+          <Text style={styles.readingDeskMeta}>Skim: {formatTime(skimSec)}</Text>
+        </View>
+      </Card>
+      {useSplitLayout ? (
+        <Card style={styles.cardCompact}>
+          <Text style={styles.subCompact}>
+            Landscape Split Mode: 50% Passage / 50% Questions
+          </Text>
         </Card>
       ) : null}
 
-      {/* Progress */}
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Progress</Text>
-        <Text style={styles.body}>Answered: {answeredCount}/{task.questions.length}</Text>
-        <View style={styles.row}>
-          <Button label={checked ? '✓ Checked' : 'Check Answers'} onPress={check} disabled={checked || answeredCount === 0} />
-          <Button label="Back" variant="secondary" onPress={() => navigation.goBack()} />
-        </View>
-      </Card>
+      {!useSplitLayout ? progressAndTimerCards : null}
+      {!useSplitLayout ? analysisCards : null}
 
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Skim Timer</Text>
-        <Text style={styles.body}>Use 2-minute skim before detailed reading.</Text>
-        <Text style={styles.skimTimerText}>{formatTime(skimSec)}</Text>
-        <View style={styles.row}>
-          <Button label={skimRunning ? 'Pause' : 'Start'} variant="secondary" onPress={() => setSkimRunning((v) => !v)} />
-          <Button label="Reset 2:00" variant="secondary" onPress={() => { setSkimSec(120); setSkimRunning(false); }} />
-        </View>
-      </Card>
-
-      {readingFeedback && (
-        <Card style={styles.card}>
-          <Text style={styles.h3}>Reading Feedback</Text>
-          <Text style={styles.sub}>Accuracy: {readingFeedback.accuracy}% ({readingFeedback.correct}/{readingFeedback.total})</Text>
-          {readingFeedback.strengths.length > 0 && (
-            <>
-              <Text style={styles.feedbackTitle}>Strong Areas</Text>
-              {readingFeedback.strengths.map((s) => (
-                <Text key={s} style={styles.correct}>• {s}</Text>
-              ))}
-            </>
-          )}
-          {readingFeedback.fixes.length > 0 && (
-            <>
-              <Text style={styles.feedbackTitle}>Top Fixes</Text>
-              {readingFeedback.fixes.map((s) => (
-                <Text key={s} style={styles.incorrect}>• {s}</Text>
-              ))}
-            </>
-          )}
-          {readingFeedback.missed.length > 0 && (
-            <>
-              <Text style={styles.feedbackTitle}>Missed Questions</Text>
-              {readingFeedback.missed.slice(0, 3).map((m) => (
-                <View key={`miss-${m.index}`} style={styles.missedRow}>
-                  <Text style={styles.answer}>Q{m.index}: {m.q}</Text>
-                  {m.explain ? <Text style={styles.explain}>{m.explain}</Text> : null}
-                </View>
-              ))}
-            </>
-          )}
-          {readingFeedback.skillBreakdown.length > 0 && (
-            <>
-              <Text style={styles.feedbackTitle}>Skill Breakdown</Text>
-              {readingFeedback.skillBreakdown.map((s) => (
-                <Text key={s.name} style={styles.answer}>
-                  {s.name}: {s.pct}% ({s.correct}/{s.total})
-                </Text>
-              ))}
-            </>
-          )}
-          <View style={[styles.row, { marginTop: spacing.sm }]}>
-            <Button
-              label={showOnlyMissed ? 'Show All Questions' : 'Show Only Missed'}
-              variant="secondary"
-              onPress={() => setShowOnlyMissed((v) => !v)}
-            />
+      {useSplitLayout ? (
+        <View style={styles.landscapeOuter}>
+          <View style={styles.landscapeSplit}>
+            <ScrollView
+              style={styles.landscapePaneLeft}
+              contentContainerStyle={styles.landscapePaneContent}
+              nestedScrollEnabled
+              showsVerticalScrollIndicator={false}
+            >
+              {passageCards}
+            </ScrollView>
+            <ScrollView
+              style={styles.landscapePaneRight}
+              contentContainerStyle={styles.landscapePaneContent}
+              nestedScrollEnabled
+              showsVerticalScrollIndicator={false}
+            >
+              {progressAndTimerCards}
+              {analysisCards}
+              {questionCards}
+            </ScrollView>
           </View>
-        </Card>
-      )}
-
-      {isLandscape ? (
-        <View style={styles.landscapeSplit}>
-          <ScrollView style={styles.landscapePaneLeft} contentContainerStyle={styles.landscapePaneContent}>
-            {passageCards}
-          </ScrollView>
-          <ScrollView style={styles.landscapePaneRight} contentContainerStyle={styles.landscapePaneContent}>
-            {questionCards}
-          </ScrollView>
         </View>
       ) : (
         <>
@@ -620,21 +698,78 @@ const styles = StyleSheet.create({
   sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.lg },
   body: { fontSize: typography.body, fontFamily: typography.fontBody },
   card: { marginBottom: spacing.lg },
+  cardCompact: { marginBottom: spacing.md },
+  subCompact: { fontSize: typography.small, color: colors.muted, marginBottom: 0 },
+  readingDeskCard: {
+    marginBottom: spacing.md,
+    backgroundColor: '#102A56',
+    borderColor: '#102A56',
+  },
+  readingDeskHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: spacing.xs,
+  },
+  readingDeskTitle: {
+    fontSize: typography.h3,
+    color: '#FFFFFF',
+    fontFamily: typography.fontHeadline,
+  },
+  readingDeskMode: {
+    fontSize: typography.xsmall,
+    color: '#CFE2FF',
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+  },
+  readingDeskSub: {
+    fontSize: typography.small,
+    color: '#DDE8FF',
+    marginBottom: spacing.sm,
+  },
+  readingDeskMetaRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+  },
+  readingDeskMeta: {
+    fontSize: typography.xsmall,
+    color: '#BFDBFE',
+    fontFamily: typography.fontHeadline,
+  },
   row: { flexDirection: 'row', gap: spacing.sm, flexWrap: 'wrap' },
+  modelTrack: {
+    height: 8,
+    borderRadius: 999,
+    backgroundColor: '#E2E8F0',
+    overflow: 'hidden',
+    marginBottom: spacing.sm,
+  },
+  modelFill: {
+    height: '100%',
+    backgroundColor: colors.primary,
+  },
   landscapeSplit: {
     flexDirection: 'row',
+    flex: 1,
     gap: spacing.md,
     alignItems: 'flex-start',
   },
+  landscapeOuter: {
+    marginBottom: spacing.lg,
+    flex: 1, // Let it expand fully
+  },
+  landscapeOuterContent: {
+    flexGrow: 1,
+  },
   landscapePaneLeft: {
     flex: 1,
-    minWidth: 320,
   },
   landscapePaneRight: {
     flex: 1,
-    minWidth: 320,
   },
   landscapePaneContent: {
+    flexGrow: 1,
     paddingBottom: spacing.xl,
   },
   score: { marginTop: spacing.md, fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.primary },

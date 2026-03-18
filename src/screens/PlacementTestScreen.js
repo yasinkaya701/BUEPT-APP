@@ -6,7 +6,7 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppState } from '../context/AppState';
 
-const TEST_LENGTH = 10;
+const TEST_LENGTH = 12;
 const BAND_ORDER = ['P1', 'P2', 'P3', 'P4'];
 
 const CEFR_BY_BAND = {
@@ -25,6 +25,7 @@ const PLACEMENT_QUESTIONS = [
     text: 'My brother ______ to campus by bus every day.',
     options: ['go', 'goes', 'going', 'is go'],
     correct: 1,
+    explain: 'Present simple third-person singular requires -s: he/she/it goes.',
   },
   {
     id: 'q2',
@@ -39,6 +40,7 @@ const PLACEMENT_QUESTIONS = [
       'Me discuss this topic.',
     ],
     correct: 1,
+    explain: '"I would like to" is the formal, grammatical option.',
   },
   {
     id: 'q3',
@@ -48,6 +50,7 @@ const PLACEMENT_QUESTIONS = [
     text: 'By the time we arrived, the lecture ______.',
     options: ['starts', 'had started', 'was start', 'has starting'],
     correct: 1,
+    explain: 'Past perfect is used for an action completed before another past action.',
   },
   {
     id: 'q4',
@@ -57,6 +60,7 @@ const PLACEMENT_QUESTIONS = [
     text: 'The opposite of "increase" is ______.',
     options: ['expand', 'rise', 'decline', 'improve'],
     correct: 2,
+    explain: '"Decline" means decrease, the opposite of increase.',
   },
   {
     id: 'q5',
@@ -71,6 +75,7 @@ const PLACEMENT_QUESTIONS = [
       'The weather was cold. Therefore, my exam is next week.',
     ],
     correct: 1,
+    explain: 'Only option 2 has a direct cause-effect relationship.',
   },
   {
     id: 'q6',
@@ -80,6 +85,7 @@ const PLACEMENT_QUESTIONS = [
     text: 'If universities ______ more funding, they could expand scholarship programs.',
     options: ['receive', 'received', 'had received', 'have receive'],
     correct: 1,
+    explain: 'Second conditional uses past simple in the if-clause: If ... received, ... could.',
   },
   {
     id: 'q7',
@@ -89,6 +95,7 @@ const PLACEMENT_QUESTIONS = [
     text: '"Mitigate" is closest in meaning to ______.',
     options: ['worsen', 'ignore', 'reduce', 'predict'],
     correct: 2,
+    explain: '"Mitigate" means reduce or lessen.',
   },
   {
     id: 'q8',
@@ -103,6 +110,7 @@ const PLACEMENT_QUESTIONS = [
       'The statement proves a universal rule.',
     ],
     correct: 1,
+    explain: 'Correlation suggests a relationship, but does not prove causation.',
   },
   {
     id: 'q9',
@@ -112,6 +120,7 @@ const PLACEMENT_QUESTIONS = [
     text: 'Hardly ______ the proposal when the committee requested revisions.',
     options: ['we submitted', 'had we submitted', 'we had submit', 'did we submitting'],
     correct: 1,
+    explain: 'Inversion after negative adverb: hardly had we submitted...',
   },
   {
     id: 'q10',
@@ -126,6 +135,7 @@ const PLACEMENT_QUESTIONS = [
       'The outcomes were so-so.',
     ],
     correct: 1,
+    explain: 'Academic style prefers precise formal language like "exceptionally robust."',
   },
   {
     id: 'q11',
@@ -140,6 +150,7 @@ const PLACEMENT_QUESTIONS = [
       'This policy cannot fail under any condition.',
     ],
     correct: 1,
+    explain: 'Academic claims should be cautious and evidence-based.',
   },
   {
     id: 'q12',
@@ -149,6 +160,327 @@ const PLACEMENT_QUESTIONS = [
     text: 'No sooner ______ the experiment than the sensor failed.',
     options: ['did we begin', 'we began', 'had we begun', 'we had begin'],
     correct: 2,
+    explain: 'Inversion with "No sooner" takes past perfect: had we begun.',
+  },
+  {
+    id: 'q13',
+    skill: 'Vocabulary',
+    band: 'P1',
+    weight: 1,
+    text: 'Choose the best synonym for "simple".',
+    options: ['complex', 'easy', 'formal', 'difficult'],
+    correct: 1,
+    explain: '"Easy" is the closest in meaning to simple.',
+  },
+  {
+    id: 'q14',
+    skill: 'Grammar',
+    band: 'P1',
+    weight: 1,
+    text: 'There ______ many students in the library now.',
+    options: ['is', 'are', 'be', 'was'],
+    correct: 1,
+    explain: 'Plural subject takes "are".',
+  },
+  {
+    id: 'q15',
+    skill: 'Reading',
+    band: 'P1',
+    weight: 1,
+    text: 'Which sentence is the most neutral and formal?',
+    options: [
+      'The lecture was kinda boring.',
+      'The lecture was extremely boring.',
+      'The lecture was uninteresting.',
+      'The lecture sucked.',
+    ],
+    correct: 2,
+    explain: '"Uninteresting" is formal and neutral.',
+  },
+  {
+    id: 'q16',
+    skill: 'Grammar',
+    band: 'P2',
+    weight: 1,
+    text: 'Neither the students nor the teacher ______ late.',
+    options: ['were', 'was', 'are', 'be'],
+    correct: 1,
+    explain: 'With "neither/nor", the verb agrees with the closest subject (teacher).',
+  },
+  {
+    id: 'q17',
+    skill: 'Vocabulary',
+    band: 'P2',
+    weight: 1,
+    text: 'The opposite of "increase" is ______.',
+    options: ['enhance', 'expand', 'reduce', 'boost'],
+    correct: 2,
+    explain: '"Reduce" is the opposite of increase.',
+  },
+  {
+    id: 'q18',
+    skill: 'Reading',
+    band: 'P2',
+    weight: 1,
+    text: 'Which option best fits academic tone?',
+    options: [
+      'Kids should study a lot.',
+      'Students should engage in consistent study.',
+      'Students gotta study more.',
+      'Studying is whatever.',
+    ],
+    correct: 1,
+    explain: 'Academic tone prefers formal phrasing.',
+  },
+  {
+    id: 'q19',
+    skill: 'Grammar',
+    band: 'P3',
+    weight: 2,
+    text: 'Had the data ______ earlier, the decision would have changed.',
+    options: ['arrive', 'arrived', 'arriving', 'to arrive'],
+    correct: 1,
+    explain: 'Past perfect inversion uses past participle: had arrived.',
+  },
+  {
+    id: 'q20',
+    skill: 'Vocabulary',
+    band: 'P3',
+    weight: 2,
+    text: '"Ambiguous" most closely means ______.',
+    options: ['clear', 'uncertain', 'popular', 'recent'],
+    correct: 1,
+    explain: 'Ambiguous means unclear or uncertain.',
+  },
+  {
+    id: 'q21',
+    skill: 'Reading',
+    band: 'P3',
+    weight: 2,
+    text: 'Best interpretation of: "The findings are preliminary."',
+    options: [
+      'The findings are final and proven.',
+      'The findings are early and may change.',
+      'The findings are false.',
+      'The findings are irrelevant.',
+    ],
+    correct: 1,
+    explain: 'Preliminary means early, subject to change.',
+  },
+  {
+    id: 'q22',
+    skill: 'Grammar',
+    band: 'P4',
+    weight: 3,
+    text: 'Only after the review ______ the committee approve the proposal.',
+    options: ['did', 'did it', 'did the committee', 'has the committee'],
+    correct: 2,
+    explain: 'Inversion after "Only after": did the committee approve...',
+  },
+  {
+    id: 'q23',
+    skill: 'Vocabulary',
+    band: 'P4',
+    weight: 3,
+    text: 'Choose the best academic word: "The results were very clear."',
+    options: ['The results were super clear.', 'The results were transparent.', 'The results were ok.', 'The results were kinda clear.'],
+    correct: 1,
+    explain: '"Transparent" is the most formal academic choice.',
+  },
+  {
+    id: 'q24',
+    skill: 'Reading',
+    band: 'P4',
+    weight: 3,
+    text: 'Which statement is most cautious and academic?',
+    options: [
+      'This proves the policy always works.',
+      'This suggests the policy may be effective under specific conditions.',
+      'This policy is perfect.',
+      'This policy can never fail.',
+    ],
+    correct: 1,
+    explain: 'Academic style favors cautious claims.',
+  },
+  {
+    id: 'q25',
+    skill: 'Grammar',
+    band: 'P1',
+    weight: 1,
+    text: 'There ______ a new policy announced yesterday.',
+    options: ['is', 'was', 'are', 'be'],
+    correct: 1,
+    explain: 'Past singular subject takes "was".',
+  },
+  {
+    id: 'q26',
+    skill: 'Vocabulary',
+    band: 'P1',
+    weight: 1,
+    text: 'Choose the best meaning of "important".',
+    options: ['trivial', 'significant', 'tiny', 'optional'],
+    correct: 1,
+    explain: '"Significant" is closest in meaning to important.',
+  },
+  {
+    id: 'q27',
+    skill: 'Reading',
+    band: 'P1',
+    weight: 1,
+    text: 'Which sentence is most formal?',
+    options: [
+      'I can’t go cause I’m sick.',
+      'I cannot attend because I am ill.',
+      'I’m sick so I can’t go.',
+      'I can’t go, I’m ill lol.',
+    ],
+    correct: 1,
+    explain: 'Formal writing avoids contractions and informal language.',
+  },
+  {
+    id: 'q28',
+    skill: 'Grammar',
+    band: 'P1',
+    weight: 1,
+    text: 'She ______ English every day.',
+    options: ['study', 'studies', 'studying', 'studied'],
+    correct: 1,
+    explain: 'Third-person singular takes -s: she studies.',
+  },
+  {
+    id: 'q29',
+    skill: 'Grammar',
+    band: 'P2',
+    weight: 1,
+    text: 'If I ______ more time, I would read more articles.',
+    options: ['have', 'had', 'will have', 'has'],
+    correct: 1,
+    explain: 'Second conditional uses past simple in the if-clause.',
+  },
+  {
+    id: 'q30',
+    skill: 'Vocabulary',
+    band: 'P2',
+    weight: 1,
+    text: '"Benefit" is closest in meaning to ______.',
+    options: ['advantage', 'problem', 'mistake', 'delay'],
+    correct: 0,
+    explain: 'Benefit means advantage.',
+  },
+  {
+    id: 'q31',
+    skill: 'Reading',
+    band: 'P2',
+    weight: 1,
+    text: 'Which option shows cause–effect?',
+    options: [
+      'It rained. Therefore, the match was canceled.',
+      'It rained. The policy changed.',
+      'It rained. Books are useful.',
+      'It rained. Exams are difficult.',
+    ],
+    correct: 0,
+    explain: 'Only option 1 is a direct cause–effect relationship.',
+  },
+  {
+    id: 'q32',
+    skill: 'Grammar',
+    band: 'P2',
+    weight: 1,
+    text: 'The report ______ by the committee yesterday.',
+    options: ['approve', 'was approved', 'approved', 'approving'],
+    correct: 1,
+    explain: 'Passive voice: was approved.',
+  },
+  {
+    id: 'q33',
+    skill: 'Grammar',
+    band: 'P3',
+    weight: 2,
+    text: 'The findings ______ that attendance affects performance.',
+    options: ['suggest', 'suggests', 'suggested', 'suggesting'],
+    correct: 0,
+    explain: 'Plural subject "findings" takes base verb "suggest".',
+  },
+  {
+    id: 'q34',
+    skill: 'Vocabulary',
+    band: 'P3',
+    weight: 2,
+    text: '"Allocate" most closely means ______.',
+    options: ['distribute', 'avoid', 'refuse', 'predict'],
+    correct: 0,
+    explain: 'Allocate means distribute or assign resources.',
+  },
+  {
+    id: 'q35',
+    skill: 'Reading',
+    band: 'P3',
+    weight: 2,
+    text: 'Best paraphrase of "The sample was limited."',
+    options: [
+      'The sample was large.',
+      'The sample size was small.',
+      'The sample was perfect.',
+      'The sample was irrelevant.',
+    ],
+    correct: 1,
+    explain: 'Limited sample implies small size.',
+  },
+  {
+    id: 'q36',
+    skill: 'Grammar',
+    band: 'P3',
+    weight: 2,
+    text: 'Not only ______ the deadline, but the report was incomplete.',
+    options: ['we missed', 'did we miss', 'we miss', 'we missing'],
+    correct: 1,
+    explain: 'Inversion after "Not only": did we miss.',
+  },
+  {
+    id: 'q37',
+    skill: 'Grammar',
+    band: 'P4',
+    weight: 3,
+    text: 'Little ______ the students realize the impact of citation errors.',
+    options: ['did', 'do', 'had', 'were'],
+    correct: 0,
+    explain: 'Inversion after "Little": did the students realize.',
+  },
+  {
+    id: 'q38',
+    skill: 'Vocabulary',
+    band: 'P4',
+    weight: 3,
+    text: '"Robust" most closely means ______.',
+    options: ['fragile', 'strong', 'temporary', 'unclear'],
+    correct: 1,
+    explain: 'Robust means strong or reliable.',
+  },
+  {
+    id: 'q39',
+    skill: 'Reading',
+    band: 'P4',
+    weight: 3,
+    text: 'Which claim is best supported in academic writing?',
+    options: [
+      'This method always works.',
+      'This method appears effective for the sampled group.',
+      'This method is obviously perfect.',
+      'This method can never fail.',
+    ],
+    correct: 1,
+    explain: 'Academic claims are cautious and evidence-based.',
+  },
+  {
+    id: 'q40',
+    skill: 'Vocabulary',
+    band: 'P4',
+    weight: 3,
+    text: 'Choose the best academic word: "The results were very clear."',
+    options: ['The results were crystal clear.', 'The results were transparent.', 'The results were nice.', 'The results were cool.'],
+    correct: 1,
+    explain: '"Transparent" fits academic tone best.',
   },
 ];
 
@@ -213,6 +545,17 @@ function buildResult(askedQuestions, answers) {
     }))
     .sort((a, b) => a.pct - b.pct)[0];
 
+  const missed = askedQuestions
+    .filter((q) => answers[q.id] !== q.correct)
+    .map((q) => ({
+      id: q.id,
+      text: q.text,
+      correct: q.options[q.correct],
+      explain: q.explain || '',
+      skill: q.skill,
+      band: q.band,
+    }));
+
   return {
     band,
     cefr,
@@ -220,6 +563,7 @@ function buildResult(askedQuestions, answers) {
     scoreText: `${earnedWeight}/${totalWeight}`,
     skillMap,
     weakestSkill,
+    missed,
   };
 }
 
@@ -278,7 +622,7 @@ export default function PlacementTestScreen({ navigation }) {
   };
 
   return (
-    <Screen contentStyle={styles.container}>
+    <Screen scroll contentStyle={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
           <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
@@ -325,6 +669,18 @@ export default function PlacementTestScreen({ navigation }) {
               <Text style={styles.bounextText}>2. Weakest skill için 7 günlük sprint başlat.</Text>
               <Text style={styles.bounextText}>3. 1 hafta sonra placement retake yap.</Text>
             </View>
+            {result.missed?.length ? (
+              <View style={styles.reviewBox}>
+                <Text style={styles.reviewTitle}>Review Missed Items</Text>
+                {result.missed.map((m) => (
+                  <View key={m.id} style={styles.reviewRow}>
+                    <Text style={styles.reviewQ}>{m.text}</Text>
+                    <Text style={styles.reviewA}>Correct: {m.correct}</Text>
+                    {m.explain ? <Text style={styles.reviewExplain}>{m.explain}</Text> : null}
+                  </View>
+                ))}
+              </View>
+            ) : null}
 
             <View style={styles.resultActions}>
               <TouchableOpacity style={styles.secondaryBtn} onPress={reset}>
@@ -448,5 +804,38 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: colors.text,
     marginBottom: 3,
+  },
+  reviewBox: {
+    width: '100%',
+    backgroundColor: '#FDF4FF',
+    borderWidth: 1,
+    borderColor: '#E9D5FF',
+    borderRadius: 12,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+  },
+  reviewTitle: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    marginBottom: 6,
+    textTransform: 'uppercase',
+  },
+  reviewRow: {
+    marginBottom: spacing.sm,
+  },
+  reviewQ: {
+    fontSize: 13,
+    color: colors.text,
+    fontWeight: '700',
+    marginBottom: 2,
+  },
+  reviewA: {
+    fontSize: 12,
+    color: colors.primaryDark,
+  },
+  reviewExplain: {
+    fontSize: 12,
+    color: colors.muted,
   },
 });

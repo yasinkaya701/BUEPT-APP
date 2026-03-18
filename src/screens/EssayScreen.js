@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
-import { colors, spacing, typography, shadow } from '../theme/tokens';
+import { colors, spacing, typography } from '../theme/tokens';
 import templates from '../../data/essay_templates.json';
 
 const TABS = ['Templates', 'Phrases', 'Sample', 'Topics', 'Mistakes'];
@@ -37,6 +37,22 @@ const PHRASE_CATEGORY_COLORS = {
     describing_stability: '#1565C0',
     approximation: '#4527A0',
     comparison: '#00695C',
+};
+
+const PHRASE_CATEGORY_STYLES = {
+    introducing_arguments: { dot: { backgroundColor: PHRASE_CATEGORY_COLORS.introducing_arguments }, text: { color: PHRASE_CATEGORY_COLORS.introducing_arguments } },
+    adding_points: { dot: { backgroundColor: PHRASE_CATEGORY_COLORS.adding_points }, text: { color: PHRASE_CATEGORY_COLORS.adding_points } },
+    giving_examples: { dot: { backgroundColor: PHRASE_CATEGORY_COLORS.giving_examples }, text: { color: PHRASE_CATEGORY_COLORS.giving_examples } },
+    concession_rebuttal: { dot: { backgroundColor: PHRASE_CATEGORY_COLORS.concession_rebuttal }, text: { color: PHRASE_CATEGORY_COLORS.concession_rebuttal } },
+    conclusion_starters: { dot: { backgroundColor: PHRASE_CATEGORY_COLORS.conclusion_starters }, text: { color: PHRASE_CATEGORY_COLORS.conclusion_starters } },
+    academic_hedging: { dot: { backgroundColor: PHRASE_CATEGORY_COLORS.academic_hedging }, text: { color: PHRASE_CATEGORY_COLORS.academic_hedging } },
+    one_hand_other: { dot: { backgroundColor: PHRASE_CATEGORY_COLORS.one_hand_other }, text: { color: PHRASE_CATEGORY_COLORS.one_hand_other } },
+    balanced_view: { dot: { backgroundColor: PHRASE_CATEGORY_COLORS.balanced_view }, text: { color: PHRASE_CATEGORY_COLORS.balanced_view } },
+    describing_increase: { dot: { backgroundColor: PHRASE_CATEGORY_COLORS.describing_increase }, text: { color: PHRASE_CATEGORY_COLORS.describing_increase } },
+    describing_decrease: { dot: { backgroundColor: PHRASE_CATEGORY_COLORS.describing_decrease }, text: { color: PHRASE_CATEGORY_COLORS.describing_decrease } },
+    describing_stability: { dot: { backgroundColor: PHRASE_CATEGORY_COLORS.describing_stability }, text: { color: PHRASE_CATEGORY_COLORS.describing_stability } },
+    approximation: { dot: { backgroundColor: PHRASE_CATEGORY_COLORS.approximation }, text: { color: PHRASE_CATEGORY_COLORS.approximation } },
+    comparison: { dot: { backgroundColor: PHRASE_CATEGORY_COLORS.comparison }, text: { color: PHRASE_CATEGORY_COLORS.comparison } },
 };
 
 function formatKey(key) {
@@ -81,7 +97,7 @@ export default function EssayScreen({ navigation }) {
             <Text style={styles.sub}>Bogazici University BUEPT — Writing Guide</Text>
 
             {/* Essay type selector */}
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: spacing.md }}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.sectionScroll}>
                 <View style={styles.typeRow}>
                     {templates.map((t, i) => (
                         <TouchableOpacity
@@ -104,7 +120,7 @@ export default function EssayScreen({ navigation }) {
             </View>
 
             {/* Sub-tabs */}
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: spacing.md }}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.sectionScroll}>
                 <View style={styles.tabRow}>
                     {TABS.map(tab => (
                         <TouchableOpacity
@@ -159,7 +175,7 @@ export default function EssayScreen({ navigation }) {
                 {activeTab === 'Phrases' && (
                     <>
                         {Object.entries(tmpl.key_phrases).map(([cat, phrases]) => {
-                            const color = PHRASE_CATEGORY_COLORS[cat] || colors.primary;
+                            const styleSet = PHRASE_CATEGORY_STYLES[cat] || { dot: styles.catDotPrimary, text: styles.sectionTitlePrimary };
                             const isOpen = expandedSection === cat;
                             return (
                                 <Card key={cat} style={styles.card}>
@@ -167,8 +183,8 @@ export default function EssayScreen({ navigation }) {
                                         style={styles.sectionHeader}
                                         onPress={() => setExpandedSection(isOpen ? null : cat)}
                                     >
-                                        <View style={[styles.catDot, { backgroundColor: color }]} />
-                                        <Text style={[styles.sectionTitle, { color, flex: 1 }]}>{formatKey(cat)}</Text>
+                                        <View style={[styles.catDot, styleSet.dot]} />
+                                        <Text style={[styles.sectionTitle, styleSet.text, styles.sectionTitleFlex]}>{formatKey(cat)}</Text>
                                         <Text style={styles.toggle}>{isOpen ? '▲' : '▼'}</Text>
                                     </TouchableOpacity>
                                     {isOpen && (
@@ -279,6 +295,7 @@ const styles = StyleSheet.create({
     },
     sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.md },
 
+    sectionScroll: { marginBottom: spacing.md },
     typeRow: { flexDirection: 'row', gap: spacing.sm, paddingRight: spacing.md },
     typeBtn: {
         paddingHorizontal: spacing.md,
@@ -330,6 +347,9 @@ const styles = StyleSheet.create({
     },
     toggle: { fontSize: typography.small, color: colors.primary, fontFamily: typography.fontHeadline },
     catDot: { width: 10, height: 10, borderRadius: 5, marginRight: spacing.sm },
+    catDotPrimary: { backgroundColor: colors.primary },
+    sectionTitlePrimary: { color: colors.primary },
+    sectionTitleFlex: { flex: 1 },
 
     // Template
     templateRow: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: spacing.sm, gap: spacing.sm },

@@ -21,7 +21,7 @@ export default class AppErrorBoundary extends React.Component {
 
   componentDidCatch(error) {
     // Keep logging explicit so Metro/Xcode surfaces useful stack details.
-    console.error('[AppErrorBoundary]', error);
+    console.error('[AppErrorBoundary]', error, 'last_smoke_step=', global.__BUEPT_LAST_SMOKE_STEP__ || 'n/a');
   }
 
   handleRetry = () => {

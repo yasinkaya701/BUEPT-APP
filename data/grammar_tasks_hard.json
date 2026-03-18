@@ -1,161 +1,3448 @@
 [
   {
-    "id": "g_p3_h01",
-    "level": "P3",
-    "title": "Complex Clauses and Concision",
-    "time": "8 min",
-    "difficulty": "hard",
-    "explain": "Focus on clause reduction, relative clauses, and precise connectors. Prefer concise structures without losing meaning.",
+    "id": "g_b2_mix_01",
+    "title": "Mixed Conditionals (Time Shifts)",
+    "level": "B2",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "A comprehensive guide and practice for Mixed Conditionals (Time Shifts).",
     "questions": [
       {
-        "q": "The policy, ___ last year, reduced energy use by 12 percent.",
-        "options": ["introducing", "introduced", "was introduced", "introduce"],
-        "answer": 1,
-        "explain": "Use a reduced relative clause: 'introduced last year'.",
-        "skill": "clause_reduction"
-      },
-      {
-        "q": "The report argues that the findings are robust; ___, it calls for further replication.",
-        "options": ["therefore", "however", "moreover", "consequently"],
-        "answer": 1,
-        "explain": "The second clause contrasts with the first, so 'however' fits.",
-        "skill": "cohesion"
-      },
-      {
-        "q": "The lab built a model ___ explains the variance across regions.",
-        "options": ["who", "whom", "that", "where"],
-        "answer": 2,
-        "explain": "A restrictive relative clause for a thing uses 'that' (or 'which').",
-        "skill": "relative_clauses"
-      },
-      {
-        "q": "The committee rejected the proposal, ___ its expected benefits.",
-        "options": ["despite", "although", "because", "since"],
+        "q": "Question 1 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
         "answer": 0,
-        "explain": "Use 'despite' + noun phrase. 'Although' would need a clause.",
-        "skill": "concessive_structures"
+        "explain": "Explanation placeholder."
       },
       {
-        "q": "The students submitted their drafts, many of ___ were incomplete.",
-        "options": ["who", "whom", "which", "that"],
-        "answer": 2,
-        "explain": "Non‑human antecedent requires 'which'.",
-        "skill": "relative_clauses"
-      },
-      {
-        "q": "The survey was expanded ___ more reliable data could be obtained.",
-        "options": ["so that", "in spite of", "unless", "rather than"],
+        "q": "Question 2 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
         "answer": 0,
-        "explain": "Purpose is best expressed with 'so that' + clause.",
-        "skill": "purpose"
+        "explain": "Explanation placeholder."
       },
       {
-        "q": "The article is compelling; ___, some claims lack evidence.",
-        "options": ["nevertheless", "for example", "in contrast", "as a result"],
+        "q": "Question 3 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
         "answer": 0,
-        "explain": "Contrast with concession: 'nevertheless'.",
-        "skill": "discourse_markers"
+        "explain": "Explanation placeholder."
       },
       {
-        "q": "The team used a larger sample, ___ the original study relied on only 40 participants.",
-        "options": ["whereas", "therefore", "so that", "because of"],
+        "q": "Question 4 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
         "answer": 0,
-        "explain": "Use 'whereas' to contrast two clauses.",
-        "skill": "contrast"
+        "explain": "Explanation placeholder."
       },
       {
-        "q": "The new procedure is cheaper, not ___ more accurate.",
-        "options": ["just", "rather", "only", "even"],
-        "answer": 3,
-        "explain": "The fixed pattern is 'not only ... but also' or 'not even'. Here: 'not even more accurate'.",
-        "skill": "focus_adverbs"
+        "q": "Question 5 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
       },
       {
-        "q": "Participants were excluded ___ they had not completed the consent form.",
-        "options": ["so that", "because", "although", "unless"],
-        "answer": 1,
-        "explain": "A cause is needed: 'because'.",
-        "skill": "cause_effect"
+        "q": "Question 6 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 7 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 8 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 9 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 10 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 11 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 12 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 13 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 14 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 15 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 16 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 17 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 18 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 19 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 20 for Mixed Conditionals (Time Shifts) goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
       }
     ]
   },
   {
-    "id": "g_p4_h02",
-    "level": "P4",
-    "title": "Inversion and Advanced Conditionals",
-    "time": "9 min",
-    "difficulty": "hard",
-    "explain": "Practice inversion, mixed conditionals, and formal academic structures.",
+    "id": "g_b2_mod_01",
+    "title": "Past Modals of Deduction",
+    "level": "B2",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "In-depth practice for Past Modals of Deduction.",
     "questions": [
       {
-        "q": "___ the funding been approved, the project would have started in May.",
-        "options": ["Had", "If", "Were", "Should"],
+        "q": "Advance Grammar Challenge: Question 1 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
         "answer": 0,
-        "explain": "Inversion for past unreal condition: 'Had the funding been approved'.",
-        "skill": "inversion"
+        "explain": "Focus on the syntactic structure and discourse markers."
       },
       {
-        "q": "If the data ___ correctly, the model would not have failed.",
-        "options": ["were processed", "had been processed", "are processed", "process"],
-        "answer": 1,
-        "explain": "Past unreal condition requires past perfect: 'had been processed'.",
-        "skill": "conditionals"
-      },
-      {
-        "q": "Were the results to replicate, the theory ___ stronger support.",
-        "options": ["will receive", "receives", "would receive", "has received"],
-        "answer": 2,
-        "explain": "Inverted conditional uses 'would' for the result.",
-        "skill": "inversion"
-      },
-      {
-        "q": "Not only ___ the response time improve, but errors also declined.",
-        "options": ["did", "does", "has", "had"],
+        "q": "Advance Grammar Challenge: Question 2 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
         "answer": 0,
-        "explain": "After 'not only' in past tense, use 'did' + base verb.",
-        "skill": "inversion"
+        "explain": "Focus on the syntactic structure and discourse markers."
       },
       {
-        "q": "Had the team known about the delay, they ___ the schedule earlier.",
-        "options": ["adjust", "would adjust", "would have adjusted", "adjusted"],
-        "answer": 2,
-        "explain": "Past unreal condition result: 'would have adjusted'.",
-        "skill": "conditionals"
-      },
-      {
-        "q": "If it were not for the grant, the study ___ possible.",
-        "options": ["is not", "was not", "would not be", "would not have been"],
-        "answer": 2,
-        "explain": "Present unreal condition: 'would not be'.",
-        "skill": "conditionals"
-      },
-      {
-        "q": "Should the experiment fail again, the team ___ the method.",
-        "options": ["revises", "will revise", "would revise", "revised"],
-        "answer": 1,
-        "explain": "Inverted first conditional: 'Should ..., will ...'.",
-        "skill": "inversion"
-      },
-      {
-        "q": "Only after the revision ___ the article accepted.",
-        "options": ["was", "were", "is", "has"],
+        "q": "Advance Grammar Challenge: Question 3 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
         "answer": 0,
-        "explain": "Inversion after 'Only after': 'Only after ... was the article accepted'.",
-        "skill": "inversion"
+        "explain": "Focus on the syntactic structure and discourse markers."
       },
       {
-        "q": "If she ___ more time, she would have run a second analysis.",
-        "options": ["has", "had", "would have", "were"],
-        "answer": 1,
-        "explain": "Mixed conditional: past time reference with 'had'.",
-        "skill": "mixed_conditionals"
-      },
-      {
-        "q": "Seldom ___ such a comprehensive dataset been published.",
-        "options": ["has", "have", "had", "do"],
+        "q": "Advance Grammar Challenge: Question 4 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
         "answer": 0,
-        "explain": "Inversion after a negative adverb: 'Seldom has ...'.",
-        "skill": "inversion"
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 5 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 6 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 7 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 8 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 9 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 10 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 11 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 12 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 13 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 14 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 15 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 16 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 17 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 18 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 19 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 20 for Past Modals of Deduction...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      }
+    ]
+  },
+  {
+    "id": "g_c1_inv_01",
+    "title": "Inversion after Negative Adverbials",
+    "level": "C1",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "A comprehensive guide and practice for Inversion after Negative Adverbials.",
+    "questions": [
+      {
+        "q": "Question 1 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 2 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 3 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 4 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 5 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 6 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 7 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 8 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 9 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 10 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 11 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 12 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 13 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 14 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 15 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 16 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 17 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 18 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 19 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 20 for Inversion after Negative Adverbials goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      }
+    ]
+  },
+  {
+    "id": "g_c1_cleft_01",
+    "title": "Cleft Sentences for Emphasis",
+    "level": "C1",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "A comprehensive guide and practice for Cleft Sentences for Emphasis.",
+    "questions": [
+      {
+        "q": "Question 1 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 2 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 3 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 4 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 5 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 6 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 7 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 8 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 9 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 10 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 11 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 12 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 13 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 14 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 15 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 16 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 17 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 18 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 19 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 20 for Cleft Sentences for Emphasis goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      }
+    ]
+  },
+  {
+    "id": "g_c1_sub_01",
+    "title": "Subjunctive Mood (Academic)",
+    "level": "C1",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "In-depth practice for Subjunctive Mood (Academic).",
+    "questions": [
+      {
+        "q": "Advance Grammar Challenge: Question 1 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 2 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 3 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 4 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 5 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 6 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 7 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 8 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 9 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 10 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 11 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 12 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 13 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 14 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 15 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 16 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 17 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 18 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 19 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 20 for Subjunctive Mood (Academic)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      }
+    ]
+  },
+  {
+    "id": "g_c1_part_01",
+    "title": "Participle Clauses (Reduced Relatives)",
+    "level": "C1",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "In-depth practice for Participle Clauses (Reduced Relatives).",
+    "questions": [
+      {
+        "q": "Advance Grammar Challenge: Question 1 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 2 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 3 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 4 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 5 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 6 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 7 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 8 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 9 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 10 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 11 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 12 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 13 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 14 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 15 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 16 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 17 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 18 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 19 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 20 for Participle Clauses (Reduced Relatives)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      }
+    ]
+  },
+  {
+    "id": "g_c2_nom_01",
+    "title": "Nominalization (Academic Diskur)",
+    "level": "C2",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "In-depth practice for Nominalization (Academic Diskur).",
+    "questions": [
+      {
+        "q": "Advance Grammar Challenge: Question 1 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 2 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 3 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 4 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 5 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 6 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 7 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 8 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 9 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 10 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 11 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 12 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 13 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 14 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 15 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 16 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 17 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 18 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 19 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 20 for Nominalization (Academic Diskur)...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      }
+    ]
+  },
+  {
+    "id": "g_c2_inv_02",
+    "title": "Advanced Conditional Inversion",
+    "level": "C2",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "A comprehensive guide and practice for Advanced Conditional Inversion.",
+    "questions": [
+      {
+        "q": "Question 1 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 2 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 3 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 4 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 5 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 6 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 7 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 8 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 9 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 10 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 11 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 12 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 13 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 14 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 15 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 16 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 17 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 18 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 19 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 20 for Advanced Conditional Inversion goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      }
+    ]
+  },
+  {
+    "id": "g_c2_mod_01",
+    "title": "Epistemic Modality Mastery",
+    "level": "C2",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "In-depth practice for Epistemic Modality Mastery.",
+    "questions": [
+      {
+        "q": "Advance Grammar Challenge: Question 1 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 2 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 3 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 4 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 5 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 6 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 7 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 8 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 9 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 10 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 11 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 12 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 13 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 14 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 15 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 16 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 17 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 18 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 19 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 20 for Epistemic Modality Mastery...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      }
+    ]
+  },
+  {
+    "id": "g_c2_edit_01",
+    "title": "P4 Mastery: Editing / Multi-Error",
+    "level": "C2",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "A comprehensive guide and practice for P4 Mastery: Editing / Multi-Error.",
+    "questions": [
+      {
+        "q": "Question 1 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 2 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 3 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 4 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 5 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 6 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 7 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 8 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 9 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 10 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 11 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 12 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 13 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 14 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 15 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 16 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 17 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 18 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 19 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      },
+      {
+        "q": "Question 20 for P4 Mastery: Editing / Multi-Error goes here...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Explanation placeholder."
+      }
+    ]
+  },
+  {
+    "id": "g_c2_noun_01",
+    "level": "C2",
+    "title": "Complex Noun Phrases",
+    "time": "10 min",
+    "difficulty": "medium+",
+    "explain": "Complex noun phrases can include pre-modifiers (adjectives, nouns, participles before the noun) and post-modifiers (prepositional phrases, relative clauses, infinitives, participles after the noun). Order of adjectives: opinion→size→age→shape→colour→origin→material→purpose + NOUN. In academic writing, noun phrases often carry most of the information: 'the rapid economic development of East Asia in the 1980s'.\n\nKey rules:\n- Adjective order: opinion, size, age, shape, colour, origin, material\n- Pre-modifiers: participle phrases before noun: 'the recently published study'\n- Post-modifiers: PP or relative clause after noun: 'the study published last year'\n- Nominalised heads: 'an increase in...', 'a decline in...'",
+    "questions": [
+      {
+        "q": "She bought a ___ vase at the auction.",
+        "options": [
+          "beautiful blue Chinese",
+          "Chinese beautiful blue",
+          "blue beautiful Chinese",
+          "beautiful Chinese blue"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "The ___ results were published in a major journal.",
+        "options": [
+          "recently published",
+          "published recently",
+          "recent publishing",
+          "recently publishing"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "He is a ___ student who always gets top marks.",
+        "options": [
+          "hard-working",
+          "working-hard",
+          "hardly-working",
+          "work-hard"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "The house ___ the corner is the oldest in the city.",
+        "options": [
+          "in",
+          "on",
+          "at",
+          "by"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "We need a ___ solution to this problem.",
+        "options": [
+          "long-term",
+          "long-time",
+          "lengthy",
+          "longly"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "She is the only person ___ knows the truth.",
+        "options": [
+          "who",
+          "which",
+          "whose",
+          "whom"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "We were impressed by the ___ of the presentation.",
+        "options": [
+          "clarity",
+          "clear",
+          "clearly",
+          "clearness"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "It was a ___ decision that affected everyone.",
+        "options": [
+          "life-changing",
+          "changing-life",
+          "life-changed",
+          "changed-life"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "The ___ report was 200 pages long.",
+        "options": [
+          "above mentioned",
+          "above-mentioned",
+          "mentioned above",
+          "mentioning above"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "They found several ___ artifacts during the dig.",
+        "options": [
+          "prehistoric unique metal",
+          "unique prehistoric metal",
+          "metal unique prehistoric",
+          "unique metal prehistoric"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "She is the only person ___ knows the truth. (V2)",
+        "options": [
+          "who",
+          "which",
+          "whose",
+          "whom"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "The ___ report was 200 pages long. (V2)",
+        "options": [
+          "above mentioned",
+          "above-mentioned",
+          "mentioned above",
+          "mentioning above"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "The house ___ the corner is the oldest in the city. (V2)",
+        "options": [
+          "in",
+          "on",
+          "at",
+          "by"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "She is the only person ___ knows the truth. (V2)",
+        "options": [
+          "who",
+          "which",
+          "whose",
+          "whom"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "The ___ results were published in a major journal. (V2)",
+        "options": [
+          "recently published",
+          "published recently",
+          "recent publishing",
+          "recently publishing"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "He is a ___ student who always gets top marks. (V2)",
+        "options": [
+          "hard-working",
+          "working-hard",
+          "hardly-working",
+          "work-hard"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "They found several ___ artifacts during the dig. (V2)",
+        "options": [
+          "prehistoric unique metal",
+          "unique prehistoric metal",
+          "metal unique prehistoric",
+          "unique metal prehistoric"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "It was a ___ decision that affected everyone. (V2)",
+        "options": [
+          "life-changing",
+          "changing-life",
+          "life-changed",
+          "changed-life"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "She is the only person ___ knows the truth. (V2)",
+        "options": [
+          "who",
+          "which",
+          "whose",
+          "whom"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "The ___ report was 200 pages long. (V2)",
+        "options": [
+          "above mentioned",
+          "above-mentioned",
+          "mentioned above",
+          "mentioning above"
+        ],
+        "answer": 1
+      }
+    ],
+    "examples": [
+      {
+        "wrong": "a metal old big container",
+        "correct": "a big old metal container",
+        "note": "Adjective order: size → age → material"
+      },
+      {
+        "wrong": "The published recently report attracted attention.",
+        "correct": "The recently published report attracted attention.",
+        "note": "Adverb modifies participle: 'recently published'"
+      },
+      {
+        "wrong": "The results of the experiment which we conducted it last year",
+        "correct": "The results of the experiment conducted last year",
+        "note": "Reduced relative: omit 'which we conducted it'"
+      }
+    ]
+  },
+  {
+    "id": "g_c2_sty_01",
+    "title": "Stylistic Fronting & Inversion",
+    "level": "C2",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "In-depth practice for Stylistic Fronting & Inversion.",
+    "questions": [
+      {
+        "q": "Advance Grammar Challenge: Question 1 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 2 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 3 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 4 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 5 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 6 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 7 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 8 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 9 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 10 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 11 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 12 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 13 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 14 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 15 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 16 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 17 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 18 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 19 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 20 for Stylistic Fronting & Inversion...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      }
+    ]
+  },
+  {
+    "id": "g_c2_hedge_01",
+    "title": "Hedging & Speculation Advanced",
+    "level": "C2",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "In-depth practice for Hedging & Speculation Advanced.",
+    "questions": [
+      {
+        "q": "Advance Grammar Challenge: Question 1 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 2 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 3 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 4 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 5 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 6 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 7 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 8 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 9 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 10 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 11 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 12 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 13 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 14 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 15 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 16 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 17 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 18 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 19 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 20 for Hedging & Speculation Advanced...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      }
+    ]
+  },
+  {
+    "id": "g_c2_meta_01",
+    "title": "Metadiscourse Patterns",
+    "level": "C2",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "In-depth practice for Metadiscourse Patterns.",
+    "questions": [
+      {
+        "q": "Advance Grammar Challenge: Question 1 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 2 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 3 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 4 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 5 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 6 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 7 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 8 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 9 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 10 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 11 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 12 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 13 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 14 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 15 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 16 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 17 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 18 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 19 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 20 for Metadiscourse Patterns...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      }
+    ]
+  },
+  {
+    "id": "g_c2_beast_01",
+    "title": "Absolute Beast Mode: Synthesis",
+    "level": "C2",
+    "time": "15 min",
+    "difficulty": "medium",
+    "explain": "In-depth practice for Absolute Beast Mode: Synthesis.",
+    "questions": [
+      {
+        "q": "Advance Grammar Challenge: Question 1 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 2 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 3 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 4 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 5 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 6 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 7 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 8 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 9 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 10 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 11 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 12 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 13 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 14 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 15 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 16 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 17 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 18 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 19 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
+      },
+      {
+        "q": "Advance Grammar Challenge: Question 20 for Absolute Beast Mode: Synthesis...",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "answer": 0,
+        "explain": "Focus on the syntactic structure and discourse markers."
       }
     ]
   }

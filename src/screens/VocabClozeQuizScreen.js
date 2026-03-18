@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
@@ -6,6 +6,7 @@ import Button from '../components/Button';
 import { colors, spacing, typography } from '../theme/tokens';
 import { getEntriesWithExamples, getDictionarySample } from '../utils/dictionary';
 import { useAppState } from '../context/AppState';
+import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
 
 
 /** Fisher-Yates shuffle — inline fallback to guard against Metro resolution issues */
@@ -39,9 +40,35 @@ export default function VocabClozeQuizScreen({ navigation, route }) {
   const [unknownCount, setUnknownCount] = useState(0);
   const { addUnknownWord, recordKnown, recordUnknown, recordQuizError } = useAppState();
   const size = route?.params?.size || 10;
+  const mode = route?.params?.mode === 'test_english' ? 'test_english' : 'default';
+  const topic = String(route?.params?.topic || 'all').toLowerCase();
+  const level = String(route?.params?.level || 'all').toUpperCase();
+  const isTestEnglish = mode === 'test_english';
+  const resolveBase = useCallback(() => {
+    if (isTestEnglish) {
+      const list = Array.isArray(testEnglishVocabItems) ? testEnglishVocabItems : [];
+      const filtered = list.filter(
+        (item) =>
+          Array.isArray(item.examples) &&
+          item.examples.length > 0 &&
+          (topic === 'all' || String(item.topic || '').toLowerCase() === topic) &&
+          (level === 'ALL' || String(item.level || '').toUpperCase() === level)
+      );
+      if (filtered.length) return filtered;
+      const levelOnly = list.filter(
+        (item) =>
+          Array.isArray(item.examples) &&
+          item.examples.length > 0 &&
+          (level === 'ALL' || String(item.level || '').toUpperCase() === level)
+      );
+      if (levelOnly.length) return levelOnly;
+      return list.filter((item) => Array.isArray(item.examples) && item.examples.length > 0);
+    }
+    return getEntriesWithExamples(600);
+  }, [isTestEnglish, topic, level]);
 
-  const items = useMemo(() => {
-    const base = getEntriesWithExamples(600);
+  const seedItems = useMemo(() => {
+    const base = resolveBase();
     const built = [];
     for (const e of shuffle(base)) {
       const item = buildItem(e);
@@ -49,15 +76,27 @@ export default function VocabClozeQuizScreen({ navigation, route }) {
       if (built.length >= size) break;
     }
     return built;
-  }, [size]);
+  }, [resolveBase, size]);
+
+  const [items, setItems] = useState(seedItems);
+
+  // Bugfix: ensure quiz items populate if initial seed was delayed
+  React.useEffect(() => {
+    if (items.length === 0 && seedItems.length > 0) {
+      setItems(seedItems);
+    }
+  }, [seedItems, items.length]);
 
   const current = items[index];
 
   const options = useMemo(() => {
     if (!current) return [];
-    const distractors = shuffle(getDictionarySample(400).filter((w) => w.word !== current.word)).slice(0, 3).map((w) => w.word);
+    const distractorBase = resolveBase();
+    const distractors = shuffle(
+      (distractorBase.length ? distractorBase : getDictionarySample(400)).filter((w) => w.word !== current.word)
+    ).slice(0, 3).map((w) => w.word);
     return shuffle([current.word, ...distractors]);
-  }, [current]);
+  }, [current, resolveBase]);
 
   const pick = (opt) => {
     if (!current) return;
@@ -93,43 +132,54 @@ export default function VocabClozeQuizScreen({ navigation, route }) {
   };
 
   return (
-    <Screen contentStyle={styles.container}>
-      <Text style={styles.h1}>Fill in the Blank</Text>
-      <Text style={styles.sub}>Choose the word that fits the sentence</Text>
-      <Text style={styles.progress}>{Math.min(index + 1, items.length)} / {items.length}</Text>
-
-      {current && (
-        <Card style={styles.card}>
-          <Text style={styles.h3}>Sentence</Text>
-          <Text style={styles.body}>{current.sentence}</Text>
-        </Card>
-      )}
-
-      {options.map((o) => (
-        <Button
-          key={o}
-          label={o}
-          variant={
-            revealed
-              ? (o === current?.word ? 'primary' : (selected === o ? 'ghost' : 'secondary'))
-              : (selected === o ? 'primary' : 'secondary')
-          }
-          onPress={() => pick(o)}
-          disabled={revealed || finished}
-        />
-      ))}
-
-      {revealed && current && !finished && (
-        <Card style={styles.card}>
-          <Text style={selected === current.word ? styles.correct : styles.incorrect}>
-            {selected === current.word ? 'Correct' : `Incorrect - correct answer: ${current.word}`}
-          </Text>
-          <Text style={styles.answer}>Sentence: {current.sentence.replace('_____', current.word)}</Text>
-        </Card>
-      )}
+    <Screen scroll contentStyle={styles.container}>
+      <Text style={styles.h1}>{isTestEnglish ? 'Test-English Cloze Quiz' : 'Fill in the Blank'}</Text>
+      <Text style={styles.sub}>
+        {isTestEnglish
+          ? `Test-English ${level === 'ALL' ? 'all levels' : level} in context${topic !== 'all' ? `: ${topic}` : ''} - choose the best word`
+          : 'Choose the word that fits the sentence'}
+      </Text>
+      
+      {!finished && items.length === 0 ? (
+        <View style={styles.emptyState}>
+           <Text style={styles.sub}>Loading cloze data or no sentences found for this category...</Text>
+           <Button label="Go Back" onPress={() => navigation.goBack()} style={styles.emptyBtn} />
+        </View>
+      ) : !finished && current ? (
+        <>
+          <Text style={styles.progress}>{Math.min(index + 1, items.length)} / {items.length}</Text>
+          <Card style={styles.card}>
+            <Text style={styles.h3}>Sentence</Text>
+            <Text style={styles.body}>{current.sentence}</Text>
+          </Card>
+          
+          {options.map((o) => (
+            <Button
+              key={o}
+              label={o}
+              variant={
+                revealed
+                  ? (o === current?.word ? 'primary' : (selected === o ? 'ghost' : 'secondary'))
+                  : (selected === o ? 'primary' : 'secondary')
+              }
+              onPress={() => pick(o)}
+              disabled={revealed || finished}
+            />
+          ))}
+          
+          {revealed && current && !finished && (
+            <Card style={styles.card}>
+              <Text style={selected === current.word ? styles.correct : styles.incorrect}>
+                {selected === current.word ? 'Correct' : `Incorrect - correct answer: ${current.word}`}
+              </Text>
+              <Text style={styles.answer}>Sentence: {current.sentence.replace('_____', current.word)}</Text>
+            </Card>
+          )}
+        </>
+      ) : null}
 
       <View style={styles.row}>
-        {!revealed && !finished ? (
+        {!finished && items.length === 0 ? null : !revealed && !finished ? (
           <Button label="Check Answer" onPress={() => next(true)} disabled={!selected} />
         ) : finished ? (
           <Button label="Back to Vocab" variant="secondary" onPress={() => navigation.goBack()} />
@@ -150,6 +200,13 @@ export default function VocabClozeQuizScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl
+  },
+  emptyState: {
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  emptyBtn: {
+    marginTop: 20,
   },
   h1: {
     fontSize: typography.h1,

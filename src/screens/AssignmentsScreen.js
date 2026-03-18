@@ -39,7 +39,7 @@ export default function AssignmentsScreen({ navigation }) {
     };
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
@@ -84,7 +84,7 @@ export default function AssignmentsScreen({ navigation }) {
                                     <View style={styles.courseBadge}>
                                         <Text style={styles.courseText}>{task.course}</Text>
                                     </View>
-                                    <Text style={[styles.dueText, activeTab === 'pending' && task.due.includes('Today') && { color: colors.error }]}>
+                                    <Text style={[styles.dueText, activeTab === 'pending' && task.due.includes('Today') && styles.dueTextUrgent]}>
                                         {activeTab === 'completed' ? 'Done' : `Due: ${task.due}`}
                                     </Text>
                                 </View>
@@ -104,7 +104,7 @@ export default function AssignmentsScreen({ navigation }) {
                     ))
                 )}
 
-                <View style={{ height: 40 }} />
+                <View style={styles.bottomSpacer} />
             </ScrollView>
         </Screen>
     );
@@ -133,10 +133,12 @@ const styles = StyleSheet.create({
     courseBadge: { backgroundColor: colors.primarySoft, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 },
     courseText: { fontSize: 10, fontWeight: '900', color: colors.primaryDark },
     dueText: { fontSize: 12, fontWeight: '700', color: colors.muted },
+    dueTextUrgent: { color: colors.error },
 
     submitBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: colors.success, justifyContent: 'center', alignItems: 'center', ...shadow.sm },
     doneMark: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
 
     emptyState: { alignItems: 'center', paddingVertical: 80 },
-    emptyText: { marginTop: spacing.md, color: colors.muted, fontWeight: '600', fontSize: 14 }
+    emptyText: { marginTop: spacing.md, color: colors.muted, fontWeight: '600', fontSize: 14 },
+    bottomSpacer: { height: 40 },
 });

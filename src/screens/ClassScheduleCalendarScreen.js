@@ -1,13 +1,16 @@
-import React, { useMemo, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import { colors, spacing, typography } from '../theme/tokens';
-import scheduleData from '../../data/university_schedule_2025_fall.json';
+import fallScheduleData from '../../data/university_schedule_2025_fall.json';
+import springCalendarData from '../../data/university_schedule_2026_spring.json';
 
 const WEEK_DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 const CLASS_DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const HOMEWORK_STORAGE_KEY = 'class_schedule_homework_v1';
 
 function toISO(date) {
   const y = date.getFullYear();
@@ -100,10 +103,63 @@ function buildMonthCells(monthDate) {
   return cells;
 }
 
+function isIsoInRange(iso, start, end) {
+  return typeof iso === 'string' && iso >= start && iso <= end;
+}
+
+function findBestTerm(termDataList, todayISO) {
+  if (!Array.isArray(termDataList) || !termDataList.length) return fallScheduleData;
+  const inRange = termDataList.find((term) => isIsoInRange(todayISO, term?.meta?.termStart, term?.meta?.termEnd));
+  if (inRange) return inRange;
+
+  const upcoming = termDataList
+    .filter((term) => typeof term?.meta?.termStart === 'string' && term.meta.termStart >= todayISO)
+    .sort((a, b) => a.meta.termStart.localeCompare(b.meta.termStart));
+  if (upcoming.length) return upcoming[0];
+
+  const past = termDataList
+    .filter((term) => typeof term?.meta?.termEnd === 'string' && term.meta.termEnd <= todayISO)
+    .sort((a, b) => b.meta.termEnd.localeCompare(a.meta.termEnd));
+  if (past.length) return past[0];
+
+  return termDataList[0];
+}
+
 export default function ClassScheduleCalendarScreen({ navigation }) {
-  const programs = useMemo(() => scheduleData?.programs || [], []);
-  const holidays = useMemo(() => scheduleData?.holidays || [], []);
-  const academicEvents = useMemo(() => scheduleData?.academicEvents || [], []);
+  const termDataList = useMemo(
+    () => [fallScheduleData, springCalendarData].filter(Boolean),
+    []
+  );
+  const [todayISO, setTodayISO] = useState(() => toISO(new Date()));
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const next = toISO(new Date());
+      setTodayISO((prev) => (prev === next ? prev : next));
+    }, 60 * 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const detectedTerm = useMemo(
+    () => findBestTerm(termDataList, todayISO),
+    [termDataList, todayISO]
+  );
+
+  const [termId, setTermId] = useState(detectedTerm?.meta?.termKey || detectedTerm?.meta?.name || 'fall');
+  const activeTerm = useMemo(
+    () => termDataList.find((term) => (term?.meta?.termKey || term?.meta?.name) === termId) || detectedTerm,
+    [termDataList, termId, detectedTerm]
+  );
+
+  const termStart = activeTerm?.meta?.termStart || '2026-02-16';
+  const termEnd = activeTerm?.meta?.termEnd || '2026-06-05';
+  const initialDate = todayISO;
+
+  const programs = useMemo(
+    () => activeTerm?.programs || fallScheduleData?.programs || [],
+    [activeTerm]
+  );
+  const holidays = useMemo(() => activeTerm?.holidays || [], [activeTerm]);
+  const academicEvents = useMemo(() => activeTerm?.academicEvents || [], [activeTerm]);
   const holidayMap = useMemo(() => new Map(holidays.map((h) => [h.date, h.name])), [holidays]);
 
   const defaultProgram = programs[0] || null;
@@ -111,13 +167,14 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
 
   const [programId, setProgramId] = useState(defaultProgram?.program || null);
   const [sectionId, setSectionId] = useState(defaultSection?.section || null);
-  const [monthDate, setMonthDate] = useState(new Date(2025, 8, 1));
-  const [selectedDate, setSelectedDate] = useState(scheduleData?.meta?.termStart || toISO(new Date(2025, 8, 15)));
+  const [monthDate, setMonthDate] = useState(new Date(`${initialDate}T00:00:00`));
+  const [selectedDate, setSelectedDate] = useState(initialDate);
   const [viewMode, setViewMode] = useState('calendar');
   const [eventTypeFilter, setEventTypeFilter] = useState('all');
-
-  const termStart = scheduleData?.meta?.termStart || '2025-09-15';
-  const termEnd = scheduleData?.meta?.termEnd || '2026-01-16';
+  const [homeworkTitle, setHomeworkTitle] = useState('');
+  const [homeworkDueDate, setHomeworkDueDate] = useState(initialDate);
+  const [homeworkNote, setHomeworkNote] = useState('');
+  const [homeworkItems, setHomeworkItems] = useState([]);
 
   const activeProgram = useMemo(
     () => programs.find((p) => p.program === programId) || programs[0] || null,
@@ -179,6 +236,54 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
     return map;
   }, [filteredAcademicEvents]);
 
+  useEffect(() => {
+    const nextSelectedDate = todayISO;
+    setSelectedDate(nextSelectedDate);
+    setHomeworkDueDate(nextSelectedDate);
+    setMonthDate(new Date(`${nextSelectedDate}T00:00:00`));
+  }, [termStart, termEnd, todayISO, termId]);
+
+  useEffect(() => {
+    if (!programs.length) return;
+    const exists = programs.some((program) => `${program.program}` === `${programId}`);
+    if (!exists) {
+      const firstProgram = programs[0];
+      setProgramId(firstProgram?.program || null);
+      setSectionId(firstProgram?.sections?.[0]?.section || null);
+    }
+  }, [programs, programId]);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const raw = await AsyncStorage.getItem(HOMEWORK_STORAGE_KEY);
+        if (!mounted) return;
+        const parsed = raw ? JSON.parse(raw) : [];
+        if (Array.isArray(parsed)) {
+          const normalized = parsed
+            .filter((item) => item && typeof item.id === 'string' && typeof item.title === 'string' && typeof item.dueDate === 'string')
+            .map((item) => ({
+              id: item.id,
+              title: item.title,
+              dueDate: item.dueDate,
+              note: typeof item.note === 'string' ? item.note : '',
+              done: Boolean(item.done),
+              createdAt: typeof item.createdAt === 'string' ? item.createdAt : todayISO,
+            }));
+          setHomeworkItems(normalized);
+        }
+      } catch (_) {
+        // ignore storage read errors
+      }
+    })();
+    return () => { mounted = false; };
+  }, [todayISO]);
+
+  useEffect(() => {
+    AsyncStorage.setItem(HOMEWORK_STORAGE_KEY, JSON.stringify(homeworkItems)).catch(() => { });
+  }, [homeworkItems]);
+
   const monthStats = useMemo(() => {
     let classDays = 0;
     let holidayCount = 0;
@@ -201,18 +306,18 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
 
   const upcomingHolidays = useMemo(
     () => holidays
-      .filter((h) => h.date >= selectedDate)
+      .filter((h) => h.date >= todayISO)
       .sort((a, b) => a.date.localeCompare(b.date))
-      .slice(0, 3),
-    [holidays, selectedDate]
+      .slice(0, 5),
+    [holidays, todayISO]
   );
 
   const upcomingEvents = useMemo(
     () => filteredAcademicEvents
-      .filter((e) => e.startDate && (e.endDate || e.startDate) >= selectedDate)
+      .filter((e) => e.startDate && (e.endDate || e.startDate) >= todayISO)
       .sort((a, b) => a.startDate.localeCompare(b.startDate))
-      .slice(0, 5),
-    [filteredAcademicEvents, selectedDate]
+      .slice(0, 8),
+    [filteredAcademicEvents, todayISO]
   );
   const nextExamEvent = useMemo(
     () => filteredAcademicEvents
@@ -221,22 +326,81 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
         const title = String(e.title || '').toLowerCase();
         return t.includes('exam') || title.includes('exam') || title.includes('quiz');
       })
-      .filter((e) => e.startDate >= selectedDate)
+      .filter((e) => e.startDate >= todayISO)
       .sort((a, b) => a.startDate.localeCompare(b.startDate))[0] || null,
-    [filteredAcademicEvents, selectedDate]
+    [filteredAcademicEvents, todayISO]
   );
   const daysUntilNextExam = useMemo(() => {
     if (!nextExamEvent?.startDate) return null;
-    const today = new Date(`${selectedDate}T00:00:00`).getTime();
+    const today = new Date(`${todayISO}T00:00:00`).getTime();
     const exam = new Date(`${nextExamEvent.startDate}T00:00:00`).getTime();
     const diff = Math.ceil((exam - today) / (1000 * 60 * 60 * 24));
     return Number.isFinite(diff) ? diff : null;
-  }, [nextExamEvent, selectedDate]);
+  }, [nextExamEvent, todayISO]);
+
+  const homeworkDateMap = useMemo(() => {
+    const map = new Map();
+    homeworkItems.forEach((item) => {
+      if (item.done) return;
+      map.set(item.dueDate, (map.get(item.dueDate) || 0) + 1);
+    });
+    return map;
+  }, [homeworkItems]);
+
+  const openHomeworkCount = useMemo(
+    () => homeworkItems.filter((item) => !item.done).length,
+    [homeworkItems]
+  );
+
+  const upcomingHomework = useMemo(
+    () => homeworkItems
+      .filter((item) => !item.done && item.dueDate >= todayISO)
+      .sort((a, b) => a.dueDate.localeCompare(b.dueDate))
+      .slice(0, 8),
+    [homeworkItems, todayISO]
+  );
+
+  const selectedDayHomework = useMemo(
+    () => homeworkItems
+      .filter((item) => item.dueDate === selectedDate)
+      .sort((a, b) => {
+        if (a.done === b.done) return a.title.localeCompare(b.title);
+        return a.done ? 1 : -1;
+      }),
+    [homeworkItems, selectedDate]
+  );
+
+  const addHomework = () => {
+    const title = homeworkTitle.trim();
+    if (!title) return;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(homeworkDueDate)) return;
+    const item = {
+      id: `hw_${Date.now()}`,
+      title,
+      dueDate: homeworkDueDate,
+      note: homeworkNote.trim(),
+      done: false,
+      createdAt: todayISO,
+    };
+    setHomeworkItems((prev) => [item, ...prev]);
+    setHomeworkTitle('');
+    setHomeworkNote('');
+  };
+
+  const toggleHomeworkDone = (id) => {
+    setHomeworkItems((prev) => prev.map((item) => (
+      item.id === id ? { ...item, done: !item.done } : item
+    )));
+  };
+
+  const removeHomework = (id) => {
+    setHomeworkItems((prev) => prev.filter((item) => item.id !== id));
+  };
 
   const selectedInfo = useMemo(() => {
     const dayKey = WEEK_DAYS[selectedDateObj.getDay()];
     const holidayName = holidayMap.get(selectedDate);
-    const inTerm = selectedDate >= termStart && selectedDate <= termEnd;
+    const inTerm = isIsoInRange(selectedDate, termStart, termEnd);
     const sessions = inTerm && !holidayName ? daySessions(activeSection, dayKey) : [];
     const events = dayEvents.get(selectedDate) || [];
     return { dayKey, holidayName, inTerm, sessions, events };
@@ -247,9 +411,31 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
       <Card style={styles.heroCard}>
         <Text style={styles.heroTitle}>Ders Programı ve Takvim</Text>
         <Text style={styles.heroSub}>
-          Takvim üzerinde ders günlerini ve tatil günlerini birlikte gör.
+          2. dönem takvimi aktif. Bugüne göre sınav ve ödev akışını takip et.
         </Text>
+        <Text style={styles.termText}>Bugün: {todayISO}</Text>
         <Text style={styles.termText}>Term: {termStart} → {termEnd}</Text>
+      </Card>
+
+      <Card style={styles.card}>
+        <Text style={styles.blockTitle}>Dönem Seçimi</Text>
+        <View style={styles.rowWrap}>
+          {termDataList.map((term) => {
+            const key = term?.meta?.termKey || term?.meta?.name;
+            const active = key === (activeTerm?.meta?.termKey || activeTerm?.meta?.name);
+            return (
+              <TouchableOpacity
+                key={key}
+                style={[styles.pill, active && styles.pillActive]}
+                onPress={() => setTermId(key)}
+              >
+                <Text style={[styles.pillText, active && styles.pillTextActive]}>
+                  {term?.meta?.name || key}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
       </Card>
 
       <Card style={styles.card}>
@@ -264,6 +450,11 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
             <Text style={styles.dashboardLabel}>Countdown</Text>
             <Text style={styles.dashboardValue}>{daysUntilNextExam == null ? '--' : `${daysUntilNextExam}d`}</Text>
             <Text style={styles.dashboardSub}>until next exam milestone</Text>
+          </View>
+          <View style={styles.dashboardItem}>
+            <Text style={styles.dashboardLabel}>Open Homework</Text>
+            <Text style={styles.dashboardValue}>{openHomeworkCount}</Text>
+            <Text style={styles.dashboardSub}>pending tasks</Text>
           </View>
         </View>
         <View style={styles.rowWrap}>
@@ -375,7 +566,9 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
             style={styles.todayBtn}
             onPress={() => {
               const today = new Date();
-              setSelectedDate(toISO(today));
+              const iso = toISO(today);
+              setSelectedDate(iso);
+              setHomeworkDueDate(iso);
               setMonthDate(new Date(today.getFullYear(), today.getMonth(), 1));
             }}
           >
@@ -411,6 +604,8 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
             const inTerm = iso >= termStart && iso <= termEnd;
             const isHoliday = holidayMap.has(iso);
             const hasEvent = dayEvents.has(iso);
+            const hasHomework = homeworkDateMap.has(iso);
+            const isToday = iso === todayISO;
             const hasClass = inTerm && !isHoliday && classWeekDays.has(dayKey);
             const isSelected = iso === selectedDate;
             return (
@@ -422,6 +617,7 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
                   isSelected && styles.daySelected,
                   hasClass && styles.dayClass,
                   isHoliday && styles.dayHoliday,
+                  isToday && styles.dayToday,
                 ]}
                 onPress={() => setSelectedDate(iso)}
               >
@@ -436,6 +632,7 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
                 {hasClass ? <View style={styles.dotClass} /> : null}
                 {isHoliday ? <View style={styles.dotHoliday} /> : null}
                 {hasEvent ? <View style={styles.dotEvent} /> : null}
+                {hasHomework ? <View style={styles.dotHomework} /> : null}
               </TouchableOpacity>
             );
           })}
@@ -445,6 +642,7 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
           <View style={styles.legendItem}><View style={styles.dotClass} /><Text style={styles.legendText}>Class day</Text></View>
           <View style={styles.legendItem}><View style={styles.dotHoliday} /><Text style={styles.legendText}>Holiday</Text></View>
           <View style={styles.legendItem}><View style={styles.dotEvent} /><Text style={styles.legendText}>Academic event</Text></View>
+          <View style={styles.legendItem}><View style={styles.dotHomework} /><Text style={styles.legendText}>Homework</Text></View>
         </View>
           </>
         ) : (
@@ -478,6 +676,7 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
             const isSelected = iso === selectedDate;
             const isHoliday = holidayMap.has(iso);
             const hasEvent = dayEvents.has(iso);
+            const hasHomework = homeworkDateMap.has(iso);
             const dayKey = WEEK_DAYS[date.getDay()];
             const isClass = iso >= termStart && iso <= termEnd && !isHoliday && classWeekDays.has(dayKey);
             return (
@@ -496,13 +695,14 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
                 {isHoliday ? <View style={styles.weekHolidayMark} /> : null}
                 {isClass ? <View style={styles.weekClassMark} /> : null}
                 {hasEvent ? <View style={styles.weekEventMark} /> : null}
+                {hasHomework ? <View style={styles.weekHomeworkMark} /> : null}
               </TouchableOpacity>
             );
           })}
         </View>
 
         {!selectedInfo.inTerm ? (
-          <Text style={styles.infoText}>Bu tarih güz dönemi aralığında değil.</Text>
+          <Text style={styles.infoText}>Bu tarih seçili dönem aralığında değil.</Text>
         ) : null}
 
         {selectedInfo.holidayName ? (
@@ -529,6 +729,34 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
 
         {!selectedInfo.holidayName && selectedInfo.inTerm && selectedInfo.sessions.length === 0 ? (
           <Text style={styles.infoText}>Bu section için ders görünmüyor.</Text>
+        ) : null}
+
+        {selectedDayHomework.length > 0 ? (
+          <View style={styles.eventBlock}>
+            <Text style={styles.eventBlockTitle}>Homework on {selectedDate}</Text>
+            {selectedDayHomework.map((item) => (
+              <View key={item.id} style={styles.homeworkItem}>
+                <View style={styles.homeworkBody}>
+                  <Text style={[styles.homeworkTitle, item.done && styles.homeworkDoneText]}>{item.title}</Text>
+                  {item.note ? <Text style={styles.homeworkNote}>{item.note}</Text> : null}
+                </View>
+                <View style={styles.homeworkActions}>
+                  <TouchableOpacity
+                    style={[styles.homeworkActionBtn, item.done && styles.homeworkDoneBtn]}
+                    onPress={() => toggleHomeworkDone(item.id)}
+                  >
+                    <Text style={styles.homeworkActionText}>{item.done ? 'Undo' : 'Done'}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.homeworkActionBtn, styles.homeworkDeleteBtn]}
+                    onPress={() => removeHomework(item.id)}
+                  >
+                    <Text style={styles.homeworkDeleteText}>Delete</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))}
+          </View>
         ) : null}
 
         {selectedInfo.sessions.map((session) => {
@@ -560,6 +788,73 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
       </Card>
 
       <Card style={styles.card}>
+        <Text style={styles.blockTitle}>Ödev Ekle</Text>
+        <TextInput
+          style={styles.input}
+          value={homeworkTitle}
+          onChangeText={setHomeworkTitle}
+          placeholder="Ödev başlığı (örn: Writing draft 2)"
+          placeholderTextColor={colors.muted}
+        />
+        <View style={styles.rowWrap}>
+          <TextInput
+            style={[styles.input, styles.dateInput]}
+            value={homeworkDueDate}
+            onChangeText={setHomeworkDueDate}
+            placeholder="YYYY-MM-DD"
+            placeholderTextColor={colors.muted}
+            autoCapitalize="none"
+          />
+          <TouchableOpacity
+            style={styles.inlineSelectBtn}
+            onPress={() => setHomeworkDueDate(selectedDate)}
+          >
+            <Text style={styles.inlineSelectBtnText}>Use Selected Day</Text>
+          </TouchableOpacity>
+        </View>
+        <TextInput
+          style={[styles.input, styles.noteInput]}
+          value={homeworkNote}
+          onChangeText={setHomeworkNote}
+          placeholder="Kısa not (opsiyonel)"
+          placeholderTextColor={colors.muted}
+          multiline
+        />
+        <View style={styles.rowWrap}>
+          <TouchableOpacity style={styles.addHomeworkBtn} onPress={addHomework}>
+            <Text style={styles.addHomeworkText}>Ödevi Ekle</Text>
+          </TouchableOpacity>
+        </View>
+      </Card>
+
+      <Card style={styles.card}>
+        <Text style={styles.blockTitle}>Upcoming Homework</Text>
+        {upcomingHomework.length === 0 ? (
+          <Text style={styles.infoText}>Yakın tarihte açık ödev görünmüyor.</Text>
+        ) : (
+          upcomingHomework.map((item) => (
+            <View key={`homework-upcoming-${item.id}`} style={styles.homeworkRow}>
+              <View style={styles.homeworkDateBadge}>
+                <Text style={styles.homeworkDateText}>{formatShortDate(item.dueDate)}</Text>
+              </View>
+              <View style={styles.homeworkBody}>
+                <Text style={styles.homeworkTitle}>{item.title}</Text>
+                {item.note ? <Text style={styles.homeworkNote}>{item.note}</Text> : null}
+              </View>
+              <View style={styles.homeworkActions}>
+                <TouchableOpacity style={styles.homeworkActionBtn} onPress={() => toggleHomeworkDone(item.id)}>
+                  <Text style={styles.homeworkActionText}>Done</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.homeworkActionBtn, styles.homeworkDeleteBtn]} onPress={() => removeHomework(item.id)}>
+                  <Text style={styles.homeworkDeleteText}>Delete</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ))
+        )}
+      </Card>
+
+      <Card style={styles.card}>
         <Text style={styles.blockTitle}>Upcoming Academic Events</Text>
         {upcomingEvents.length === 0 ? (
           <Text style={styles.infoText}>Yakın tarihte akademik etkinlik görünmüyor.</Text>
@@ -578,8 +873,8 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
 
       <Card style={styles.card}>
         <Text style={styles.blockTitle}>Not</Text>
-        <Text style={styles.meta}>Tatil listesi `data/university_schedule_2025_fall.json` içinden yönetilir.</Text>
-        <Text style={styles.meta}>Üniversitenin resmi güncellemesine göre ekstra tatil günleri buraya eklenebilir.</Text>
+        <Text style={styles.meta}>Takvim verileri `data/university_schedule_2025_fall.json` ve `data/university_schedule_2026_spring.json` dosyalarından okunur.</Text>
+        <Text style={styles.meta}>Ödevler cihazda saklanır; uygulama yeniden açılsa da listede kalır.</Text>
       </Card>
     </Screen>
   );
@@ -637,11 +932,13 @@ const styles = StyleSheet.create({
   },
   dashboardRow: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: spacing.sm,
     marginBottom: spacing.sm,
   },
   dashboardItem: {
     flex: 1,
+    minWidth: 140,
     borderWidth: 1,
     borderColor: '#DBEAFE',
     borderRadius: 12,
@@ -853,6 +1150,10 @@ const styles = StyleSheet.create({
   dayHoliday: {
     backgroundColor: '#FEF2F2',
   },
+  dayToday: {
+    borderWidth: 1.5,
+    borderColor: '#1D4ED8',
+  },
   dayText: {
     fontSize: typography.small,
     color: colors.text,
@@ -889,6 +1190,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 6,
     left: 8,
+  },
+  dotHomework: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#7C3AED',
+    position: 'absolute',
+    top: 6,
+    right: 8,
   },
   legendRow: {
     marginTop: spacing.sm,
@@ -1009,6 +1319,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 4,
     right: 4,
+  },
+  weekHomeworkMark: {
+    width: 5,
+    height: 5,
+    borderRadius: 99,
+    backgroundColor: '#7C3AED',
+    position: 'absolute',
+    top: 4,
+    left: 4,
   },
   eventBlock: {
     marginBottom: spacing.sm,
@@ -1131,5 +1450,131 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontHeadline,
     textAlign: 'right',
     maxWidth: '45%',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#CBD5E1',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.sm,
+    color: colors.text,
+    marginBottom: spacing.sm,
+    minWidth: 180,
+  },
+  dateInput: {
+    flex: 1,
+    marginBottom: 0,
+  },
+  noteInput: {
+    minHeight: 70,
+    textAlignVertical: 'top',
+  },
+  inlineSelectBtn: {
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
+    backgroundColor: '#EFF6FF',
+    borderRadius: 10,
+    paddingHorizontal: spacing.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  inlineSelectBtnText: {
+    color: '#1E40AF',
+    fontFamily: typography.fontHeadline,
+    fontSize: typography.xsmall,
+  },
+  addHomeworkBtn: {
+    borderWidth: 1,
+    borderColor: '#1D4ED8',
+    backgroundColor: '#1D4ED8',
+    borderRadius: 10,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  addHomeworkText: {
+    color: '#FFFFFF',
+    fontFamily: typography.fontHeadline,
+    fontSize: typography.small,
+  },
+  homeworkRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    borderWidth: 1,
+    borderColor: '#DDD6FE',
+    backgroundColor: '#F5F3FF',
+    borderRadius: 12,
+    padding: spacing.sm,
+    marginBottom: spacing.xs,
+  },
+  homeworkDateBadge: {
+    width: 58,
+    borderRadius: 8,
+    backgroundColor: '#EDE9FE',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 6,
+  },
+  homeworkDateText: {
+    fontSize: typography.xsmall,
+    color: '#5B21B6',
+    fontFamily: typography.fontHeadline,
+  },
+  homeworkItem: {
+    borderWidth: 1,
+    borderColor: '#DDD6FE',
+    backgroundColor: '#F5F3FF',
+    borderRadius: 10,
+    padding: spacing.sm,
+    marginBottom: spacing.xs,
+    gap: spacing.sm,
+  },
+  homeworkBody: {
+    flex: 1,
+  },
+  homeworkTitle: {
+    fontSize: typography.small,
+    color: '#4C1D95',
+    fontFamily: typography.fontHeadline,
+  },
+  homeworkDoneText: {
+    textDecorationLine: 'line-through',
+    opacity: 0.7,
+  },
+  homeworkNote: {
+    marginTop: 2,
+    fontSize: typography.xsmall,
+    color: '#5B21B6',
+  },
+  homeworkActions: {
+    flexDirection: 'row',
+    gap: spacing.xs,
+    flexWrap: 'wrap',
+  },
+  homeworkActionBtn: {
+    borderWidth: 1,
+    borderColor: '#C4B5FD',
+    backgroundColor: '#EDE9FE',
+    borderRadius: 8,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 5,
+  },
+  homeworkDoneBtn: {
+    borderColor: '#22C55E',
+    backgroundColor: '#DCFCE7',
+  },
+  homeworkActionText: {
+    color: '#4C1D95',
+    fontFamily: typography.fontHeadline,
+    fontSize: typography.xsmall,
+  },
+  homeworkDeleteBtn: {
+    borderColor: '#FCA5A5',
+    backgroundColor: '#FEF2F2',
+  },
+  homeworkDeleteText: {
+    color: '#B91C1C',
+    fontFamily: typography.fontHeadline,
+    fontSize: typography.xsmall,
   },
 });

@@ -9,6 +9,31 @@ import prompts from '../../data/speaking_prompts.json';
 import { useAppState } from '../context/AppState';
 import { scoreSpeakingRubric } from '../utils/rubricScoring';
 
+function normalizeSpeechText(text = '') {
+  return String(text || '').replace(/\s+/g, ' ').trim();
+}
+
+function pickBestSpeechResult(values = []) {
+  const list = Array.isArray(values) ? values.map(normalizeSpeechText).filter(Boolean) : [];
+  if (!list.length) return '';
+  return list.sort((a, b) => b.length - a.length)[0];
+}
+
+function mergeSpeechText(prevText = '', nextText = '') {
+  const prev = normalizeSpeechText(prevText);
+  const next = normalizeSpeechText(nextText);
+  if (!next) return prev;
+  if (!prev) return next;
+
+  const prevLower = prev.toLowerCase();
+  const nextLower = next.toLowerCase();
+
+  if (prevLower === nextLower) return prev;
+  if (prevLower.includes(nextLower)) return prev;
+  if (nextLower.includes(prevLower)) return next;
+  return `${prev} ${next}`;
+}
+
 function pickInterviewQuestions(level = 'P2') {
   const pool = prompts.filter((p) => p.level === level);
   const src = pool.length >= 4 ? pool : prompts;
@@ -81,11 +106,11 @@ export default function SpeakingMockInterviewScreen({ navigation }) {
     Voice.onSpeechEnd = () => setIsRecording(false);
     Voice.onSpeechError = () => setIsRecording(false);
     Voice.onSpeechResults = (e) => {
-      const text = e?.value?.[0];
+      const text = pickBestSpeechResult(e?.value);
       if (!text) return;
       setAnswers((prev) => {
-        const existing = String(prev[index] || '').trim();
-        return { ...prev, [index]: existing ? `${existing} ${text}` : text };
+        const existing = String(prev[index] || '');
+        return { ...prev, [index]: mergeSpeechText(existing, text) };
       });
     };
     return () => {
@@ -107,7 +132,7 @@ export default function SpeakingMockInterviewScreen({ navigation }) {
       const text = `${answers[i] || ''} ${followUpAnswers[i] || ''}`.trim();
       const rubric = scoreSpeakingRubric({
         text,
-        prompt: q?.prompt || q?.title || '',
+        prompt: q?.prompt || q?.title || q?.topic || 'Untitled Prompt',
         targetWords: 90,
       });
       return { q, rubric };
@@ -170,7 +195,7 @@ export default function SpeakingMockInterviewScreen({ navigation }) {
               }}
             />
           </View>
-          <Text style={styles.prompt}>{current?.prompt || current?.title || 'Prompt unavailable'}</Text>
+          <Text style={styles.prompt}>{current?.prompt || current?.title || current?.topic || 'Prompt unavailable'}</Text>
           <Text style={styles.quickHint}>Coach: {quickHint}</Text>
           <View style={styles.row}>
             <Button
@@ -211,7 +236,7 @@ export default function SpeakingMockInterviewScreen({ navigation }) {
           <Text style={styles.result}>{result?.total}/{result?.max} • {result?.pct}% • {result?.band}</Text>
           {result?.rows.map((row, i) => (
             <View key={`row-${i}`} style={styles.resultRow}>
-              <Text style={styles.rowTitle}>Q{i + 1}: {row.q?.title || row.q?.category || 'Task'}</Text>
+              <Text style={styles.rowTitle}>Q{i + 1}: {row.q?.title || row.q?.topic || row.q?.category || 'Task'}</Text>
               <Text style={styles.rowMeta}>{row.rubric.total}/{row.rubric.max} • {row.rubric.band}</Text>
             </View>
           ))}

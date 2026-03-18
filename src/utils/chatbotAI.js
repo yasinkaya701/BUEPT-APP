@@ -1,12 +1,8 @@
-const CHAT_ENDPOINT =
-  typeof process !== 'undefined' && process.env && process.env.BUEPT_CHAT_API_URL
-    ? process.env.BUEPT_CHAT_API_URL
-    : '';
+import { readRuntimeEnv, resolveApiEndpoint } from './runtimeApi';
 
-const CHAT_API_KEY =
-  typeof process !== 'undefined' && process.env && process.env.BUEPT_API_KEY
-    ? process.env.BUEPT_API_KEY
-    : '';
+const CHAT_ENDPOINT = resolveApiEndpoint('BUEPT_CHAT_API_URL', '/api/chat');
+
+const CHAT_API_KEY = readRuntimeEnv('BUEPT_API_KEY');
 
 const DEFAULT_TIMEOUT_MS = 12000;
 const DEFAULT_RETRIES = 1;
@@ -87,4 +83,3 @@ export async function requestChatbotReply({ message, mode = 'coach', history = [
   }
   return null;
 }
-

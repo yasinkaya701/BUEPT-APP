@@ -26,7 +26,7 @@ export default function ReviewScreen() {
   };
 
   return (
-    <Screen contentStyle={styles.container}>
+    <Screen scroll contentStyle={styles.container}>
       <Text style={styles.h1}>Daily Review</Text>
 
       {/* Progress & Stats Dashboard */}

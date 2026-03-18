@@ -1,11 +1,10 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { colors, radius, shadow, spacing } from '../theme/tokens';
+import { spacing, shadow } from '../theme/tokens';
 
-export default function Card({ children, style, glow = false }) {
+export default function Card({ children, style, glow = false, compact = false }) {
   return (
-    <View style={[styles.card, shadow.elev1, style]}>
-      {glow && <View style={styles.glowBorder} />}
+    <View style={[styles.card, compact && styles.compact, glow && shadow.md, style]}>
       {children}
     </View>
   );
@@ -13,20 +12,15 @@ export default function Card({ children, style, glow = false }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.surface,
-    borderRadius: radius.lg,
-    padding: spacing.lg,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 18,
+    padding: spacing.md + 2,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: 'rgba(0,0,0,0.06)',
     marginBottom: spacing.md,
-    position: 'relative',
-    overflow: 'hidden' // Important for the glow border to stay within bounds
+    ...shadow.sm,
   },
-  glowBorder: {
-    ...StyleSheet.absoluteFillObject,
-    borderWidth: 2,
-    borderColor: colors.primary,
-    opacity: 0.1,
-    borderRadius: radius.lg,
-  }
+  compact: {
+    padding: spacing.sm + 2,
+  },
 });

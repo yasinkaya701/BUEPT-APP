@@ -14,7 +14,7 @@ export default function OnboardingScreen({ navigation }) {
   const [selected, setSelected] = useState('P2');
 
   return (
-    <Screen contentStyle={styles.container}>
+    <Screen scroll contentStyle={styles.container}>
       <View style={styles.hero}>
         <LogoMark size={64} label="B" />
         <View style={styles.heroText}>

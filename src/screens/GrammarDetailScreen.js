@@ -7,11 +7,13 @@ import OpenEndedPracticeCard from '../components/OpenEndedPracticeCard';
 import { colors, spacing, typography } from '../theme/tokens';
 import baseTasks from '../../data/grammar_tasks.json';
 import hardTasks from '../../data/grammar_tasks_hard.json';
+import testEnglishTasks from '../../data/test_english_grammar_tasks.json';
 import { useAppState } from '../context/AppState';
 import { buildSimilarQuestion } from '../utils/similarQuestion';
 import { buildGrammarOpenEndedPrompts } from '../utils/openEndedPrompts';
+import { evaluateGrammarModel } from '../utils/grammarModel';
 
-const tasks = [...baseTasks, ...hardTasks];
+const tasks = [...baseTasks, ...hardTasks, ...testEnglishTasks];
 
 function buildGrammarFeedback(task, answers = {}) {
   const qs = task?.questions || [];
@@ -83,6 +85,7 @@ export default function GrammarDetailScreen({ route, navigation }) {
   const [remainingSec, setRemainingSec] = useState(15 * 60);
   const [showHints, setShowHints] = useState(true);
   const [confidence, setConfidence] = useState({});
+  const [grammarModel, setGrammarModel] = useState(null);
   const { addGrammarResult, recordGrammarError } = useAppState();
   const grammarFeedback = useMemo(() => (checked ? buildGrammarFeedback(activeTask, answers) : null), [checked, activeTask, answers]);
   const missedIndexes = useMemo(
@@ -123,8 +126,15 @@ export default function GrammarDetailScreen({ route, navigation }) {
     if (correct < taskQuestions.length) {
       recordGrammarError(task.id, task.title);
     }
+    const feedbackPreview = buildGrammarFeedback(activeTask, answers);
+    setGrammarModel(evaluateGrammarModel({
+      task: activeTask,
+      answers,
+      confidence,
+      grammarFeedback: feedbackPreview,
+    }));
     setChecked(true);
-  }, [checked, task, taskQuestions, answers, addGrammarResult, recordGrammarError]);
+  }, [checked, task, taskQuestions, answers, addGrammarResult, recordGrammarError, activeTask, confidence]);
 
   const createSimilarQuestion = (questionIndex) => {
     const base = taskQuestions[questionIndex];
@@ -302,6 +312,29 @@ export default function GrammarDetailScreen({ route, navigation }) {
           ) : null}
         </Card>
       )}
+      {grammarModel && (
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Grammar Model</Text>
+          <Text style={styles.body}>Overall: {grammarModel.overall}% • {grammarModel.band}</Text>
+          <View style={styles.progressTrack}>
+            <View style={[styles.progressFill, { width: `${grammarModel.overall}%` }]} />
+          </View>
+          <Text style={styles.answer}>Dimension Scores</Text>
+          {Object.entries(grammarModel.dimensions).map(([name, val]) => (
+            <Text key={name} style={styles.note}>• {name}: {val}%</Text>
+          ))}
+          {grammarModel.weaknesses.length > 0 ? (
+            <>
+              <Text style={styles.answer}>Weak Areas</Text>
+              <Text style={styles.incorrect}>• {grammarModel.weaknesses.join(' • ')}</Text>
+            </>
+          ) : null}
+          <Text style={styles.answer}>Next Actions</Text>
+          {grammarModel.actions.map((step) => (
+            <Text key={step} style={styles.note}>• {step}</Text>
+          ))}
+        </Card>
+      )}
 
       <Card style={styles.card}>
         <Text style={styles.h3}>Exam Controls</Text>
@@ -397,6 +430,7 @@ export default function GrammarDetailScreen({ route, navigation }) {
       <OpenEndedPracticeCard
         title="Open-Ended Grammar Questions"
         prompts={openEndedPrompts}
+        idealClusters={task?.ideal_clusters || null}
         placeholder="Write your grammar explanation..."
       />
 

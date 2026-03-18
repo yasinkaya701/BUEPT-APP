@@ -1,4 +1,4 @@
-import { Alert, Platform } from 'react-native';
+import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NOTIF_KEY = '@buept_notif_seen';

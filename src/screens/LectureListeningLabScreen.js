@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Animated } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
@@ -16,6 +16,7 @@ export default function LectureListeningLabScreen({ navigation }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [progress, setProgress] = useState(0); // 0 to 100
     const [notes, setNotes] = useState('');
+    const [progressBarWidth, setProgressBarWidth] = useState(300);
     const durationSec = 45; // Simulated 45 second audio
     const timerRef = useRef(null);
     const progressRef = useRef(0);
@@ -55,8 +56,8 @@ export default function LectureListeningLabScreen({ navigation }) {
     };
 
     const handleScrub = (e) => {
-        const x = e.nativeEvent.locationX;
-        const totalWidth = e.currentTarget.offsetWidth || 300; // rough boundary fallback
+        const x = Number(e?.nativeEvent?.locationX || 0);
+        const totalWidth = Math.max(1, Number(progressBarWidth) || 300);
         const newProg = Math.max(0, Math.min(100, (x / totalWidth) * 100));
         progressRef.current = newProg;
         setProgress(newProg);
@@ -74,7 +75,7 @@ export default function LectureListeningLabScreen({ navigation }) {
     };
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
@@ -85,7 +86,7 @@ export default function LectureListeningLabScreen({ navigation }) {
                 </View>
             </View>
 
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+            <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
                 <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
 
                     <Card style={styles.playerCard} glow>
@@ -98,7 +99,12 @@ export default function LectureListeningLabScreen({ navigation }) {
                         {/* Scrubber */}
                         <View style={styles.scrubberRow}>
                             <Text style={styles.timeText}>{formatTime(progress)}</Text>
-                            <TouchableOpacity style={styles.progressBarBg} onPress={handleScrub} activeOpacity={0.8}>
+                            <TouchableOpacity
+                                style={styles.progressBarBg}
+                                onPress={handleScrub}
+                                onLayout={(evt) => setProgressBarWidth(evt?.nativeEvent?.layout?.width || 300)}
+                                activeOpacity={0.8}
+                            >
                                 <View style={[styles.progressBarFill, { width: `${progress}%` }]} />
                                 <View style={[styles.progressKnob, { left: `${progress}%` }]} />
                             </TouchableOpacity>
@@ -111,7 +117,7 @@ export default function LectureListeningLabScreen({ navigation }) {
                                 <Ionicons name="play-back" size={24} color={colors.primary} />
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.playBtn} onPress={togglePlay}>
-                                <Ionicons name={isPlaying ? "pause" : "play"} size={32} color="#fff" style={{ marginLeft: isPlaying ? 0 : 4 }} />
+                                <Ionicons name={isPlaying ? "pause" : "play"} size={32} color="#fff" style={isPlaying ? styles.playIconPause : styles.playIconPlay} />
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.sideBtn} onPress={() => { progressRef.current = Math.min(100, progressRef.current + 15); setProgress(progressRef.current) }}>
                                 <Ionicons name="play-forward" size={24} color={colors.primary} />
@@ -148,7 +154,7 @@ export default function LectureListeningLabScreen({ navigation }) {
                         </View>
                     </Card>
 
-                    <View style={{ height: 40 }} />
+                    <View style={styles.bottomSpacer} />
                 </ScrollView>
             </KeyboardAvoidingView>
         </Screen>
@@ -157,6 +163,7 @@ export default function LectureListeningLabScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
+    flex: { flex: 1 },
     header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
     backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
     pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
@@ -177,6 +184,8 @@ const styles = StyleSheet.create({
 
     controlsRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xxl },
     playBtn: { width: 64, height: 64, borderRadius: 32, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center', ...shadow.md },
+    playIconPause: { marginLeft: 0 },
+    playIconPlay: { marginLeft: 4 },
     sideBtn: { padding: spacing.sm },
 
     sectionTitle: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: spacing.sm },
@@ -190,5 +199,6 @@ const styles = StyleSheet.create({
     vDivider: { width: 1, backgroundColor: colors.secondary },
     textArea: { padding: spacing.md, fontSize: 14, color: colors.text, lineHeight: 22 },
     cueTextArea: { flex: 1 },
-    mainTextArea: { flex: 2 }
+    mainTextArea: { flex: 2 },
+    bottomSpacer: { height: 40 },
 });

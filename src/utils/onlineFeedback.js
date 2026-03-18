@@ -1,3 +1,5 @@
+import { resolveApiEndpoint } from './runtimeApi';
+
 const LT_ENDPOINT = 'https://api.languagetool.org/v2/check';
 
 const FEEDBACK_ENDPOINT =
@@ -9,6 +11,8 @@ const PARAPHRASE_ENDPOINT =
   typeof process !== 'undefined' && process.env && process.env.BUEPT_PARAPHRASE_API_URL
     ? process.env.BUEPT_PARAPHRASE_API_URL
     : FEEDBACK_ENDPOINT;
+
+const WRITING_REVISION_ENDPOINT = resolveApiEndpoint('BUEPT_WRITING_REVISION_API_URL', '/api/writing-revision');
 
 const API_KEY =
   typeof process !== 'undefined' && process.env && process.env.BUEPT_API_KEY
@@ -26,6 +30,7 @@ const CACHE_TTL_MS = 3 * 60 * 1000;
 const requestHistory = [];
 const feedbackCache = new Map();
 const paraphraseCache = new Map();
+const revisionCache = new Map();
 
 function envNumber(name, fallback) {
   const raw = typeof process !== 'undefined' && process.env ? process.env[name] : '';
@@ -222,13 +227,37 @@ const PARAPHRASE_SUBS = [
   ['very important', 'crucial'],
   ['shows that', 'demonstrates that'],
   ['helps', 'assists'],
-  ['get', 'obtain']
+  ['get', 'obtain'],
+  ['need to', 'are required to'],
+  ['can not', 'cannot'],
+  ['cannot', 'are unable to'],
+  ['many', 'a large number of'],
+  ['some', 'several'],
+  ['big', 'substantial'],
+  ['small', 'limited'],
+  ['good', 'beneficial'],
+  ['bad', 'harmful'],
 ];
 
 function sentenceCase(text = '') {
   const trimmed = String(text || '').trim();
   if (!trimmed) return trimmed;
   return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+}
+
+function lowerFirst(text = '') {
+  const t = String(text || '').trim();
+  if (!t) return t;
+  return t.charAt(0).toLowerCase() + t.slice(1);
+}
+
+function splitSentencesLocal(text = '') {
+  const safe = normalizeText(text);
+  if (!safe) return [];
+  const parts = safe.match(/[^.!?]+[.!?]*/g);
+  return Array.isArray(parts)
+    ? parts.map((item) => normalizeText(item)).filter(Boolean)
+    : [safe];
 }
 
 function localParaphraseSentence(sentence = '') {
@@ -238,10 +267,39 @@ function localParaphraseSentence(sentence = '') {
     const rx = new RegExp(`\\b${from.replace(/\s+/g, '\\s+')}\\b`, 'gi');
     out = out.replace(rx, to);
   });
+
+  // Lightweight structural rewrites for clearer variation.
+  out = out.replace(
+    /\ba large number of ([a-z ]+?) are unable to\b/i,
+    'many $1 cannot'
+  );
+  out = out.replace(
+    /\bmany ([a-z ]+?) cannot\b/i,
+    'a large number of $1 are unable to'
+  );
+  out = out.replace(
+    /\bthere is\b/gi,
+    'there exists'
+  );
+  out = out.replace(
+    /\bthere are\b/gi,
+    'there exist'
+  );
+
   out = out.replace(/\s+/g, ' ').trim();
+
+  // Avoid returning almost identical sentence.
   if (out.toLowerCase() === sentence.trim().toLowerCase()) {
-    if (/^\w+\s+is\s+/i.test(out)) out = out.replace(/^\w+\s+is\s+/i, (m) => m.replace(/\bis\b/i, 'can be'));
-    else out = `In other words, ${out.charAt(0).toLowerCase()}${out.slice(1)}`;
+    if (/^\w+\s+is\s+/i.test(out)) {
+      out = out.replace(/^\w+\s+is\s+/i, (m) => m.replace(/\bis\b/i, 'can be'));
+    } else {
+      const templates = [
+        `This means that ${lowerFirst(out)}`,
+        `Put differently, ${lowerFirst(out)}`,
+        `In simpler terms, ${lowerFirst(out)}`,
+      ];
+      out = templates[out.length % templates.length];
+    }
   }
   return sentenceCase(out);
 }
@@ -265,6 +323,103 @@ function mergeParaphraseRows(online = [], originals = []) {
     merged.push({ original, paraphrase });
   }
   return merged;
+}
+
+function normalizeList(items = [], maxItems = 6) {
+  const seen = new Set();
+  const out = [];
+  for (const item of Array.isArray(items) ? items : []) {
+    const value = normalizeText(typeof item === 'string' ? item : String(item || ''));
+    if (!value) continue;
+    const key = value.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(value);
+    if (out.length >= maxItems) break;
+  }
+  return out;
+}
+
+function buildLocalWritingRevision({ text = '', prompt = '', level = 'B2', task = 'essay' } = {}) {
+  const source = normalizeText(text);
+  if (!source) {
+    return {
+      revisedText: '',
+      summary: 'No text available for revision.',
+      strengths: [],
+      fixes: [],
+      rubricNotes: [],
+      source: 'local-writing-revision',
+      model: '',
+      diagnostic: '',
+    };
+  }
+
+  const sentences = splitSentencesLocal(source);
+  const revisedSentences = sentences.map((sentence) => localParaphraseSentence(sentence));
+  let revisedText = revisedSentences.join(' ');
+  const lower = source.toLowerCase();
+  const wordCount = source.split(/\s+/).filter(Boolean).length;
+  const hasThesis = /\b(i believe|in this essay|this essay argues|i argue that|the main point is)\b/i.test(lower);
+  const hasConclusion = /\b(in conclusion|to conclude|to sum up|overall|to summarize)\b/i.test(lower);
+  const hasExample = /\b(for example|for instance|such as)\b/i.test(lower);
+  const connectorHits = (lower.match(/\bhowever|therefore|moreover|furthermore|in contrast|for example|as a result|on the other hand\b/g) || []).length;
+
+  if (!hasThesis && revisedText) {
+    revisedText = `In this essay, ${lowerFirst(revisedText)}`;
+  }
+  if (task === 'essay' && !hasConclusion && revisedText) {
+    revisedText = `${revisedText} In conclusion, the argument becomes stronger when the main claim is supported with clearer evidence and tighter organization.`;
+  }
+
+  const strengths = [];
+  if (wordCount >= 140) strengths.push('The draft is long enough to revise into a full academic response.');
+  if (connectorHits >= 2) strengths.push('Some transition control is already present.');
+  if (hasExample) strengths.push('The draft already includes an example signal.');
+  if (!strengths.length) strengths.push('The draft has a usable core idea to build on.');
+
+  const fixes = [];
+  if (wordCount < 140) fixes.push('Develop the body with one more reason or example.');
+  if (connectorHits < 3) fixes.push('Add clearer transitions across body ideas.');
+  if (!hasExample) fixes.push('Add one concrete example to support the claim.');
+  if (!hasConclusion && task === 'essay') fixes.push('Close with a final sentence that restates the argument.');
+  if (!fixes.length) fixes.push('Focus next on precision, evidence, and sentence-level polish.');
+
+  const rubricNotes = [
+    'BUEPT scoring is stricter on paragraph control, idea development, and academic tone.',
+    connectorHits < 3
+      ? 'Current cohesion is not strong enough for a high Organization score.'
+      : 'Connector use is helping the Organization score.',
+    wordCount < 140
+      ? 'Task development is limited because the response is still short.'
+      : 'Length is enough for stronger task development if the evidence is specific.',
+  ];
+
+  return {
+    revisedText: normalizeText(revisedText),
+    summary: `Local revision completed for a ${String(level || 'B2').toUpperCase()} ${task} draft.`,
+    strengths: normalizeList(strengths, 4),
+    fixes: normalizeList(fixes, 4),
+    rubricNotes: normalizeList(rubricNotes, 4),
+    source: 'local-writing-revision',
+    model: '',
+    diagnostic: '',
+    prompt: normalizeText(prompt),
+  };
+}
+
+function normalizeWritingRevisionResponse(payload = {}, fallback = {}) {
+  return {
+    revisedText: normalizeText(payload.revisedText || payload.revised_text || payload.rewrite || fallback.revisedText || ''),
+    summary: normalizeText(payload.summary || payload.coachSummary || payload.coach_summary || fallback.summary || ''),
+    strengths: normalizeList(payload.strengths || fallback.strengths || [], 5),
+    fixes: normalizeList(payload.fixes || payload.improvements || fallback.fixes || [], 5),
+    rubricNotes: normalizeList(payload.rubricNotes || payload.rubric_notes || fallback.rubricNotes || [], 5),
+    source: normalizeText(payload.source || fallback.source || 'local-writing-revision'),
+    model: normalizeText(payload.model || fallback.model || ''),
+    diagnostic: normalizeText(payload.diagnostic || payload.warning || fallback.diagnostic || ''),
+    prompt: normalizeText(payload.prompt || fallback.prompt || ''),
+  };
 }
 
 function normalizeCustomResponse(payload = {}) {
@@ -447,4 +602,51 @@ export async function checkOnlineFeedback(text) {
   const lt = await callLanguageTool(payload);
   writeCache(feedbackCache, cacheKey, lt);
   return lt;
+}
+
+export async function requestWritingRevision({ text = '', prompt = '', level = 'B2', task = 'essay' } = {}) {
+  const source = normalizeText(text);
+  if (!source) throw new Error('Please paste your text.');
+  if (source.length > MAX_CHARS_PER_REQUEST) throw new Error('Text too long (max 20,000 chars).');
+
+  const cacheKey = simpleHash(JSON.stringify({ text: source, prompt: normalizeText(prompt), level, task }));
+  const cached = readCache(revisionCache, cacheKey);
+  if (cached) return cached;
+
+  enforceRateLimit(source.length);
+  const localFallback = buildLocalWritingRevision({ text: source, prompt, level, task });
+
+  if (!WRITING_REVISION_ENDPOINT) {
+    writeCache(revisionCache, cacheKey, localFallback);
+    return localFallback;
+  }
+
+  try {
+    const json = await requestJson(
+      WRITING_REVISION_ENDPOINT,
+      {
+        method: 'POST',
+        headers: authHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({
+          text: source,
+          prompt: normalizeText(prompt),
+          level: normalizeText(level) || 'B2',
+          task: normalizeText(task) || 'essay',
+        }),
+      },
+      { retries: REQUEST_RETRIES, timeoutMs: REQUEST_TIMEOUT_MS, retryDelayMs: 500 }
+    );
+
+    const normalized = normalizeWritingRevisionResponse(json, localFallback);
+    writeCache(revisionCache, cacheKey, normalized);
+    return normalized;
+  } catch (error) {
+    const fallback = {
+      ...localFallback,
+      diagnostic: error?.message || 'Writing revision endpoint failed.',
+      source: 'local-writing-revision-fallback',
+    };
+    writeCache(revisionCache, cacheKey, fallback);
+    return fallback;
+  }
 }

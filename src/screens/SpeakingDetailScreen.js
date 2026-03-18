@@ -15,6 +15,8 @@ import { buildSpeakingOpenEndedPrompts } from '../utils/openEndedPrompts';
 import { detectBasicErrors } from '../utils/basicErrorDetect';
 import { suggestSynonyms } from '../utils/synonymSuggest';
 import { speakEnglish, stopEnglishTts } from '../utils/ttsEnglish';
+import { generateSpeakingCoachReply, isDemoAiConfigured } from '../utils/demoAi';
+import { evaluateSpeakingModel } from '../utils/speakingModel';
 
 const LEVEL_COLORS = {
     P1: colors.success,
@@ -34,6 +36,31 @@ const TYPE_COLORS = {
 };
 
 const FILLER_WORDS = ['like', 'you know', 'basically', 'actually', 'i mean', 'kind of', 'sort of'];
+
+function normalizeSpeechText(text = '') {
+    return String(text || '').replace(/\s+/g, ' ').trim();
+}
+
+function pickBestSpeechResult(values = []) {
+    const list = Array.isArray(values) ? values.map(normalizeSpeechText).filter(Boolean) : [];
+    if (!list.length) return '';
+    return list.sort((a, b) => b.length - a.length)[0];
+}
+
+function mergeSpeechText(prevText = '', nextText = '') {
+    const prev = normalizeSpeechText(prevText);
+    const next = normalizeSpeechText(nextText);
+    if (!next) return prev;
+    if (!prev) return next;
+
+    const prevLower = prev.toLowerCase();
+    const nextLower = next.toLowerCase();
+
+    if (prevLower === nextLower) return prev;
+    if (prevLower.includes(nextLower)) return prev;
+    if (nextLower.includes(prevLower)) return next;
+    return `${prev} ${next}`;
+}
 
 function getWordCount(text = '') {
     return (String(text || '').trim().match(/\b[\w']+\b/g) || []).length;
@@ -75,6 +102,11 @@ export default function SpeakingDetailScreen({ route }) {
   const [notes, setNotes] = useState('');
   const [feedback, setFeedback] = useState(null);
   const [rubricResult, setRubricResult] = useState(null);
+  const [speakingModel, setSpeakingModel] = useState(null);
+    const [uiMode, setUiMode] = useState('focus'); // focus | full
+    const [aiCoachFeedback, setAiCoachFeedback] = useState('');
+    const [aiCoachLoading, setAiCoachLoading] = useState(false);
+    const [aiSource, setAiSource] = useState(isDemoAiConfigured('speaking') ? 'online-ready' : 'offline');
     const [showModel, setShowModel] = useState(false);
     const [showFollowUp, setShowFollowUp] = useState(false);
     const [ttsReading, setTtsReading] = useState(false);
@@ -101,13 +133,9 @@ export default function SpeakingDetailScreen({ route }) {
             }
         };
         Voice.onSpeechResults = (e) => {
-            if (e.value && e.value.length > 0) {
-                setNotes(prev => {
-                    const existing = prev.trim();
-                    const newText = e.value[0];
-                    return existing ? existing + ' ' + newText : newText;
-                });
-            }
+            const recognized = pickBestSpeechResult(e?.value);
+            if (!recognized) return;
+            setNotes((prev) => mergeSpeechText(prev, recognized));
         };
 
         return () => {
@@ -178,19 +206,51 @@ export default function SpeakingDetailScreen({ route }) {
         return `${m}:${sec < 10 ? '0' : ''}${sec}`;
     };
 
-    const handleAnalyze = () => {
+    const handleAnalyze = async () => {
         if (!notes.trim()) {
             Alert.alert('No response', 'Please write your spoken response in the notes box first.');
             return;
         }
-    const result = analyzeSpeakingResponse(notes, item);
-    setFeedback(result);
-    setRubricResult(scoreSpeakingRubric({
-      text: notes,
-      prompt: item?.prompt || item?.title || '',
-      targetWords: Math.max(90, Math.round((parseFloat(String(item?.time || '2')) || 2) * 60)),
-    }));
-  };
+        const result = analyzeSpeakingResponse(notes, item);
+        setFeedback(result);
+        setRubricResult(scoreSpeakingRubric({
+            text: notes,
+            prompt: item?.prompt || item?.title || '',
+            targetWords: Math.max(90, Math.round((parseFloat(String(item?.time || '2')) || 2) * 60)),
+        }));
+        const previewFeedback = analyzeSpeakingResponse(notes, item);
+        const previewRubric = scoreSpeakingRubric({
+            text: notes,
+            prompt: item?.prompt || item?.title || '',
+            targetWords: Math.max(90, Math.round((parseFloat(String(item?.time || '2')) || 2) * 60)),
+        });
+        setSpeakingModel(evaluateSpeakingModel({
+            feedback: previewFeedback,
+            rubric: previewRubric,
+            fluency: buildFluencyStats(notes, timer),
+            selfCheck,
+            elapsedSec: timer,
+        }));
+
+        setAiCoachLoading(true);
+        try {
+            const ai = await generateSpeakingCoachReply({
+                text: `Prompt: ${item?.prompt || item?.title || ''}\nResponse: ${notes}`,
+                history: [{ role: 'user', text: notes }],
+            });
+            if (ai?.text) {
+                setAiCoachFeedback(ai.text);
+                setAiSource(ai.source || 'offline');
+            } else {
+                setAiCoachFeedback('');
+            }
+        } catch (_) {
+            setAiSource('offline');
+            setAiCoachFeedback('');
+        } finally {
+            setAiCoachLoading(false);
+        }
+    };
 
     // Derive speaking structure template from task type
     const structureTemplates = {
@@ -210,6 +270,7 @@ export default function SpeakingDetailScreen({ route }) {
     const improvedDraft = React.useMemo(() => buildImprovedSpeakingDraft(notes, feedback), [notes, feedback]);
     const fluencyStats = React.useMemo(() => buildFluencyStats(notes, timer), [notes, timer]);
     const selfCheckDone = Object.values(selfCheck).filter(Boolean).length;
+    const isFocusMode = uiMode === 'focus';
 
     return (
         <Screen scroll contentStyle={styles.content}>
@@ -229,6 +290,27 @@ export default function SpeakingDetailScreen({ route }) {
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.category}>📁 {item.category}</Text>
             </View>
+            <Card style={styles.uiModeCard}>
+                <View style={styles.uiModeRow}>
+                    <TouchableOpacity
+                        style={[styles.uiModeChip, isFocusMode && styles.uiModeChipActive]}
+                        onPress={() => setUiMode('focus')}
+                    >
+                        <Text style={[styles.uiModeChipText, isFocusMode && styles.uiModeChipTextActive]}>Focus UI</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.uiModeChip, !isFocusMode && styles.uiModeChipActive]}
+                        onPress={() => setUiMode('full')}
+                    >
+                        <Text style={[styles.uiModeChipText, !isFocusMode && styles.uiModeChipTextActive]}>Full UI</Text>
+                    </TouchableOpacity>
+                </View>
+                <Text style={styles.subTextMuted}>
+                    {isFocusMode
+                        ? 'Showing only core flow: prompt -> response -> rubric.'
+                        : 'All modules are visible: AI coach, model answer, follow-up and open-ended practice.'}
+                </Text>
+            </Card>
 
             {/* Question Card */}
             <Card style={styles.questionCard} glow>
@@ -255,7 +337,7 @@ export default function SpeakingDetailScreen({ route }) {
                 </TouchableOpacity>
                 {showStructure && (
                     <View style={styles.structureBody}>
-                        {structure.map((s, i) => (
+                        {(structure || []).map((s, i) => (
                             <View key={i} style={styles.structureItem}>
                                 <View style={styles.stepBadge}>
                                     <Text style={styles.stepText}>{i + 1}</Text>
@@ -271,7 +353,7 @@ export default function SpeakingDetailScreen({ route }) {
             <Card style={styles.card}>
                 <Text style={styles.sectionTitle}>📖 Key Vocabulary</Text>
                 <View style={styles.vocabRow}>
-                    {item.vocab.map((w, i) => (
+                    {(item.vocab || []).map((w, i) => (
                         <TouchableOpacity
                             key={i}
                             style={styles.vocabChip}
@@ -286,12 +368,14 @@ export default function SpeakingDetailScreen({ route }) {
             </Card>
 
             {/* Tips */}
-            <Card style={styles.card}>
-                <Text style={styles.sectionTitle}>💡 Tips</Text>
-                {item.tips.map((t, i) => (
-                    <Text key={i} style={styles.tip}>• {t}</Text>
-                ))}
-            </Card>
+            {!isFocusMode && (
+                <Card style={styles.card}>
+                    <Text style={styles.sectionTitle}>💡 Tips</Text>
+                    {(item.tips || []).map((t, i) => (
+                        <Text key={i} style={styles.tip}>• {t}</Text>
+                    ))}
+                </Card>
+            )}
 
             {/* Timer */}
             <Card style={styles.timerCard}>
@@ -488,6 +572,7 @@ export default function SpeakingDetailScreen({ route }) {
                     <Text style={styles.rubricTotal}>
                         {rubricResult.total}/{rubricResult.max} • {rubricResult.band}
                     </Text>
+                    <Text style={styles.subTextMuted}>Readiness: {rubricResult.readiness}% • {rubricResult.feedbackSummary}</Text>
                     {rubricResult.categories.map((c) => (
                         <Text key={c.name} style={styles.bodyLine}>{c.name}: {c.score}/{c.max}</Text>
                     ))}
@@ -507,39 +592,107 @@ export default function SpeakingDetailScreen({ route }) {
                             ))}
                         </View>
                     )}
+                    {rubricResult.priorityPlan?.length > 0 && (
+                        <View style={styles.fbSection}>
+                            <Text style={styles.fbSectionTitle}>Priority Fix Plan</Text>
+                            {rubricResult.priorityPlan.map((planItem) => (
+                                <View key={`s-plan-${planItem.area}`} style={styles.planRow}>
+                                    <Text style={[styles.planBadge, planItem.priority === 'High' ? styles.planBadgeHigh : styles.planBadgeMed]}>
+                                        {planItem.priority}
+                                    </Text>
+                                    <View style={styles.planBody}>
+                                        <Text style={styles.bodyLine}>{planItem.area} ({planItem.score}/{planItem.max})</Text>
+                                        <Text style={styles.subTextMuted}>Action: {planItem.action}</Text>
+                                        <Text style={styles.subTextMuted}>Drill: {planItem.drill}</Text>
+                                    </View>
+                                </View>
+                            ))}
+                        </View>
+                    )}
+                    {rubricResult.nextStepChecklist?.length > 0 && (
+                        <View style={styles.fbSection}>
+                            <Text style={styles.fbSectionTitle}>Next 5-Minute Speaking Checklist</Text>
+                            {rubricResult.nextStepChecklist.map((step) => (
+                                <Text key={`s-step-${step}`} style={styles.bodyLine}>• {step}</Text>
+                            ))}
+                        </View>
+                    )}
                 </Card>
             )}
 
-            <OpenEndedPracticeCard
-                title="Open-Ended Speaking Practice"
-                prompts={openEndedPrompts}
-                placeholder="Write your speaking notes / answer..."
-            />
+            {!isFocusMode && speakingModel && (
+                <Card style={styles.card}>
+                    <Text style={styles.sectionTitle}>Speaking Model</Text>
+                    <Text style={styles.rubricTotal}>{speakingModel.overall}% • {speakingModel.band}</Text>
+                    <View style={styles.modelTrack}>
+                        <View style={[styles.modelFill, { width: `${speakingModel.overall}%` }]} />
+                    </View>
+                    {Object.entries(speakingModel.dimensions).map(([name, val]) => (
+                        <Text key={name} style={styles.bodyLine}>• {name}: {val}%</Text>
+                    ))}
+                    {speakingModel.weaknesses.length ? (
+                        <Text style={styles.fbNegative}>• {speakingModel.weaknesses.join(' • ')}</Text>
+                    ) : null}
+                    {speakingModel.actions.map((step) => (
+                        <Text key={step} style={styles.bodyLine}>• {step}</Text>
+                    ))}
+                </Card>
+            )}
+
+            {!isFocusMode && (aiCoachFeedback || aiCoachLoading) && (
+                <Card style={styles.card}>
+                    <View style={styles.aiCoachHead}>
+                        <Text style={styles.sectionTitle}>🤖 AI Speaking Coach</Text>
+                        <Text style={styles.aiCoachSource}>Source: {aiSource}</Text>
+                    </View>
+                    {aiCoachLoading ? (
+                        <Text style={styles.subTextMuted}>Analyzing with AI coach...</Text>
+                    ) : (
+                        <>
+                            {aiCoachFeedback.split('\n').filter(Boolean).map((line, idx) => (
+                                <Text key={`ai-line-${idx}`} style={styles.bodyLine}>• {line.replace(/^•\s?/, '').trim()}</Text>
+                            ))}
+                            <Button label="🔊 Read AI Feedback" variant="secondary" onPress={() => speak(aiCoachFeedback)} />
+                        </>
+                    )}
+                </Card>
+            )}
+
+            {!isFocusMode && (
+                <OpenEndedPracticeCard
+                    title="Open-Ended Speaking Practice"
+                    prompts={openEndedPrompts}
+                    idealClusters={item?.ideal_clusters || null}
+                    placeholder="Write your speaking notes / answer..."
+                />
+            )}
 
             {/* Model Answer */}
-            <Card style={styles.card}>
-                <TouchableOpacity
-                    onPress={() => setShowModel(v => !v)}
-                    style={styles.collapsibleHeader}
-                >
-                    <Text style={styles.sectionTitle}>📝 Model Answer</Text>
-                    <Text style={styles.chevron}>{showModel ? '▲ Hide' : '▼ Show'}</Text>
-                </TouchableOpacity>
-                {showModel && (
-                    <View>
-                        <Text style={styles.modelText}>{item.model_answer}</Text>
-                        <Button
-                            label="🔊 Read Model Answer"
-                            variant="secondary"
-                            onPress={() => speak(item.model_answer)}
-                            style={{ marginTop: spacing.md }}
-                        />
-                    </View>
-                )}
-            </Card>
+            {!isFocusMode && (
+                <Card style={styles.card}>
+                    <TouchableOpacity
+                        onPress={() => setShowModel(v => !v)}
+                        style={styles.collapsibleHeader}
+                    >
+                        <Text style={styles.sectionTitle}>📝 Model Answer</Text>
+                        <Text style={styles.chevron}>{showModel ? '▲ Hide' : '▼ Show'}</Text>
+                    </TouchableOpacity>
+                    {showModel && (
+                        <View>
+                            <Text style={styles.modelText}>{item.model_answer}</Text>
+                            <Button
+                                label="🔊 Read Model Answer"
+                                variant="secondary"
+                                onPress={() => speak(item.model_answer)}
+                                style={{ marginTop: spacing.md }}
+                            />
+                        </View>
+                    )}
+                </Card>
+            )}
 
             {/* Follow-up Questions */}
-            {item.follow_up?.length > 0 && (
+            {!isFocusMode && item.follow_up?.length > 0 && (
                 <Card style={styles.card}>
                     <TouchableOpacity
                         onPress={() => setShowFollowUp(v => !v)}
@@ -563,6 +716,28 @@ export default function SpeakingDetailScreen({ route }) {
 const styles = StyleSheet.create({
     content: { paddingBottom: spacing.xl },
     header: { marginBottom: spacing.md },
+    uiModeCard: { marginBottom: spacing.md },
+    uiModeRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.xs },
+    uiModeChip: {
+        borderWidth: 1,
+        borderColor: colors.border,
+        borderRadius: radius.pill,
+        paddingHorizontal: spacing.md,
+        paddingVertical: 6,
+        backgroundColor: colors.bg,
+    },
+    uiModeChipActive: {
+        borderColor: colors.primary,
+        backgroundColor: colors.primarySoft,
+    },
+    uiModeChipText: {
+        fontSize: typography.small,
+        color: colors.text,
+        fontFamily: typography.fontHeadline,
+    },
+    uiModeChipTextActive: {
+        color: colors.primaryDark,
+    },
     badges: { flexDirection: 'row', gap: spacing.xs, marginBottom: spacing.md },
     badge: {
         paddingHorizontal: spacing.sm,
@@ -788,12 +963,51 @@ const styles = StyleSheet.create({
     fbPositive: { fontSize: typography.small, color: colors.success, marginBottom: 4, lineHeight: 20 },
     fbNegative: { fontSize: typography.small, color: colors.warning, marginBottom: 4, lineHeight: 20 },
     subTextMuted: { fontSize: typography.small, color: colors.muted },
+    aiCoachHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.sm },
+    aiCoachSource: { fontSize: typography.xsmall, color: colors.muted, fontFamily: typography.fontHeadline },
     bodyLine: { fontSize: typography.small, color: colors.text, marginBottom: 4 },
+    planRow: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        gap: spacing.sm,
+        marginBottom: spacing.sm,
+    },
+    planBadge: {
+        minWidth: 52,
+        textAlign: 'center',
+        borderRadius: radius.pill,
+        paddingHorizontal: 8,
+        paddingVertical: 3,
+        fontSize: typography.xsmall,
+        fontFamily: typography.fontHeadline,
+        color: '#fff',
+        overflow: 'hidden',
+    },
+    planBadgeHigh: {
+        backgroundColor: '#DC2626',
+    },
+    planBadgeMed: {
+        backgroundColor: '#2563EB',
+    },
+    planBody: {
+        flex: 1,
+    },
     rubricTotal: {
         fontSize: typography.h3,
         color: colors.primaryDark,
         fontFamily: typography.fontHeadline,
         marginBottom: spacing.sm,
+    },
+    modelTrack: {
+        height: 8,
+        borderRadius: radius.pill,
+        backgroundColor: '#E2E8F0',
+        overflow: 'hidden',
+        marginBottom: spacing.sm,
+    },
+    modelFill: {
+        height: '100%',
+        backgroundColor: colors.primary,
     },
     connectorList: { fontSize: typography.small, color: colors.primaryDark, lineHeight: 22, fontWeight: '600', marginTop: spacing.xs },
     improvedDraft: {

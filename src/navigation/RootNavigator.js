@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabNavigator from './TabNavigator';
 import { colors, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
+import VocabFlashcardScreen from '../screens/VocabFlashcardScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,7 @@ export default function RootNavigator() {
           <Stack.Screen name="VocabPractice" getComponent={() => require('../screens/VocabPracticeScreen').default} options={{ title: 'Vocab Practice' }} />
           <Stack.Screen name="VocabSynonymQuiz" getComponent={() => require('../screens/VocabSynonymQuizScreen').default} options={{ title: 'Synonym Match' }} />
           <Stack.Screen name="VocabClozeQuiz" getComponent={() => require('../screens/VocabClozeQuizScreen').default} options={{ title: 'Fill in the Blank' }} />
+          <Stack.Screen name="VocabFlashcard" component={VocabFlashcardScreen} options={{ title: 'Flashcards' }} />
           <Stack.Screen name="WebViewer" getComponent={() => require('../screens/WebViewerScreen').default} options={{ title: 'Resource' }} />
           <Stack.Screen name="Exams" getComponent={() => require('../screens/ExamsScreen').default} options={{ title: 'Exams' }} />
           <Stack.Screen name="ExamDetail" getComponent={() => require('../screens/ExamDetailScreen').default} options={{ title: 'BUEPT Practice' }} />
@@ -80,6 +82,7 @@ export default function RootNavigator() {
           <Stack.Screen name="Developer" getComponent={() => require('../screens/DeveloperScreen').default} options={{ title: 'Developer' }} />
           <Stack.Screen name="ConfusingPronunciations" getComponent={() => require('../screens/ConfusingPronunciationsScreen').default} options={{ title: 'Confusing Pronunciations' }} />
           <Stack.Screen name="DemoFeatures" getComponent={() => require('../screens/DemoFeaturesScreen').default} options={{ headerShown: false }} />
+          <Stack.Screen name="PhotoVocabCapture" getComponent={() => require('../screens/PhotoVocabCaptureScreen').default} options={{ title: 'Photo Vocabulary OCR' }} />
           <Stack.Screen name="PlacementTest" getComponent={() => require('../screens/PlacementTestScreen').default} options={{ headerShown: false }} />
           <Stack.Screen name="AcademicWriting" getComponent={() => require('../screens/AcademicWritingScreen').default} options={{ headerShown: false }} />
           <Stack.Screen name="TerminologyDictionary" getComponent={() => require('../screens/TerminologyDictionaryScreen').default} options={{ headerShown: false }} />
@@ -105,6 +108,7 @@ export default function RootNavigator() {
           <Stack.Screen name="AIPresentationPrep" getComponent={() => require('../screens/AIPresentationPrepScreen').default} options={{ headerShown: false }} />
           <Stack.Screen name="AILessonVideoStudio" getComponent={() => require('../screens/AILessonVideoStudioScreen').default} options={{ headerShown: false }} />
           <Stack.Screen name="VideoLessonPlayer" getComponent={() => require('../screens/VideoLessonPlayerScreen').default} options={{ headerShown: false }} />
+          <Stack.Screen name="Podcast" getComponent={() => require('../screens/PodcastScreen').default} options={{ headerShown: false }} />
         </>
       )}
     </Stack.Navigator>

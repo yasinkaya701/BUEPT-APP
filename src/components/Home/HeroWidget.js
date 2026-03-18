@@ -6,9 +6,23 @@ import { colors, spacing, typography, radius } from '../../theme/tokens';
 import { useAppState } from '../../context/AppState';
 import { levelFromXP } from '../../utils/gamification';
 
+const ROUTE_BY_FOCUS = {
+    reading: 'Reading',
+    listening: 'Listening',
+    grammar: 'Grammar',
+    writing: 'Writing',
+};
+
+function formatFocusLabel(value) {
+    if (!value) return 'Study';
+    return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
 export default function HeroWidget({ adaptive, navigation }) {
     const { xp } = useAppState();
     const userLevel = levelFromXP(xp || 0);
+    const focusRoute = ROUTE_BY_FOCUS[adaptive.weakest] || 'StudyPlan';
+    const focusLabel = formatFocusLabel(adaptive.weakest);
 
     // Calculate specific progress inside the current level
     const prevLevelXp = userLevel > 1 ? Math.pow(userLevel - 1, 2) * 50 : 0;
@@ -20,8 +34,8 @@ export default function HeroWidget({ adaptive, navigation }) {
 
     return (
         <Card style={styles.hero} glow>
-            <View style={styles.heroGlow1} />
-            <View style={styles.heroGlow2} />
+        <View pointerEvents="none" style={styles.heroGlow1} />
+        <View pointerEvents="none" style={styles.heroGlow2} />
 
             <View style={styles.headerRow}>
                 <View>
@@ -47,16 +61,20 @@ export default function HeroWidget({ adaptive, navigation }) {
                 {adaptive.focusAction}
             </Text>
 
+            <View style={styles.priorityPill}>
+                <Text style={styles.priorityPillText}>Today&apos;s priority: {adaptive.focusTitle}</Text>
+            </View>
+
             <View style={styles.heroRow}>
+                <Button
+                    label={`Start ${focusLabel}`}
+                    onPress={() => navigation.navigate(focusRoute)}
+                    style={styles.btnShadow}
+                />
                 <Button
                     label="Open Plan"
                     variant="secondary"
                     onPress={() => navigation.navigate('StudyPlan')}
-                    style={styles.btnShadow}
-                />
-                <Button
-                    label="Progress"
-                    onPress={() => navigation.navigate('Progress')}
                     style={styles.btnShadow}
                 />
             </View>
@@ -126,6 +144,23 @@ const styles = StyleSheet.create({
     heroRow: {
         flexDirection: 'row',
         gap: spacing.md,
+        flexWrap: 'wrap',
+    },
+    priorityPill: {
+        alignSelf: 'flex-start',
+        marginBottom: spacing.md,
+        borderRadius: radius.pill,
+        backgroundColor: 'rgba(255,255,255,0.14)',
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.18)',
+        paddingHorizontal: spacing.md,
+        paddingVertical: spacing.xs + 2,
+    },
+    priorityPillText: {
+        color: '#FFFFFF',
+        fontSize: typography.xsmall,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '700',
     },
     btnShadow: {
         shadowColor: '#000',

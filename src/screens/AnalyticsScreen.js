@@ -11,7 +11,7 @@ export default function AnalyticsScreen() {
   const avgMock = mockHistory.length ? Math.round(mockHistory.reduce((a, m) => a + m.result.overall, 0) / mockHistory.length) : 0;
 
   return (
-    <Screen contentStyle={styles.container}>
+    <Screen scroll contentStyle={styles.container}>
       <Text style={styles.h1}>Analytics</Text>
       <Card style={styles.card}>
         <Text style={styles.h3}>Writing Trend</Text>

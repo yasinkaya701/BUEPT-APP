@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import Screen from '../components/Screen';
-import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
+import { colors, spacing, radius } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const MOCK_CHAT_POOL = [
@@ -44,7 +44,7 @@ export default function LiveClassesScreen({ navigation }) {
     };
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.videoPlayerFrame}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeBtn}>
                     <Ionicons name="chevron-down" size={28} color="#fff" />
@@ -60,7 +60,7 @@ export default function LiveClassesScreen({ navigation }) {
                 </View>
             </View>
 
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+            <KeyboardAvoidingView style={styles.flexFill} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
                 <View style={styles.chatHeader}>
                     <Text style={styles.chatHeadText}>Live Discussion</Text>
                 </View>
@@ -121,5 +121,7 @@ const styles = StyleSheet.create({
 
     inputArea: { flexDirection: 'row', alignItems: 'center', padding: spacing.md, paddingBottom: Platform.OS === 'ios' ? spacing.xl : spacing.md, backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: 'rgba(0,0,0,0.05)' },
     input: { flex: 1, backgroundColor: 'rgba(0,0,0,0.04)', paddingHorizontal: spacing.md, paddingVertical: 10, borderRadius: radius.pill, fontSize: 14, color: colors.text },
-    sendBtn: { padding: spacing.sm, marginLeft: spacing.xs }
+    sendBtn: { padding: spacing.sm, marginLeft: spacing.xs },
+
+    flexFill: { flex: 1 }
 });

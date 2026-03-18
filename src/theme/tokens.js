@@ -1,117 +1,124 @@
+// ── Hybrid design tokens: solid readable cards + colorful accents ──
+// Background is Boğaziçi campus photo with dark overlay.
+// Cards are solid white for readability. Text is dark. Buttons are blue.
+// Photo peeks through in gaps between cards.
+
 export const colors = {
-  bg: '#F9FAFB',           // Modern extra-light gray bg (Tailwind gray-50)
-  surface: '#FFFFFF',      // Pure white cards
-  surfaceAlt: '#F3F4F6',   // Soft alternate surface
-  primary: '#3B82F6',      // Bright blue (Tailwind blue-500)
-  primaryDark: '#2563EB',  // Deeper interactive blue (blue-600)
-  primaryLight: '#EFF6FF', // Soft blue background for active states
-  text: '#111827',         // Very dark gray/black (gray-900)
-  muted: '#6B7280',        // Subdued text (gray-500)
-  border: '#E5E7EB',       // Very light borders (gray-200)
-  secondary: '#E2E8F0',    // Secondary border/soft background
-  accent: '#8B5CF6',       // Vibrant purple accent (violet-500)
-  error: '#EF4444',        // Vibrant red
-  errorLight: '#FEF2F2',   // Light red background
-  success: '#10B981',      // Energetic green
-  background: '#F9FAFB',     // Alias for bg
-  primarySoft: '#EFF6FF',    // Alias for primaryLight
-  successDark: '#065F46',    // Deep green for success text
-  errorDark: '#991B1B',      // Deep red for error text
-  successLight: '#ECFDF5',   // Light green background
-  warning: '#F59E0B',        // Amber
-  warningLight: '#FFFBEB',   // Light amber background
+  bg: 'transparent',
+  surface: '#FFFFFF',
+  surfaceAlt: '#F8FAFC',
+  surfaceRaised: '#FFFFFF',
+  primary: '#2563EB',
+  primaryDark: '#1D4ED8',
+  primaryLight: '#EFF6FF',
+  primarySoft: '#DBEAFE',
+  primaryDeeper: '#1E3A8A',
+  primaryUltraLight: '#F5F8FF',
+  text: '#111827',
+  muted: '#6B7280',
+  border: '#E5E7EB',
+  secondary: '#9CA3AF',
+  accent: '#0891B2',
+  accentSoft: '#ECFEFF',
+  error: '#DC2626',
+  errorLight: '#FEF2F2',
+  errorDark: '#991B1B',
+  success: '#059669',
+  successDark: '#065F46',
+  successLight: '#ECFDF5',
+  warning: '#D97706',
+  warningLight: '#FFFBEB',
+  background: 'transparent',
+  focusRing: '#93C5FD',
 };
 
 export const typography = {
-  fontHeadline: 'Avenir Next', // Clean, premium geometric sans
-  fontBody: 'Georgia',         // Sophisticated serif for reading texts
-  h1: 32,                      // Larger, more impactful H1
-  h2: 24,
-  h3: 18,
-  body: 16,
-  small: 14,
-  xsmall: 12
+  fontHeadline: 'Avenir Next',
+  fontBody: 'Avenir Next',
+  h1: 26,
+  h2: 20,
+  h3: 17,
+  body: 14,
+  small: 13,
+  xsmall: 11,
 };
 
 export const spacing = {
   xs: 4,
   sm: 8,
-  md: 16,
-  lg: 24,
-  xl: 32,
-  xxl: 48
+  md: 14,
+  lg: 20,
+  xl: 28,
+  xxl: 42,
 };
 
 export const radius = {
-  sm: 8,
-  md: 16,
-  lg: 24,    // Substantial rounding for modern card feel
-  xl: 32,    // Extra curve for hero elements
+  sm: 10,
+  md: 14,
+  lg: 18,
+  xl: 24,
   pill: 9999,
-  round: 9999, // Alias for pill - used for circular buttons
+  round: 9999,
 };
 
 export const shadow = {
-  // Named presets used across app screens
   none: {},
   slight: {
-    shadowColor: '#000000',
-    shadowOpacity: 0.04,
+    shadowColor: '#000',
+    shadowOpacity: 0.06,
     shadowRadius: 6,
     shadowOffset: { width: 0, height: 2 },
-    elevation: 1
+    elevation: 1,
   },
   sm: {
-    shadowColor: '#000000',
-    shadowOpacity: 0.06,
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
     shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 2
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 2,
   },
   md: {
-    shadowColor: '#000000',
-    shadowOpacity: 0.10,
-    shadowRadius: 20,
-    shadowOffset: { width: 0, height: 8 },
-    elevation: 5
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 5,
   },
   lg: {
-    shadowColor: '#000000',
+    shadowColor: '#000',
     shadowOpacity: 0.16,
-    shadowRadius: 30,
-    shadowOffset: { width: 0, height: 12 },
-    elevation: 10
+    shadowRadius: 24,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 8,
   },
-  // Legacy names kept for backwards compat
   elev1: {
-    shadowColor: '#000000',
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 2
+    shadowColor: '#000',
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 2,
   },
   elev2: {
-    shadowColor: '#000000',
-    shadowOpacity: 0.08,
-    shadowRadius: 24,
-    shadowOffset: { width: 0, height: 12 },
-    elevation: 6
+    shadowColor: '#000',
+    shadowOpacity: 0.10,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 5,
   },
   glow: {
-    // Elegant glow for primary buttons
-    shadowColor: colors.primary,
-    shadowOpacity: 0.3,
+    shadowColor: '#2563EB',
+    shadowOpacity: 0.25,
     shadowRadius: 16,
-    shadowOffset: { width: 0, height: 8 },
-    elevation: 8
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 8,
   },
   accentGlow: {
-    shadowColor: colors.accent,
+    shadowColor: '#0891B2',
     shadowOpacity: 0.25,
-    shadowRadius: 20,
-    shadowOffset: { width: 0, height: 10 },
-    elevation: 10
-  }
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 8,
+  },
 };
 
 export const theme = { colors, typography, spacing, radius, shadow };

@@ -74,12 +74,12 @@ export default function DiscussionForumsScreen({ navigation }) {
     };
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
                 </TouchableOpacity>
-                <View style={{ flex: 1 }}>
+                <View style={styles.flexFill}>
                     <Text style={styles.pageTitle}>Academic Forums</Text>
                     <Text style={styles.pageSub}>English-Only Community</Text>
                 </View>
@@ -88,7 +88,7 @@ export default function DiscussionForumsScreen({ navigation }) {
                 </TouchableOpacity>
             </View>
 
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+            <KeyboardAvoidingView style={styles.flexFill} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
                 <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
 
                     {isPosting && (
@@ -111,7 +111,7 @@ export default function DiscussionForumsScreen({ navigation }) {
                             />
                             <TouchableOpacity style={styles.submitBtn} onPress={handlePost}>
                                 <Text style={styles.submitBtnText}>Publish Post</Text>
-                                <Ionicons name="paper-plane" size={16} color="#fff" style={{ marginLeft: 8 }} />
+                                <Ionicons name="paper-plane" size={16} color="#fff" style={styles.submitIcon} />
                             </TouchableOpacity>
                         </Card>
                     )}
@@ -135,7 +135,7 @@ export default function DiscussionForumsScreen({ navigation }) {
                                     onPress={() => toggleLike(thread.id)}
                                 >
                                     <Ionicons name={thread.hasLiked ? "heart" : "heart-outline"} size={16} color={thread.hasLiked ? colors.error : colors.muted} />
-                                    <Text style={[styles.actionVal, thread.hasLiked && { color: colors.error }]}>{thread.likes}</Text>
+                                    <Text style={[styles.actionVal, thread.hasLiked && styles.actionValActive]}>{thread.likes}</Text>
                                 </TouchableOpacity>
 
                                 <TouchableOpacity style={styles.actionBtn}>
@@ -146,7 +146,7 @@ export default function DiscussionForumsScreen({ navigation }) {
                         </Card>
                     ))}
 
-                    <View style={{ height: 60 }} />
+                    <View style={styles.bottomSpacer} />
                 </ScrollView>
             </KeyboardAvoidingView>
         </Screen>
@@ -181,5 +181,10 @@ const styles = StyleSheet.create({
     threadActions: { flexDirection: 'row', borderTopWidth: 1, borderTopColor: 'rgba(0,0,0,0.05)', paddingTop: spacing.md, gap: spacing.md },
     actionBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.02)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill },
     actionBtnActive: { backgroundColor: 'rgba(231,76,60,0.1)' },
-    actionVal: { fontSize: 13, fontWeight: '700', color: colors.muted, marginLeft: 6 }
+    actionVal: { fontSize: 13, fontWeight: '700', color: colors.muted, marginLeft: 6 },
+    actionValActive: { color: colors.error },
+
+    flexFill: { flex: 1 },
+    submitIcon: { marginLeft: 8 },
+    bottomSpacer: { height: 60 }
 });

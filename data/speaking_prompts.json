@@ -1,414 +1,2360 @@
 [
     {
-        "id": "sp_p1_01",
-        "level": "P1",
-        "category": "Personal",
-        "title": "Your Daily Routine",
-        "prompt": "Describe your typical daily routine. What do you do in the morning, afternoon, and evening?",
-        "type": "description",
-        "time": "1 min",
+        "id": "SPK_BUEPT_01_0",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "The Ethical Implications of Artificial Intelligence in Healthcare - Case 1",
+        "prompt": "To what extent should AI be permitted to make autonomous diagnostic decisions?",
+        "type": "discussion",
+        "time": "2 min",
         "tips": [
-            "Use present simple tense",
-            "Include time expressions: first, then, after that",
-            "Mention at least 5 activities"
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
         ],
         "vocab": [
-            "wake up",
-            "commute",
-            "routine",
-            "schedule",
-            "leisure"
+            "bias",
+            "discrimination",
+            "prejudice",
+            "skewed",
+            "inequity"
         ],
-        "model_answer": "I usually wake up at 7 a.m. and have a light breakfast. Then I commute to university by bus, which takes about 30 minutes. In the afternoon, I attend lectures and study in the library. After that, I return home, have dinner with my family, and spend some leisure time reading or watching a documentary before going to bed at around 11.",
+        "model_answer": "Sample answer placeholder.",
         "follow_up": [
-            "Do you prefer having a fixed routine or a flexible schedule? Why?",
-            "How has your routine changed compared to a year ago?"
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
         ]
     },
     {
-        "id": "sp_p1_02",
-        "level": "P1",
-        "category": "Personal",
-        "title": "Your Hometown",
-        "prompt": "Describe the town or city you are from. What are its best features?",
-        "type": "description",
-        "time": "1 min",
+        "id": "SPK_BUEPT_01_1",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "The Ethical Implications of Artificial Intelligence in Healthcare - Case 2",
+        "prompt": "How might reliance on algorithmic healthcare affect the doctor-patient relationship?",
+        "type": "discussion",
+        "time": "2 min",
         "tips": [
-            "Use 'there is / there are' structures",
-            "Include adjectives for description",
-            "Mention location, size, and key features"
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
         ],
         "vocab": [
-            "located",
-            "historical",
-            "vibrant",
-            "neighbourhood",
-            "landmark"
+            "autonomy",
+            "decision",
+            "authority",
+            "control",
+            "regulation"
         ],
-        "model_answer": "I am from Ankara, which is the capital city of Turkey. It is located in the centre of the country. Ankara is a vibrant city with many universities, museums, and historical landmarks. One of the most famous sites is Anıtkabir, the mausoleum of Atatürk. The city is well-connected by public transport, which makes commuting quite convenient.",
+        "model_answer": "Sample answer placeholder.",
         "follow_up": [
-            "What would you change about your hometown if you could?",
-            "Do you think you will live there in the future?"
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
         ]
     },
     {
-        "id": "sp_p1_03",
-        "level": "P1",
-        "category": "Personal",
-        "title": "A Favourite Book or Film",
-        "prompt": "Talk about a book or film you enjoyed recently. What is it about and why did you like it?",
-        "type": "description",
-        "time": "1 min",
+        "id": "SPK_BUEPT_01_2",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "The Ethical Implications of Artificial Intelligence in Healthcare - Case 3",
+        "prompt": "Discuss the potential biases inherent in medical AI models.",
+        "type": "discussion",
+        "time": "2 min",
         "tips": [
-            "Use past simple to describe the story",
-            "Use adjectives to express opinions",
-            "Explain why you recommend it"
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
         ],
         "vocab": [
-            "plot",
-            "character",
-            "protagonist",
-            "recommend",
-            "insightful"
+            "relationship",
+            "empathy",
+            "human",
+            "compassion",
+            "trust"
         ],
-        "model_answer": "One film I recently enjoyed is 'The Pursuit of Happyness'. It tells the story of a man who struggles with poverty while trying to provide for his son. I found the film very inspiring because it shows how determination and hard work can lead to success despite difficult circumstances. The main character, played by Will Smith, delivered a truly convincing performance.",
+        "model_answer": "Sample answer placeholder.",
         "follow_up": [
-            "How do books and films influence people's views?",
-            "Do you prefer reading books or watching films? Why?"
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
         ]
     },
     {
-        "id": "sp_p2_01",
+        "id": "SPK_BUEPT_02_0",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "Universal Basic Income (UBI) as an Economic Stabilizer - Case 1",
+        "prompt": "Could a Universal Basic Income alleviate systemic poverty effectively?",
+        "type": "discussion",
+        "time": "2 min",
+        "tips": [
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
+        ],
+        "vocab": [
+            "inflation",
+            "economy",
+            "prices",
+            "taxes",
+            "deficit"
+        ],
+        "model_answer": "Sample answer placeholder.",
+        "follow_up": [
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_02_1",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "Universal Basic Income (UBI) as an Economic Stabilizer - Case 2",
+        "prompt": "What are the primary macroeconomic risks associated with implementing UBI?",
+        "type": "discussion",
+        "time": "2 min",
+        "tips": [
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
+        ],
+        "vocab": [
+            "poverty",
+            "inequality",
+            "welfare",
+            "safety net",
+            "destitution"
+        ],
+        "model_answer": "Sample answer placeholder.",
+        "follow_up": [
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_02_2",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "Universal Basic Income (UBI) as an Economic Stabilizer - Case 3",
+        "prompt": "How might guaranteed income alter cultural perceptions of work and labor?",
+        "type": "discussion",
+        "time": "2 min",
+        "tips": [
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
+        ],
+        "vocab": [
+            "motivation",
+            "incentive",
+            "laziness",
+            "productivity",
+            "drive"
+        ],
+        "model_answer": "Sample answer placeholder.",
+        "follow_up": [
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_03_0",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "Censorship in the Digital Era - Case 1",
+        "prompt": "Should social media platforms act as absolute arbiters of truth?",
+        "type": "discussion",
+        "time": "2 min",
+        "tips": [
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
+        ],
+        "vocab": [
+            "misinformation",
+            "fake news",
+            "propaganda",
+            "falsehoods",
+            "distortion"
+        ],
+        "model_answer": "Sample answer placeholder.",
+        "follow_up": [
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_03_1",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "Censorship in the Digital Era - Case 2",
+        "prompt": "Where is the boundary between combating misinformation and infringing on free speech?",
+        "type": "discussion",
+        "time": "2 min",
+        "tips": [
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
+        ],
+        "vocab": [
+            "freedom",
+            "speech",
+            "expression",
+            "liberty",
+            "rights"
+        ],
+        "model_answer": "Sample answer placeholder.",
+        "follow_up": [
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_03_2",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "Censorship in the Digital Era - Case 3",
+        "prompt": "Examine the psychological effects of algorithmic echo chambers.",
+        "type": "discussion",
+        "time": "2 min",
+        "tips": [
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
+        ],
+        "vocab": [
+            "polarization",
+            "echo chamber",
+            "divide",
+            "extremism",
+            "radicalization"
+        ],
+        "model_answer": "Sample answer placeholder.",
+        "follow_up": [
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_04_0",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "The Commodification of Higher Education - Case 1",
+        "prompt": "Is university education becoming more about vocational training than intellectual growth?",
+        "type": "discussion",
+        "time": "2 min",
+        "tips": [
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
+        ],
+        "vocab": [
+            "debt",
+            "loan",
+            "tuition",
+            "financial",
+            "burden"
+        ],
+        "model_answer": "Sample answer placeholder.",
+        "follow_up": [
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_04_1",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "The Commodification of Higher Education - Case 2",
+        "prompt": "Discuss the socio-economic impacts of exorbitant tuition fees.",
+        "type": "discussion",
+        "time": "2 min",
+        "tips": [
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
+        ],
+        "vocab": [
+            "vocational",
+            "career",
+            "employability",
+            "job",
+            "market"
+        ],
+        "model_answer": "Sample answer placeholder.",
+        "follow_up": [
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_04_2",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "The Commodification of Higher Education - Case 3",
+        "prompt": "How does the pressure of employability skew academic curricula?",
+        "type": "discussion",
+        "time": "2 min",
+        "tips": [
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
+        ],
+        "vocab": [
+            "intellectual",
+            "critical thinking",
+            "growth",
+            "academic",
+            "philosophy"
+        ],
+        "model_answer": "Sample answer placeholder.",
+        "follow_up": [
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_05_0",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "Genetic Engineering and Designer Babies - Case 1",
+        "prompt": "What are the moral boundaries of using CRISPR for human enhancement?",
+        "type": "discussion",
+        "time": "2 min",
+        "tips": [
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
+        ],
+        "vocab": [
+            "ethics",
+            "moral",
+            "boundary",
+            "dilemma",
+            "controversy"
+        ],
+        "model_answer": "Sample answer placeholder.",
+        "follow_up": [
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_05_1",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "Genetic Engineering and Designer Babies - Case 2",
+        "prompt": "Could genetic modification widen the gap between socio-economic classes?",
+        "type": "discussion",
+        "time": "2 min",
+        "tips": [
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
+        ],
+        "vocab": [
+            "inequality",
+            "wealth",
+            "class",
+            "divide",
+            "gap"
+        ],
+        "model_answer": "Sample answer placeholder.",
+        "follow_up": [
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_05_2",
+        "level": "P4",
+        "category": "Academic Discussion",
+        "title": "Genetic Engineering and Designer Babies - Case 3",
+        "prompt": "Discuss the difference between therapeutic editing and cosmetic enhancement.",
+        "type": "discussion",
+        "time": "2 min",
+        "tips": [
+            "State your position early",
+            "Use connecting words",
+            "Provide academic evidence"
+        ],
+        "vocab": [
+            "disease",
+            "therapeutic",
+            "cure",
+            "prevention",
+            "health"
+        ],
+        "model_answer": "Sample answer placeholder.",
+        "follow_up": [
+            "What other factors contribute to this issue?",
+            "How might the future look differently?"
+        ]
+    },
+    {
+        "id": "sp_p1_05",
+        "level": "P1",
+        "category": "Travel",
+        "title": "A Memorable Journey",
+        "prompt": "Describe a memorable journey you have taken. Where did you go and what made it special?",
+        "type": "description",
+        "time": "1 min",
+        "tips": [
+            "Use past simple and continuous tenses",
+            "Mention transportation and companions",
+            "Describe feelings and scenery"
+        ],
+        "vocab": [
+            "destination",
+            "scenery",
+            "unforgettable",
+            "journey",
+            "explore"
+        ],
+        "model_answer": "Last summer, I took a memorable journey to Cappadocia with my family. We traveled by bus, which took about ten hours. The journey was special because it was my first time seeing the famous fairy chimneys and flying in a hot air balloon. The landscape looked like another planet, and watching the sunrise from the sky was truly unforgettable.",
+        "follow_up": [
+            "Do you prefer traveling alone or with others? Why?",
+            "What is your dream destination?"
+        ]
+    },
+    {
+        "id": "sp_p1_06",
+        "level": "P1",
+        "category": "Hobbies",
+        "title": "Free Time Activities",
+        "prompt": "Talk about a hobby you enjoy doing in your free time. How did you start doing it?",
+        "type": "description",
+        "time": "1 min",
+        "tips": [
+            "Explain when and why you started",
+            "Use adverbs of frequency (usually, often)",
+            "Mention the benefits of this hobby"
+        ],
+        "vocab": [
+            "relaxing",
+            "creative",
+            "passion",
+            "weekend",
+            "practice"
+        ],
+        "model_answer": "In my free time, I really enjoy photography. I started this hobby about two years ago when my father gave me his old camera. I usually go out on weekends to take pictures of nature and old streets in my city. It is a very relaxing activity for me, and it helps me notice the beautiful details in everyday life.",
+        "follow_up": [
+            "Do you think having a hobby is important? Why?",
+            "Is there a new hobby you would like to try in the future?"
+        ]
+    },
+    {
+        "id": "sp_p2_05",
         "level": "P2",
-        "category": "Education",
-        "title": "Online vs In-person Learning",
-        "prompt": "Compare online learning and in-person learning. What are the advantages and disadvantages of each?",
+        "category": "Health",
+        "title": "Healthy Diet vs Fast Food",
+        "prompt": "Compare eating a healthy diet at home with eating fast food. What are the pros and cons?",
         "type": "comparison",
         "time": "90 sec",
         "tips": [
-            "Use comparative structures: 'more... than', 'whereas', 'on the other hand'",
-            "Give at least one advantage and one disadvantage for each",
-            "End with a balanced conclusion"
+            "Use comparative language like 'while', 'whereas', 'on the other hand'",
+            "Include considerations of time, cost, and health",
+            "Provide a balanced conclusion"
         ],
         "vocab": [
-            "flexibility",
-            "engagement",
-            "collaborative",
-            "self-discipline",
-            "face-to-face"
+            "nutritious",
+            "convenient",
+            "home-cooked",
+            "lifestyle",
+            "obesity"
         ],
-        "model_answer": "Online learning offers considerable flexibility, as students can study at their own pace from any location. However, it tends to reduce face-to-face interaction, which can negatively affect collaborative skills. In contrast, in-person learning provides a more structured environment and encourages immediate communication with peers and instructors. On the other hand, it lacks the convenience of remote access. Overall, a blended approach that combines both methods appears to be the most effective.",
+        "model_answer": "Eating a healthy, home-cooked diet provides essential nutrients and is generally better for long-term health, whereas fast food is often high in calories and unhealthy fats. On the other hand, fast food is incredibly convenient and saves time for busy people. While cooking at home requires more effort and planning, it is usually cheaper and reduces the risk of obesity. Overall, while fast food is acceptable occasionally, a home-cooked diet is far superior for maintaining a healthy lifestyle.",
         "follow_up": [
-            "Which do you personally prefer and why?",
-            "How has technology changed education in Turkey?"
+            "Why is fast food so popular despite the health risks?",
+            "What can schools do to encourage healthy eating?"
         ]
     },
     {
-        "id": "sp_p2_02",
+        "id": "sp_p2_06",
         "level": "P2",
-        "category": "Technology",
-        "title": "Social Media and Society",
-        "prompt": "Discuss the impact of social media on modern society. Is the overall effect positive or negative?",
+        "category": "Work",
+        "title": "Remote Work",
+        "prompt": "Discuss the advantages and disadvantages of working from home. Would you prefer it?",
         "type": "discussion",
         "time": "90 sec",
         "tips": [
-            "Present both sides before giving your opinion",
-            "Use discourse markers: 'firstly', 'in addition', 'nevertheless'",
-            "Support claims with examples"
+            "List both pros and cons before giving your preference",
+            "Mention productivity and social aspects",
+            "Use phrases like 'The main benefit is...', 'However, a drawback is...'"
         ],
         "vocab": [
-            "connectivity",
-            "misinformation",
-            "engagement",
-            "cyberbullying",
-            "influence"
+            "commute",
+            "isolation",
+            "flexibility",
+            "distraction",
+            "work-life balance"
         ],
-        "model_answer": "Social media has transformed the way people communicate and share information. On the positive side, it enables instant global connectivity and has become a powerful platform for raising social awareness. However, it also facilitates the spread of misinformation and can contribute to cyberbullying and mental health issues, particularly among young people. In my view, the overall impact is mixed, and it ultimately depends on how responsibly individuals use these platforms.",
+        "model_answer": "Working from home has become very common. The main benefit is the flexibility it offers, allowing people to save time and money by avoiding a daily commute. This can improve work-life balance significantly. However, a major drawback is social isolation and the lack of face-to-face communication with colleagues. Also, there can be many distractions at home. Personally, I would prefer a hybrid model where I can work from home a few days a week and go to the office on other days to stay connected.",
         "follow_up": [
-            "Should social media be regulated by governments?",
-            "How do you personally use social media?"
+            "Do you think remote work is suitable for all professions?",
+            "How does remote work affect team spirit?"
         ]
     },
     {
-        "id": "sp_p2_03",
-        "level": "P2",
+        "id": "sp_p3_05",
+        "level": "P3",
+        "category": "Technology",
+        "title": "Data Privacy",
+        "prompt": "To what extent should individuals be concerned about their data privacy online? Give examples to support your view.",
+        "type": "argument",
+        "time": "2 min",
+        "tips": [
+            "State your position clearly using hedging language",
+            "Give examples of data collection (social media, targeted ads)",
+            "Suggest how people or governments should respond"
+        ],
+        "vocab": [
+            "surveillance",
+            "algorithm",
+            "consent",
+            "breach",
+            "vulnerable"
+        ],
+        "model_answer": "Individuals should be highly concerned about their online data privacy, though a degree of data sharing is inevitable in modern digital life. Tech companies constantly collect personal data through social media and search engines to feed algorithms and serve targeted advertisements. While this can provide personalized experiences, it makes users vulnerable to data breaches and identity theft. Furthermore, the lack of transparent consent means many users are unaware of how much they are monitored. Therefore, while we cannot completely avoid data collection, we must advocate for stricter government regulations and practice better personal digital hygiene.",
+        "follow_up": [
+            "Should governments have the right to access citizens' online data for security reasons?",
+            "How can individuals protect their online privacy?"
+        ]
+    },
+    {
+        "id": "sp_p3_06",
+        "level": "P3",
         "category": "Environment",
-        "title": "Environmental Awareness",
-        "prompt": "Talk about one environmental problem that concerns you most. What can be done to address it?",
-        "type": "problem-solution",
-        "time": "90 sec",
-        "tips": [
-            "Name a specific problem",
-            "Use modal verbs for suggestions: could, should, must",
-            "Mention individual and government actions"
-        ],
-        "vocab": [
-            "climate change",
-            "sustainable",
-            "emissions",
-            "awareness",
-            "renewable"
-        ],
-        "model_answer": "The environmental issue that concerns me most is climate change, driven primarily by greenhouse gas emissions. Rising temperatures are causing more frequent extreme weather events worldwide. To address this, governments must transition to renewable energy sources and implement stricter regulations on industrial pollution. At the individual level, people could reduce their carbon footprint by using public transport, minimising waste, and consuming less meat. Raising awareness through education is also essential.",
-        "follow_up": [
-            "Do you think individuals can really make a difference?",
-            "What role should universities play in environmental issues?"
-        ]
-    },
-    {
-        "id": "sp_p3_01",
-        "level": "P3",
-        "category": "Academic",
-        "title": "The Role of Technology in Education",
-        "prompt": "To what extent has technology improved the quality of education? Use examples to support your view.",
-        "type": "argument",
-        "time": "2 min",
-        "tips": [
-            "Take a clear stance",
-            "Use hedging language: 'to a large extent', 'it could be argued'",
-            "Include a counter-argument and refutation"
-        ],
-        "vocab": [
-            "facilitate",
-            "innovation",
-            "curriculum",
-            "pedagogical",
-            "digital literacy"
-        ],
-        "model_answer": "Technology has undeniably transformed education in numerous positive ways. Digital platforms provide access to vast resources that were previously unavailable to many learners, particularly in developing regions. Interactive tools and simulation software also make abstract concepts more tangible. Nevertheless, it could be argued that an over-reliance on technology may hinder the development of critical thinking if students passively consume content. However, when technology is integrated thoughtfully into pedagogical practice, it can significantly enhance both access and quality of learning.",
-        "follow_up": [
-            "What are the risks of depending too heavily on technology in schools?",
-            "How can teachers adapt to an increasingly digital classroom?"
-        ]
-    },
-    {
-        "id": "sp_p3_02",
-        "level": "P3",
-        "category": "Academic",
-        "title": "Globalisation and Identity",
-        "prompt": "Some argue that globalisation threatens cultural identity. Do you agree or disagree? Discuss with examples.",
-        "type": "argument",
-        "time": "2 min",
-        "tips": [
-            "Define key terms briefly",
-            "Acknowledge the counterargument",
-            "Use specific examples from different cultures"
-        ],
-        "vocab": [
-            "homogenisation",
-            "cultural diversity",
-            "preserve",
-            "dominant",
-            "assimilation"
-        ],
-        "model_answer": "Globalisation has brought remarkable connectivity, yet its cultural implications are debated. Critics argue that the dominance of Western media and consumer culture leads to cultural homogenisation, threatening the diversity of local traditions. This is evident in the declining use of minority languages and the global spread of similar fashion and food trends. However, I would argue that globalisation does not necessarily erase cultural identity; rather, it can create hybrid cultures that blend local and global influences. The key lies in whether communities actively preserve their heritage while engaging with the world.",
-        "follow_up": [
-            "Has globalisation affected Turkish culture? In what ways?",
-            "What responsibility do governments have in protecting cultural heritage?"
-        ]
-    },
-    {
-        "id": "sp_p3_03",
-        "level": "P3",
-        "category": "Society",
-        "title": "Work-Life Balance",
-        "prompt": "In modern societies, maintaining work-life balance is increasingly difficult. What are the causes and consequences of this trend?",
+        "title": "Urbanization",
+        "prompt": "Urbanization is increasing globally. What are the main causes and consequences of this rapid growth of cities?",
         "type": "cause-effect",
         "time": "2 min",
         "tips": [
-            "Identify at least 2 causes and 2 effects",
-            "Use causal language: 'as a result', 'this leads to', 'due to'",
-            "Mention possible solutions"
+            "Identify push and pull factors for the causes",
+            "Discuss both positive and negative consequences",
+            "Use cause-effect transitions smoothly"
         ],
         "vocab": [
-            "demanding",
-            "burnout",
-            "productivity",
-            "boundary",
-            "well-being"
+            "migration",
+            "infrastructure",
+            "overcrowding",
+            "economic opportunity",
+            "pollution"
         ],
-        "model_answer": "The difficulty of achieving work-life balance in contemporary societies stems from several interconnected factors. Firstly, the digital revolution has blurred the boundary between professional and personal time, as employees are expected to remain constantly reachable. Additionally, economic pressures drive many people to work longer hours to meet rising living costs. As a consequence, many individuals experience burnout, which negatively affects both mental health and long-term productivity. Organisations must therefore implement flexible working policies and foster cultures that genuinely respect personal time.",
+        "model_answer": "The rapid urbanization we are witnessing today is primarily driven by economic factors. People migrate from rural areas to cities seeking better employment opportunities, higher education, and improved healthcare services. As a consequence, cities experience significant economic growth and cultural exchange. However, this massive influx of people leads to severe challenges, including overcrowding, inadequate infrastructure, and increased pollution. As housing becomes unaffordable, inequality often rises. Consequently, governments must invest heavily in sustainable urban planning and public transport to mitigate the negative impacts of this inevitable trend.",
         "follow_up": [
-            "Do employers have a moral responsibility to protect employees' well-being?",
-            "How does poor work-life balance affect society as a whole?"
+            "How can cities be made more sustainable for the future?",
+            "Do you think the trend of urbanization will ever reverse?"
         ]
     },
     {
-        "id": "sp_p4_01",
+        "id": "sp_p4_05",
         "level": "P4",
-        "category": "Academic",
-        "title": "Artificial Intelligence and the Future of Work",
-        "prompt": "Critically evaluate the claim that artificial intelligence will ultimately create more jobs than it displaces.",
+        "category": "Ethics",
+        "title": "Animal Testing",
+        "prompt": "Critically evaluate the ethical arguments for and against the use of animals in scientific and medical research.",
         "type": "critical",
         "time": "2 min",
         "tips": [
-            "Evaluate both optimistic and pessimistic perspectives",
-            "Use academic hedging: 'evidence suggests', 'it remains debatable'",
-            "Draw a nuanced conclusion"
+            "Examine utilitarian vs. rights-based ethical frameworks",
+            "Consider the distinction between medical and cosmetic testing",
+            "Draw a well-reasoned, nuanced conclusion"
         ],
         "vocab": [
-            "displacement",
+            "utilitarian",
+            "welfare",
+            "alternatives",
+            "sentient",
+            "justifiable"
+        ],
+        "model_answer": "The debate over animal testing centers on the tension between scientific advancement and animal welfare. The primary argument in favor is utilitarian: testing on animals has historically been crucial in developing life-saving treatments, vaccines, and surgical techniques for humans. Proponents argue that if significant human suffering can be prevented, the use of animals is scientifically justifiable. Conversely, animal rights advocates argue from a moral standpoint that sentient beings should not be subjected to pain and exploitation without consent. The ethical unacceptability is particularly clear in cosmetic testing. Ultimately, while animal testing may currently be an unfortunate necessity in vital medical research, extreme efforts must be made to enforce the substitution of animal models with cruelty-free alternatives like computer simulations and lab-grown tissues.",
+        "follow_up": [
+            "Is there a moral difference between testing on a mouse versus a primate?",
+            "Should governments ban all non-medical animal testing immediately?"
+        ]
+    },
+    {
+        "id": "sp_p4_06",
+        "level": "P4",
+        "category": "Politics",
+        "title": "Universal Basic Income",
+        "prompt": "To what extent could Universal Basic Income (UBI) solve modern economic inequalities? Discuss critically.",
+        "type": "critical",
+        "time": "2 min",
+        "tips": [
+            "Define UBI and its primary goals",
+            "Evaluate potential benefits (poverty reduction) and drawbacks (inflation, disincentives)",
+            "Conclude with a nuanced assessment of its feasibility"
+        ],
+        "vocab": [
+            "welfare",
             "automation",
-            "emerging industries",
-            "augment",
-            "structural unemployment"
+            "inflation",
+            "safety net",
+            "redistribution"
         ],
-        "model_answer": "The claim that AI will generate more employment than it eliminates is frequently advanced by technological optimists, who point to the emergence of new industries centred on AI development, data science, and human-machine collaboration. Historical precedent from the Industrial Revolution lends some support to this view. However, evidence also suggests that today's automation is qualitatively different, capable of displacing cognitive as well as manual labour. Structural unemployment may disproportionately affect lower-skilled workers who face barriers to retraining. A more accurate conclusion is that AI's net impact on employment will depend heavily on the pace of change and the effectiveness of social policy responses.",
+        "model_answer": "Universal Basic Income, a system where all citizens receive a regular, unconditional sum of money from the state, is increasingly proposed as a radical solution to modern economic inequality, particularly in the face of job displacement by automation. Advocates argue that UBI provides an essential safety net, eradicates absolute poverty, and empowers workers to reject exploitative jobs. However, critically assessing its feasibility reveals significant challenges. Detractors point out the massive fiscal burden it represents, requiring substantial taxation which could stifle economic growth. Furthermore, it might lead to inflation or disincentivize labor participation. While UBI addresses the symptoms of poverty effectively, it is unlikely to solve underlying structural inequalities without concurrent investments in public services like education and healthcare. Therefore, it should be viewed as a complementary tool rather than a comprehensive panacea.",
         "follow_up": [
-            "What responsibility do governments have in managing AI-driven unemployment?",
-            "Should AI development be regulated internationally? Why or why not?"
+            "Who should fund a Universal Basic Income program?",
+            "How might UBI alter the fundamental relationship between a citizen and the state?"
         ]
     },
     {
-        "id": "sp_p4_02",
+        "id": "SPK_ACAD_01",
         "level": "P4",
-        "category": "Academic",
-        "title": "Ethics of Genetic Engineering",
-        "prompt": "To what extent should genetic engineering of humans be permitted? Critically discuss the ethical boundaries.",
-        "type": "critical",
-        "time": "2 min",
-        "tips": [
-            "Define genetic engineering in context",
-            "Address therapeutic vs enhancement distinction",
-            "Engage with ethical frameworks: autonomy, equity, harm"
-        ],
-        "vocab": [
-            "genome",
-            "therapeutic",
-            "enhancement",
-            "ethical boundaries",
-            "regulation"
-        ],
-        "model_answer": "Genetic engineering of humans presents profound ethical dilemmas that resist simple resolution. Therapeutic applications — such as correcting single-gene disorders — command relatively broad ethical support, provided informed consent and rigorous safety protocols are observed. The more contentious territory concerns genetic enhancement for non-medical traits such as intelligence or physical attributes. Critics argue this could exacerbate social inequality and undermine human dignity, while proponents contend that parents have a right to give children optimal life prospects. I would argue that a principled distinction must be maintained between treatment and enhancement, with the latter subject to strict international regulation to prevent a genetic stratification of society.",
-        "follow_up": [
-            "How might genetic enhancement change social inequality?",
-            "Who should have authority over genetic engineering research?"
-        ]
-    },
-    {
-        "id": "sp_p4_03",
-        "level": "P4",
-        "category": "Society",
-        "title": "Media and Democracy",
-        "prompt": "Critically assess the role of the media in strengthening or undermining democratic processes.",
-        "type": "critical",
-        "time": "2 min",
-        "tips": [
-            "Distinguish between different media types (social, broadcast, print)",
-            "Use precise academic vocabulary",
-            "Evaluate rather than simply describe"
-        ],
-        "vocab": [
-            "accountability",
-            "pluralism",
-            "disinformation",
-            "fourth estate",
-            "political polarisation"
-        ],
-        "model_answer": "The media occupies a paradoxical position in contemporary democratic systems. Historically, a free press has served as the 'fourth estate', holding power to account and informing citizens necessary for meaningful political participation. However, the fragmentation of the media landscape in the digital age has given rise to echo chambers and the rapid spread of disinformation, which can distort public discourse and deepen political polarisation. While traditional broadcast media often maintain editorial standards that constrain partisan excess, algorithmically-driven social media platforms frequently prioritise engagement over accuracy. It is therefore reductive to characterise the media as either a guardian or an enemy of democracy; both tendencies coexist and their relative weight varies by context.",
-        "follow_up": [
-            "How can media literacy be improved among citizens?",
-            "Should social media platforms be held legally responsible for disinformation?"
-        ]
-    },
-    {
-        "id": "sp_p1_04",
-        "level": "P1",
-        "category": "Personal",
-        "title": "A Person You Admire",
-        "prompt": "Talk about a person you admire — a family member, friend, or public figure. Why do you admire them?",
-        "type": "description",
-        "time": "1 min",
-        "tips": [
-            "Give specific reasons",
-            "Use adjectives and relative clauses",
-            "Share a specific story or achievement"
-        ],
-        "vocab": [
-            "admire",
-            "inspire",
-            "determination",
-            "achievement",
-            "role model"
-        ],
-        "model_answer": "The person I admire most is my grandfather, who is a retired teacher. Despite growing up in difficult circumstances, he educated himself and became a primary school teacher for over 30 years. I admire him because he never stopped learning even after retirement — he recently started learning English at the age of 72. His determination and positive attitude are qualities I try to emulate.",
-        "follow_up": [
-            "Do you think everyone needs a role model? Why?"
-        ]
-    },
-    {
-        "id": "sp_p2_04",
-        "level": "P2",
-        "category": "Health",
-        "title": "Mental Health Awareness",
-        "prompt": "Discuss why mental health has become an increasingly important topic in recent years. What can be done to improve mental health awareness?",
+        "category": "Technology",
+        "title": "Artificial Intelligence in Education",
+        "prompt": "How might the integration of AI into higher education redefine the role of the academic instructor?",
         "type": "discussion",
-        "time": "90 sec",
+        "time": "2 min",
         "tips": [
-            "Use cause-effect language",
-            "Mention both societal and individual solutions",
-            "Avoid stigmatising language"
+            "Discuss shift from lecturing to facilitation",
+            "Consider personalized learning paths",
+            "Address ethical concerns of plagiarism"
         ],
         "vocab": [
-            "stigma",
-            "well-being",
-            "counselling",
-            "awareness",
-            "stress management"
+            "pedagogical",
+            "facilitation",
+            "automated",
+            "curriculum",
+            "integrity"
         ],
-        "model_answer": "Mental health has gained significant attention in recent years, partly due to increased research highlighting its impact on overall well-being and productivity. The pressures of academic life, economic uncertainty, and social media comparison have all contributed to rising rates of anxiety and depression, particularly among young people. To improve awareness, educational institutions should integrate mental health curricula into programmes, and governments must increase funding for affordable counselling services. Reducing the stigma around seeking help is also essential.",
+        "model_answer": "The integration of AI into higher education is likely to shift the role of instructors from primary knowledge providers to learning facilitators and mentors. While AI can handle automated grading and data-driven personalization, human instructors will focus more on critical thinking, ethical guidance, and soft skill development. However, this transition requires significant pedagogical adaptation and a focus on maintaining academic integrity in an era of generated content.",
         "follow_up": [
-            "Do you think universities do enough to support student mental health?"
+            "Will AI increase or decrease social inequality in education?",
+            "Should universities ban AI tools?"
         ]
     },
     {
-        "id": "sp_p3_04",
+        "id": "SPK_ACAD_02",
+        "level": "P4",
+        "category": "Economics",
+        "title": "The Gig Economy",
+        "prompt": "Analyze the potential long-term socio-economic consequences of the rise of the gig economy on worker rights and social security systems.",
+        "type": "analysis",
+        "time": "2 min",
+        "tips": [
+            "Define gig economy (Uber, freelancing)",
+            "Discuss lack of traditional benefits",
+            "Analyze impact on tax revenue"
+        ],
+        "vocab": [
+            "precarious",
+            "flexibility",
+            "pension",
+            "exploitation",
+            "macroeconomic"
+        ],
+        "model_answer": "The gig economy offers unparalleled flexibility but often results in precarious employment conditions. Long-term, this could undermine traditional social security systems, as gig workers usually lack access to employer-sponsored healthcare and pensions. Furthermore, if a large segment of the workforce remains outside traditional structures, tax revenues for public services might decline, necessitating a complete re-evaluation of how social safety nets are funded.",
+        "follow_up": [
+            "How should governments regulate platforms like Uber?",
+            "Is the gig economy a choice or a necessity for most?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_03",
         "level": "P3",
-        "category": "Society",
-        "title": "Gender Equality in the Workplace",
-        "prompt": "Despite progress, gender inequality in the workplace persists in many countries. Discuss the main barriers and propose solutions.",
+        "category": "Environment",
+        "title": "Sustainable Urbanism",
+        "prompt": "What are the most effective strategies for reducing carbon footprints in rapidly growing metropolitan areas?",
         "type": "problem-solution",
         "time": "2 min",
         "tips": [
-            "Identify structural and cultural barriers",
-            "Use evidence-based examples where possible",
-            "Propose concrete policy solutions"
+            "Focus on public transportation",
+            "Mention green building standards",
+            "Discuss waste management"
         ],
         "vocab": [
-            "gender pay gap",
-            "glass ceiling",
-            "representation",
-            "unconscious bias",
-            "parental leave"
+            "infrastructure",
+            "sustainable",
+            "congestion",
+            "emissions",
+            "urban"
         ],
-        "model_answer": "Despite legislative advances, gender inequality in the workplace remains a significant challenge globally. Key barriers include unconscious bias in hiring and promotion decisions, the disproportionate burden of unpaid care work on women, and a lack of female representation in senior leadership — often described as the 'glass ceiling'. The gender pay gap persists even in sectors where women are well-represented numerically. To address these structural inequalities, organisations should implement transparent pay audits, provide equal and accessible parental leave for all genders, and establish mentoring programmes for women entering leadership roles.",
+        "model_answer": "To reduce carbon footprints in megacities, governments must prioritize investment in electrified public transportation to reduce vehicle congestion. Additionally, enforcing strict green building standards and expanding urban green spaces are vital. Implementing advanced circular waste management systems can also significantly lower methane emissions. Ultimately, a multi-faceted approach combining policy, technology, and public awareness is essential.",
         "follow_up": [
-            "Do you think gender quotas are an effective solution? Why or why not?"
+            "Whose responsibility is it to reduce emissions: individuals or governments?",
+            "Are vertical forests effective?"
         ]
     },
     {
-        "id": "sp_p4_04",
+        "id": "SPK_ACAD_04",
         "level": "P4",
-        "category": "Academic",
-        "title": "Higher Education and Inequality",
-        "prompt": "To what extent does higher education reinforce rather than reduce social inequality? Critically discuss.",
+        "category": "Psychology",
+        "title": "Social Media and Mental Health",
+        "prompt": "Examine the correlation between social media consumption patterns and the rising rates of anxiety among adolescents.",
+        "type": "cause-effect",
+        "time": "2 min",
+        "tips": [
+            "Discuss social comparison theory",
+            "Analyze the impact of 'FOMO'",
+            "Consider dopamine-driven feedback loops"
+        ],
+        "vocab": [
+            "correlation",
+            "validation",
+            "detrimental",
+            "dopamine",
+            "adolescent"
+        ],
+        "model_answer": "Social media often creates detrimental environments for adolescents due to constant social comparison and the 'Fear of Missing Out' (FOMO). The dopamine-driven feedback loops of likes and notifications can lead to an unhealthy reliance on external validation. Consequently, many researchers see a strong correlation between high consumption levels and increased anxiety. We must promote digital literacy and encourage 'analog' social interactions to mitigate these effects.",
+        "follow_up": [
+            "Should there be age restrictions for social media?",
+            "How can parents monitor usage without losing trust?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_05",
+        "level": "P2",
+        "category": "General",
+        "title": "Online vs Offline Shopping",
+        "prompt": "Compare and contrast the experience of shopping online with traditional retail stores. Which do you prefer?",
+        "type": "comparison",
+        "time": "90 sec",
+        "tips": [
+            "Mention convenience vs physical touch",
+            "Compare prices and delivery times",
+            "Discuss the social aspect of malls"
+        ],
+        "vocab": [
+            "convenient",
+            "delivery",
+            "transaction",
+            "tangible",
+            "experience"
+        ],
+        "model_answer": "Online shopping is incredibly convenient and often offers better prices, but it lacks the tangible experience of traditional retail where you can touch products before buying. Traditional stores also provide a social experience that e-commerce cannot replicate. Personally, I prefer online shopping for electronics and books because of the reviews, but I still go to physical stores for clothes to ensure a good fit.",
+        "follow_up": [
+            "Will physical stores disappear in the future?",
+            "What are the environmental impacts of home delivery?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_06",
+        "level": "P4",
+        "category": "Global Politics",
+        "title": "The Future of Multilateralism",
+        "prompt": "In an increasingly polarized world, is the era of global multilateral organizations (like the UN or WHO) coming to an end?",
+        "type": "argument",
+        "time": "2 min",
+        "tips": [
+            "Analyze recent geopolitical tensions",
+            "Discuss the importance of global cooperation during crises",
+            "Provide a nuanced conclusion"
+        ],
+        "vocab": [
+            "sovereignty",
+            "multilateral",
+            "polarization",
+            "diplomacy",
+            "ineffective"
+        ],
+        "model_answer": "While global multilateral organizations face significant challenges due to rising nationalism and geopolitical polarization, the era of cooperation is far from over. Issues like climate change and pandemics recognize no borders, making organizations like the WHO and UN more necessary than ever. However, these institutions must undergo profound reforms to remain relevant and effective in a changing power landscape where sovereignty is often prioritized over collective action.",
+        "follow_up": [
+            "How can the UN be made more democratic?",
+            "Is a 'world government' a realistic concept?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_07",
+        "level": "P3",
+        "category": "Science",
+        "title": "Space Exploration",
+        "prompt": "Should governments spend billions on space exploration while there are still massive unsolved problems on Earth, like poverty and disease?",
+        "type": "argument",
+        "time": "2 min",
+        "tips": [
+            "Weight scientific discovery against immediate human needs",
+            "Mention spin-off technologies from space research",
+            "Consider the survival of the human race"
+        ],
+        "vocab": [
+            "expenditure",
+            "priority",
+            "innovation",
+            "terrestrial",
+            "exploration"
+        ],
+        "model_answer": "This is a classic 'guns vs butter' dilemma. Critics argue that terrestrial problems like poverty should take absolute priority over space expenditure. However, space research often leads to massive innovations in medicine, communications, and materials science that benefit all of humanity. Furthermore, long-term human survival may depend on becoming a multi-planetary species. Therefore, the goal should be a balanced investment rather than an 'either-or' choice.",
+        "follow_up": [
+            "Would you go to Mars if it were a one-way trip?",
+            "Should space exploration be privatized?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_08",
+        "level": "P4",
+        "category": "Ethics",
+        "title": "Algorithmic Bias",
+        "prompt": "Discuss the ethical implications of using algorithms for recruitment and judicial sentencing.",
         "type": "critical",
         "time": "2 min",
         "tips": [
-            "Interrogate assumptions about higher education as a social leveller",
-            "Discuss access, debt, and returns to education",
-            "Draw a nuanced, evidenced conclusion"
+            "Address how data can reflect historical biases",
+            "Discuss the 'black box' problem of AI decision-making",
+            "Argue for human oversight"
         ],
         "vocab": [
-            "meritocracy",
-            "socioeconomic",
-            "access",
-            "credential inflation",
-            "social mobility"
+            "transparency",
+            "algorithmic",
+            "prejudice",
+            "accountability",
+            "oversight"
         ],
-        "model_answer": "Higher education is frequently portrayed as a vehicle for social mobility, yet evidence suggests its role is more ambiguous. In systems where tuition fees are high and student debt is substantial, access tends to correlate with socioeconomic background, reproducing rather than disrupting class hierarchies. Furthermore, the market returns to a degree are increasingly stratified by institutional prestige, disadvantaging graduates from less well-resourced universities. Credential inflation means that a bachelor's degree now delivers diminishing marginal returns, particularly for lower-income students who forego earnings during study. However, it would be an overstatement to conclude that higher education merely reproduces inequality; first-generation graduates do experience meaningful upward mobility. Reform towards need-based funding and needs-sensitive admissions is essential to realise the egalitarian promise of higher education.",
+        "model_answer": "Using algorithms for high-stakes decisions like judicial sentencing raises severe ethical concerns regarding accountability and transparency. Since these models are trained on historical data, they often perpetuate existing societal prejudices and biases. This 'black box' problem means that decisions can be made without clear justifications. To ensure fairness, we must implement rigorous audits of algorithms and maintain significant human oversight in all automated decision-making processes.",
         "follow_up": [
-            "Should university education be free? Who should bear the cost?"
+            "Can an algorithm ever be truly 'neutral'?",
+            "Who is responsible if an AI makes a wrong legal decision?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_09",
+        "level": "P2",
+        "category": "Health",
+        "title": "Benefits of Regular Exercise",
+        "prompt": "Talk about the importance of regular physical activity for both physical and mental health.",
+        "type": "description",
+        "time": "90 sec",
+        "tips": [
+            "Mention heart health and muscles",
+            "Discuss stress reduction and endorphins",
+            "Give a personal or general example"
+        ],
+        "vocab": [
+            "wellness",
+            "stamina",
+            "endurance",
+            "sedentary",
+            "endorphins"
+        ],
+        "model_answer": "Regular exercise is crucial for maintaining physical stamina and preventing chronic diseases. Beyond the physical benefits, it is a powerful tool for mental wellness, as it releases endorphins that reduce stress and improve mood. In today's sedentary lifestyle, even a 30-minute daily walk can make a significant difference. Personally, I found that my focus improved dramatically once I started swimming twice a week.",
+        "follow_up": [
+            "What are the barriers to exercising regularly?",
+            "Should companies provide gym memberships for employees?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_10",
+        "level": "P3",
+        "category": "Work/Culture",
+        "title": "Work-Life Balance",
+        "prompt": "Is a 'four-day work week' the solution to modern burnout and declining productivity?",
+        "type": "discussion",
+        "time": "2 min",
+        "tips": [
+            "Discuss the concept of 'work-to-rule'",
+            "Mention pilot studies in countries like Iceland",
+            "Analyze potential impacts on business costs"
+        ],
+        "vocab": [
+            "burnout",
+            "productivity",
+            "well-being",
+            "fulfillment",
+            "equilibrium"
+        ],
+        "model_answer": "The four-day work week is gaining traction as a potential remedy for modern professional burnout. Pilot studies have shown that shorter weeks often lead to higher levels of well-being without a significant loss in productivity, as employees work more focused during their active hours. However, some industries might struggle with the increased costs of hiring more staff to cover the extra day off. While not a universal solution, it represents a necessary step toward a healthier work-life equilibrium.",
+        "follow_up": [
+            "Would you take a 20% pay cut for a 4-day week?",
+            "How does remote work affect the 4-day week debate?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_11",
+        "level": "P4",
+        "category": "Science",
+        "title": "Academic Inquiry: Science Topic 11",
+        "prompt": "Discuss a significant challenge within the field of Science and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Science, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_12",
+        "level": "P1",
+        "category": "History",
+        "title": "Academic Inquiry: History Topic 12",
+        "prompt": "Discuss a significant challenge within the field of History and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of History, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_13",
+        "level": "P2",
+        "category": "Philosophy",
+        "title": "Academic Inquiry: Philosophy Topic 13",
+        "prompt": "Discuss a significant challenge within the field of Philosophy and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Philosophy, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_14",
+        "level": "P3",
+        "category": "Sports",
+        "title": "Academic Inquiry: Sports Topic 14",
+        "prompt": "Discuss a significant challenge within the field of Sports and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Sports, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_15",
+        "level": "P4",
+        "category": "Media",
+        "title": "Academic Inquiry: Media Topic 15",
+        "prompt": "Discuss a significant challenge within the field of Media and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Media, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_16",
+        "level": "P1",
+        "category": "Environment",
+        "title": "Academic Inquiry: Environment Topic 16",
+        "prompt": "Discuss a significant challenge within the field of Environment and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Environment, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_17",
+        "level": "P2",
+        "category": "Sociology",
+        "title": "Academic Inquiry: Sociology Topic 17",
+        "prompt": "Discuss a significant challenge within the field of Sociology and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Sociology, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_18",
+        "level": "P3",
+        "category": "Urban Planning",
+        "title": "Academic Inquiry: Urban Planning Topic 18",
+        "prompt": "Discuss a significant challenge within the field of Urban Planning and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Urban Planning, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_19",
+        "level": "P4",
+        "category": "Health",
+        "title": "Academic Inquiry: Health Topic 19",
+        "prompt": "Discuss a significant challenge within the field of Health and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Health, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_20",
+        "level": "P1",
+        "category": "Education",
+        "title": "Academic Inquiry: Education Topic 20",
+        "prompt": "Discuss a significant challenge within the field of Education and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Education, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_21",
+        "level": "P2",
+        "category": "Science",
+        "title": "Academic Inquiry: Science Topic 21",
+        "prompt": "Discuss a significant challenge within the field of Science and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Science, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_22",
+        "level": "P3",
+        "category": "History",
+        "title": "Academic Inquiry: History Topic 22",
+        "prompt": "Discuss a significant challenge within the field of History and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of History, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_23",
+        "level": "P4",
+        "category": "Philosophy",
+        "title": "Academic Inquiry: Philosophy Topic 23",
+        "prompt": "Discuss a significant challenge within the field of Philosophy and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Philosophy, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_24",
+        "level": "P1",
+        "category": "Sports",
+        "title": "Academic Inquiry: Sports Topic 24",
+        "prompt": "Discuss a significant challenge within the field of Sports and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Sports, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_25",
+        "level": "P2",
+        "category": "Media",
+        "title": "Academic Inquiry: Media Topic 25",
+        "prompt": "Discuss a significant challenge within the field of Media and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Media, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_26",
+        "level": "P3",
+        "category": "Environment",
+        "title": "Academic Inquiry: Environment Topic 26",
+        "prompt": "Discuss a significant challenge within the field of Environment and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Environment, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_27",
+        "level": "P4",
+        "category": "Sociology",
+        "title": "Academic Inquiry: Sociology Topic 27",
+        "prompt": "Discuss a significant challenge within the field of Sociology and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Sociology, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_28",
+        "level": "P1",
+        "category": "Urban Planning",
+        "title": "Academic Inquiry: Urban Planning Topic 28",
+        "prompt": "Discuss a significant challenge within the field of Urban Planning and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Urban Planning, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_29",
+        "level": "P2",
+        "category": "Health",
+        "title": "Academic Inquiry: Health Topic 29",
+        "prompt": "Discuss a significant challenge within the field of Health and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Health, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_30",
+        "level": "P3",
+        "category": "Education",
+        "title": "Academic Inquiry: Education Topic 30",
+        "prompt": "Discuss a significant challenge within the field of Education and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Education, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_31",
+        "level": "P4",
+        "category": "Science",
+        "title": "Academic Inquiry: Science Topic 31",
+        "prompt": "Discuss a significant challenge within the field of Science and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Science, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_32",
+        "level": "P1",
+        "category": "History",
+        "title": "Academic Inquiry: History Topic 32",
+        "prompt": "Discuss a significant challenge within the field of History and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of History, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_33",
+        "level": "P2",
+        "category": "Philosophy",
+        "title": "Academic Inquiry: Philosophy Topic 33",
+        "prompt": "Discuss a significant challenge within the field of Philosophy and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Philosophy, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_34",
+        "level": "P3",
+        "category": "Sports",
+        "title": "Academic Inquiry: Sports Topic 34",
+        "prompt": "Discuss a significant challenge within the field of Sports and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Sports, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_35",
+        "level": "P4",
+        "category": "Media",
+        "title": "Academic Inquiry: Media Topic 35",
+        "prompt": "Discuss a significant challenge within the field of Media and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Media, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_36",
+        "level": "P1",
+        "category": "Environment",
+        "title": "Academic Inquiry: Environment Topic 36",
+        "prompt": "Discuss a significant challenge within the field of Environment and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Environment, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_37",
+        "level": "P2",
+        "category": "Sociology",
+        "title": "Academic Inquiry: Sociology Topic 37",
+        "prompt": "Discuss a significant challenge within the field of Sociology and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Sociology, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_38",
+        "level": "P3",
+        "category": "Urban Planning",
+        "title": "Academic Inquiry: Urban Planning Topic 38",
+        "prompt": "Discuss a significant challenge within the field of Urban Planning and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Urban Planning, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_39",
+        "level": "P4",
+        "category": "Health",
+        "title": "Academic Inquiry: Health Topic 39",
+        "prompt": "Discuss a significant challenge within the field of Health and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Health, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_40",
+        "level": "P1",
+        "category": "Education",
+        "title": "Academic Inquiry: Education Topic 40",
+        "prompt": "Discuss a significant challenge within the field of Education and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Education, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_41",
+        "level": "P2",
+        "category": "Science",
+        "title": "Academic Inquiry: Science Topic 41",
+        "prompt": "Discuss a significant challenge within the field of Science and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Science, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_42",
+        "level": "P3",
+        "category": "History",
+        "title": "Academic Inquiry: History Topic 42",
+        "prompt": "Discuss a significant challenge within the field of History and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of History, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_43",
+        "level": "P4",
+        "category": "Philosophy",
+        "title": "Academic Inquiry: Philosophy Topic 43",
+        "prompt": "Discuss a significant challenge within the field of Philosophy and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Philosophy, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_44",
+        "level": "P1",
+        "category": "Sports",
+        "title": "Academic Inquiry: Sports Topic 44",
+        "prompt": "Discuss a significant challenge within the field of Sports and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Sports, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_45",
+        "level": "P2",
+        "category": "Media",
+        "title": "Academic Inquiry: Media Topic 45",
+        "prompt": "Discuss a significant challenge within the field of Media and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Media, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_46",
+        "level": "P3",
+        "category": "Environment",
+        "title": "Academic Inquiry: Environment Topic 46",
+        "prompt": "Discuss a significant challenge within the field of Environment and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Environment, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_47",
+        "level": "P4",
+        "category": "Sociology",
+        "title": "Academic Inquiry: Sociology Topic 47",
+        "prompt": "Discuss a significant challenge within the field of Sociology and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Sociology, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_48",
+        "level": "P1",
+        "category": "Urban Planning",
+        "title": "Academic Inquiry: Urban Planning Topic 48",
+        "prompt": "Discuss a significant challenge within the field of Urban Planning and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Urban Planning, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_49",
+        "level": "P2",
+        "category": "Health",
+        "title": "Academic Inquiry: Health Topic 49",
+        "prompt": "Discuss a significant challenge within the field of Health and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Health, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_50",
+        "level": "P3",
+        "category": "Education",
+        "title": "Academic Inquiry: Education Topic 50",
+        "prompt": "Discuss a significant challenge within the field of Education and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Education, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_51",
+        "level": "P4",
+        "category": "Science",
+        "title": "Academic Inquiry: Science Topic 51",
+        "prompt": "Discuss a significant challenge within the field of Science and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Science, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_52",
+        "level": "P1",
+        "category": "History",
+        "title": "Academic Inquiry: History Topic 52",
+        "prompt": "Discuss a significant challenge within the field of History and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of History, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_53",
+        "level": "P2",
+        "category": "Philosophy",
+        "title": "Academic Inquiry: Philosophy Topic 53",
+        "prompt": "Discuss a significant challenge within the field of Philosophy and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Philosophy, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_54",
+        "level": "P3",
+        "category": "Sports",
+        "title": "Academic Inquiry: Sports Topic 54",
+        "prompt": "Discuss a significant challenge within the field of Sports and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Sports, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_55",
+        "level": "P4",
+        "category": "Media",
+        "title": "Academic Inquiry: Media Topic 55",
+        "prompt": "Discuss a significant challenge within the field of Media and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Media, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_56",
+        "level": "P1",
+        "category": "Environment",
+        "title": "Academic Inquiry: Environment Topic 56",
+        "prompt": "Discuss a significant challenge within the field of Environment and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Environment, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_57",
+        "level": "P2",
+        "category": "Sociology",
+        "title": "Academic Inquiry: Sociology Topic 57",
+        "prompt": "Discuss a significant challenge within the field of Sociology and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Sociology, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_58",
+        "level": "P3",
+        "category": "Urban Planning",
+        "title": "Academic Inquiry: Urban Planning Topic 58",
+        "prompt": "Discuss a significant challenge within the field of Urban Planning and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Urban Planning, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_59",
+        "level": "P4",
+        "category": "Health",
+        "title": "Academic Inquiry: Health Topic 59",
+        "prompt": "Discuss a significant challenge within the field of Health and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Health, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_ACAD_60",
+        "level": "P1",
+        "category": "Education",
+        "title": "Academic Inquiry: Education Topic 60",
+        "prompt": "Discuss a significant challenge within the field of Education and propose a potential solution.",
+        "type": "academic",
+        "time": "2 min",
+        "tips": [
+            "Structure your response with clear points",
+            "Use academic vocabulary",
+            "Provide context"
+        ],
+        "vocab": [
+            "analytical",
+            "methodology",
+            "framework",
+            "synthesis",
+            "perspective"
+        ],
+        "model_answer": "In the field of Education, one of the primary challenges involves the balance between innovation and tradition. To address this, we must adopt a comprehensive analytical methodology that incorporates diverse perspectives. Furthermore, establishing a solid theoretical framework is essential for the synthesis of new ideas. Ultimately, the solution lies in a collaborative approach that prioritizes long-term stability over short-term gains.",
+        "follow_up": [
+            "How has this issue evolved over the last decade?",
+            "What is the most controversial aspect of this topic?"
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_01",
+        "topic": "The Ethical Implications of Artificial Intelligence in Healthcare",
+        "level": "C1/P4",
+        "prompts": [
+            "To what extent should AI be permitted to make autonomous diagnostic decisions?",
+            "How might reliance on algorithmic healthcare affect the doctor-patient relationship?",
+            "Discuss the potential biases inherent in medical AI models."
+        ],
+        "ideal_clusters": [
+            [
+                "bias",
+                "discrimination",
+                "prejudice",
+                "skewed",
+                "inequity"
+            ],
+            [
+                "autonomy",
+                "decision",
+                "authority",
+                "control",
+                "regulation"
+            ],
+            [
+                "relationship",
+                "empathy",
+                "human",
+                "compassion",
+                "trust"
+            ],
+            [
+                "liability",
+                "accountability",
+                "responsibility",
+                "sue",
+                "legal"
+            ]
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_02",
+        "topic": "Universal Basic Income (UBI) as an Economic Stabilizer",
+        "level": "C1/P4",
+        "prompts": [
+            "Could a Universal Basic Income alleviate systemic poverty effectively?",
+            "What are the primary macroeconomic risks associated with implementing UBI?",
+            "How might guaranteed income alter cultural perceptions of work and labor?"
+        ],
+        "ideal_clusters": [
+            [
+                "inflation",
+                "economy",
+                "prices",
+                "taxes",
+                "deficit"
+            ],
+            [
+                "poverty",
+                "inequality",
+                "welfare",
+                "safety net",
+                "destitution"
+            ],
+            [
+                "motivation",
+                "incentive",
+                "laziness",
+                "productivity",
+                "drive"
+            ],
+            [
+                "workforce",
+                "automation",
+                "displacement",
+                "jobs",
+                "employment"
+            ]
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_03",
+        "topic": "Censorship in the Digital Era",
+        "level": "C1/P4",
+        "prompts": [
+            "Should social media platforms act as absolute arbiters of truth?",
+            "Where is the boundary between combating misinformation and infringing on free speech?",
+            "Examine the psychological effects of algorithmic echo chambers."
+        ],
+        "ideal_clusters": [
+            [
+                "misinformation",
+                "fake news",
+                "propaganda",
+                "falsehoods",
+                "distortion"
+            ],
+            [
+                "freedom",
+                "speech",
+                "expression",
+                "liberty",
+                "rights"
+            ],
+            [
+                "polarization",
+                "echo chamber",
+                "divide",
+                "extremism",
+                "radicalization"
+            ],
+            [
+                "regulation",
+                "moderation",
+                "censorship",
+                "control",
+                "algorithm"
+            ]
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_04",
+        "topic": "The Commodification of Higher Education",
+        "level": "C1/P4",
+        "prompts": [
+            "Is university education becoming more about vocational training than intellectual growth?",
+            "Discuss the socio-economic impacts of exorbitant tuition fees.",
+            "How does the pressure of employability skew academic curricula?"
+        ],
+        "ideal_clusters": [
+            [
+                "debt",
+                "loan",
+                "tuition",
+                "financial",
+                "burden"
+            ],
+            [
+                "vocational",
+                "career",
+                "employability",
+                "job",
+                "market"
+            ],
+            [
+                "intellectual",
+                "critical thinking",
+                "growth",
+                "academic",
+                "philosophy"
+            ],
+            [
+                "accessibility",
+                "privilege",
+                "elite",
+                "inequality",
+                "barrier"
+            ]
+        ]
+    },
+    {
+        "id": "SPK_BUEPT_05",
+        "topic": "Genetic Engineering and Designer Babies",
+        "level": "C1/P4",
+        "prompts": [
+            "What are the moral boundaries of using CRISPR for human enhancement?",
+            "Could genetic modification widen the gap between socio-economic classes?",
+            "Discuss the difference between therapeutic editing and cosmetic enhancement."
+        ],
+        "ideal_clusters": [
+            [
+                "ethics",
+                "moral",
+                "boundary",
+                "dilemma",
+                "controversy"
+            ],
+            [
+                "inequality",
+                "wealth",
+                "class",
+                "divide",
+                "gap"
+            ],
+            [
+                "disease",
+                "therapeutic",
+                "cure",
+                "prevention",
+                "health"
+            ],
+            [
+                "enhancement",
+                "cosmetic",
+                "designer",
+                "eugenics",
+                "perfection"
+            ]
         ]
     }
 ]

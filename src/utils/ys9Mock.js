@@ -245,12 +245,12 @@ function buildMetrics(text) {
 
 function buildStrengths(metrics, errorSummary, repetition) {
   const strengths = [];
-  if (metrics.words >= 180) strengths.push('Good length for an essay task.');
-  if (metrics.sentences >= 6) strengths.push('Paragraph length seems appropriate.');
-  if ((errorSummary.ww || 0) <= 1) strengths.push('Word choice is mostly clear.');
-  if ((repetition || []).length <= 1) strengths.push('Limited repetition of key words.');
-  if (metrics.ttr >= 0.45) strengths.push('Good lexical variety (type–token ratio).');
-  if (metrics.academicCount >= 6) strengths.push('Academic vocabulary is present.');
+  if (metrics.words >= 200) strengths.push('Length is strong enough for a well-developed essay response.');
+  if (metrics.sentences >= 6 && metrics.paragraphs >= 3) strengths.push('Paragraph structure is developed enough for academic writing.');
+  if ((errorSummary.ww || 0) === 0 && (errorSummary.prep || 0) === 0) strengths.push('Word choice is mostly controlled and appropriate.');
+  if ((repetition || []).length <= 1) strengths.push('Repetition is limited.');
+  if (metrics.ttr >= 0.5) strengths.push('Lexical variety is above the basic range.');
+  if (metrics.academicCount >= 8) strengths.push('Academic vocabulary is clearly present.');
   return strengths.length ? strengths : ['Structure is present; keep refining clarity.'];
 }
 
@@ -290,7 +290,8 @@ function buildCriteriaFlags(text, metrics, errorSummary) {
 
 function buildIssues(metrics, errorSummary) {
   const issues = [];
-  if (metrics.words < 120) issues.push('The response is short; develop ideas with examples.');
+  if (metrics.words < 140) issues.push('The response is underdeveloped; expand ideas with clearer support.');
+  if (metrics.paragraphs < 3) issues.push('Paragraphing is weak for an academic essay response.');
   if (metrics.avgSentence > 28) issues.push('Sentences are long; split for clarity.');
   if (errorSummary.sv) issues.push('Subject–verb agreement errors detected.');
   if (errorSummary.ww) issues.push('Vague or imprecise word choices detected.');
@@ -685,40 +686,48 @@ function buildCohesionStats(text = '') {
 }
 
 function scoreRubric(base, metrics, errorSummary, repetition, text) {
-  const clamp = (v) => Math.max(1, Math.min(4, v));
   const hasConclusion = /\b(in conclusion|to sum up|overall|in summary)\b/i.test(text || '');
   const hasExamples = /\b(for example|for instance|such as)\b/i.test(text || '');
+  const hasThesis = detectThesis(text || '');
   const linkers = (text || '').match(/\b(however|moreover|therefore|for example|for instance|in addition|on the other hand|as a result|consequently)\b/gi) || [];
   const uniqueLinkers = new Set(linkers.map((s) => s.toLowerCase()));
-
-  let Grammar = base.Grammar;
-  const gErrors = (errorSummary.sv || 0) + (errorSummary.wo || 0) + (errorSummary.art || 0);
-  if (gErrors >= 3) Grammar -= 1;
-  if (gErrors === 0 && metrics.avgSentence >= 12 && metrics.avgSentence <= 24) Grammar += 1;
-
-  let Vocabulary = base.Vocabulary;
-  if (metrics.ttr >= 0.45 && metrics.academicCount >= 6) Vocabulary += 1;
-  if (metrics.ttr < 0.28 || (repetition || []).length >= 3) Vocabulary -= 1;
-
-  let Organization = base.Organization;
-  if (metrics.paragraphs >= 3 && hasConclusion && uniqueLinkers.size >= 2) Organization += 1;
-  if (metrics.paragraphs < 3) Organization -= 1;
-
-  let Content = base.Content;
-  if (metrics.words >= 180 && hasExamples) Content += 1;
-  if (metrics.words < 120) Content -= 1;
-
-  let Mechanics = base.Mechanics;
+  const gErrors = (errorSummary.sv || 0) + (errorSummary.wo || 0) + (errorSummary.art || 0) + (errorSummary.tense || 0) + (errorSummary.prep || 0) + (errorSummary.pron || 0);
   const mErrors = (errorSummary.cap || 0) + (errorSummary.punc || 0);
-  if (mErrors >= 3) Mechanics -= 1;
-  if (mErrors === 0) Mechanics += 1;
+  const repetitionLoad = (repetition || []).length;
+
+  let Grammar = 1;
+  if (gErrors <= 1 && metrics.sentences >= 5 && metrics.avgSentence >= 10 && metrics.avgSentence <= 24) Grammar = 4;
+  else if (gErrors <= 3 && metrics.sentences >= 4 && metrics.avgSentence >= 9 && metrics.avgSentence <= 28) Grammar = 3;
+  else if (gErrors <= 6 && metrics.sentences >= 3) Grammar = 2;
+
+  let Vocabulary = 1;
+  if (metrics.ttr >= 0.5 && metrics.academicCount >= 8 && repetitionLoad <= 1 && (errorSummary.ww || 0) <= 1) Vocabulary = 4;
+  else if (metrics.ttr >= 0.43 && metrics.academicCount >= 4 && repetitionLoad <= 2 && (errorSummary.ww || 0) <= 2) Vocabulary = 3;
+  else if (metrics.ttr >= 0.35 && metrics.academicCount >= 2) Vocabulary = 2;
+
+  let Organization = 1;
+  if (metrics.paragraphs >= 3 && hasThesis && hasConclusion && uniqueLinkers.size >= 3) Organization = 4;
+  else if (metrics.paragraphs >= 3 && uniqueLinkers.size >= 2 && (hasThesis || hasConclusion)) Organization = 3;
+  else if (metrics.paragraphs >= 2 && metrics.sentences >= 4) Organization = 2;
+
+  let Content = 1;
+  if (metrics.words >= 180 && hasExamples && hasThesis) Content = 4;
+  else if (metrics.words >= 140 && hasExamples) Content = 3;
+  else if (metrics.words >= 100) Content = 2;
+
+  let Mechanics = 1;
+  if (mErrors === 0 && metrics.sentences >= 5) Mechanics = 4;
+  else if (mErrors <= 2) Mechanics = 3;
+  else if (mErrors <= 4) Mechanics = 2;
+
+  const levelFloor = Math.max(1, Math.min(2, Math.round(((base?.Content || 2) + (base?.Organization || 2)) / 4)));
 
   return {
-    Grammar: clamp(Grammar),
-    Vocabulary: clamp(Vocabulary),
-    Organization: clamp(Organization),
-    Content: clamp(Content),
-    Mechanics: clamp(Mechanics)
+    Grammar: Math.max(levelFloor, Grammar),
+    Vocabulary: Math.max(levelFloor, Vocabulary),
+    Organization: Math.max(levelFloor, Organization),
+    Content: Math.max(levelFloor, Content),
+    Mechanics: Math.max(levelFloor, Mechanics)
   };
 }
 
@@ -856,6 +865,8 @@ export function buildYS9Report(text, type = 'general', level = 'P2', meta = {}) 
 
   return {
     type,
+    raw_text: text || '',
+    prompt_text: meta?.prompt || '',
     bravo: t.bravo,
     inline_feedback: text || '',
     inline_segments: inlineSegments,

@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
-import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
+import Button from '../components/Button';
+import { colors, spacing, typography, radius } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { speakEnglish } from '../utils/ttsEnglish';
+import { isDemoAiConfigured, requestDemoModule } from '../utils/demoAi';
+import { getWordEntry, getWordFamily } from '../utils/dictionary';
+import { getAiSourceMeta } from '../utils/aiWorkspace';
+
+const STARTER_TERMS = ['significant', 'analyze', 'equilibrium', 'synthesis'];
 
 // Word Family: shows how a word transforms across parts of speech
 const DICTIONARY_API_MOCK = {
@@ -191,33 +197,129 @@ function HighlightedSentence({ sentence, keyword, style }) {
     );
 }
 
-export default function InteractiveVocabularyScreen({ navigation }) {
+export default function InteractiveVocabularyScreen({ navigation, route }) {
     const [query, setQuery] = useState('');
     const [isSearching, setIsSearching] = useState(false);
     const [result, setResult] = useState(null);
     const [errorMsg, setErrorMsg] = useState('');
+    const [source, setSource] = useState(isDemoAiConfigured('generic') ? 'online-ready' : 'offline');
+    const sourceMeta = getAiSourceMeta(source);
 
     const playAudio = (text) => {
         speakEnglish(text, { rate: 0.4 });
     };
+    const jumpToTerm = (term) => {
+        const value = String(term || '').trim().toLowerCase();
+        if (!value) return;
+        setQuery(value);
+        handleSearch(value);
+    };
 
-    const handleSearch = () => {
-        if (!query.trim()) return;
+    const normalizeEntry = (entry = {}, fallbackWord = '') => {
+        const word = String(entry.word || fallbackWord).toLowerCase();
+        const baseForms = Array.isArray(entry.forms) ? entry.forms.filter((f) => f && f.word).map((f) => ({
+            pos: String(f.pos || 'noun'),
+            word: String(f.word),
+        })) : [];
+        const family = getWordFamily(word, getWordEntry(word) || null);
+        const familyForms = [
+            ...(Array.isArray(family?.noun) ? family.noun.map((item) => ({ pos: 'noun', word: item })) : []),
+            ...(Array.isArray(family?.verb) ? family.verb.map((item) => ({ pos: 'verb', word: item })) : []),
+            ...(Array.isArray(family?.adjective) ? family.adjective.map((item) => ({ pos: 'adj', word: item })) : []),
+            ...(Array.isArray(family?.adverb) ? family.adverb.map((item) => ({ pos: 'adv', word: item })) : []),
+            ...(Array.isArray(family?.negative) ? family.negative.map((item) => ({ pos: 'negative', word: item })) : []),
+        ];
+        const seenForms = new Set();
+        const forms = [...baseForms, ...familyForms].filter((item) => {
+            const key = `${item.pos}:${String(item.word || '').toLowerCase()}`;
+            if (!item.word || seenForms.has(key)) return false;
+            seenForms.add(key);
+            return true;
+        });
+        return {
+            word,
+            phonetic: String(entry.phonetic || '/-/'),
+            partOfSpeech: String(entry.partOfSpeech || entry.pos || 'noun'),
+            definition: String(entry.definition || 'No definition available.'),
+            translation: String(entry.translation || 'N/A'),
+            synonyms: Array.isArray(entry.synonyms) ? entry.synonyms.filter(Boolean) : [],
+            antonyms: Array.isArray(entry.antonyms) ? entry.antonyms.filter(Boolean) : [],
+            forms,
+            examples: Array.isArray(entry.examples) ? entry.examples.filter((ex) => ex && ex.en).map((ex) => ({
+                en: String(ex.en),
+                tr: String(ex.tr || ''),
+            })) : [],
+        };
+    };
+
+    const buildLocalDictionaryEntry = useCallback((term) => {
+        const entry = getWordEntry(term);
+        if (!entry) return null;
+        const family = getWordFamily(term, entry);
+        const forms = [
+            ...(Array.isArray(family?.noun) ? family.noun.map((word) => ({ pos: 'noun', word })) : []),
+            ...(Array.isArray(family?.verb) ? family.verb.map((word) => ({ pos: 'verb', word })) : []),
+            ...(Array.isArray(family?.adjective) ? family.adjective.map((word) => ({ pos: 'adj', word })) : []),
+            ...(Array.isArray(family?.adverb) ? family.adverb.map((word) => ({ pos: 'adv', word })) : []),
+            ...(Array.isArray(family?.negative) ? family.negative.map((word) => ({ pos: 'negative', word })) : []),
+        ];
+        return normalizeEntry({
+            word: entry.word,
+            phonetic: '',
+            partOfSpeech: entry.word_type || 'noun',
+            definition: entry.simple_definition || 'No definition available.',
+            translation: '',
+            synonyms: entry.synonyms || [],
+            antonyms: entry.antonyms || [],
+            forms,
+            examples: Array.isArray(entry.examples)
+                ? entry.examples.map((en) => ({ en, tr: '' }))
+                : [],
+        }, term);
+    }, []);
+
+    const handleSearch = useCallback(async (forcedTerm = '') => {
+        const rawTerm = String(forcedTerm || query).trim();
+        if (!rawTerm) return;
         setIsSearching(true);
         setResult(null);
         setErrorMsg('');
-
-        setTimeout(() => {
-            const term = query.toLowerCase().trim();
+        const term = rawTerm.toLowerCase();
+        setQuery(term);
+        try {
+            const payload = await requestDemoModule('interactive_dictionary', { term, include: ['forms', 'examples', 'synonyms'] });
+            const entry = payload?.entry || payload?.result || null;
+            if (entry && entry.word) {
+                setResult(normalizeEntry(entry, term));
+                setSource(payload?.source || 'online');
+                setIsSearching(false);
+                return;
+            }
+        } catch (_) {
+            // fall through to offline fallback
+        }
+        const localEntry = buildLocalDictionaryEntry(term);
+        if (localEntry) {
+            setResult(localEntry);
+            setSource('local-dictionary');
+        } else {
             const res = DICTIONARY_API_MOCK[term];
             if (res) {
-                setResult(res);
+                setResult(normalizeEntry(res, term));
+                setSource('legacy-fallback');
             } else {
                 setErrorMsg(`No academic entry found for "${query}". Try: history, analyze, significant, paradigm, synthesis, empirical.`);
             }
-            setIsSearching(false);
-        }, 800);
-    };
+        }
+        setIsSearching(false);
+    }, [buildLocalDictionaryEntry, query]);
+
+    useEffect(() => {
+        const initialTerm = String(route?.params?.initialTerm || '').trim();
+        if (!initialTerm) return;
+        setQuery(initialTerm);
+        handleSearch(initialTerm);
+    }, [handleSearch, route?.params?.initialTerm]);
 
     const POS_COLORS = {
         // short labels (used in new entries)
@@ -234,7 +336,7 @@ export default function InteractiveVocabularyScreen({ navigation }) {
     };
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
@@ -242,13 +344,61 @@ export default function InteractiveVocabularyScreen({ navigation }) {
                 <View>
                     <Text style={styles.pageTitle}>Interactive Vocab</Text>
                     <Text style={styles.pageSub}>Academic Dictionary API</Text>
+                    <Text style={styles.sourceText}>Result source: {source}</Text>
                 </View>
             </View>
 
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : null}>
+            <Card style={styles.heroCard} glow>
+                <View style={styles.heroHeader}>
+                    <View style={styles.heroCopy}>
+                        <Text style={styles.heroEyebrow}>Deep Lookup</Text>
+                        <Text style={styles.heroTitle}>Inspect one academic word in depth before you reuse it.</Text>
+                        <Text style={styles.heroBody}>
+                            Word family, synonyms, antonyms, and bilingual examples are kept on one screen so you can judge fit, not just meaning.
+                        </Text>
+                    </View>
+                    <View style={styles.heroMetric}>
+                        <Text style={styles.heroMetricValue}>{source === 'offline' ? 'Local' : 'Live'}</Text>
+                        <Text style={styles.heroMetricLabel}>Source</Text>
+                    </View>
+                </View>
+                <View style={styles.heroActionRow}>
+                    <Button label="Synonym Finder" variant="secondary" icon="git-compare-outline" onPress={() => navigation.navigate('SynonymFinder')} />
+                    <Button label="Vocab Hub" variant="ghost" icon="grid-outline" onPress={() => navigation.navigate('Vocab', { initialSection: 'Dictionary' })} />
+                </View>
+                <View style={styles.quickChipRow}>
+                    {STARTER_TERMS.map((term) => (
+                        <TouchableOpacity key={term} style={styles.quickChip} onPress={() => handleSearch(term)}>
+                            <Text style={styles.quickChipText}>{term}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+                <View style={{ marginTop: spacing.md }}>
+                    <Button label="Study with Flashcards" variant="secondary" icon="albums-outline" onPress={() => navigation.navigate('VocabFlashcard', { initialWords: result ? [result.word, ...result.synonyms] : STARTER_TERMS })} />
+                </View>
+            </Card>
+
+            <Card style={styles.workspaceCard}>
+                <View style={styles.workspaceHead}>
+                    <View style={styles.workspaceCopy}>
+                        <Text style={styles.workspaceTitle}>{sourceMeta.label}</Text>
+                        <Text style={styles.workspaceBody}>{sourceMeta.detail}</Text>
+                    </View>
+                    <View style={styles.workspaceMetric}>
+                        <Text style={styles.workspaceMetricValue}>{result?.forms?.length || 0}</Text>
+                        <Text style={styles.workspaceMetricLabel}>Family</Text>
+                    </View>
+                </View>
+                <View style={styles.heroActionRow}>
+                    <Button label="Demo Hub" variant="ghost" icon="sparkles-outline" onPress={() => navigation.navigate('DemoFeatures')} />
+                    <Button label="Search analyze" variant="secondary" icon="search-outline" onPress={() => jumpToTerm('analyze')} />
+                </View>
+            </Card>
+
+            <KeyboardAvoidingView style={styles.keyboard} behavior={Platform.OS === 'ios' ? 'padding' : null}>
                 <View style={styles.searchWrap}>
                     <View style={styles.searchInputContainer}>
-                        <Ionicons name="search" size={20} color={colors.muted} style={{ marginLeft: spacing.md }} />
+                        <Ionicons name="search" size={20} color={colors.muted} style={styles.searchIcon} />
                         <TextInput
                             style={styles.searchInput}
                             placeholder="e.g. equilibrium, paradigm..."
@@ -260,7 +410,7 @@ export default function InteractiveVocabularyScreen({ navigation }) {
                             autoCorrect={false}
                         />
                         {query.length > 0 && (
-                            <TouchableOpacity onPress={() => { setQuery(''); setResult(null); setErrorMsg(''); }} style={{ padding: spacing.sm }}>
+                            <TouchableOpacity onPress={() => { setQuery(''); setResult(null); setErrorMsg(''); }} style={styles.searchClearButton}>
                                 <Ionicons name="close-circle" size={20} color={colors.muted} />
                             </TouchableOpacity>
                         )}
@@ -277,9 +427,9 @@ export default function InteractiveVocabularyScreen({ navigation }) {
                     )}
 
                     {!isSearching && errorMsg ? (
-                        <Card style={{ backgroundColor: 'rgba(231,76,60,0.1)', borderColor: colors.error, borderWidth: 1, padding: spacing.md, alignItems: 'center' }}>
-                            <Ionicons name="alert-circle" size={24} color={colors.error} style={{ marginBottom: 8 }} />
-                            <Text style={{ color: colors.error, fontSize: 13, textAlign: 'center' }}>{errorMsg}</Text>
+                        <Card style={styles.errorCard}>
+                            <Ionicons name="alert-circle" size={24} color={colors.error} style={styles.errorIcon} />
+                            <Text style={styles.errorText}>{errorMsg}</Text>
                         </Card>
                     ) : null}
 
@@ -287,12 +437,12 @@ export default function InteractiveVocabularyScreen({ navigation }) {
                         <Card style={styles.resultCard} glow>
                             {/* ── Header Row ── */}
                             <View style={styles.topRow}>
-                                <View style={{ flex: 1 }}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 8, marginBottom: 4 }}>
+                                <View style={styles.resultHeaderCopy}>
+                                    <View style={styles.titleRow}>
                                         <Text style={styles.wordText}>{result.word}</Text>
                                         <Text style={styles.phoneticText}>{result.phonetic}</Text>
                                     </View>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                                    <View style={styles.titleMetaRow}>
                                         <View style={styles.posBadge}>
                                             <Text style={styles.posText}>{result.partOfSpeech}</Text>
                                         </View>
@@ -311,6 +461,27 @@ export default function InteractiveVocabularyScreen({ navigation }) {
 
                             <View style={styles.divider} />
 
+                            <View style={styles.resultQuickRow}>
+                                <Button label="Hear Word" variant="secondary" icon="volume-high-outline" onPress={() => playAudio(result.word)} />
+                                <Button label="Synonym Finder" variant="ghost" icon="git-compare-outline" onPress={() => navigation.navigate('SynonymFinder', { term: result.word })} />
+                                <Button label="Vocab Hub" variant="ghost" icon="grid-outline" onPress={() => navigation.navigate('Vocab', { initialSection: 'Dictionary' })} />
+                            </View>
+
+                            <View style={styles.moduleMetaRow}>
+                                <View style={styles.moduleMetaPill}>
+                                    <Ionicons name="git-branch-outline" size={12} color={colors.muted} />
+                                    <Text style={styles.moduleMetaText}>{result.forms.length} forms</Text>
+                                </View>
+                                <View style={styles.moduleMetaPill}>
+                                    <Ionicons name="swap-horizontal-outline" size={12} color={colors.muted} />
+                                    <Text style={styles.moduleMetaText}>{result.synonyms.length} synonyms</Text>
+                                </View>
+                                <View style={styles.moduleMetaPill}>
+                                    <Ionicons name="chatbox-ellipses-outline" size={12} color={colors.muted} />
+                                    <Text style={styles.moduleMetaText}>{result.examples.length} examples</Text>
+                                </View>
+                            </View>
+
                             {/* ── Word Family / Forms ── */}
                             {result.forms && result.forms.length > 0 && (
                                 <View style={styles.sectionRow}>
@@ -325,7 +496,7 @@ export default function InteractiveVocabularyScreen({ navigation }) {
                                             return (
                                                 <TouchableOpacity
                                                     key={i}
-                                                    onPress={() => playAudio(f.word)}
+                                                    onPress={() => jumpToTerm(f.word)}
                                                     style={[styles.formRow, isMain && styles.formRowMain]}
                                                     activeOpacity={0.7}
                                                 >
@@ -336,7 +507,7 @@ export default function InteractiveVocabularyScreen({ navigation }) {
                                                     <View style={[styles.formPosBadge, { backgroundColor: posColor + '22', borderColor: posColor + '55' }]}>
                                                         <Text style={[styles.formPosText, { color: posColor }]}>{f.pos}</Text>
                                                     </View>
-                                                    <Ionicons name="volume-high-outline" size={14} color={colors.muted} style={{ marginLeft: spacing.sm, opacity: 0.4 }} />
+                                                    <Ionicons name="volume-high-outline" size={14} color={colors.muted} style={styles.formSpeakerIcon} />
                                                 </TouchableOpacity>
                                             );
                                         })}
@@ -352,12 +523,12 @@ export default function InteractiveVocabularyScreen({ navigation }) {
                                     <Ionicons name="swap-horizontal-outline" size={14} color={colors.muted} />
                                     <Text style={styles.sectionLabel}>Synonyms</Text>
                                 </View>
-                                <View style={styles.tagWrap}>
-                                    {result.synonyms.map(s => (
-                                        <TouchableOpacity key={s} onPress={() => playAudio(s)} style={styles.tag} activeOpacity={0.6}>
-                                            <Text style={styles.tagTxt}>{s}</Text>
-                                        </TouchableOpacity>
-                                    ))}
+                                    <View style={styles.tagWrap}>
+                                        {result.synonyms.map(s => (
+                                            <TouchableOpacity key={s} onPress={() => jumpToTerm(s)} style={styles.tag} activeOpacity={0.6}>
+                                                <Text style={styles.tagTxt}>{s}</Text>
+                                            </TouchableOpacity>
+                                        ))}
                                     {result.synonyms.length === 0 && <Text style={styles.emptyText}>None found</Text>}
                                 </View>
                             </View>
@@ -368,12 +539,12 @@ export default function InteractiveVocabularyScreen({ navigation }) {
                                     <Ionicons name="close-circle-outline" size={14} color={colors.muted} />
                                     <Text style={styles.sectionLabel}>Antonyms</Text>
                                 </View>
-                                <View style={styles.tagWrap}>
-                                    {result.antonyms.map(a => (
-                                        <TouchableOpacity key={a} onPress={() => playAudio(a)} style={[styles.tag, { backgroundColor: 'rgba(231,76,60,0.1)' }]} activeOpacity={0.6}>
-                                            <Text style={[styles.tagTxt, { color: colors.error }]}>{a}</Text>
-                                        </TouchableOpacity>
-                                    ))}
+                                    <View style={styles.tagWrap}>
+                                        {result.antonyms.map(a => (
+                                            <TouchableOpacity key={a} onPress={() => jumpToTerm(a)} style={styles.antonymTag} activeOpacity={0.6}>
+                                                <Text style={styles.antonymTagText}>{a}</Text>
+                                            </TouchableOpacity>
+                                        ))}
                                     {result.antonyms.length === 0 && <Text style={styles.emptyText}>None found</Text>}
                                 </View>
                             </View>
@@ -396,7 +567,7 @@ export default function InteractiveVocabularyScreen({ navigation }) {
                                         <View style={styles.exampleNumBadge}>
                                             <Text style={styles.exampleNum}>{idx + 1}</Text>
                                         </View>
-                                        <View style={{ flex: 1 }}>
+                                        <View style={styles.exampleCopy}>
                                             <HighlightedSentence
                                                 sentence={ex.en}
                                                 keyword={result.word}
@@ -404,7 +575,7 @@ export default function InteractiveVocabularyScreen({ navigation }) {
                                             />
                                             <Text style={styles.exampleTr}>{ex.tr}</Text>
                                         </View>
-                                        <Ionicons name="volume-high" size={14} color={colors.muted} style={{ marginLeft: 6, opacity: 0.5 }} />
+                                        <Ionicons name="volume-high" size={14} color={colors.muted} style={styles.exampleSpeakerIcon} />
                                     </TouchableOpacity>
                                 ))}
                             </View>
@@ -433,22 +604,166 @@ export default function InteractiveVocabularyScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
+    keyboard: { flex: 1 },
     header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
     backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+    heroCard: {
+        marginHorizontal: spacing.xl,
+        marginBottom: spacing.md,
+        backgroundColor: '#0F3F7F',
+        borderColor: '#0F3F7F',
+    },
+    heroHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        gap: spacing.md,
+        marginBottom: spacing.md,
+    },
+    heroCopy: {
+        flex: 1,
+    },
+    heroEyebrow: {
+        fontSize: typography.xsmall,
+        color: '#BFDBFE',
+        fontFamily: typography.fontHeadline,
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+        marginBottom: spacing.xs,
+    },
+    heroTitle: {
+        fontSize: typography.h3,
+        color: '#FFFFFF',
+        fontFamily: typography.fontHeadline,
+        marginBottom: spacing.xs,
+    },
+    heroBody: {
+        fontSize: typography.small,
+        color: '#DBEAFE',
+        lineHeight: 20,
+    },
+    heroMetric: {
+        minWidth: 84,
+        borderRadius: radius.lg,
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.14)',
+        backgroundColor: 'rgba(255,255,255,0.10)',
+        paddingHorizontal: spacing.sm,
+        paddingVertical: spacing.sm,
+        alignItems: 'center',
+    },
+    heroMetricValue: {
+        fontSize: typography.body,
+        color: '#FFFFFF',
+        fontFamily: typography.fontHeadline,
+    },
+    heroMetricLabel: {
+        marginTop: 2,
+        fontSize: typography.xsmall,
+        color: '#BFDBFE',
+        textTransform: 'uppercase',
+    },
+    heroActionRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: spacing.sm,
+        marginBottom: spacing.sm,
+    },
+    workspaceCard: {
+        marginHorizontal: spacing.xl,
+        marginBottom: spacing.md,
+        backgroundColor: '#F8FBFF',
+        borderColor: '#D7E4FA',
+    },
+    workspaceHead: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        gap: spacing.md,
+        marginBottom: spacing.sm,
+    },
+    workspaceCopy: {
+        flex: 1,
+    },
+    workspaceTitle: {
+        fontSize: typography.body,
+        color: colors.primaryDark,
+        fontFamily: typography.fontHeadline,
+        marginBottom: 4,
+    },
+    workspaceBody: {
+        fontSize: typography.small,
+        color: colors.muted,
+        lineHeight: 20,
+    },
+    workspaceMetric: {
+        minWidth: 84,
+        borderRadius: radius.lg,
+        borderWidth: 1,
+        borderColor: '#D7E4FA',
+        backgroundColor: '#FFFFFF',
+        paddingHorizontal: spacing.sm,
+        paddingVertical: spacing.sm,
+        alignItems: 'center',
+    },
+    workspaceMetricValue: {
+        fontSize: typography.body,
+        color: colors.primaryDark,
+        fontFamily: typography.fontHeadline,
+    },
+    workspaceMetricLabel: {
+        marginTop: 2,
+        fontSize: typography.xsmall,
+        color: colors.muted,
+        textTransform: 'uppercase',
+    },
+    quickChipRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: spacing.xs,
+    },
+    quickChip: {
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.16)',
+        backgroundColor: 'rgba(255,255,255,0.10)',
+        borderRadius: 999,
+        paddingHorizontal: spacing.sm,
+        paddingVertical: 6,
+    },
+    quickChipText: {
+        fontSize: typography.small,
+        color: '#DBEAFE',
+        fontFamily: typography.fontHeadline,
+    },
     pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
     pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+    sourceText: { fontSize: 12, color: colors.muted, marginTop: 2 },
 
     searchWrap: { paddingHorizontal: spacing.xl, paddingVertical: spacing.md, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)' },
     searchInputContainer: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.04)', borderRadius: radius.pill, height: 44, paddingRight: spacing.sm },
+    searchIcon: { marginLeft: spacing.md },
     searchInput: { flex: 1, height: '100%', paddingHorizontal: spacing.sm, fontSize: 15, fontFamily: typography.fontHeadline, color: colors.text },
+    searchClearButton: { padding: spacing.sm },
 
     list: { paddingHorizontal: spacing.xl, paddingTop: spacing.md, paddingBottom: spacing.xxl },
 
     loadingBox: { padding: spacing.xxl, alignItems: 'center', justifyContent: 'center' },
     loadingText: { marginTop: spacing.md, color: colors.primaryDark, fontWeight: '700' },
+    errorCard: {
+        backgroundColor: 'rgba(231,76,60,0.1)',
+        borderColor: colors.error,
+        borderWidth: 1,
+        padding: spacing.md,
+        alignItems: 'center',
+    },
+    errorIcon: { marginBottom: 8 },
+    errorText: { color: colors.error, fontSize: 13, textAlign: 'center' },
 
     resultCard: { padding: spacing.xl, borderRadius: radius.lg },
     topRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: spacing.md },
+    resultHeaderCopy: { flex: 1 },
+    titleRow: { flexDirection: 'row', alignItems: 'flex-end', gap: 8, marginBottom: 4 },
+    titleMetaRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
     wordText: { fontSize: 28, fontFamily: typography.fontHeadline, fontWeight: '900', color: colors.text, textTransform: 'capitalize' },
     phoneticText: { fontSize: 13, color: colors.muted, fontFamily: 'Courier', marginBottom: 4 },
     posBadge: { backgroundColor: colors.accent, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 },
@@ -460,6 +775,10 @@ const styles = StyleSheet.create({
     definitionTxt: { fontSize: 15, color: colors.text, lineHeight: 22, fontStyle: 'italic' },
 
     divider: { height: 1, backgroundColor: 'rgba(0,0,0,0.05)', marginVertical: spacing.md },
+    resultQuickRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginBottom: spacing.md },
+    moduleMetaRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginBottom: spacing.md },
+    moduleMetaPill: { flexDirection: 'row', alignItems: 'center', gap: 5, borderWidth: 1, borderColor: '#D7E4FA', borderRadius: radius.pill, backgroundColor: '#F8FBFF', paddingHorizontal: 10, paddingVertical: 6 },
+    moduleMetaText: { fontSize: 11, color: colors.muted, fontWeight: '700' },
 
     sectionRow: { marginBottom: spacing.lg },
     sectionLabelRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: spacing.sm },
@@ -475,20 +794,25 @@ const styles = StyleSheet.create({
     formWordMain: { color: colors.primaryDark, fontWeight: '900' },
     formPosBadge: { borderWidth: 1, borderRadius: radius.sm, paddingHorizontal: 8, paddingVertical: 3 },
     formPosText: { fontSize: 11, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.4 },
+    formSpeakerIcon: { marginLeft: spacing.sm, opacity: 0.4 },
 
     // Synonyms / Antonyms
     tagWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
     tag: { backgroundColor: colors.primarySoft, paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill },
     tagTxt: { fontSize: 14, fontWeight: '700', color: colors.primaryDark },
+    antonymTag: { backgroundColor: 'rgba(231,76,60,0.1)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill },
+    antonymTagText: { fontSize: 14, fontWeight: '700', color: colors.error },
     emptyText: { fontSize: 13, color: colors.muted, fontStyle: 'italic' },
 
     // Example Sentences
     exampleBox: { flexDirection: 'row', alignItems: 'flex-start', backgroundColor: 'rgba(59,130,246,0.04)', borderLeftWidth: 3, borderLeftColor: colors.primary, paddingVertical: spacing.md, paddingHorizontal: spacing.md, borderRadius: radius.sm, marginBottom: spacing.md },
     exampleNumBadge: { width: 20, height: 20, borderRadius: 10, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center', marginRight: spacing.sm, marginTop: 2, flexShrink: 0 },
     exampleNum: { fontSize: 11, fontWeight: '900', color: '#fff' },
+    exampleCopy: { flex: 1 },
     exampleEn: { fontSize: 15, color: colors.text, lineHeight: 22, marginBottom: 4 },
     exampleKeyword: { fontWeight: '900', color: colors.primaryDark, textDecorationLine: 'underline' },
     exampleTr: { fontSize: 13, color: colors.muted, lineHeight: 18, fontStyle: 'italic' },
+    exampleSpeakerIcon: { marginLeft: 6, opacity: 0.5 },
 
     // Empty State
     emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 60, paddingHorizontal: spacing.xl },

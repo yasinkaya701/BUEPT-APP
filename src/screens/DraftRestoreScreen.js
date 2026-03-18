@@ -8,7 +8,7 @@ export default function DraftRestoreScreen({ navigation, route }) {
   const draftText = route?.params?.draftText || '';
 
   return (
-    <Screen contentStyle={styles.container}>
+    <Screen scroll contentStyle={styles.container}>
       <Text style={styles.h1}>Restore Draft</Text>
       <Text style={styles.body}>Do you want to restore this draft?</Text>
       <Text style={styles.preview} numberOfLines={6}>{draftText}</Text>

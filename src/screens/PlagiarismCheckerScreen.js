@@ -1,230 +1,342 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Animated } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// Dummy database phrases representing common plagiarized structures
-const PLAGIARIZED_PHRASES = [
-    "according to recent studies",
-    "has become a global issue",
-    "it is widely believed that",
-    "in the modern world today",
-    "researchers have found that",
-    "there is no doubt that",
-    "playing a crucial role in",
-    "the most important factor"
+const RISK_PHRASES = [
+    'according to recent studies',
+    'has become a global issue',
+    'it is widely believed that',
+    'researchers have found that',
+    'there is no doubt that',
+    'playing a crucial role in',
+    'the most important factor',
 ];
 
-const MOCK_URLS = [
-    "https://academic-journals.org/article/",
-    "https://en.wikipedia.org/wiki/",
-    "https://student-essay-bank.com/view/",
-    "https://researchgate.net/publication/"
+const SOURCE_BANK = [
+    'https://academic-journals.org/article/',
+    'https://researchgate.net/publication/',
+    'https://library-index.edu/source/',
+    'https://student-essay-bank.com/view/',
 ];
+
+const SAMPLE_DOCUMENTS = [
+    {
+        id: 'risk',
+        label: 'High-risk sample',
+        text: 'According to recent studies, social media has become a global issue for university students. There is no doubt that it is widely believed that digital platforms are playing a crucial role in academic life. Researchers have found that the most important factor is access to fast online communication.',
+    },
+    {
+        id: 'clean',
+        label: 'Safer sample',
+        text: 'Many university students use digital platforms to coordinate group work, but the academic value of these tools depends on how deliberately they are used. When tasks require reflection, evidence, and citation, technology can support learning rather than replace it.',
+    },
+];
+
+function sentenceSplit(text = '') {
+    return String(text || '')
+        .split(/(?<=[.!?])\s+/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+}
+
+function buildSourceUrl(index = 0) {
+    const prefix = SOURCE_BANK[index % SOURCE_BANK.length];
+    return `${prefix}${String(index + 1).padStart(4, '0')}`;
+}
+
+function analyzeDocument(text = '') {
+    const cleanText = String(text || '').trim();
+    const sentences = sentenceSplit(cleanText);
+    const totalWords = cleanText ? cleanText.split(/\s+/).filter(Boolean).length : 0;
+
+    const flags = [];
+    let matchedWordCount = 0;
+    let citationRiskCount = 0;
+
+    sentences.forEach((sentence, sentenceIndex) => {
+        const lowerSentence = sentence.toLowerCase();
+        RISK_PHRASES.forEach((phrase, phraseIndex) => {
+            if (lowerSentence.includes(phrase)) {
+                const matchWords = phrase.split(/\s+/).length;
+                matchedWordCount += matchWords;
+                flags.push({
+                    id: `${sentenceIndex}-${phraseIndex}`,
+                    sentence,
+                    match: phrase,
+                    url: buildSourceUrl(sentenceIndex + phraseIndex),
+                    type: 'exact',
+                });
+            }
+        });
+
+        const looksCited = /\(|\)|\[|\]|et al\.|doi|202\d|19\d\d/.test(sentence);
+        const claimsSource = /(according to|research|stud(y|ies)|report|article|survey|paper)/i.test(sentence);
+        if (claimsSource && !looksCited) {
+            citationRiskCount += 1;
+            flags.push({
+                id: `citation-${sentenceIndex}`,
+                sentence,
+                match: 'Citation signal without attribution',
+                url: 'Add source attribution or rewrite with your own evidence trail.',
+                type: 'citation',
+            });
+        }
+    });
+
+    const phraseSimilarity = totalWords ? (matchedWordCount / totalWords) * 100 : 0;
+    const citationPenalty = citationRiskCount * 4;
+    const similarity = Math.min(100, Math.round((phraseSimilarity + citationPenalty) * 10) / 10);
+    const originality = Math.max(0, Math.round((100 - similarity) * 10) / 10);
+    const flaggedSentences = new Set(flags.map((item) => item.sentence)).size;
+
+    let riskBand = 'Low risk';
+    if (similarity >= 20) riskBand = 'High risk';
+    else if (similarity >= 10) riskBand = 'Medium risk';
+
+    return {
+        similarity,
+        originality,
+        riskBand,
+        flags,
+        totalSentences: sentences.length,
+        totalWords,
+        flaggedSentences,
+        citationRiskCount,
+    };
+}
 
 export default function PlagiarismCheckerScreen({ navigation }) {
     const [text, setText] = useState('');
-    const [scanState, setScanState] = useState('idle'); // idle, scanning, result
+    const [scanState, setScanState] = useState('idle');
     const [scanProgress, setScanProgress] = useState(0);
     const [results, setResults] = useState(null);
 
-    // Animation values
-    const progressAnim = useState(new Animated.Value(0))[0];
-
-    const finalizeScan = useCallback(() => {
-        const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-        let flags = [];
-        let totalWords = text.split(/\s+/).length;
-        let plagiarizedWords = 0;
-
-        sentences.forEach((s, idx) => {
-            const cleanS = s.toLowerCase().trim();
-            PLAGIARIZED_PHRASES.forEach(phrase => {
-                if (cleanS.includes(phrase)) {
-                    // Generate a random convincing URL
-                    const sourceUrl = MOCK_URLS[Math.floor(Math.random() * MOCK_URLS.length)] + Math.random().toString(36).substring(7);
-
-                    // Determine if it's an exact match (Red) or paraphrased (Yellow)
-                    const matchType = Math.random() > 0.3 ? 'exact' : 'paraphrased';
-
-                    flags.push({ sentence: s.trim(), match: phrase, id: idx, url: sourceUrl, type: matchType });
-                    plagiarizedWords += phrase.split(' ').length;
-                }
-            });
-        });
-
-        // Add some random noise to similarity if length is decent
-        let simScore = (plagiarizedWords / totalWords) * 100;
-        if (flags.length === 0 && totalWords > 20) {
-            simScore = Math.random() * 5; // Natural coincidence baseline
-        } else if (simScore > 100) simScore = 100;
-
-        setResults({
-            similarity: simScore.toFixed(1),
-            flags,
-            totalSentences: sentences.length
-        });
-
-        setTimeout(() => setScanState('result'), 500);
-    }, [text]);
-
     useEffect(() => {
-        if (scanState === 'scanning') {
-            let prog = 0;
-            const interval = setInterval(() => {
-                prog += Math.random() * 15;
-                if (prog >= 100) {
-                    prog = 100;
-                    clearInterval(interval);
-                    finalizeScan();
-                }
-                setScanProgress(Math.min(prog, 100));
+        if (scanState !== 'scanning') return undefined;
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 20;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                setScanProgress(progress);
+                setResults(analyzeDocument(text));
+                setScanState('result');
+                return;
+            }
+            setScanProgress(progress);
+        }, 220);
+        return () => clearInterval(interval);
+    }, [scanState, text]);
 
-                Animated.timing(progressAnim, {
-                    toValue: Math.min(prog, 100),
-                    duration: 300,
-                    useNativeDriver: false
-                }).start();
-
-            }, 400);
-            return () => clearInterval(interval);
-        }
-    }, [scanState, finalizeScan, progressAnim]);
+    const samplePreview = useMemo(
+        () => analyzeDocument(SAMPLE_DOCUMENTS[0].text),
+        [],
+    );
 
     const startScan = () => {
-        setScanState('scanning');
-        progressAnim.setValue(0);
-        setScanProgress(0);
         setResults(null);
+        setScanProgress(0);
+        setScanState('scanning');
     };
 
+    const loadSample = (sampleText) => {
+        setText(sampleText);
+        setResults(null);
+        setScanState('idle');
+        setScanProgress(0);
+    };
+
+    const progressStyle = { width: `${scanProgress}%` };
+    const riskTone = results?.similarity > 15 ? 'high' : results?.similarity >= 10 ? 'medium' : 'low';
+    const scoreCircleStyle = riskTone === 'high' ? styles.scoreCircleHigh : riskTone === 'medium' ? styles.scoreCircleMedium : styles.scoreCircleLow;
+    const scoreTextStyle = riskTone === 'high' ? styles.scoreTextHigh : riskTone === 'medium' ? styles.scoreTextMedium : styles.scoreTextLow;
+
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
                 </TouchableOpacity>
                 <View>
                     <Text style={styles.pageTitle}>Plagiarism Shield</Text>
-                    <Text style={styles.pageSub}>Academic Database Scanner</Text>
+                    <Text style={styles.pageSub}>Integrity Review Workspace</Text>
                 </View>
             </View>
 
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : null}>
+            <KeyboardAvoidingView style={styles.keyboard} behavior={Platform.OS === 'ios' ? 'padding' : null}>
                 <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+                    <Card style={styles.heroCard}>
+                        <View style={styles.heroHead}>
+                            <View style={styles.heroCopy}>
+                                <Text style={styles.heroEyebrow}>Demo Tool</Text>
+                                <Text style={styles.heroTitle}>Similarity triage</Text>
+                                <Text style={styles.heroBody}>
+                                    Run a deterministic local integrity scan, inspect flagged sentences, and jump directly into revision when the draft needs repair.
+                                </Text>
+                            </View>
+                            <View style={styles.heroMetric}>
+                                <Text style={styles.heroMetricValue}>{samplePreview.similarity}%</Text>
+                                <Text style={styles.heroMetricLabel}>Sample risk</Text>
+                            </View>
+                        </View>
+                        <View style={styles.heroActionRow}>
+                            <Button label="Use High-risk Sample" variant="ghost" icon="document-text-outline" onPress={() => loadSample(SAMPLE_DOCUMENTS[0].text)} />
+                            <Button label="Demo Hub" variant="secondary" icon="sparkles-outline" onPress={() => navigation.navigate('DemoFeatures')} />
+                        </View>
+                        <View style={styles.quickChipRow}>
+                            {SAMPLE_DOCUMENTS.map((sample) => (
+                                <TouchableOpacity key={sample.id} style={styles.quickChip} onPress={() => loadSample(sample.text)}>
+                                    <Text style={styles.quickChipText}>{sample.label}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </Card>
 
-                    {scanState === 'idle' && (
+                    <Card style={styles.workspaceCard}>
+                        <View style={styles.workspaceHead}>
+                            <View style={styles.workspaceCopy}>
+                                <Text style={styles.workspaceTitle}>Local integrity engine</Text>
+                                <Text style={styles.workspaceBody}>
+                                    The scanner checks common borrowed phrase patterns and citation-risk signals. It is a triage tool for demo flows, not a final academic misconduct verdict.
+                                </Text>
+                            </View>
+                            <View style={styles.workspaceMetric}>
+                                <Text style={styles.workspaceMetricValue}>{RISK_PHRASES.length}</Text>
+                                <Text style={styles.workspaceMetricLabel}>Phrase rules</Text>
+                            </View>
+                        </View>
+                    </Card>
+
+                    {scanState === 'idle' ? (
                         <>
-                            <Card style={styles.infoBox} glow>
-                                <Ionicons name="shield-checkmark" size={24} color={colors.success} />
-                                <Text style={styles.infoText}>Paste your document below. We check against 14B+ web pages and academic journals.</Text>
-                            </Card>
-
-                            <Text style={styles.label}>Document Content:</Text>
+                            <Text style={styles.label}>Document Content</Text>
                             <TextInput
                                 style={styles.inputArea}
                                 multiline
-                                placeholder="Paste your essay here..."
+                                placeholder="Paste your essay or short response here..."
                                 value={text}
                                 onChangeText={setText}
                                 textAlignVertical="top"
                             />
 
-                            <Button
-                                label="Initiate Deep Scan"
-                                icon="scan-outline"
-                                onPress={startScan}
-                                style={{ marginTop: spacing.md }}
-                                disabled={text.trim().length < 15}
-                            />
+                            <View style={styles.ctaRow}>
+                                <Button
+                                    label="Run Integrity Scan"
+                                    icon="scan-outline"
+                                    onPress={startScan}
+                                    disabled={text.trim().length < 20}
+                                />
+                                <Button
+                                    label="Open Writing Lab"
+                                    variant="secondary"
+                                    icon="create-outline"
+                                    onPress={() => navigation.navigate('Writing')}
+                                />
+                            </View>
                         </>
-                    )}
+                    ) : null}
 
-                    {scanState === 'scanning' && (
-                        <View style={styles.scanningWrap}>
+                    {scanState === 'scanning' ? (
+                        <Card style={styles.scanningCard}>
                             <View style={styles.radarCircle}>
-                                <Ionicons name="scan" size={48} color={colors.primary} />
+                                <Ionicons name="scan" size={44} color={colors.primary} />
                             </View>
-                            <Text style={styles.scanTitle}>Scanning Repositories...</Text>
-                            <Text style={styles.scanSub}>Comparing phrase structures and exact matches.</Text>
-
+                            <Text style={styles.scanTitle}>Checking overlap patterns</Text>
+                            <Text style={styles.scanSub}>Reviewing phrase matches and source-signal sentences.</Text>
                             <View style={styles.progressBarBg}>
-                                <Animated.View style={[
-                                    styles.progressBarFill,
-                                    {
-                                        width: progressAnim.interpolate({
-                                            inputRange: [0, 100],
-                                            outputRange: ['0%', '100%']
-                                        })
-                                    }
-                                ]} />
+                                <View style={[styles.progressBarFill, progressStyle]} />
                             </View>
-                            <Text style={styles.scanPercent}>{Math.round(scanProgress)}% Complete</Text>
-                        </View>
-                    )}
+                            <Text style={styles.scanPercent}>{scanProgress}% Complete</Text>
+                        </Card>
+                    ) : null}
 
-                    {scanState === 'result' && results && (
+                    {scanState === 'result' && results ? (
                         <>
                             <View style={styles.resultHero}>
-                                <View style={[styles.scoreCircle, { borderColor: results.similarity > 15 ? colors.error : colors.success }]}>
-                                    <Text style={[styles.scoreText, { color: results.similarity > 15 ? colors.error : colors.success }]}>{results.similarity}%</Text>
-                                    <Text style={[styles.scoreSub, { color: results.similarity > 15 ? colors.error : colors.success }]}>Similarity</Text>
+                                <View style={[styles.scoreCircle, scoreCircleStyle]}>
+                                    <Text style={[styles.scoreText, scoreTextStyle]}>{results.similarity}%</Text>
+                                    <Text style={[styles.scoreSub, scoreTextStyle]}>{results.riskBand}</Text>
                                 </View>
                                 <View style={styles.heroTextWrap}>
-                                    <Text style={styles.heroTitle}>{results.similarity > 15 ? 'High Risk Detected' : 'Originality Verified'}</Text>
+                                    <Text style={styles.heroTitlePlain}>
+                                        {results.similarity >= 15 ? 'Revision needed before submission' : 'Low direct overlap detected'}
+                                    </Text>
                                     <Text style={styles.heroDesc}>
-                                        {results.similarity > 15
-                                            ? `We found ${results.flags.length} sentences matching existing external academic sources. Please paraphrase.`
-                                            : `This text appears highly original. The ${parseFloat(results.similarity)}% similarity comes from natural phrasing overlaps.`}
+                                        {results.similarity >= 15
+                                            ? `The scan found ${results.flags.length} flagged items. Rewrite repeated phrasing and add attribution where the draft makes source-based claims.`
+                                            : `The draft looks relatively safe. Review the flagged items to make sure evidence and citation language are still clear.`}
                                     </Text>
                                 </View>
                             </View>
 
-                            <Text style={styles.sectionHeader}>Flagged Sentences ({results.flags.length})</Text>
+                            <View style={styles.metricRow}>
+                                <Card style={styles.metricCard}>
+                                    <Text style={styles.metricValue}>{results.originality}%</Text>
+                                    <Text style={styles.metricLabel}>Originality</Text>
+                                </Card>
+                                <Card style={styles.metricCard}>
+                                    <Text style={styles.metricValue}>{results.flaggedSentences}</Text>
+                                    <Text style={styles.metricLabel}>Flagged sentences</Text>
+                                </Card>
+                                <Card style={styles.metricCard}>
+                                    <Text style={styles.metricValue}>{results.citationRiskCount}</Text>
+                                    <Text style={styles.metricLabel}>Citation risks</Text>
+                                </Card>
+                            </View>
 
+                            <Card style={styles.routeCard}>
+                                <Text style={styles.routeTitle}>Revision route</Text>
+                                <Text style={styles.routeBody}>
+                                    Fix repeated phrasing first, then add attribution, then re-scan. If the draft is for BUEPT writing practice, move directly into Writing after reviewing the flagged items.
+                                </Text>
+                                <View style={styles.ctaRow}>
+                                    <Button label="Open Writing Lab" variant="secondary" icon="create-outline" onPress={() => navigation.navigate('Writing')} />
+                                    <Button label="Scan Again" variant="ghost" icon="refresh-outline" onPress={() => setScanState('idle')} />
+                                </View>
+                            </Card>
+
+                            <Text style={styles.sectionHeader}>Flagged Sentences</Text>
                             {results.flags.length === 0 ? (
-                                <Card style={{ padding: spacing.md, alignItems: 'center', backgroundColor: colors.successLight }}>
-                                    <Ionicons name="checkmark-circle" size={32} color={colors.success} style={{ marginBottom: 8 }} />
-                                    <Text style={{ color: colors.successDark, fontWeight: '700' }}>No exact sentence structures flagged.</Text>
+                                <Card style={styles.safeCard}>
+                                    <Ionicons name="checkmark-circle" size={28} color={colors.success} />
+                                    <Text style={styles.safeTitle}>No direct phrase matches</Text>
+                                    <Text style={styles.safeBody}>Keep checking citation quality manually before submission.</Text>
                                 </Card>
                             ) : (
-                                results.flags.map((f, i) => (
-                                    <View key={i} style={[styles.flagCard, { borderColor: f.type === 'exact' ? 'rgba(231,76,60,0.3)' : 'rgba(243,156,18,0.3)', backgroundColor: f.type === 'exact' ? 'rgba(231,76,60,0.02)' : 'rgba(243,156,18,0.02)' }]}>
-                                        <View style={styles.flagHeaderRow}>
-                                            <View style={[styles.flagBadge, { backgroundColor: f.type === 'exact' ? 'rgba(231,76,60,0.1)' : 'rgba(243,156,18,0.1)' }]}>
-                                                <Ionicons name={f.type === 'exact' ? "warning" : "alert-circle"} size={14} color={f.type === 'exact' ? colors.error : '#f39c12'} />
-                                                <Text style={[styles.flagBadgeText, { color: f.type === 'exact' ? colors.error : '#f39c12' }]}>
-                                                    {f.type === 'exact' ? '100% Match' : 'Paraphrased'}
+                                results.flags.map((flag) => {
+                                    const isExact = flag.type === 'exact';
+                                    const flagCardStyle = isExact ? styles.flagCardExact : styles.flagCardCitation;
+                                    const flagBadgeStyle = isExact ? styles.flagBadgeExact : styles.flagBadgeCitation;
+                                    const flagBadgeTextStyle = isExact ? styles.flagBadgeTextExact : styles.flagBadgeTextCitation;
+                                    const flagSentenceHighlightStyle = isExact ? styles.flagSentenceHighlightExact : styles.flagSentenceHighlightCitation;
+                                    return (
+                                        <Card key={flag.id} style={[styles.flagCard, flagCardStyle]}>
+                                            <View style={styles.flagHeaderRow}>
+                                                <View style={[styles.flagBadge, flagBadgeStyle]}>
+                                                    <Ionicons name={isExact ? 'warning-outline' : 'alert-circle-outline'} size={14} color={isExact ? colors.error : '#B45309'} />
+                                                    <Text style={[styles.flagBadgeText, flagBadgeTextStyle]}>
+                                                        {isExact ? 'Phrase overlap' : 'Citation risk'}
+                                                    </Text>
+                                                </View>
+                                                <Text style={styles.flagUrl} numberOfLines={1}>
+                                                    {flag.url}
                                                 </Text>
                                             </View>
-                                            <TouchableOpacity style={styles.urlPill}>
-                                                <Ionicons name="link" size={12} color={colors.muted} />
-                                                <Text style={styles.urlText} numberOfLines={1} ellipsizeMode="tail">{f.url}</Text>
-                                            </TouchableOpacity>
-                                        </View>
-
-                                        {/* Highlighted text mapping to Turnitin style */}
-                                        <Text style={styles.flagSentence}>
-                                            ...<Text style={{ backgroundColor: f.type === 'exact' ? 'rgba(231,76,60,0.2)' : 'rgba(243,156,18,0.2)', color: f.type === 'exact' ? '#c0392b' : '#d35400', fontWeight: '500' }}>{f.sentence}</Text>...
-                                        </Text>
-                                    </View>
-                                ))
+                                            <Text style={styles.flagSentence}>
+                                                <Text style={flagSentenceHighlightStyle}>{flag.sentence}</Text>
+                                            </Text>
+                                            <Text style={styles.flagMatch}>Trigger: {flag.match}</Text>
+                                        </Card>
+                                    );
+                                })
                             )}
-
-                            <Button
-                                label="Scan Another Document"
-                                variant="secondary"
-                                icon="refresh"
-                                onPress={() => { setText(''); setScanState('idle'); setResults(null); }}
-                                style={{ marginTop: spacing.xl }}
-                            />
-                            <View style={{ height: 40 }} />
                         </>
-                    )}
-
+                    ) : null}
                 </ScrollView>
             </KeyboardAvoidingView>
         </Screen>
@@ -233,41 +345,216 @@ export default function PlagiarismCheckerScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
+    keyboard: { flex: 1 },
     header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
     backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
     pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
     pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
     scroll: { paddingHorizontal: spacing.xl, paddingBottom: spacing.xl },
 
-    infoBox: { flexDirection: 'row', alignItems: 'center', padding: spacing.md, borderRadius: radius.md, backgroundColor: colors.successLight, marginBottom: spacing.lg, gap: spacing.md, borderColor: colors.success, borderWidth: 1 },
-    infoText: { flex: 1, color: colors.successDark, fontSize: 13, lineHeight: 18, fontWeight: '600' },
-    label: { fontSize: typography.body, fontWeight: '700', color: colors.text, marginBottom: spacing.sm },
-    inputArea: { height: 250, backgroundColor: '#fff', borderRadius: radius.md, padding: spacing.md, borderWidth: 1, borderColor: colors.secondary, fontSize: typography.body, color: colors.text, ...shadow.sm },
+    heroCard: {
+        marginBottom: spacing.md,
+        backgroundColor: '#0F3F7F',
+        borderColor: '#0F3F7F',
+    },
+    heroHead: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        gap: spacing.md,
+        marginBottom: spacing.md,
+    },
+    heroCopy: { flex: 1 },
+    heroEyebrow: {
+        fontSize: typography.xsmall,
+        color: '#BFDBFE',
+        fontFamily: typography.fontHeadline,
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+        marginBottom: spacing.xs,
+    },
+    heroTitle: {
+        fontSize: typography.h3,
+        color: '#FFFFFF',
+        fontFamily: typography.fontHeadline,
+        marginBottom: spacing.xs,
+    },
+    heroBody: {
+        fontSize: typography.small,
+        color: '#DBEAFE',
+        lineHeight: 20,
+    },
+    heroMetric: {
+        minWidth: 90,
+        borderRadius: radius.lg,
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.14)',
+        backgroundColor: 'rgba(255,255,255,0.10)',
+        paddingHorizontal: spacing.sm,
+        paddingVertical: spacing.sm,
+        alignItems: 'center',
+    },
+    heroMetricValue: {
+        fontSize: typography.body,
+        color: '#FFFFFF',
+        fontFamily: typography.fontHeadline,
+    },
+    heroMetricLabel: {
+        marginTop: 2,
+        fontSize: typography.xsmall,
+        color: '#BFDBFE',
+        textTransform: 'uppercase',
+    },
+    heroActionRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: spacing.sm,
+        marginBottom: spacing.sm,
+    },
+    quickChipRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: spacing.xs,
+    },
+    quickChip: {
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.16)',
+        backgroundColor: 'rgba(255,255,255,0.10)',
+        borderRadius: 999,
+        paddingHorizontal: spacing.sm,
+        paddingVertical: 6,
+    },
+    quickChipText: {
+        fontSize: typography.small,
+        color: '#DBEAFE',
+        fontFamily: typography.fontHeadline,
+    },
 
-    // Scanning state
-    scanningWrap: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 80, paddingHorizontal: spacing.xl },
-    radarCircle: { width: 100, height: 100, borderRadius: 50, backgroundColor: colors.primarySoft, justifyContent: 'center', alignItems: 'center', marginBottom: spacing.lg },
+    workspaceCard: {
+        marginBottom: spacing.md,
+        backgroundColor: '#F8FBFF',
+        borderColor: '#D7E4FA',
+    },
+    workspaceHead: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        gap: spacing.md,
+    },
+    workspaceCopy: { flex: 1 },
+    workspaceTitle: {
+        fontSize: typography.body,
+        color: colors.primaryDark,
+        fontFamily: typography.fontHeadline,
+        marginBottom: 4,
+    },
+    workspaceBody: {
+        fontSize: typography.small,
+        color: colors.muted,
+        lineHeight: 20,
+    },
+    workspaceMetric: {
+        minWidth: 88,
+        borderRadius: radius.lg,
+        borderWidth: 1,
+        borderColor: '#D7E4FA',
+        backgroundColor: '#FFFFFF',
+        paddingHorizontal: spacing.sm,
+        paddingVertical: spacing.sm,
+        alignItems: 'center',
+    },
+    workspaceMetricValue: {
+        fontSize: typography.body,
+        color: colors.primaryDark,
+        fontFamily: typography.fontHeadline,
+    },
+    workspaceMetricLabel: {
+        marginTop: 2,
+        fontSize: typography.xsmall,
+        color: colors.muted,
+        textTransform: 'uppercase',
+    },
+
+    label: { fontSize: typography.body, fontWeight: '700', color: colors.text, marginBottom: spacing.sm },
+    inputArea: {
+        minHeight: 240,
+        backgroundColor: '#fff',
+        borderRadius: radius.md,
+        padding: spacing.md,
+        borderWidth: 1,
+        borderColor: colors.secondary,
+        fontSize: typography.body,
+        color: colors.text,
+        ...shadow.sm,
+        marginBottom: spacing.md,
+    },
+    ctaRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: spacing.sm,
+    },
+
+    scanningCard: {
+        alignItems: 'center',
+        paddingVertical: spacing.xxl,
+        paddingHorizontal: spacing.lg,
+    },
+    radarCircle: {
+        width: 96,
+        height: 96,
+        borderRadius: 48,
+        backgroundColor: colors.primarySoft,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: spacing.lg,
+    },
     scanTitle: { fontSize: typography.h3, fontWeight: '800', color: colors.text, marginBottom: 8 },
     scanSub: { fontSize: 13, color: colors.muted, textAlign: 'center', marginBottom: spacing.xl },
     progressBarBg: { width: '100%', height: 12, backgroundColor: 'rgba(0,0,0,0.05)', borderRadius: 6, overflow: 'hidden', marginBottom: spacing.sm },
     progressBarFill: { height: '100%', backgroundColor: colors.primary, borderRadius: 6 },
     scanPercent: { fontSize: 14, fontWeight: '800', color: colors.primaryDark },
 
-    // Result state
-    resultHero: { flexDirection: 'row', padding: spacing.lg, borderRadius: radius.xl, backgroundColor: '#fff', alignItems: 'center', marginBottom: spacing.xl, ...shadow.md, borderWidth: 1, borderColor: 'rgba(0,0,0,0.05)' },
-    scoreCircle: { width: 90, height: 90, borderRadius: 45, borderWidth: 4, justifyContent: 'center', alignItems: 'center', marginRight: spacing.md },
+    resultHero: { flexDirection: 'row', padding: spacing.lg, borderRadius: radius.xl, backgroundColor: '#fff', alignItems: 'center', marginBottom: spacing.md, ...shadow.md, borderWidth: 1, borderColor: 'rgba(0,0,0,0.05)' },
+    scoreCircle: { width: 94, height: 94, borderRadius: 47, borderWidth: 4, justifyContent: 'center', alignItems: 'center', marginRight: spacing.md },
+    scoreCircleLow: { borderColor: colors.success },
+    scoreCircleMedium: { borderColor: '#D97706' },
+    scoreCircleHigh: { borderColor: colors.error },
     scoreText: { fontSize: 24, fontWeight: '900' },
-    scoreSub: { fontSize: 9, fontWeight: '800', textTransform: 'uppercase' },
+    scoreTextLow: { color: colors.success },
+    scoreTextMedium: { color: '#D97706' },
+    scoreTextHigh: { color: colors.error },
+    scoreSub: { fontSize: 10, fontWeight: '800', textTransform: 'uppercase' },
     heroTextWrap: { flex: 1 },
-    heroTitle: { fontSize: typography.h3, fontWeight: '800', color: colors.text, marginBottom: 4 },
-    heroDesc: { fontSize: 13, color: colors.muted, lineHeight: 18 },
+    heroTitlePlain: { fontSize: typography.body, fontWeight: '800', color: colors.text, marginBottom: spacing.xs },
+    heroDesc: { fontSize: 13, color: colors.muted, lineHeight: 20 },
 
-    sectionHeader: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: spacing.md },
-    flagCard: { padding: spacing.md, borderRadius: radius.md, marginBottom: spacing.md, borderWidth: 1 },
-    flagHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.md },
-    flagBadge: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4, gap: 4 },
-    flagBadgeText: { fontSize: 11, fontWeight: '800', textTransform: 'uppercase' },
-    urlPill: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: 'rgba(0,0,0,0.03)', paddingHorizontal: 8, paddingVertical: 4, borderRadius: radius.pill, maxWidth: '60%' },
-    urlText: { fontSize: 10, color: colors.muted, fontWeight: '600' },
-    flagSentence: { fontSize: 15, color: colors.text, lineHeight: 24 }
+    metricRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginBottom: spacing.md },
+    metricCard: { flex: 1, minWidth: 96, alignItems: 'center', paddingVertical: spacing.md },
+    metricValue: { fontSize: 18, fontWeight: '900', color: colors.primaryDark },
+    metricLabel: { marginTop: 4, fontSize: 11, color: colors.muted, textTransform: 'uppercase', fontWeight: '700' },
+
+    routeCard: { marginBottom: spacing.md, backgroundColor: '#F8FBFF', borderColor: '#D7E4FA' },
+    routeTitle: { fontSize: typography.body, color: colors.primaryDark, fontFamily: typography.fontHeadline, marginBottom: spacing.xs },
+    routeBody: { fontSize: typography.small, color: colors.muted, lineHeight: 20, marginBottom: spacing.sm },
+
+    sectionHeader: { fontSize: typography.body, fontWeight: '800', color: colors.text, marginBottom: spacing.sm },
+    safeCard: { alignItems: 'center', paddingVertical: spacing.lg, gap: spacing.sm, backgroundColor: colors.successLight, borderColor: colors.success },
+    safeTitle: { fontSize: typography.body, color: colors.successDark, fontWeight: '800' },
+    safeBody: { fontSize: typography.small, color: colors.successDark, textAlign: 'center' },
+
+    flagCard: { marginBottom: spacing.sm, padding: spacing.md, borderWidth: 1 },
+    flagCardExact: { borderColor: 'rgba(231,76,60,0.25)', backgroundColor: 'rgba(231,76,60,0.03)' },
+    flagCardCitation: { borderColor: 'rgba(217,119,6,0.25)', backgroundColor: 'rgba(245,158,11,0.05)' },
+    flagHeaderRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm, marginBottom: spacing.sm },
+    flagBadge: { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: radius.pill, paddingHorizontal: 10, paddingVertical: 6 },
+    flagBadgeExact: { backgroundColor: 'rgba(231,76,60,0.1)' },
+    flagBadgeCitation: { backgroundColor: 'rgba(245,158,11,0.16)' },
+    flagBadgeText: { fontSize: 12, fontWeight: '800' },
+    flagBadgeTextExact: { color: colors.error },
+    flagBadgeTextCitation: { color: '#B45309' },
+    flagUrl: { flex: 1, fontSize: 11, color: colors.muted, textAlign: 'right' },
+    flagSentence: { fontSize: 14, color: colors.text, lineHeight: 22, marginBottom: spacing.xs },
+    flagSentenceHighlightExact: { backgroundColor: 'rgba(231,76,60,0.14)', color: '#C0392B', fontWeight: '700' },
+    flagSentenceHighlightCitation: { backgroundColor: 'rgba(245,158,11,0.14)', color: '#B45309', fontWeight: '700' },
+    flagMatch: { fontSize: 12, color: colors.muted, fontWeight: '700' },
 });

@@ -2,20 +2,38 @@
   {
     "id": "buept_general",
     "title": "BUEPT General Information (YADYOK)",
-    "note": "Official BUEPT page",
+    "note": "Official overview and announcements",
     "source_url": "https://yadyok.bogazici.edu.tr/en/pages/buept/2440"
   },
   {
     "id": "buept_test_content",
-    "title": "Test Content & Scoring (YADYOK)",
-    "note": "Official section descriptions and scoring",
+    "title": "Test Content and Scoring",
+    "note": "Official Listening / Reading / Writing format and scoring notes",
     "source_url": "https://yadyok.bogazici.edu.tr/en/pages/test-content-and-scoring/2443"
   },
   {
-    "id": "buept_test_content_alt",
-    "title": "Test Content & Scoring (Alternate)",
-    "note": "Alternate official URL",
-    "source_url": "https://yadyok.bogazici.edu.tr/en/buept/test-content"
+    "id": "yadyok_programs",
+    "title": "Prep Programs (P1-P4)",
+    "note": "Program goals and weekly load",
+    "source_url": "https://yadyok.bogazici.edu.tr/en/pages/programs/2403"
+  },
+  {
+    "id": "yadyok_grades",
+    "title": "Grades and Yearly Evaluation",
+    "note": "Exam counts, weights and eligibility notes",
+    "source_url": "https://yadyok.bogazici.edu.tr/en/pages/grades/2404"
+  },
+  {
+    "id": "yadyok_attendance",
+    "title": "Attendance and Health Reports",
+    "note": "15% absence cap and attendance policy",
+    "source_url": "https://yadyok.bogazici.edu.tr/en/pages/attendance-and-health-reports/2407"
+  },
+  {
+    "id": "yadyok_partial_pass",
+    "title": "Partial Pass Rules",
+    "note": "Component exemption policy after two semesters",
+    "source_url": "https://yadyok.bogazici.edu.tr/en/pages/partial-pass/2445"
   },
   {
     "id": "english_proficiency",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Linking } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';

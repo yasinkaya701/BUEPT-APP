@@ -1,120 +1,89 @@
 import React from 'react';
-import { Pressable, Text, StyleSheet, Animated } from 'react-native';
-import { colors, spacing, radius, typography, shadow } from '../theme/tokens';
+import { Pressable, Text, StyleSheet, View } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { typography, shadow } from '../theme/tokens';
 
 export default function Button({
   label,
   onPress,
-  variant = 'primary', // primary, secondary, ghost, errorGhost
+  variant = 'primary',
   disabled = false,
   style,
-  textStyle
+  textStyle,
+  fullWidth = false,
+  iconLeft = null,
+  iconRight = null,
+  icon = null,
+  iconColor = null,
 }) {
-  const isPrimary = variant === 'primary';
-  const isSecondary = variant === 'secondary';
-  const isGhost = variant === 'ghost';
-  const isErrorGhost = variant === 'errorGhost';
-
-  // Subtle scale animation on press
-  const scaleAnim = React.useRef(new Animated.Value(1)).current;
-
-  const handlePressIn = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 0.96,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const handlePressOut = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 1,
-      useNativeDriver: true,
-    }).start();
-  };
+  const tone = BUTTON_TONES[variant] || BUTTON_TONES.primary;
+  const fallbackIconColor = disabled ? '#9CA3AF' : (iconColor || tone.iconColor);
+  const resolvedLeftIcon = iconLeft || (icon ? <Ionicons name={icon} size={14} color={fallbackIconColor} /> : null);
 
   return (
-    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
-      <Pressable
-        onPress={onPress}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        disabled={disabled}
-        style={({ pressed }) => [
-          styles.base,
-          isPrimary && styles.primary,
-          isSecondary && styles.secondary,
-          isGhost && styles.ghost,
-          isErrorGhost && styles.errorGhost,
-          disabled && styles.disabled,
-          pressed && !isPrimary && styles.pressed, // Primary animation handled via Animated
-          style
-        ]}
-      >
-        <Text style={[
-          styles.text,
-          isPrimary && styles.textPrimary,
-          isSecondary && styles.textSecondary,
-          isGhost && styles.textGhost,
-          isErrorGhost && styles.textErrorGhost,
-          textStyle
-        ]}>
+    <Pressable
+      onPress={onPress}
+      disabled={disabled}
+      style={({ pressed }) => [
+        styles.base,
+        tone.base,
+        fullWidth && styles.fullWidth,
+        pressed && !disabled && styles.pressed,
+        disabled && styles.disabled,
+        style,
+      ]}
+    >
+      <View style={styles.content}>
+        {resolvedLeftIcon ? <View style={styles.iconSlotLeft}>{resolvedLeftIcon}</View> : null}
+        <Text style={[styles.text, tone.text, disabled && styles.textDisabled, textStyle]} numberOfLines={1}>
           {label}
         </Text>
-      </Pressable>
-    </Animated.View>
+        {iconRight ? <View style={styles.iconSlotRight}>{iconRight}</View> : null}
+      </View>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   base: {
-    height: 56, // Generous touch target
-    borderRadius: radius.pill,
+    minHeight: 38,
+    borderRadius: 999,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: spacing.xl,
-    minWidth: 120,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     flexDirection: 'row',
-  },
-  primary: {
-    backgroundColor: colors.primary,
-    ...shadow.glow, // Beautiful modern glow
-  },
-  secondary: {
-    backgroundColor: colors.primaryLight,
-    borderWidth: 0, // Solid soft bg instead of borders
-  },
-  ghost: {
-    backgroundColor: 'transparent',
     borderWidth: 1.5,
-    borderColor: colors.primary,
   },
-  errorGhost: {
-    backgroundColor: 'transparent',
-    borderWidth: 1.5,
-    borderColor: colors.error,
-  },
-  disabled: {
-    opacity: 0.6,
-  },
-  pressed: {
-    opacity: 0.8,
-  },
-  text: {
-    fontSize: typography.body,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '600',
-    letterSpacing: 0.3,
-  },
-  textPrimary: {
-    color: '#FFFFFF',
-  },
-  textSecondary: {
-    color: colors.primaryDark,
-  },
-  textGhost: {
-    color: colors.primary,
-  },
-  textErrorGhost: {
-    color: colors.error,
-  }
+  fullWidth: { width: '100%' },
+  pressed: { opacity: 0.88, transform: [{ scale: 0.97 }] },
+  disabled: { opacity: 0.5 },
+  content: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5 },
+  iconSlotLeft: { marginRight: 1 },
+  iconSlotRight: { marginLeft: 1 },
+  text: { fontSize: 13, fontFamily: typography.fontHeadline, fontWeight: '700', letterSpacing: 0.1 },
+  textDisabled: { color: '#9CA3AF' },
+
+  // ── Blue solid primary ──
+  primaryBase: { backgroundColor: '#2563EB', borderColor: '#1D4ED8', ...shadow.sm },
+  primaryText: { color: '#FFFFFF' },
+
+  // ── White solid secondary ──
+  secondaryBase: { backgroundColor: '#FFFFFF', borderColor: '#E5E7EB', ...shadow.slight },
+  secondaryText: { color: '#111827' },
+
+  // ── Light blue ghost ──
+  ghostBase: { backgroundColor: '#EFF6FF', borderColor: 'transparent' },
+  ghostText: { color: '#2563EB' },
+
+  // ── Error ──
+  errorGhostBase: { backgroundColor: '#FEF2F2', borderColor: 'transparent' },
+  errorGhostText: { color: '#DC2626' },
 });
+
+const BUTTON_TONES = {
+  primary: { base: styles.primaryBase, text: styles.primaryText, textColor: '#FFFFFF', iconColor: '#FFFFFF' },
+  secondary: { base: styles.secondaryBase, text: styles.secondaryText, textColor: '#111827', iconColor: '#2563EB' },
+  ghost: { base: styles.ghostBase, text: styles.ghostText, textColor: '#2563EB', iconColor: '#2563EB' },
+  errorGhost: { base: styles.errorGhostBase, text: styles.errorGhostText, textColor: '#DC2626', iconColor: '#DC2626' },
+};

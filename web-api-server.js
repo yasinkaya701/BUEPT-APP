@@ -6,28 +6,1391 @@ const url = require('url');
 
 const HOST = '0.0.0.0';
 const PORT = process.env.PORT ? Number(process.env.PORT) : 8088;
-const ROOT = __dirname;
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || process.env.BUEPT_OPENAI_API_KEY || '';
+const OPENAI_BASE_URL = String(process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1').replace(/\/+$/, '');
+const OPENAI_PRESENTATION_MODEL = process.env.OPENAI_PRESENTATION_MODEL || 'gpt-5-mini';
+const OPENAI_TEXT_MODEL = process.env.OPENAI_TEXT_MODEL || process.env.BUEPT_OPENAI_MODEL || 'gpt-5-mini';
+const OPENAI_SPEAKING_MODEL = process.env.OPENAI_SPEAKING_MODEL || OPENAI_TEXT_MODEL;
+const OPENAI_VIDEO_MODEL = process.env.OPENAI_VIDEO_MODEL || OPENAI_TEXT_MODEL;
 
-const APK_FILES = {
-  debug: path.join(ROOT, 'BUEPTApp', 'BUEPT-App-for-Julide-Ozturk-debug.apk'),
-  release: path.join(ROOT, 'BUEPTApp', 'BUEPT-App-for-Julide-Ozturk-release.apk'),
+function exists(p) {
+  try {
+    return fs.existsSync(p);
+  } catch (_) {
+    return false;
+  }
+}
+
+function detectRoots(baseDir) {
+  const candidates = [
+    baseDir,
+    path.resolve(baseDir, '..'),
+    path.resolve(baseDir, '../..')
+  ];
+
+  for (const candidate of candidates) {
+    const nestedApp = path.join(candidate, 'BUEPTApp');
+    const nestedData = path.join(nestedApp, 'data');
+    if (exists(nestedData)) {
+      return {
+        projectRoot: candidate,
+        appRoot: nestedApp,
+        dataRoot: nestedData
+      };
+    }
+
+    const directData = path.join(candidate, 'data');
+    const directIos = path.join(candidate, 'ios');
+    const directAndroid = path.join(candidate, 'android');
+    if (exists(directData) && (exists(directIos) || exists(directAndroid))) {
+      return {
+        projectRoot: path.resolve(candidate, '..'),
+        appRoot: candidate,
+        dataRoot: directData
+      };
+    }
+  }
+
+  return {
+    projectRoot: baseDir,
+    appRoot: path.join(baseDir, 'BUEPTApp'),
+    dataRoot: path.join(baseDir, 'BUEPTApp', 'data')
+  };
+}
+
+const roots = detectRoots(__dirname);
+const PROJECT_ROOT = roots.projectRoot;
+const APP_ROOT = roots.appRoot;
+const DATA_ROOT = roots.dataRoot;
+const STATIC_ROOT = path.join(PROJECT_ROOT, 'web');
+
+const APK_FILE_CANDIDATES = {
+  debug: [
+    path.join(PROJECT_ROOT, 'BUEPT-App-for-Julide-Ozturk-debug.apk'),
+    path.join(APP_ROOT, 'BUEPT-App-for-Julide-Ozturk-debug.apk'),
+    path.join(APP_ROOT, 'android', 'app', 'build', 'outputs', 'apk', 'debug', 'app-debug.apk')
+  ],
+  release: [
+    path.join(PROJECT_ROOT, 'BUEPT-App-for-Julide-Ozturk-release.apk'),
+    path.join(APP_ROOT, 'BUEPT-App-for-Julide-Ozturk-release.apk'),
+    path.join(APP_ROOT, 'android', 'app', 'build', 'outputs', 'apk', 'release', 'app-release.apk')
+  ]
 };
+
+const dataCache = new Map();
+
+function loadJsonCached(fileName, fallbackValue) {
+  if (dataCache.has(fileName)) return dataCache.get(fileName);
+  const fullPath = path.join(DATA_ROOT, fileName);
+  try {
+    const text = fs.readFileSync(fullPath, 'utf8');
+    const parsed = JSON.parse(text);
+    dataCache.set(fileName, parsed);
+    return parsed;
+  } catch (_) {
+    dataCache.set(fileName, fallbackValue);
+    return fallbackValue;
+  }
+}
+
+function asList(value) {
+  if (Array.isArray(value)) return value.map((x) => String(x || '').trim()).filter(Boolean);
+  if (typeof value === 'string') {
+    return value
+      .split(/[,;|]/g)
+      .map((x) => x.trim())
+      .filter(Boolean);
+  }
+  if (!value) return [];
+  return [String(value).trim()].filter(Boolean);
+}
+
+function uniq(list) {
+  const seen = new Set();
+  const out = [];
+  for (const item of list) {
+    const key = String(item || '').toLowerCase();
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    out.push(item);
+  }
+  return out;
+}
+
+function pickRandom(list) {
+  if (!Array.isArray(list) || list.length === 0) return null;
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+function cleanTextValue(value, fallback = '') {
+  if (typeof value !== 'string') return fallback;
+  const text = value.trim();
+  return text || fallback;
+}
+
+function clampNumberValue(value, min, max, fallback) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(min, Math.min(max, Math.round(n)));
+}
+
+function cleanStringList(value, minItems = 0, maxItems = 6) {
+  const list = Array.isArray(value) ? value : [];
+  const cleaned = list
+    .map((item) => cleanTextValue(String(item || '')))
+    .filter(Boolean);
+  const sliced = uniq(cleaned).slice(0, maxItems);
+  if (sliced.length >= minItems) return sliced;
+  return sliced;
+}
+
+function extractResponseOutputText(payload = {}) {
+  if (typeof payload.output_text === 'string' && payload.output_text.trim()) {
+    return payload.output_text.trim();
+  }
+
+  const output = Array.isArray(payload.output) ? payload.output : [];
+  const parts = [];
+  for (const item of output) {
+    const content = Array.isArray(item?.content) ? item.content : [];
+    for (const block of content) {
+      if (block?.type === 'output_text' || block?.type === 'text') {
+        const text = cleanTextValue(block.text || block.value || '');
+        if (text) parts.push(text);
+      }
+    }
+  }
+  return parts.join('\n').trim();
+}
+
+function normalizePresentationDeck(raw = {}, meta = {}) {
+  const slides = Array.isArray(raw.slides)
+    ? raw.slides
+        .map((slide, index) => ({
+          title: cleanTextValue(slide?.title, `Slide ${index + 1}`),
+          points: cleanStringList(slide?.points, 0, 5).length
+            ? cleanStringList(slide?.points, 0, 5)
+            : ['Key idea', 'Evidence', 'Takeaway'],
+          script: cleanTextValue(slide?.script, 'Explain the main point with one clear example.'),
+          cues: cleanTextValue(slide?.cues, 'Keep eye contact and pause at transitions.'),
+        }))
+        .slice(0, 8)
+    : [];
+
+  if (!slides.length) {
+    throw new Error('No slides were returned by the model.');
+  }
+
+  return {
+    title: cleanTextValue(raw.title, `${meta.topic || 'Academic Topic'}: Presentation Deck`),
+    summary: cleanTextValue(raw.summary, 'AI-generated academic presentation structure.'),
+    audience: cleanTextValue(raw.audience, 'BUEPT / university audience'),
+    opener: cleanTextValue(raw.opener),
+    closer: cleanTextValue(raw.closer),
+    transitions: cleanStringList(raw.transitions, 0, 6),
+    qa_tips: cleanStringList(raw.qa_tips || raw.qaTips, 0, 6),
+    delivery_notes: cleanStringList(raw.delivery_notes || raw.deliveryNotes, 0, 6),
+    slides,
+    source: 'openai',
+    model: meta.model || OPENAI_PRESENTATION_MODEL,
+    topic: cleanTextValue(meta.topic, ''),
+  };
+}
+
+function buildPresentationFallback({ topic = 'Academic Topic', durationMin = 10, tone = 'Academic', level = 'B2', diagnostic = '' } = {}) {
+  const safeTopic = cleanTextValue(topic, 'Academic Topic');
+  const safeDuration = clampNumberValue(durationMin, 5, 20, 10);
+  const safeTone = cleanTextValue(tone, 'Academic');
+  const safeLevel = cleanTextValue(level, 'B2');
+  const opener = `Today I will discuss ${safeTopic} from a ${safeTone.toLowerCase()} ${safeLevel}-level perspective.`;
+  const closer = `To conclude, ${safeTopic} should be explained through clear evidence, structured analysis, and precise language.`;
+
+  return {
+    title: `${safeTopic}: Presentation Deck`,
+    summary: `${safeTopic} is organized into an academic talk with introduction, core ideas, evidence, and conclusion.`,
+    audience: `${safeLevel} academic learners`,
+    opener,
+    closer,
+    transitions: [
+      'Let us move from the definition to the main mechanism.',
+      'Now that the concept is clear, consider one concrete example.',
+      'With that evidence in mind, we can conclude confidently.',
+    ],
+    qa_tips: [
+      'Repeat the question briefly before answering.',
+      'Answer directly first, then support it with one example.',
+      'If needed, narrow the claim instead of overgeneralizing.',
+    ],
+    delivery_notes: [
+      'Keep one major idea per slide.',
+      'Signal transitions explicitly.',
+      'End each section with a takeaway sentence.',
+    ],
+    slides: [
+      {
+        title: 'Introduction',
+        points: [`Define ${safeTopic}`, 'Explain why it matters', `Roadmap for ${safeDuration} minutes`],
+        script: opener,
+        cues: 'Open calmly and set expectations clearly.',
+      },
+      {
+        title: 'Core Ideas',
+        points: ['Key concept', 'Important mechanism', 'Most common misunderstanding'],
+        script: `First, define the core ideas behind ${safeTopic}. Then clarify the main misunderstanding students often have.`,
+        cues: 'Use one gesture per major point.',
+      },
+      {
+        title: 'Evidence and Example',
+        points: ['Concrete example', 'Observation or data', 'Interpretation'],
+        script: `Now I will connect ${safeTopic} to one concrete example and explain why the evidence matters.`,
+        cues: 'Pause after the example before interpreting it.',
+      },
+      {
+        title: 'Conclusion',
+        points: ['Synthesize key points', 'State a recommendation', 'Invite questions'],
+        script: closer,
+        cues: 'Slow down and end with confidence.',
+      },
+    ],
+    source: diagnostic ? 'offline-fallback' : 'offline',
+    model: '',
+    topic: safeTopic,
+    diagnostic,
+  };
+}
+
+async function generatePresentationWithOpenAI({ topic = '', durationMin = 10, tone = 'Academic', level = 'B2' } = {}) {
+  const safeTopic = cleanTextValue(topic, 'Academic Topic');
+  const safeDuration = clampNumberValue(durationMin, 5, 20, 10);
+  const safeTone = cleanTextValue(tone, 'Academic');
+  const safeLevel = cleanTextValue(level, 'B2');
+
+  if (!OPENAI_API_KEY) {
+    return {
+      ok: false,
+      status: 503,
+      error: 'OPENAI_API_KEY_MISSING',
+      detail: 'Set OPENAI_API_KEY before using /api/presentation.',
+      fallback: buildPresentationFallback({
+        topic: safeTopic,
+        durationMin: safeDuration,
+        tone: safeTone,
+        level: safeLevel,
+        diagnostic: 'OpenAI key missing on the server. Start the API with OPENAI_API_KEY set for live generation.',
+      }),
+    };
+  }
+
+  const schema = {
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+      title: { type: 'string' },
+      summary: { type: 'string' },
+      audience: { type: 'string' },
+      opener: { type: 'string' },
+      closer: { type: 'string' },
+      transitions: { type: 'array', items: { type: 'string' }, minItems: 3, maxItems: 6 },
+      qa_tips: { type: 'array', items: { type: 'string' }, minItems: 3, maxItems: 6 },
+      delivery_notes: { type: 'array', items: { type: 'string' }, minItems: 3, maxItems: 6 },
+      slides: {
+        type: 'array',
+        minItems: 4,
+        maxItems: 8,
+        items: {
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            title: { type: 'string' },
+            points: { type: 'array', items: { type: 'string' }, minItems: 3, maxItems: 5 },
+            script: { type: 'string' },
+            cues: { type: 'string' },
+          },
+          required: ['title', 'points', 'script', 'cues'],
+        },
+      },
+    },
+    required: ['title', 'summary', 'audience', 'opener', 'closer', 'transitions', 'qa_tips', 'delivery_notes', 'slides'],
+  };
+
+  const instructions = [
+    'You build strong academic presentation decks for BUEPT and university students.',
+    'Generate a concise but genuinely usable presentation deck from scratch.',
+    'Every slide must include: a strong title, 3 to 5 bullet points, a speaker script, and delivery/body-language cues.',
+    'Make the language clear, academically toned, and presentation-ready.',
+    'The deck should fit the requested duration and level.',
+    'Return only valid JSON that matches the required schema.',
+  ].join(' ');
+
+  const input = [
+    `Topic: ${safeTopic}`,
+    `Duration: ${safeDuration} minutes`,
+    `Tone: ${safeTone}`,
+    `Target level: ${safeLevel}`,
+    'Goal: produce a strong spoken presentation plan, not a generic essay outline.',
+  ].join('\n');
+
+  let res;
+  let json = {};
+  try {
+    res = await fetch(`${OPENAI_BASE_URL}/responses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: OPENAI_PRESENTATION_MODEL,
+        store: false,
+        instructions,
+        input,
+        text: {
+          format: {
+            type: 'json_schema',
+            name: 'presentation_deck',
+            strict: true,
+            schema,
+          },
+        },
+      }),
+    });
+    json = await res.json().catch(() => ({}));
+  } catch (err) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'OPENAI_NETWORK_ERROR',
+      detail: err?.message || 'OpenAI request failed.',
+      fallback: buildPresentationFallback({
+        topic: safeTopic,
+        durationMin: safeDuration,
+        tone: safeTone,
+        level: safeLevel,
+        diagnostic: err?.message || 'OpenAI request failed.',
+      }),
+    };
+  }
+
+  if (!res.ok) {
+    return {
+      ok: false,
+      status: res.status,
+      error: 'OPENAI_REQUEST_FAILED',
+      detail: cleanTextValue(json?.error?.message, `OpenAI HTTP ${res.status}`),
+      fallback: buildPresentationFallback({
+        topic: safeTopic,
+        durationMin: safeDuration,
+        tone: safeTone,
+        level: safeLevel,
+        diagnostic: cleanTextValue(json?.error?.message, `OpenAI HTTP ${res.status}`),
+      }),
+    };
+  }
+
+  const outputText = extractResponseOutputText(json);
+  if (!outputText) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'OPENAI_EMPTY_OUTPUT',
+      detail: 'OpenAI returned no structured presentation data.',
+      fallback: buildPresentationFallback({
+        topic: safeTopic,
+        durationMin: safeDuration,
+        tone: safeTone,
+        level: safeLevel,
+        diagnostic: 'OpenAI returned no structured presentation data.',
+      }),
+    };
+  }
+
+  let parsed;
+  try {
+    parsed = JSON.parse(outputText);
+  } catch (_) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'OPENAI_INVALID_JSON',
+      detail: 'OpenAI returned invalid JSON for the presentation deck.',
+      fallback: buildPresentationFallback({
+        topic: safeTopic,
+        durationMin: safeDuration,
+        tone: safeTone,
+        level: safeLevel,
+        diagnostic: 'OpenAI returned invalid JSON for the presentation deck.',
+      }),
+    };
+  }
+
+  try {
+    return {
+      ok: true,
+      status: 200,
+      data: normalizePresentationDeck(parsed, {
+        topic: safeTopic,
+        model: cleanTextValue(json?.model, OPENAI_PRESENTATION_MODEL),
+      }),
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'OPENAI_BAD_SCHEMA',
+      detail: err?.message || 'OpenAI presentation schema validation failed.',
+      fallback: buildPresentationFallback({
+        topic: safeTopic,
+        durationMin: safeDuration,
+        tone: safeTone,
+        level: safeLevel,
+        diagnostic: err?.message || 'OpenAI presentation schema validation failed.',
+      }),
+    };
+  }
+}
+
+async function callOpenAiStructured({ model = OPENAI_TEXT_MODEL, instructions = '', input = '', schema, name = 'structured_payload' } = {}) {
+  if (!OPENAI_API_KEY) {
+    return {
+      ok: false,
+      status: 503,
+      error: 'OPENAI_API_KEY_MISSING',
+      detail: 'Set OPENAI_API_KEY on the server for live AI generation.',
+    };
+  }
+
+  let res;
+  let json = {};
+  try {
+    res = await fetch(`${OPENAI_BASE_URL}/responses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model,
+        store: false,
+        instructions,
+        input,
+        text: {
+          format: {
+            type: 'json_schema',
+            name,
+            strict: true,
+            schema,
+          },
+        },
+      }),
+    });
+    json = await res.json().catch(() => ({}));
+  } catch (err) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'OPENAI_NETWORK_ERROR',
+      detail: err?.message || 'OpenAI request failed.',
+    };
+  }
+
+  if (!res.ok) {
+    return {
+      ok: false,
+      status: res.status,
+      error: 'OPENAI_REQUEST_FAILED',
+      detail: cleanTextValue(json?.error?.message, `OpenAI HTTP ${res.status}`),
+    };
+  }
+
+  const outputText = extractResponseOutputText(json);
+  if (!outputText) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'OPENAI_EMPTY_OUTPUT',
+      detail: 'OpenAI returned no structured output.',
+    };
+  }
+
+  try {
+    return {
+      ok: true,
+      status: 200,
+      data: JSON.parse(outputText),
+      model: cleanTextValue(json?.model, model),
+    };
+  } catch (_) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'OPENAI_INVALID_JSON',
+      detail: 'OpenAI returned invalid JSON.',
+    };
+  }
+}
+
+function levelRank(level = '') {
+  const key = String(level || '').toUpperCase();
+  return { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 }[key] || 0;
+}
+
+function inferWordTypeLabel(raw = '') {
+  const t = String(raw || '').toLowerCase();
+  if (t.includes('verb')) return 'verb';
+  if (t.includes('adjective') || t.includes('adj')) return 'adjective';
+  if (t.includes('adverb') || t.includes('adv')) return 'adverb';
+  if (t.includes('noun')) return 'noun';
+  return 'noun';
+}
+
+function familyRootServer(word = '') {
+  const w = normToken(word).replace(/[^a-z]/g, '');
+  if (!w) return '';
+  if (w.length > 6 && w.endsWith('ysis')) return `${w.slice(0, -4)}y`;
+  if (w.length > 5 && (w.endsWith('yze') || w.endsWith('yse'))) return `${w.slice(0, -3)}y`;
+  const suffixes = [
+    'ization', 'isation', 'ational', 'iveness', 'fulness', 'ousness',
+    'ability', 'ibility', 'ically', 'ation', 'ition', 'ically', 'ment',
+    'ness', 'ship', 'less', 'able', 'ible', 'ance', 'ence', 'ally', 'ical',
+    'tion', 'sion', 'ity', 'ism', 'ist', 'ous', 'ive', 'ily', 'ily', 'ary',
+    'ing', 'ed', 'ly', 'al', 'ic', 'er', 'or',
+  ];
+  for (const suffix of suffixes) {
+    if (w.length - suffix.length >= 3 && w.endsWith(suffix)) {
+      return w.slice(0, -suffix.length);
+    }
+  }
+  return w;
+}
+
+function buildFamilyFormsFromDictionary(word = '', wordType = '') {
+  const root = familyRootServer(word);
+  const currentPos = inferWordTypeLabel(wordType);
+  const baseWord = normToken(word);
+  const empty = [];
+  if (!root || !baseWord) return [{ pos: currentPos, word: baseWord }].filter((item) => item.word);
+
+  const cacheKey = `family_forms_${baseWord}`;
+  if (dataCache.has(cacheKey)) return dataCache.get(cacheKey);
+
+  const { list } = getDictionaryIndex();
+  const formsByPos = new Map();
+  for (const entry of list) {
+    const candidate = normToken(entry.word);
+    if (!candidate || candidate.length < 3) continue;
+    const candidateRoot = familyRootServer(candidate);
+    if (!candidateRoot) continue;
+    if (candidate !== baseWord && candidateRoot !== root) continue;
+    const pos = inferWordTypeLabel(entry.wordType);
+    if (!formsByPos.has(pos)) {
+      formsByPos.set(pos, candidate);
+    }
+    if (formsByPos.size >= 4) break;
+  }
+
+  if (!formsByPos.has(currentPos)) formsByPos.set(currentPos, baseWord);
+  const forms = Array.from(formsByPos.entries()).map(([pos, term]) => ({ pos, word: term }));
+  dataCache.set(cacheKey, forms.length ? forms : empty);
+  return forms.length ? forms : empty;
+}
+
+function buildInteractiveDictionaryLocal(term = '') {
+  const query = normToken(term);
+  if (!query) return null;
+  const { byWord, list } = getDictionaryIndex();
+  const exact = byWord.get(query);
+  const entry = exact || list.find((item) => item.word.startsWith(query)) || list.find((item) => item.word.includes(query));
+  if (!entry) return null;
+
+  return {
+    source: 'local-dictionary',
+    entry: {
+      word: entry.word,
+      phonetic: '',
+      partOfSpeech: inferWordTypeLabel(entry.wordType),
+      definition: entry.definition,
+      translation: '',
+      synonyms: entry.synonyms.slice(0, 6),
+      antonyms: entry.antonyms.slice(0, 6),
+      forms: buildFamilyFormsFromDictionary(entry.word, entry.wordType),
+      examples: entry.examples.slice(0, 4).map((en) => ({ en, tr: '' })),
+      collocations: entry.collocations.slice(0, 6),
+      level: entry.level,
+      source: entry.source,
+    },
+  };
+}
+
+function buildAcademicWritingTemplateLocal({ topic = '', stance = '', level = 'B2' } = {}) {
+  const safeTopic = cleanTextValue(topic, 'Academic Topic');
+  const safeStance = cleanTextValue(stance, 'this position is beneficial');
+  const safeLevel = cleanTextValue(level, 'B2');
+  return {
+    source: 'local-template-engine',
+    template: [
+      `Title: ${safeTopic}`,
+      '',
+      'Introduction:',
+      `${safeTopic} remains a contested issue in contemporary academic discussion. This essay argues that ${safeStance} because it improves outcomes, addresses practical needs, and remains defensible under critical evaluation.`,
+      '',
+      'Body Paragraph 1:',
+      `Define the central concept behind ${safeTopic.toLowerCase()} and show why it matters in the current educational or social context.`,
+      '',
+      'Body Paragraph 2:',
+      `Develop the strongest reason supporting the claim that ${safeStance}. Use one specific example, then explain its implications.`,
+      '',
+      'Body Paragraph 3:',
+      'Address a reasonable counter-argument, evaluate its limits, and return to the stronger overall position.',
+      '',
+      'Conclusion:',
+      `Reaffirm that ${safeStance}, summarize the most convincing evidence, and finish with one practical recommendation suitable for a ${safeLevel} academic essay.`,
+    ].join('\n'),
+  };
+}
+
+function tokenizeText(text = '') {
+  return String(text || '')
+    .toLowerCase()
+    .match(/[a-z][a-z-]{2,}/g) || [];
+}
+
+function buildPhotoVocabExtractLocal({ ocrText = '', minLevel = 'B1', limit = 12 } = {}) {
+  const tokens = tokenizeText(ocrText);
+  const tokenCount = tokens.length;
+  const counts = new Map();
+  tokens.forEach((token) => {
+    counts.set(token, (counts.get(token) || 0) + 1);
+  });
+
+  const { byWord } = getDictionaryIndex();
+  const floor = levelRank(minLevel);
+  const candidates = Array.from(counts.entries())
+    .map(([word, frequency]) => {
+      const entry = byWord.get(word);
+      if (!entry) return null;
+      const levelValue = levelRank(entry.level);
+      if (levelValue < floor) return null;
+      const confidence = Math.max(40, Math.min(97, Math.round(45 + levelValue * 7 + frequency * 10 + (entry.rank || 0) / 6)));
+      const reasons = [];
+      if (frequency > 1) reasons.push(`seen ${frequency} times`);
+      reasons.push(`${entry.level} level`);
+      reasons.push(`${entry.source} source`);
+      return {
+        word: entry.word,
+        level: entry.level,
+        pos: inferWordTypeLabel(entry.wordType),
+        confidence,
+        definition: entry.definition,
+        synonyms: entry.synonyms.slice(0, 4),
+        reasons,
+        frequency,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => {
+      if (b.confidence !== a.confidence) return b.confidence - a.confidence;
+      if (b.frequency !== a.frequency) return b.frequency - a.frequency;
+      return a.word.localeCompare(b.word);
+    })
+    .slice(0, Math.max(5, Math.min(40, Number(limit) || 12)));
+
+  return {
+    source: 'local-ocr-ranker',
+    words: candidates,
+    meta: {
+      tokenCount,
+      uniqueCount: counts.size,
+      keptCount: candidates.length,
+      minLevel: String(minLevel || 'B1').toUpperCase(),
+    },
+  };
+}
+
+function shuffle(list = []) {
+  return [...list].sort(() => Math.random() - 0.5);
+}
+
+function buildVocabularyMockQuestions(level = 'B2', count = 2) {
+  const { list } = getDictionaryIndex();
+  const filtered = list.filter((item) => !level || String(item.level || '').toUpperCase() === String(level).toUpperCase());
+  const pool = filtered.length ? filtered : list;
+  const chosen = shuffle(pool.filter((item) => item.definition && item.word.length >= 4)).slice(0, count);
+  return chosen.map((item, index) => {
+    const distractors = shuffle(pool.filter((candidate) => candidate.word !== item.word)).slice(0, 3).map((candidate) => candidate.word);
+    const options = shuffle([item.word, ...distractors]);
+    return {
+      id: `vocab_${index + 1}_${item.word}`,
+      type: 'vocab',
+      text: `Which word best matches this definition?\n${item.definition}`,
+      options,
+      correct: options.findIndex((option) => option === item.word),
+    };
+  });
+}
+
+function buildProficiencyMockLocal({ count = 8, level = 'B2' } = {}) {
+  const safeCount = Math.max(4, Math.min(20, Number(count) || 8));
+  const safeLevel = cleanTextValue(level, 'B2').toUpperCase();
+  const readingTasks = loadJsonCached('reading_tasks.json', []);
+  const grammarTasks = [
+    ...loadJsonCached('grammar_tasks.json', []),
+    ...loadJsonCached('grammar_tasks_hard.json', []),
+    ...loadJsonCached('test_english_grammar_tasks.json', []),
+  ];
+
+  const buildReadingPool = (strictLevel) => {
+    const out = [];
+    (Array.isArray(readingTasks) ? readingTasks : []).forEach((task) => {
+      const levelOk = !strictLevel || String(task.level || '').toUpperCase() === safeLevel;
+      if (!levelOk) return;
+      (Array.isArray(task.questions) ? task.questions : []).forEach((q, index) => {
+        const normalized = normalizeReadingQuestion(q);
+        if (!normalized || normalized.options.length < 2 || normalized.answer == null) return;
+        out.push({
+          id: `reading_${task.id}_${index + 1}`,
+          type: 'reading',
+          text: normalized.q,
+          options: normalized.options.slice(0, 4),
+          correct: Math.max(0, Math.min(normalized.options.length - 1, normalized.answer)),
+        });
+      });
+    });
+    return out;
+  };
+
+  const buildGrammarPool = (strictLevel) => {
+    const out = [];
+    (Array.isArray(grammarTasks) ? grammarTasks : []).forEach((task) => {
+      const levelOk = !strictLevel || String(task.level || '').toUpperCase() === safeLevel;
+      if (!levelOk) return;
+      (Array.isArray(task.questions) ? task.questions : []).forEach((q, index) => {
+        const normalized = normalizeReadingQuestion(q);
+        if (!normalized || normalized.options.length < 2 || normalized.answer == null) return;
+        out.push({
+          id: `grammar_${task.id}_${index + 1}`,
+          type: 'grammar',
+          text: normalized.q,
+          options: normalized.options.slice(0, 4),
+          correct: Math.max(0, Math.min(normalized.options.length - 1, normalized.answer)),
+        });
+      });
+    });
+    return out;
+  };
+
+  const readingQuestionsStrict = buildReadingPool(true);
+  const readingQuestions = readingQuestionsStrict.length >= 2 ? readingQuestionsStrict : buildReadingPool(false);
+  const grammarQuestionsStrict = buildGrammarPool(true);
+  const grammarQuestions = grammarQuestionsStrict.length >= 2 ? grammarQuestionsStrict : buildGrammarPool(false);
+  const vocabQuestions = buildVocabularyMockQuestions(safeLevel, Math.max(2, Math.round(safeCount / 4)));
+  const vocabFallback = vocabQuestions.length >= 2 ? vocabQuestions : buildVocabularyMockQuestions('', Math.max(2, Math.round(safeCount / 4)));
+
+  const mix = [
+    ...shuffle(grammarQuestions).slice(0, Math.max(2, Math.round(safeCount * 0.4))),
+    ...shuffle(readingQuestions).slice(0, Math.max(2, Math.round(safeCount * 0.35))),
+    ...vocabFallback,
+  ];
+  const questions = shuffle(mix).slice(0, safeCount);
+  return {
+    source: 'local-exam-bank',
+    level: safeLevel,
+    questions,
+  };
+}
+
+function average(values = []) {
+  const list = values.filter((value) => Number.isFinite(value));
+  if (!list.length) return null;
+  return Math.round(list.reduce((sum, value) => sum + value, 0) / list.length);
+}
+
+function buildWeakPointAnalysisLocal(payload = {}) {
+  const readingHistory = Array.isArray(payload.readingHistory) ? payload.readingHistory : [];
+  const listeningHistory = Array.isArray(payload.listeningHistory) ? payload.listeningHistory : [];
+  const grammarHistory = Array.isArray(payload.grammarHistory) ? payload.grammarHistory : [];
+  const mockHistory = Array.isArray(payload.mockHistory) ? payload.mockHistory : [];
+  const essayHistory = Array.isArray(payload.history) ? payload.history : [];
+  const vocabStats = payload.vocabStats && typeof payload.vocabStats === 'object' ? payload.vocabStats : {};
+  const errorWords = payload.errorWords && typeof payload.errorWords === 'object' ? payload.errorWords : {};
+
+  const grammarScore = average([
+    ...grammarHistory.map((item) => Math.round(((item?.result?.score || 0) / Math.max(1, item?.result?.total || 1)) * 100)),
+    ...mockHistory.map((item) => Number(item?.result?.grammar)),
+  ]);
+  const readingScore = average([
+    ...readingHistory.map((item) => Math.round(((item?.result?.score || 0) / Math.max(1, item?.result?.total || 1)) * 100)),
+    ...mockHistory.map((item) => Number(item?.result?.reading)),
+  ]);
+  const listeningScore = average([
+    ...listeningHistory.map((item) => Math.round(((item?.result?.score || 0) / Math.max(1, item?.result?.total || 1)) * 100)),
+    ...mockHistory.map((item) => Number(item?.result?.listening)),
+  ]);
+  const writingScore = average([
+    ...essayHistory.map((item) => Math.round(((item?.report?.rubric?.Total || 0) / 20) * 100)),
+    ...mockHistory.map((item) => Number(item?.result?.writing)),
+  ]);
+
+  let known = 0;
+  let unknown = 0;
+  Object.values(vocabStats).forEach((stat) => {
+    known += Number(stat?.known || 0);
+    unknown += Number(stat?.unknown || 0);
+  });
+  const vocabBase = known + unknown > 0 ? Math.round((known / Math.max(1, known + unknown)) * 100) : 65;
+  const errorPenalty = Math.min(25, Object.keys(errorWords).length * 2);
+  const vocabScore = Math.max(35, vocabBase - errorPenalty);
+
+  const skills = {
+    grammar: { label: 'Grammar Accuracy', score: grammarScore ?? 58 },
+    vocab: { label: 'Lexical Resource', score: vocabScore },
+    reading: { label: 'Reading Comprehension', score: readingScore ?? 64 },
+    listening: { label: 'Listening Retention', score: listeningScore ?? 61 },
+    writing: { label: 'Academic Writing', score: writingScore ?? 67 },
+  };
+
+  const weakest = Object.entries(skills).sort((a, b) => a[1].score - b[1].score);
+  const insights = {
+    grammar: {
+      summary: grammarHistory.length
+        ? `Based on ${grammarHistory.length} grammar attempts, tense control and sentence structure still cost points.`
+        : 'Grammar score is estimated from available performance data.',
+    },
+    vocab: {
+      summary: Object.keys(errorWords).length
+        ? `${Object.keys(errorWords).length} error-tracked words are lowering vocabulary stability.`
+        : 'Vocabulary score is based on known/unknown review history.',
+    },
+    reading: {
+      summary: readingHistory.length
+        ? `Reading score reflects ${readingHistory.length} recorded practice results and recent mock performance.`
+        : 'Reading score is estimated from available mock data.',
+    },
+    listening: {
+      summary: listeningHistory.length
+        ? `Listening score reflects ${listeningHistory.length} recorded listening tasks.`
+        : 'Listening score is estimated from available practice data.',
+    },
+    writing: {
+      summary: essayHistory.length
+        ? `Writing score reflects ${essayHistory.length} evaluated writing submissions.`
+        : 'Writing score is estimated from mock and rubric history.',
+    },
+  };
+
+  return {
+    source: 'local-performance-analysis',
+    skills,
+    insights,
+    recommendations: weakest.slice(0, 3).map(([key, data]) => `${data.label}: prioritize this area next.`),
+  };
+}
+
+function countSyllableWords(text = '') {
+  return String(text || '').split(/[.!?]+/).map((line) => line.trim()).filter(Boolean).length;
+}
+
+function buildSpeakingFeedbackLocal({ text = '' } = {}) {
+  const safeText = cleanTextValue(text, '');
+  const words = safeText ? safeText.split(/\s+/).filter(Boolean).length : 0;
+  const sentences = countSyllableWords(safeText);
+  const lower = safeText.toLowerCase();
+  const connectorHits = (lower.match(/\b(first|however|therefore|for example|in conclusion|moreover)\b/g) || []).length;
+  const fillerHits = (lower.match(/\b(like|you know|basically|actually|i mean|kind of|sort of)\b/g) || []).length;
+  const notes = [];
+
+  if (words < 35) notes.push('Length is still short. Add one developed example before finishing.');
+  else notes.push('Response length is workable for a short speaking turn.');
+
+  if (connectorHits < 2) notes.push('Use clearer connectors such as "however", "for example", and "therefore".');
+  else notes.push('Connector use helps coherence.');
+
+  if (fillerHits > 2) notes.push('Reduce filler words and leave short pauses instead.');
+  else notes.push('Filler-word control is acceptable.');
+
+  if (!/\b(example|for instance|for example)\b/i.test(safeText)) {
+    notes.push('Add one concrete example to sound more academic.');
+  }
+
+  return {
+    source: 'local-speaking-analysis',
+    reply: `Speaking feedback:\n• ${notes.slice(0, 4).join('\n• ')}`,
+    metrics: {
+      words,
+      sentences,
+      connectorHits,
+      fillerHits,
+    },
+  };
+}
+
+function buildVideoLessonLocal({ topic = '', level = 'B1', durationMin = 4 } = {}) {
+  const safeTopic = cleanTextValue(topic, 'Academic Writing');
+  const safeLevel = cleanTextValue(level, 'B1');
+  const safeDuration = clampNumberValue(durationMin, 2, 12, 4);
+  const each = clampNumberValue((safeDuration * 60) / 4, 25, 110, 45);
+  return {
+    title: `${safeTopic}: AI Lesson Storyboard`,
+    summary: 'Real storyboard generation for lesson structure, narration, and checkpoints.',
+    scenes: [
+      {
+        id: 'scene_intro',
+        heading: `${safeTopic}: Core Idea`,
+        bullets: ['Definition', 'Why it matters in BUEPT', 'Typical confusion point'],
+        narration: `${safeTopic} is an important ${safeLevel}-level area. In this lesson, we define it clearly and connect it to BUEPT-style tasks.`,
+        durationSec: each,
+        quiz: `In one sentence, define ${safeTopic}.`,
+      },
+      {
+        id: 'scene_rule',
+        heading: 'Rule or Strategy',
+        bullets: ['Main rule', 'Quick recognition cue', 'Common trap'],
+        narration: `The most efficient strategy is to identify the rule trigger first, then test it against meaning and context.`,
+        durationSec: each,
+        quiz: 'What is the fastest cue you would check first?',
+      },
+      {
+        id: 'scene_example',
+        heading: 'Worked Example',
+        bullets: ['Read', 'Apply', 'Justify'],
+        narration: `Now we apply the rule to a short example and justify the best answer using explicit evidence.`,
+        durationSec: each,
+        quiz: 'How would you justify the correct answer in one phrase?',
+      },
+      {
+        id: 'scene_transfer',
+        heading: 'Exam Transfer',
+        bullets: ['Timed use', 'Checklist', 'Self-correction'],
+        narration: `To transfer this into the real exam, use a repeatable loop: notice the clue, choose the rule, verify the meaning, and move on.`,
+        durationSec: each,
+        quiz: 'What is your personal 30-second solving routine?',
+      },
+    ],
+    video: {
+      title: `${safeTopic}: Storyboard`,
+      videoUrl: '',
+      posterUrl: '',
+      provider: 'AI storyboard only',
+      generated: false,
+    },
+    source: 'local-storyboard',
+  };
+}
+
+function normalizeVideoLessonPayload(payload = {}, topic = '') {
+  const scenes = Array.isArray(payload.scenes)
+    ? payload.scenes
+        .map((scene, index) => ({
+          id: cleanTextValue(scene?.id, `scene_${index + 1}`),
+          heading: cleanTextValue(scene?.heading, `Scene ${index + 1}`),
+          bullets: cleanStringList(scene?.bullets, 1, 4),
+          narration: cleanTextValue(scene?.narration, 'Explain the main idea clearly.'),
+          durationSec: clampNumberValue(scene?.durationSec, 20, 180, 45),
+          quiz: cleanTextValue(scene?.quiz, 'What is one key takeaway from this section?'),
+        }))
+        .slice(0, 8)
+    : [];
+
+  return {
+    title: cleanTextValue(payload.title, `${topic}: AI Lesson Storyboard`),
+    summary: cleanTextValue(payload.summary, 'AI-generated lesson storyboard.'),
+    scenes: scenes.length ? scenes : buildVideoLessonLocal({ topic }).scenes,
+    video: {
+      title: cleanTextValue(payload?.video?.title || payload.videoTitle, `${topic}: Storyboard`),
+      videoUrl: cleanTextValue(payload?.video?.videoUrl || payload.videoUrl, ''),
+      posterUrl: cleanTextValue(payload?.video?.posterUrl || payload.posterUrl, ''),
+      provider: cleanTextValue(payload?.video?.provider || payload.provider, 'AI storyboard only'),
+      generated: !!cleanTextValue(payload?.video?.videoUrl || payload.videoUrl, ''),
+    },
+    source: cleanTextValue(payload.source, 'openai'),
+  };
+}
+
+async function generateAcademicWritingWithOpenAI({ topic = '', stance = '', level = 'B2' } = {}) {
+  const safeTopic = cleanTextValue(topic, 'Academic Topic');
+  const safeStance = cleanTextValue(stance, 'this position is beneficial');
+  const safeLevel = cleanTextValue(level, 'B2');
+  const schema = {
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+      template: { type: 'string' },
+    },
+    required: ['template'],
+  };
+  const instructions = 'You generate high-quality BUEPT academic essay templates. Produce a usable essay skeleton with clear Introduction, Body Paragraphs, and Conclusion. Return only valid JSON.';
+  const input = `Topic: ${safeTopic}\nStance: ${safeStance}\nLevel: ${safeLevel}\nGoal: build a practical academic essay template, not a finished essay.`;
+  return callOpenAiStructured({
+    model: OPENAI_TEXT_MODEL,
+    instructions,
+    input,
+    schema,
+    name: 'academic_writing_template',
+  });
+}
+
+const WRITING_REVISION_REPLACEMENTS = [
+  ['a lot of', 'many'],
+  ['very important', 'significant'],
+  ['good', 'beneficial'],
+  ['bad', 'harmful'],
+  ['big', 'substantial'],
+  ['show', 'demonstrate'],
+  ['shows', 'demonstrates'],
+  ['say', 'argue'],
+  ['says', 'argues'],
+  ['help', 'facilitate'],
+  ['helps', 'facilitates'],
+  ['problem', 'challenge'],
+  ['change', 'transform'],
+];
+
+function splitSentencesServer(text = '') {
+  const safe = cleanTextValue(text, '');
+  const matches = safe.match(/[^.!?]+[.!?]*/g);
+  return Array.isArray(matches) ? matches.map((item) => cleanTextValue(item, '')).filter(Boolean) : [];
+}
+
+function sentenceCaseServer(text = '') {
+  const safe = cleanTextValue(text, '');
+  if (!safe) return safe;
+  return safe.charAt(0).toUpperCase() + safe.slice(1);
+}
+
+function lowerFirstServer(text = '') {
+  const safe = cleanTextValue(text, '');
+  if (!safe) return safe;
+  return safe.charAt(0).toLowerCase() + safe.slice(1);
+}
+
+function localReviseSentenceServer(sentence = '') {
+  let out = cleanTextValue(sentence, '');
+  WRITING_REVISION_REPLACEMENTS.forEach(([from, to]) => {
+    const rx = new RegExp(`\\b${from.replace(/\s+/g, '\\s+')}\\b`, 'gi');
+    out = out.replace(rx, to);
+  });
+  out = out.replace(/\s+([,.!?;:])/g, '$1');
+  out = out.replace(/([,.!?;:])([A-Za-z])/g, '$1 $2');
+  out = out.replace(/\s{2,}/g, ' ').trim();
+  return sentenceCaseServer(out);
+}
+
+function buildWritingRevisionLocal({ text = '', prompt = '', level = 'B2', task = 'essay' } = {}) {
+  const safeText = cleanTextValue(text, '');
+  if (!safeText) {
+    return {
+      revisedText: '',
+      summary: 'No text was provided for revision.',
+      strengths: [],
+      fixes: [],
+      rubricNotes: [],
+      source: 'local-writing-revision',
+      model: '',
+      prompt: cleanTextValue(prompt, ''),
+    };
+  }
+
+  const safeTask = cleanTextValue(task, 'essay');
+  const safeLevel = cleanTextValue(level, 'B2');
+  const sentences = splitSentencesServer(safeText);
+  const lower = safeText.toLowerCase();
+  const wordCount = (safeText.match(/\b[a-z']+\b/gi) || []).length;
+  const paragraphCount = safeText.split(/\n\s*\n/).map((item) => item.trim()).filter(Boolean).length || 1;
+  const connectorHits = (lower.match(/\bhowever|therefore|moreover|furthermore|in contrast|for example|as a result|on the other hand\b/g) || []).length;
+  const hasThesis = /\b(i believe|in this essay|this essay argues|i argue that|the main point is)\b/i.test(lower);
+  const hasConclusion = /\b(in conclusion|to conclude|to sum up|overall|to summarize)\b/i.test(lower);
+  const hasExample = /\b(for example|for instance|such as)\b/i.test(lower);
+
+  const revisedSentences = sentences.length ? sentences.map((item) => localReviseSentenceServer(item)) : [localReviseSentenceServer(safeText)];
+  let revisedText = revisedSentences.join(' ');
+  if (!hasThesis && revisedText) {
+    revisedText = `In this essay, ${lowerFirstServer(revisedText)}`;
+  }
+  if (safeTask === 'essay' && !hasConclusion && revisedText) {
+    revisedText = `${revisedText} In conclusion, the argument becomes stronger when the main claim is supported with clearer evidence and tighter organization.`;
+  }
+
+  const strengths = [];
+  if (wordCount >= 140) strengths.push('The draft is long enough to revise into a full academic response.');
+  if (connectorHits >= 2) strengths.push('Some transition control is already present.');
+  if (hasExample) strengths.push('The response already shows some supporting evidence.');
+  if (paragraphCount >= 3) strengths.push('Paragraph structure is visible.');
+  if (!strengths.length) strengths.push('The draft has a usable core idea to develop.');
+
+  const fixes = [];
+  if (wordCount < 140) fixes.push('Develop the main argument with one more reason or concrete example.');
+  if (paragraphCount < 3 && safeTask === 'essay') fixes.push('Split the response into clearer introduction, body, and conclusion paragraphs.');
+  if (connectorHits < 3) fixes.push('Add clearer transitions between body ideas.');
+  if (!hasExample) fixes.push('Add a concrete example to strengthen task development.');
+  if (!hasConclusion && safeTask === 'essay') fixes.push('End with a sentence that restates the main claim.');
+  if (!fixes.length) fixes.push('Focus next on precision, evidence, and final grammar polish.');
+
+  const rubricNotes = [
+    'BUEPT scoring is strict on paragraph control, development, and academic tone.',
+    connectorHits < 3
+      ? 'The current draft still needs stronger cohesion for a high Organization score.'
+      : 'Connector use is helping the Organization score.',
+    wordCount < 140
+      ? 'Task development is limited because the response is still short.'
+      : 'Length is now sufficient if the supporting evidence is clear.',
+  ];
+
+  return {
+    revisedText: cleanTextValue(revisedText, safeText),
+    summary: `Local revision completed for a ${safeLevel.toUpperCase()} ${safeTask} draft.`,
+    strengths: cleanStringList(strengths, 1, 5),
+    fixes: cleanStringList(fixes, 1, 5),
+    rubricNotes: cleanStringList(rubricNotes, 1, 5),
+    source: 'local-writing-revision',
+    model: '',
+    prompt: cleanTextValue(prompt, ''),
+  };
+}
+
+function normalizeWritingRevisionPayload(payload = {}, fallback = {}) {
+  return {
+    revisedText: cleanTextValue(payload.revisedText || payload.revised_text, fallback.revisedText || ''),
+    summary: cleanTextValue(payload.summary || payload.coachSummary || payload.coach_summary, fallback.summary || ''),
+    strengths: cleanStringList(payload.strengths || fallback.strengths || [], 1, 5),
+    fixes: cleanStringList(payload.fixes || payload.improvements || fallback.fixes || [], 1, 5),
+    rubricNotes: cleanStringList(payload.rubricNotes || payload.rubric_notes || fallback.rubricNotes || [], 1, 5),
+    source: cleanTextValue(payload.source, fallback.source || 'local-writing-revision'),
+    model: cleanTextValue(payload.model, fallback.model || ''),
+    prompt: cleanTextValue(payload.prompt, fallback.prompt || ''),
+  };
+}
+
+async function generateWritingRevisionWithOpenAI({ text = '', prompt = '', level = 'B2', task = 'essay' } = {}) {
+  const safeText = cleanTextValue(text, '');
+  if (!safeText) {
+    return {
+      ok: false,
+      status: 400,
+      error: 'TEXT_REQUIRED',
+      detail: 'Provide text before calling /api/writing-revision.',
+    };
+  }
+
+  const schema = {
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+      revisedText: { type: 'string' },
+      summary: { type: 'string' },
+      strengths: { type: 'array', items: { type: 'string' }, minItems: 2, maxItems: 5 },
+      fixes: { type: 'array', items: { type: 'string' }, minItems: 2, maxItems: 5 },
+      rubricNotes: { type: 'array', items: { type: 'string' }, minItems: 2, maxItems: 5 },
+    },
+    required: ['revisedText', 'summary', 'strengths', 'fixes', 'rubricNotes'],
+  };
+
+  const instructions = [
+    'You are a BUEPT writing revision engine.',
+    'Revise the student draft into a cleaner academic version while preserving the original meaning.',
+    'Do not invent new factual claims or examples that are not implied by the source.',
+    'Make the language more coherent, more grammatical, and more academic.',
+    'The feedback must reflect a strict BUEPT-style rubric focused on content development, organization, vocabulary, grammar, and mechanics.',
+    'Return only valid JSON.',
+  ].join(' ');
+
+  const input = [
+    `Level: ${cleanTextValue(level, 'B2')}`,
+    `Task: ${cleanTextValue(task, 'essay')}`,
+    `Prompt: ${cleanTextValue(prompt, 'No prompt provided')}`,
+    'Student draft:',
+    safeText,
+  ].join('\n');
+
+  return callOpenAiStructured({
+    model: OPENAI_TEXT_MODEL,
+    instructions,
+    input,
+    schema,
+    name: 'writing_revision',
+  });
+}
+
+async function generateSpeakingWithOpenAI({ text = '', history = [] } = {}) {
+  const safeText = cleanTextValue(text, '');
+  const turns = Array.isArray(history)
+    ? history.slice(-6).map((item) => `${item.role || 'user'}: ${cleanTextValue(item.text, '')}`).join('\n')
+    : '';
+  const schema = {
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+      reply: { type: 'string' },
+    },
+    required: ['reply'],
+  };
+  const instructions = 'You are an English speaking coach for BUEPT learners. Give concise, practical feedback on fluency, coherence, and pronunciation strategy. Return only valid JSON.';
+  const input = `Latest response:\n${safeText}\n\nRecent context:\n${turns || 'No prior turns.'}`;
+  return callOpenAiStructured({
+    model: OPENAI_SPEAKING_MODEL,
+    instructions,
+    input,
+    schema,
+    name: 'speaking_feedback',
+  });
+}
+
+async function generateVideoLessonWithOpenAI({ topic = '', level = 'B1', durationMin = 4 } = {}) {
+  const safeTopic = cleanTextValue(topic, 'Academic Writing');
+  const safeLevel = cleanTextValue(level, 'B1');
+  const safeDuration = clampNumberValue(durationMin, 2, 12, 4);
+  const schema = {
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+      title: { type: 'string' },
+      summary: { type: 'string' },
+      scenes: {
+        type: 'array',
+        minItems: 4,
+        maxItems: 8,
+        items: {
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            id: { type: 'string' },
+            heading: { type: 'string' },
+            bullets: { type: 'array', items: { type: 'string' }, minItems: 3, maxItems: 4 },
+            narration: { type: 'string' },
+            durationSec: { type: 'number' },
+            quiz: { type: 'string' },
+          },
+          required: ['id', 'heading', 'bullets', 'narration', 'durationSec', 'quiz'],
+        },
+      },
+    },
+    required: ['title', 'summary', 'scenes'],
+  };
+  const instructions = 'You build practical English lesson storyboards for BUEPT learners. Generate scenes with narration, bullets, and quick checks. Return only valid JSON.';
+  const input = `Topic: ${safeTopic}\nLevel: ${safeLevel}\nDuration: ${safeDuration} minutes\nGoal: a real lesson storyboard, not filler text.`;
+  return callOpenAiStructured({
+    model: OPENAI_VIDEO_MODEL,
+    instructions,
+    input,
+    schema,
+    name: 'video_lesson_storyboard',
+  });
+}
+
+async function generateModuleResponse(kind = '', payload = {}) {
+  const normalizedKind = cleanTextValue(kind, '');
+
+  if (normalizedKind === 'interactive_dictionary') {
+    const local = buildInteractiveDictionaryLocal(payload.term);
+    if (!local) {
+      return { ok: false, status: 404, error: 'TERM_NOT_FOUND', detail: 'No dictionary entry found.' };
+    }
+    return { ok: true, status: 200, data: local };
+  }
+
+  if (normalizedKind === 'photo_vocab_extract') {
+    return {
+      ok: true,
+      status: 200,
+      data: buildPhotoVocabExtractLocal({
+        ocrText: payload.ocrText || payload.text || payload.ocr,
+        minLevel: payload.minLevel,
+        limit: payload.limit,
+      }),
+    };
+  }
+
+  if (normalizedKind === 'proficiency_mock') {
+    return {
+      ok: true,
+      status: 200,
+      data: buildProficiencyMockLocal({
+        count: payload.count,
+        level: payload.level,
+      }),
+    };
+  }
+
+  if (normalizedKind === 'weak_point_analysis') {
+    return {
+      ok: true,
+      status: 200,
+      data: buildWeakPointAnalysisLocal(payload),
+    };
+  }
+
+  if (normalizedKind === 'academic_writing_template') {
+    const ai = await generateAcademicWritingWithOpenAI(payload);
+    if (ai.ok) {
+      return {
+        ok: true,
+        status: 200,
+        data: {
+          source: 'openai',
+          template: cleanTextValue(ai.data?.template, buildAcademicWritingTemplateLocal(payload).template),
+          model: ai.model || OPENAI_TEXT_MODEL,
+        },
+      };
+    }
+    return {
+      ok: true,
+      status: 200,
+      data: {
+        ...buildAcademicWritingTemplateLocal(payload),
+        diagnostic: ai.detail || ai.error,
+      },
+    };
+  }
+
+  return {
+    ok: false,
+    status: 400,
+    error: 'UNSUPPORTED_MODULE_KIND',
+    detail: `Unsupported module kind: ${normalizedKind}`,
+  };
+}
 
 function sendJson(res, code, payload) {
   res.writeHead(code, {
     'Content-Type': 'application/json; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS'
   });
   res.end(JSON.stringify(payload, null, 2));
 }
 
 function sendFile(res, filePath, contentType) {
   const stream = fs.createReadStream(filePath);
-  stream.on('error', () => {
-    sendJson(res, 500, { ok: false, error: 'FILE_READ_ERROR' });
+  stream.on('error', () => sendJson(res, 500, { ok: false, error: 'FILE_READ_ERROR' }));
+  res.writeHead(200, {
+    'Content-Type': contentType,
+    'Cache-Control': 'no-cache',
+    'Access-Control-Allow-Origin': '*'
   });
-  res.writeHead(200, { 'Content-Type': contentType });
   stream.pipe(res);
+}
+
+function contentTypeByPath(filePath) {
+  if (filePath.endsWith('.html')) return 'text/html; charset=utf-8';
+  if (filePath.endsWith('.js')) return 'application/javascript; charset=utf-8';
+  if (filePath.endsWith('.css')) return 'text/css; charset=utf-8';
+  if (filePath.endsWith('.json')) return 'application/json; charset=utf-8';
+  if (filePath.endsWith('.svg')) return 'image/svg+xml';
+  if (filePath.endsWith('.png')) return 'image/png';
+  return 'application/octet-stream';
+}
+
+function safeStaticPath(requestPath) {
+  const clean = requestPath === '/' ? '/index.html' : requestPath;
+  const normalized = path.normalize(clean).replace(/^\.\.[/\\]/, '');
+  return path.join(STATIC_ROOT, normalized);
+}
+
+function getApkPath(kind) {
+  const candidates = APK_FILE_CANDIDATES[kind] || [];
+  for (const p of candidates) {
+    if (exists(p)) return p;
+  }
+  return null;
 }
 
 function sha256(filePath) {
@@ -41,8 +1404,8 @@ function sha256(filePath) {
 }
 
 async function getApkMeta(kind) {
-  const filePath = APK_FILES[kind];
-  if (!filePath || !fs.existsSync(filePath)) return null;
+  const filePath = getApkPath(kind);
+  if (!filePath) return null;
   const stat = fs.statSync(filePath);
   const checksum = await sha256(filePath);
   return {
@@ -50,97 +1413,832 @@ async function getApkMeta(kind) {
     fileName: path.basename(filePath),
     bytes: stat.size,
     sha256: checksum,
-    downloadUrl: `/download/${kind}`,
+    downloadUrl: `/download/${kind}`
   };
 }
 
-function htmlPage() {
-  return `<!doctype html>
-<html lang="tr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>BUEPT App API</title>
-  <style>
-    body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; background:#0b1020; color:#e8edff; }
-    .box { max-width: 760px; margin: 0 auto; background: #141b34; border: 1px solid #263157; border-radius: 14px; padding: 20px; }
-    h1 { margin: 0 0 12px; }
-    a.btn { display:inline-block; margin:8px 8px 0 0; padding:10px 14px; border-radius:10px; text-decoration:none; color:#0b1020; background:#7dd3fc; font-weight:700; }
-    code { background:#0f1630; padding:2px 6px; border-radius:6px; }
-    pre { white-space: pre-wrap; background:#0f1630; padding:12px; border-radius:10px; border:1px solid #263157; }
-  </style>
-</head>
-<body>
-  <div class="box">
-    <h1>BUEPT App API</h1>
-    <p>API endpointleri:</p>
-    <ul>
-      <li><code>/api/status</code></li>
-      <li><code>/api/apks</code></li>
-      <li><code>/download/release</code></li>
-      <li><code>/download/debug</code></li>
-    </ul>
-    <a class="btn" href="/download/release">Release APK indir</a>
-    <a class="btn" href="/download/debug">Debug APK indir</a>
-    <p id="meta"></p>
-    <pre id="json">Yukleniyor...</pre>
-  </div>
-  <script>
-    fetch('/api/apks').then(r => r.json()).then(d => {
-      document.getElementById('json').textContent = JSON.stringify(d, null, 2);
-    }).catch(() => {
-      document.getElementById('json').textContent = 'API okunamadi.';
+const DICT_BLOCKED_HEADWORDS = new Set([
+  'can', 'could', 'may', 'might', 'will', 'would', 'shall', 'should', 'must',
+  'not', 'who', 'whom', 'which', 'what', 'when', 'where', 'why', 'how',
+  'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+  'here', 'there', 'then', 'than', 'also', 'just', 'only', 'very', 'even', 'more', 'most',
+  'get', 'got', 'make', 'made', 'take', 'took', 'give', 'gave', 'have', 'has', 'had', 'know', 'see',
+  'like', 'look', 'work', 'time', 'day', 'year', 'way', 'good', 'bad', 'new', 'old', 'right', 'left',
+  'out', 'over', 'under', 'into', 'onto', 'about', 'after', 'before', 'during', 'through',
+  'all', 'any', 'some', 'many', 'few', 'much', 'other',
+]);
+
+const DICT_BANNED = new Set([
+  'arse', 'ass', 'bum', 'buns', 'butt', 'buttocks', 'fanny', 'fuck', 'sex', 'intercourse', 'bonk', 'hump', 'laid', 'crap'
+]);
+
+function normToken(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/_/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function looksLikeTerm(value, maxWords = 4) {
+  if (!value || !/^[a-z][a-z -]*[a-z]$/.test(value)) return false;
+  const tokens = value.split(' ').filter(Boolean);
+  if (!tokens.length || tokens.length > maxWords) return false;
+  return !tokens.some((t) => t.length < 2);
+}
+
+function cleanTermList(values, { headword = '', maxWords = 4, requireHeadword = false } = {}) {
+  const hw = normToken(headword);
+  const out = [];
+  const seen = new Set();
+  for (const raw of asList(values)) {
+    const normalized = normToken(raw);
+    if (!looksLikeTerm(normalized, maxWords)) continue;
+    if (DICT_BANNED.has(normalized)) continue;
+    if (normalized === hw) continue;
+    if (requireHeadword && hw && !new RegExp(`\\b${hw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(normalized)) continue;
+    if (seen.has(normalized)) continue;
+    seen.add(normalized);
+    out.push(normalized);
+  }
+  return out;
+}
+
+function cleanExamples(values) {
+  const out = [];
+  const seen = new Set();
+  for (const raw of asList(values)) {
+    const line = String(raw || '').trim().replace(/\s+/g, ' ');
+    const key = normToken(line);
+    if (!line || line.length < 16 || line.length > 220) continue;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(line.endsWith('.') || line.endsWith('!') || line.endsWith('?') ? line : `${line}.`);
+  }
+  return out.slice(0, 5);
+}
+
+function buildCollocations(word) {
+  const w = normToken(word);
+  return cleanTermList([
+    `${w} analysis`,
+    `${w} in context`,
+    `${w} in writing`,
+    `use ${w} correctly`,
+    `apply ${w} in a sentence`,
+  ], { headword: w, maxWords: 4, requireHeadword: true }).slice(0, 8);
+}
+
+function normalizeDictionaryEntry(raw, overridesMap, rank = 60, source = 'subset') {
+  const word = normToken(raw.word);
+  if (!word || word.length < 3) return null;
+  if (!/^[a-z][a-z-]*$/.test(word)) return null;
+  if (DICT_BLOCKED_HEADWORDS.has(word)) return null;
+
+  const baseDef = String(raw.simple_definition || raw.definition || '').trim().replace(/\s+/g, ' ');
+  if (!baseDef || baseDef.length < 10 || baseDef.length > 220) return null;
+
+  const examples = cleanExamples(raw.examples);
+  const overrideSynonyms = asList(overridesMap[word.toLowerCase()]);
+  const synonyms = cleanTermList([...asList(raw.synonyms), ...overrideSynonyms], { headword: word, maxWords: 4 }).slice(0, 12);
+  const antonyms = cleanTermList(raw.antonyms, { headword: word, maxWords: 3 }).slice(0, 8);
+  const collocations = cleanTermList(raw.collocations, { headword: word, maxWords: 4, requireHeadword: true }).slice(0, 10);
+
+  return {
+    word,
+    level: String(raw.level || 'B2').toUpperCase(),
+    wordType: String(raw.word_type || '').trim(),
+    definition: baseDef.endsWith('.') ? baseDef : `${baseDef}.`,
+    synonyms,
+    antonyms,
+    collocations: collocations.length ? collocations : buildCollocations(word),
+    examples,
+    rank,
+    source,
+  };
+}
+
+function getDictionaryIndex() {
+  const cacheKey = '__dictionary_index__';
+  if (dataCache.has(cacheKey)) return dataCache.get(cacheKey);
+
+  const dict = loadJsonCached('dictionary_subset.json', []);
+  const academic = loadJsonCached('academic_wordlist.json', []);
+  const academicVerbs = loadJsonCached('academic_verbs.json', []);
+  const testEnglishVocab = loadJsonCached('test_english_vocab_items.json', []);
+  const departments = loadJsonCached('bogazici_department_vocab.json', []);
+  const overrides = loadJsonCached('synonym_overrides.json', {});
+
+  const cleaned = [];
+  if (Array.isArray(departments)) {
+    for (const dept of departments) {
+      const words = Array.isArray(dept?.words) ? dept.words : [];
+      for (const item of words) {
+        const normalized = normalizeDictionaryEntry({
+          word: item?.word,
+          simple_definition: item?.definition,
+          examples: item?.example ? [item.example] : [],
+          word_type: 'noun',
+          level: 'B2',
+        }, overrides, 100, 'department');
+        if (normalized) cleaned.push(normalized);
+      }
+    }
+  }
+
+  if (Array.isArray(academicVerbs)) {
+    for (const item of academicVerbs) {
+      const normalized = normalizeDictionaryEntry({
+        word: item?.word,
+        simple_definition: item?.definition,
+        examples: item?.example ? [item.example] : [],
+        word_type: 'verb',
+        level: 'B2',
+      }, overrides, 95, 'academic-verb');
+      if (normalized) cleaned.push(normalized);
+    }
+  }
+
+  if (Array.isArray(academic)) {
+    for (const item of academic) {
+      const normalized = normalizeDictionaryEntry({
+        word: item?.word,
+        simple_definition: item?.definition,
+        level: item?.level || 'B2',
+      }, overrides, 90, 'academic');
+      if (normalized) cleaned.push(normalized);
+    }
+  }
+
+  if (Array.isArray(testEnglishVocab)) {
+    for (const item of testEnglishVocab) {
+      const normalized = normalizeDictionaryEntry({
+        word: item?.word,
+        simple_definition: item?.simple_definition || item?.definition,
+        examples: item?.examples || [],
+        word_type: item?.word_type || '',
+        level: item?.level || 'B1',
+        synonyms: item?.synonyms || [],
+        antonyms: item?.antonyms || [],
+        collocations: item?.collocations || [],
+      }, overrides, 93, 'test-english');
+      if (normalized) cleaned.push(normalized);
+    }
+  }
+
+  if (Array.isArray(dict)) {
+    for (const item of dict) {
+      const normalized = normalizeDictionaryEntry(item, overrides, 60, 'subset');
+      if (normalized) cleaned.push(normalized);
+    }
+  }
+
+  const byWord = new Map();
+  for (const entry of cleaned) {
+    const key = entry.word.toLowerCase();
+    const prev = byWord.get(key);
+    if (!prev) {
+      byWord.set(key, entry);
+      continue;
+    }
+    const merged = {
+      ...prev,
+      definition: prev.rank >= entry.rank ? prev.definition : entry.definition,
+      level: prev.rank >= entry.rank ? prev.level : entry.level,
+      wordType: prev.wordType || entry.wordType,
+      synonyms: uniq([...prev.synonyms, ...entry.synonyms]).slice(0, 12),
+      antonyms: uniq([...prev.antonyms, ...entry.antonyms]).slice(0, 8),
+      collocations: uniq([...prev.collocations, ...entry.collocations]).slice(0, 10),
+      examples: uniq([...prev.examples, ...entry.examples]).slice(0, 5),
+      rank: Math.max(prev.rank, entry.rank),
+      source: prev.rank >= entry.rank ? prev.source : entry.source,
+    };
+    byWord.set(key, merged);
+  }
+
+  const list = Array.from(byWord.values()).sort((a, b) => {
+    const rankDiff = Number(b.rank || 0) - Number(a.rank || 0);
+    if (rankDiff !== 0) return rankDiff;
+    return String(a.word).localeCompare(String(b.word));
+  });
+
+  const value = { list, byWord };
+  dataCache.set(cacheKey, value);
+  return value;
+}
+
+function buildVocabularyResponse(query) {
+  const q = String(query || '').trim().toLowerCase();
+  const { byWord, list } = getDictionaryIndex();
+  if (!q) return { hits: [], total: 0 };
+
+  const exact = byWord.get(q);
+  const starts = [];
+  const contains = [];
+
+  for (const entry of list) {
+    const w = entry.word.toLowerCase();
+    if (w === q) continue;
+    if (w.startsWith(q)) starts.push(entry);
+    else if (w.includes(q)) contains.push(entry);
+    if (starts.length >= 20 && contains.length >= 20) break;
+  }
+
+  const hits = exact ? [exact, ...starts, ...contains] : [...starts, ...contains];
+  return {
+    hits: hits.slice(0, 25),
+    total: hits.length
+  };
+}
+
+function getDepartmentVocabulary() {
+  return loadJsonCached('bogazici_department_vocab.json', []);
+}
+
+function normalizeReadingQuestion(q) {
+  if (!q) return null;
+  return {
+    q: String(q.q || q.question || '').trim(),
+    options: Array.isArray(q.options) ? q.options.map((x) => String(x)) : [],
+    answer: Number.isInteger(q.answer) ? q.answer : null,
+    explain: String(q.explain || '').trim(),
+    skill: String(q.skill || '').trim()
+  };
+}
+
+function getRandomReading(level) {
+  const tasks = loadJsonCached('reading_tasks.json', []);
+  const list = Array.isArray(tasks) ? tasks : [];
+  const filtered = level ? list.filter((t) => String(t.level || '').toUpperCase() === level.toUpperCase()) : list;
+  const task = pickRandom(filtered.length ? filtered : list);
+  if (!task) return null;
+  const question = normalizeReadingQuestion(pickRandom(task.questions || []));
+  return {
+    id: task.id,
+    level: task.level,
+    title: task.title,
+    time: task.time,
+    text: task.text,
+    question
+  };
+}
+
+function getRandomGrammar(level) {
+  const core = loadJsonCached('grammar_tasks.json', []);
+  const hard = loadJsonCached('grammar_tasks_hard.json', []);
+  const testEnglish = loadJsonCached('test_english_grammar_tasks.json', []);
+  const list = [
+    ...(Array.isArray(core) ? core : []),
+    ...(Array.isArray(hard) ? hard : []),
+    ...(Array.isArray(testEnglish) ? testEnglish : []),
+  ];
+  const filtered = level ? list.filter((t) => String(t.level || '').toUpperCase() === level.toUpperCase()) : list;
+  const task = pickRandom(filtered.length ? filtered : list);
+  if (!task) return null;
+  const question = normalizeReadingQuestion(pickRandom(task.questions || []));
+  return {
+    id: task.id,
+    level: task.level,
+    title: task.title,
+    time: task.time,
+    explain: task.explain,
+    question
+  };
+}
+
+function getRandomWriting(level) {
+  const prompts = loadJsonCached('writing_prompts.json', []);
+  const list = Array.isArray(prompts) ? prompts : [];
+  const filtered = level ? list.filter((p) => String(p.level || '').toUpperCase() === level.toUpperCase()) : list;
+  const item = pickRandom(filtered.length ? filtered : list);
+  return item || null;
+}
+
+function getListeningPodcasts() {
+  const podcasts = loadJsonCached('listening_podcasts.json', []);
+  if (!Array.isArray(podcasts)) return [];
+  return podcasts.map((p) => ({
+    id: p.id,
+    title: p.title,
+    source: p.source,
+    category: p.category,
+    level: p.level,
+    duration: p.duration,
+    focus: p.focus,
+    url: p.url
+  }));
+}
+
+function getCalendarSummary() {
+  const schedule = loadJsonCached('university_schedule_2025_fall.json', {});
+  const holidays = Array.isArray(schedule.holidays) ? schedule.holidays : [];
+  const academicEvents = Array.isArray(schedule.academicEvents) ? schedule.academicEvents : [];
+  const programs = Array.isArray(schedule.programs) ? schedule.programs : [];
+
+  return {
+    meta: schedule.meta || {},
+    holidays: holidays.slice(0, 30),
+    academicEvents: academicEvents.slice(0, 30),
+    programs: programs.slice(0, 8).map((p) => ({
+      program: p.program,
+      title: p.title,
+      sectionCount: Array.isArray(p.sections) ? p.sections.length : 0,
+      sampleSections: Array.isArray(p.sections)
+        ? p.sections.slice(0, 3).map((s) => ({
+            section: s.section,
+            room: s.room,
+            instructors: s.instructors,
+            slots: Array.isArray(s.slots) ? s.slots.slice(0, 4) : []
+          }))
+        : []
+    }))
+  };
+}
+
+function buildChatReply(message) {
+  const msg = String(message || '').trim();
+  const lower = msg.toLowerCase();
+  const dictionary = getDictionaryIndex();
+
+  const tips = {
+    reading: [
+      'Skim once for structure, then scan for evidence sentences before choosing an option.',
+      'For each question, underline the exact phrase in the text that supports your answer.',
+      'If two options are close, eliminate the one that overstates certainty.'
+    ],
+    grammar: [
+      'Check subject-verb agreement first, then tense consistency, then article usage.',
+      'When stuck, test each option inside the full sentence and listen for meaning drift.',
+      'For BUEPT style items, one word often breaks both grammar and logic.'
+    ],
+    writing: [
+      'Use a 4-part paragraph: topic sentence, reason, example, concluding link.',
+      'Aim for one clear claim per paragraph and connect ideas with precise transitions.',
+      'After drafting, run a 3-pass edit: clarity, grammar, then vocabulary upgrade.'
+    ],
+    listening: [
+      'Preview the question focus first (cause, result, opinion, comparison).',
+      'Take short keyword notes, not full sentences; prioritize signal words.',
+      'If you miss a detail, keep tracking the speaker’s stance and overall direction.'
+    ],
+    vocab: [
+      'Learn collocations with the word, not isolated synonyms.',
+      'Write two personal example sentences per word for long-term retention.',
+      'Group words by department and recycle them in speaking + writing tasks.'
+    ]
+  };
+
+  if (!msg) {
+    return {
+      reply: 'Ask me about reading, grammar, writing, listening, or vocabulary. I can also define a word.',
+      suggestions: ['Give me a reading strategy', 'Explain article usage', 'Define resilience']
+    };
+  }
+
+  const maybeWord = lower.match(/\bdefine\s+([a-z][a-z-]{2,})\b|\bmeaning of\s+([a-z][a-z-]{2,})\b/i);
+  const extracted = maybeWord ? (maybeWord[1] || maybeWord[2] || '').toLowerCase() : '';
+  if (extracted && dictionary.byWord.has(extracted)) {
+    const entry = dictionary.byWord.get(extracted);
+    const syn = entry.synonyms.slice(0, 5).join(', ') || 'No synonym available';
+    const example = entry.examples[0] || `Use "${entry.word}" in an academic sentence.`;
+    return {
+      reply: `${entry.word}: ${entry.definition}\nSynonyms: ${syn}\nExample: ${example}`,
+      suggestions: ['Give another example sentence', `Show words like ${entry.word}`, 'Quiz me on vocabulary']
+    };
+  }
+
+  let area = null;
+  if (lower.includes('reading') || lower.includes('passage')) area = 'reading';
+  if (lower.includes('grammar') || lower.includes('tense') || lower.includes('article')) area = 'grammar';
+  if (lower.includes('writing') || lower.includes('essay') || lower.includes('paragraph')) area = 'writing';
+  if (lower.includes('listening') || lower.includes('podcast')) area = 'listening';
+  if (lower.includes('vocab') || lower.includes('word') || lower.includes('synonym')) area = 'vocab';
+
+  if (area) {
+    const pool = tips[area];
+    const first = pickRandom(pool) || 'Focus on clear, evidence-based answers.';
+    const second = pickRandom(pool.filter((x) => x !== first)) || pool[0];
+    return {
+      reply: `${area.toUpperCase()} focus:\n1) ${first}\n2) ${second}`,
+      suggestions: ['Give me a practice task', 'Create a 1-week plan', 'Evaluate my answer']
+    };
+  }
+
+  return {
+    reply: 'I can help directly with BUEPT practice. Ask for a random reading/grammar question, a writing prompt, or a vocabulary definition.',
+    suggestions: ['Random reading question', 'Random grammar question', 'Random writing prompt']
+  };
+}
+
+function getSummary() {
+  const reading = loadJsonCached('reading_tasks.json', []);
+  const grammar = loadJsonCached('grammar_tasks.json', []);
+  const grammarHard = loadJsonCached('grammar_tasks_hard.json', []);
+  const grammarTestEnglish = loadJsonCached('test_english_grammar_tasks.json', []);
+  const writing = loadJsonCached('writing_prompts.json', []);
+  const listening = loadJsonCached('listening_podcasts.json', []);
+  const dict = getDictionaryIndex();
+  const departments = getDepartmentVocabulary();
+
+  return {
+    readingCount: Array.isArray(reading) ? reading.length : 0,
+    grammarCount:
+      (Array.isArray(grammar) ? grammar.length : 0) +
+      (Array.isArray(grammarHard) ? grammarHard.length : 0) +
+      (Array.isArray(grammarTestEnglish) ? grammarTestEnglish.length : 0),
+    writingCount: Array.isArray(writing) ? writing.length : 0,
+    listeningCount: Array.isArray(listening) ? listening.length : 0,
+    dictionaryCount: dict.list.length,
+    departmentCount: Array.isArray(departments) ? departments.length : 0
+  };
+}
+
+function parseJsonBody(req) {
+  return new Promise((resolve, reject) => {
+    let raw = '';
+    req.on('data', (chunk) => {
+      raw += chunk;
+      if (raw.length > 2 * 1024 * 1024) {
+        reject(new Error('PAYLOAD_TOO_LARGE'));
+        req.destroy();
+      }
     });
-  </script>
-</body>
-</html>`;
+    req.on('end', () => {
+      if (!raw) return resolve({});
+      try {
+        resolve(JSON.parse(raw));
+      } catch (_) {
+        reject(new Error('INVALID_JSON'));
+      }
+    });
+    req.on('error', reject);
+  });
 }
 
 const server = http.createServer(async (req, res) => {
-  const parsed = url.parse(req.url || '', true);
-  const pathname = parsed.pathname || '/';
+  try {
+    const parsed = url.parse(req.url || '', true);
+    const pathname = parsed.pathname || '/';
 
-  if (pathname === '/') {
-    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    res.end(htmlPage());
-    return;
-  }
-
-  if (pathname === '/api/status') {
-    sendJson(res, 200, {
-      ok: true,
-      service: 'buept-web-api',
-      now: new Date().toISOString(),
-    });
-    return;
-  }
-
-  if (pathname === '/api/apks') {
-    const [release, debug] = await Promise.all([getApkMeta('release'), getApkMeta('debug')]);
-    sendJson(res, 200, {
-      ok: true,
-      app: 'BUEPTApp',
-      apks: [release, debug].filter(Boolean),
-    });
-    return;
-  }
-
-  if (pathname === '/download/release' || pathname === '/download/debug') {
-    const kind = pathname.endsWith('release') ? 'release' : 'debug';
-    const filePath = APK_FILES[kind];
-    if (!fs.existsSync(filePath)) {
-      sendJson(res, 404, { ok: false, error: 'APK_NOT_FOUND', kind });
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204, {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'GET,POST,OPTIONS'
+      });
+      res.end();
       return;
     }
-    res.setHeader('Content-Disposition', `attachment; filename="${path.basename(filePath)}"`);
-    sendFile(res, filePath, 'application/vnd.android.package-archive');
-    return;
-  }
 
-  sendJson(res, 404, { ok: false, error: 'NOT_FOUND' });
+    if (pathname === '/api/status' || pathname === '/api/health') {
+      sendJson(res, 200, {
+        ok: true,
+        service: 'buept-web-app-server',
+        now: new Date().toISOString(),
+        roots: {
+          projectRoot: PROJECT_ROOT,
+          appRoot: APP_ROOT,
+          dataRoot: DATA_ROOT
+        }
+      });
+      return;
+    }
+
+    if (pathname === '/api/summary') {
+      sendJson(res, 200, { ok: true, summary: getSummary() });
+      return;
+    }
+
+    if (pathname === '/api/apks') {
+      const [release, debug] = await Promise.all([getApkMeta('release'), getApkMeta('debug')]);
+      sendJson(res, 200, {
+        ok: true,
+        apks: [release, debug].filter(Boolean)
+      });
+      return;
+    }
+
+    if (pathname === '/download/release' || pathname === '/download/debug') {
+      const kind = pathname.endsWith('release') ? 'release' : 'debug';
+      const filePath = getApkPath(kind);
+      if (!filePath) {
+        sendJson(res, 404, { ok: false, error: 'APK_NOT_FOUND', kind });
+        return;
+      }
+      res.setHeader('Content-Disposition', `attachment; filename="${path.basename(filePath)}"`);
+      sendFile(res, filePath, 'application/vnd.android.package-archive');
+      return;
+    }
+
+    if (pathname === '/api/vocab/random') {
+      const { list } = getDictionaryIndex();
+      const item = pickRandom(list);
+      sendJson(res, 200, { ok: true, item });
+      return;
+    }
+
+    if (pathname === '/api/vocab/search') {
+      const q = String(parsed.query.q || '').trim();
+      const out = buildVocabularyResponse(q);
+      sendJson(res, 200, { ok: true, query: q, ...out });
+      return;
+    }
+
+    if (pathname === '/api/vocab/departments') {
+      const rows = getDepartmentVocabulary();
+      const departments = Array.isArray(rows)
+        ? rows.map((r) => ({
+            id: r.id,
+            department: r.department,
+            wordCount: Array.isArray(r.words) ? r.words.length : 0
+          }))
+        : [];
+      sendJson(res, 200, { ok: true, departments });
+      return;
+    }
+
+    if (pathname === '/api/vocab/department') {
+      const dep = String(parsed.query.department || '').trim().toLowerCase();
+      const limit = Math.max(1, Math.min(200, Number(parsed.query.limit || 40)));
+      const rows = getDepartmentVocabulary();
+      const match = Array.isArray(rows)
+        ? rows.find((r) => String(r.department || '').toLowerCase() === dep || String(r.id || '').toLowerCase() === dep)
+        : null;
+      if (!match) {
+        sendJson(res, 404, { ok: false, error: 'DEPARTMENT_NOT_FOUND' });
+        return;
+      }
+      const words = Array.isArray(match.words) ? match.words.slice(0, limit) : [];
+      sendJson(res, 200, {
+        ok: true,
+        department: match.department,
+        id: match.id,
+        words
+      });
+      return;
+    }
+
+    if (pathname === '/api/reading/random') {
+      const level = String(parsed.query.level || '').trim() || null;
+      const task = getRandomReading(level);
+      if (!task) {
+        sendJson(res, 404, { ok: false, error: 'NO_READING_TASK' });
+        return;
+      }
+      sendJson(res, 200, { ok: true, task });
+      return;
+    }
+
+    if (pathname === '/api/grammar/random') {
+      const level = String(parsed.query.level || '').trim() || null;
+      const task = getRandomGrammar(level);
+      if (!task) {
+        sendJson(res, 404, { ok: false, error: 'NO_GRAMMAR_TASK' });
+        return;
+      }
+      sendJson(res, 200, { ok: true, task });
+      return;
+    }
+
+    if (pathname === '/api/writing/random') {
+      const level = String(parsed.query.level || '').trim() || null;
+      const prompt = getRandomWriting(level);
+      if (!prompt) {
+        sendJson(res, 404, { ok: false, error: 'NO_WRITING_PROMPT' });
+        return;
+      }
+      sendJson(res, 200, { ok: true, prompt });
+      return;
+    }
+
+    if (pathname === '/api/listening/podcasts') {
+      sendJson(res, 200, { ok: true, podcasts: getListeningPodcasts() });
+      return;
+    }
+
+    if (pathname === '/api/calendar') {
+      sendJson(res, 200, { ok: true, calendar: getCalendarSummary() });
+      return;
+    }
+
+    if (pathname === '/api/module' && req.method === 'POST') {
+      let body = {};
+      try {
+        body = await parseJsonBody(req);
+      } catch (e) {
+        sendJson(res, 400, { ok: false, error: e.message || 'INVALID_BODY' });
+        return;
+      }
+
+      const generated = await generateModuleResponse(body.kind, body);
+      if (!generated.ok) {
+        sendJson(res, generated.status || 400, {
+          ok: false,
+          error: generated.error,
+          detail: generated.detail || '',
+        });
+        return;
+      }
+
+      sendJson(res, 200, {
+        ok: true,
+        ...generated.data,
+      });
+      return;
+    }
+
+    if (pathname === '/api/speaking' && req.method === 'POST') {
+      let body = {};
+      try {
+        body = await parseJsonBody(req);
+      } catch (e) {
+        sendJson(res, 400, { ok: false, error: e.message || 'INVALID_BODY' });
+        return;
+      }
+
+      const ai = await generateSpeakingWithOpenAI({
+        text: body.text || body.message,
+        history: body.history,
+      });
+      if (ai.ok) {
+        sendJson(res, 200, {
+          ok: true,
+          source: 'openai',
+          model: ai.model || OPENAI_SPEAKING_MODEL,
+          reply: cleanTextValue(ai.data?.reply, buildSpeakingFeedbackLocal(body).reply),
+          text: cleanTextValue(ai.data?.reply, buildSpeakingFeedbackLocal(body).reply),
+        });
+        return;
+      }
+
+      const fallback = buildSpeakingFeedbackLocal(body);
+      sendJson(res, 200, {
+        ok: true,
+        ...fallback,
+        diagnostic: ai.detail || ai.error || '',
+        text: fallback.reply,
+      });
+      return;
+    }
+
+    if (pathname === '/api/video-lesson' && req.method === 'POST') {
+      let body = {};
+      try {
+        body = await parseJsonBody(req);
+      } catch (e) {
+        sendJson(res, 400, { ok: false, error: e.message || 'INVALID_BODY' });
+        return;
+      }
+
+      const ai = await generateVideoLessonWithOpenAI({
+        topic: body.topic,
+        level: body.level,
+        durationMin: body.durationMin,
+      });
+      if (ai.ok) {
+        sendJson(res, 200, {
+          ok: true,
+          ...normalizeVideoLessonPayload({
+            ...ai.data,
+            source: 'openai',
+          }, cleanTextValue(body.topic, 'Academic Writing')),
+          model: ai.model || OPENAI_VIDEO_MODEL,
+        });
+        return;
+      }
+
+      sendJson(res, 200, {
+        ok: true,
+        ...buildVideoLessonLocal({
+          topic: body.topic,
+          level: body.level,
+          durationMin: body.durationMin,
+        }),
+        source: 'local-storyboard',
+        diagnostic: ai.detail || ai.error || '',
+      });
+      return;
+    }
+
+    if (pathname === '/api/writing-revision' && req.method === 'POST') {
+      let body = {};
+      try {
+        body = await parseJsonBody(req);
+      } catch (e) {
+        sendJson(res, 400, { ok: false, error: e.message || 'INVALID_BODY' });
+        return;
+      }
+
+      const fallback = buildWritingRevisionLocal({
+        text: body.text,
+        prompt: body.prompt,
+        level: body.level,
+        task: body.task,
+      });
+
+      const ai = await generateWritingRevisionWithOpenAI({
+        text: body.text,
+        prompt: body.prompt,
+        level: body.level,
+        task: body.task,
+      });
+
+      if (ai.ok) {
+        sendJson(res, 200, {
+          ok: true,
+          ...normalizeWritingRevisionPayload({
+            ...ai.data,
+            source: 'openai',
+            model: ai.model || OPENAI_TEXT_MODEL,
+            prompt: cleanTextValue(body.prompt, ''),
+          }, fallback),
+        });
+        return;
+      }
+
+      sendJson(res, 200, {
+        ok: true,
+        ...fallback,
+        source: 'local-writing-revision-fallback',
+        diagnostic: ai.detail || ai.error || '',
+      });
+      return;
+    }
+
+    if (pathname === '/api/presentation' && req.method === 'POST') {
+      let body = {};
+      try {
+        body = await parseJsonBody(req);
+      } catch (e) {
+        sendJson(res, 400, { ok: false, error: e.message || 'INVALID_BODY' });
+        return;
+      }
+
+      const generated = await generatePresentationWithOpenAI({
+        topic: body.topic,
+        durationMin: body.durationMin,
+        tone: body.tone,
+        level: body.level,
+      });
+
+      if (!generated.ok) {
+        sendJson(res, generated.status || 502, {
+          ok: false,
+          error: generated.error,
+          detail: generated.detail,
+          fallback: generated.fallback || null,
+        });
+        return;
+      }
+
+      sendJson(res, 200, {
+        ok: true,
+        ...generated.data,
+      });
+      return;
+    }
+
+    if (pathname === '/api/chat' && req.method === 'POST') {
+      let body = {};
+      try {
+        body = await parseJsonBody(req);
+      } catch (e) {
+        sendJson(res, 400, { ok: false, error: e.message || 'INVALID_BODY' });
+        return;
+      }
+      const message = String(body.message || '');
+      const out = buildChatReply(message);
+      sendJson(res, 200, {
+        ok: true,
+        reply: out.reply,
+        suggestions: out.suggestions || []
+      });
+      return;
+    }
+
+    // Static web app
+    const staticPath = safeStaticPath(pathname);
+    if (exists(staticPath) && fs.statSync(staticPath).isFile()) {
+      sendFile(res, staticPath, contentTypeByPath(staticPath));
+      return;
+    }
+
+    // fallback to SPA
+    const fallback = path.join(STATIC_ROOT, 'index.html');
+    if (exists(fallback)) {
+      sendFile(res, fallback, 'text/html; charset=utf-8');
+      return;
+    }
+
+    sendJson(res, 404, { ok: false, error: 'NOT_FOUND' });
+  } catch (err) {
+    sendJson(res, 500, { ok: false, error: 'SERVER_ERROR', detail: String(err.message || err) });
+  }
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`BUEPT web API running: http://${HOST}:${PORT}`);
+  console.log(`BUEPT web app server running at http://${HOST}:${PORT}`);
+  console.log(`projectRoot=${PROJECT_ROOT}`);
+  console.log(`appRoot=${APP_ROOT}`);
+  console.log(`dataRoot=${DATA_ROOT}`);
 });
-

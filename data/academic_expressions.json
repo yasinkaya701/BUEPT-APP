@@ -1,0 +1,52 @@
+[
+  {
+    "category": "Stating Your Opinion",
+    "items": [
+      "From my perspective,",
+      "It is my firm conviction that",
+      "I am intrinsically convinced that",
+      "I tend to side with the view that",
+      "As far as I am concerned,"
+    ]
+  },
+  {
+    "category": "Adding Information",
+    "items": [
+      "Furthermore,",
+      "Moreover,",
+      "In addition to this,",
+      "A further compelling argument is",
+      "Not only that, but also"
+    ]
+  },
+  {
+    "category": "Showing Contrast",
+    "items": [
+      "Nevertheless,",
+      "Conversely,",
+      "In stark contrast to",
+      "On the other side of the spectrum,",
+      "Despite these well-reasoned arguments,"
+    ]
+  },
+  {
+    "category": "Providing Examples",
+    "items": [
+      "A prime example of this paradigm is",
+      "To illustrate this point,",
+      "Take, for instance,",
+      "This is vividly demonstrated by",
+      "Namely,"
+    ]
+  },
+  {
+    "category": "Concluding",
+    "items": [
+      "To summarize,",
+      "Taking everything into consideration,",
+      "All things considered,",
+      "Ultimately, the evidence suggests that",
+      "In the final analysis,"
+    ]
+  }
+]

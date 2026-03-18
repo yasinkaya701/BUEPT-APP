@@ -11,6 +11,7 @@ import Tts from 'react-native-tts';
 let _initialized = false;
 let _initPromise = null;
 let _englishVoiceAvailable = false;
+let _missingVoiceNoticeLogged = false;
 
 /** Call once to initialise TTS engine. Safe to call multiple times. */
 async function ensureInit() {
@@ -19,8 +20,8 @@ async function ensureInit() {
     _initPromise = (async () => {
         try {
             await Tts.getInitStatus();
-            Tts.setDefaultLanguage('en-US');
-            Tts.setIgnoreSilentSwitch('ignore');
+            await Tts.setDefaultLanguage('en-US');
+            await Tts.setIgnoreSilentSwitch('ignore');
             _initialized = true;
         } catch (e) {
             console.error('TTS Init Error:', e);
@@ -28,6 +29,15 @@ async function ensureInit() {
         }
     })();
     return _initPromise;
+}
+
+/** 
+ * Forces the engine back to English if it drifted or was reset by the OS.
+ */
+async function forceEnglish() {
+    try {
+        await Tts.setDefaultLanguage('en-US');
+    } catch (e) {}
 }
 
 /**
@@ -38,16 +48,25 @@ export async function speakText(text, customOptions = {}) {
     if (!text?.trim()) return;
     try {
         await ensureInit();
+        await forceEnglish();
         try { Tts.stop(); } catch (e) { }
         // Small delay lets stop() settle on iOS before next speak
         await new Promise(r => setTimeout(r, 60));
 
-        const rate = customOptions.rate || 0.5;
-        try { Tts.setDefaultRate(rate); } catch (e) { }
+        const rate = customOptions.rate || 0.45;
+        try { 
+            await Tts.setDefaultRate(rate); 
+            await Tts.setDefaultLanguage('en-US');
+        } catch (e) { }
 
         Tts.speak(text.trim(), {
             iosVoiceId: customOptions.iosVoiceId || 'com.apple.ttsbundle.Samantha-compact',
-            rate: rate
+            rate: rate,
+            androidParams: {
+                KEY_PARAM_PAN: 0,
+                KEY_PARAM_VOLUME: 1,
+                KEY_PARAM_STREAM: 'STREAM_MUSIC'
+            }
         });
     } catch (e) {
         // Silently handle — TTS is a non-critical feature
@@ -74,18 +93,27 @@ export function useTts() {
             Tts.voices().then(list => {
                 if (!mounted) return;
                 const en = (list || []).filter(
-                    v => (v.language || '').toLowerCase().startsWith('en') && !v.notInstalled
+                    v => {
+                        const lang = (v.language || '').toLowerCase();
+                        return (lang.startsWith('en') || lang.startsWith('eng')) && !v.notInstalled;
+                    }
                 );
                 _englishVoiceAvailable = en.length > 0;
-                setVoices(en.slice(0, 8));
-                // Prefer Samantha > Ava > Alex on iOS
-                const pref = ['samantha', 'ava', 'allison', 'nicky', 'alex'];
+                setVoices(en.slice(0, 10));
+                
+                // Prioritize specific high-quality English voices
+                const pref = ['samantha', 'ava', 'allison', 'nicky', 'alex', 'daniel', 'karen', 'moira'];
                 const best =
                     en.find(v => pref.some(n => (v.name || '').toLowerCase().includes(n))) ||
+                    en.find(v => (v.language || '').toLowerCase().includes('us')) ||
                     en[0];
+
                 if (best?.id) {
                     setVoiceIdState(best.id);
-                    try { Tts.setDefaultVoice(best.id); } catch (_) { }
+                    try { 
+                        Tts.setDefaultVoice(best.id); 
+                        Tts.setDefaultLanguage('en-US');
+                    } catch (_) { }
                 }
             }).catch(() => { });
         });
@@ -121,12 +149,22 @@ export function useTts() {
             // If another speakWord or stopAll was called, abort!
             if (_speakId.current !== currentId) return;
 
-            try { Tts.setDefaultRate(rate); } catch (e) { }
+            try { await Tts.setDefaultRate(rate); } catch (e) { }
+            try { await Tts.setDefaultLanguage('en-US'); } catch (e) { }
 
             const options = { rate };
-            if (voiceId) options.iosVoiceId = voiceId;
+            if (voiceId) {
+                options.iosVoiceId = voiceId;
+            } else {
+                // Last ditch effort to force English
+                options.iosVoiceId = 'com.apple.ttsbundle.Samantha-compact';
+            }
+            
             if (!voiceId && !_englishVoiceAvailable) {
-                console.warn('[TTS] No installed English voice found on device. Install an English iOS voice in Settings.');
+                if (!_missingVoiceNoticeLogged) {
+                    _missingVoiceNoticeLogged = true;
+                    console.log('[TTS] No installed English voice found on device. Install an English iOS voice in Settings.');
+                }
             }
             Tts.speak(text.trim(), options);
         } catch (_) { }

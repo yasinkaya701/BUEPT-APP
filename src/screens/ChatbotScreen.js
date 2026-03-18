@@ -6,18 +6,118 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Screen from '../components/Screen';
+import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { isChatApiConfigured, requestChatbotReply } from '../utils/chatbotAI';
+import { getAiSourceMeta } from '../utils/aiWorkspace';
 
 const { width } = Dimensions.get('window');
 const CHAT_STATE_KEY = '@chatbot_state_v1';
-const DEFAULT_CHIPS = ["📝 Essay Help", "📖 Reading Skills", "🎧 Listening", "📚 Grammar", "🧠 Vocab Quiz", "📊 Study Tips"];
-const WELCOME_MESSAGE = "👋 Welcome to the **BUEPT AI Coach**!\n\nI'm here to help you:\n• 📝 Structure essays\n• 📖 Improve reading strategies\n• 🎧 Master listening skills\n• 📚 Explain grammar clearly\n• 🧠 Quiz your vocabulary\n• 📊 Build a study plan\n\nWhat would you like to work on today?";
+const DEFAULT_CHIPS = ["📝 Essay Help", "📖 Reading Skills", "🎧 Listening", "📚 Grammar", "Find Synonyms", "🧠 Vocab Quiz"];
+const WELCOME_MESSAGE = "👋 Welcome to the **BUEPT AI Coach**!\n\nI can help you with:\n• 📝 Essay structure and thesis building\n• 📖 Reading strategies and question logic\n• 🎧 Listening note-taking and podcasts\n• 📚 Grammar explanations\n• 🧠 Vocabulary quizzes and synonym work\n• 🛠️ Tool shortcuts like OCR, Presentation Prep, and Lesson Video\n\nWhat do you want to work on first?";
 const CHAT_MODES = [
   { id: 'coach', label: 'Coach' },
   { id: 'examiner', label: 'Examiner' },
+  { id: 'tool-guide', label: 'Tool Guide' },
 ];
+const TOOL_SHORTCUTS = [
+  {
+    id: 'synonym',
+    label: 'Synonym Finder',
+    hint: 'Meaning, examples, save words',
+    route: 'SynonymFinder',
+    params: { initialWord: 'significant' },
+    icon: 'swap-horizontal',
+    tint: '#EAF1FF',
+  },
+  {
+    id: 'photo',
+    label: 'Photo OCR',
+    hint: 'Scan image text into vocab',
+    route: 'PhotoVocabCapture',
+    icon: 'scan',
+    tint: '#ECFDF3',
+  },
+  {
+    id: 'presentation',
+    label: 'Presentation Prep',
+    hint: 'Outline, script, body cues',
+    route: 'AIPresentationPrep',
+    params: { topic: 'The role of AI in higher education' },
+    icon: 'easel',
+    tint: '#F3E8FF',
+  },
+  {
+    id: 'video',
+    label: 'Lesson Video',
+    hint: 'Generate a narrated lesson demo',
+    route: 'AILessonVideoStudio',
+    params: { topic: 'BUEPT paraphrase strategy' },
+    icon: 'videocam',
+    tint: '#FFF7ED',
+  },
+];
+const COACH_PACKS = [
+  {
+    id: 'thesis',
+    label: 'Build Thesis',
+    prompt: 'Help me write a strong BUEPT thesis statement about technology and education.',
+  },
+  {
+    id: 'reading',
+    label: 'Reading Strategy',
+    prompt: 'Explain how I should answer inference and tone questions in BUEPT reading.',
+  },
+  {
+    id: 'study',
+    label: 'Study Plan',
+    prompt: 'Create a 4-week BUEPT study plan for grammar, reading, and writing.',
+  },
+];
+const AI_WORKFLOWS = [
+  {
+    id: 'speaking_flow',
+    label: 'AI Speaking',
+    sub: 'Prompt -> record -> evaluate',
+    action: { route: 'AISpeakingPartner', params: { initialMode: 'academic' } },
+  },
+  {
+    id: 'presentation_flow',
+    label: 'Presentation Deck',
+    sub: 'Topic -> slides -> script',
+    action: { route: 'AIPresentationPrep', params: { topic: 'The role of AI in higher education' } },
+  },
+  {
+    id: 'video_flow',
+    label: 'Lesson Storyboard',
+    sub: 'Topic -> scenes -> narration',
+    action: { route: 'AILessonVideoStudio', params: { topic: 'BUEPT paraphrase strategy' } },
+  },
+  {
+    id: 'essay_flow',
+    label: 'Essay Grader',
+    sub: 'Paste text -> rubric -> fixes',
+    action: { route: 'EssayEvaluation' },
+  },
+];
+let lastStudyTipIndex = -1;
+let lastDefaultIntroIndex = -1;
+
+function RichText({ text, style, boldStyle }) {
+  if (!text || !text.includes('**')) return <Text style={style}>{text}</Text>;
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return (
+    <Text style={style}>
+      {parts.map((part, i) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <Text key={i} style={boldStyle}>{part.slice(2, -2)}</Text>;
+        }
+        return <Text key={i}>{part}</Text>;
+      })}
+    </Text>
+  );
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // BUEPT Knowledge Base ─ rich, multi-turn aware NLP engine
@@ -310,10 +410,49 @@ const INTENT_PATTERNS = [
     }),
   },
   {
+    intent: 'synonym_tool',
+    patterns: ['synonym finder', 'find synonyms', 'find synonym', 'similar word'],
+    handler: () => ({
+      text: "Opening Synonym Finder. Search one word, inspect word forms, and save useful items directly to My Words.",
+      chips: ["Find Synonyms", "🧠 Vocab Quiz", "📚 Grammar"],
+      navigate: 'SynonymFinder',
+      params: { initialWord: 'significant' },
+    }),
+  },
+  {
+    intent: 'photo_vocab_tool',
+    patterns: ['photo vocab', 'photo ocr', 'scan photo text', 'ocr tool', 'scan text'],
+    handler: () => ({
+      text: "Opening Photo to Vocab OCR. Use it when you want to capture vocabulary from worksheets, slides, or book pages.",
+      chips: ["Photo OCR", "Find Synonyms", "🧠 Vocab Quiz"],
+      navigate: 'PhotoVocabCapture',
+    }),
+  },
+  {
+    intent: 'presentation_tool',
+    patterns: ['presentation prep', 'presentation script', 'slide outline', 'slide deck', 'presentation outline'],
+    handler: () => ({
+      text: "Opening AI Presentation Prep. Set your duration, tone, and level, then generate a usable presentation structure.",
+      chips: ["Presentation Prep", "Lesson Video", "📝 Essay Help"],
+      navigate: 'AIPresentationPrep',
+      params: { topic: 'The role of AI in higher education' },
+    }),
+  },
+  {
+    intent: 'video_tool',
+    patterns: ['lesson video', 'video studio', 'ai lesson video', 'generate video lesson'],
+    handler: () => ({
+      text: "Opening AI Lesson Video Studio. It is useful for short explainers, paraphrase demos, and mini grammar lessons.",
+      chips: ["Lesson Video", "Presentation Prep", "📚 Grammar"],
+      navigate: 'AILessonVideoStudio',
+      params: { topic: 'BUEPT paraphrase strategy' },
+    }),
+  },
+  {
     intent: 'demo_hub',
     patterns: ['demo', 'feature hub', 'modules', 'modüller', 'özellikler'],
     handler: () => ({
-      text: "🧩 Demo modüllerini açıyorum. Orada canlı modülleri filtreleyip doğrudan çalışmaya başlayabilirsin.",
+      text: "🧩 Opening the feature hub. From there you can filter live tools and jump directly into the modules you need.",
       chips: ["Open Demo Hub", "🧠 Vocab Quiz", "📝 Essay Help"],
       navigate: 'DemoFeatures',
     }),
@@ -322,7 +461,7 @@ const INTENT_PATTERNS = [
     intent: 'mock_exam',
     patterns: ['mock', 'proficiency', 'hazırlık atlama', 'deneme sınavı'],
     handler: () => ({
-      text: "⏳ Hazırlık atlama mock ekranına gidebiliriz. Süreli deneme ile gerçek sınav temposu çalışılır.",
+      text: "⏳ Opening the proficiency mock. Use it for timed practice and realistic exam pacing.",
       chips: ["Start Mock", "Study Plan", "Grammar Tips"],
       navigate: 'ProficiencyMock',
     }),
@@ -371,9 +510,18 @@ const INTENT_PATTERNS = [
         };
       }
       const tips = STUDY_TIPS;
-      const tip = tips[Math.floor(Math.random() * tips.length)];
+      const tipIndex = pickNoRepeatIndex(tips.length, lastStudyTipIndex);
+      lastStudyTipIndex = tipIndex;
+      const intros = [
+        "That's a useful question. Try this:",
+        "Good prompt. This usually helps:",
+        "Here is a practical move you can apply right now:",
+      ];
+      const introIndex = pickNoRepeatIndex(intros.length, lastDefaultIntroIndex);
+      lastDefaultIntroIndex = introIndex;
+      const tip = tips[tipIndex];
       return {
-        text: `That's an interesting question! Here's something that might help.\n\n${tip}\n\nIs there a specific BUEPT skill I can help you with?`,
+        text: `${intros[introIndex]}\n\n${tip}\n\nIs there a specific BUEPT skill I can help you with?`,
         chips: ["Essay Help", "Reading Tips", "Grammar", "Vocab Quiz", "Study Tips"],
       };
     },
@@ -384,6 +532,14 @@ function buildQuizQuestion(index) {
   const q = VOCABULARY_QUIZ[index];
   if (!q) return '';
   return `🧠 Vocabulary Quiz — Question ${index + 1}/${VOCABULARY_QUIZ.length}:\n\n**${q.q}**\n\nA) ${q.opts[0]}\nB) ${q.opts[1]}\nC) ${q.opts[2]}\nD) ${q.opts[3]}`;
+}
+
+function pickNoRepeatIndex(length, lastIndex) {
+  if (!length || length < 1) return 0;
+  if (length === 1) return 0;
+  let next = Math.floor(Math.random() * length);
+  if (next === lastIndex) next = (next + 1 + Math.floor(Math.random() * (length - 1))) % length;
+  return next;
 }
 
 function analyzeIntent(text, quizState) {
@@ -453,6 +609,9 @@ function applyAssistantMode(text, mode) {
   if (mode === 'examiner') {
     return `🎯 Examiner Mode\n${text}\n\nRubric focus: clarity, coherence, grammar accuracy, lexical range.`;
   }
+  if (mode === 'tool-guide') {
+    return `🧭 Tool Guide Mode\n${text}\n\nIf needed, I will route you to the most relevant AI tool instead of giving a long text explanation.`;
+  }
   return text;
 }
 
@@ -473,6 +632,7 @@ export default function ChatbotScreen({ navigation }) {
   const [quizState, setQuizState] = useState(null);
   const [assistantMode, setAssistantMode] = useState('coach');
   const [replySource, setReplySource] = useState(isChatApiConfigured() ? 'hybrid' : 'offline');
+  const sourceMeta = getAiSourceMeta(replySource);
   const scrollRef = useRef();
   const artifactAnim = useRef(new Animated.Value(width)).current;
   const timersRef = useRef([]);
@@ -492,7 +652,7 @@ export default function ChatbotScreen({ navigation }) {
         if (parsed.quizState && typeof parsed.quizState.index === 'number') {
           setQuizState(parsed.quizState);
         }
-        if (parsed.assistantMode === 'coach' || parsed.assistantMode === 'examiner') {
+        if (parsed.assistantMode === 'coach' || parsed.assistantMode === 'examiner' || parsed.assistantMode === 'tool-guide') {
           setAssistantMode(parsed.assistantMode);
         }
       } catch (_) { }
@@ -524,6 +684,11 @@ export default function ChatbotScreen({ navigation }) {
     Animated.timing(artifactAnim, { toValue: width, duration: 280, useNativeDriver: true }).start(() => setActiveArtifact(null));
   }, [artifactAnim]);
 
+  const openTool = useCallback((tool) => {
+    if (!tool?.route) return;
+    navigation.navigate(tool.route, tool.params || undefined);
+  }, [navigation]);
+
   const handleSend = useCallback((textOverride = null) => {
     const txt = (textOverride || inputText).trim();
     if (!txt) return;
@@ -531,9 +696,9 @@ export default function ChatbotScreen({ navigation }) {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         role: 'ai',
-        text: "Commands:\n• `/clear` → clear history\n• `/quiz` → start vocab quiz\n• `/demo` → open feature hub\n• `/mock` → open proficiency mock"
+        text: "Commands:\n• `/clear` → clear history\n• `/quiz` → start vocab quiz\n• `/demo` → open feature hub\n• `/mock` → open proficiency mock\n• `/tools` → show tool shortcuts"
       }]);
-      setActiveChips(["/quiz", "/demo", "/mock", "/clear"]);
+      setActiveChips(["/quiz", "/demo", "/mock", "/tools", "/clear"]);
       setInputText('');
       return;
     }
@@ -550,6 +715,16 @@ export default function ChatbotScreen({ navigation }) {
     if (txt === '/mock') {
       setInputText('');
       handleSend('Start Mock');
+      return;
+    }
+    if (txt === '/tools') {
+      setMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        role: 'ai',
+        text: "Tool shortcuts ready. You can open Synonym Finder, Photo OCR, Presentation Prep, or Lesson Video directly from the launcher above."
+      }]);
+      setActiveChips(["Find Synonyms", "Photo OCR", "Presentation Prep", "Lesson Video"]);
+      setInputText('');
       return;
     }
     if (txt === '/clear' || txt.toLowerCase() === 'temizle') {
@@ -621,7 +796,7 @@ export default function ChatbotScreen({ navigation }) {
         }
         if (final.navigate) {
           const t2 = setTimeout(() => {
-            navigation.navigate(final.navigate);
+            navigation.navigate(final.navigate, final.params || undefined);
           }, 250);
           timersRef.current.push(t2);
         }
@@ -633,24 +808,8 @@ export default function ChatbotScreen({ navigation }) {
     timersRef.current.push(t1);
   }, [inputText, artifactAnim, quizState, navigation, assistantMode, messages]);
 
-  // Render bold markdown (**text**) inline
-  function RichText({ text, style }) {
-    if (!text || !text.includes('**')) return <Text style={style}>{text}</Text>;
-    const parts = text.split(/(\*\*[^*]+\*\*)/g);
-    return (
-      <Text style={style}>
-        {parts.map((part, i) => {
-          if (part.startsWith('**') && part.endsWith('**')) {
-            return <Text key={i} style={{ fontWeight: '900' }}>{part.slice(2, -2)}</Text>;
-          }
-          return <Text key={i}>{part}</Text>;
-        })}
-      </Text>
-    );
-  }
-
   return (
-    <Screen contentStyle={styles.container}>
+    <Screen scroll contentStyle={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
@@ -663,7 +822,7 @@ export default function ChatbotScreen({ navigation }) {
           <Text style={styles.pageTitle}>BUEPT AI Coach</Text>
           <View style={styles.statusRow}>
             <View style={styles.onlineDot} />
-            <Text style={styles.statusText}>Smart engine • {replySource}</Text>
+            <Text style={styles.statusText}>{sourceMeta.label} • {replySource}</Text>
           </View>
         </View>
       </View>
@@ -690,10 +849,70 @@ export default function ChatbotScreen({ navigation }) {
           <Text style={styles.quickText}>Clear</Text>
         </TouchableOpacity>
       </View>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.toolStrip}
+        contentContainerStyle={styles.toolStripContent}
+      >
+        {TOOL_SHORTCUTS.map((tool) => (
+          <TouchableOpacity
+            key={tool.id}
+            style={styles.toolCard}
+            activeOpacity={0.88}
+            onPress={() => openTool(tool)}
+          >
+            <View style={[styles.toolCardIcon, { backgroundColor: tool.tint }]}>
+              <Ionicons name={tool.icon} size={18} color={colors.primaryDark} />
+            </View>
+            <View style={styles.toolCardBody}>
+              <Text style={styles.toolCardTitle}>{tool.label}</Text>
+              <Text style={styles.toolCardHint}>{tool.hint}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
 
       <KeyboardAvoidingView style={styles.keyboardAvoid} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView ref={scrollRef} contentContainerStyle={styles.chatScroll} showsVerticalScrollIndicator={false}>
           <Text style={styles.timestampDivider}>BUEPT AI Coach · v2.0</Text>
+
+          {messages.length <= 2 && (
+            <>
+              <Card style={styles.launchPad}>
+                <Text style={styles.launchPadTitle}>Start Faster</Text>
+                <Text style={styles.launchPadSub}>Load a ready-made prompt or jump into one of the AI tools.</Text>
+                <View style={styles.packRow}>
+                  {COACH_PACKS.map((pack) => (
+                    <TouchableOpacity
+                      key={pack.id}
+                      style={styles.packChip}
+                      onPress={() => setInputText(pack.prompt)}
+                    >
+                      <Text style={styles.packChipText}>{pack.label}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </Card>
+              <Card style={styles.workspaceCard}>
+                <Text style={styles.launchPadTitle}>AI Workspaces</Text>
+                <Text style={styles.launchPadSub}>Use the dedicated tool when the task needs generation, scoring, or structured output.</Text>
+                {AI_WORKFLOWS.map((flow) => (
+                  <TouchableOpacity
+                    key={flow.id}
+                    style={styles.workspaceRow}
+                    onPress={() => navigation.navigate(flow.action.route, flow.action.params || undefined)}
+                  >
+                    <View style={styles.workspaceCopy}>
+                      <Text style={styles.workspaceTitle}>{flow.label}</Text>
+                      <Text style={styles.workspaceSub}>{flow.sub}</Text>
+                    </View>
+                    <Ionicons name="arrow-forward" size={18} color={colors.primaryDark} />
+                  </TouchableOpacity>
+                ))}
+              </Card>
+            </>
+          )}
 
           {messages.map((msg) => (
             <View key={msg.id} style={[styles.messageRow, msg.role === 'user' ? styles.messageRowUser : styles.messageRowAI]}>
@@ -706,6 +925,7 @@ export default function ChatbotScreen({ navigation }) {
                 <RichText
                   text={msg.text}
                   style={[styles.messageText, msg.role === 'user' ? styles.messageTextUser : styles.messageTextAI]}
+                  boldStyle={styles.richTextBold}
                 />
               </View>
             </View>
@@ -716,7 +936,7 @@ export default function ChatbotScreen({ navigation }) {
               <View style={styles.aiAvatar}>
                 <Ionicons name="sparkles" size={14} color="#fff" />
               </View>
-              <View style={[styles.bubble, styles.bubbleAI, { paddingHorizontal: 20, paddingVertical: 16 }]}>
+              <View style={[styles.bubble, styles.bubbleAI, styles.typingBubble]}>
                 <ActivityIndicator size="small" color={colors.primary} />
               </View>
             </View>
@@ -760,9 +980,9 @@ export default function ChatbotScreen({ navigation }) {
         {activeArtifact && (
           <Animated.View style={[styles.artifactOverlay, { transform: [{ translateX: artifactAnim }] }]}>
             <View style={styles.artifactHeader}>
-              <Ionicons name="document-text" size={18} color={colors.primary} style={{ marginRight: 8 }} />
+              <Ionicons name="document-text" size={18} color={colors.primary} style={styles.artifactIcon} />
               <Text style={styles.artifactTitle}>{activeArtifact.title}</Text>
-              <TouchableOpacity onPress={closeArtifact} style={{ padding: 4 }}>
+              <TouchableOpacity onPress={closeArtifact} style={styles.artifactCloseBtn}>
                 <Ionicons name="close" size={22} color={colors.muted} />
               </TouchableOpacity>
             </View>
@@ -793,10 +1013,54 @@ const styles = StyleSheet.create({
   modeBtnTextActive: { color: '#fff' },
   quickBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 7, borderRadius: radius.pill, backgroundColor: colors.primarySoft, borderWidth: 1, borderColor: 'rgba(0,0,0,0.06)' },
   quickText: { fontSize: 12, fontWeight: '700', color: colors.primaryDark },
+  toolStrip: { backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)' },
+  toolStripContent: { paddingHorizontal: spacing.xl, paddingBottom: spacing.sm, gap: 10 },
+  toolCard: {
+    width: 196,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#D6E3F8',
+    borderRadius: radius.lg,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  toolCardIcon: { width: 38, height: 38, borderRadius: 19, justifyContent: 'center', alignItems: 'center' },
+  toolCardBody: { flex: 1 },
+  toolCardTitle: { fontSize: 13, fontWeight: '800', color: colors.primaryDark },
+  toolCardHint: { fontSize: 11, color: colors.muted, marginTop: 2, lineHeight: 15 },
 
   keyboardAvoid: { flex: 1 },
   chatScroll: { padding: spacing.lg, paddingBottom: 32 },
   timestampDivider: { textAlign: 'center', fontSize: 11, color: colors.muted, fontWeight: '700', marginBottom: spacing.lg, textTransform: 'uppercase', letterSpacing: 1 },
+  launchPad: { marginBottom: spacing.lg },
+  launchPadTitle: { fontSize: 17, fontWeight: '800', color: colors.primaryDark, marginBottom: 4 },
+  launchPadSub: { fontSize: 13, color: colors.muted, lineHeight: 19, marginBottom: spacing.md },
+  packRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  packChip: {
+    backgroundColor: colors.primarySoft,
+    borderWidth: 1,
+    borderColor: '#D6E3F8',
+    borderRadius: radius.pill,
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+  },
+  packChipText: { fontSize: 12, fontWeight: '700', color: colors.primaryDark },
+  workspaceCard: { marginBottom: spacing.lg, backgroundColor: '#FBFDFF' },
+  workspaceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.sm,
+    paddingVertical: spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEF2F7',
+  },
+  workspaceCopy: { flex: 1 },
+  workspaceTitle: { fontSize: 14, fontWeight: '800', color: colors.text, marginBottom: 2 },
+  workspaceSub: { fontSize: 12, color: colors.muted, lineHeight: 17 },
 
   messageRow: { flexDirection: 'row', marginBottom: spacing.md, alignItems: 'flex-end', maxWidth: '88%' },
   messageRowUser: { alignSelf: 'flex-end', justifyContent: 'flex-end', flexDirection: 'row-reverse' },
@@ -806,9 +1070,11 @@ const styles = StyleSheet.create({
   bubble: { paddingHorizontal: 14, paddingVertical: 10, borderRadius: 18 },
   bubbleUser: { backgroundColor: colors.primary, borderBottomRightRadius: 4 },
   bubbleAI: { backgroundColor: '#fff', borderBottomLeftRadius: 4, borderWidth: 1, borderColor: 'rgba(0,0,0,0.06)', ...shadow.slight },
+  typingBubble: { paddingHorizontal: 20, paddingVertical: 16 },
   messageText: { fontSize: 15, lineHeight: 22 },
   messageTextUser: { color: '#fff' },
   messageTextAI: { color: colors.text },
+  richTextBold: { fontWeight: '900' },
 
   inputContainer: { backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: 'rgba(0,0,0,0.05)' },
   chipScroll: { paddingHorizontal: spacing.md, paddingTop: spacing.sm, paddingBottom: 4, gap: 8 },
@@ -823,7 +1089,9 @@ const styles = StyleSheet.create({
 
   artifactOverlay: { position: 'absolute', top: 0, right: 0, bottom: 0, width: width * 0.87, backgroundColor: '#fff', ...shadow.lg, borderLeftWidth: 1, borderLeftColor: 'rgba(0,0,0,0.08)', zIndex: 1000, paddingTop: Platform.OS === 'ios' ? 56 : 16 },
   artifactHeader: { flexDirection: 'row', alignItems: 'center', padding: spacing.lg, borderBottomWidth: 1, borderBottomColor: '#F1F5F9' },
+  artifactIcon: { marginRight: 8 },
   artifactTitle: { flex: 1, fontSize: 16, fontWeight: '800', color: colors.primaryDark },
+  artifactCloseBtn: { padding: 4 },
   artifactContent: { padding: spacing.lg },
   artifactText: { fontSize: 14, color: colors.text, lineHeight: 22, fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace' },
 });

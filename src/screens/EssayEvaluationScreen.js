@@ -1,300 +1,714 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, ActivityIndicator, KeyboardAvoidingView, Platform, Animated, Easing, Modal } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Animated, Easing, Dimensions } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
-import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
+import { colors, spacing, typography, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { getAiSourceMeta } from '../utils/aiWorkspace';
 
-const TRANSITION_WORDS = ['furthermore', 'moreover', 'however', 'therefore', 'consequently', 'nevertheless', 'in addition', 'on the other hand', 'thus', 'subsequently', 'in contrast', 'significantly', 'notably', 'conversely'];
-const ACADEMIC_WORDS = ['analyze', 'evaluate', 'synthesize', 'methodology', 'hypothesis', 'empirical', 'theoretical', 'paradigm', 'implication', 'comprehensive', 'validate', 'correlation', 'ambiguous'];
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+
+const TRANSITION_WORDS = ['furthermore', 'moreover', 'however', 'therefore', 'consequently', 'nevertheless', 'in addition', 'on the other hand', 'thus', 'subsequently', 'in contrast', 'significantly', 'notably', 'conversely', 'as a result', 'in particular', 'typically', 'generally', 'to illustrate'];
+const ACADEMIC_WORDS = ['analyze', 'evaluate', 'synthesize', 'methodology', 'hypothesis', 'empirical', 'theoretical', 'paradigm', 'implication', 'comprehensive', 'validate', 'correlation', 'ambiguous', 'facilitate', 'perspective', 'framework', 'sustain', 'innovation', 'phenomenon', 'fundamental', 'transform', 'substantial', 'capacity', 'integrate', 'diminish', 'proponent', 'advocate', 'mitigate'];
+
+const BASIC_UPGRADES = {
+    good: 'beneficial',
+    bad: 'detrimental',
+    big: 'substantial',
+    small: 'marginal',
+    show: 'demonstrate',
+    say: 'argue',
+    think: 'assert',
+    important: 'crucial',
+    help: 'facilitate',
+    problem: 'challenge',
+    change: 'transform',
+    idea: 'notion',
+    make: 'generate',
+    get: 'obtain',
+    use: 'utilize'
+};
+
 const MOCK_OCR_TEXT = "The proliferation of digital technologies has fundamentally altered the landscape of modern education. Furthermore, the integration of instantaneous communication networks allows students to collaborate across geographic boundaries. Nevertheless, this shift is not without significant drawbacks. A primary concern is the degradation of sustained attention spans, which empirical studies have correlated with heavy social media consumption. In conclusion, while technological paradigms offer comprehensive benefits, educators must critically evaluate their long-term implications on cognitive development.";
+
+function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+}
+
+function progressFillStyle(pct, color) {
+    return {
+        width: `${pct}%`,
+        backgroundColor: color,
+    };
+}
+
+function borderColorStyle(color) {
+    return color ? { borderColor: color } : null;
+}
+
+function backgroundColorStyle(color) {
+    return color ? { backgroundColor: color } : null;
+}
+
+function textColorStyle(color) {
+    return color ? { color } : null;
+}
+
+function tokenize(text = '') {
+    return String(text || '').toLowerCase().match(/\b[a-z']+\b/g) || [];
+}
+
+function countMatches(text = '', list = []) {
+    const lower = String(text || '').toLowerCase();
+    return list.reduce((sum, item) => {
+        const escaped = item.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        return sum + ((lower.match(new RegExp(`\\b${escaped}\\b`, 'g')) || []).length);
+    }, 0);
+}
+
+function buildEssayMetrics(text = '') {
+    const safeText = String(text || '').trim();
+    const words = tokenize(safeText);
+    const wordCount = words.length;
+    const uniqueWordCount = new Set(words).size;
+    const sentenceCount = safeText.split(/[.!?]+/).map((item) => item.trim()).filter(Boolean).length;
+    const paragraphCount = safeText.split(/\n\s*\n/).map((item) => item.trim()).filter(Boolean).length || (safeText ? 1 : 0);
+    const avgSentenceLength = sentenceCount ? Math.round(wordCount / sentenceCount) : 0;
+    const transCount = countMatches(safeText, TRANSITION_WORDS);
+    const acadCount = countMatches(safeText, ACADEMIC_WORDS);
+    const lexicalVariety = wordCount ? Math.round((uniqueWordCount / wordCount) * 100) : 0;
+    const passiveCount = (safeText.match(/\b(is|are|was|were|be|been|being)\s+\w+ed\b/gi) || []).length;
+    const hedgeCount = (safeText.match(/\b(may|might|could|appears|seems|likely|tends to|suggests|indicates)\b/gi) || []).length;
+    const punctuationErrors = (safeText.match(/\s[,.;:!?]/g) || []).length;
+    const repeatedBasicWords = Object.keys(BASIC_UPGRADES).filter((word) => new RegExp(`\\b${word}\\b`, 'i').test(safeText));
+
+    const task = clamp(Math.round(
+        (Math.min(wordCount, 260) / 260) * 5 +
+        (paragraphCount >= 3 ? 2 : paragraphCount >= 2 ? 1 : 0) +
+        (wordCount >= 140 ? 3 : wordCount >= 90 ? 1 : 0)
+    ), 0, 10);
+    const cohesion = clamp(Math.round(
+        (Math.min(transCount, 7) / 7) * 5 +
+        (avgSentenceLength >= 12 && avgSentenceLength <= 28 ? 3 : 1) +
+        (paragraphCount >= 3 ? 2 : 1)
+    ), 0, 10);
+    const lexical = clamp(Math.round(
+        (Math.min(acadCount, 8) / 8) * 5 +
+        (lexicalVariety / 100) * 3 +
+        (hedgeCount > 0 ? 1 : 0) +
+        (passiveCount > 0 ? 1 : 0)
+    ), 0, 10);
+    const grammar = clamp(Math.round(
+        6 +
+        (avgSentenceLength >= 12 ? 2 : (avgSentenceLength >= 8 ? 1 : 0)) +
+        (passiveCount > 1 ? 1 : 0) +
+        (hedgeCount > 0 ? 1 : 0) -
+        Math.min(4, punctuationErrors)
+    ), 0, 10);
+
+    const weighted = Math.round((task * 0.28 + cohesion * 0.27 + lexical * 0.25 + grammar * 0.20) * 10);
+    const score = clamp(weighted, 0, 100);
+    
+    // Stricter BUEPT band mapping
+    const band = score >= 90 ? 'C2' : score >= 78 ? 'C1' : score >= 65 ? 'B2' : score >= 50 ? 'B1' : 'A2';
+    
+    const bandColors = {
+        C2: '#9333EA', // Purple
+        C1: '#4F46E5', // Indigo
+        B2: '#059669', // Emerald
+        B1: '#D97706', // Amber
+        A2: '#DC2626', // Red
+    };
+
+    const strengths = [];
+    if (wordCount >= 140) strengths.push('Length is fully sufficient for a developed academic response.');
+    if (transCount >= 3) strengths.push('Transition signals actively support coherence and argument flow.');
+    if (acadCount >= 3) strengths.push('Academic vocabulary level is elevated, enhancing precision.');
+    if (lexicalVariety >= 55) strengths.push('Word choice is varied, avoiding redundant phrasing.');
+    if (hedgeCount > 0) strengths.push('Effective use of hedging makes your claims academically sound.');
+    if (passiveCount > 1) strengths.push('Appropriate use of passive structures creates objective distance.');
+    if (!strengths.length) strengths.push('The draft provides a usable base that can be upgraded quickly.');
+
+    const fixes = [];
+    if (wordCount < 120) fixes.push('Expand the argument. Add a concrete example or evidence paragraph.');
+    if (transCount < 3) fixes.push('Improve cohesion: Insert connectors (however, therefore, furthermore).');
+    if (acadCount < 3) fixes.push('Elevate the register: Replace simple verbs with academic alternatives.');
+    if (paragraphCount < 3) fixes.push('Structure vertically: Ensure distinct intro, body, and conclusion logic.');
+    if (avgSentenceLength < 11) fixes.push('Syntactic variety: Combine shorter clauses into complex sentences.');
+    if (!fixes.length) fixes.push('Structural foundation is solid. Next step: Deepen the specificity of thesis.');
+
+    const upgrades = repeatedBasicWords.slice(0, 5).map((word) => ({
+        basic: word,
+        advanced: BASIC_UPGRADES[word]
+    }));
+
+    const summary = `This draft demonstrates a solid ${band} level command of academic English. Its primary strength lies in ${cohesion >= lexical ? 'structural coherence' : 'lexical control'}. To breach the next proficiency band, prioritize ${wordCount < 140 ? 'argument expansion' : transCount < 3 ? 'sophisticated transitions' : 'advanced phrasing'}.`;
+
+    return {
+        score,
+        band,
+        bandColor: bandColors[band] || colors.primaryDark,
+        wordCount,
+        sentenceCount,
+        paragraphCount,
+        transCount,
+        acadCount,
+        lexicalVariety,
+        passiveCount,
+        hedgeCount,
+        lexical,
+        cohesion,
+        grammar,
+        task,
+        strengths: strengths.slice(0, 4),
+        fixes: fixes.slice(0, 4),
+        upgrades,
+        summary,
+    };
+}
+
+const ProgressBar = ({ label, value, max = 10, color }) => {
+    const pct = Math.min(100, Math.max(0, (value / max) * 100));
+    return (
+        <View style={styles.progContainer}>
+            <View style={styles.progLabelRow}>
+                <Text style={styles.progLabel}>{label}</Text>
+                <Text style={[styles.progValue, { color }]}>{value}/{max}</Text>
+            </View>
+            <View style={styles.progTrack}>
+                <View style={[styles.progFill, progressFillStyle(pct, color)]} />
+            </View>
+        </View>
+    );
+};
 
 export default function EssayEvaluationScreen({ navigation }) {
     const [essay, setEssay] = useState('');
     const [isEvaluating, setIsEvaluating] = useState(false);
     const [result, setResult] = useState(null);
     const [isScanning, setIsScanning] = useState(false);
-
+    
+    // UI Animations
     const laserAnim = useRef(new Animated.Value(0)).current;
+    const pulseAnim = useRef(new Animated.Value(1)).current;
+
+    getAiSourceMeta('local-writing-analysis');
 
     const evaluateEssay = () => {
         setIsEvaluating(true);
         setResult(null);
 
-        // Simulate API delay for UX
+        // Spinner pulse
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(pulseAnim, { toValue: 1.1, duration: 600, useNativeDriver: true }),
+                Animated.timing(pulseAnim, { toValue: 1, duration: 600, useNativeDriver: true })
+            ])
+        ).start();
+
         setTimeout(() => {
-            const metrics = calculateMetrics(essay);
+            pulseAnim.stopAnimation();
+            const metrics = buildEssayMetrics(essay);
             setResult(metrics);
             setIsEvaluating(false);
-        }, 2500);
+        }, 1200);
     };
 
     const startCameraScan = () => {
         setIsScanning(true);
         Animated.loop(
             Animated.sequence([
-                Animated.timing(laserAnim, { toValue: 1, duration: 1500, easing: Easing.linear, useNativeDriver: true }),
-                Animated.timing(laserAnim, { toValue: 0, duration: 1500, easing: Easing.linear, useNativeDriver: true })
+                Animated.timing(laserAnim, { toValue: 1, duration: 1200, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+                Animated.timing(laserAnim, { toValue: 0, duration: 1200, easing: Easing.inOut(Easing.ease), useNativeDriver: true })
             ])
         ).start();
 
-        // Simulate OCR ending
         setTimeout(() => {
             setIsScanning(false);
             laserAnim.stopAnimation();
             setEssay(MOCK_OCR_TEXT);
-        }, 4000);
-    };
-
-    const calculateMetrics = (text) => {
-        const words = text.toLowerCase().match(/\b(\w+)\b/g) || [];
-        const wordCount = words.length;
-
-        let transCount = 0;
-        let acadCount = 0;
-
-        TRANSITION_WORDS.forEach(tw => { if (text.toLowerCase().includes(tw)) transCount++; });
-        ACADEMIC_WORDS.forEach(aw => { if (text.toLowerCase().includes(aw)) acadCount++; });
-
-        // Heuristic Scoring logic
-        let baseScore = Math.min(60 + (wordCount * 0.1), 80); // Length matters
-        baseScore += (transCount * 2); // Flow
-        baseScore += (acadCount * 1.5); // Lexical
-
-        const finalScore = Math.min(Math.round(baseScore), 100);
-
-        let band = 'B1';
-        if (finalScore > 85) band = 'C2';
-        else if (finalScore > 75) band = 'C1';
-        else if (finalScore > 65) band = 'B2';
-
-        return {
-            score: finalScore,
-            band: band,
-            wordCount,
-            transCount,
-            acadCount,
-            lexical: Math.min(10, 5 + acadCount),
-            cohesion: Math.min(10, 4 + transCount * 1.5),
-            grammar: Math.min(10, 7 + (wordCount > 150 ? 1 : 0) - (Math.random() * 2)), // slight variance
-            task: wordCount > 250 ? 9.0 : (wordCount > 150 ? 7.5 : 5.0)
-        };
+        }, 3000);
     };
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-                    <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.iconBtn}>
+                    <Ionicons name="arrow-back" size={24} color={colors.text} />
                 </TouchableOpacity>
-                <View>
-                    <Text style={styles.pageTitle}>AI Essay Grader</Text>
-                    <Text style={styles.pageSub}>Heuristic Evaluation Engine</Text>
-                </View>
+                <Text style={styles.headerTitle}>Professional Grader</Text>
+                <TouchableOpacity style={styles.iconBtn}>
+                    <Ionicons name="information-circle-outline" size={24} color={colors.text} />
+                </TouchableOpacity>
             </View>
 
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : null}>
+            <KeyboardAvoidingView style={styles.keyboard} behavior={Platform.OS === 'ios' ? 'padding' : null}>
                 <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-
-                    {!isEvaluating && !result && (
-                        <>
-                            <Card style={styles.infoCard}>
-                                <Ionicons name="information-circle" size={20} color={colors.primary} />
-                                <Text style={styles.infoText}>Paste your essay below or scan a handwritten document. Our engine analyzes lexical resource and cohesive devices.</Text>
-                            </Card>
-
-                            <Button
-                                label="Scan Handwritten Essay"
-                                icon="camera"
-                                variant="secondary"
-                                style={{ marginBottom: spacing.md, backgroundColor: '#EDF2F7', borderColor: '#E2E8F0' }}
-                                textStyle={{ color: colors.primaryDark }}
-                                onPress={startCameraScan}
-                            />
-
+                    
+                    {!result && !isEvaluating ? (
+                        <View style={styles.inputSection}>
+                            <View style={styles.welcomeBanner}>
+                                <Ionicons name="sparkles" size={24} color="#6366F1" />
+                                <View style={styles.welcomeTextWrap}>
+                                    <Text style={styles.welcomeTitle}>BUEPT Essay Analysis</Text>
+                                    <Text style={styles.welcomeBody}>
+                                        Advanced heuristic engine checking for academic tone, passive voice, lexical variety, cohesion metrics, and structural task response.
+                                    </Text>
+                                </View>
+                            </View>
+                            
                             <TextInput
-                                style={styles.inputArea}
+                                style={styles.editorArea}
                                 multiline
-                                placeholder="Paste your academic text here (Minimum 50 words recommended)..."
+                                placeholder="Paste your academic text here..."
+                                placeholderTextColor="#94A3B8"
                                 value={essay}
                                 onChangeText={setEssay}
                                 textAlignVertical="top"
                             />
-
-                            <View style={styles.footerRow}>
-                                <Text style={styles.wordCountBadge}>{essay.split(/\s+/).filter(w => w.length > 0).length} Words</Text>
-                                <Button
-                                    label="Analyze text"
-                                    icon="analytics"
-                                    onPress={evaluateEssay}
-                                    disabled={essay.trim().length < 20}
-                                />
+                            
+                            <View style={styles.editorFooter}>
+                                <Text style={styles.wordCount}>{essay.split(/\s+/).filter(w => w.length > 0).length} words</Text>
+                                <Button label="Run Analysis" onPress={evaluateEssay} disabled={essay.trim().length < 20} style={styles.analyzeBtn} />
                             </View>
-                        </>
-                    )}
 
-                    {isScanning && (
-                        <Modal visible transparent animationType="fade">
-                            <View style={styles.cameraModal}>
-                                <View style={styles.cameraViewfinder}>
-                                    <Text style={styles.cameraInstruction}>Hold steady over the document...</Text>
-                                    <View style={styles.documentTarget}>
-                                        <Ionicons name="document-text-outline" size={120} color="rgba(255,255,255,0.2)" />
-                                        <Animated.View style={[styles.laserLine, {
-                                            transform: [{
-                                                translateY: laserAnim.interpolate({
-                                                    inputRange: [0, 1],
-                                                    outputRange: [-150, 150]
-                                                })
-                                            }]
-                                        }]} />
+                            <View style={styles.divider} />
+
+                            <TouchableOpacity style={styles.scanBox} onPress={startCameraScan} disabled={isScanning}>
+                                {isScanning ? (
+                                    <Animated.View style={[styles.scannerLine, { transform: [{ translateY: laserAnim.interpolate({ inputRange: [0, 1], outputRange: [0, 80] }) }] }]} />
+                                ) : (
+                                    <Ionicons name="camera-outline" size={32} color={colors.primaryDark} />
+                                )}
+                                <Text style={styles.scanText}>{isScanning ? 'Extracting text...' : 'Scan Handwritten Essay'}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ) : isEvaluating ? (
+                        <Animated.View style={[styles.loadingSection, { transform: [{ scale: pulseAnim }] }]}>
+                            <View style={styles.pulseDisk}>
+                                <Ionicons name="analytics" size={64} color="#FFFFFF" />
+                            </View>
+                            <Text style={styles.loadingTitle}>Analyzing Academic Register...</Text>
+                            <Text style={styles.loadingSub}>Checking lexical density and paragraph structures</Text>
+                        </Animated.View>
+                    ) : (
+                        <View style={styles.reportSection}>
+                            {/* Mega Score Card */}
+                            <Card style={[styles.scoreCard, borderColorStyle(result.bandColor)]}>
+                                <View style={styles.scoreRow}>
+                                    <View>
+                                        <Text style={styles.scoreTitle}>Overall Band</Text>
+                                        <Text style={styles.scoreSummary} numberOfLines={3}>{result.summary}</Text>
                                     </View>
-                                    <Text style={styles.ocrLoadingText}>Extracting text via BUEPT Vision Engine...</Text>
+                                    <View style={[styles.bandBadge, backgroundColorStyle(result.bandColor)]}>
+                                        <Text style={styles.bandLetter}>{result.band}</Text>
+                                    </View>
+                                </View>
+                                
+                                <View style={styles.subScoreGrid}>
+                                    <ProgressBar label="Task Response" value={result.task} color={result.bandColor} />
+                                    <ProgressBar label="Cohesion" value={result.cohesion} color={result.bandColor} />
+                                    <ProgressBar label="Lexical Res." value={result.lexical} color={result.bandColor} />
+                                    <ProgressBar label="Grammar Rule" value={result.grammar} color={result.bandColor} />
+                                </View>
+                            </Card>
+
+                            {/* Stats Highlights */}
+                            <View style={styles.statsRow}>
+                                <View style={styles.statBox}>
+                                    <Text style={styles.statVal}>{result.wordCount}</Text>
+                                    <Text style={styles.statLab}>Words</Text>
+                                </View>
+                                <View style={styles.statBox}>
+                                    <Text style={styles.statVal}>{result.transCount}</Text>
+                                    <Text style={styles.statLab}>Connectors</Text>
+                                </View>
+                                <View style={styles.statBox}>
+                                    <Text style={styles.statVal}>{result.acadCount}</Text>
+                                    <Text style={styles.statLab}>Acad. Words</Text>
+                                </View>
+                                <View style={styles.statBox}>
+                                    <Text style={styles.statVal}>{result.lexicalVariety}%</Text>
+                                    <Text style={styles.statLab}>Variety</Text>
                                 </View>
                             </View>
-                        </Modal>
-                    )}
 
-                    {isEvaluating && (
-                        <View style={styles.loadingContainer}>
-                            <View style={styles.loaderCircle}>
-                                <ActivityIndicator size="large" color={colors.primary} />
+                            {/* Strengths & Fixes */}
+                            <Text style={styles.sectionHeading}>Action Plan</Text>
+                            
+                            <View style={styles.listContainer}>
+                                {result.strengths.map((str, i) => (
+                                    <View key={`str-${i}`} style={styles.listItem}>
+                                        <View style={[styles.listIconWrap, styles.listIconGood]}>
+                                            <Ionicons name="checkmark" size={16} color="#059669" />
+                                        </View>
+                                        <Text style={styles.listText}>{str}</Text>
+                                    </View>
+                                ))}
+                                {result.fixes.map((fix, i) => (
+                                    <View key={`fix-${i}`} style={styles.listItem}>
+                                        <View style={[styles.listIconWrap, styles.listIconWarn]}>
+                                            <Ionicons name="construct" size={16} color="#D97706" />
+                                        </View>
+                                        <Text style={styles.listText}>{fix}</Text>
+                                    </View>
+                                ))}
                             </View>
-                            <Text style={styles.loadingTitle}>Analyzing Syntax...</Text>
-                            <Text style={styles.loadingSub}>Cross-referencing academic lexicons and checking cohesion.</Text>
+
+                            {/* Upgrades */}
+                            {result.upgrades.length > 0 && (
+                                <>
+                                    <Text style={styles.sectionHeading}>Vocabulary Upgrades</Text>
+                                    <View style={styles.upgradesGrid}>
+                                        {result.upgrades.map((u, i) => (
+                                            <View key={'upg'+i} style={styles.upgradeBox}>
+                                                <Text style={styles.upgradeBasic}>{u.basic}</Text>
+                                                <Ionicons name="arrow-forward" size={14} color={colors.muted} />
+                                                <Text style={[styles.upgradeAdv, textColorStyle(result.bandColor)]}>{u.advanced}</Text>
+                                            </View>
+                                        ))}
+                                    </View>
+                                </>
+                            )}
+
+                            <View style={styles.actionRow}>
+                                <Button label="Reset" variant="ghost" onPress={() => setResult(null)} style={styles.actionFlexBtn} />
+                                <Button label="Open in Lab" onPress={() => navigation.navigate('WritingEditor', { draftText: essay })} style={styles.actionFlexBtn} />
+                            </View>
                         </View>
                     )}
 
-                    {result && !isEvaluating && (
-                        <View style={styles.resultsContainer}>
-                            <View style={styles.scoreBoard}>
-                                <View style={styles.mainScore}>
-                                    <Text style={styles.scoreVal}>{result.score}</Text>
-                                    <Text style={styles.scoreMax}>/100</Text>
-                                </View>
-                                <View style={styles.bandBox}>
-                                    <Text style={styles.bandTitle}>CEFR Band</Text>
-                                    <Text style={styles.bandVal}>{result.band}</Text>
-                                </View>
-                            </View>
-
-                            <Text style={styles.sectionTitle}>Breakdown Metrics</Text>
-                            <Card style={styles.metricCard}>
-                                <MetricRow label="Task Achievement" val={result.task.toFixed(1)} max="10.0" />
-                                <MetricRow label="Coherence & Cohesion" val={result.cohesion.toFixed(1)} max="10.0" />
-                                <MetricRow label="Lexical Resource" val={result.lexical.toFixed(1)} max="10.0" />
-                                <MetricRow label="Grammar Accuracy" val={result.grammar.toFixed(1)} max="10.0" />
-                            </Card>
-
-                            <Text style={styles.sectionTitle}>Engine Findings</Text>
-                            <View style={styles.findingsGrid}>
-                                <StatBox label="Words" val={result.wordCount} icon="document-text" color="#3498db" />
-                                <StatBox label="Transitions" val={result.transCount} icon="git-network" color="#9b59b6" />
-                                <StatBox label="Academic Vocab" val={result.acadCount} icon="school" color="#e67e22" />
-                            </View>
-
-                            <Card style={styles.feedbackCard} glow>
-                                <Text style={styles.feedbackHead}>AI Heuristic Feedback</Text>
-                                <Text style={styles.feedbackBody}>
-                                    {result.wordCount < 100 ? "Your essay is quite short, limiting task achievement. " : "Good length achieved. "}
-                                    {result.transCount < 2 ? "You need to use more transitional devices (however, therefore) to connect your ideas. " : "Excellent use of bridging words. "}
-                                    {result.acadCount < 2 ? "Try to elevate your vocabulary with more academic terminology." : "Strong academic phrasing detected."}
-                                </Text>
-                            </Card>
-
-                            <Button
-                                label="Evaluate Another Essay"
-                                variant="secondary"
-                                icon="refresh"
-                                onPress={() => { setResult(null); setEssay(''); }}
-                                style={{ marginTop: spacing.xl }}
-                            />
-                            <View style={{ height: 40 }} />
-                        </View>
-                    )}
                 </ScrollView>
             </KeyboardAvoidingView>
         </Screen>
     );
 }
 
-const MetricRow = ({ label, val, max }) => {
-    const percentage = (val / max) * 100;
-    const color = percentage >= 80 ? colors.success : (percentage >= 60 ? '#f39c12' : colors.error);
-
-    return (
-        <View style={styles.metricRowWrap}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
-                <Text style={styles.metricLabel}>{label}</Text>
-                <Text style={styles.metricVal}>{val}</Text>
-            </View>
-            <View style={styles.barBg}>
-                <View style={[styles.barFill, { width: `${percentage}%`, backgroundColor: color }]} />
-            </View>
-        </View>
-    );
-};
-
-const StatBox = ({ label, val, icon, color }) => (
-    <View style={[styles.statBox, { borderColor: color }]}>
-        <Ionicons name={icon} size={20} color={color} style={{ marginBottom: 4 }} />
-        <Text style={[styles.statVal, { color: color }]}>{val}</Text>
-        <Text style={styles.statLabel}>{label}</Text>
-    </View>
-);
-
 const styles = StyleSheet.create({
-    container: { flex: 1 },
-    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.md, paddingHorizontal: spacing.xl },
-    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
-    scroll: { paddingHorizontal: spacing.xl, paddingBottom: spacing.xl },
-    infoCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primarySoft, padding: spacing.md, borderRadius: radius.md, marginBottom: spacing.md, gap: spacing.sm },
-    infoText: { flex: 1, fontSize: 13, color: colors.primaryDark, lineHeight: 18 },
-    inputArea: { height: 350, backgroundColor: '#fff', borderRadius: radius.md, padding: spacing.md, borderWidth: 1, borderColor: colors.secondary, fontSize: typography.body, color: colors.text, ...shadow.sm },
-    footerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: spacing.md },
-    wordCountBadge: { backgroundColor: 'rgba(0,0,0,0.05)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill, fontSize: 13, fontWeight: '700', color: colors.muted },
+    container: {
+        backgroundColor: '#F8FAFC',
+    },
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: spacing.xl,
+        paddingTop: spacing.lg,
+        paddingBottom: spacing.md,
+    },
+    iconBtn: {
+        padding: spacing.xs,
+    },
+    headerTitle: {
+        fontSize: 16,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '800',
+        color: '#0F172A',
+    },
+    keyboard: {
+        flex: 1,
+    },
+    scroll: {
+        paddingHorizontal: spacing.xl,
+        paddingBottom: 40,
+    },
+    // INPUT STATE
+    inputSection: {
+        marginTop: spacing.md,
+    },
+    welcomeBanner: {
+        backgroundColor: '#EEF2FF',
+        padding: spacing.lg,
+        borderRadius: 16,
+        flexDirection: 'row',
+        gap: spacing.md,
+        alignItems: 'center',
+        marginBottom: spacing.xl,
+        borderWidth: 1,
+        borderColor: '#E0E7FF',
+    },
+    welcomeTextWrap: {
+        flex: 1,
+    },
+    welcomeTitle: {
+        fontSize: 14,
+        fontWeight: '800',
+        color: '#3730A3',
+        marginBottom: 4,
+    },
+    welcomeBody: {
+        fontSize: 12,
+        color: '#4F46E5',
+        lineHeight: 18,
+    },
+    editorArea: {
+        minHeight: 280,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 16,
+        padding: spacing.lg,
+        fontSize: 16,
+        color: '#1E293B',
+        lineHeight: 24,
+        ...shadow.sm,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+    },
+    editorFooter: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: spacing.md,
+    },
+    wordCount: {
+        fontSize: 14,
+        color: '#64748B',
+        fontWeight: '600',
+    },
+    analyzeBtn: {
+        paddingHorizontal: spacing.xl,
+    },
+    divider: {
+        height: 1,
+        backgroundColor: '#E2E8F0',
+        marginVertical: spacing.xl,
+    },
+    scanBox: {
+        height: 100,
+        backgroundColor: '#F1F5F9',
+        borderRadius: 16,
+        borderWidth: 2,
+        borderColor: '#CBD5E1',
+        borderStyle: 'dashed',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        overflow: 'hidden', // for the laser
+    },
+    scanText: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#475569',
+    },
+    scannerLine: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 4,
+        backgroundColor: '#3B82F6',
+        shadowColor: '#3B82F6',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.8,
+        shadowRadius: 10,
+        elevation: 6,
+    },
 
-    // Loading State
-    loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 100 },
-    loaderCircle: { width: 80, height: 80, borderRadius: 40, backgroundColor: colors.primarySoft, justifyContent: 'center', alignItems: 'center', marginBottom: spacing.lg },
-    loadingTitle: { fontSize: typography.h3, fontWeight: '800', color: colors.primaryDark, marginBottom: 8 },
-    loadingSub: { fontSize: typography.body, color: colors.muted, textAlign: 'center', paddingHorizontal: spacing.xl },
+    // LOADING STATE
+    loadingSection: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 100,
+    },
+    pulseDisk: {
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        backgroundColor: '#6366F1',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: spacing.xl,
+        ...shadow.lg,
+        shadowColor: '#6366F1',
+    },
+    loadingTitle: {
+        fontSize: 22,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '800',
+        color: '#0F172A',
+        marginBottom: 8,
+    },
+    loadingSub: {
+        fontSize: 15,
+        color: '#64748B',
+    },
 
-    // Results
-    resultsContainer: { paddingTop: spacing.sm },
-    scoreBoard: { flexDirection: 'row', gap: spacing.md, marginBottom: spacing.xl },
-    mainScore: { flex: 1, backgroundColor: colors.primaryDark, borderRadius: radius.xl, padding: spacing.xl, justifyContent: 'center', alignItems: 'center', ...shadow.md },
-    scoreVal: { fontSize: 48, fontWeight: '900', color: '#fff', lineHeight: 54 },
-    scoreMax: { fontSize: 14, color: 'rgba(255,255,255,0.6)', fontWeight: '700' },
-    bandBox: { width: 120, backgroundColor: colors.accent, borderRadius: radius.xl, padding: spacing.xl, justifyContent: 'center', alignItems: 'center', ...shadow.md },
-    bandTitle: { fontSize: 11, color: 'rgba(255,255,255,0.8)', fontWeight: '800', textTransform: 'uppercase', marginBottom: 4 },
-    bandVal: { fontSize: 36, fontWeight: '900', color: '#fff' },
-
-    sectionTitle: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: spacing.md, marginTop: spacing.sm },
-    metricCard: { padding: spacing.lg, borderRadius: radius.lg, marginBottom: spacing.lg },
-    metricRowWrap: { marginBottom: spacing.md },
-    metricLabel: { fontSize: 13, fontWeight: '700', color: colors.text },
-    metricVal: { fontSize: 13, fontWeight: '900', color: colors.primaryDark },
-    barBg: { height: 6, backgroundColor: 'rgba(0,0,0,0.05)', borderRadius: 3, overflow: 'hidden' },
-    barFill: { height: '100%', borderRadius: 3 },
-
-    findingsGrid: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.xl },
-    statBox: { flex: 1, borderWidth: 1, borderRadius: radius.md, backgroundColor: '#fff', padding: spacing.md, alignItems: 'center', justifyContent: 'center' },
-    statVal: { fontSize: 24, fontWeight: '900', marginVertical: 4 },
-    statLabel: { fontSize: 10, fontWeight: '800', color: colors.muted, textTransform: 'uppercase' },
-
-    feedbackCard: { padding: spacing.lg, borderRadius: radius.lg },
-    feedbackHead: { fontSize: 14, fontWeight: '800', color: colors.primary, marginBottom: spacing.sm, textTransform: 'uppercase' },
-    feedbackBody: { fontSize: 15, color: colors.text, lineHeight: 24 },
-
-    // Camera Scan Modal
-    cameraModal: { flex: 1, backgroundColor: 'rgba(0,0,0,0.95)', justifyContent: 'center', alignItems: 'center' },
-    cameraViewfinder: { alignItems: 'center', width: '100%' },
-    cameraInstruction: { color: '#fff', fontSize: 16, fontWeight: '700', marginBottom: 40 },
-    documentTarget: { width: 300, height: 400, borderWidth: 2, borderColor: 'rgba(255,255,255,0.4)', borderRadius: radius.lg, justifyContent: 'center', alignItems: 'center', overflow: 'hidden', borderStyle: 'dashed' },
-    laserLine: { position: 'absolute', width: '100%', height: 3, backgroundColor: '#00FF00', shadowColor: '#00FF00', shadowOffset: { width: 0, height: 0 }, shadowOpacity: 1, shadowRadius: 10 },
-    ocrLoadingText: { color: colors.primary, fontSize: 14, fontWeight: '800', marginTop: 40, textTransform: 'uppercase', letterSpacing: 1 }
+    // REPORT STATE
+    reportSection: {
+        marginTop: spacing.md,
+    },
+    scoreCard: {
+        padding: spacing.xl,
+        borderWidth: 2,
+        backgroundColor: '#FFFFFF',
+        marginBottom: spacing.lg,
+    },
+    scoreRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        marginBottom: spacing.xl,
+    },
+    scoreTitle: {
+        fontSize: 14,
+        textTransform: 'uppercase',
+        fontWeight: '800',
+        color: '#64748B',
+        letterSpacing: 1,
+        marginBottom: 8,
+    },
+    scoreSummary: {
+        fontSize: 14,
+        color: '#334155',
+        lineHeight: 22,
+        maxWidth: SCREEN_WIDTH - 160,
+    },
+    bandBadge: {
+        width: 72,
+        height: 72,
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...shadow.md,
+    },
+    bandLetter: {
+        fontSize: 32,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '900',
+        color: '#FFFFFF',
+    },
+    subScoreGrid: {
+        gap: spacing.md,
+    },
+    progContainer: {
+        width: '100%',
+    },
+    progLabelRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 6,
+    },
+    progLabel: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#475569',
+    },
+    progValue: {
+        fontSize: 13,
+        fontWeight: '800',
+    },
+    progTrack: {
+        height: 6,
+        backgroundColor: '#F1F5F9',
+        borderRadius: 3,
+        overflow: 'hidden',
+    },
+    progFill: {
+        height: '100%',
+        borderRadius: 3,
+    },
+    statsRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        gap: spacing.xs,
+        marginBottom: spacing.xl,
+    },
+    statBox: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        paddingVertical: spacing.md,
+        alignItems: 'center',
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+        ...shadow.sm,
+    },
+    statVal: {
+        fontSize: 20,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '900',
+        color: '#0F172A',
+        marginBottom: 2,
+    },
+    statLab: {
+        fontSize: 10,
+        textTransform: 'uppercase',
+        fontWeight: '700',
+        color: '#64748B',
+    },
+    sectionHeading: {
+        fontSize: 18,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '800',
+        color: '#0F172A',
+        marginBottom: spacing.md,
+    },
+    listContainer: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+        padding: spacing.md,
+        gap: spacing.md,
+        marginBottom: spacing.xl,
+        ...shadow.sm,
+    },
+    listItem: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        gap: spacing.md,
+    },
+    listIconWrap: {
+        padding: 4,
+        borderRadius: 8,
+        marginTop: 2,
+    },
+    listIconGood: {
+        backgroundColor: '#ECFDF5',
+    },
+    listIconWarn: {
+        backgroundColor: '#FFFBEB',
+    },
+    listText: {
+        flex: 1,
+        fontSize: 14,
+        color: '#334155',
+        lineHeight: 22,
+    },
+    upgradesGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: spacing.sm,
+        marginBottom: spacing.xl,
+    },
+    upgradeBox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+        backgroundColor: '#FFFFFF',
+        paddingHorizontal: spacing.md,
+        paddingVertical: spacing.sm,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+        ...shadow.sm,
+    },
+    upgradeBasic: {
+        fontSize: 13,
+        color: '#64748B',
+        textDecorationLine: 'line-through',
+    },
+    upgradeAdv: {
+        fontSize: 13,
+        fontWeight: '800',
+    },
+    actionRow: {
+        flexDirection: 'row',
+        gap: spacing.md,
+        marginTop: spacing.md,
+    },
+    actionFlexBtn: {
+        flex: 1,
+    },
 });

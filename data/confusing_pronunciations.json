@@ -178,5 +178,95 @@
             "/ˈɪt.ə.reɪt/",
             "/aɪˈtɪn.ər.ənt/"
         ]
+    },
+    {
+        "id": 13,
+        "pair": [
+            "Though",
+            "Through"
+        ],
+        "definitions": [
+            "However; despite that",
+            "From one side to the other"
+        ],
+        "phonetics": [
+            "/ðoʊ/",
+            "/θruː/"
+        ]
+    },
+    {
+        "id": 14,
+        "pair": [
+            "Tough",
+            "Though"
+        ],
+        "definitions": [
+            "Difficult; strong",
+            "However; despite that"
+        ],
+        "phonetics": [
+            "/tʌf/",
+            "/ðoʊ/"
+        ]
+    },
+    {
+        "id": 15,
+        "pair": [
+            "Thought",
+            "Though"
+        ],
+        "definitions": [
+            "An idea in the mind; past form of think",
+            "However; despite that"
+        ],
+        "phonetics": [
+            "/θɔːt/",
+            "/ðoʊ/"
+        ]
+    },
+    {
+        "id": 16,
+        "pair": [
+            "Thorough",
+            "Through"
+        ],
+        "definitions": [
+            "Careful and complete",
+            "From one side to the other"
+        ],
+        "phonetics": [
+            "/ˈθɝː.oʊ/",
+            "/θruː/"
+        ]
+    },
+    {
+        "id": 17,
+        "pair": [
+            "Ought",
+            "Out"
+        ],
+        "definitions": [
+            "Should; used for duty/advice",
+            "Outside; not in"
+        ],
+        "phonetics": [
+            "/ɔːt/",
+            "/aʊt/"
+        ]
+    },
+    {
+        "id": 18,
+        "pair": [
+            "Cough",
+            "Though"
+        ],
+        "definitions": [
+            "To force air from the lungs suddenly",
+            "However; despite that"
+        ],
+        "phonetics": [
+            "/kɔːf/",
+            "/ðoʊ/"
+        ]
     }
 ]

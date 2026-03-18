@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
@@ -88,7 +88,7 @@ export default function RealLifeModulesScreen({ navigation }) {
     const endData = ENDINGS[currentNode];
 
     return (
-        <Screen contentStyle={styles.container}>
+        <Screen scroll contentStyle={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
@@ -109,11 +109,11 @@ export default function RealLifeModulesScreen({ navigation }) {
                 </View>
 
                 {isEnding ? (
-                    <Card style={[styles.endCard, { borderColor: endData.win ? colors.success : colors.error }]}>
-                        <View style={[styles.iconWrap, { backgroundColor: endData.win ? 'rgba(46, 204, 113, 0.1)' : 'rgba(231, 76, 60, 0.1)' }]}>
+                    <Card style={[styles.endCard, endData.win ? styles.endCardSuccess : styles.endCardFail]}>
+                        <View style={[styles.iconWrap, endData.win ? styles.iconWrapSuccess : styles.iconWrapFail]}>
                             <Ionicons name={endData.win ? "checkmark-circle" : "close-circle"} size={64} color={endData.win ? colors.success : colors.error} />
                         </View>
-                        <Text style={[styles.endTitle, { color: endData.win ? colors.success : colors.error }]}>{endData.title}</Text>
+                        <Text style={[styles.endTitle, endData.win ? styles.endTitleSuccess : styles.endTitleFail]}>{endData.title}</Text>
                         <Text style={styles.endDesc}>{endData.desc}</Text>
 
                         <TouchableOpacity style={styles.restartBtn} onPress={resetScenario}>
@@ -149,7 +149,7 @@ export default function RealLifeModulesScreen({ navigation }) {
                     </>
                 )}
 
-                <View style={{ height: 40 }} />
+                <View style={styles.bottomSpacer} />
             </ScrollView>
         </Screen>
     );
@@ -180,9 +180,17 @@ const styles = StyleSheet.create({
     optionText: { flex: 1, fontSize: 15, color: colors.text, fontWeight: '500', lineHeight: 22 },
 
     endCard: { padding: spacing.xxl, alignItems: 'center', backgroundColor: '#fff', borderRadius: radius.xl, borderWidth: 2 },
+    endCardSuccess: { borderColor: colors.success },
+    endCardFail: { borderColor: colors.error },
     iconWrap: { width: 100, height: 100, borderRadius: 50, justifyContent: 'center', alignItems: 'center', marginBottom: spacing.lg },
+    iconWrapSuccess: { backgroundColor: 'rgba(46, 204, 113, 0.1)' },
+    iconWrapFail: { backgroundColor: 'rgba(231, 76, 60, 0.1)' },
     endTitle: { fontSize: 28, fontWeight: '900', marginBottom: spacing.sm, fontFamily: typography.fontHeadline },
+    endTitleSuccess: { color: colors.success },
+    endTitleFail: { color: colors.error },
     endDesc: { fontSize: 15, color: colors.text, textAlign: 'center', lineHeight: 22, marginBottom: spacing.xxl },
     restartBtn: { backgroundColor: colors.primary, paddingHorizontal: spacing.xxl, paddingVertical: spacing.md, borderRadius: radius.pill },
-    restartBtnText: { color: '#fff', fontWeight: '800', fontSize: 16 }
+    restartBtnText: { color: '#fff', fontWeight: '800', fontSize: 16 },
+
+    bottomSpacer: { height: 40 }
 });

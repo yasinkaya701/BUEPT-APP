@@ -2,28 +2,35 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text, StyleSheet } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
-import SkillsScreen from '../screens/SkillsScreen';
 import WritingScreen from '../screens/WritingScreen';
 import VocabScreen from '../screens/VocabScreen';
 import ListeningScreen from '../screens/ListeningScreen';
 import SpeakingScreen from '../screens/SpeakingScreen';
-import { colors, typography, spacing, radius } from '../theme/tokens';
+import ReadingScreen from '../screens/ReadingScreen';
+import GrammarScreen from '../screens/GrammarScreen';
+import { typography, spacing } from '../theme/tokens';
 const Tab = createBottomTabNavigator();
 
 const TAB_ICONS = {
   Home: '🏠',
-  Skills: '📚',
+  Reading: '📖',
+  Grammar: '🧩',
   Writing: '✍️',
-  Vocab: '📖',
+  Vocab: '📕',
   Listening: '🎧',
   Speaking: '🎤',
 };
+const TAB_ICON_RENDERERS = Object.fromEntries(
+  Object.entries(TAB_ICONS).map(([routeName, icon]) => ([
+    routeName,
+    ({ focused }) => <TabIcon icon={icon} focused={focused} />,
+  ]))
+);
 
-function TabIcon({ icon, focused, label }) {
+function TabIcon({ icon, focused }) {
   return (
-    <View style={styles.iconWrap}>
-      <Text style={styles.iconEmoji}>{icon}</Text>
-      {focused && <View style={styles.dot} />}
+    <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
+      <Text style={[styles.iconEmoji, !focused && styles.iconEmojiMuted, focused && styles.iconEmojiActive]}>{icon}</Text>
     </View>
   );
 }
@@ -34,18 +41,22 @@ export default function TabNavigator() {
       screenOptions={({ route }) => ({
         headerShown: false,
         lazy: true,
+        freezeOnBlur: true,
         tabBarHideOnKeyboard: true,
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.muted,
+        tabBarActiveTintColor: '#FFFFFF',
+        tabBarInactiveTintColor: 'rgba(255,255,255,0.55)',
         tabBarLabelStyle: styles.label,
-        tabBarIcon: ({ focused }) => (
-          <TabIcon icon={TAB_ICONS[route.name]} focused={focused} label={route.name} />
-        ),
+        tabBarIconStyle: styles.iconStyle,
+        tabBarItemStyle: styles.itemStyle,
+        tabBarActiveBackgroundColor: 'transparent',
+        tabBarAllowFontScaling: false,
+        tabBarIcon: TAB_ICON_RENDERERS[route.name],
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Skills" component={SkillsScreen} />
+      <Tab.Screen name="Reading" component={ReadingScreen} />
+      <Tab.Screen name="Grammar" component={GrammarScreen} />
       <Tab.Screen name="Writing" component={WritingScreen} />
       <Tab.Screen name="Vocab" component={VocabScreen} />
       <Tab.Screen name="Listening" component={ListeningScreen} />
@@ -56,42 +67,54 @@ export default function TabNavigator() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: colors.surface,
     position: 'absolute',
-    bottom: 24, // Float above bottom edge
-    left: spacing.lg,
-    right: spacing.lg,
-    borderRadius: radius.pill, // Floating pill shape
-    borderTopWidth: 0,
-    elevation: 8,
-    shadowColor: '#1E293B',
-    shadowOpacity: 0.1,
-    shadowRadius: 24,
-    shadowOffset: { width: 0, height: 8 },
-    height: 64, // Sleeker height
-    paddingBottom: 0, // Remove notch padding since it's floating
-    paddingTop: 0,
+    left: spacing.sm,
+    right: spacing.sm,
+    bottom: spacing.sm,
+    alignSelf: 'center',
+    maxWidth: 760,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.15)',
+    borderTopWidth: 1,
+    height: 68,
+    paddingHorizontal: 6,
+    paddingBottom: 8,
+    paddingTop: 6,
     justifyContent: 'center',
   },
   label: {
     fontFamily: typography.fontHeadline,
-    fontSize: 10,
-    marginTop: 2,
-    marginBottom: 8 // Slight padding inside the pill
+    fontSize: 9,
+    marginTop: 1,
+    fontWeight: '700',
+  },
+  itemStyle: {
+    borderRadius: 14,
+    marginHorizontal: 1,
+    paddingVertical: 2,
+  },
+  iconStyle: {
+    marginTop: 1,
   },
   iconWrap: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 36,
-    height: 32,
-    marginTop: 8 // Balance icon vertically
+    width: 30,
+    height: 24,
+    borderRadius: 12,
   },
-  iconEmoji: { fontSize: 20 },
-  dot: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: colors.primary,
-    marginTop: 4,
+  iconWrapActive: {
+    backgroundColor: 'rgba(255,255,255,0.15)',
+  },
+  iconEmoji: {
+    fontSize: 15,
+  },
+  iconEmojiActive: {
+    fontSize: 17,
+  },
+  iconEmojiMuted: {
+    opacity: 0.6,
   },
 });

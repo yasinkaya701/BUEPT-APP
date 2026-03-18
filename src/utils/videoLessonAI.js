@@ -1,12 +1,8 @@
-const VIDEO_ENDPOINT =
-  typeof process !== 'undefined' && process.env && process.env.BUEPT_VIDEO_LESSON_API_URL
-    ? process.env.BUEPT_VIDEO_LESSON_API_URL
-    : '';
+import { readRuntimeEnv, resolveApiEndpoint } from './runtimeApi';
 
-const API_KEY =
-  typeof process !== 'undefined' && process.env && process.env.BUEPT_API_KEY
-    ? process.env.BUEPT_API_KEY
-    : '';
+const VIDEO_ENDPOINT = resolveApiEndpoint('BUEPT_VIDEO_LESSON_API_URL', '/api/video-lesson');
+
+const API_KEY = readRuntimeEnv('BUEPT_API_KEY');
 
 function withTimeout(ms = 18000) {
   const ctrl = new AbortController();
@@ -47,47 +43,49 @@ function normalizeScene(scene = {}, index = 0) {
   };
 }
 
-const FALLBACK_VIDEOS = [
-  {
-    id: 'general_academic',
-    title: 'Academic Skills Demo',
-    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-    posterUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg',
-    provider: 'Google Sample Media',
-  },
-  {
-    id: 'news_style',
-    title: 'News-Style Listening Demo',
-    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-    posterUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerEscapes.jpg',
-    provider: 'Google Sample Media',
-  },
-  {
-    id: 'presentation_style',
-    title: 'Presentation Demo',
-    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
-    posterUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerFun.jpg',
-    provider: 'Google Sample Media',
-  },
-];
+function deriveKeyTermsFromScenes(scenes = [], topic = '') {
+  const pool = [];
+  if (topic) pool.push(...String(topic).toLowerCase().split(/\s+/));
+  scenes.forEach((scene) => {
+    pool.push(...String(scene.heading || '').toLowerCase().split(/\s+/));
+    (scene.bullets || []).forEach((item) => {
+      pool.push(...String(item || '').toLowerCase().split(/\s+/));
+    });
+  });
+  const seen = new Set();
+  return pool
+    .map((item) => item.replace(/[^a-z0-9-]/g, ''))
+    .filter((item) => item && item.length >= 4)
+    .filter((item) => {
+      if (seen.has(item)) return false;
+      seen.add(item);
+      return true;
+    })
+    .slice(0, 8);
+}
 
-function pickFallbackVideo(topic = '') {
-  const lower = clean(topic, '').toLowerCase();
-  if (lower.includes('news') || lower.includes('current') || lower.includes('policy')) return FALLBACK_VIDEOS[1];
-  if (lower.includes('presentation') || lower.includes('talk') || lower.includes('speech')) return FALLBACK_VIDEOS[2];
-  return FALLBACK_VIDEOS[0];
+function buildLearningGoals(topic = '', level = 'B1') {
+  const safeTopic = clean(topic, 'this topic');
+  return [
+    `Explain ${safeTopic} in clear ${level}-level English.`,
+    'Recognize the core rule or strategy without long hesitation.',
+    'Transfer the explanation into one short exam-style response.',
+  ];
+}
+
+function buildPracticeTasks(scenes = []) {
+  return scenes.map((scene) => clean(scene.quiz, 'State one key takeaway from this scene.')).slice(0, 4);
 }
 
 function normalizeVideo(payload = {}, topic = '') {
-  const fallback = pickFallbackVideo(topic);
-  const rawUrl = clean(payload.videoUrl || payload.video_url || payload.url, fallback.videoUrl);
+  const rawUrl = clean(payload.videoUrl || payload.video_url || payload.url, '');
   const isHttp = /^https?:\/\//i.test(rawUrl);
   return {
-    title: clean(payload.videoTitle || payload.video_title, fallback.title),
-    videoUrl: isHttp ? rawUrl : fallback.videoUrl,
-    posterUrl: clean(payload.posterUrl || payload.poster_url, fallback.posterUrl),
-    provider: clean(payload.provider, fallback.provider),
-    generated: !!payload.videoUrl,
+    title: clean(payload.videoTitle || payload.video_title, `${topic}: Storyboard`),
+    videoUrl: isHttp ? rawUrl : '',
+    posterUrl: clean(payload.posterUrl || payload.poster_url, ''),
+    provider: clean(payload.provider, isHttp ? 'AI video endpoint' : 'AI storyboard only'),
+    generated: isHttp,
   };
 }
 
@@ -96,13 +94,24 @@ function normalizeLesson(payload = {}, topic = 'Topic') {
     ? payload.scenes.map((scene, index) => normalizeScene(scene, index)).slice(0, 8)
     : [];
   const video = normalizeVideo(payload, topic);
+  const finalScenes = scenes.length ? scenes : buildLocalLesson({ topic });
 
   return {
     title: clean(payload.title, `${topic}: AI Lesson Video`),
     summary: clean(payload.summary, 'AI-generated lesson flow with narration and guided checkpoints.'),
-    scenes: scenes.length ? scenes : buildLocalLesson({ topic }),
+    scenes: finalScenes,
     video,
     source: payload.source || (VIDEO_ENDPOINT ? 'online' : 'offline'),
+    learningGoals: Array.isArray(payload.learningGoals)
+      ? payload.learningGoals.filter(Boolean).slice(0, 4)
+      : buildLearningGoals(topic, clean(payload.level, 'B1')),
+    keyTerms: Array.isArray(payload.keyTerms)
+      ? payload.keyTerms.filter(Boolean).slice(0, 8)
+      : deriveKeyTermsFromScenes(finalScenes, topic),
+    practiceTasks: Array.isArray(payload.practiceTasks)
+      ? payload.practiceTasks.filter(Boolean).slice(0, 4)
+      : buildPracticeTasks(finalScenes),
+    diagnostic: clean(payload.diagnostic, ''),
   };
 }
 
@@ -157,19 +166,22 @@ export async function generateVideoLesson({ topic, level = 'B1', durationMin = 4
   const normalizedDuration = clampNumber(durationMin, 2, 12, 4);
 
   if (!VIDEO_ENDPOINT) {
-    const video = pickFallbackVideo(normalizedTopic);
     return {
-      title: `${normalizedTopic}: AI Lesson Video`,
-      summary: 'Generated locally (offline mode). Set BUEPT_VIDEO_LESSON_API_URL for online generation.',
+      title: `${normalizedTopic}: AI Lesson Storyboard`,
+      summary: 'Generated locally from the built-in lesson engine.',
       scenes: buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration }),
       video: {
-        title: video.title,
-        videoUrl: video.videoUrl,
-        posterUrl: video.posterUrl,
-        provider: video.provider,
+        title: `${normalizedTopic}: Storyboard`,
+        videoUrl: '',
+        posterUrl: '',
+        provider: 'AI storyboard only',
         generated: false,
       },
-      source: 'offline',
+      source: 'local-storyboard',
+      learningGoals: buildLearningGoals(normalizedTopic, normalizedLevel),
+      keyTerms: deriveKeyTermsFromScenes(buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration }), normalizedTopic),
+      practiceTasks: buildPracticeTasks(buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration })),
+      diagnostic: '',
     };
   }
 
@@ -193,19 +205,22 @@ export async function generateVideoLesson({ topic, level = 'B1', durationMin = 4
     const json = await res.json();
     return normalizeLesson(json, normalizedTopic);
   } catch (_) {
-    const video = pickFallbackVideo(normalizedTopic);
     return {
-      title: `${normalizedTopic}: AI Lesson Video`,
-      summary: 'Online video generation failed, fallback lesson created locally.',
+      title: `${normalizedTopic}: AI Lesson Storyboard`,
+      summary: 'Online generation failed, but a real local storyboard was created.',
       scenes: buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration }),
       video: {
-        title: video.title,
-        videoUrl: video.videoUrl,
-        posterUrl: video.posterUrl,
-        provider: video.provider,
+        title: `${normalizedTopic}: Storyboard`,
+        videoUrl: '',
+        posterUrl: '',
+        provider: 'AI storyboard only',
         generated: false,
       },
-      source: 'offline-fallback',
+      source: 'local-storyboard',
+      learningGoals: buildLearningGoals(normalizedTopic, normalizedLevel),
+      keyTerms: deriveKeyTermsFromScenes(buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration }), normalizedTopic),
+      practiceTasks: buildPracticeTasks(buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration })),
+      diagnostic: 'Live lesson generation failed, so the local storyboard engine created the lesson.',
     };
   } finally {
     timeout.clear();

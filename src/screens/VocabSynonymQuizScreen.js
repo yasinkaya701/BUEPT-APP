@@ -17,6 +17,7 @@ import { colors, spacing, typography, shadow } from '../theme/tokens';
 import { getEntriesWithSynonyms, getDictionarySample } from '../utils/dictionary';
 import { useAppState } from '../context/AppState';
 import { speakText } from '../hooks/useTts';
+import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
 
 /** Fisher-Yates shuffle — inline to avoid any module resolution issues */
 function shuffle(arr) {
@@ -39,11 +40,37 @@ function getBand(pct) {
 }
 
 export default function VocabSynonymQuizScreen({ route, navigation }) {
+  const mode = route?.params?.mode === 'test_english' ? 'test_english' : 'default';
+  const topic = String(route?.params?.topic || 'all').toLowerCase();
+  const level = String(route?.params?.level || 'all').toUpperCase();
+  const isTestEnglish = mode === 'test_english';
   const [size, setSize] = useState(route?.params?.size || 10);
+  const getPool = useCallback(() => {
+    if (isTestEnglish) {
+      const base = Array.isArray(testEnglishVocabItems) ? testEnglishVocabItems : [];
+      const filtered = base.filter(
+        (w) =>
+          Array.isArray(w.synonyms) &&
+          w.synonyms.length > 0 &&
+          (topic === 'all' || String(w.topic || '').toLowerCase() === topic) &&
+          (level === 'ALL' || String(w.level || '').toUpperCase() === level)
+      );
+      if (filtered.length) return filtered;
+      const levelOnly = base.filter(
+        (w) =>
+          Array.isArray(w.synonyms) &&
+          w.synonyms.length > 0 &&
+          (level === 'ALL' || String(w.level || '').toUpperCase() === level)
+      );
+      if (levelOnly.length) return levelOnly;
+      return base.filter((w) => Array.isArray(w.synonyms) && w.synonyms.length > 0);
+    }
+    return getEntriesWithSynonyms(400);
+  }, [isTestEnglish, topic, level]);
   const seededItems = useMemo(() => {
-    const list = getEntriesWithSynonyms(400);
+    const list = getPool();
     return shuffle(list).slice(0, size);
-  }, [size]);
+  }, [getPool, size]);
   const [items, setItems] = useState(seededItems);
   const [started, setStarted] = useState(false);
   const [index, setIndex] = useState(0);
@@ -68,11 +95,12 @@ export default function VocabSynonymQuizScreen({ route, navigation }) {
   const options = useMemo(() => {
     if (!current) return [];
     const synonym = current.synonyms[0];
+    const distractorPool = getPool();
     const distractors = shuffle(
-      getDictionarySample(400).filter(w => w.word !== synonym && w.word !== current.word)
+      (distractorPool.length ? distractorPool : getDictionarySample(400)).filter(w => w.word !== synonym && w.word !== current.word)
     ).slice(0, 3).map(w => w.word);
     return shuffle([synonym, ...distractors]);
-  }, [current]);
+  }, [current, getPool]);
 
   const revealAnswer = useCallback(() => {
     if (revealed || !selected) return;
@@ -117,7 +145,7 @@ export default function VocabSynonymQuizScreen({ route, navigation }) {
   }, [revealed, current, index, items.length, flipAnim, revealAnswer, recordKnown, addUnknownWord, recordUnknown]);
 
   const restart = () => {
-    const list = getEntriesWithSynonyms(400);
+    const list = getPool();
     const nextItems = shuffle(list).slice(0, size);
     setItems(nextItems);
     flipAnim.setValue(0);
@@ -142,9 +170,13 @@ export default function VocabSynonymQuizScreen({ route, navigation }) {
   // ── Start screen ──────────────────────────────────────────────────────────
   if (!started) {
     return (
-      <Screen contentStyle={styles.startContainer}>
+      <Screen scroll contentStyle={styles.startContainer}>
         <Text style={styles.h1}>🔤 Synonym Quiz</Text>
-        <Text style={styles.sub}>Pick the best synonym for each word. Tap 🔊 to hear pronunciation.</Text>
+        <Text style={styles.sub}>
+          {isTestEnglish
+            ? `Test-English ${level === 'ALL' ? 'all levels' : level} synonym drill${topic !== 'all' ? `: ${topic}` : ''}. Tap 🔊 to hear pronunciation.`
+            : 'Pick the best synonym for each word. Tap 🔊 to hear pronunciation.'}
+        </Text>
         <Card style={styles.card}>
           <Text style={styles.label}>How many questions?</Text>
           <View style={styles.sizeRow}>
@@ -169,7 +201,7 @@ export default function VocabSynonymQuizScreen({ route, navigation }) {
     const pct = Math.round((score / items.length) * 100);
     const band = getBand(pct);
     return (
-      <Screen contentStyle={styles.startContainer}>
+      <Screen scroll contentStyle={styles.startContainer}>
         <Text style={[styles.bandEmoji]}>{band.emoji}</Text>
         <Text style={styles.h1}>Quiz Complete!</Text>
         <Card style={[styles.card, shadow.elev2]}>

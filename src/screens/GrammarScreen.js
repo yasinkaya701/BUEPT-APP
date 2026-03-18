@@ -1,90 +1,94 @@
-import React, { useMemo, useState } from 'react';
-import { Text, StyleSheet, View, TextInput } from 'react-native';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import { Text, StyleSheet, View, TextInput, TouchableOpacity, useWindowDimensions } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
-import { colors, spacing, typography } from '../theme/tokens';
+import { colors, spacing, typography, shadow, radius } from '../theme/tokens';
 import baseTasks from '../../data/grammar_tasks.json';
 import hardTasks from '../../data/grammar_tasks_hard.json';
+import testEnglishTasks from '../../data/test_english_grammar_tasks.json';
 import { useAppState } from '../context/AppState';
-import { buildAdaptivePlan, buildRecommendedTask } from '../utils/studyPlan';
 
-const tasks = [...baseTasks, ...hardTasks];
-
-function buildGrammarChallenge(list = [], seed = 1) {
-  if (!Array.isArray(list) || list.length === 0) return null;
-  const index = Math.abs((seed * 17 + 11) % list.length);
-  const task = list[index];
-  const qs = task?.questions || [];
-  if (!qs.length) return null;
-  const qIndex = Math.abs((seed * 31 + 5) % qs.length);
-  return { task, question: qs[qIndex], qIndex };
-}
-
-function pickWeakGrammarMode(history = []) {
-  const stats = {
-    cloze: { c: 0, t: 0 },
-    mcq: { c: 0, t: 0 },
+const tasks = [...baseTasks, ...hardTasks, ...testEnglishTasks].map((item) => {
+  const id = String(item?.id || '');
+  const title = String(item?.title || '');
+  const explain = String(item?.explain || '');
+  const isTestEnglish = id.startsWith('g_te_');
+  const isUoe = id.includes('_uoe_') || /use of english/i.test(title);
+  return {
+    ...item,
+    _search: `${title} ${explain}`.toLowerCase(),
+    _isTestEnglish: isTestEnglish,
+    _isUoe: isUoe,
   };
-  history.forEach((item) => {
-    const result = item?.result;
-    const taskId = result?.taskId;
-    const score = Number(result?.score || 0);
-    const total = Number(result?.total || 0);
-    const task = tasks.find((t) => t.id === taskId);
-    if (!task || !total) return;
-    const hasCloze = (task.questions || []).some((q) => q.type === 'cloze');
-    const key = hasCloze ? 'cloze' : 'mcq';
-    stats[key].c += score;
-    stats[key].t += total;
-  });
-  const clozePct = stats.cloze.t ? Math.round((stats.cloze.c / stats.cloze.t) * 100) : null;
-  const mcqPct = stats.mcq.t ? Math.round((stats.mcq.c / stats.mcq.t) * 100) : null;
-  if (clozePct == null && mcqPct == null) return { weak: 'mcq', clozePct: null, mcqPct: null };
-  if (clozePct == null) return { weak: 'cloze', clozePct, mcqPct };
-  if (mcqPct == null) return { weak: 'mcq', clozePct, mcqPct };
-  return clozePct <= mcqPct
-    ? { weak: 'cloze', clozePct, mcqPct }
-    : { weak: 'mcq', clozePct, mcqPct };
+});
+
+// UI Modules matching ReadingScreen
+function MetricTile({ value, label, accent = 'blue' }) {
+    return (
+      <View style={styles.metricTile}>
+        <View style={[styles.metricAccent, accent === 'teal' ? styles.metricAccentTeal : accent === 'amber' ? styles.metricAccentAmber : styles.metricAccentBlue]} />
+        <Text style={styles.metricValue}>{value}</Text>
+        <Text style={styles.metricLabel}>{label}</Text>
+      </View>
+    );
 }
 
-function buildGrammarStreak(history = []) {
-  const uniqueDays = Array.from(
-    new Set(
-      history
-        .map((item) => String(item?.createdAt || '').slice(0, 10))
-        .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d))
-    )
-  ).sort((a, b) => (a < b ? 1 : -1));
-  if (!uniqueDays.length) return 0;
-  const today = new Date();
-  const start = new Date(today);
-  start.setHours(0, 0, 0, 0);
-  const first = new Date(uniqueDays[0]);
-  first.setHours(0, 0, 0, 0);
-  const dayDiff = Math.floor((start - first) / (24 * 60 * 60 * 1000));
-  if (dayDiff > 1) return 0;
-  let streak = 0;
-  let cursor = first;
-  for (let i = 0; i < uniqueDays.length; i += 1) {
-    const d = new Date(uniqueDays[i]);
-    d.setHours(0, 0, 0, 0);
-    if (d.getTime() !== cursor.getTime()) break;
-    streak += 1;
-    cursor = new Date(cursor);
-    cursor.setDate(cursor.getDate() - 1);
-  }
-  return streak;
+function FilterChip({ label, active, onPress, helper }) {
+    return (
+      <TouchableOpacity
+        accessibilityRole="button"
+        activeOpacity={0.88}
+        onPress={onPress}
+        style={[styles.filterChip, active && styles.filterChipActive]}
+      >
+        <Text style={[styles.filterChipText, active && styles.filterChipTextActive]}>{label}</Text>
+        {helper ? <Text style={[styles.filterChipHelper, active && styles.filterChipHelperActive]}>{helper}</Text> : null}
+      </TouchableOpacity>
+    );
 }
 
-export default function GrammarScreen({ navigation }) {
-  const { readingHistory, listeningHistory, grammarHistory, history, level, grammarErrors } = useAppState();
+export default function GrammarScreen({ navigation, route }) {
+  const { width } = useWindowDimensions();
+  const isWide = width >= 960;
+  const { grammarHistory, grammarErrors } = useAppState();
   const [levelFilter, setLevelFilter] = useState('ALL');
+  const [scopeFilter, setScopeFilter] = useState('ALL');
+  const [queryInput, setQueryInput] = useState('');
   const [query, setQuery] = useState('');
-  const [modeFilter, setModeFilter] = useState('ALL');
-  const [challengeSeed, setChallengeSeed] = useState(1);
-  const [challengeChoice, setChallengeChoice] = useState(null);
-  const [challengeChecked, setChallengeChecked] = useState(false);
+
+  useEffect(() => {
+    const preset = String(route?.params?.preset || '').toLowerCase();
+    if (preset === 'test_english') {
+      setScopeFilter('TEST_ENGLISH');
+      return;
+    }
+    if (preset === 'use_of_english') {
+      setScopeFilter('UOE');
+      return;
+    }
+    setScopeFilter('ALL');
+  }, [route?.params?.preset]);
+
+  useEffect(() => {
+    const handle = setTimeout(() => {
+      setQuery(queryInput);
+    }, 120);
+    return () => clearTimeout(handle);
+  }, [queryInput]);
+
+  const scopeCounts = useMemo(() => {
+    const testEnglish = tasks.filter((t) => t._isTestEnglish).length;
+    const uoe = tasks.filter((t) => t._isUoe).length;
+    return {
+      all: tasks.length,
+      standard: tasks.length - testEnglish,
+      testEnglish,
+      uoe,
+    };
+  }, []);
+
   const stats = useMemo(() => {
     let correct = 0;
     let total = 0;
@@ -98,487 +102,560 @@ export default function GrammarScreen({ navigation }) {
     const accuracy = total ? Math.round((correct / total) * 100) : null;
     return { correct, total, accuracy, attempts: grammarHistory.length };
   }, [grammarHistory]);
-  const filtered = useMemo(
-    () => tasks.filter((t) => {
+
+  const latestTask = useMemo(() => {
+    const latestId = grammarHistory[0]?.result?.taskId;
+    return tasks.find((item) => item.id === latestId) || null;
+  }, [grammarHistory]);
+
+  const weakTopics = useMemo(() => {
+    return Object.entries(grammarErrors || {})
+      .map(([id, item]) => ({
+        id,
+        title: String(item?.title || '').trim() || id,
+        count: Number(item?.count || 0),
+      }))
+      .filter((item) => item.count > 0)
+      .sort((a, b) => b.count - a.count || a.title.localeCompare(b.title))
+      .slice(0, 4);
+  }, [grammarErrors]);
+
+  const filtered = useMemo(() => {
+    return tasks.filter((t) => {
       const levelOk = levelFilter === 'ALL' || t.level === levelFilter;
       const q = query.trim().toLowerCase();
-      const queryOk = !q || `${t.title} ${t.explain || ''}`.toLowerCase().includes(q);
-      const hasCloze = (t.questions || []).some((x) => x.type === 'cloze');
-      const modeOk = modeFilter === 'ALL' || (modeFilter === 'CLOZE' ? hasCloze : !hasCloze);
-      return levelOk && queryOk && modeOk;
-    }),
-    [levelFilter, query, modeFilter]
-  );
-  const adaptive = buildAdaptivePlan({
-    level,
-    readingHistory,
-    listeningHistory,
-    grammarHistory,
-    writingHistory: history
-  });
-  const rec = useMemo(
-    () => buildRecommendedTask(filtered, grammarHistory, level),
-    [filtered, grammarHistory, level]
-  );
-  const weeklyProgress = useMemo(() => {
-    const today = new Date();
-    const start = new Date(today);
-    start.setDate(today.getDate() - 6);
-    start.setHours(0, 0, 0, 0);
-    const done = grammarHistory.filter((item) => {
-      const d = new Date(item?.createdAt || 0);
-      return Number.isFinite(d.getTime()) && d >= start;
-    }).length;
-    const target = 6;
-    return { done, target, pct: Math.min(100, Math.round((done / target) * 100)) };
-  }, [grammarHistory]);
-  const modeStats = useMemo(() => pickWeakGrammarMode(grammarHistory), [grammarHistory]);
-  const streakDays = useMemo(() => buildGrammarStreak(grammarHistory), [grammarHistory]);
-  const readiness = useMemo(() => {
-    const recent = grammarHistory.slice(0, 5);
-    if (!recent.length) return null;
-    const avg = Math.round(
-      recent.reduce((sum, item) => {
-        const score = Number(item?.result?.score || 0);
-        const total = Math.max(1, Number(item?.result?.total || 0));
-        return sum + (score / total) * 100;
-      }, 0) / recent.length
+      const queryOk = !q || (t._search || '').includes(q);
+      const isTestEnglish = t._isTestEnglish;
+      const isUoe = t._isUoe;
+      const scopeOk = scopeFilter === 'ALL'
+        || (scopeFilter === 'STANDARD' && !isTestEnglish)
+        || (scopeFilter === 'TEST_ENGLISH' && isTestEnglish)
+        || (scopeFilter === 'UOE' && isUoe);
+      return levelOk && queryOk && scopeOk;
+    });
+  }, [levelFilter, query, scopeFilter]);
+
+  const resetFilters = useCallback(() => {
+    setLevelFilter('ALL');
+    setScopeFilter('ALL');
+    setQueryInput('');
+    setQuery('');
+  }, []);
+
+  const renderItem = ({ item }) => {
+    const questions = item.questions || [];
+    const hasCloze = questions.some((q) => q.type === 'cloze');
+    return (
+      <View style={styles.taskItemWrap}>
+        <TouchableOpacity 
+            accessibilityRole="button" 
+            activeOpacity={0.9} 
+            onPress={() => navigation.navigate('GrammarDetail', { taskId: item.id })} 
+            style={styles.taskRow}
+        >
+            <View style={styles.taskRowBody}>
+                <View style={styles.taskRowHeader}>
+                    <Text style={styles.taskRowTitle}>{item.title}</Text>
+                    <Text style={styles.taskRowOpen}>Practice</Text>
+                </View>
+                <Text style={styles.taskRowMeta}>{item.level} · {item.time} · {questions.length} questions</Text>
+                
+                <View style={styles.taskBadgeRow}>
+                    <View style={[styles.badge, styles.badgeBlue]}>
+                        <Text style={[styles.badgeText, styles.badgeBlueText]}>{item.difficulty || 'core'}</Text>
+                    </View>
+                    <View style={[styles.badge, hasCloze ? styles.badgeGreen : styles.badgeSoft]}>
+                        <Text style={[styles.badgeText, hasCloze ? styles.badgeGreenText : {}]}>{hasCloze ? 'Cloze' : 'MCQ'}</Text>
+                    </View>
+                    {item._isTestEnglish && (
+                        <View style={[styles.badge, styles.badgeAmber]}>
+                            <Text style={[styles.badgeText, styles.badgeAmberText]}>Test English</Text>
+                        </View>
+                    )}
+                </View>
+                <Text style={styles.taskExplainLine} numberOfLines={1}>{item.explain}</Text>
+            </View>
+        </TouchableOpacity>
+      </View>
     );
-    const latest = recent[0];
-    const prev = recent[1];
-    const latestPct = latest
-      ? Math.round((Number(latest?.result?.score || 0) / Math.max(1, Number(latest?.result?.total || 0))) * 100)
-      : null;
-    const prevPct = prev
-      ? Math.round((Number(prev?.result?.score || 0) / Math.max(1, Number(prev?.result?.total || 0))) * 100)
-      : null;
-    const delta = latestPct != null && prevPct != null ? latestPct - prevPct : null;
-    const band = avg >= 80 ? 'Ready' : avg >= 65 ? 'Almost Ready' : 'Needs Core Review';
-    return { avg, latestPct, delta, band };
-  }, [grammarHistory]);
-  const modeTask = useMemo(() => {
-    if (modeStats.weak === 'cloze') {
-      return filtered.find((t) => (t.questions || []).some((q) => q.type === 'cloze')) || filtered[0];
-    }
-    return filtered.find((t) => !(t.questions || []).some((q) => q.type === 'cloze')) || filtered[0];
-  }, [filtered, modeStats.weak]);
-  const quickDrillTask = useMemo(() => {
-    if (!filtered.length) return null;
-    const byAttempts = filtered
-      .map((t) => {
-        const attempts = grammarHistory.filter((h) => h?.result?.taskId === t.id).length;
-        return { t, attempts };
-      })
-      .sort((a, b) => a.attempts - b.attempts);
-    return byAttempts[0]?.t || filtered[0];
-  }, [filtered, grammarHistory]);
-  const topErrorTopics = useMemo(() => {
-    const list = Object.entries(grammarErrors || {})
-      .map(([id, meta]) => ({ id, title: meta?.title || id, count: Number(meta?.count || 0) }))
-      .filter((x) => x.count > 0)
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 3);
-    return list;
-  }, [grammarErrors]);
-  const dailyChallenge = useMemo(() => buildGrammarChallenge(filtered, challengeSeed), [filtered, challengeSeed]);
-  const checkChallenge = () => {
-    if (challengeChoice == null) return;
-    setChallengeChecked(true);
   };
-  const nextChallenge = () => {
-    setChallengeSeed((s) => s + 1);
-    setChallengeChoice(null);
-    setChallengeChecked(false);
-  };
+
+  const renderEmpty = () => (
+    <Card style={styles.card}>
+      <Text style={styles.emptyTitle}>No tasks match current filters</Text>
+      <Text style={styles.emptySub}>Try resetting level/scope filters or clear the search text.</Text>
+      <Button label="Reset Filters" variant="secondary" onPress={resetFilters} />
+    </Card>
+  );
+
   return (
     <Screen scroll contentStyle={styles.container}>
-      <Text style={styles.h1}>Grammar</Text>
-      <Text style={styles.sub}>Core accuracy practice</Text>
-
-      <Card style={styles.banner}>
-        <Text style={styles.bannerTitle}>Tip</Text>
-        <Text style={styles.bannerBody}>Focus on patterns: S‑V agreement, tense, and prepositions.</Text>
+      <View style={styles.headerSpacer}>
+      <Card style={styles.heroCard} glow>
+        <View style={styles.heroTopRow}>
+            <View style={styles.heroIconWrap}>
+                <Ionicons name="create-outline" size={24} color="#BFDBFE" />
+            </View>
+            <View style={styles.heroCopy}>
+                <Text style={styles.heroEyebrow}>Grammar Studio</Text>
+                <Text style={styles.heroTitle}>Master Use of English and advanced rules.</Text>
+            </View>
+            <View style={styles.heroCounter}>
+                <Text style={styles.heroCounterValue}>{tasks.length}</Text>
+                <Text style={styles.heroCounterLabel}>Modules</Text>
+            </View>
+        </View>
       </Card>
+
+      <View style={styles.metricGrid}>
+          <MetricTile value={stats.accuracy != null ? `${stats.accuracy}%` : '--'} label="Accuracy" accent="blue" />
+          <MetricTile value={String(stats.attempts)} label="Attempts" accent="teal" />
+          <MetricTile value={String(stats.total)} label="Questions" accent="amber" />
+      </View>
+
       <Card style={styles.card}>
-        <Text style={styles.h3}>Filter by Level</Text>
-        <View style={styles.row}>
+        <View style={styles.sectionHead}>
+            <Text style={styles.sectionTitle}>Library & Filters</Text>
+        </View>
+        
+        <View style={styles.searchBox}>
+          <Ionicons name="search" size={18} color={colors.muted} />
+          <TextInput
+            style={styles.searchInput}
+            value={queryInput}
+            onChangeText={setQueryInput}
+            placeholder="Search tense, relative clauses..."
+            placeholderTextColor={colors.muted}
+            autoCapitalize="none"
+          />
+          {queryInput.length > 0 ? (
+            <TouchableOpacity onPress={() => setQueryInput('')}>
+              <Ionicons name="close-circle" size={17} color={colors.muted} />
+            </TouchableOpacity>
+          ) : null}
+        </View>
+
+        <View style={styles.chipScroll}>
           {['ALL', 'P1', 'P2', 'P3', 'P4'].map((lv) => (
-            <Text
-              key={lv}
-              onPress={() => setLevelFilter(lv)}
-              style={[styles.filterChip, levelFilter === lv && styles.filterChipActive]}
-            >
-              {lv}
-            </Text>
+              <FilterChip 
+                  key={lv} 
+                  label={lv === 'ALL' ? 'All Levels' : lv} 
+                  active={levelFilter === lv} 
+                  onPress={() => setLevelFilter(lv)} 
+              />
           ))}
         </View>
-        <TextInput
-          style={styles.input}
-          value={query}
-          onChangeText={setQuery}
-          placeholder="Search grammar topic..."
-          placeholderTextColor={colors.muted}
-          autoCapitalize="none"
-        />
-        <View style={styles.row}>
-          {['ALL', 'CLOZE', 'MCQ'].map((mode) => (
-            <Text
-              key={mode}
-              onPress={() => setModeFilter(mode)}
-              style={[styles.filterChip, modeFilter === mode && styles.filterChipActive]}
-            >
-              {mode}
-            </Text>
-          ))}
-        </View>
-        <Text style={styles.sub}>Showing {filtered.length} task(s)</Text>
-      </Card>
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Grammar Accuracy</Text>
-        <Text style={styles.body}>{stats.accuracy != null ? `${stats.accuracy}%` : 'No attempts yet'}</Text>
-        <Text style={styles.sub}>Attempts: {stats.attempts} • Total Qs: {stats.total}</Text>
-      </Card>
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Daily Grammar Challenge</Text>
-        {!dailyChallenge ? (
-          <Text style={styles.note}>No challenge available for this filter.</Text>
-        ) : (
-          <>
-            <Text style={styles.note}>From: {dailyChallenge.task.title}</Text>
-            <Text style={styles.body}>{dailyChallenge.question.q}</Text>
-            {dailyChallenge.question.options.map((opt, i) => {
-              const selected = challengeChoice === i;
-              const correct = challengeChecked && i === dailyChallenge.question.answer;
-              const wrong = challengeChecked && selected && i !== dailyChallenge.question.answer;
-              return (
-                <Text
-                  key={`challenge-${i}`}
-                  onPress={() => !challengeChecked && setChallengeChoice(i)}
-                  style={[
-                    styles.challengeOption,
-                    selected && styles.challengeOptionSelected,
-                    correct && styles.challengeOptionCorrect,
-                    wrong && styles.challengeOptionWrong,
-                  ]}
-                >
-                  {opt}
-                </Text>
-              );
-            })}
-            <View style={styles.row}>
-              <Button label="Check" variant="secondary" onPress={checkChallenge} disabled={challengeChoice == null || challengeChecked} />
-              <Button label="Next" variant="secondary" onPress={nextChallenge} />
-              <Button label="Open Task" onPress={() => navigation.navigate('GrammarDetail', { taskId: dailyChallenge.task.id })} />
-            </View>
-            {challengeChecked && dailyChallenge.question.explain ? (
-              <Text style={styles.note}>{dailyChallenge.question.explain}</Text>
-            ) : null}
-          </>
-        )}
-      </Card>
-      <Card style={styles.card}>
-        <Text style={styles.h3}>7-Day Grammar Mission</Text>
-        <Text style={styles.body}>Completed: {weeklyProgress.done}/{weeklyProgress.target} sets</Text>
-        <View style={styles.progressTrack}>
-          <View style={[styles.progressFill, { width: `${weeklyProgress.pct}%` }]} />
-        </View>
-        <Text style={styles.note}>Target: 6 grammar sets per week.</Text>
-        <Text style={styles.note}>Current streak: {streakDays} day(s)</Text>
-      </Card>
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Exam Readiness</Text>
-        {!readiness ? (
-          <Text style={styles.note}>Solve at least 1 task to get readiness tracking.</Text>
-        ) : (
-          <>
-            <Text style={styles.body}>
-              Readiness: {readiness.band} ({readiness.avg}% last 5)
-            </Text>
-            <Text style={styles.note}>
-              Latest set: {readiness.latestPct}% {readiness.delta == null ? '' : `• Trend ${readiness.delta >= 0 ? '+' : ''}${readiness.delta}%`}
-            </Text>
-            <View style={styles.row}>
-              <Button
-                label="Start Focus Block"
-                onPress={() => modeTask && navigation.navigate('GrammarDetail', { taskId: modeTask.id })}
-                disabled={!modeTask}
-              />
-              <Button
-                label="Mixed Practice"
-                variant="secondary"
-                onPress={() => quickDrillTask && navigation.navigate('GrammarDetail', { taskId: quickDrillTask.id })}
-                disabled={!quickDrillTask}
-              />
-            </View>
-          </>
-        )}
-      </Card>
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Recommended For You</Text>
-        <Text style={styles.body}>{adaptive.focusTitle}</Text>
-        <Text style={styles.note}>{adaptive.focusAction}</Text>
-        {rec?.task ? (
-          <>
-            <Text style={styles.note}>{rec.reason}</Text>
-            <Button label={`Start: ${rec.task.title}`} onPress={() => navigation.navigate('GrammarDetail', { taskId: rec.task.id })} />
-          </>
-        ) : null}
-      </Card>
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Strategy Coach</Text>
-        <Text style={styles.body}>
-          Weak mode: {modeStats.weak}
-          {modeStats.clozePct != null ? ` • Cloze ${modeStats.clozePct}%` : ''}
-          {modeStats.mcqPct != null ? ` • MCQ ${modeStats.mcqPct}%` : ''}
-        </Text>
-        <Text style={styles.note}>
-          {modeStats.weak === 'cloze'
-            ? 'Train tense/article/collocation around blanks before picking options.'
-            : 'Train rule recall: eliminate options by grammar pattern.'}
-        </Text>
-        {modeTask ? (
-          <Button label={`Practice ${modeStats.weak}`} onPress={() => navigation.navigate('GrammarDetail', { taskId: modeTask.id })} />
-        ) : null}
-      </Card>
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Exam Simulator</Text>
-        <Text style={styles.note}>Randomized grammar sets with timer-ready flow.</Text>
-        <View style={styles.row}>
-          <Button
-            label="Quick 5Q"
-            variant="secondary"
-            onPress={() =>
-              modeTask &&
-              navigation.navigate('GrammarDetail', {
-                taskId: modeTask.id,
-                questionLimit: 5,
-                shuffleSeed: Date.now(),
-                examMode: true,
-              })
-            }
-            disabled={!modeTask}
-          />
-          <Button
-            label="Standard 10Q"
-            onPress={() =>
-              quickDrillTask &&
-              navigation.navigate('GrammarDetail', {
-                taskId: quickDrillTask.id,
-                questionLimit: 10,
-                shuffleSeed: Date.now(),
-                examMode: true,
-              })
-            }
-            disabled={!quickDrillTask}
-          />
-        </View>
-        <Button
-          label="Full Section Exam 20Q"
-          onPress={() =>
-            navigation.navigate('GrammarSectionExam', {
-              weakMode: modeStats.weak,
-              taskIds: filtered.map((t) => t.id),
-              seed: Date.now(),
-            })
-          }
-          disabled={!filtered.length}
-        />
-      </Card>
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Frequent Error Topics</Text>
-        {topErrorTopics.length === 0 ? (
-          <Text style={styles.note}>No repeated grammar mistakes recorded yet.</Text>
-        ) : (
-          topErrorTopics.map((topic) => (
-            <View key={topic.id} style={styles.topicRow}>
-              <View style={styles.topicBody}>
-                <Text style={styles.topicTitle}>{topic.title}</Text>
-                <Text style={styles.note}>Mistakes: {topic.count}</Text>
-              </View>
-              <Button
-                label="Practice"
-                variant="secondary"
-                onPress={() => navigation.navigate('GrammarDetail', { taskId: topic.id })}
-              />
-            </View>
-          ))
-        )}
-      </Card>
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Grammar Recovery Plan</Text>
-        <Text style={styles.note}>1. 10-minute drill on least-practiced topic</Text>
-        <Text style={styles.note}>2. Review top error topic notes</Text>
-        <Text style={styles.note}>3. Re-test with missed-only mode</Text>
-        <View style={styles.row}>
-          <Button
-            label="Start 10m Drill"
-            variant="secondary"
-            onPress={() => quickDrillTask && navigation.navigate('GrammarDetail', { taskId: quickDrillTask.id })}
-            disabled={!quickDrillTask}
-          />
-          <Button
-            label="Error Stats"
-            variant="secondary"
-            onPress={() => navigation.navigate('ErrorStats')}
-          />
-        </View>
-      </Card>
-      {filtered.map((t) => (
-        <Card key={t.id} style={styles.card}>
-          <Text style={styles.h3}>{t.title}</Text>
-          <Text style={styles.body}>Level {t.level} • {t.time}</Text>
-          <View style={styles.row}>
-            <Text style={styles.tag}>{t.difficulty || 'core'}</Text>
-            <Text style={styles.tag}>10 Qs</Text>
-          </View>
-          <Text style={styles.note}>{t.explain}</Text>
-          <Button label="Start" onPress={() => navigation.navigate('GrammarDetail', { taskId: t.id })} />
-        </Card>
-      ))}
 
+        <View style={[styles.chipScroll, styles.chipScrollTop]}>
+          <FilterChip label="All Scope" helper={scopeCounts.all} active={scopeFilter === 'ALL'} onPress={() => setScopeFilter('ALL')} />
+          <FilterChip label="Standard" helper={scopeCounts.standard} active={scopeFilter === 'STANDARD'} onPress={() => setScopeFilter('STANDARD')} />
+          <FilterChip label="Use of English" helper={scopeCounts.uoe} active={scopeFilter === 'UOE'} onPress={() => setScopeFilter('UOE')} />
+          <FilterChip label="Test-English" helper={scopeCounts.testEnglish} active={scopeFilter === 'TEST_ENGLISH'} onPress={() => setScopeFilter('TEST_ENGLISH')} />
+        </View>
+
+        
+        <View style={styles.actionRow}>
+            {latestTask ? (
+                <Button label="Resume Last Test" icon="play-circle-outline" onPress={() => navigation.navigate('GrammarDetail', { taskId: latestTask.id })} style={styles.actionFlexBtn} />
+            ) : null}
+        </View>
+
+        {weakTopics.length > 0 && (
+            <View style={styles.weakTopicsBanner}>
+                <Ionicons name="warning-outline" size={16} color="#B45309" />
+                <Text style={styles.weakTopicsLabel}>Suggested reviews:</Text>
+                <View style={styles.weakTopicChips}>
+                    {weakTopics.map(item => (
+                        <TouchableOpacity key={item.id} onPress={() => setQueryInput(item.title)} style={styles.weakNode}>
+                            <Text style={styles.weakNodeText}>{item.title}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </View>
+        )}
+      </Card>
+      
+      <View style={styles.listHeaderRow}>
+          <Text style={styles.listHeaderTitle}>{filtered.length} Grammar Modules Visible</Text>
+      </View>
+      
+      {filtered.length === 0 ? renderEmpty() : (
+          <View style={[styles.listContent, isWide && styles.listContentWide]}>
+              <View style={isWide ? styles.columnWrapper : null}>
+                  {filtered.map(item => (
+                      <View key={item.id} style={[styles.itemWrap, isWide && styles.itemWrapWide]}>
+                          {renderItem({ item })}
+                      </View>
+                  ))}
+              </View>
+          </View>
+      )}
+      </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: spacing.xl
+    paddingBottom: spacing.xl,
+    backgroundColor: '#F8FAFC',
   },
-  h1: {
-    fontSize: typography.h1,
+  headerSpacer: {
+    paddingTop: spacing.md,
+  },
+  listContent: {
+    paddingBottom: spacing.xxl + 84,
+    paddingHorizontal: spacing.lg,
+  },
+  listContentWide: {
+    paddingHorizontal: spacing.xl,
+  },
+  columnWrapper: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+  },
+  itemWrap: {
+    marginBottom: 12,
+  },
+  itemWrapWide: {
+    width: '48%',
+  },
+  
+  // Hero Widget Style
+  heroCard: {
+    backgroundColor: '#0F3F7F', 
+    borderColor: '#0F3F7F',
+    borderWidth: 1,
+    borderRadius: 16,
+    padding: spacing.xl,
+    marginBottom: spacing.md,
+    ...shadow.md,
+  },
+  heroTopRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: spacing.md,
+    marginBottom: spacing.md,
+  },
+  heroIconWrap: {
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  heroCopy: {
+    flex: 1,
+  },
+  heroEyebrow: {
+    fontSize: typography.xsmall,
     fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.sm
+    color: '#BFDBFE',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: spacing.xs,
   },
-  sub: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.lg
-  },
-  h3: {
-    fontSize: typography.h3,
+  heroTitle: {
+    fontSize: typography.h2,
     fontFamily: typography.fontHeadline,
-    marginBottom: spacing.sm
-  },
-  banner: {
-    marginBottom: spacing.lg,
-    backgroundColor: colors.primary,
-    borderColor: colors.primary
-  },
-  bannerTitle: {
     color: '#FFFFFF',
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline
+    marginBottom: spacing.xs,
   },
-  bannerBody: {
-    color: '#DDE8FF',
-    marginTop: spacing.xs,
-    fontSize: typography.body
+  heroCounter: {
+    minWidth: 90,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.sm,
+    borderRadius: radius.lg,
+    backgroundColor: 'rgba(255,255,255,0.12)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.16)',
+    alignItems: 'center',
   },
-  body: {
-    fontSize: typography.body,
-    fontFamily: typography.fontBody,
-    marginBottom: spacing.md
+  heroCounterValue: {
+    fontSize: 28,
+    lineHeight: 32,
+    color: '#FFFFFF',
+    fontFamily: typography.fontHeadline,
   },
-  note: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.md
+  heroCounterLabel: {
+    marginTop: 2,
+    fontSize: typography.xsmall,
+    color: '#BFDBFE',
+    textTransform: 'uppercase',
   },
-  section: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.sm
-  },
-  card: {
-    marginBottom: spacing.lg
-  },
-  row: {
+
+  metricGrid: {
     flexDirection: 'row',
     gap: spacing.sm,
-    marginBottom: spacing.md
+    marginBottom: spacing.md,
   },
-  tag: {
-    backgroundColor: colors.secondary,
-    color: colors.primaryDark,
+  metricTile: {
+    flex: 1,
+    backgroundColor: colors.surface,
+    borderRadius: 12,
+    paddingVertical: spacing.md,
     paddingHorizontal: spacing.sm,
-    paddingVertical: 4,
-    borderRadius: 999
+    borderWidth: 1,
+    borderColor: '#D7E4FA',
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  metricAccent: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 4,
+  },
+  metricAccentBlue: { backgroundColor: '#3B82F6' },
+  metricAccentTeal: { backgroundColor: '#14B8A6' },
+  metricAccentAmber: { backgroundColor: '#F59E0B' },
+  metricValue: {
+    fontSize: 20,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+    color: colors.primaryDark,
+    marginBottom: 2,
+  },
+  metricLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#64748B',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+
+  // Library Card
+  card: {
+    marginBottom: spacing.lg,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    borderColor: '#E2E8F0',
+    borderWidth: 1,
+    ...shadow.sm,
+  },
+  sectionHead: {
+      marginBottom: spacing.md,
+  },
+  sectionTitle: {
+      fontSize: 18,
+      fontFamily: typography.fontHeadline,
+      fontWeight: '800',
+      color: '#0F172A',
+  },
+  searchBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F8FAFC',
+    borderRadius: 12,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: '#CBD5E1',
+    marginBottom: spacing.md,
+  },
+  searchInput: {
+    flex: 1,
+    marginLeft: 8,
+    fontSize: 15,
+    color: '#0F172A',
+    padding: 0,
+  },
+  
+  // Chips
+  chipScroll: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: spacing.sm,
+  },
+  chipScrollTop: {
+      marginTop: 8,
   },
   filterChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: colors.surfaceAlt,
-    color: colors.text,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 6,
-    borderRadius: 999
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: '#D8E4F8',
   },
   filterChipActive: {
     backgroundColor: colors.primaryDark,
-    color: '#FFFFFF'
+    borderColor: colors.primaryDark,
   },
-  progressTrack: {
-    height: 8,
-    borderRadius: 999,
+  filterChipText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.text,
+  },
+  filterChipTextActive: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+  },
+  filterChipHelper: {
+    marginLeft: 6,
+    fontSize: 12,
+    color: colors.muted,
     backgroundColor: '#E2E8F0',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 10,
     overflow: 'hidden',
-    marginBottom: spacing.sm,
   },
-  progressFill: {
-    height: '100%',
-    backgroundColor: colors.primary,
+  filterChipHelperActive: {
+      backgroundColor: 'rgba(255,255,255,0.2)',
+      color: '#FFFFFF',
   },
-  topicRow: {
+
+  actionRow: {
+      marginTop: spacing.lg,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: spacing.sm,
+  },
+  actionFlexBtn: {
+      flex: 1,
+  },
+
+  weakTopicsBanner: {
+      marginTop: spacing.md,
+      padding: spacing.md,
+      backgroundColor: '#FFFBEB',
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: '#FEF3C7',
+      flexDirection: 'row',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      gap: 6,
+  },
+  weakTopicsLabel: {
+      fontSize: 13,
+      fontWeight: '600',
+      color: '#92400E',
+      marginRight: 4,
+  },
+  weakTopicChips: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 6,
+  },
+  weakNode: {
+      backgroundColor: '#FEF3C7',
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderRadius: 6,
+      borderWidth: 1,
+      borderColor: '#FDE68A',
+  },
+  weakNodeText: {
+      fontSize: 12,
+      color: '#B45309',
+      fontWeight: '600',
+  },
+
+  listHeaderRow: {
+      marginBottom: spacing.sm,
+      paddingHorizontal: 4,
+  },
+  listHeaderTitle: {
+      fontSize: 14,
+      fontWeight: '700',
+      color: '#64748B',
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+  },
+
+  // Task Items
+  taskItemWrap: {
+      flex: 1,
+      marginBottom: spacing.md,
+  },
+  taskRow: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: colors.secondary,
-    borderRadius: 10,
-    padding: spacing.sm,
-    marginBottom: spacing.sm,
+    borderColor: '#E2E8F0',
+    ...shadow.sm,
+    overflow: 'hidden',
+  },
+  taskRowBody: {
+    padding: spacing.lg,
+  },
+  taskRowHeader: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    gap: spacing.sm,
+    alignItems: 'flex-start',
+    marginBottom: 4,
   },
-  topicBody: {
+  taskRowTitle: {
     flex: 1,
-  },
-  topicTitle: {
-    fontSize: typography.small,
-    color: colors.text,
+    fontSize: 16,
     fontFamily: typography.fontHeadline,
-    marginBottom: 2,
+    fontWeight: '700',
+    color: '#0F172A',
+    marginRight: 12,
   },
-  challengeOption: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 10,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    color: colors.text,
-    marginBottom: spacing.xs,
-    backgroundColor: colors.surface,
+  taskRowOpen: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#3B82F6',
+    backgroundColor: '#EFF6FF',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+    overflow: 'hidden',
   },
-  challengeOptionSelected: {
-    borderColor: colors.primary,
-    backgroundColor: colors.primarySoft,
+  taskRowMeta: {
+    fontSize: 13,
+    color: '#64748B',
+    marginBottom: 12,
   },
-  challengeOptionCorrect: {
-    borderColor: '#16A34A',
-    backgroundColor: '#ECFDF3',
-    color: '#14532D',
+  taskBadgeRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginBottom: 10,
   },
-  challengeOptionWrong: {
-    borderColor: '#DC2626',
-    backgroundColor: '#FEF2F2',
-    color: '#7F1D1D',
+  badge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.surface,
-    borderRadius: 10,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    color: colors.text,
-    marginBottom: spacing.sm,
+  badgeSoft: { backgroundColor: '#F1F5F9' },
+  badgeBlue: { backgroundColor: '#EFF6FF' },
+  badgeBlueText: { color: '#1D4ED8' },
+  badgeGreen: { backgroundColor: '#ECFDF5' },
+  badgeGreenText: { color: '#047857' },
+  badgeAmber: { backgroundColor: '#FFFBEB' },
+  badgeAmberText: { color: '#B45309' },
+  badgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#475569',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
+  taskExplainLine: {
+      fontSize: 13,
+      color: '#475569',
+      fontStyle: 'italic',
+  },
+
+  emptyTitle: {
+      fontSize: 16,
+      fontWeight: '700',
+      color: '#0F172A',
+      marginBottom: 8,
+  },
+  emptySub: {
+      fontSize: 14,
+      color: '#64748B',
+      marginBottom: 16,
+  }
 });

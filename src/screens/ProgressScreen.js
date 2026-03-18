@@ -9,7 +9,6 @@ import { useAppState } from '../context/AppState';
 export default function ProgressScreen({ navigation }) {
   const { history, mockHistory, favoritePrompts, readingHistory, listeningHistory, grammarHistory } = useAppState();
   const count = history.length;
-  const latest = history[0]?.report;
   const latestMock = mockHistory[0]?.result;
 
   const avgReading = readingHistory.length
@@ -117,7 +116,7 @@ export default function ProgressScreen({ navigation }) {
               label="History"
               variant="ghost"
               style={styles.miniBtn}
-              textStyle={{ fontSize: 12 }}
+              textStyle={styles.miniBtnText}
               onPress={() => navigation.navigate(m.nav)}
             />
           </Card>
@@ -130,7 +129,7 @@ export default function ProgressScreen({ navigation }) {
             label="History"
             variant="ghost"
             style={styles.miniBtn}
-            textStyle={{ fontSize: 12 }}
+            textStyle={styles.miniBtnText}
             onPress={() => navigation.navigate('MockHistory')}
           />
         </Card>
@@ -150,7 +149,7 @@ export default function ProgressScreen({ navigation }) {
         </Card>
       )}
 
-      <Text style={[styles.sectionTitle, { marginTop: spacing.md }]}>Tools & Resources</Text>
+      <Text style={[styles.sectionTitle, styles.sectionTitleTight]}>Tools & Resources</Text>
 
       <Card style={styles.actionCard}>
         <View style={styles.actionInfo}>
@@ -202,6 +201,9 @@ const styles = StyleSheet.create({
     color: colors.text,
     marginTop: spacing.md,
     marginBottom: spacing.md,
+  },
+  sectionTitleTight: {
+    marginTop: spacing.md,
   },
   h3: {
     fontSize: typography.h3,
@@ -322,6 +324,9 @@ const styles = StyleSheet.create({
     height: 32,
     minWidth: 0,
     paddingHorizontal: spacing.sm,
+  },
+  miniBtnText: {
+    fontSize: 12,
   },
 
   // Focus Area Badges

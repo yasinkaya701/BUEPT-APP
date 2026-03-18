@@ -1,10 +1,13 @@
 import React from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native';
-import { colors, radius, spacing, typography, shadow } from '../theme/tokens';
+import { colors, radius, spacing, typography } from '../theme/tokens';
 
 export default function Chip({ label, onPress, active = false }) {
   return (
-    <Pressable style={[styles.base, active && styles.active]} onPress={onPress}>
+    <Pressable
+      style={({ pressed }) => [styles.base, active && styles.active, pressed && styles.pressed]}
+      onPress={onPress}
+    >
       <Text style={[styles.text, active && styles.textActive]}>{label}</Text>
     </Pressable>
   );
@@ -12,27 +15,34 @@ export default function Chip({ label, onPress, active = false }) {
 
 const styles = StyleSheet.create({
   base: {
-    height: 28,
-    borderRadius: radius.md,
-    paddingHorizontal: spacing.md,
-    backgroundColor: colors.surface,
+    minHeight: 36,
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.md - 2,
+    backgroundColor: colors.primaryUltraLight || colors.surfaceAlt,
     borderWidth: 1,
-    borderColor: colors.secondary,
+    borderColor: '#D3DFF2',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: spacing.sm,
-    marginBottom: spacing.sm
+    marginRight: spacing.xs,
+    marginBottom: spacing.xs,
   },
   active: {
     backgroundColor: colors.primary,
-    borderColor: colors.primary,
-    ...shadow.elev1
+    borderColor: colors.primaryDeeper || colors.primaryDark,
+  },
+  pressed: {
+    opacity: 0.96,
+    transform: [{ scale: 0.98 }],
   },
   text: {
-    fontSize: typography.small,
-    color: colors.primaryDark
+    fontSize: typography.xsmall,
+    color: '#28466F',
+    fontFamily: typography.fontHeadline,
+    fontWeight: '600',
   },
   textActive: {
-    color: '#FFFFFF'
-  }
+    color: '#FFFFFF',
+    fontFamily: typography.fontHeadline,
+    fontWeight: '700',
+  },
 });

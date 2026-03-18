@@ -3,6 +3,7 @@ import Tts from 'react-native-tts';
 let initPromise = null;
 let selectedEnglishVoiceId = null;
 let hasEnglishVoice = false;
+let missingVoiceNoticeLogged = false;
 
 const VOICE_PREFERENCES = ['samantha', 'ava', 'allison', 'alex', 'daniel'];
 
@@ -59,7 +60,10 @@ export async function speakEnglish(text, options = {}) {
   } catch (_) { }
 
   if (!hasEnglishVoice) {
-    console.warn('[TTS] No installed English voice found on device. Install an English iOS voice in Settings.');
+    if (!missingVoiceNoticeLogged) {
+      missingVoiceNoticeLogged = true;
+      console.log('[TTS] No installed English voice found on device. Install an English iOS voice in Settings.');
+    }
   }
 
   Tts.speak(value, speakOptions);
