@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Animated, StyleSheet, Easing, ImageBackground, Dimensions } from 'react-native';
+import { View, Animated, StyleSheet, Easing, ImageBackground, Dimensions, Platform } from 'react-native';
 import { colors, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import LinearGradient from 'react-native-linear-gradient';
@@ -8,6 +8,7 @@ const { width, height } = Dimensions.get('window');
 
 export default function SplashAnimationScreen({ navigation }) {
     const { userToken, authReady } = useAppState();
+    const isWeb = Platform.OS === 'web';
     
     // Animation Values
     const bgFadeAnim = useRef(new Animated.Value(0)).current;
@@ -33,6 +34,36 @@ export default function SplashAnimationScreen({ navigation }) {
     useEffect(() => {
         if (process.env.JEST_WORKER_ID) {
             return undefined;
+        }
+
+        const finishNavigation = () => {
+            if (!mountedRef.current) return;
+            if (!authReadyRef.current) {
+                timeoutRef.current = setTimeout(finishNavigation, isWeb ? 90 : 200);
+                return;
+            }
+            const dest = userTokenRef.current ? 'MainTabs' : 'Login';
+            navigation.reset({
+                index: 0,
+                routes: [{ name: dest }],
+            });
+        };
+
+        // Web should feel instant and responsive; skip heavy splash sequencing.
+        if (isWeb) {
+            bgFadeAnim.setValue(1);
+            bgScaleAnim.setValue(1);
+            logoScaleAnim.setValue(1);
+            logoFadeAnim.setValue(1);
+            textSlideAnim.setValue(0);
+            textFadeAnim.setValue(1);
+            subSlideAnim.setValue(0);
+            subFadeAnim.setValue(1);
+            timeoutRef.current = setTimeout(finishNavigation, 120);
+            return () => {
+                mountedRef.current = false;
+                if (timeoutRef.current) clearTimeout(timeoutRef.current);
+            };
         }
 
         // 1. Background fades in and zooms out slowly
@@ -102,20 +133,8 @@ export default function SplashAnimationScreen({ navigation }) {
 
         introAnim.start(() => {
             if (!mountedRef.current) return;
-            
-            // Wait on screen for a moment to let user appreciate the photo
-            const finishNavigation = () => {
-                if (!mountedRef.current) return;
-                if (!authReadyRef.current) {
-                    timeoutRef.current = setTimeout(finishNavigation, 200);
-                    return;
-                }
-                const dest = userTokenRef.current ? 'MainTabs' : 'Login';
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: dest }],
-                });
-            };
+
+            // Wait on screen for a moment to let user appreciate the photo.
             timeoutRef.current = setTimeout(finishNavigation, 350);
         });
 

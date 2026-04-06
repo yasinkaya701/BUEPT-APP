@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Animated, Easing, ScrollView, StyleSheet, useWindowDimensions, View, Image } from 'react-native';
+import { Animated, Easing, ScrollView, StyleSheet, useWindowDimensions, View, Image, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { spacing, motion } from '../theme/tokens';
@@ -15,6 +15,7 @@ export default function Screen({
   noBg = false,
 }) {
   const { width } = useWindowDimensions();
+  const isWeb = Platform.OS === 'web';
   const isWide = width >= 980;
   const isPhone = width < 500;
   const fade = useRef(new Animated.Value(animate ? 0 : 1)).current;
@@ -52,6 +53,7 @@ export default function Screen({
       style={[
         styles.content,
         isWide && styles.contentWide,
+        isWeb && styles.contentWeb,
         isPhone && styles.contentPhone,
         !scroll && styles.animatedFill,
         { opacity: fade, transform: [{ translateY: translate }] },
@@ -66,7 +68,7 @@ export default function Screen({
     <ScrollView
       keyboardShouldPersistTaps="always"
       keyboardDismissMode="on-drag"
-      contentContainerStyle={[styles.scrollContent, contentStyle]}
+      contentContainerStyle={[styles.scrollContent, isWeb && styles.scrollContentWeb, contentStyle]}
       showsVerticalScrollIndicator={false}
       contentInsetAdjustmentBehavior="automatic"
       scrollEventThrottle={16}
@@ -86,7 +88,7 @@ export default function Screen({
   return (
     <View style={styles.container} pointerEvents="box-none">
       <Image source={BG_IMAGE} style={styles.bgImageFull} resizeMode="cover" pointerEvents="none" />
-      <View style={styles.overlay} pointerEvents="none" />
+      <View style={[styles.overlay, isWeb && styles.overlayWeb]} pointerEvents="none" />
       <SafeAreaView style={[styles.safeClear, style]} pointerEvents="box-none">
         {scrollNode}
       </SafeAreaView>
@@ -101,6 +103,7 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#F3F4F6' },
   safeClear: { flex: 1, backgroundColor: 'transparent' },
   scrollContent: { paddingBottom: spacing.xxl + 84 },
+  scrollContentWeb: { paddingBottom: spacing.xl },
   content: {
     width: '100%',
     alignSelf: 'center',
@@ -109,6 +112,8 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.sm,
   },
   contentWide: { maxWidth: 1120, paddingHorizontal: spacing.xl },
+  contentWeb: { maxWidth: 1280, paddingHorizontal: spacing.lg },
   contentPhone: { paddingHorizontal: spacing.sm + 2 },
   animatedFill: { flex: 1 },
+  overlayWeb: { backgroundColor: 'rgba(2, 8, 23, 0.35)' },
 });

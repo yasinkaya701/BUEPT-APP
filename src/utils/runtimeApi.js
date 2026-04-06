@@ -34,6 +34,32 @@ function getDevHost() {
 }
 
 export function getDefaultApiBaseUrl(port = DEFAULT_API_PORT) {
+  const explicitBase = readRuntimeEnv('BUEPT_API_BASE_URL', '').trim();
+  if (explicitBase) return explicitBase;
+
+  if (Platform.OS === 'web') {
+    try {
+      const origin = typeof window !== 'undefined' ? String(window.location?.origin || '').trim() : '';
+      const host = typeof window !== 'undefined' ? String(window.location?.hostname || '').trim().toLowerCase() : '';
+      const webPort = typeof window !== 'undefined' ? String(window.location?.port || '').trim() : '';
+      const isLocalHost = host === 'localhost' || host === '127.0.0.1';
+
+      // Dev on web: prefer same-origin (/api) so webpack-dev-server can proxy or fail fast
+      // without hard-blocking on a different local port.
+      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        return origin || '';
+      }
+
+      // Local AI starter serves web+api together on port 8088.
+      if (isLocalHost && webPort === String(port)) {
+        return origin || '';
+      }
+    } catch (_) {
+      return '';
+    }
+    return '';
+  }
+
   // In production, only use an explicit API base (public backend).
   // This keeps the app keyless/offline by default on all phones.
   if (typeof __DEV__ === 'undefined' || !__DEV__) {

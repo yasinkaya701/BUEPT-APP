@@ -757,8 +757,8 @@ export default function ChatbotScreen({ navigation }) {
         const local = analyzeIntent(txt, quizState);
         let final = local;
         // Keep deterministic flows local (quiz/navigation artifacts), but upgrade free-text replies via API.
-        const canUseOnline = !local.nextQuizState && !local.navigate && !local.artifact && isChatApiConfigured();
-        if (canUseOnline) {
+        const canUseSmartReply = !local.nextQuizState && !local.navigate && !local.artifact;
+        if (canUseSmartReply) {
           const online = await requestChatbotReply({
             message: txt,
             mode: assistantMode,
@@ -771,7 +771,7 @@ export default function ChatbotScreen({ navigation }) {
               text: online.text,
               chips: online.chips?.length ? online.chips : local.chips,
             };
-            setReplySource('online');
+            setReplySource(online.source || (isChatApiConfigured() ? 'online' : 'offline'));
           } else {
             setReplySource('offline');
           }

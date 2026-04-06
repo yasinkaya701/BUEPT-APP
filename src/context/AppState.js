@@ -31,7 +31,7 @@ import {
 } from '../utils/appStorage';
 import { createReviewItem } from '../utils/srs';
 import { calculateXpForAction } from '../utils/gamification';
-import { pingVocabCloudSync, pullVocabCloudSync, pushVocabCloudSync } from '../utils/vocabCloudSync';
+import { isVocabCloudSyncEnabled, pingVocabCloudSync, pullVocabCloudSync, pushVocabCloudSync } from '../utils/vocabCloudSync';
 
 const STORAGE_ERROR_WORDS = '@buept_error_words';
 const STORAGE_GRAMMAR_ERRORS = '@buept_grammar_errors';
@@ -337,6 +337,7 @@ export function AppStateProvider({ children }) {
   const syncDebounceRef = useRef(null);
   const localSyncDirtyRef = useRef(false);
   const remoteSyncStampRef = useRef('');
+  const syncEnabled = useMemo(() => isVocabCloudSyncEnabled(), []);
 
   const applyDemoData = useCallback(async () => {
     const now = Date.now();
@@ -589,6 +590,7 @@ export function AppStateProvider({ children }) {
   }, [customDecks]);
 
   const runVocabCloudSync = useCallback(async () => {
+    if (!syncEnabled) return;
     if (!authReady) return;
     if (syncBusyRef.current) return;
     syncBusyRef.current = true;
@@ -662,9 +664,10 @@ export function AppStateProvider({ children }) {
     } finally {
       syncBusyRef.current = false;
     }
-  }, [authReady]);
+  }, [authReady, syncEnabled]);
 
   useEffect(() => {
+    if (!syncEnabled) return undefined;
     if (!authReady) return undefined;
     runVocabCloudSync();
     const interval = setInterval(() => {
@@ -679,9 +682,10 @@ export function AppStateProvider({ children }) {
       clearInterval(interval);
       sub.remove();
     };
-  }, [authReady, runVocabCloudSync]);
+  }, [authReady, runVocabCloudSync, syncEnabled]);
 
   useEffect(() => {
+    if (!syncEnabled) return undefined;
     if (!authReady) return undefined;
     localSyncDirtyRef.current = true;
     if (syncDebounceRef.current) clearTimeout(syncDebounceRef.current);
@@ -694,7 +698,7 @@ export function AppStateProvider({ children }) {
         syncDebounceRef.current = null;
       }
     };
-  }, [authReady, userWords, unknownWords, vocabStats, customDecks, runVocabCloudSync]);
+  }, [authReady, userWords, unknownWords, vocabStats, customDecks, runVocabCloudSync, syncEnabled]);
 
   useEffect(() => {
     postAuthRouteRef.current = postAuthRoute;

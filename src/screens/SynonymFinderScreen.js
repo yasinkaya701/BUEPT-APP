@@ -28,6 +28,13 @@ const CHIP_COLORS = {
 };
 const SEARCH_HISTORY_KEY = '@synonym_finder_history_v2';
 const STARTER_WORDS = ['significant', 'coherent', 'through', 'analyze', 'contribute', 'although'];
+const TIP_LINES = [
+    'Tap any synonym to search it instantly',
+    'Tap 🔊 on any word to hear its pronunciation',
+    'Use “Add to My Words” to save useful vocabulary',
+    'Your search history appears as quick chips',
+    'Try: significant, analyze, contribute, however',
+];
 
 async function speak(word) {
     try {
@@ -566,12 +573,12 @@ export default function SynonymFinderScreen({ navigation, route }) {
 
             {!committed && (
                 <Card style={styles.tipsCard}>
-                    <Text style={styles.sectionTitle}>💡 Tips</Text>
-                    <Text style={styles.tipText}>• Tap any synonym to search it instantly</Text>
-                    <Text style={styles.tipText}>• Tap 🔊 on any word to hear its pronunciation</Text>
-                    <Text style={styles.tipText}>• Use “Add to My Words” to save useful vocabulary</Text>
-                    <Text style={styles.tipText}>• Your search history appears as quick chips</Text>
-                    <Text style={styles.tipText}>• Try: significant, analyze, contribute, however</Text>
+                    {[
+                        <Text key="tips-title" style={styles.sectionTitle}>💡 Tips</Text>,
+                        ...TIP_LINES.map((tip) => (
+                            <Text key={tip} style={styles.tipText}>• {tip}</Text>
+                        )),
+                    ]}
                 </Card>
             )}
         </Screen>

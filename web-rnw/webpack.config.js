@@ -107,6 +107,14 @@ module.exports = (env = {}, argv = {}) => {
       host: devHost,
       port: devPort,
       hot: true,
+      proxy: [
+        {
+          context: ['/api'],
+          target: process.env.WEB_API_PROXY_TARGET || 'http://127.0.0.1:8088',
+          changeOrigin: true,
+          secure: false,
+        },
+      ],
       client: {
         overlay: true,
       },

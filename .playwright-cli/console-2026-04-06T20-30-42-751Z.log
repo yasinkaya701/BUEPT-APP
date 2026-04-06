@@ -1,0 +1,81 @@
+[     779ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[     781ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[     877ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[    1075ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[    1235ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[    1322ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[    1363ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[    1535ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8090/favicon.ico:0
+[    5520ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[    5611ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[    5635ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[    6589ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   11568ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   16589ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   21621ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   26606ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   31581ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   36637ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   42002ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   46600ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   51602ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   56491ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   61555ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   66579ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   71604ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   76587ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   81561ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   86578ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   91581ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[   96549ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  101541ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  106565ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  111595ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  116586ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  121563ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  126587ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  131595ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  136596ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  141653ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  146578ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  151603ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  156620ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  161606ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  166626ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  171599ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  176650ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  181624ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  186618ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  191593ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  196634ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  201636ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  206569ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  211707ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  216642ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  220318ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[  221950ms] [ERROR] Unexpected text node: . A text node cannot be a child of a <View>. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/View/index.js?:0
+[  223371ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[  223373ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[  223689ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[  223690ms] [WARNING] [HMR] Error: Aborted because ./src/screens/SynonymFinderScreen.js is not accepted
+Update propagation: ./src/screens/SynonymFinderScreen.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9860:31)
+    at http://127.0.0.1:8090/app.js:9566:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9565:54)
+    at http://127.0.0.1:8090/app.js:9536:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9490:48)
+    at http://127.0.0.1:8090/app.js:9534:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[  226408ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[  226415ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[  226598ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[  227101ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[  227502ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[  227665ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[  227719ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0

@@ -745,6 +745,7 @@ export default function VocabScreen({ navigation, route }) {
   const queryInputRef = useRef('');
   const searchInputRef = useRef(null);
   const [query, setQuery] = useState('');
+  const [queryDebounced, setQueryDebounced] = useState('');
   const [level, setLevel] = useState('All');
   const [dictionaryView, setDictionaryView] = useState('All');
   const [dictionarySort, setDictionarySort] = useState('Match');
@@ -752,7 +753,7 @@ export default function VocabScreen({ navigation, route }) {
   const [plannerLaunchDay, setPlannerLaunchDay] = useState(null);
   const [expanded, setExpanded] = useState({});
   const [dictionaryReady, setDictionaryReady] = useState(false);
-  const [dictionaryLoadRequested, setDictionaryLoadRequested] = useState(true);
+  const [dictionaryLoadRequested, setDictionaryLoadRequested] = useState(false);
   const [dictionaryProgress, setDictionaryProgress] = useState(0);
   const [dictionaryStatus, setDictionaryStatus] = useState('idle');
   const [dictionaryError, setDictionaryError] = useState('');
@@ -972,27 +973,11 @@ export default function VocabScreen({ navigation, route }) {
 
   useEffect(() => {
     setDictionaryRenderLimit(DICTIONARY_CARD_BATCH);
-  }, [query, level, dictionaryView, dictionarySort]);
+  }, [queryDebounced, level, dictionaryView, dictionarySort]);
 
   useEffect(() => {
     setWascRenderLimit(80);
   }, [wascLevel, wascQuery]);
-
-  useEffect(() => {
-    if (!__DEV__) return undefined;
-    const unsubscribe = subscribeSmokeActions((action) => {
-      if (action?.target !== 'Vocab') return;
-      if (smokeDoneRef.current) return;
-      if (action?.type !== 'dictionary_search') return;
-      smokeDoneRef.current = true;
-      const term = action?.query || 'benefit';
-      requestDictionaryLoad();
-      setActiveSection('Dictionary');
-      setQueryImmediate(term);
-      commitQuery(term);
-    });
-    return unsubscribe;
-  }, [requestDictionaryLoad, setActiveSection, setQueryImmediate, commitQuery]);
 
   const setQueryImmediate = useCallback((value) => {
     const next = String(value || '');
@@ -1009,6 +994,7 @@ export default function VocabScreen({ navigation, route }) {
   const commitQuery = useCallback((value) => {
     const next = String(value || '').trim();
     setQuery(next);
+    setQueryDebounced(next);
     if (!next) {
       setLiveEntry(null);
       setLiveStatus('idle');
@@ -1039,15 +1025,38 @@ export default function VocabScreen({ navigation, route }) {
   }, [dictionaryLoadRequested]);
 
   useEffect(() => {
+    if (!__DEV__) return undefined;
+    const unsubscribe = subscribeSmokeActions((action) => {
+      if (action?.target !== 'Vocab') return;
+      if (smokeDoneRef.current) return;
+      if (action?.type !== 'dictionary_search') return;
+      smokeDoneRef.current = true;
+      const term = action?.query || 'benefit';
+      requestDictionaryLoad();
+      setActiveSection('Dictionary');
+      setQueryImmediate(term);
+      commitQuery(term);
+    });
+    return unsubscribe;
+  }, [requestDictionaryLoad, setQueryImmediate, commitQuery]);
+
+  useEffect(() => {
     if (!screenReady || dictionaryLoadRequested) return;
     const task = InteractionManager.runAfterInteractions(() => {
       const t = setTimeout(() => {
         requestDictionaryLoad();
-      }, 650);
+      }, 220);
       return () => clearTimeout(t);
     });
     return () => task.cancel?.();
   }, [dictionaryLoadRequested, requestDictionaryLoad, screenReady]);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setQueryDebounced(String(query || '').trim());
+    }, 180);
+    return () => clearTimeout(t);
+  }, [query]);
 
   const total = useMemo(
     () => (screenReady && dictionaryLoadRequested ? safeDictionaryCount() : 0),
@@ -1059,12 +1068,12 @@ export default function VocabScreen({ navigation, route }) {
   );
   const dictionarySampleLimit = useMemo(() => {
     if (!dictionaryLoadRequested) return DICTIONARY_CARD_BATCH;
-    const hasDeepFilter = String(query || '').trim().length >= 2
+    const hasDeepFilter = String(queryDebounced || '').trim().length >= 2
       || level !== 'All'
       || dictionaryView !== 'All'
       || dictionarySort !== 'Match';
     return hasDeepFilter ? DICTIONARY_FILTERED_SAMPLE_LIMIT : DICTIONARY_DEFAULT_SAMPLE_LIMIT;
-  }, [dictionaryLoadRequested, dictionarySort, dictionaryView, level, query]);
+  }, [dictionaryLoadRequested, dictionarySort, dictionaryView, level, queryDebounced]);
   const challengePool = useMemo(() => {
     const dict = (dictionaryReady && dictionaryLoadRequested ? safeDictionarySlice(DICTIONARY_CHALLENGE_SAMPLE_LIMIT) : [])
       .map((v) => ({ word: v.word, def: v.simple_definition }))
@@ -1119,7 +1128,7 @@ export default function VocabScreen({ navigation, route }) {
       return sourceHints.some((hint) => hint.includes('subtle') || hint.includes('hover') || hint.includes('subtitle'));
     });
   }, [unknownWords]);
-  const dictionaryQuery = String(query || '').trim().toLowerCase();
+  const dictionaryQuery = String(queryDebounced || '').trim().toLowerCase();
   const dictionaryBase = useMemo(() => {
     if (!dictionaryLoadRequested || activeSection !== 'Dictionary') return [];
     if (dictionaryQuery) {

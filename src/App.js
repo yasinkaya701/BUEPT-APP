@@ -18,6 +18,13 @@ export default function App() {
   const navigationRef = useNavigationContainerRef();
   const [currentRouteName, setCurrentRouteName] = React.useState(null);
 
+  const syncWebNavigationDebug = React.useCallback(() => {
+    if (Platform.OS !== 'web' || typeof window === 'undefined') return;
+    const isReady = typeof navigationRef.isReady === 'function' ? navigationRef.isReady() : false;
+    window.__BUEPT_NAV__ = navigationRef;
+    window.__BUEPT_ROUTE__ = isReady ? navigationRef.getCurrentRoute?.() || null : null;
+  }, [navigationRef]);
+
   React.useEffect(() => {
     if (__DEV__) {
       LogBox.ignoreAllLogs(true);
@@ -33,6 +40,16 @@ export default function App() {
       }).catch(err => console.log('TTS init error in App.js:', err));
     } catch (e) { console.log(e) }
   }, []);
+
+  React.useEffect(() => {
+    syncWebNavigationDebug();
+    return () => {
+      if (Platform.OS === 'web' && typeof window !== 'undefined') {
+        delete window.__BUEPT_NAV__;
+        delete window.__BUEPT_ROUTE__;
+      }
+    };
+  }, [syncWebNavigationDebug]);
 
   const navTheme = {
     ...DefaultTheme,
@@ -55,10 +72,12 @@ export default function App() {
             onReady={() => {
               const routeName = navigationRef.getCurrentRoute()?.name || null;
               setCurrentRouteName(routeName);
+              syncWebNavigationDebug();
             }}
             onStateChange={() => {
               const routeName = navigationRef.getCurrentRoute()?.name || null;
               setCurrentRouteName(routeName);
+              syncWebNavigationDebug();
             }}
           >
             <RootNavigator />

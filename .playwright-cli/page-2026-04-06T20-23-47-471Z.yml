@@ -1,0 +1,276 @@
+- generic [ref=e10]:
+  - generic [ref=e17]:
+    - generic:
+      - generic [ref=e18]:
+        - generic [ref=e21]:
+          - generic [ref=e24]: BÜ
+          - generic [ref=e25]:
+            - generic [ref=e26]: Boğaziçi Prep Dashboard
+            - generic [ref=e27]: P2 (A2) • Pre-Int • General
+            - generic [ref=e28]: "Today: 6 Apr 2026"
+          - generic [ref=e29]:
+            - generic [ref=e30]: Guest Student
+            - generic [ref=e31]: Demo mode
+            - generic [ref=e32] [cursor=pointer]:
+              - generic [ref=e33]: 📋
+              - generic [ref=e34]: Sign Out
+        - generic [ref=e35]:
+          - generic [ref=e36]:
+            - generic [ref=e37]: Today
+            - generic [ref=e38]: 0 min
+          - generic [ref=e39]:
+            - generic [ref=e40]: Vocab Due
+            - generic [ref=e41]: "0"
+          - generic [ref=e42]:
+            - generic [ref=e43]: Last Mock
+            - generic [ref=e44]: "--"
+        - generic [ref=e45]:
+          - generic [ref=e46] [cursor=pointer]:
+            - generic [ref=e47]: ⚡
+            - generic [ref=e48]: Essentials
+          - generic [ref=e49] [cursor=pointer]:
+            - generic [ref=e50]: ▦
+            - generic [ref=e51]: All Tools
+        - generic [ref=e52]:
+          - generic [ref=e53]:
+            - generic [ref=e54]: Account
+            - generic [ref=e55]: Demo Student
+          - generic [ref=e56]:
+            - generic [ref=e57]: Focus Track
+            - generic [ref=e58]: General
+          - generic [ref=e59]:
+            - generic [ref=e60]: Writing Logs
+            - generic [ref=e61]: "0"
+        - generic [ref=e62]:
+          - generic [ref=e63] [cursor=pointer]:
+            - generic [ref=e64]:
+              - generic [ref=e66]: 🎧
+              - generic [ref=e67]: →
+            - generic [ref=e68]: Daily Podcast
+            - generic [ref=e69]: Listen to Boğaziçi prep audio lessons and insights.
+          - generic [ref=e70] [cursor=pointer]:
+            - generic [ref=e71]:
+              - generic [ref=e73]: ⚡
+              - generic [ref=e74]: →
+            - generic [ref=e75]: Reading
+            - generic [ref=e76]: Solve 2 reading sets, then review wrong answers.
+          - generic [ref=e77] [cursor=pointer]:
+            - generic [ref=e78]:
+              - generic [ref=e80]: 📖
+              - generic [ref=e81]: →
+            - generic [ref=e82]: Vocabulary
+            - generic [ref=e83]: Open dictionary and weekly quiz workspace.
+          - generic [ref=e84] [cursor=pointer]:
+            - generic [ref=e85]:
+              - generic [ref=e87]: ✨
+              - generic [ref=e88]: →
+            - generic [ref=e89]: Demo Hub
+            - generic [ref=e90]: Open the presenter flow and live modules.
+      - generic [ref=e91]:
+        - generic [ref=e92]:
+          - generic [ref=e93]:
+            - generic [ref=e94]: Daily Plan
+            - generic [ref=e95]: Reading focus
+          - generic [ref=e96]:
+            - generic [ref=e98]: Lv. 1
+            - generic [ref=e101]: 0 XP
+        - generic [ref=e102]: Solve 2 reading sets, then review wrong answers.
+        - generic [ref=e104]: "Today's priority: Reading focus"
+        - generic [ref=e105]:
+          - button "Start Reading" [ref=e106] [cursor=pointer]:
+            - generic [ref=e108]: Start Reading
+          - button "Open Plan" [ref=e109] [cursor=pointer]:
+            - generic [ref=e111]: Open Plan
+      - generic [ref=e112]:
+        - generic [ref=e113]:
+          - generic [ref=e114]: Quick Actions
+          - generic [ref=e115]: Most useful next steps first.
+        - generic [ref=e117]:
+          - generic [ref=e118] [cursor=pointer]:
+            - generic [ref=e119]:
+              - generic [ref=e121]: 📖
+              - generic [ref=e122]: →
+            - generic [ref=e123]: Train Reading
+            - generic [ref=e124]: Priority today
+          - generic [ref=e125] [cursor=pointer]:
+            - generic [ref=e126]:
+              - generic [ref=e128]: ↻
+              - generic [ref=e129]: →
+            - generic [ref=e130]: Review Queue
+            - generic [ref=e131]: No backlog
+          - generic [ref=e132] [cursor=pointer]:
+            - generic [ref=e133]:
+              - generic [ref=e135]: ✍
+              - generic [ref=e136]: →
+            - generic [ref=e137]: Writing Feedback
+            - generic [ref=e138]: Draft or revise
+          - generic [ref=e139] [cursor=pointer]:
+            - generic [ref=e140]:
+              - generic [ref=e142]: 📅
+              - generic [ref=e143]: →
+            - generic [ref=e144]: Calendar
+            - generic [ref=e145]: Classes & deadlines
+          - generic [ref=e146] [cursor=pointer]:
+            - generic [ref=e147]:
+              - generic [ref=e149]: 🎓
+              - generic [ref=e150]: →
+            - generic [ref=e151]: Mock Exam
+            - generic [ref=e152]: Timed practice
+          - generic [ref=e153] [cursor=pointer]:
+            - generic [ref=e154]:
+              - generic [ref=e156]: 📚
+              - generic [ref=e157]: →
+            - generic [ref=e158]: Resources
+            - generic [ref=e159]: Browse support
+      - generic [ref=e160]:
+        - generic [ref=e161]:
+          - generic [ref=e162]:
+            - generic [ref=e163]: Today Board
+            - generic [ref=e164]: Current numbers and the fastest way back into active work.
+          - button "Open Demo" [ref=e165] [cursor=pointer]:
+            - generic [ref=e166]:
+              - generic [ref=e168]: ✨
+              - generic [ref=e169]: Open Demo
+        - generic [ref=e170]:
+          - generic [ref=e171]:
+            - generic [ref=e172]: 0 min
+            - generic [ref=e173]: Study Time
+            - generic [ref=e174]: today
+          - generic [ref=e175]:
+            - generic [ref=e176]: "--"
+            - generic [ref=e177]: Last Mock
+            - generic [ref=e178]: overall
+          - generic [ref=e179]:
+            - generic [ref=e180]: "0"
+            - generic [ref=e181]: Review Queue
+            - generic [ref=e182]: clear
+          - generic [ref=e183]:
+            - generic [ref=e184]: "0"
+            - generic [ref=e185]: Writing Logs
+            - generic [ref=e186]: saved drafts
+        - generic [ref=e187]: No recent module yet. Use the launch cards above or Quick Actions to start.
+      - generic [ref=e188]:
+        - generic [ref=e189]: Daily Tasks
+        - generic [ref=e190]: Complete these three core tasks today.
+        - generic [ref=e192]:
+          - generic [ref=e194]: 📖
+          - generic [ref=e195]: 1 reading set (10 questions)
+          - button "Start" [ref=e196] [cursor=pointer]:
+            - generic [ref=e198]: Start
+        - generic [ref=e200]:
+          - generic [ref=e202]: 🎧
+          - generic [ref=e203]: 1 listening set (10 questions)
+          - button "Start" [ref=e204] [cursor=pointer]:
+            - generic [ref=e206]: Start
+        - generic [ref=e208]:
+          - generic [ref=e210]: ✍
+          - generic [ref=e211]: 1 grammar drill (10 questions)
+          - button "Start" [ref=e212] [cursor=pointer]:
+            - generic [ref=e214]: Start
+      - generic [ref=e215]:
+        - generic [ref=e216]: Skill Snapshot
+        - generic [ref=e217]:
+          - generic [ref=e218]:
+            - generic [ref=e219]: "--"
+            - generic [ref=e220]: Reading
+          - generic [ref=e221]:
+            - generic [ref=e222]: "--"
+            - generic [ref=e223]: Listening
+          - generic [ref=e224]:
+            - generic [ref=e225]: "--"
+            - generic [ref=e226]: Grammar
+        - generic [ref=e227]: "Focus: Reading • Composite: --"
+        - generic [ref=e228]:
+          - button "Train Reading" [ref=e229] [cursor=pointer]:
+            - generic [ref=e231]: Train Reading
+          - button "Review" [ref=e232] [cursor=pointer]:
+            - generic [ref=e234]: Review
+          - button "History" [ref=e235] [cursor=pointer]:
+            - generic [ref=e237]: History
+          - button "Progress" [ref=e238] [cursor=pointer]:
+            - generic [ref=e240]: Progress
+      - generic [ref=e241]:
+        - generic [ref=e242]: Control Center
+        - generic [ref=e243]: The post-login home screen now groups high-use tools by task instead of stacking unrelated buttons.
+        - generic [ref=e244]:
+          - generic [ref=e245]:
+            - generic [ref=e246]: AI Studio
+            - generic [ref=e247]: Speaking, chat, presentation, and lesson generation.
+            - generic [ref=e248]:
+              - button "AI Speaking" [ref=e249] [cursor=pointer]:
+                - generic [ref=e251]: AI Speaking
+              - button "Chat Coach" [ref=e252] [cursor=pointer]:
+                - generic [ref=e254]: Chat Coach
+              - button "Presentation" [ref=e255] [cursor=pointer]:
+                - generic [ref=e257]: Presentation
+              - button "Lesson Video" [ref=e258] [cursor=pointer]:
+                - generic [ref=e260]: Lesson Video
+          - generic [ref=e261]:
+            - generic [ref=e262]: Planning & Exams
+            - generic [ref=e263]: Placement, study planning, analytics, and timed exam routes.
+            - generic [ref=e264]:
+              - button "Placement" [ref=e265] [cursor=pointer]:
+                - generic [ref=e267]: Placement
+              - button "Study Plan" [ref=e268] [cursor=pointer]:
+                - generic [ref=e270]: Study Plan
+              - button "Analytics" [ref=e271] [cursor=pointer]:
+                - generic [ref=e273]: Analytics
+              - button "Exams" [ref=e274] [cursor=pointer]:
+                - generic [ref=e276]: Exams
+        - generic [ref=e278]:
+          - generic [ref=e279]: Campus & Resources
+          - generic [ref=e280]: Calendar, resources, Boğaziçi hub, and weak-point analysis.
+          - generic [ref=e281]:
+            - button "Calendar" [ref=e282] [cursor=pointer]:
+              - generic [ref=e284]: Calendar
+            - button "Resources" [ref=e285] [cursor=pointer]:
+              - generic [ref=e287]: Resources
+            - button "Boğaziçi Hub" [ref=e288] [cursor=pointer]:
+              - generic [ref=e290]: Boğaziçi Hub
+            - button "Weak Analysis" [ref=e291] [cursor=pointer]:
+              - generic [ref=e293]: Weak Analysis
+  - generic [ref=e294]:
+    - generic [ref=e295]:
+      - generic [ref=e297]: BU
+      - generic [ref=e298]: Bosphorus-ready
+      - generic [ref=e299]: BUEPT Web Campus
+      - generic [ref=e300]: Desktop workflow for reading, writing, vocab, and AI coaching in one place.
+    - generic [ref=e301]:
+      - button "🏠 Home Home workspace" [ref=e302] [cursor=pointer]:
+        - generic [ref=e304]: 🏠
+        - generic [ref=e305]:
+          - generic [ref=e306]: Home
+          - generic [ref=e307]: Home workspace
+      - button "📖 Reading Reading workspace" [ref=e308] [cursor=pointer]:
+        - generic [ref=e310]: 📖
+        - generic [ref=e311]:
+          - generic [ref=e312]: Reading
+          - generic [ref=e313]: Reading workspace
+      - button "🧩 Grammar Grammar workspace" [ref=e314] [cursor=pointer]:
+        - generic [ref=e316]: 🧩
+        - generic [ref=e317]:
+          - generic [ref=e318]: Grammar
+          - generic [ref=e319]: Grammar workspace
+      - button "✍️ Writing Writing workspace" [ref=e320] [cursor=pointer]:
+        - generic [ref=e322]: ✍️
+        - generic [ref=e323]:
+          - generic [ref=e324]: Writing
+          - generic [ref=e325]: Writing workspace
+      - button "📕 Vocab Vocab workspace" [ref=e326] [cursor=pointer]:
+        - generic [ref=e328]: 📕
+        - generic [ref=e329]:
+          - generic [ref=e330]: Vocab
+          - generic [ref=e331]: Vocab workspace
+      - button "🎧 Listening Listening workspace" [ref=e332] [cursor=pointer]:
+        - generic [ref=e334]: 🎧
+        - generic [ref=e335]:
+          - generic [ref=e336]: Listening
+          - generic [ref=e337]: Listening workspace
+      - button "🎤 Speaking Speaking workspace" [ref=e338] [cursor=pointer]:
+        - generic [ref=e340]: 🎤
+        - generic [ref=e341]:
+          - generic [ref=e342]: Speaking
+          - generic [ref=e343]: Speaking workspace
+    - generic [ref=e344]:
+      - generic [ref=e345]: AI status
+      - generic [ref=e346]: Local fallback is always available. If the API comes online, modules upgrade automatically.

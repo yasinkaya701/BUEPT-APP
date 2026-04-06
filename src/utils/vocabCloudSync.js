@@ -2,6 +2,7 @@ import { readRuntimeEnv, resolveApiEndpoint } from './runtimeApi';
 
 const DEFAULT_SYNC_TOKEN = 'buept-sync-local';
 const REQUEST_TIMEOUT_MS = 6500;
+const TRUE_VALUES = new Set(['1', 'true', 'yes', 'on', 'enabled']);
 
 function getSyncToken() {
   return readRuntimeEnv('BUEPT_SYNC_TOKEN', DEFAULT_SYNC_TOKEN) || DEFAULT_SYNC_TOKEN;
@@ -14,6 +15,24 @@ function buildHeaders() {
     'X-Sync-Token': token,
     Authorization: `Bearer ${token}`,
   };
+}
+
+function toBool(value = '') {
+  const normalized = String(value || '').trim().toLowerCase();
+  if (!normalized) return null;
+  return TRUE_VALUES.has(normalized);
+}
+
+export function isVocabCloudSyncEnabled() {
+  const explicitFlag = toBool(readRuntimeEnv('BUEPT_SYNC_ENABLED', ''));
+  if (explicitFlag != null) return explicitFlag;
+
+  const explicitEndpoint = readRuntimeEnv('BUEPT_SYNC_STATUS_URL', '')
+    || readRuntimeEnv('BUEPT_SYNC_PULL_URL', '')
+    || readRuntimeEnv('BUEPT_SYNC_PUSH_URL', '')
+    || readRuntimeEnv('BUEPT_API_BASE_URL', '');
+
+  return Boolean(String(explicitEndpoint || '').trim());
 }
 
 async function fetchWithTimeout(endpoint, options = {}) {

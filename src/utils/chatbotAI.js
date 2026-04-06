@@ -7,6 +7,15 @@ const CHAT_API_KEY = readRuntimeEnv('BUEPT_API_KEY');
 const DEFAULT_TIMEOUT_MS = 12000;
 const DEFAULT_RETRIES = 1;
 
+const LOCAL_ROUTE_MAP = [
+  { match: ['reading', 'passage', 'skim', 'scan'], navigate: 'Reading', label: 'Reading' },
+  { match: ['listening', 'podcast', 'audio', 'lecture'], navigate: 'Listening', label: 'Listening' },
+  { match: ['grammar', 'tense', 'preposition', 'article'], navigate: 'Grammar', label: 'Grammar' },
+  { match: ['writing', 'essay', 'paragraph', 'revision', 'rubric'], navigate: 'Writing', label: 'Writing' },
+  { match: ['vocab', 'vocabulary', 'synonym', 'antonym', 'word family', 'collocation'], navigate: 'Vocab', label: 'Vocab' },
+  { match: ['speaking', 'pronunciation', 'fluency', 'speech'], navigate: 'Speaking', label: 'Speaking' },
+];
+
 function withTimeout(ms = DEFAULT_TIMEOUT_MS) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), ms);
@@ -39,8 +48,58 @@ export function isChatApiConfigured() {
   return !!CHAT_ENDPOINT;
 }
 
+function buildLocalReply({ message = '', mode = 'coach' } = {}) {
+  const text = String(message || '').trim();
+  if (!text) return null;
+
+  const lower = text.toLowerCase();
+  const routeMatch = LOCAL_ROUTE_MAP.find((item) => item.match.some((token) => lower.includes(token)));
+  const focus = routeMatch?.label || 'practice';
+  const chips = routeMatch
+    ? [`Open ${routeMatch.label}`, `${routeMatch.label} strategy`, 'Explain my mistake']
+    : ['Build a study plan', 'Give me a quick task', 'Explain my mistake'];
+
+  let reply = `Let's keep this practical. `;
+  if (mode === 'writing') {
+    reply += 'Write one clear claim, support it with one precise example, then revise repeated words before you submit.';
+  } else if (mode === 'speaking') {
+    reply += 'Aim for one main idea, one reason, and one example in each answer so your fluency stays controlled.';
+  } else if (mode === 'coach') {
+    reply += `I can guide you through ${focus.toLowerCase()} step by step even when the online model is offline.`;
+  } else {
+    reply += `We can still work locally on ${focus.toLowerCase()} with structured feedback and short next steps.`;
+  }
+
+  if (routeMatch) {
+    reply += ` Open the ${routeMatch.label} workspace if you want the strongest task-specific tools.`;
+  } else {
+    reply += ' Tell me whether you want reading, listening, grammar, writing, vocab, or speaking help.';
+  }
+
+  return {
+    text: reply,
+    chips,
+    artifact: routeMatch
+      ? {
+          title: `${routeMatch.label} action plan`,
+          content: [
+            `1. Open ${routeMatch.label}.`,
+            '2. Complete one focused task.',
+            '3. Ask the coach why each mistake happened.',
+          ].join('\n'),
+        }
+      : null,
+    navigate: routeMatch?.navigate || null,
+    nextQuizState: undefined,
+    source: 'local',
+  };
+}
+
 export async function requestChatbotReply({ message, mode = 'coach', history = [] } = {}) {
-  if (!CHAT_ENDPOINT || !message) return null;
+  if (!message) return null;
+
+  const localFallback = buildLocalReply({ message, mode });
+  if (!CHAT_ENDPOINT) return localFallback;
 
   const payload = {
     message: String(message),
@@ -66,7 +125,7 @@ export async function requestChatbotReply({ message, mode = 'coach', history = [
       }
       const json = await res.json();
       const normalized = normalizeReply(json);
-      if (!normalized.text) return null;
+      if (!normalized.text) return localFallback;
       return normalized;
     } catch (e) {
       lastErr = e;
@@ -81,5 +140,5 @@ export async function requestChatbotReply({ message, mode = 'coach', history = [
   if (typeof __DEV__ !== 'undefined' && __DEV__ && lastErr) {
     console.warn('chatbot online fallback failed:', lastErr?.message || String(lastErr));
   }
-  return null;
+  return localFallback;
 }
