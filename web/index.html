@@ -10,7 +10,7 @@
   <div class="ambient-bg"></div>
 
   <div class="app-shell">
-    <section class="backend-strip panel">
+    <section class="backend-strip panel all-tools-panel">
       <div class="backend-head">
         <h2>Backend Connector</h2>
         <span id="modeBadge" class="badge">Mode: auto</span>
@@ -115,6 +115,18 @@
         </div>
 
         <div class="panel">
+          <h2>Quick Actions</h2>
+          <p class="muted">Most useful next steps first.</p>
+          <div id="quickActionsRail" class="quick-actions-rail"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Daily Tasks</h2>
+          <p id="dailyPlanLine" class="muted">Daily plan loading...</p>
+          <div id="dailyTasksList" class="daily-tasks-list"></div>
+        </div>
+
+        <div class="panel">
           <h2>Control Center</h2>
           <div class="control-grid">
             <article class="control-panel">
@@ -148,6 +160,22 @@
               </div>
             </article>
           </div>
+        </div>
+
+        <div class="panel all-tools-panel">
+          <h2>Learning Paths</h2>
+          <p class="muted">Select your level to open a tailored study plan.</p>
+          <div class="control-chip-row">
+            <button class="route-chip" data-open-route="StudyPlan">P1 (A1) Starter</button>
+            <button class="route-chip" data-open-route="StudyPlan">P2 (A2) Foundation</button>
+            <button class="route-chip" data-open-route="StudyPlan">P3 (B1) Intermediate</button>
+            <button class="route-chip" data-open-route="StudyPlan">P4 (B2) Advanced</button>
+          </div>
+        </div>
+
+        <div class="panel all-tools-panel">
+          <h2>Explore Content</h2>
+          <div id="featureGridCards" class="feature-grid-cards"></div>
         </div>
 
         <div class="panel">

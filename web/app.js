@@ -13,6 +13,15 @@ const state = {
     currentTab: 'Home',
     loadedTabs: new Set(),
     homeMode: 'ESSENTIAL',
+    homeMetrics: {
+      studyMinutes: 0,
+      unknownCount: 0,
+      readingPct: 0,
+      listeningPct: 0,
+      grammarPct: 0,
+      composite: 0,
+      weakSkill: 'Reading',
+    },
   },
   local: {
     coreLoaded: false,
@@ -1249,6 +1258,112 @@ function setHomeMode(mode = 'ESSENTIAL') {
   });
 }
 
+function renderQuickActions() {
+  const root = qs('quickActionsRail');
+  if (!root) return;
+  const m = state.ui.homeMetrics || {};
+  const weakRoute = m.weakSkill === 'Listening' ? 'Listening' : m.weakSkill === 'Grammar' ? 'Grammar' : 'Reading';
+  const actions = [
+    { icon: '⚡', title: `Train ${m.weakSkill || 'Reading'}`, meta: 'Priority today', route: weakRoute },
+    { icon: '🔁', title: `Review Queue (${m.unknownCount || 0})`, meta: (m.unknownCount || 0) > 0 ? 'Due now' : 'No backlog', route: 'Vocab' },
+    { icon: '✍️', title: 'Writing Feedback', meta: 'Draft or revise', route: 'Writing' },
+    { icon: '📅', title: 'Calendar', meta: 'Classes & deadlines', route: 'Home' },
+    { icon: '🏫', title: 'Mock Exam', meta: 'Timed practice', route: 'Grammar' },
+    { icon: '🎧', title: 'Podcast', meta: 'Daily listening', route: 'Listening' },
+  ];
+
+  root.innerHTML = actions
+    .map((item) => `
+      <button class="quick-action-card" data-jump-tab="${escapeHtml(item.route)}">
+        <div class="top"><span>${escapeHtml(item.icon)}</span><small>→</small></div>
+        <p class="title">${escapeHtml(item.title)}</p>
+        <p class="meta">${escapeHtml(item.meta)}</p>
+      </button>
+    `)
+    .join('');
+
+  root.querySelectorAll('[data-jump-tab]').forEach((btn) => {
+    btn.addEventListener('click', () => setTab(btn.getAttribute('data-jump-tab')));
+  });
+}
+
+function renderDailyTasks() {
+  const root = qs('dailyTasksList');
+  const planLine = qs('dailyPlanLine');
+  if (!root || !planLine) return;
+  const m = state.ui.homeMetrics || {};
+  const weakest = m.weakSkill || 'Reading';
+  const tasks = [
+    { icon: '📖', iconBg: '#eff6ff', text: `Complete one ${weakest.toLowerCase()} practice set`, route: weakest },
+    { icon: '🎧', iconBg: '#ecfdf3', text: 'Listen to one podcast and write 3 key points', route: 'Listening' },
+    { icon: '🧩', iconBg: '#fff7ed', text: 'Solve one grammar section with explanations', route: 'Grammar' },
+  ];
+  planLine.textContent = `Today's priority: ${weakest} • Composite score: ${m.composite || '--'}%`;
+
+  root.innerHTML = tasks
+    .map((item) => `
+      <div class="daily-task-row">
+        <div class="daily-task-left">
+          <div class="daily-task-icon" style="background:${item.iconBg}">${item.icon}</div>
+          <div class="daily-task-text">${escapeHtml(item.text)}</div>
+        </div>
+        <button class="btn ghost" data-jump-tab="${escapeHtml(item.route)}">Start</button>
+      </div>
+    `)
+    .join('');
+
+  root.querySelectorAll('[data-jump-tab]').forEach((btn) => {
+    btn.addEventListener('click', () => setTab(btn.getAttribute('data-jump-tab')));
+  });
+}
+
+function renderFeatureGridCards() {
+  const root = qs('featureGridCards');
+  if (!root) return;
+
+  const fallback = [
+    { title: 'Placement', body: 'Diagnostics and CEFR mapping', route: 'PlacementTest', icon: '📊', dark: false },
+    { title: 'Writing Studio', body: 'Draft, feedback, revision', route: 'Writing', icon: '✍️', dark: false },
+    { title: 'Speaking', body: 'AI partner and oral practice', route: 'Speaking', icon: '🎤', dark: false },
+    { title: 'BUEPT Exams', body: 'Official-style mock practice', route: 'Grammar', icon: '🏫', dark: true },
+    { title: 'Chat Coach', body: 'Fast study support', route: 'Speaking', icon: '💬', dark: false },
+    { title: 'Resources', body: 'Guides and materials', route: 'Home', icon: '📚', dark: false },
+    { title: 'Calendar', body: 'Program and holidays', route: 'Home', icon: '📅', dark: false },
+    { title: 'Vocabulary', body: 'Word bank and weak areas', route: 'Vocab', icon: '📕', dark: false },
+  ];
+
+  const list = state.modules.length
+    ? state.modules
+        .filter((m) => ['Assessment', 'Skills', 'AI Tools', 'University'].includes(m.category))
+        .slice(0, 8)
+        .map((m, idx) => ({
+          title: m.title,
+          body: m.desc,
+          route: inferTabByRoute(m.route),
+          icon: idx % 2 === 0 ? '✨' : '📘',
+          dark: String(m.route || '').toLowerCase().includes('mock'),
+        }))
+    : fallback;
+
+  root.innerHTML = list
+    .map((item) => `
+      <button class="feature-card ${item.dark ? 'dark' : ''}" data-jump-tab="${escapeHtml(item.route)}">
+        <div class="head">
+          <div class="badge-icon">${item.icon}</div>
+          <span>→</span>
+        </div>
+        <p class="title">${escapeHtml(item.title)}</p>
+        <p class="body">${escapeHtml(item.body).slice(0, 92)}</p>
+        <p class="open-link">Open</p>
+      </button>
+    `)
+    .join('');
+
+  root.querySelectorAll('[data-jump-tab]').forEach((btn) => {
+    btn.addEventListener('click', () => setTab(btn.getAttribute('data-jump-tab')));
+  });
+}
+
 async function connectApiBase() {
   const input = qs('apiBaseInput');
   const base = normalizeApiBase(input?.value || '');
@@ -1336,7 +1451,20 @@ function renderSummary(summary) {
   setText('skillReading', `${readingPct}%`);
   setText('skillListening', `${listeningPct}%`);
   setText('skillGrammar', `${grammarPct}%`);
-  setText('skillMetaLine', `Focus: ${readingPct <= listeningPct && readingPct <= grammarPct ? 'Reading' : listeningPct <= grammarPct ? 'Listening' : 'Grammar'} • Composite: ${composite}%`);
+  const weakSkill = readingPct <= listeningPct && readingPct <= grammarPct ? 'Reading' : listeningPct <= grammarPct ? 'Listening' : 'Grammar';
+  setText('skillMetaLine', `Focus: ${weakSkill} • Composite: ${composite}%`);
+
+  state.ui.homeMetrics = {
+    studyMinutes,
+    unknownCount,
+    readingPct,
+    listeningPct,
+    grammarPct,
+    composite,
+    weakSkill,
+  };
+  renderQuickActions();
+  renderDailyTasks();
 
   const modeLabel = state.runtimeMode === 'server' ? 'Live API mode' : 'Git static mode';
   note.textContent = `${modeLabel} • BUEPT dataset loaded`;
@@ -1887,11 +2015,13 @@ async function loadModuleCatalog() {
     }
 
     renderModuleCatalog();
+    renderFeatureGridCards();
   } catch (e) {
     const stats = qs('moduleStats');
     const root = qs('moduleCatalog');
     if (stats) stats.textContent = 'Module catalog could not be loaded.';
     if (root) root.innerHTML = `<p class="bad">${escapeHtml(e.message)}</p>`;
+    renderFeatureGridCards();
   }
 }
 
@@ -2234,6 +2364,7 @@ async function init() {
   setText('heroSubText', 'P2 (A2) • Pre-Intermediate • General track');
   setText('profileAccount', 'Web Student');
   setText('profileFocus', 'General');
+  renderFeatureGridCards();
   appendChat('bot', 'Coach is ready. Ask in English for strategy, vocabulary, grammar, or writing help.');
   qs('presentationTopic').value = 'How sleep quality affects academic performance';
   qs('videoTopic').value = 'Word formation strategies for BUEPT';
