@@ -731,6 +731,118 @@ async function callOllamaChatCompletion({ model = OLLAMA_MODEL, messages = [], t
   };
 }
 
+function parseJsonLoose(text = '') {
+  const raw = cleanTextValue(text, '');
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch (_) {
+    // continue
+  }
+
+  const firstObj = raw.indexOf('{');
+  const lastObj = raw.lastIndexOf('}');
+  if (firstObj !== -1 && lastObj !== -1 && lastObj > firstObj) {
+    const candidate = raw.slice(firstObj, lastObj + 1);
+    try {
+      return JSON.parse(candidate);
+    } catch (_) {
+      // continue
+    }
+  }
+
+  const firstArr = raw.indexOf('[');
+  const lastArr = raw.lastIndexOf(']');
+  if (firstArr !== -1 && lastArr !== -1 && lastArr > firstArr) {
+    const candidate = raw.slice(firstArr, lastArr + 1);
+    try {
+      return JSON.parse(candidate);
+    } catch (_) {
+      // continue
+    }
+  }
+
+  return null;
+}
+
+async function callAnyModelText({
+  system = '',
+  user = '',
+  maxTokens = 360,
+  temperature = 0.2,
+  preferLocal = false,
+  openaiModel = OPENAI_TEXT_MODEL,
+} = {}) {
+  const order = [];
+  if (preferLocal) {
+    if (OLLAMA_ENABLED) order.push('ollama');
+    if (HF_TOKEN) order.push('hf');
+    if (OPENAI_API_KEY) order.push('openai');
+  } else {
+    if (OPENAI_API_KEY) order.push('openai');
+    if (HF_TOKEN) order.push('hf');
+    if (OLLAMA_ENABLED) order.push('ollama');
+  }
+  if (!order.length) {
+    return {
+      ok: false,
+      status: 503,
+      error: 'NO_MODEL_PROVIDER_AVAILABLE',
+      detail: 'No OpenAI/HF/Ollama provider is available.',
+    };
+  }
+
+  let lastErr = null;
+  for (const provider of order) {
+    if (provider === 'ollama') {
+      const out = await callOllamaChatCompletion({
+        model: OLLAMA_MODEL,
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user', content: user },
+        ],
+        temperature,
+        maxTokens,
+      });
+      if (out.ok) return { ...out, source: 'ollama' };
+      lastErr = out;
+      continue;
+    }
+    if (provider === 'hf') {
+      const out = await callHfChatCompletion({
+        model: HF_CHAT_MODEL,
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user', content: user },
+        ],
+        temperature,
+        maxTokens,
+      });
+      if (out.ok) return { ...out, source: 'huggingface' };
+      lastErr = out;
+      continue;
+    }
+    if (provider === 'openai') {
+      const out = await callOpenAiText({
+        model: openaiModel,
+        instructions: system,
+        input: user,
+        temperature,
+        maxOutputTokens: maxTokens,
+      });
+      if (out.ok) return { ...out, source: 'openai' };
+      lastErr = out;
+    }
+  }
+
+  return lastErr || {
+    ok: false,
+    status: 502,
+    error: 'MODEL_CHAIN_FAILED',
+    detail: 'All model providers failed.',
+  };
+}
+
 function levelRank(level = '') {
   const key = String(level || '').toUpperCase();
   return { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 }[key] || 0;
@@ -1580,6 +1692,199 @@ async function generateVideoLessonWithOpenAI({ topic = '', level = 'B1', duratio
     schema,
     name: 'video_lesson_storyboard',
   });
+}
+
+async function generateSpeakingWithAnyAI({ text = '', history = [], preferLocal = false } = {}) {
+  const safeText = cleanTextValue(text, '');
+  const turns = Array.isArray(history)
+    ? history.slice(-6).map((item) => `${item.role || 'user'}: ${cleanTextValue(item.text, '')}`).join('\n')
+    : '';
+
+  const system = [
+    'You are an English speaking coach for BUEPT learners.',
+    'Respond in English only.',
+    'Give concise practical feedback on fluency, coherence, and pronunciation.',
+    'Return JSON only in this schema:',
+    '{"reply":"string"}',
+  ].join(' ');
+  const user = `Latest response:\n${safeText}\n\nRecent context:\n${turns || 'No prior turns.'}`;
+  const ai = await callAnyModelText({
+    system,
+    user,
+    maxTokens: 280,
+    temperature: 0.2,
+    preferLocal,
+    openaiModel: OPENAI_SPEAKING_MODEL,
+  });
+  if (!ai.ok) return ai;
+
+  const parsed = parseJsonLoose(ai.text);
+  if (!parsed || !cleanTextValue(parsed.reply, '')) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'AI_INVALID_JSON',
+      detail: 'Speaking model returned invalid JSON.',
+    };
+  }
+  return {
+    ok: true,
+    status: 200,
+    data: { reply: cleanTextValue(parsed.reply, '') },
+    source: ai.source,
+    model: ai.model || (ai.source === 'ollama' ? OLLAMA_MODEL : ai.source === 'huggingface' ? HF_CHAT_MODEL : OPENAI_SPEAKING_MODEL),
+  };
+}
+
+async function generateVideoLessonWithAnyAI({ topic = '', level = 'B1', durationMin = 4, preferLocal = false } = {}) {
+  const safeTopic = cleanTextValue(topic, 'Academic Writing');
+  const safeLevel = cleanTextValue(level, 'B1');
+  const safeDuration = clampNumberValue(durationMin, 2, 12, 4);
+
+  const system = [
+    'You build practical English lesson storyboards for BUEPT learners.',
+    'Return JSON only with this schema:',
+    '{"title":"string","summary":"string","scenes":[{"id":"string","heading":"string","bullets":["string","string","string"],"narration":"string","durationSec":number,"quiz":"string"}]}',
+    'Use 4 to 8 scenes. Keep bullets concise.',
+  ].join(' ');
+
+  const user = `Topic: ${safeTopic}\nLevel: ${safeLevel}\nDuration: ${safeDuration} minutes\nGoal: a real lesson storyboard, not filler text.`;
+  const ai = await callAnyModelText({
+    system,
+    user,
+    maxTokens: 900,
+    temperature: 0.25,
+    preferLocal,
+    openaiModel: OPENAI_VIDEO_MODEL,
+  });
+  if (!ai.ok) return ai;
+
+  const parsed = parseJsonLoose(ai.text);
+  if (!parsed) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'AI_INVALID_JSON',
+      detail: 'Video model returned invalid JSON.',
+    };
+  }
+  return {
+    ok: true,
+    status: 200,
+    data: normalizeVideoLessonPayload({
+      ...parsed,
+      source: ai.source || 'ai',
+    }, safeTopic),
+    source: ai.source,
+    model: ai.model || (ai.source === 'ollama' ? OLLAMA_MODEL : ai.source === 'huggingface' ? HF_CHAT_MODEL : OPENAI_VIDEO_MODEL),
+  };
+}
+
+async function generateWritingRevisionWithAnyAI({ text = '', prompt = '', level = 'B2', task = 'essay', preferLocal = false } = {}) {
+  const safeText = cleanTextValue(text, '');
+  if (!safeText) {
+    return {
+      ok: false,
+      status: 400,
+      error: 'TEXT_REQUIRED',
+      detail: 'Provide text before calling writing revision.',
+    };
+  }
+
+  const system = [
+    'You are a BUEPT writing revision engine.',
+    'Revise the student draft while preserving meaning.',
+    'Return JSON only with this schema:',
+    '{"revisedText":"string","summary":"string","strengths":["string"],"fixes":["string"],"rubricNotes":["string"]}',
+    'Give strict rubric-aware feedback for prep-level academic writing.',
+  ].join(' ');
+  const user = [
+    `Level: ${cleanTextValue(level, 'B2')}`,
+    `Task: ${cleanTextValue(task, 'essay')}`,
+    `Prompt: ${cleanTextValue(prompt, 'No prompt provided')}`,
+    'Student draft:',
+    safeText,
+  ].join('\n');
+
+  const ai = await callAnyModelText({
+    system,
+    user,
+    maxTokens: 1100,
+    temperature: 0.2,
+    preferLocal,
+    openaiModel: OPENAI_TEXT_MODEL,
+  });
+  if (!ai.ok) return ai;
+
+  const parsed = parseJsonLoose(ai.text);
+  if (!parsed) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'AI_INVALID_JSON',
+      detail: 'Writing revision model returned invalid JSON.',
+    };
+  }
+
+  return {
+    ok: true,
+    status: 200,
+    data: parsed,
+    source: ai.source,
+    model: ai.model || (ai.source === 'ollama' ? OLLAMA_MODEL : ai.source === 'huggingface' ? HF_CHAT_MODEL : OPENAI_TEXT_MODEL),
+  };
+}
+
+async function generatePresentationWithAnyAI({ topic = '', durationMin = 10, tone = 'Academic', level = 'B2', preferLocal = false } = {}) {
+  const safeTopic = cleanTextValue(topic, 'Academic Topic');
+  const safeDuration = clampNumberValue(durationMin, 5, 20, 10);
+  const safeTone = cleanTextValue(tone, 'Academic');
+  const safeLevel = cleanTextValue(level, 'B2');
+
+  const system = [
+    'You generate high-quality presentation decks for BUEPT learners.',
+    'Return JSON only using this schema:',
+    '{"title":"string","summary":"string","audience":"string","opener":"string","closer":"string","transitions":["string"],"qa_tips":["string"],"delivery_notes":["string"],"slides":[{"title":"string","points":["string","string","string"],"script":"string","cues":"string"}]}',
+    'Use 4-8 slides with practical academic structure.',
+  ].join(' ');
+  const user = `Topic: ${safeTopic}\nDuration: ${safeDuration}\nTone: ${safeTone}\nLevel: ${safeLevel}`;
+
+  const ai = await callAnyModelText({
+    system,
+    user,
+    maxTokens: 1200,
+    temperature: 0.2,
+    preferLocal,
+    openaiModel: OPENAI_PRESENTATION_MODEL,
+  });
+  if (!ai.ok) return ai;
+
+  const parsed = parseJsonLoose(ai.text);
+  if (!parsed) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'AI_INVALID_JSON',
+      detail: 'Presentation model returned invalid JSON.',
+    };
+  }
+
+  try {
+    return {
+      ok: true,
+      status: 200,
+      data: normalizePresentationDeck(parsed, { topic: safeTopic, model: ai.model }),
+      source: ai.source,
+      model: ai.model || (ai.source === 'ollama' ? OLLAMA_MODEL : ai.source === 'huggingface' ? HF_CHAT_MODEL : OPENAI_PRESENTATION_MODEL),
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'AI_BAD_SCHEMA',
+      detail: cleanTextValue(err?.message, 'Presentation schema validation failed.'),
+    };
+  }
 }
 
 async function generateModuleResponse(kind = '', payload = {}) {
@@ -2694,14 +2999,32 @@ async function requestHandler(req, res) {
         return;
       }
 
-      const ai = await generateSpeakingWithOpenAI({
-        text: body.text || body.message,
-        history: body.history,
-      });
+      const preferLocal = OLLAMA_ENABLED;
+      let ai = null;
+      if (preferLocal) {
+        ai = await generateSpeakingWithAnyAI({
+          text: body.text || body.message,
+          history: body.history,
+          preferLocal: true,
+        });
+      }
+      if (!ai || !ai.ok) {
+        ai = await generateSpeakingWithOpenAI({
+          text: body.text || body.message,
+          history: body.history,
+        });
+      }
+      if (!ai || !ai.ok) {
+        ai = await generateSpeakingWithAnyAI({
+          text: body.text || body.message,
+          history: body.history,
+          preferLocal: false,
+        });
+      }
       if (ai.ok) {
         sendJson(res, 200, {
           ok: true,
-          source: 'openai',
+          source: ai.source || 'openai',
           model: ai.model || OPENAI_SPEAKING_MODEL,
           reply: cleanTextValue(ai.data?.reply, buildSpeakingFeedbackLocal(body).reply),
           text: cleanTextValue(ai.data?.reply, buildSpeakingFeedbackLocal(body).reply),
@@ -2728,17 +3051,37 @@ async function requestHandler(req, res) {
         return;
       }
 
-      const ai = await generateVideoLessonWithOpenAI({
-        topic: body.topic,
-        level: body.level,
-        durationMin: body.durationMin,
-      });
+      const preferLocal = OLLAMA_ENABLED;
+      let ai = null;
+      if (preferLocal) {
+        ai = await generateVideoLessonWithAnyAI({
+          topic: body.topic,
+          level: body.level,
+          durationMin: body.durationMin,
+          preferLocal: true,
+        });
+      }
+      if (!ai || !ai.ok) {
+        ai = await generateVideoLessonWithOpenAI({
+          topic: body.topic,
+          level: body.level,
+          durationMin: body.durationMin,
+        });
+      }
+      if (!ai || !ai.ok) {
+        ai = await generateVideoLessonWithAnyAI({
+          topic: body.topic,
+          level: body.level,
+          durationMin: body.durationMin,
+          preferLocal: false,
+        });
+      }
       if (ai.ok) {
         sendJson(res, 200, {
           ok: true,
           ...normalizeVideoLessonPayload({
             ...ai.data,
-            source: 'openai',
+            source: ai.source || ai.data?.source || 'openai',
           }, cleanTextValue(body.topic, 'Academic Writing')),
           model: ai.model || OPENAI_VIDEO_MODEL,
         });
@@ -2774,19 +3117,41 @@ async function requestHandler(req, res) {
         task: body.task,
       });
 
-      const ai = await generateWritingRevisionWithOpenAI({
-        text: body.text,
-        prompt: body.prompt,
-        level: body.level,
-        task: body.task,
-      });
+      const preferLocal = OLLAMA_ENABLED;
+      let ai = null;
+      if (preferLocal) {
+        ai = await generateWritingRevisionWithAnyAI({
+          text: body.text,
+          prompt: body.prompt,
+          level: body.level,
+          task: body.task,
+          preferLocal: true,
+        });
+      }
+      if (!ai || !ai.ok) {
+        ai = await generateWritingRevisionWithOpenAI({
+          text: body.text,
+          prompt: body.prompt,
+          level: body.level,
+          task: body.task,
+        });
+      }
+      if (!ai || !ai.ok) {
+        ai = await generateWritingRevisionWithAnyAI({
+          text: body.text,
+          prompt: body.prompt,
+          level: body.level,
+          task: body.task,
+          preferLocal: false,
+        });
+      }
 
       if (ai.ok) {
         sendJson(res, 200, {
           ok: true,
           ...normalizeWritingRevisionPayload({
             ...ai.data,
-            source: 'openai',
+            source: ai.source || 'openai',
             model: ai.model || OPENAI_TEXT_MODEL,
             prompt: cleanTextValue(body.prompt, ''),
           }, fallback),
@@ -2812,12 +3177,34 @@ async function requestHandler(req, res) {
         return;
       }
 
-      const generated = await generatePresentationWithOpenAI({
-        topic: body.topic,
-        durationMin: body.durationMin,
-        tone: body.tone,
-        level: body.level,
-      });
+      const preferLocal = OLLAMA_ENABLED;
+      let generated = null;
+      if (preferLocal) {
+        generated = await generatePresentationWithAnyAI({
+          topic: body.topic,
+          durationMin: body.durationMin,
+          tone: body.tone,
+          level: body.level,
+          preferLocal: true,
+        });
+      }
+      if (!generated || !generated.ok) {
+        generated = await generatePresentationWithOpenAI({
+          topic: body.topic,
+          durationMin: body.durationMin,
+          tone: body.tone,
+          level: body.level,
+        });
+      }
+      if (!generated || !generated.ok) {
+        generated = await generatePresentationWithAnyAI({
+          topic: body.topic,
+          durationMin: body.durationMin,
+          tone: body.tone,
+          level: body.level,
+          preferLocal: false,
+        });
+      }
 
       if (!generated.ok) {
         const fallback = buildPresentationFallback({
@@ -2900,11 +3287,48 @@ async function requestHandler(req, res) {
         return;
       }
       const message = String(body.message || '');
+      const preferLocal = OLLAMA_ENABLED;
+      let ai = null;
+      if (message.trim()) {
+        ai = await callAnyModelText({
+          system: [
+            'You are BUEPT AI Coach.',
+            'Reply in English only.',
+            'Keep the answer concise, practical, and focused on BUEPT prep (reading, listening, grammar, writing, vocab, speaking).',
+            'Provide 2 short actionable suggestions at the end in one line starting with "Suggestions:".',
+          ].join(' '),
+          user: message,
+          maxTokens: 260,
+          temperature: 0.25,
+          preferLocal,
+          openaiModel: OPENAI_TEXT_MODEL,
+        });
+      }
+
+      if (ai && ai.ok) {
+        const text = cleanTextValue(ai.text, '');
+        const lines = text.split('\n').map((x) => x.trim()).filter(Boolean);
+        const suggestionLine = lines.find((line) => /^suggestions:/i.test(line)) || '';
+        const suggestions = suggestionLine
+          ? suggestionLine.replace(/^suggestions:\s*/i, '').split(/[|,;]/).map((x) => x.trim()).filter(Boolean).slice(0, 3)
+          : [];
+        const reply = lines.filter((line) => !/^suggestions:/i.test(line)).join('\n') || text;
+        sendJson(res, 200, {
+          ok: true,
+          reply,
+          suggestions: suggestions.length ? suggestions : ['Practice one grammar set', 'Review 10 vocabulary items'],
+          source: ai.source || 'ai',
+          model: ai.model || '',
+        });
+        return;
+      }
+
       const out = buildChatReply(message);
       sendJson(res, 200, {
         ok: true,
         reply: out.reply,
-        suggestions: out.suggestions || []
+        suggestions: out.suggestions || [],
+        source: 'local-rule'
       });
       return;
     }

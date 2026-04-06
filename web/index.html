@@ -28,6 +28,19 @@
       </div>
     </header>
 
+    <section class="backend-strip panel">
+      <div class="backend-head">
+        <h2>Backend Connector</h2>
+        <span id="modeBadge" class="badge">Mode: auto</span>
+      </div>
+      <div class="row">
+        <input id="apiBaseInput" placeholder="Local AI API URL (e.g. http://127.0.0.1:8088)" />
+        <button id="connectApi" class="btn">Connect Local AI</button>
+        <button id="useBrowserLocal" class="btn ghost">Use Browser Fallback</button>
+      </div>
+      <p id="backendHint" class="muted">Tip: Start local server with <code>OLLAMA_ENABLED=1 npm run api:start</code> for local model generation.</p>
+    </section>
+
     <main class="screens">
       <section id="screen-home" class="tab-screen active">
         <div class="panel summary-panel">

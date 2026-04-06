@@ -3,6 +3,7 @@ const state = {
   grammar: null,
   writing: null,
   runtimeMode: 'auto',
+  apiBase: '',
   modules: [],
   moduleFilter: {
     query: '',
@@ -23,6 +24,7 @@ const state = {
 
 const LOCAL_DICTIONARY_COUNT_HINT = 26795;
 const SYNC_STORE_KEY = 'buept_sync_bridge_v1';
+const API_BASE_STORE_KEY = 'buept_web_api_base_v1';
 const SYNC_CLIENT_ID = 'web-app';
 const SYNC_FIELDS = ['myWords', 'unknownWords', 'vocabStats', 'customDecks', 'weeklyProgress'];
 const TAB_NAMES = ['Home', 'Reading', 'Grammar', 'Writing', 'Vocab', 'Listening', 'Speaking'];
@@ -49,6 +51,31 @@ const MODULE_KIND_BY_ROUTE = {
   Mock: 'proficiency_mock',
   WeakPointAnalysis: 'weak_point_analysis',
 };
+
+function normalizeApiBase(value = '') {
+  const text = String(value || '').trim();
+  if (!text) return '';
+  return text.replace(/\/+$/, '');
+}
+
+function readStoredApiBase() {
+  try {
+    return normalizeApiBase(window.localStorage.getItem(API_BASE_STORE_KEY) || '');
+  } catch (_err) {
+    return '';
+  }
+}
+
+function writeStoredApiBase(value = '') {
+  const normalized = normalizeApiBase(value);
+  try {
+    if (!normalized) window.localStorage.removeItem(API_BASE_STORE_KEY);
+    else window.localStorage.setItem(API_BASE_STORE_KEY, normalized);
+  } catch (_err) {
+    // ignore localStorage errors
+  }
+  return normalized;
+}
 
 function qs(id) {
   return document.getElementById(id);
@@ -1040,8 +1067,15 @@ async function localApi(path, options = {}) {
   return { ok: false, error: `LOCAL_ROUTE_NOT_FOUND: ${pathname}` };
 }
 
-async function remoteApi(path, options = {}) {
-  const res = await fetch(path, {
+function resolveRequestUrl(path, base = '') {
+  const normalizedBase = normalizeApiBase(base);
+  if (!normalizedBase) return path;
+  return `${normalizedBase}${path}`;
+}
+
+async function remoteApi(path, options = {}, base = '') {
+  const target = resolveRequestUrl(path, base);
+  const res = await fetch(target, {
     headers: { 'Content-Type': 'application/json' },
     ...options,
   });
@@ -1070,12 +1104,30 @@ async function api(path, options = {}) {
     return local;
   }
 
+  const bases = [];
+  if (state.apiBase) bases.push(state.apiBase);
+  bases.push('');
+
   try {
-    const data = await remoteApi(path, options);
-    state.runtimeMode = 'server';
-    return data;
+    let lastError = null;
+    for (const base of bases) {
+      try {
+        const data = await remoteApi(path, options, base);
+        state.runtimeMode = 'server';
+        if (base) {
+          state.apiBase = normalizeApiBase(base);
+          writeStoredApiBase(state.apiBase);
+        }
+        updateBackendHint();
+        return data;
+      } catch (err) {
+        lastError = err;
+      }
+    }
+    throw lastError || new Error('REMOTE_API_FAILED');
   } catch (err) {
     state.runtimeMode = 'local';
+    updateBackendHint();
     const local = await localApi(path, options);
     if (local.ok === false) throw new Error(local.error || String(err.message || err));
     return local;
@@ -1160,6 +1212,74 @@ async function setTab(tab, force = false) {
   const normalized = normalizeTabName(tab);
   activateTabUI(normalized);
   await loadTabData(normalized, force);
+}
+
+function updateBackendHint() {
+  const modeBadge = qs('modeBadge');
+  const backendHint = qs('backendHint');
+  const apiBaseInput = qs('apiBaseInput');
+  const mode = state.runtimeMode === 'server' ? 'server' : state.runtimeMode === 'local' ? 'browser-local' : 'auto';
+  const baseLabel = state.apiBase || '(same-origin / none)';
+
+  if (modeBadge) modeBadge.textContent = `Mode: ${mode}`;
+  if (backendHint) backendHint.innerHTML = `API Base: <b>${escapeHtml(baseLabel)}</b> • Tip: run <code>OLLAMA_ENABLED=1 npm run api:start</code> then connect to <code>http://127.0.0.1:8088</code>.`;
+  if (apiBaseInput && !apiBaseInput.matches(':focus')) {
+    apiBaseInput.value = state.apiBase || '';
+  }
+}
+
+async function connectApiBase() {
+  const input = qs('apiBaseInput');
+  const base = normalizeApiBase(input?.value || '');
+  if (!base) {
+    alert('Please enter a backend URL (example: http://127.0.0.1:8088).');
+    return;
+  }
+
+  try {
+    const status = await remoteApi('/api/status', {}, base);
+    state.apiBase = base;
+    state.runtimeMode = 'server';
+    writeStoredApiBase(base);
+    updateBackendHint();
+    alert(`Connected to ${base}\nService: ${status.service || 'api'}`);
+    await loadTabData(state.ui.currentTab, true);
+  } catch (e) {
+    alert(`Cannot connect to ${base}\n${e.message}`);
+  }
+}
+
+function useBrowserFallbackMode() {
+  state.apiBase = '';
+  writeStoredApiBase('');
+  state.runtimeMode = 'local';
+  updateBackendHint();
+}
+
+async function autoDetectApiBase() {
+  const stored = readStoredApiBase();
+  const candidates = uniq([
+    stored,
+    'http://127.0.0.1:8088',
+    'http://localhost:8088',
+  ]).filter(Boolean);
+
+  for (const base of candidates) {
+    try {
+      await remoteApi('/api/status', {}, base);
+      state.apiBase = base;
+      state.runtimeMode = 'server';
+      writeStoredApiBase(base);
+      updateBackendHint();
+      return true;
+    } catch (_e) {
+      // try next
+    }
+  }
+
+  state.runtimeMode = 'local';
+  updateBackendHint();
+  return false;
 }
 
 function renderSummary(summary) {
@@ -1985,6 +2105,14 @@ async function sendChat() {
 }
 
 function bind() {
+  qs('connectApi').addEventListener('click', connectApiBase);
+  qs('useBrowserLocal').addEventListener('click', useBrowserFallbackMode);
+  qs('apiBaseInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      connectApiBase();
+    }
+  });
   qs('refreshSummary').addEventListener('click', async () => {
     await loadTabData(state.ui.currentTab, true);
   });
@@ -2052,11 +2180,14 @@ function bind() {
 }
 
 async function init() {
+  state.apiBase = readStoredApiBase();
   bind();
+  updateBackendHint();
   appendChat('bot', 'Coach is ready. Ask in English for strategy, vocabulary, grammar, or writing help.');
   qs('presentationTopic').value = 'How sleep quality affects academic performance';
   qs('videoTopic').value = 'Word formation strategies for BUEPT';
   qs('mistakePrompt').value = 'Question: Governments restrict social media before elections. My answer was option B, but it was wrong. Explain why.';
+  await autoDetectApiBase();
 
   await setTab(getInitialTab());
 }
