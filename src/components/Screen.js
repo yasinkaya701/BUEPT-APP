@@ -97,8 +97,8 @@ export default function Screen({
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#111' },
-  bgImageFull: { ...StyleSheet.absoluteFillObject, width: '100%', height: '100%', opacity: 0.9 },
+  container: { flex: 1, backgroundColor: colors.bg },
+  bgImageFull: { ...StyleSheet.absoluteFillObject, width: '100%', height: '100%', opacity: 1.0 },
   overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.5)' },
   safe: { flex: 1, backgroundColor: '#F3F4F6' },
   safeClear: { flex: 1, backgroundColor: 'transparent' },

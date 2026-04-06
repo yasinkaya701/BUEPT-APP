@@ -2,7 +2,7 @@ import { NativeModules, Platform } from 'react-native';
 
 const DEFAULT_API_PORT = 8088;
 // Public production API (set when backend is deployed).
-const STATIC_PROD_API_BASE_URL = '';
+const STATIC_PROD_API_BASE_URL = 'https://buept-api.vercel.app';
 
 export function readRuntimeEnv(name, fallback = '') {
   const value = typeof process !== 'undefined' && process.env ? process.env[name] : '';
@@ -55,7 +55,11 @@ export function getDefaultApiBaseUrl(port = DEFAULT_API_PORT) {
         return origin || '';
       }
     } catch (_) {
-      return '';
+      // continue
+    }
+    
+    if (typeof __DEV__ === 'undefined' || !__DEV__) {
+      return STATIC_PROD_API_BASE_URL || '';
     }
     return '';
   }

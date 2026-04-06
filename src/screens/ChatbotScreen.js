@@ -11,6 +11,7 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { isChatApiConfigured, requestChatbotReply } from '../utils/chatbotAI';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
+import { speakEnglish, stopEnglishTts } from '../utils/ttsEnglish';
 
 const CHAT_STATE_KEY = '@chatbot_state_v1';
 const DEFAULT_CHIPS = ["📝 Essay Help", "📖 Reading Skills", "🎧 Listening", "📚 Grammar", "Find Synonyms", "🧠 Vocab Quiz"];
@@ -631,6 +632,7 @@ export default function ChatbotScreen({ navigation }) {
   const [activeArtifact, setActiveArtifact] = useState(null);
   const [quizState, setQuizState] = useState(null);
   const [assistantMode, setAssistantMode] = useState('coach');
+  const [ttsReadingId, setTtsReadingId] = useState(null);
   const [replySource, setReplySource] = useState(isChatApiConfigured() ? 'hybrid' : 'offline');
   const sourceMeta = getAiSourceMeta(replySource);
   const scrollRef = useRef();
@@ -808,6 +810,16 @@ export default function ChatbotScreen({ navigation }) {
     timersRef.current.push(t1);
   }, [inputText, artifactAnim, quizState, navigation, assistantMode, messages]);
 
+  const handleTts = useCallback(async (msg) => {
+    if (ttsReadingId === msg.id) {
+      await stopEnglishTts();
+      setTtsReadingId(null);
+      return;
+    }
+    setTtsReadingId(msg.id);
+    await speakEnglish(msg.text, { onDone: () => setTtsReadingId(null) });
+  }, [ttsReadingId]);
+
   return (
     <Screen scroll contentStyle={styles.container}>
       {/* Header */}
@@ -873,8 +885,17 @@ export default function ChatbotScreen({ navigation }) {
         ))}
       </ScrollView>
 
-      <KeyboardAvoidingView style={[styles.keyboardAvoid, { width: width }]} enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView ref={scrollRef} contentContainerStyle={styles.chatScroll} showsVerticalScrollIndicator={false}>
+      <KeyboardAvoidingView 
+        style={[styles.keyboardAvoid, { width: width }]} 
+        enabled={Platform.OS !== 'web'} 
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <ScrollView 
+          ref={scrollRef} 
+          contentContainerStyle={styles.chatScroll} 
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={Platform.OS !== 'web'} // Screen component handles main scroll on web
+        >
           <Text style={styles.timestampDivider}>BUEPT AI Coach · v2.0</Text>
 
           {messages.length <= 2 && (
@@ -927,6 +948,18 @@ export default function ChatbotScreen({ navigation }) {
                   style={[styles.messageText, msg.role === 'user' ? styles.messageTextUser : styles.messageTextAI]}
                   boldStyle={styles.richTextBold}
                 />
+                {msg.role === 'ai' && (
+                  <TouchableOpacity 
+                    style={styles.ttsIconBtn} 
+                    onPress={() => handleTts(msg)}
+                  >
+                    <Ionicons 
+                      name={ttsReadingId === msg.id ? "volume-high" : "volume-medium-outline"} 
+                      size={16} 
+                      color={ttsReadingId === msg.id ? colors.primary : colors.muted} 
+                    />
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           ))}
@@ -964,6 +997,12 @@ export default function ChatbotScreen({ navigation }) {
               placeholderTextColor={colors.muted}
               multiline
               maxLength={800}
+              onKeyPress={(e) => {
+                if (Platform.OS === 'web' && e.nativeEvent.key === 'Enter' && !e.nativeEvent.shiftKey) {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
             />
             <Text style={styles.charCount}>{inputText.length}/800</Text>
             <TouchableOpacity
@@ -1075,6 +1114,7 @@ const styles = StyleSheet.create({
   messageTextUser: { color: '#fff' },
   messageTextAI: { color: colors.text },
   richTextBold: { fontWeight: '900' },
+  ttsIconBtn: { alignSelf: 'flex-end', marginTop: 4, padding: 4 },
 
   inputContainer: { backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: 'rgba(0,0,0,0.05)' },
   chipScroll: { paddingHorizontal: spacing.md, paddingTop: spacing.sm, paddingBottom: 4, gap: 8 },

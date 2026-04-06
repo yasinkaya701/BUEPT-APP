@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import TabNavigator from './TabNavigator';
 import { colors, typography } from '../theme/tokens';
@@ -25,7 +26,7 @@ export default function RootNavigator() {
         animationEnabled: true,
         gestureEnabled: true,
         gestureResponseDistance: { horizontal: 32 },
-        cardStyle: { backgroundColor: 'transparent' },
+        cardStyle: { backgroundColor: Platform.OS === 'web' ? colors.bg : 'transparent' },
         animationTypeForReplace: 'push',
         detachPreviousScreen: true,
         ...TransitionPresets.SlideFromRightIOS,
