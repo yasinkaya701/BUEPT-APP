@@ -2,366 +2,169 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>BUEPT Web App</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <div class="ambient-bg"></div>
+  <div class="bg-shape bg-1"></div>
+  <div class="bg-shape bg-2"></div>
 
-  <div class="app-shell">
-    <section class="backend-strip panel all-tools-panel">
-      <div class="backend-head">
-        <h2>Backend Connector</h2>
-        <span id="modeBadge" class="badge">Mode: auto</span>
-      </div>
-      <div class="row">
-        <button id="refreshSummary" class="btn ghost">Refresh</button>
-        <button id="apiStatus" class="btn ghost" type="button">Status</button>
-        <input id="apiBaseInput" placeholder="Local AI API URL (e.g. http://127.0.0.1:8088)" />
-        <button id="connectApi" class="btn">Connect Local AI</button>
-        <button id="useBrowserLocal" class="btn ghost">Use Browser Fallback</button>
-      </div>
-      <p id="backendHint" class="muted">Tip: Start local server with <code>OLLAMA_ENABLED=1 npm run api:start</code> for local model generation.</p>
+  <header class="topbar">
+    <div class="brand">
+      <h1>BUEPT Web App</h1>
+      <p>Full web access for reading, listening, grammar, writing, vocabulary, and schedule</p>
+    </div>
+    <div class="actions">
+      <button id="refreshSummary" class="btn">Refresh</button>
+      <a class="btn ghost" href="/api/status" target="_blank" rel="noreferrer">API</a>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel summary-panel">
+      <h2>Overview</h2>
+      <div id="summaryCards" class="summary-grid"></div>
+      <p id="summaryNote" class="muted">Loading...</p>
     </section>
 
-    <main class="screens">
-      <section id="screen-home" class="tab-screen active">
-        <div class="app-hero-card">
-          <img class="app-hero-bg" src="./assets/real_north_campus.jpg" alt="Boğaziçi Campus" />
-          <div class="app-hero-overlay"></div>
-          <div class="app-hero-content">
-            <div class="app-hero-head">
-              <img class="app-hero-logo" src="./assets/icon.png" alt="BUEPT" />
-              <div>
-                <h2>Boğaziçi Prep Dashboard</h2>
-                <p id="heroSubText">P2 (A2) • Pre-Intermediate • General track</p>
-              </div>
-            </div>
-            <div class="app-meta-row">
-              <div class="app-meta-pill">
-                <small>Today</small>
-                <strong id="todayMinutes">0 min</strong>
-              </div>
-              <div class="app-meta-pill">
-                <small>Vocab Due</small>
-                <strong id="todayVocabDue">0</strong>
-              </div>
-              <div class="app-meta-pill">
-                <small>Last Mock</small>
-                <strong id="todayMock">--</strong>
-              </div>
-            </div>
-            <div class="app-mode-row">
-              <button id="modeEssential" class="mode-chip active">Essentials</button>
-              <button id="modeAllTools" class="mode-chip">All Tools</button>
-            </div>
-            <div class="profile-strip">
-              <div class="profile-item">
-                <small>Account</small>
-                <strong id="profileAccount">Web Student</strong>
-              </div>
-              <div class="profile-item">
-                <small>Focus Track</small>
-                <strong id="profileFocus">General</strong>
-              </div>
-              <div class="profile-item">
-                <small>Writing Logs</small>
-                <strong id="profileWritingLogs">0</strong>
-              </div>
-            </div>
-            <div class="launch-grid">
-              <button class="launch-card" data-jump-tab="Listening">
-                <div class="launch-top"><span>🎧</span><small>Open</small></div>
-                <h4>Daily Podcast</h4>
-                <p>Listen to Boğaziçi prep audio lessons and insights.</p>
-              </button>
-              <button class="launch-card" data-jump-tab="Reading">
-                <div class="launch-top"><span>📖</span><small>Focus</small></div>
-                <h4>Reading</h4>
-                <p>Text comprehension and evidence-based question solving.</p>
-              </button>
-              <button class="launch-card" data-jump-tab="Vocab">
-                <div class="launch-top"><span>📕</span><small>Review</small></div>
-                <h4>Vocabulary</h4>
-                <p>Dictionary, collocations, antonyms, and weekly quizzes.</p>
-              </button>
-              <button class="launch-card" data-jump-tab="Home">
-                <div class="launch-top"><span>✨</span><small>Hub</small></div>
-                <h4>Feature Hub</h4>
-                <p>Access all mobile modules from this web mirror.</p>
-              </button>
-            </div>
-          </div>
-        </div>
+    <!-- NEW MOBILE MODULE PANELS START -->
+    <section class="panel">
+      <h2>Proficiency Mock Exam</h2>
+      <div class="row">
+        <select id="mockLevel">
+          <option value="B1">B1</option>
+          <option value="B2">B2</option>
+          <option value="C1" selected>C1</option>
+        </select>
+        <button id="submitMockModule" class="btn">Generate Mock</button>
+      </div>
+      <div id="mockFeedback" class="result" style="display:none"></div>
+    </section>
 
-        <div class="panel summary-panel">
-          <h2>Today Board</h2>
-          <div id="summaryCards" class="summary-grid"></div>
-          <p id="summaryNote" class="muted">Loading...</p>
-        </div>
+    <section class="panel">
+      <h2>Academic Template & Weaknesses</h2>
+      <div class="row">
+        <input id="templateTopic" placeholder="Topic (e.g. Technology)" />
+        <button id="submitTemplateModule" class="btn">Template</button>
+      </div>
+      <div id="templateFeedback" class="result" style="display:none; margin-bottom:10px"></div>
+      
+      <button id="submitWeakPointModule" class="btn ghost">Analyze My Weaknesses</button>
+      <div id="weakpointFeedback" class="result" style="display:none; margin-top:10px"></div>
+    </section>
 
-        <div class="panel home-actions">
-          <h2>Skill Snapshot</h2>
-          <div class="home-grid">
-            <button class="quick-tile" data-jump-tab="Reading"><span>📖</span><strong>Reading</strong><small id="skillReading">--%</small></button>
-            <button class="quick-tile" data-jump-tab="Listening"><span>🎧</span><strong>Listening</strong><small id="skillListening">--%</small></button>
-            <button class="quick-tile" data-jump-tab="Grammar"><span>🧩</span><strong>Grammar</strong><small id="skillGrammar">--%</small></button>
-            <button class="quick-tile" data-jump-tab="Writing"><span>✍️</span><strong>Writing Studio</strong><small>Prompt + AI revision</small></button>
-            <button class="quick-tile" data-jump-tab="Vocab"><span>📕</span><strong>Vocab Workspace</strong><small>Dictionary + department</small></button>
-            <button class="quick-tile" data-jump-tab="Speaking"><span>🎤</span><strong>Speaking Coach</strong><small>AI coach + transcript</small></button>
-          </div>
-          <p id="skillMetaLine" class="muted">Focus: Reading • Composite: --%</p>
-        </div>
+    <section class="panel">
+      <h2>Photo Vocabulary Extract</h2>
+      <textarea id="photoVocabText" rows="3" placeholder="Paste article text here..."></textarea>
+      <button id="submitPhotoModule" class="btn">Extract Vocab</button>
+      <div id="photoFeedback" class="result" style="display:none; margin-top:10px"></div>
+    </section>
 
-        <div class="panel">
-          <h2>Quick Actions</h2>
-          <p class="muted">Most useful next steps first.</p>
-          <div id="quickActionsRail" class="quick-actions-rail"></div>
-        </div>
+    <section class="panel">
+      <h2>Speaking Coach AI</h2>
+      <textarea id="speakingInput" rows="3" placeholder="Speak your answer..."></textarea>
+      <div class="row">
+        <button id="submitSpeakingAi" class="btn">Send Speech</button>
+      </div>
+      <div id="speakingFeedback" class="result" style="display:none; margin-top:10px"></div>
+    </section>
 
-        <div class="panel">
-          <h2>Daily Tasks</h2>
-          <p id="dailyPlanLine" class="muted">Daily plan loading...</p>
-          <div id="dailyTasksList" class="daily-tasks-list"></div>
-        </div>
+    <section class="panel">
+      <h2>Presentation & Video AI</h2>
+      <div class="row">
+        <input id="mediaTopic" placeholder="e.g. Climate Change" />
+      </div>
+      <div class="row">
+        <button id="submitPresAi" class="btn">Slides</button>
+        <button id="submitVideoAi" class="btn ghost">Video</button>
+      </div>
+      <div id="mediaFeedback" class="result" style="display:none; margin-top:10px"></div>
+    </section>
+    <!-- NEW MOBILE MODULE PANELS END -->
 
-        <div class="panel">
-          <h2>Control Center</h2>
-          <div class="control-grid">
-            <article class="control-panel">
-              <h3>AI Studio</h3>
-              <p>Speaking, chat, presentation, and lesson generation.</p>
-              <div class="control-chip-row">
-                <button class="route-chip" data-open-route="AISpeakingPartner">AI Speaking</button>
-                <button class="route-chip" data-open-route="Chatbot">Chat Coach</button>
-                <button class="route-chip" data-open-route="AIPresentationPrep">Presentation</button>
-                <button class="route-chip" data-open-route="AILessonVideoStudio">Lesson Video</button>
-              </div>
-            </article>
-            <article class="control-panel">
-              <h3>Planning & Exams</h3>
-              <p>Placement, study planning, analytics, and timed exam routes.</p>
-              <div class="control-chip-row">
-                <button class="route-chip" data-open-route="PlacementTest">Placement</button>
-                <button class="route-chip" data-open-route="StudyPlan">Study Plan</button>
-                <button class="route-chip" data-open-route="Analytics">Analytics</button>
-                <button class="route-chip" data-open-route="Exams">Exams</button>
-              </div>
-            </article>
-            <article class="control-panel">
-              <h3>Campus & Resources</h3>
-              <p>Calendar, resources, Boğaziçi hub, and weak-point analysis.</p>
-              <div class="control-chip-row">
-                <button class="route-chip ghost" data-open-route="ClassScheduleCalendar">Calendar</button>
-                <button class="route-chip ghost" data-open-route="Resources">Resources</button>
-                <button class="route-chip ghost" data-open-route="BogaziciHub">Boğaziçi Hub</button>
-                <button class="route-chip ghost" data-open-route="WeakPointAnalysis">Weak Analysis</button>
-              </div>
-            </article>
-          </div>
-        </div>
+    <section class="panel">
+      <h2>Vocabulary</h2>
+      <div class="row">
+        <input id="vocabQuery" placeholder="Search word (e.g. resilience)" />
+        <button id="searchVocab" class="btn">Search</button>
+        <button id="randomVocab" class="btn ghost">Random</button>
+      </div>
+      <div class="row">
+        <select id="departmentSelect"></select>
+        <button id="loadDepartmentWords" class="btn ghost">Department Words</button>
+      </div>
+      <div id="vocabResult" class="result"></div>
+    </section>
 
-        <div class="panel all-tools-panel">
-          <h2>Learning Paths</h2>
-          <p class="muted">Select your level to open a tailored study plan.</p>
-          <div class="control-chip-row">
-            <button class="route-chip" data-open-route="StudyPlan">P1 (A1) Starter</button>
-            <button class="route-chip" data-open-route="StudyPlan">P2 (A2) Foundation</button>
-            <button class="route-chip" data-open-route="StudyPlan">P3 (B1) Intermediate</button>
-            <button class="route-chip" data-open-route="StudyPlan">P4 (B2) Advanced</button>
-          </div>
-        </div>
+    <section class="panel">
+      <h2>Reading</h2>
+      <div class="row">
+        <select id="readingLevel">
+          <option value="">All levels</option>
+          <option value="P1">P1</option>
+          <option value="P2">P2</option>
+          <option value="P3">P3</option>
+        </select>
+        <button id="nextReading" class="btn">New Reading Task</button>
+      </div>
+      <div id="readingResult" class="result"></div>
+    </section>
 
-        <div class="panel all-tools-panel">
-          <h2>Explore Content</h2>
-          <div id="featureGridCards" class="feature-grid-cards"></div>
-        </div>
+    <section class="panel">
+      <h2>Grammar</h2>
+      <div class="row">
+        <select id="grammarLevel">
+          <option value="">All levels</option>
+          <option value="P1">P1</option>
+          <option value="P2">P2</option>
+          <option value="P3">P3</option>
+        </select>
+        <button id="nextGrammar" class="btn">New Grammar Task</button>
+      </div>
+      <div id="grammarResult" class="result"></div>
+    </section>
 
-        <div class="panel">
-          <h2>Academic Calendar</h2>
-          <div id="calendar" class="result"></div>
-        </div>
+    <section class="panel">
+      <h2>AI Writing Evaluation</h2>
+      <div class="row">
+        <select id="writingLevel">
+          <option value="">All levels</option>
+          <option value="P1">P1</option>
+          <option value="P2">P2</option>
+          <option value="P3">P3</option>
+        </select>
+        <button id="nextWriting" class="btn">New Prompt</button>
+      </div>
+      <div id="writingPrompt" class="result"></div>
+      <textarea id="writingInput" rows="6" placeholder="Write your response here to get professional AI scoring..."></textarea>
+      <div class="row">
+        <span id="wordCount" class="muted">0 words</span>
+        <button id="submitWritingAi" class="btn ghost">AI Evaluation</button>
+      </div>
+      <div id="writingFeedback" class="result" style="display:none; margin-top:10px"></div>
+    </section>
 
-        <div class="panel all-tools-panel">
-          <h2>All App Features (Web Hub)</h2>
-          <div class="row">
-            <input id="moduleSearch" placeholder="Search any mobile route or module (e.g. Placement, Drafts, ProficiencyMock)" />
-            <select id="moduleCategory">
-              <option value="all">All Categories</option>
-            </select>
-            <button id="reloadModules" class="btn ghost">Reload</button>
-          </div>
-          <p id="moduleStats" class="muted">Loading module catalog...</p>
-          <div id="moduleCatalog" class="module-grid"></div>
-          <div id="moduleResult" class="result"></div>
-        </div>
+    <section class="panel">
+      <h2>Listening Podcasts</h2>
+      <div id="podcasts" class="result"></div>
+    </section>
 
-        <div class="panel all-tools-panel">
-          <h2>AI Studio</h2>
-          <div class="studio-grid">
-            <article class="tool-card">
-              <h3>Presentation Prep</h3>
-              <input id="presentationTopic" placeholder="Topic (e.g. Sleep and Learning)" />
-              <div class="row">
-                <input id="presentationDuration" type="number" min="5" max="20" value="10" />
-                <select id="presentationLevel">
-                  <option value="B1">B1</option>
-                  <option value="B2" selected>B2</option>
-                  <option value="C1">C1</option>
-                </select>
-              </div>
-              <button id="generatePresentation" class="btn">Generate Presentation</button>
-              <div id="presentationResult" class="result"></div>
-            </article>
-            <article class="tool-card">
-              <h3>Video Lesson Studio</h3>
-              <input id="videoTopic" placeholder="Lesson topic (e.g. Hedging in Academic Writing)" />
-              <div class="row">
-                <input id="videoDuration" type="number" min="2" max="12" value="4" />
-                <select id="videoLevel">
-                  <option value="A2">A2</option>
-                  <option value="B1" selected>B1</option>
-                  <option value="B2">B2</option>
-                  <option value="C1">C1</option>
-                </select>
-              </div>
-              <button id="generateVideoLesson" class="btn">Generate Lesson</button>
-              <div id="videoLessonResult" class="result"></div>
-            </article>
-            <article class="tool-card">
-              <h3>Mistake Coach</h3>
-              <textarea id="mistakePrompt" rows="4" placeholder="Paste the wrong question/answer and ask why it is wrong..."></textarea>
-              <button id="generateMistakeCoach" class="btn">Explain Mistake</button>
-              <div id="mistakeCoachResult" class="result"></div>
-            </article>
-          </div>
-        </div>
+    <section class="panel">
+      <h2>Academic Calendar</h2>
+      <div id="calendar" class="result"></div>
+    </section>
 
-        <div class="panel all-tools-panel">
-          <h2>Sync Bridge (App ↔ Extension ↔ Web)</h2>
-          <div class="row">
-            <button id="syncStatusBtn" class="btn ghost">Status</button>
-            <button id="syncPullBtn" class="btn ghost">Pull</button>
-            <button id="syncPushBtn" class="btn ghost">Push Demo Data</button>
-          </div>
-          <div id="syncResult" class="result"></div>
-          <div id="syncMiniQuiz" class="result"></div>
-        </div>
-      </section>
+    <section class="panel chat-panel">
+      <h2>Coach Chatbot</h2>
+      <div id="chatLog" class="chat-log"></div>
+      <div class="row">
+        <input id="chatInput" placeholder="Ask for strategy, word meaning, or practice task..." />
+        <button id="chatSend" class="btn">Send</button>
+      </div>
+    </section>
+  </main>
 
-      <section id="screen-reading" class="tab-screen">
-        <div class="panel">
-          <h2>Reading</h2>
-          <div class="row">
-            <select id="readingLevel">
-              <option value="">All levels</option>
-              <option value="P1">P1</option>
-              <option value="P2">P2</option>
-              <option value="P3">P3</option>
-            </select>
-            <button id="nextReading" class="btn">New Reading Task</button>
-          </div>
-          <div id="readingResult" class="result"></div>
-        </div>
-      </section>
-
-      <section id="screen-grammar" class="tab-screen">
-        <div class="panel">
-          <h2>Grammar</h2>
-          <div class="row">
-            <select id="grammarLevel">
-              <option value="">All levels</option>
-              <option value="P1">P1</option>
-              <option value="P2">P2</option>
-              <option value="P3">P3</option>
-            </select>
-            <button id="nextGrammar" class="btn">New Grammar Task</button>
-          </div>
-          <div id="grammarResult" class="result"></div>
-        </div>
-      </section>
-
-      <section id="screen-writing" class="tab-screen">
-        <div class="panel">
-          <h2>Writing</h2>
-          <div class="row">
-            <select id="writingLevel">
-              <option value="">All levels</option>
-              <option value="P1">P1</option>
-              <option value="P2">P2</option>
-              <option value="P3">P3</option>
-            </select>
-            <button id="nextWriting" class="btn">New Prompt</button>
-          </div>
-          <div id="writingPrompt" class="result"></div>
-          <textarea id="writingInput" rows="8" placeholder="Write your response here..."></textarea>
-          <div class="row">
-            <span id="wordCount" class="muted">0 words</span>
-            <button id="quickWritingFeedback" class="btn ghost">Quick Feedback</button>
-            <button id="aiWritingRevision" class="btn">AI Revision</button>
-          </div>
-          <div id="writingFeedback" class="result"></div>
-          <div id="aiWritingRevisionResult" class="result"></div>
-        </div>
-      </section>
-
-      <section id="screen-vocab" class="tab-screen">
-        <div class="panel">
-          <h2>Vocabulary</h2>
-          <div class="row">
-            <input id="vocabQuery" placeholder="Search word (e.g. resilience)" />
-            <button id="searchVocab" class="btn">Search</button>
-            <button id="randomVocab" class="btn ghost">Random</button>
-          </div>
-          <div class="row">
-            <select id="departmentSelect"></select>
-            <button id="loadDepartmentWords" class="btn ghost">Department Words</button>
-          </div>
-          <div id="vocabResult" class="result"></div>
-        </div>
-      </section>
-
-      <section id="screen-listening" class="tab-screen">
-        <div class="panel">
-          <h2>Listening Podcasts</h2>
-          <div class="row">
-            <input id="listeningPrediction" placeholder="Prediction step: What do you expect to hear?" />
-            <button id="saveListeningPrediction" class="btn ghost">Save Prediction</button>
-          </div>
-          <div id="listeningPredictionResult" class="result"></div>
-          <div id="podcasts" class="result"></div>
-        </div>
-      </section>
-
-      <section id="screen-speaking" class="tab-screen">
-        <div class="panel chat-panel">
-          <h2>Speaking Coach Chatbot</h2>
-          <textarea id="speakingInput" rows="5" placeholder="Paste your speaking transcript here for fluency + pronunciation feedback..."></textarea>
-          <div class="row">
-            <button id="speakingEvaluate" class="btn">Evaluate Speaking</button>
-          </div>
-          <div id="speakingFeedback" class="result"></div>
-          <div id="chatLog" class="chat-log"></div>
-          <div class="row">
-            <input id="chatInput" placeholder="Ask for strategy, word meaning, or practice task..." />
-            <button id="chatSend" class="btn">Send</button>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <nav class="tabbar" aria-label="Main Tabs">
-      <button class="tab-btn active" data-tab="Home"><span>🏠</span><small>Home</small></button>
-      <button class="tab-btn" data-tab="Reading"><span>📖</span><small>Reading</small></button>
-      <button class="tab-btn" data-tab="Grammar"><span>🧩</span><small>Grammar</small></button>
-      <button class="tab-btn" data-tab="Writing"><span>✍️</span><small>Writing</small></button>
-      <button class="tab-btn" data-tab="Vocab"><span>📕</span><small>Vocab</small></button>
-      <button class="tab-btn" data-tab="Listening"><span>🎧</span><small>Listening</small></button>
-      <button class="tab-btn" data-tab="Speaking"><span>🎤</span><small>Speaking</small></button>
-    </nav>
-  </div>
-
-  <script src="./app.js"></script>
+  <script src="/app.js"></script>
 </body>
 </html>

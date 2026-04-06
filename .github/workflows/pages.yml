@@ -7,7 +7,7 @@ on:
     paths:
       - 'src/**'
       - 'data/**'
-      - 'web-rnw/**'
+      - 'web/**'
       - 'web-api-server.js'
       - 'package.json'
       - 'package-lock.json'
@@ -48,7 +48,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./web-rnw/dist
+          path: ./web
 
   deploy:
     needs: build
