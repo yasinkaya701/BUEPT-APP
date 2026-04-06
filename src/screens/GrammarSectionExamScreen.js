@@ -64,6 +64,23 @@ function groupBySource(questions = [], answers = {}) {
   }));
 }
 
+function buildMistakeItem(q, selectedIdx) {
+  const options = Array.isArray(q.options) ? q.options : [];
+  const correctIdx = Number.isFinite(q.answer) ? q.answer : null;
+  const selected = Number.isFinite(selectedIdx) ? selectedIdx : null;
+  return {
+    module: 'grammar',
+    moduleLabel: 'Grammar • Section Exam',
+    taskTitle: q.sourceTaskTitle || 'Section Exam',
+    question: q.q || '',
+    options,
+    correctIndex: correctIdx,
+    selectedIndex: selected,
+    correctText: correctIdx != null ? options[correctIdx] : '',
+    selectedText: selected != null ? options[selected] : 'Skipped',
+  };
+}
+
 export default function GrammarSectionExamScreen({ route, navigation }) {
   const weakMode = route?.params?.weakMode || 'mcq';
   const taskIds = useMemo(
@@ -196,9 +213,19 @@ export default function GrammarSectionExamScreen({ route, navigation }) {
             />
           ))}
           {checked ? (
-            <Text style={answers[qi] === q.answer ? styles.correct : styles.incorrect}>
-              {answers[qi] === q.answer ? 'Correct' : `Wrong - Correct: ${q.options[q.answer]}`}
-            </Text>
+            <>
+              <Text style={answers[qi] === q.answer ? styles.correct : styles.incorrect}>
+                {answers[qi] === q.answer ? 'Correct' : `Wrong - Correct: ${q.options[q.answer]}`}
+              </Text>
+              {answers[qi] !== q.answer && (
+                <Button
+                  label="Open Mistake Coach"
+                  variant="secondary"
+                  onPress={() => navigation.navigate('MistakeCoach', { mistakes: [buildMistakeItem(q, answers[qi])] })}
+                  style={styles.mistakeBtn}
+                />
+              )}
+            </>
           ) : null}
         </Card>
       ))}
@@ -254,5 +281,9 @@ const styles = StyleSheet.create({
     color: '#B42318',
     fontFamily: typography.fontHeadline,
     marginTop: spacing.xs,
+  },
+  mistakeBtn: {
+    marginTop: spacing.xs,
+    alignSelf: 'flex-start',
   },
 });

@@ -138,6 +138,26 @@ export default function VocabPracticeScreen({ navigation }) {
           />
         </View>
       </Card>
+
+      <Card style={styles.card}>
+        <Text style={styles.h3}>🔗 Collocation Quiz</Text>
+        <Text style={styles.body}>Pick the phrase that best collocates with the target word</Text>
+        <View style={styles.row}>
+          <Button label="Start Default" onPress={() => navigation.navigate('VocabCollocationQuiz', { size: resolveSize() })} />
+          <Button
+            label="Start Test-English"
+            variant="secondary"
+            onPress={() =>
+              navigation.navigate('VocabCollocationQuiz', {
+                size: resolveSize(),
+                mode: 'test_english',
+                topic: teTopic,
+                level: teLevel,
+              })
+            }
+          />
+        </View>
+      </Card>
     </Screen>
   );
 }

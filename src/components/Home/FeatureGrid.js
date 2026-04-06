@@ -151,18 +151,18 @@ const styles = StyleSheet.create({
     width: 34,
     height: 34,
     borderRadius: 17,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.surfaceRaised,
     alignItems: 'center',
     justifyContent: 'center',
   },
   iconBadgeDark: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.surfaceRaised,
   },
   darkCardTitle: {
-    color: '#FFFFFF',
+    color: colors.textOnDark,
   },
   darkCardBody: {
-    color: '#DDE8FF',
+    color: colors.textOnDarkMuted,
   },
   h3: {
     fontSize: typography.body,
@@ -187,6 +187,6 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontHeadline,
   },
   linkTextDark: {
-    color: '#FFFFFF',
+    color: colors.textOnDark,
   },
 });

@@ -150,6 +150,38 @@ const PROMPT_LIBRARY = {
 
 const FILLER_WORDS = ['like', 'you know', 'basically', 'actually', 'i mean', 'kind of', 'sort of'];
 const INTRO_MESSAGE = 'Choose a prompt, record one answer, then evaluate it. The coach now gives a rubric-based score, not just a generic reply.';
+const PRONUNCIATION_PATTERNS = [
+  {
+    key: 'th',
+    regex: /th/,
+    label: '/th/',
+    tip: "Tongue slightly forward between teeth: 'think', 'though', 'through'.",
+  },
+  {
+    key: 'v_w',
+    regex: /(v|w)/,
+    label: '/v/ vs /w/',
+    tip: "Keep /v/ (teeth+lip) separate from /w/ (rounded lips).",
+  },
+  {
+    key: 'ed',
+    regex: /ed$/,
+    label: '-ed ending',
+    tip: "Finish past forms clearly: 'worked', 'wanted', 'lived'.",
+  },
+  {
+    key: 'tion',
+    regex: /tion$/,
+    label: '-tion ending',
+    tip: "Stress the syllable before '-tion': eduCAtion, soluTION.",
+  },
+  {
+    key: 'r_l',
+    regex: /(r|l).*(r|l)/,
+    label: '/r/ & /l/',
+    tip: "Contrast tongue placement in minimal pairs: 'light/right', 'glass/grass'.",
+  },
+];
 
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
@@ -159,15 +191,65 @@ function normalizeSpeechText(text = '') {
   return String(text || '').replace(/\s+/g, ' ').trim();
 }
 
+function tokenizeSpeechWords(text = '') {
+  return normalizeSpeechText(text)
+    .toLowerCase()
+    .match(/[a-z']+/g) || [];
+}
+
+function collapseRepeatedChunks(words = []) {
+  if (!Array.isArray(words) || !words.length) return [];
+  let current = words.slice();
+  for (let pass = 0; pass < 3; pass += 1) {
+    const output = [];
+    let index = 0;
+    while (index < current.length) {
+      let consumed = false;
+      const maxChunk = Math.min(8, Math.floor((current.length - index) / 2));
+      for (let size = maxChunk; size >= 2; size -= 1) {
+        let same = true;
+        for (let offset = 0; offset < size; offset += 1) {
+          if (current[index + offset] !== current[index + size + offset]) {
+            same = false;
+            break;
+          }
+        }
+        if (same) {
+          output.push(...current.slice(index, index + size));
+          index += size * 2;
+          consumed = true;
+          break;
+        }
+      }
+      if (!consumed) {
+        output.push(current[index]);
+        index += 1;
+      }
+    }
+    const deduped = output.filter((word, idx) => word && word !== output[idx - 1]);
+    if (deduped.join(' ') === current.join(' ')) break;
+    current = deduped;
+  }
+  return current;
+}
+
+function dedupeSpeechDraft(text = '') {
+  const normalized = normalizeSpeechText(text);
+  if (!normalized) return '';
+  const words = normalized.split(/\s+/).filter(Boolean);
+  const collapsed = collapseRepeatedChunks(words);
+  return normalizeSpeechText(collapsed.join(' '));
+}
+
 function cleanList(list = []) {
   if (!Array.isArray(list)) return [];
   return Array.from(new Set(list.map((item) => normalizeSpeechText(item)).filter(Boolean)));
 }
 
 function pickBestSpeechResult(values = []) {
-  const list = Array.isArray(values) ? values.map(normalizeSpeechText).filter(Boolean) : [];
+  const list = Array.isArray(values) ? values.map((item) => dedupeSpeechDraft(item)).filter(Boolean) : [];
   if (!list.length) return '';
-  return list.sort((a, b) => b.length - a.length)[0];
+  return list.sort((a, b) => tokenizeSpeechWords(b).length - tokenizeSpeechWords(a).length)[0];
 }
 
 function getWordCount(text = '') {
@@ -188,6 +270,57 @@ function buildFluencyStats(text = '', elapsedSec = 0) {
     .map((item) => item.trim())
     .filter(Boolean).length;
   return { words, wpm, fillerCount, sentenceCount };
+}
+
+function buildFluencyTimeline(text = '', elapsedSec = 0) {
+  const tokens = tokenizeSpeechWords(text);
+  if (!tokens.length) return [];
+  const totalSec = Math.max(20, Number(elapsedSec || 0));
+  const segmentCount = Math.max(2, Math.min(6, Math.ceil(totalSec / 15)));
+  const chunkSize = Math.max(1, Math.ceil(tokens.length / segmentCount));
+  const segmentSec = totalSec / segmentCount;
+  const timeline = [];
+  for (let index = 0; index < segmentCount; index += 1) {
+    const startWord = index * chunkSize;
+    if (startWord >= tokens.length) break;
+    const segmentWords = tokens.slice(startWord, startWord + chunkSize);
+    const wpm = Math.round(segmentWords.length / Math.max(1 / 60, segmentSec / 60));
+    const fillerCount = FILLER_WORDS.reduce((sum, filler) => {
+      const escaped = filler.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return sum + ((segmentWords.join(' ').match(new RegExp(`\\b${escaped}\\b`, 'g')) || []).length);
+    }, 0);
+    timeline.push({
+      id: `slot_${index}`,
+      label: `${Math.round(index * segmentSec)}-${Math.round((index + 1) * segmentSec)}s`,
+      words: segmentWords.length,
+      wpm,
+      fillerCount,
+      quality: wpm >= 85 && wpm <= 155 && fillerCount <= 1 ? 'stable' : wpm < 85 ? 'slow' : 'fast',
+    });
+  }
+  return timeline;
+}
+
+function buildPronunciationHotspots(text = '') {
+  const words = Array.from(new Set(tokenizeSpeechWords(text))).filter((item) => item.length >= 4);
+  if (!words.length) return [];
+  const hotspots = [];
+  words.forEach((word) => {
+    PRONUNCIATION_PATTERNS.forEach((pattern) => {
+      if (!pattern.regex.test(word)) return;
+      hotspots.push({
+        id: `${pattern.key}-${word}`,
+        word,
+        pattern: pattern.label,
+        tip: pattern.tip,
+        severity: word.length >= 10 ? 'high' : word.length >= 7 ? 'medium' : 'light',
+      });
+    });
+  });
+  const severityWeight = { high: 3, medium: 2, light: 1 };
+  return hotspots
+    .sort((a, b) => (severityWeight[b.severity] || 0) - (severityWeight[a.severity] || 0))
+    .slice(0, 8);
 }
 
 function buildSelfCheck(text = '', feedback = null) {
@@ -243,6 +376,8 @@ function buildTurnAnalysis({ text = '', prompt = null, ai = null, elapsedSec = 0
     vocab: Array.isArray(prompt?.vocab) ? prompt.vocab : [],
   });
   const fluency = buildFluencyStats(text, elapsedSec);
+  const timeline = buildFluencyTimeline(text, elapsedSec);
+  const hotspots = buildPronunciationHotspots(text);
   const selfCheck = buildSelfCheck(text, feedback);
   const rubric = buildPromptRubric(text, feedback, selfCheck, fluency, prompt);
   const model = evaluateSpeakingModel({
@@ -273,6 +408,8 @@ function buildTurnAnalysis({ text = '', prompt = null, ai = null, elapsedSec = 0
     improvements: improvements.length ? improvements : ['Make the structure clearer with one reason, one example, and one conclusion.'],
     drills: drills.length ? drills : ['Repeat the same prompt in 45 seconds and keep the structure tighter.'],
     nextPrompt: normalizeSpeechText(ai?.nextPrompt || prompt?.followUp || ''),
+    timeline,
+    hotspots,
   };
 }
 
@@ -370,6 +507,54 @@ function MessageBubble({ item }) {
           <ScoreBar label="Fluency" value={analysis.model.dimensions.fluency} />
           <ScoreBar label="Coherence" value={analysis.model.dimensions.coherence} />
           <ScoreBar label="Lexical Range" value={analysis.model.dimensions.lexicalRange} />
+
+          {analysis.timeline?.length ? (
+            <>
+              <Text style={[styles.sectionLabel, styles.sectionLabelSpacing]}>Fluency Timeline</Text>
+              <View style={styles.timelineWrap}>
+                {analysis.timeline.map((slot) => (
+                  <View key={slot.id} style={styles.timelineRow}>
+                    <View style={styles.timelineHead}>
+                      <Text style={styles.timelineLabel}>{slot.label}</Text>
+                      <Text style={styles.timelineMeta}>
+                        {slot.wpm} WPM · {slot.fillerCount} filler
+                      </Text>
+                    </View>
+                    <View style={styles.timelineTrack}>
+                      <View
+                        style={[
+                          styles.timelineFill,
+                          slot.quality === 'stable'
+                            ? styles.timelineFillStable
+                            : slot.quality === 'slow'
+                              ? styles.timelineFillSlow
+                              : styles.timelineFillFast,
+                          { width: `${Math.max(12, Math.min(100, Math.round((slot.wpm / 170) * 100)))}%` },
+                        ]}
+                      />
+                    </View>
+                  </View>
+                ))}
+              </View>
+            </>
+          ) : null}
+
+          {analysis.hotspots?.length ? (
+            <>
+              <Text style={[styles.sectionLabel, styles.sectionLabelSpacing]}>Pronunciation Hotspots</Text>
+              {analysis.hotspots.map((hotspot) => (
+                <View key={hotspot.id} style={styles.hotspotRow}>
+                  <View style={[styles.hotspotBadge, hotspot.severity === 'high' ? styles.hotspotBadgeHigh : hotspot.severity === 'medium' ? styles.hotspotBadgeMedium : styles.hotspotBadgeLight]}>
+                    <Text style={styles.hotspotBadgeText}>{hotspot.pattern}</Text>
+                  </View>
+                  <View style={styles.hotspotBody}>
+                    <Text style={styles.hotspotWord}>{hotspot.word}</Text>
+                    <Text style={styles.hotspotTip}>{hotspot.tip}</Text>
+                  </View>
+                </View>
+              ))}
+            </>
+          ) : null}
 
           <Text style={styles.sectionLabel}>Strengths</Text>
           {analysis.strengths.map((itemText) => (
@@ -523,11 +708,19 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
     };
     Voice.onSpeechPartialResults = (event) => {
       const recognized = pickBestSpeechResult(event?.value);
-      if (recognized) setTranscript(recognized);
+      const cleaned = dedupeSpeechDraft(recognized);
+      if (cleaned) {
+        setTranscript(cleaned);
+        transcriptRef.current = cleaned;
+      }
     };
     Voice.onSpeechResults = (event) => {
       const recognized = pickBestSpeechResult(event?.value);
-      if (recognized) setTranscript(recognized);
+      const cleaned = dedupeSpeechDraft(recognized);
+      if (cleaned) {
+        setTranscript(cleaned);
+        transcriptRef.current = cleaned;
+      }
     };
     Voice.onSpeechVolumeChanged = (event) => setMicVol(Number(event?.value || 0));
 
@@ -548,6 +741,7 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
 
   const cyclePrompt = useCallback(() => {
     setTranscript('');
+    transcriptRef.current = '';
     lastSubmittedRef.current = '';
     setPromptCursor((current) => current + 1);
   }, []);
@@ -582,7 +776,7 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
   }, []);
 
   const submitTurn = useCallback(async () => {
-    const spokenText = normalizeSpeechText(transcriptRef.current);
+    const spokenText = dedupeSpeechDraft(transcriptRef.current);
     if (!spokenText) {
       Alert.alert('No answer yet', 'Record a response first, then evaluate the turn.');
       return;
@@ -683,6 +877,7 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
                   setMode(item.key);
                   setPromptCursor(0);
                   setTranscript('');
+                  transcriptRef.current = '';
                 }}
               />
             ))}
@@ -764,7 +959,15 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
             </View>
             <Text style={styles.transcriptText}>{transcript}</Text>
             <View style={styles.transcriptActions}>
-              <Button label="Clear" variant="secondary" icon="close-outline" onPress={() => setTranscript('')} />
+              <Button
+                label="Clear"
+                variant="secondary"
+                icon="close-outline"
+                onPress={() => {
+                  setTranscript('');
+                  transcriptRef.current = '';
+                }}
+              />
               <Button label="Evaluate Turn" icon="analytics-outline" onPress={submitTurn} disabled={aiTyping || isListening} />
             </View>
           </Card>
@@ -860,7 +1063,7 @@ const styles = StyleSheet.create({
   },
   heroCard: {
     backgroundColor: '#0F172A',
-    borderColor: '#1E3A8A',
+    borderColor: '#172554',
     marginTop: spacing.sm,
   },
   eyebrow: {
@@ -1205,6 +1408,89 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: radius.pill,
     backgroundColor: colors.primaryDark,
+  },
+  timelineWrap: {
+    marginBottom: spacing.xs,
+  },
+  timelineRow: {
+    marginBottom: spacing.xs,
+  },
+  timelineHead: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+  },
+  timelineLabel: {
+    fontSize: typography.xsmall,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+  },
+  timelineMeta: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+  },
+  timelineTrack: {
+    height: 8,
+    borderRadius: radius.pill,
+    backgroundColor: '#E6EEF8',
+    overflow: 'hidden',
+  },
+  timelineFill: {
+    height: '100%',
+    borderRadius: radius.pill,
+  },
+  timelineFillStable: {
+    backgroundColor: '#16A34A',
+  },
+  timelineFillSlow: {
+    backgroundColor: '#2563EB',
+  },
+  timelineFillFast: {
+    backgroundColor: '#D97706',
+  },
+  hotspotRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+    borderWidth: 1,
+    borderColor: '#E3EBFA',
+    borderRadius: radius.md,
+    padding: spacing.sm,
+    backgroundColor: '#F8FBFF',
+  },
+  hotspotBadge: {
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.xs + 4,
+    paddingVertical: spacing.xs,
+  },
+  hotspotBadgeHigh: {
+    backgroundColor: '#FEE2E2',
+  },
+  hotspotBadgeMedium: {
+    backgroundColor: '#FFEDD5',
+  },
+  hotspotBadgeLight: {
+    backgroundColor: '#DBEAFE',
+  },
+  hotspotBadgeText: {
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+  },
+  hotspotBody: {
+    flex: 1,
+  },
+  hotspotWord: {
+    fontSize: typography.small,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    marginBottom: 2,
+  },
+  hotspotTip: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    lineHeight: 16,
   },
   sectionLabel: {
     marginTop: spacing.sm,

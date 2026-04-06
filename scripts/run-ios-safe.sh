@@ -16,13 +16,33 @@ find_device_id() {
 }
 
 ensure_metro() {
-  if lsof -ti tcp:8081 >/dev/null 2>&1; then
-    return
+  local metro_pid metro_cwd
+  metro_pid="$(lsof -ti tcp:8081 -sTCP:LISTEN | head -n 1 || true)"
+
+  if [[ -n "$metro_pid" ]]; then
+    metro_cwd="$(lsof -a -p "$metro_pid" -d cwd -Fn 2>/dev/null | sed -n 's/^n//p' | head -n 1 || true)"
+    if [[ -n "$metro_cwd" && "$metro_cwd" == "$ROOT_DIR"* ]]; then
+      return
+    fi
+
+    echo "Port 8081 is busy by another Metro process. Restarting Metro from this project..."
+    kill "$metro_pid" >/dev/null 2>&1 || true
+    sleep 1
   fi
 
   cd "$ROOT_DIR"
-  nohup npm start -- --port 8081 >/tmp/buept-metro.log 2>&1 < /dev/null &
-  sleep 4
+  nohup npm start -- --port 8081 --reset-cache >/tmp/buept-metro.log 2>&1 < /dev/null &
+
+  local tries=0
+  while ! lsof -ti tcp:8081 -sTCP:LISTEN >/dev/null 2>&1; do
+    tries=$((tries + 1))
+    if [[ $tries -ge 20 ]]; then
+      echo "Metro did not start on 8081. Last logs:" >&2
+      tail -n 80 /tmp/buept-metro.log >&2 || true
+      exit 1
+    fi
+    sleep 1
+  done
 }
 
 DEVICE_ID="$(find_device_id)"

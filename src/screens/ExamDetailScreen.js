@@ -10,6 +10,26 @@ import { buildExamSectionOpenEndedPrompts } from '../utils/openEndedPrompts';
 
 const EXAM_DURATION = 150 * 60; // 150 minutes
 
+function buildExamMistakeItem({ examTitle, section, question, selectedIndex, context }) {
+  const options = Array.isArray(question.options) ? question.options : [];
+  const correctIdx = Number.isFinite(question.answer) ? question.answer : null;
+  const selected = Number.isFinite(selectedIndex) ? selectedIndex : null;
+  const module = section === 'listening' ? 'listening' : section === 'grammar' ? 'grammar' : 'reading';
+  return {
+    module,
+    moduleLabel: `Exam • ${section}`,
+    taskTitle: examTitle || 'BUEPT Exam',
+    question: question.q || '',
+    options,
+    correctIndex: correctIdx,
+    selectedIndex: selected,
+    correctText: correctIdx != null ? options[correctIdx] : '',
+    selectedText: selected != null ? options[selected] : 'Skipped',
+    explanation: question.explain || '',
+    context: context || '',
+  };
+}
+
 export default function ExamDetailScreen({ route, navigation }) {
   const examId = route?.params?.examId;
   const exam = useMemo(() => exams.find((e) => e.id === examId) || exams[0], [examId]);
@@ -129,6 +149,8 @@ export default function ExamDetailScreen({ route, navigation }) {
           {sec.reading.questions.map((q, i) => {
             const key = `r${i}`;
             const active = similar[key] || q;
+            const selected = answers[key];
+            const isWrong = checked && selected !== undefined && selected !== active.answer;
             return (
               <Card key={key} style={styles.card}>
                 <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
@@ -146,6 +168,26 @@ export default function ExamDetailScreen({ route, navigation }) {
                   />
                 ))}
                 {renderFeedback(active, key, 'passage')}
+                {isWrong && (
+                  <Button
+                    label="Open Mistake Coach"
+                    variant="secondary"
+                    onPress={() =>
+                      navigation.navigate('MistakeCoach', {
+                        mistakes: [
+                          buildExamMistakeItem({
+                            examTitle: exam.title,
+                            section: 'reading',
+                            question: active,
+                            selectedIndex: selected,
+                            context: sec.reading.passage,
+                          }),
+                        ],
+                      })
+                    }
+                    style={styles.mistakeBtn}
+                  />
+                )}
                 {active.similar && (
                   <View style={styles.row}>
                     <Button label="Generate Similar" variant="secondary" onPress={() => applySimilar(key, active)} />
@@ -167,6 +209,8 @@ export default function ExamDetailScreen({ route, navigation }) {
           {sec.listening.questions.map((q, i) => {
             const key = `l${i}`;
             const active = similar[key] || q;
+            const selected = answers[key];
+            const isWrong = checked && selected !== undefined && selected !== active.answer;
             return (
               <Card key={key} style={styles.card}>
                 <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
@@ -184,6 +228,26 @@ export default function ExamDetailScreen({ route, navigation }) {
                   />
                 ))}
                 {renderFeedback(active, key, 'transcript')}
+                {isWrong && (
+                  <Button
+                    label="Open Mistake Coach"
+                    variant="secondary"
+                    onPress={() =>
+                      navigation.navigate('MistakeCoach', {
+                        mistakes: [
+                          buildExamMistakeItem({
+                            examTitle: exam.title,
+                            section: 'listening',
+                            question: active,
+                            selectedIndex: selected,
+                            context: sec.listening.passage || '',
+                          }),
+                        ],
+                      })
+                    }
+                    style={styles.mistakeBtn}
+                  />
+                )}
                 {active.similar && (
                   <View style={styles.row}>
                     <Button label="Generate Similar" variant="secondary" onPress={() => applySimilar(key, active)} />
@@ -202,6 +266,8 @@ export default function ExamDetailScreen({ route, navigation }) {
           {sec.grammar.questions.map((q, i) => {
             const key = `g${i}`;
             const active = similar[key] || q;
+            const selected = answers[key];
+            const isWrong = checked && selected !== undefined && selected !== active.answer;
             return (
               <Card key={key} style={styles.card}>
                 <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
@@ -219,6 +285,26 @@ export default function ExamDetailScreen({ route, navigation }) {
                   />
                 ))}
                 {renderFeedback(active, key, 'grammar')}
+                {isWrong && (
+                  <Button
+                    label="Open Mistake Coach"
+                    variant="secondary"
+                    onPress={() =>
+                      navigation.navigate('MistakeCoach', {
+                        mistakes: [
+                          buildExamMistakeItem({
+                            examTitle: exam.title,
+                            section: 'grammar',
+                            question: active,
+                            selectedIndex: selected,
+                            context: '',
+                          }),
+                        ],
+                      })
+                    }
+                    style={styles.mistakeBtn}
+                  />
+                )}
                 {active.similar && (
                   <View style={styles.row}>
                     <Button label="Generate Similar" variant="secondary" onPress={() => applySimilar(key, active)} />
@@ -313,6 +399,10 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
     color: colors.error,
     fontFamily: typography.fontBody
+  },
+  mistakeBtn: {
+    marginTop: spacing.xs,
+    alignSelf: 'flex-start',
   },
   score: {
     marginTop: spacing.md,

@@ -136,6 +136,7 @@ function FilterChip({ label, active, onPress, helper }) {
       accessibilityRole="button"
       activeOpacity={0.88}
       onPress={onPress}
+      hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
       style={[styles.filterChip, active && styles.filterChipActive]}
     >
       <Text style={[styles.filterChipText, active && styles.filterChipTextActive]}>{label}</Text>
@@ -147,7 +148,13 @@ function FilterChip({ label, active, onPress, helper }) {
 function TaskRow({ task, badges, onPress }) {
   const focus = getFocusSkills(task);
   return (
-    <TouchableOpacity accessibilityRole="button" activeOpacity={0.9} onPress={onPress} style={styles.taskRow}>
+    <TouchableOpacity 
+      accessibilityRole="button" 
+      activeOpacity={0.9} 
+      onPress={onPress} 
+      style={styles.taskRow}
+      hitSlop={{ top: 15, bottom: 15, left: 10, right: 10 }}
+    >
       <View style={styles.taskRowBody}>
         <View style={styles.taskRowHeader}>
           <Text style={styles.taskRowTitle}>{task.title}</Text>
@@ -181,6 +188,7 @@ export default function ReadingScreen({ navigation }) {
   const { readingHistory, level } = useAppState();
   const [levelFilter, setLevelFilter] = useState('ALL');
   const [formatFilter, setFormatFilter] = useState('ALL');
+  const [queryInput, setQueryInput] = useState('');
   const [query, setQuery] = useState('');
 
   useEffect(() => {
@@ -195,6 +203,11 @@ export default function ReadingScreen({ navigation }) {
   useEffect(() => {
     AsyncStorage.setItem('READING_LEVEL_FILTER', levelFilter).catch(() => {});
   }, [levelFilter]);
+
+  useEffect(() => {
+    const t = setTimeout(() => setQuery(queryInput), 200);
+    return () => clearTimeout(t);
+  }, [queryInput]);
 
   const latest = readingHistory[0]?.result;
   const lastTask = useMemo(() => {
@@ -489,8 +502,8 @@ export default function ReadingScreen({ navigation }) {
         </View>
         <TextInput
           style={styles.input}
-          value={query}
-          onChangeText={setQuery}
+          value={queryInput}
+          onChangeText={setQueryInput}
           placeholder="Search by title, level, or format"
           placeholderTextColor={colors.muted}
           autoCapitalize="none"
@@ -596,8 +609,8 @@ const styles = StyleSheet.create({
   },
   heroCard: {
     marginBottom: spacing.lg,
-    backgroundColor: '#0F3F7F',
-    borderColor: '#0F3F7F',
+    backgroundColor: '#172554',
+    borderColor: '#172554',
   },
   heroHeader: {
     flexDirection: 'row',
@@ -887,7 +900,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   filterChip: {
-    minHeight: 40,
+    minHeight: 48,
     borderRadius: radius.pill,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs + 2,

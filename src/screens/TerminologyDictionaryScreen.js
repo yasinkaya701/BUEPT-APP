@@ -195,7 +195,7 @@ export default function TerminologyDictionaryScreen({ navigation }) {
                                             onPress={() => openInteractiveLab(term.key)}
                                             style={styles.termActionBtn}
                                         >
-                                            <Ionicons name="flask-outline" size={14} color="#0F3F7F" />
+                                            <Ionicons name="flask-outline" size={14} color="#172554" />
                                             <Text style={styles.termActionText}>Lab</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity 
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
         paddingTop: spacing.md, 
         paddingBottom: spacing.sm, 
         paddingHorizontal: spacing.xl,
-        backgroundColor: '#0F3F7F'
+        backgroundColor: '#172554'
     },
     backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(255,255,255,0.1)' },
     pageTitle: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: '#FFFFFF', fontWeight: '800' },
@@ -235,8 +235,8 @@ const styles = StyleSheet.create({
     heroCard: {
         marginHorizontal: spacing.xl,
         marginBottom: spacing.md,
-        backgroundColor: '#0F3F7F',
-        borderColor: '#0F3F7F',
+        backgroundColor: '#172554',
+        borderColor: '#172554',
         padding: spacing.lg,
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
@@ -494,7 +494,7 @@ const styles = StyleSheet.create({
         gap: spacing.xs,
     },
     typeBadge: { backgroundColor: '#EFF6FF', paddingHorizontal: 10, paddingVertical: 4, borderRadius: radius.pill },
-    typeText: { fontSize: 11, fontWeight: '800', color: '#0F3F7F', textTransform: 'uppercase' },
+    typeText: { fontSize: 11, fontWeight: '800', color: '#172554', textTransform: 'uppercase' },
     termMetaText: { fontSize: 11, color: '#64748B', fontWeight: '700' },
     ttsBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: '#EFF6FF', justifyContent: 'center', alignItems: 'center' },
     termDef: { fontSize: 15, color: '#334155', lineHeight: 22, fontWeight: '500' },
@@ -521,7 +521,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F8FAFC',
         borderColor: '#F1F5F9',
     },
-    termActionText: { fontSize: 12, fontWeight: '800', color: '#0F3F7F' },
+    termActionText: { fontSize: 12, fontWeight: '800', color: '#172554' },
     termActionTextGhost: { fontSize: 12, fontWeight: '800', color: '#64748B' },
 
     emptyCard: {

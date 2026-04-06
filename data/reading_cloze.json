@@ -1,229 +1,229 @@
 [
-    {
-        "id": "cloze_01",
-        "level": "P1",
-        "title": "Campus Life — Fill in the Blanks",
-        "time": "15 min",
-        "text": "University students often struggle to manage their time effectively. A well-organized daily schedule can help students avoid stress and improve their academic outcomes. Regular review of class notes, combined with short breaks, leads to better retention of information. Campus support services, such as writing centers and academic advisors, are available to all students throughout the semester.",
-        "questions": [
-            {
-                "type": "cloze",
-                "sentence": "Students who follow a ___  schedule tend to perform better academically.",
-                "q": "Students who follow a ___ schedule tend to perform better academically.",
-                "options": [
-                    "consistent",
-                    "random",
-                    "difficult",
-                    "expensive"
-                ],
-                "answer": 0,
-                "skill": "vocabulary",
-                "explain": "'Consistent' means regular and steady — students who study at the same times each day build stronger habits."
-            },
-            {
-                "type": "cloze",
-                "sentence": "Short ___ between study sessions help prevent mental fatigue.",
-                "q": "Short ___ between study sessions help prevent mental fatigue.",
-                "options": [
-                    "breaks",
-                    "exams",
-                    "lectures",
-                    "assignments"
-                ],
-                "answer": 0,
-                "skill": "vocabulary",
-                "explain": "'Breaks' (short rest periods) are recommended between study blocks to maintain concentration."
-            },
-            {
-                "type": "cloze",
-                "sentence": "Academic advisors help students set ___ and select appropriate courses.",
-                "q": "Academic advisors help students set ___ and select appropriate courses.",
-                "options": [
-                    "goals",
-                    "prices",
-                    "rules",
-                    "hobbies"
-                ],
-                "answer": 0,
-                "skill": "vocabulary",
-                "explain": "Academic advisors guide students in setting learning 'goals' — clear targets for academic achievement."
-            },
-            {
-                "q": "According to the passage, what helps students retain information better?",
-                "options": [
-                    "Long uninterrupted study sessions",
-                    "Regular note review with short breaks",
-                    "Avoiding campus services",
-                    "Studying only before exams"
-                ],
-                "answer": 1,
-                "skill": "detail",
-                "explain": "The passage states that 'Regular review of class notes, combined with short breaks, leads to better retention.'"
-            },
-            {
-                "q": "What is the main idea of this passage?",
-                "options": [
-                    "Campus food is important for health",
-                    "Time management and support services help students succeed",
-                    "Exams are the only measure of success",
-                    "Students should avoid advisors"
-                ],
-                "answer": 1,
-                "skill": "main_idea",
-                "explain": "The passage focuses on strategies — schedules, breaks, and support services — that help students manage university life."
-            }
-        ]
-    },
-    {
-        "id": "cloze_02",
-        "level": "P2",
-        "title": "Academic Writing — Fill in the Blanks",
-        "time": "18 min",
-        "text": "Academic essays require a clear thesis statement, logical paragraph structure, and coherent transitions between ideas. Writers must support their claims with evidence from credible sources. Effective academic writing avoids informal language and uses hedging expressions such as 'it appears that' or 'evidence suggests' to acknowledge uncertainty. The conclusion should restate the thesis and summarise the main arguments without introducing new information.",
-        "questions": [
-            {
-                "type": "cloze",
-                "sentence": "A strong academic essay must ___ its claims with evidence from credible sources.",
-                "q": "A strong academic essay must ___ its claims with evidence from credible sources.",
-                "options": [
-                    "support",
-                    "ignore",
-                    "exaggerate",
-                    "repeat"
-                ],
-                "answer": 0,
-                "skill": "vocabulary",
-                "explain": "Academic writing requires writers to 'support' — back up — their arguments with reliable evidence."
-            },
-            {
-                "type": "cloze",
-                "sentence": "'It appears that' is an example of a ___ expression used to show academic caution.",
-                "q": "'It appears that' is an example of a ___ expression used to show academic caution.",
-                "options": [
-                    "hedging",
-                    "emotional",
-                    "persuasive",
-                    "narrative"
-                ],
-                "answer": 0,
-                "skill": "vocabulary",
-                "explain": "'Hedging' expressions soften claims to show the writer acknowledges limitations or uncertainty."
-            },
-            {
-                "type": "cloze",
-                "sentence": "The conclusion should ___ the thesis using different words.",
-                "q": "The conclusion should ___ the thesis using different words.",
-                "options": [
-                    "restate",
-                    "ignore",
-                    "contradict",
-                    "extend"
-                ],
-                "answer": 0,
-                "skill": "vocabulary",
-                "explain": "In academic writing, the conclusion 'restates' — says again in new words — the main claim to reinforce the argument."
-            },
-            {
-                "type": "cloze",
-                "sentence": "Academic writing requires ___ transitions between paragraphs.",
-                "q": "Academic writing requires ___ transitions between paragraphs.",
-                "options": [
-                    "coherent",
-                    "informal",
-                    "emotional",
-                    "random"
-                ],
-                "answer": 0,
-                "skill": "vocabulary",
-                "explain": "'Coherent' transitions ensure ideas flow logically from one paragraph to the next."
-            },
-            {
-                "q": "What is the purpose of hedging expressions in academic writing?",
-                "options": [
-                    "To make the essay sound informal",
-                    "To acknowledge uncertainty in claims",
-                    "To repeat the thesis",
-                    "To introduce new arguments"
-                ],
-                "answer": 1,
-                "skill": "detail",
-                "explain": "The passage states hedging expressions such as 'it appears that' are used to 'acknowledge uncertainty'."
-            }
-        ]
-    },
-    {
-        "id": "cloze_03",
-        "level": "P3",
-        "title": "Digital Wellbeing — Fill in the Blanks",
-        "time": "20 min",
-        "text": "Excessive screen time has been associated with reduced sleep quality, lower academic performance, and increased anxiety among university students. Researchers recommend establishing boundaries around device use, particularly during evening hours when blue light exposure can disrupt melatonin production. Digital wellbeing strategies include scheduled offline periods, phone-free study zones, and mindful consumption of social media content. When students consciously manage their technology use, they report higher levels of focus and overall satisfaction.",
-        "questions": [
-            {
-                "type": "cloze",
-                "sentence": "Blue light exposure during evening hours can ___ melatonin production.",
-                "q": "Blue light exposure during evening hours can ___ melatonin production.",
-                "options": [
-                    "disrupt",
-                    "improve",
-                    "maintain",
-                    "double"
-                ],
-                "answer": 0,
-                "skill": "vocabulary",
-                "explain": "The passage states that blue light 'can disrupt melatonin production', interfering with the sleep hormone."
-            },
-            {
-                "type": "cloze",
-                "sentence": "Researchers recommend ___ boundaries around device use.",
-                "q": "Researchers recommend ___ boundaries around device use.",
-                "options": [
-                    "establishing",
-                    "removing",
-                    "ignoring",
-                    "celebrating"
-                ],
-                "answer": 0,
-                "skill": "vocabulary",
-                "explain": "'Establishing' means setting up or creating — researchers suggest creating clear rules around device use."
-            },
-            {
-                "type": "cloze",
-                "sentence": "Students who ___ manage their technology use report higher focus.",
-                "q": "Students who ___ manage their technology use report higher focus.",
-                "options": [
-                    "consciously",
-                    "randomly",
-                    "passively",
-                    "rarely"
-                ],
-                "answer": 0,
-                "skill": "vocabulary",
-                "explain": "'Consciously' means being deliberately aware — students who intentionally control screen time benefit more."
-            },
-            {
-                "q": "What does the passage identify as a consequence of excessive screen time?",
-                "options": [
-                    "Improved academic performance",
-                    "Increased social connections",
-                    "Reduced sleep quality and higher anxiety",
-                    "Better melatonin production"
-                ],
-                "answer": 2,
-                "skill": "detail",
-                "explain": "The passage directly states excessive screen time is 'associated with reduced sleep quality... and increased anxiety'."
-            },
-            {
-                "q": "Which strategy is NOT mentioned as a digital wellbeing approach?",
-                "options": [
-                    "Scheduled offline periods",
-                    "Phone-free study zones",
-                    "Deleting all social media accounts",
-                    "Mindful consumption of content"
-                ],
-                "answer": 2,
-                "skill": "detail",
-                "explain": "The passage mentions scheduled offline periods, phone-free zones, and mindful consumption — but NOT deleting accounts."
-            }
-        ]
-    }
+  {
+    "id": "cloze_01",
+    "level": "P1",
+    "title": "Campus Life — Fill in the Blanks",
+    "time": "15 min",
+    "text": "University students often struggle to manage their time effectively. A well-organized daily schedule can help students avoid stress and improve their academic outcomes. Regular review of class notes, combined with short breaks, leads to better retention of information. Campus support services, such as writing centers and academic advisors, are available to all students throughout the semester.",
+    "questions": [
+      {
+        "type": "cloze",
+        "sentence": "Students who follow a ___  schedule tend to perform better academically.",
+        "q": "Students who follow a ___ schedule tend to perform better academically.",
+        "options": [
+          "consistent",
+          "random",
+          "difficult",
+          "expensive"
+        ],
+        "answer": 0,
+        "skill": "vocabulary",
+        "explain": "'Consistent' means regular and steady — students who study at the same times each day build stronger habits."
+      },
+      {
+        "type": "cloze",
+        "sentence": "Short ___ between study sessions help prevent mental fatigue.",
+        "q": "Short ___ between study sessions help prevent mental fatigue.",
+        "options": [
+          "breaks",
+          "exams",
+          "lectures",
+          "assignments"
+        ],
+        "answer": 0,
+        "skill": "vocabulary",
+        "explain": "'Breaks' (short rest periods) are recommended between study blocks to maintain concentration."
+      },
+      {
+        "type": "cloze",
+        "sentence": "Academic advisors help students set ___ and select appropriate courses.",
+        "q": "Academic advisors help students set ___ and select appropriate courses.",
+        "options": [
+          "goals",
+          "prices",
+          "rules",
+          "hobbies"
+        ],
+        "answer": 0,
+        "skill": "vocabulary",
+        "explain": "Academic advisors guide students in setting learning 'goals' — clear targets for academic achievement."
+      },
+      {
+        "q": "According to the passage, what helps students retain information better?",
+        "options": [
+          "Long uninterrupted study sessions",
+          "Regular note review with short breaks",
+          "Avoiding campus services",
+          "Studying only before exams"
+        ],
+        "answer": 1,
+        "skill": "detail",
+        "explain": "The passage states that 'Regular review of class notes, combined with short breaks, leads to better retention.'"
+      },
+      {
+        "q": "What is the main idea of this passage?",
+        "options": [
+          "Campus food is important for health",
+          "Time management and support services help students succeed",
+          "Exams are the only measure of success",
+          "Students should avoid advisors"
+        ],
+        "answer": 1,
+        "skill": "main_idea",
+        "explain": "The passage focuses on strategies — schedules, breaks, and support services — that help students manage university life."
+      }
+    ]
+  },
+  {
+    "id": "cloze_02",
+    "level": "P2",
+    "title": "Academic Writing — Fill in the Blanks",
+    "time": "18 min",
+    "text": "Academic essays require a clear thesis statement, logical paragraph structure, and coherent transitions between ideas. Writers must support their claims with evidence from credible sources. Effective academic writing avoids informal language and uses hedging expressions such as 'it appears that' or 'evidence suggests' to acknowledge uncertainty. The conclusion should restate the thesis and summarise the main arguments without introducing new information.",
+    "questions": [
+      {
+        "type": "cloze",
+        "sentence": "A strong academic essay must ___ its claims with evidence from credible sources.",
+        "q": "A strong academic essay must ___ its claims with evidence from credible sources.",
+        "options": [
+          "support",
+          "ignore",
+          "exaggerate",
+          "repeat"
+        ],
+        "answer": 0,
+        "skill": "vocabulary",
+        "explain": "Academic writing requires writers to 'support' — back up — their arguments with reliable evidence."
+      },
+      {
+        "type": "cloze",
+        "sentence": "'It appears that' is an example of a ___ expression used to show academic caution.",
+        "q": "'It appears that' is an example of a ___ expression used to show academic caution.",
+        "options": [
+          "hedging",
+          "emotional",
+          "persuasive",
+          "narrative"
+        ],
+        "answer": 0,
+        "skill": "vocabulary",
+        "explain": "'Hedging' expressions soften claims to show the writer acknowledges limitations or uncertainty."
+      },
+      {
+        "type": "cloze",
+        "sentence": "The conclusion should ___ the thesis using different words.",
+        "q": "The conclusion should ___ the thesis using different words.",
+        "options": [
+          "restate",
+          "ignore",
+          "contradict",
+          "extend"
+        ],
+        "answer": 0,
+        "skill": "vocabulary",
+        "explain": "In academic writing, the conclusion 'restates' — says again in new words — the main claim to reinforce the argument."
+      },
+      {
+        "type": "cloze",
+        "sentence": "Academic writing requires ___ transitions between paragraphs.",
+        "q": "Academic writing requires ___ transitions between paragraphs.",
+        "options": [
+          "coherent",
+          "informal",
+          "emotional",
+          "random"
+        ],
+        "answer": 0,
+        "skill": "vocabulary",
+        "explain": "'Coherent' transitions ensure ideas flow logically from one paragraph to the next."
+      },
+      {
+        "q": "What is the purpose of hedging expressions in academic writing?",
+        "options": [
+          "To make the essay sound informal",
+          "To acknowledge uncertainty in claims",
+          "To repeat the thesis",
+          "To introduce new arguments"
+        ],
+        "answer": 1,
+        "skill": "detail",
+        "explain": "The passage states hedging expressions such as 'it appears that' are used to 'acknowledge uncertainty'."
+      }
+    ]
+  },
+  {
+    "id": "cloze_03",
+    "level": "P3",
+    "title": "Digital Wellbeing — Fill in the Blanks",
+    "time": "20 min",
+    "text": "Excessive screen time has been associated with reduced sleep quality, lower academic performance, and increased anxiety among university students. Researchers recommend establishing boundaries around device use, particularly during evening hours when blue light exposure can disrupt melatonin production. Digital wellbeing strategies include scheduled offline periods, phone-free study zones, and mindful consumption of social media content. When students consciously manage their technology use, they report higher levels of focus and overall satisfaction.",
+    "questions": [
+      {
+        "type": "cloze",
+        "sentence": "Blue light exposure during evening hours can ___ melatonin production.",
+        "q": "Blue light exposure during evening hours can ___ melatonin production.",
+        "options": [
+          "disrupt",
+          "improve",
+          "maintain",
+          "double"
+        ],
+        "answer": 0,
+        "skill": "vocabulary",
+        "explain": "The passage states that blue light 'can disrupt melatonin production', interfering with the sleep hormone."
+      },
+      {
+        "type": "cloze",
+        "sentence": "Researchers recommend ___ boundaries around device use.",
+        "q": "Researchers recommend ___ boundaries around device use.",
+        "options": [
+          "establishing",
+          "removing",
+          "ignoring",
+          "celebrating"
+        ],
+        "answer": 0,
+        "skill": "vocabulary",
+        "explain": "'Establishing' means setting up or creating — researchers suggest creating clear rules around device use."
+      },
+      {
+        "type": "cloze",
+        "sentence": "Students who ___ manage their technology use report higher focus.",
+        "q": "Students who ___ manage their technology use report higher focus.",
+        "options": [
+          "consciously",
+          "randomly",
+          "passively",
+          "rarely"
+        ],
+        "answer": 0,
+        "skill": "vocabulary",
+        "explain": "'Consciously' means being deliberately aware — students who intentionally control screen time benefit more."
+      },
+      {
+        "q": "What does the passage identify as a consequence of excessive screen time?",
+        "options": [
+          "Improved academic performance",
+          "Increased social connections",
+          "Reduced sleep quality and higher anxiety",
+          "Better melatonin production"
+        ],
+        "answer": 2,
+        "skill": "detail",
+        "explain": "The passage directly states excessive screen time is 'associated with reduced sleep quality... and increased anxiety'."
+      },
+      {
+        "q": "Which strategy is NOT mentioned as a digital wellbeing approach?",
+        "options": [
+          "Scheduled offline periods",
+          "Phone-free study zones",
+          "Deleting all social media accounts",
+          "Mindful consumption of content"
+        ],
+        "answer": 2,
+        "skill": "detail",
+        "explain": "The passage mentions scheduled offline periods, phone-free zones, and mindful consumption — but NOT deleting accounts."
+      }
+    ]
+  }
 ]

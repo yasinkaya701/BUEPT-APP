@@ -44,32 +44,76 @@ async function forceEnglish() {
  * Speak a word/phrase. Safe to call from anywhere.
  * Always stops any in-progress speech first.
  */
+// iOS'ta yüklü olan İngilizce sesleri arar
+async function findBestEnglishVoiceId() {
+    try {
+        const list = await Tts.voices();
+        const EN_PREFERRED = [
+            'samantha', 'ava', 'karen', 'moira', 'nicky',
+            'aaron', 'alex', 'allison', 'daniel', 'oliver',
+        ];
+        const enVoices = (list || []).filter((v) => {
+            const lang = (v.language || '').toLowerCase();
+            return (lang.startsWith('en') || lang.startsWith('eng')) && !v.notInstalled;
+        });
+        if (!enVoices.length) return null;
+        // Tercih sırasına göre arama
+        for (const pref of EN_PREFERRED) {
+            const match = enVoices.find((v) => (v.name || '').toLowerCase().includes(pref));
+            if (match?.id) return match.id;
+        }
+        // Tercih bulunamazsa herhangi bir en-US sesi
+        return enVoices.find((v) => (v.language || '').toLowerCase().includes('us'))?.id
+            || enVoices[0]?.id
+            || null;
+    } catch (_) {
+        return null;
+    }
+}
+
 export async function speakText(text, customOptions = {}) {
     if (!text?.trim()) return;
     try {
         await ensureInit();
-        await forceEnglish();
-        try { Tts.stop(); } catch (e) { }
-        // Small delay lets stop() settle on iOS before next speak
+        try { Tts.stop(); } catch (_) { }
         await new Promise(r => setTimeout(r, 60));
 
         const rate = customOptions.rate || 0.45;
-        try { 
-            await Tts.setDefaultRate(rate); 
-            await Tts.setDefaultLanguage('en-US');
-        } catch (e) { }
+        // Her seferinde dili en-US'e çek — cihazın dili Türkçe olsa bile
+        await Tts.setDefaultLanguage('en-US');
+        try { await Tts.setDefaultRate(rate); } catch (_) { }
 
-        Tts.speak(text.trim(), {
-            iosVoiceId: customOptions.iosVoiceId || 'com.apple.ttsbundle.Samantha-compact',
-            rate: rate,
+        // En iyi İngilizce voice'u bul (veya sabit Samantha ID'lerini dene)
+        let voiceId = customOptions.iosVoiceId;
+        if (!voiceId) {
+            voiceId = await findBestEnglishVoiceId();
+        }
+        // Samantha'nın bilinen iOS ID'leri — fallback zinciri
+        const fallbackIds = [
+            'com.apple.ttsbundle.Samantha-compact',
+            'com.apple.voice.compact.en-US.Samantha',
+            'com.apple.ttsbundle.Ava-compact',
+            'com.apple.voice.compact.en-US.Nicky',
+        ];
+
+        const speakOptions = {
+            rate,
             androidParams: {
                 KEY_PARAM_PAN: 0,
                 KEY_PARAM_VOLUME: 1,
-                KEY_PARAM_STREAM: 'STREAM_MUSIC'
-            }
-        });
-    } catch (e) {
-        // Silently handle — TTS is a non-critical feature
+                KEY_PARAM_STREAM: 'STREAM_MUSIC',
+            },
+        };
+        if (voiceId) {
+            speakOptions.iosVoiceId = voiceId;
+        } else {
+            // Hiç İngilizce ses bulunamazsa language zorlaması yeterli
+            speakOptions.iosVoiceId = fallbackIds[0];
+        }
+
+        Tts.speak(text.trim(), speakOptions);
+    } catch (_) {
+        // Sessizce geç — TTS kritik değil
     }
 }
 
@@ -144,26 +188,27 @@ export function useTts() {
         const currentId = _speakId.current;
         try {
             await ensureInit();
-            try { Tts.stop(); } catch (e) { }
+            try { Tts.stop(); } catch (_) { }
             await new Promise(r => setTimeout(r, 60));
-            // If another speakWord or stopAll was called, abort!
             if (_speakId.current !== currentId) return;
 
-            try { await Tts.setDefaultRate(rate); } catch (e) { }
-            try { await Tts.setDefaultLanguage('en-US'); } catch (e) { }
+            // Her seferinde dili İngilizce'ye çek
+            await Tts.setDefaultLanguage('en-US');
+            try { await Tts.setDefaultRate(rate); } catch (_) { }
+
+            // En iyi yüklü İngilizce sesi bul
+            let bestId = voiceId;
+            if (!bestId) {
+                bestId = await findBestEnglishVoiceId();
+            }
 
             const options = { rate };
-            if (voiceId) {
-                options.iosVoiceId = voiceId;
-            } else {
-                // Last ditch effort to force English
-                options.iosVoiceId = 'com.apple.ttsbundle.Samantha-compact';
-            }
-            
-            if (!voiceId && !_englishVoiceAvailable) {
+            options.iosVoiceId = bestId || 'com.apple.ttsbundle.Samantha-compact';
+
+            if (!bestId && !_englishVoiceAvailable) {
                 if (!_missingVoiceNoticeLogged) {
                     _missingVoiceNoticeLogged = true;
-                    console.log('[TTS] No installed English voice found on device. Install an English iOS voice in Settings.');
+                    console.log('[TTS] No installed English voice found. Install an English voice in iOS Settings > Accessibility > Spoken Content.');
                 }
             }
             Tts.speak(text.trim(), options);

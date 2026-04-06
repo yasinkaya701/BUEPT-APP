@@ -2,16 +2,22 @@ import React from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native';
 import { colors, radius, spacing, typography } from '../theme/tokens';
 
-export default function Chip({ label, onPress, active = false }) {
+function Chip({ label, onPress, active = false }) {
   return (
     <Pressable
       style={({ pressed }) => [styles.base, active && styles.active, pressed && styles.pressed]}
       onPress={onPress}
+      hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+      accessibilityRole="button"
+      accessibilityState={{ selected: active }}
+      accessibilityLabel={label}
     >
       <Text style={[styles.text, active && styles.textActive]}>{label}</Text>
     </Pressable>
   );
 }
+
+export default React.memo(Chip);
 
 const styles = StyleSheet.create({
   base: {
@@ -20,7 +26,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md - 2,
     backgroundColor: colors.primaryUltraLight || colors.surfaceAlt,
     borderWidth: 1,
-    borderColor: '#D3DFF2',
+    borderColor: colors.border,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.xs,
@@ -31,12 +37,12 @@ const styles = StyleSheet.create({
     borderColor: colors.primaryDeeper || colors.primaryDark,
   },
   pressed: {
-    opacity: 0.96,
-    transform: [{ scale: 0.98 }],
+    opacity: 0.92,
+    transform: [{ scale: 0.97 }],
   },
   text: {
     fontSize: typography.xsmall,
-    color: '#28466F',
+    color: colors.primaryDeeper,
     fontFamily: typography.fontHeadline,
     fontWeight: '600',
   },

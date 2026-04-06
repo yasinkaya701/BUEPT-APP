@@ -15,9 +15,10 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import { useAppState } from '../context/AppState';
 import { colors, spacing, typography, shadow } from '../theme/tokens';
-import { getWordEntry, getDictionarySample } from '../utils/dictionary';
+import { getWordEntry, getDictionarySample, sanitizeSynonymList, getWordFamily } from '../utils/dictionary';
 import { speakEnglish } from '../utils/ttsEnglish';
 import { lookupSynonymsForWord } from '../utils/synonymSuggest';
+import { subscribeSmokeActions } from '../dev/smokeBus';
 
 const CHIP_COLORS = {
     synonym: { bg: '#E8F5E9', text: '#1B5E20', border: '#A5D6A7' },
@@ -73,6 +74,7 @@ export default function SynonymFinderScreen({ navigation, route }) {
     const [savedWord, setSavedWord] = useState('');
     const [loading, setLoading] = useState(false);
     const { addUserWord } = useAppState();
+    const smokeDoneRef = useRef(false);
 
     useEffect(() => {
         (async () => {
@@ -100,14 +102,27 @@ export default function SynonymFinderScreen({ navigation, route }) {
             `In a BUEPT response, ${normWord} can strengthen the main argument when used clearly.`,
             `A useful study habit is writing one original sentence with ${normWord} after each lesson.`,
         ];
+        // Build derivatives from getWordFamily
+        const wordType = pick(online?.word_type, local?.word_type);
+        const family = getWordFamily(normWord, local);
+        const familyDerivatives = [
+            ...(family?.noun || []),
+            ...(family?.verb || []),
+            ...(family?.adjective || []),
+            ...(family?.adverb || []),
+        ].filter((w) => w && w !== normWord);
+        const providedDerivatives = uniq([...(online?.derivatives || []), ...(local?.derivatives || [])]);
+        const allDerivatives = uniq([...providedDerivatives, ...familyDerivatives]).slice(0, 12);
+        // Antonyms: merge online + local + curated (already in local via hydrateEntry)
+        const allAntonyms = uniq([...(online?.antonyms || []), ...(local?.antonyms || [])]).slice(0, 12);
         return {
             word: pick(online?.word, local?.word, normWord),
-            word_type: pick(online?.word_type, local?.word_type),
+            word_type: wordType,
             simple_definition: pick(online?.simple_definition, local?.simple_definition, 'No definition available.'),
-            synonyms: uniq([...(online?.synonyms || []), ...(local?.synonyms || [])]).slice(0, 15),
-            antonyms: uniq([...(online?.antonyms || []), ...(local?.antonyms || [])]).slice(0, 15),
+            synonyms: sanitizeSynonymList(normWord, wordType, uniq([...(online?.synonyms || []), ...(local?.synonyms || [])])).slice(0, 15),
+            antonyms: allAntonyms,
             collocations: uniq([...(online?.collocations || []), ...(local?.collocations || [])]).slice(0, 10),
-            derivatives: uniq([...(online?.derivatives || []), ...(local?.derivatives || [])]).slice(0, 10),
+            derivatives: allDerivatives,
             examples: examples.length ? examples : fallbackExamples,
             level: pick(online?.level, local?.level),
             common_errors: uniq([...(online?.common_errors || []), ...(local?.common_errors || [])]).slice(0, 6),
@@ -173,18 +188,18 @@ export default function SynonymFinderScreen({ navigation, route }) {
                     level: '' // API doesn't provide level
                 };
                 const merged = mergeEntry(onlineEntry, localFallback, word);
-                const extraSynonyms = lookupSynonymsForWord(word, 12);
+                const extraSynonyms = sanitizeSynonymList(word, onlineEntry.word_type, lookupSynonymsForWord(word, 12));
                 setEntrySource('Live API');
                 setEntry({
                     ...merged,
-                    synonyms: [...new Set([...(merged.synonyms || []), ...extraSynonyms])].slice(0, 15),
+                    synonyms: sanitizeSynonymList(word, merged.word_type, [...new Set([...(merged.synonyms || []), ...extraSynonyms])]).slice(0, 15),
                 });
                 setRelatedHints(fallbackHints);
             } else {
                 // 2. Fallback to local dictionary if not found
                 const merged = mergeEntry(null, localFallback, word);
-                const extraSynonyms = lookupSynonymsForWord(word, 12);
-                const synonyms = [...new Set([...(merged.synonyms || []), ...extraSynonyms])].slice(0, 15);
+                const extraSynonyms = sanitizeSynonymList(word, merged.word_type, lookupSynonymsForWord(word, 12));
+                const synonyms = sanitizeSynonymList(word, merged.word_type, [...new Set([...(merged.synonyms || []), ...extraSynonyms])]).slice(0, 15);
                 const hasSignal = Boolean(
                     (merged.simple_definition && merged.simple_definition !== 'No definition available.') ||
                     synonyms.length ||
@@ -198,8 +213,8 @@ export default function SynonymFinderScreen({ navigation, route }) {
         } catch (e) {
             // Fallback on network error
             const merged = mergeEntry(null, localFallback, word);
-            const extraSynonyms = lookupSynonymsForWord(word, 12);
-            const synonyms = [...new Set([...(merged.synonyms || []), ...extraSynonyms])].slice(0, 15);
+            const extraSynonyms = sanitizeSynonymList(word, merged.word_type, lookupSynonymsForWord(word, 12));
+            const synonyms = sanitizeSynonymList(word, merged.word_type, [...new Set([...(merged.synonyms || []), ...extraSynonyms])]).slice(0, 15);
             const hasSignal = Boolean(
                 (merged.simple_definition && merged.simple_definition !== 'No definition available.') ||
                 synonyms.length ||
@@ -240,6 +255,19 @@ export default function SynonymFinderScreen({ navigation, route }) {
             Animated.timing(fadeAnim, { toValue: 1, duration: 300, useNativeDriver: true }),
         ]).start();
     }, [query, fadeAnim]);
+
+    useEffect(() => {
+        if (!__DEV__) return undefined;
+        const unsubscribe = subscribeSmokeActions((action) => {
+            if (action?.target !== 'SynonymFinder') return;
+            if (smokeDoneRef.current) return;
+            if (action?.type !== 'search') return;
+            smokeDoneRef.current = true;
+            const word = action?.word || 'significant';
+            doSearch(word);
+        });
+        return unsubscribe;
+    }, [doSearch]);
 
     useEffect(() => {
         const initialWord = String(route?.params?.initialWord || '').trim();
@@ -415,6 +443,35 @@ export default function SynonymFinderScreen({ navigation, route }) {
                         {savedWord === entry.word ? (
                             <Text style={styles.savedText}>Saved. You can review it later in Vocab → My Words.</Text>
                         ) : null}
+                        {/* ── Quick quiz access ── */}
+                        <View style={[styles.actionRow, { marginTop: spacing.xs }]}>
+                            <Button
+                                label="📝 Word Quiz"
+                                variant="secondary"
+                                onPress={() => navigation.navigate('VocabQuiz', { size: 10 })}
+                                style={styles.actionBtn}
+                            />
+                            <Button
+                                label="🔀 Synonym Quiz"
+                                variant="secondary"
+                                onPress={() => navigation.navigate('VocabSynonymQuiz', { size: 10 })}
+                                style={styles.actionBtn}
+                            />
+                        </View>
+                        <View style={styles.actionRow}>
+                            <Button
+                                label="✏️ Cloze Quiz"
+                                variant="secondary"
+                                onPress={() => navigation.navigate('VocabClozeQuiz', { size: 10 })}
+                                style={styles.actionBtn}
+                            />
+                            <Button
+                                label="🔗 Collocation Quiz"
+                                variant="secondary"
+                                onPress={() => navigation.navigate('VocabCollocationQuiz', { size: 10 })}
+                                style={styles.actionBtn}
+                            />
+                        </View>
                     </Card>
 
                     {relatedHints.length > 0 && (
@@ -533,8 +590,8 @@ const styles = StyleSheet.create({
     sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.md },
     heroCard: {
         marginBottom: spacing.md,
-        backgroundColor: '#0F3F7F',
-        borderColor: '#0F3F7F',
+        backgroundColor: '#172554',
+        borderColor: '#172554',
     },
     heroHeader: {
         flexDirection: 'row',

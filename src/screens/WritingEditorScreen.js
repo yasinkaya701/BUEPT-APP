@@ -266,6 +266,7 @@ export default function WritingEditorScreen({ navigation, route }) {
   const [manualPrompt, setManualPrompt] = useState(route?.params?.prompt || null);
   const [manualPromptMeta, setManualPromptMeta] = useState(route?.params?.promptMeta || null);
   const draftText = route?.params?.draftText || null;
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (draftText) {
@@ -414,16 +415,27 @@ export default function WritingEditorScreen({ navigation, route }) {
   };
 
   const onSubmit = () => {
-    setEssayText(text);
-    generateReport({
-      text,
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    const draftMeta = {
       type: resolvedType,
       level,
       keywords: promptItem?.keywords || [],
       prompt: promptItem?.prompt || '',
       task: promptItem?.task || task || 'paragraph',
-    });
-    navigation.navigate('Feedback');
+    };
+    setEssayText(text);
+    navigation.navigate('Feedback', { draftMeta });
+    setTimeout(() => {
+      try {
+        generateReport({
+          text,
+          ...draftMeta,
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
+    }, 16);
   };
 
   const renderDraftView = () => (
@@ -475,7 +487,12 @@ export default function WritingEditorScreen({ navigation, route }) {
           <Text style={[styles.saved, savedAt ? styles.savedVisible : styles.savedHidden]}>
             {savedAt ? `Autosaved at ${savedAt.toLocaleTimeString()}` : 'Autosave ready'}
           </Text>
-          <Button label="Submit for Feedback" onPress={onSubmit} icon="checkmark-circle-outline" />
+          <Button
+            label={isSubmitting ? 'Preparing Feedback...' : 'Submit for Feedback'}
+            onPress={onSubmit}
+            icon="checkmark-circle-outline"
+            disabled={isSubmitting}
+          />
         </View>
       </Card>
 
@@ -558,8 +575,11 @@ export default function WritingEditorScreen({ navigation, route }) {
 
         <Card style={styles.card}>
           <Text style={styles.h3}>Auto Rubric</Text>
-          <Text style={styles.rubricTotal}>{writingRubricAuto.total}/{writingRubricAuto.max} • {writingRubricAuto.band}</Text>
+          <Text style={styles.rubricTotal}>
+            {writingRubricAuto.total}/{writingRubricAuto.max} • {writingRubricAuto.wascBand ? `${writingRubricAuto.wascBand.code} (${writingRubricAuto.wascBand.label})` : writingRubricAuto.band}
+          </Text>
           <Text style={styles.sub}>Readiness: {writingRubricAuto.readiness}% • {writingRubricAuto.feedbackSummary}</Text>
+          {writingRubricAuto.wascBand?.descriptor ? <Text style={styles.sub}>WASC criteria: {writingRubricAuto.wascBand.descriptor}</Text> : null}
           {writingRubricAuto.categories.map((item) => (
             <ScoreRow key={item.name} item={item} />
           ))}

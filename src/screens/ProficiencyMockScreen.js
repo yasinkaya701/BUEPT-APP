@@ -27,6 +27,25 @@ function normalizeQuestion(item = {}, idx = 0) {
     };
 }
 
+function buildMockMistakeItem(q, selectedIdx) {
+    const options = Array.isArray(q.options) ? q.options : [];
+    const correctIdx = Number.isFinite(q.correct) ? q.correct : null;
+    const selected = Number.isFinite(selectedIdx) ? selectedIdx : null;
+    const type = String(q.type || '').toLowerCase();
+    const module = type.includes('grammar') ? 'grammar' : type.includes('reading') ? 'reading' : type.includes('listening') ? 'listening' : 'vocab';
+    return {
+        module,
+        moduleLabel: `Proficiency Mock • ${q.type || 'Vocabulary'}`,
+        taskTitle: 'Proficiency Mock',
+        question: q.text || '',
+        options,
+        correctIndex: correctIdx,
+        selectedIndex: selected,
+        correctText: correctIdx != null ? options[correctIdx] : '',
+        selectedText: selected != null ? options[selected] : 'Skipped',
+    };
+}
+
 export default function ProficiencyMockScreen({ navigation }) {
     const [examState, setExamState] = useState('intro'); // intro, active, result
     const [currentQIndex, setCurrentQIndex] = useState(0);
@@ -226,6 +245,14 @@ export default function ProficiencyMockScreen({ navigation }) {
                                     <Text style={styles.reviewQText}>{q.text}</Text>
                                     {!isCorrect && <Text style={styles.yourAnsText}>You chose: {usrAns !== undefined ? q.options[usrAns] : 'Skipped'}</Text>}
                                     <Text style={styles.corrAnsText}>Correct: {q.options[q.correct]}</Text>
+                                    {!isCorrect && (
+                                        <Button
+                                            label="Open Mistake Coach"
+                                            variant="secondary"
+                                            onPress={() => navigation.navigate('MistakeCoach', { mistakes: [buildMockMistakeItem(q, usrAns)] })}
+                                            style={styles.reviewCoachBtn}
+                                        />
+                                    )}
                                 </Card>
                             )
                         })}
@@ -316,6 +343,7 @@ const styles = StyleSheet.create({
     reviewQText: { fontSize: 14, color: colors.text, lineHeight: 20, marginBottom: spacing.sm },
     yourAnsText: { fontSize: 13, color: colors.error, fontWeight: '700', marginBottom: 2 },
     corrAnsText: { fontSize: 13, color: colors.success, fontWeight: '800' },
+    reviewCoachBtn: { marginTop: spacing.xs, alignSelf: 'flex-start' },
 
     retryButton: { marginTop: spacing.xl },
     bottomSpacer: { height: 40 }

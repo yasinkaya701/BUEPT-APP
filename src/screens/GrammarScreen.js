@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
-import { Text, StyleSheet, View, TextInput, TouchableOpacity, useWindowDimensions } from 'react-native';
+import { Text, StyleSheet, View, TextInput, TouchableOpacity, useWindowDimensions, FlatList } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
@@ -38,11 +38,12 @@ function MetricTile({ value, label, accent = 'blue' }) {
 function FilterChip({ label, active, onPress, helper }) {
     return (
       <TouchableOpacity
-        accessibilityRole="button"
-        activeOpacity={0.88}
-        onPress={onPress}
-        style={[styles.filterChip, active && styles.filterChipActive]}
-      >
+      accessibilityRole="button"
+      activeOpacity={0.88}
+      onPress={onPress}
+      hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
+      style={[styles.filterChip, active && styles.filterChipActive]}
+    >
         <Text style={[styles.filterChipText, active && styles.filterChipTextActive]}>{label}</Text>
         {helper ? <Text style={[styles.filterChipHelper, active && styles.filterChipHelperActive]}>{helper}</Text> : null}
       </TouchableOpacity>
@@ -142,15 +143,18 @@ export default function GrammarScreen({ navigation, route }) {
     setQuery('');
   }, []);
 
-  const renderItem = ({ item }) => {
+  const startTask = filtered[0] || tasks[0] || null;
+
+  const renderItem = useCallback(({ item }) => {
     const questions = item.questions || [];
     const hasCloze = questions.some((q) => q.type === 'cloze');
     return (
-      <View style={styles.taskItemWrap}>
-        <TouchableOpacity 
+      <View style={[styles.taskItemWrap, isWide && styles.taskItemWrapWide]}>
+         <TouchableOpacity 
             accessibilityRole="button" 
             activeOpacity={0.9} 
             onPress={() => navigation.navigate('GrammarDetail', { taskId: item.id })} 
+            hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
             style={styles.taskRow}
         >
             <View style={styles.taskRowBody}>
@@ -178,19 +182,20 @@ export default function GrammarScreen({ navigation, route }) {
         </TouchableOpacity>
       </View>
     );
-  };
+  }, [isWide, navigation]);
 
-  const renderEmpty = () => (
+  const renderEmpty = useCallback(() => (
     <Card style={styles.card}>
       <Text style={styles.emptyTitle}>No tasks match current filters</Text>
       <Text style={styles.emptySub}>Try resetting level/scope filters or clear the search text.</Text>
       <Button label="Reset Filters" variant="secondary" onPress={resetFilters} />
     </Card>
-  );
+  ), [resetFilters]);
 
-  return (
-    <Screen scroll contentStyle={styles.container}>
-      <View style={styles.headerSpacer}>
+  const renderListHeader = useCallback(() => (
+    <View style={styles.headerSpacer}>
+      <Text style={styles.h1}>Grammar</Text>
+      <Text style={styles.sub}>Targeted grammar practice with filters and quick history access.</Text>
       <Card style={styles.heroCard} glow>
         <View style={styles.heroTopRow}>
             <View style={styles.heroIconWrap}>
@@ -199,11 +204,26 @@ export default function GrammarScreen({ navigation, route }) {
             <View style={styles.heroCopy}>
                 <Text style={styles.heroEyebrow}>Grammar Studio</Text>
                 <Text style={styles.heroTitle}>Master Use of English and advanced rules.</Text>
+                <Text style={styles.heroBody}>Use the filters to lock to a level or Use of English bank.</Text>
             </View>
             <View style={styles.heroCounter}>
                 <Text style={styles.heroCounterValue}>{tasks.length}</Text>
                 <Text style={styles.heroCounterLabel}>Modules</Text>
             </View>
+        </View>
+        <View style={styles.heroActionRow}>
+          <Button
+            label="Start Practice"
+            icon="play"
+            onPress={() => startTask && navigation.navigate('GrammarDetail', { taskId: startTask.id })}
+            disabled={!startTask}
+          />
+          <Button
+            label="Use of English"
+            icon="book-outline"
+            variant="secondary"
+            onPress={() => setScopeFilter('UOE')}
+          />
         </View>
       </Card>
 
@@ -253,7 +273,6 @@ export default function GrammarScreen({ navigation, route }) {
           <FilterChip label="Test-English" helper={scopeCounts.testEnglish} active={scopeFilter === 'TEST_ENGLISH'} onPress={() => setScopeFilter('TEST_ENGLISH')} />
         </View>
 
-        
         <View style={styles.actionRow}>
             {latestTask ? (
                 <Button label="Resume Last Test" icon="play-circle-outline" onPress={() => navigation.navigate('GrammarDetail', { taskId: latestTask.id })} style={styles.actionFlexBtn} />
@@ -278,19 +297,26 @@ export default function GrammarScreen({ navigation, route }) {
       <View style={styles.listHeaderRow}>
           <Text style={styles.listHeaderTitle}>{filtered.length} Grammar Modules Visible</Text>
       </View>
-      
-      {filtered.length === 0 ? renderEmpty() : (
-          <View style={[styles.listContent, isWide && styles.listContentWide]}>
-              <View style={isWide ? styles.columnWrapper : null}>
-                  {filtered.map(item => (
-                      <View key={item.id} style={[styles.itemWrap, isWide && styles.itemWrapWide]}>
-                          {renderItem({ item })}
-                      </View>
-                  ))}
-              </View>
-          </View>
-      )}
-      </View>
+    </View>
+  ), [navigation, startTask, stats, queryInput, levelFilter, scopeFilter, scopeCounts, weakTopics, filtered.length, latestTask]);
+
+  return (
+    <Screen scroll={false}>
+      <FlatList
+        style={{ flex: 1 }}
+        data={filtered}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        ListHeaderComponent={renderListHeader}
+        ListEmptyComponent={renderEmpty}
+        contentContainerStyle={styles.container}
+        numColumns={isWide ? 2 : 1}
+        key={isWide ? 'grid' : 'list'}
+        columnWrapperStyle={isWide ? styles.columnWrapper : null}
+        removeClippedSubviews={true}
+        keyboardShouldPersistTaps="handled"
+        windowSize={5}
+      />
     </Screen>
   );
 }
@@ -298,10 +324,21 @@ export default function GrammarScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl,
-    backgroundColor: '#F8FAFC',
   },
   headerSpacer: {
     paddingTop: spacing.md,
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.xs,
+  },
+  sub: {
+    fontSize: typography.body,
+    color: colors.muted,
+    marginBottom: spacing.md,
+    lineHeight: 20,
   },
   listContent: {
     paddingBottom: spacing.xxl + 84,
@@ -325,13 +362,13 @@ const styles = StyleSheet.create({
   
   // Hero Widget Style
   heroCard: {
-    backgroundColor: '#0F3F7F', 
-    borderColor: '#0F3F7F',
+    backgroundColor: '#172554',
+    borderColor: '#172554',
     borderWidth: 1,
-    borderRadius: 16,
+    borderRadius: radius.xl,
     padding: spacing.xl,
     marginBottom: spacing.md,
-    ...shadow.md,
+    ...shadow.premium,
   },
   heroTopRow: {
     flexDirection: 'row',
@@ -364,6 +401,11 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginBottom: spacing.xs,
   },
+  heroBody: {
+    fontSize: typography.small,
+    color: '#DBEAFE',
+    lineHeight: 20,
+  },
   heroCounter: {
     minWidth: 90,
     paddingHorizontal: spacing.sm,
@@ -375,16 +417,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   heroCounterValue: {
-    fontSize: 28,
-    lineHeight: 32,
-    color: '#FFFFFF',
+    fontSize: 30,
+    lineHeight: 34,
+    color: '#F59E0B',
     fontFamily: typography.fontHeadline,
+    fontWeight: '900',
   },
   heroCounterLabel: {
     marginTop: 2,
     fontSize: typography.xsmall,
     color: '#BFDBFE',
     textTransform: 'uppercase',
+  },
+  heroActionRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
   },
 
   metricGrid: {
@@ -410,9 +458,9 @@ const styles = StyleSheet.create({
     right: 0,
     height: 4,
   },
-  metricAccentBlue: { backgroundColor: '#3B82F6' },
-  metricAccentTeal: { backgroundColor: '#14B8A6' },
-  metricAccentAmber: { backgroundColor: '#F59E0B' },
+  metricAccentBlue: { backgroundColor: '#1D4ED8' },
+  metricAccentTeal: { backgroundColor: '#0D9488' },
+  metricAccentAmber: { backgroundColor: '#D97706' },
   metricValue: {
     fontSize: 20,
     fontFamily: typography.fontHeadline,
@@ -475,6 +523,7 @@ const styles = StyleSheet.create({
       marginTop: 8,
   },
   filterChip: {
+    minHeight: 48,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: colors.surfaceAlt,
@@ -578,7 +627,7 @@ const styles = StyleSheet.create({
   },
   taskRow: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 16,
+    borderRadius: 18,
     borderWidth: 1,
     borderColor: '#E2E8F0',
     ...shadow.sm,
@@ -604,7 +653,7 @@ const styles = StyleSheet.create({
   taskRowOpen: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#3B82F6',
+    color: '#1D4ED8',
     backgroundColor: '#EFF6FF',
     paddingHorizontal: 8,
     paddingVertical: 4,

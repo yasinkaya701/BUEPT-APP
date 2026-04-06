@@ -90,6 +90,7 @@ function FilterChip({ label, helper, active, onPress }) {
       accessibilityRole="button"
       activeOpacity={0.88}
       onPress={onPress}
+      hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
       style={[styles.filterChip, active && styles.filterChipActive]}
     >
       <Text style={[styles.filterChipText, active && styles.filterChipTextActive]}>{label}</Text>
@@ -101,7 +102,13 @@ function FilterChip({ label, helper, active, onPress }) {
 function CompactPracticeRow({ task, badges, onPress }) {
   const focus = getListeningFocus(task);
   return (
-    <TouchableOpacity accessibilityRole="button" activeOpacity={0.9} onPress={onPress} style={styles.libraryRow}>
+    <TouchableOpacity 
+      accessibilityRole="button" 
+      activeOpacity={0.9} 
+      onPress={onPress} 
+      style={styles.libraryRow}
+      hitSlop={{ top: 15, bottom: 15, left: 10, right: 10 }}
+    >
       <View style={styles.libraryRowBody}>
         <View style={styles.libraryHeaderRow}>
           <Text style={styles.libraryTitle}>{task.title}</Text>
@@ -127,7 +134,13 @@ function CompactPracticeRow({ task, badges, onPress }) {
 
 function PodcastRow({ podcast, onPress }) {
   return (
-    <TouchableOpacity accessibilityRole="button" activeOpacity={0.9} onPress={onPress} style={styles.libraryRow}>
+    <TouchableOpacity 
+      accessibilityRole="button" 
+      activeOpacity={0.9} 
+      onPress={onPress} 
+      style={styles.libraryRow}
+      hitSlop={{ top: 15, bottom: 15, left: 10, right: 10 }}
+    >
       <View style={styles.libraryRowBody}>
         <View style={styles.libraryHeaderRow}>
           <Text style={styles.libraryTitle}>{podcast.title}</Text>
@@ -214,11 +227,12 @@ export default function ListeningScreen({ navigation }) {
 
   const searchableTasks = useMemo(() => {
     const lowerQuery = query.trim().toLowerCase();
-    return tasks.filter((task) => {
+    const list = tasks.filter((task) => {
       const levelOk = levelFilter === 'ALL' || task.level === levelFilter;
       const queryOk = !lowerQuery || `${task.title} ${task.level} ${task.type}`.toLowerCase().includes(lowerQuery);
       return levelOk && queryOk;
     });
+    return dedupeTasks(list);
   }, [levelFilter, query]);
 
   const filteredTasks = useMemo(
@@ -912,7 +926,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   filterChip: {
-    minHeight: 40,
+    minHeight: 48,
     borderRadius: radius.pill,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs + 2,

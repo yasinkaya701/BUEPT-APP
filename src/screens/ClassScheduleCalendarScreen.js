@@ -897,7 +897,7 @@ const styles = StyleSheet.create({
   },
   heroSub: {
     fontSize: typography.small,
-    color: '#1E3A8A',
+    color: '#172554',
     marginBottom: spacing.xs,
   },
   termText: {
@@ -947,7 +947,7 @@ const styles = StyleSheet.create({
   },
   dashboardLabel: {
     fontSize: typography.xsmall,
-    color: '#1E3A8A',
+    color: '#172554',
     textTransform: 'uppercase',
     marginBottom: 4,
   },
@@ -1030,7 +1030,7 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontHeadline,
   },
   filterPillTextActive: {
-    color: '#1E3A8A',
+    color: '#172554',
   },
   blockTitle: {
     fontSize: typography.h3,
@@ -1245,7 +1245,7 @@ const styles = StyleSheet.create({
   },
   agendaTitle: {
     fontSize: typography.small,
-    color: '#1E3A8A',
+    color: '#172554',
     fontFamily: typography.fontHeadline,
   },
   agendaMeta: {
@@ -1360,7 +1360,7 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontSize: typography.small,
-    color: '#1E3A8A',
+    color: '#172554',
     fontFamily: typography.fontHeadline,
   },
   eventSource: {
@@ -1414,7 +1414,7 @@ const styles = StyleSheet.create({
   },
   upcomingEventTitle: {
     fontSize: typography.small,
-    color: '#1E3A8A',
+    color: '#172554',
     fontFamily: typography.fontHeadline,
   },
   upcomingEventType: {

@@ -7,8 +7,11 @@ import { colors, spacing, typography } from '../theme/tokens';
 import { checkOnlineFeedback, summarizeMatches } from '../utils/onlineFeedback';
 import { buildYS9Report, countWords } from '../utils/ys9Mock';
 import { getWordEntry } from '../utils/dictionary';
+import { useAppState } from '../context/AppState';
 
 export default function OnlineFeedbackScreen({ route }) {
+  const { userProfile } = useAppState();
+  const studentName = userProfile?.name || '';
   const [text, setText] = useState('');
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState('');
@@ -47,7 +50,7 @@ export default function OnlineFeedbackScreen({ route }) {
       setOnlineSummary(summarizeMatches(ms));
       setMatches(ms);
       setOnlineSummary(summarizeMatches(ms));
-      setReport(buildYS9Report(text, 'general', 'P2'));
+      setReport(buildYS9Report(text, 'general', 'P2', { studentName }));
       const sorted = ms
         .filter((m) => typeof m.offset === 'number' && typeof m.length === 'number')
         .sort((a, b) => a.offset - b.offset);
@@ -79,7 +82,7 @@ export default function OnlineFeedbackScreen({ route }) {
       setStatus('error');
       setError(e.message || 'Online feedback failed.');
     }
-  }, [text]);
+  }, [text, studentName]);
   useEffect(() => {
     if (initialText && text && status === 'idle' && !autoRun) {
       setAutoRun(true);
@@ -174,6 +177,13 @@ export default function OnlineFeedbackScreen({ route }) {
           <Text style={styles.body}>{report.revised}</Text>
         </Card>
       )}
+
+      {report?.full_report ? (
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Full Writing Feedback Report</Text>
+          <Text style={styles.body}>{report.full_report}</Text>
+        </Card>
+      ) : null}
 
       {status === 'done' && onlineSummary && (
         <Card style={styles.card}>

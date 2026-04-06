@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         marginBottom: spacing.sm,
     },
     heroLabel: {
-        color: 'rgba(255,255,255,0.8)',
+        color: colors.textOnDarkMuted,
         fontSize: typography.small,
         textTransform: 'uppercase',
         letterSpacing: 1.2,
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
     },
     heroTitle: {
-        color: '#FFFFFF',
+        color: colors.textOnDark,
         fontSize: typography.h1,
         fontFamily: typography.fontHeadline,
         fontWeight: '800',
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
         paddingVertical: spacing.xs + 2,
     },
     priorityPillText: {
-        color: '#FFFFFF',
+        color: colors.textOnDark,
         fontSize: typography.xsmall,
         fontFamily: typography.fontHeadline,
         fontWeight: '700',
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     levelText: {
-        color: '#fff',
+        color: colors.textOnDark,
         fontFamily: typography.fontHeadline,
         fontWeight: '800',
         fontSize: 14,
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
         borderRadius: 3,
     },
     xpText: {
-        color: 'rgba(255,255,255,0.9)',
+        color: colors.textOnDark,
         fontSize: 10,
         fontFamily: typography.fontHeadline,
         fontWeight: '600',

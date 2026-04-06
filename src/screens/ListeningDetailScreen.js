@@ -41,6 +41,12 @@ const SIGNPOSTS = [
   'second',
   'finally',
 ];
+const LISTENING_VOCAB_STOPWORDS = new Set([
+  'the', 'and', 'that', 'with', 'from', 'this', 'have', 'were', 'when', 'what', 'which', 'while',
+  'where', 'would', 'there', 'their', 'about', 'into', 'after', 'before', 'between', 'because',
+  'through', 'under', 'among', 'during', 'being', 'over', 'could', 'should', 'might', 'must',
+  'speaker', 'question', 'option', 'correct', 'answer', 'audio', 'passage', 'listening',
+]);
 
 function buildListeningFeedback(task, answers = {}) {
   const qs = task?.questions || [];
@@ -104,6 +110,27 @@ function detectSignposts(text = '') {
   return SIGNPOSTS.filter((item) => lower.includes(item));
 }
 
+function parsePredictionKeywords(text = '') {
+  return Array.from(
+    new Set(
+      String(text || '')
+        .toLowerCase()
+        .split(/[,;\n]/)
+        .map((item) => item.trim())
+        .filter((item) => item.length >= 3)
+    )
+  ).slice(0, 8);
+}
+
+function extractListeningTokens(text = '') {
+  return String(text || '')
+    .toLowerCase()
+    .replace(/[^a-z'\s]/g, ' ')
+    .split(/\s+/)
+    .map((word) => word.trim())
+    .filter((word) => word.length >= 4 && !LISTENING_VOCAB_STOPWORDS.has(word));
+}
+
 function ModelBar({ label, value }) {
   return (
     <View style={styles.modelBarBlock}>
@@ -146,6 +173,15 @@ export default function ListeningDetailScreen({ route, navigation }) {
   const [dictationInput, setDictationInput] = useState('');
   const [dictationResult, setDictationResult] = useState(null);
   const [listeningModel, setListeningModel] = useState(null);
+  const [followTranscript, setFollowTranscript] = useState(true);
+  const [shadowingMode, setShadowingMode] = useState(false);
+  const [shadowingAuto, setShadowingAuto] = useState(false);
+  const [predictionDraft, setPredictionDraft] = useState({
+    gist: '',
+    keywords: '',
+    trap: '',
+  });
+  const [predictionLocked, setPredictionLocked] = useState(false);
   const listeningFeedback = useMemo(() => (checked ? buildListeningFeedback(task, answers) : null), [checked, task, answers]);
   const derivedKeywords = useMemo(() => deriveListeningKeywords(task), [task]);
   const keywordScore = useMemo(() => {
@@ -157,14 +193,58 @@ export default function ListeningDetailScreen({ route, navigation }) {
   }, [derivedKeywords, noteText]);
   const dictationTarget = useMemo(() => buildDictationTarget(sentences, dictationSeed), [sentences, dictationSeed]);
   const signposts = useMemo(() => detectSignposts(task?.transcript || ''), [task?.transcript]);
+  const predictedKeywordList = useMemo(
+    () => parsePredictionKeywords(predictionDraft.keywords),
+    [predictionDraft.keywords]
+  );
+  const predictionReady = useMemo(
+    () =>
+      predictionDraft.gist.trim().length >= 16 &&
+      predictedKeywordList.length >= 2 &&
+      predictionDraft.trap.trim().length >= 8,
+    [predictionDraft.gist, predictedKeywordList, predictionDraft.trap]
+  );
 
   const intervalRef = useRef(null);
   const sentenceIdxRef = useRef(0);
+  const shadowTimerRef = useRef(null);
+  const shadowingAutoRef = useRef(false);
+  const transcriptScrollRef = useRef(null);
+  const sentenceOffsetsRef = useRef({});
   const webviewRef = useRef(null);
   const [webviewPlaying, setWebviewPlaying] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const highlightAnim = useRef(new Animated.Value(0)).current;
-  const { addListeningResult } = useAppState();
+  const { addListeningResult, addUnknownWord } = useAppState();
+
+  const getExplanation = useCallback((q, selected) => {
+    if (q.explain) return q.explain;
+    if (selected !== q.answer) {
+      return `Your choice is not supported by the audio. The correct answer "${q.options[q.answer]}" is confirmed by the transcript.`;
+    }
+    return `Correct: "${q.options[q.answer]}". This is stated in the listening passage.`;
+  }, []);
+
+  const mistakeItems = useMemo(() => {
+    if (!checked || !task?.questions?.length) return [];
+    return task.questions.map((q, i) => {
+      const selected = answers[i];
+      if (selected === q.answer) return null;
+      return {
+        id: `${task.id || 'listening'}-${i}`,
+        module: 'listening',
+        moduleLabel: 'Listening',
+        taskTitle: task.title || 'Listening Practice',
+        question: q.q || 'Question',
+        options: q.options || [],
+        correctIndex: q.answer,
+        selectedIndex: Number.isFinite(selected) ? selected : null,
+        explanation: getExplanation(q, selected),
+        context: task.transcript || '',
+        skill: q.skill || 'comprehension',
+      };
+    }).filter(Boolean);
+  }, [checked, task, answers, getExplanation]);
 
   // Fade in on mount
   useEffect(() => {
@@ -175,6 +255,12 @@ export default function ListeningDetailScreen({ route, navigation }) {
   useEffect(() => () => {
     stopAll();
     clearInterval(intervalRef.current);
+    if (intervalRef._timeouts) {
+      intervalRef._timeouts.forEach(clearTimeout);
+      intervalRef._timeouts = [];
+    }
+    shadowingAutoRef.current = false;
+    if (shadowTimerRef.current) clearTimeout(shadowTimerRef.current);
   }, [stopAll]);
 
   // ── Sentence progress interval ────────────────────────────────────────────
@@ -213,6 +299,44 @@ export default function ListeningDetailScreen({ route, navigation }) {
     setActiveSentence(-1);
   }, []);
 
+  const stopShadowingAuto = useCallback(() => {
+    shadowingAutoRef.current = false;
+    setShadowingAuto(false);
+    if (shadowTimerRef.current) {
+      clearTimeout(shadowTimerRef.current);
+      shadowTimerRef.current = null;
+    }
+  }, []);
+
+  const playShadowSentence = useCallback((index) => {
+    const sentence = sentences[index] || '';
+    if (!sentence) return;
+    setShadowIndex(index);
+    setActiveSentence(index);
+    speakWord(sentence);
+  }, [sentences, speakWord]);
+
+  const runShadowingSequence = useCallback((startIndex = 0) => {
+    if (!sentences.length) return;
+    stopAll();
+    clearProgress();
+    clearTimeout(shadowTimerRef.current);
+    shadowingAutoRef.current = true;
+    setShadowingAuto(true);
+    const run = (index) => {
+      if (!shadowingAutoRef.current) return;
+      if (index >= sentences.length) {
+        stopShadowingAuto();
+        setActiveSentence(-1);
+        return;
+      }
+      playShadowSentence(index);
+      const waitMs = msPerSentence(sentences[index], Math.max(0.3, rate)) + 1400;
+      shadowTimerRef.current = setTimeout(() => run(index + 1), waitMs);
+    };
+    run(Math.max(0, Math.min(sentences.length - 1, startIndex)));
+  }, [sentences, rate, stopAll, clearProgress, playShadowSentence, stopShadowingAuto]);
+
   // Listen for TTS finish
   useEffect(() => {
     const onFinish = () => clearProgress();
@@ -224,6 +348,30 @@ export default function ListeningDetailScreen({ route, navigation }) {
       if (subC) subC.remove();
     };
   }, [clearProgress]);
+
+  useEffect(() => {
+    if (!followTranscript || activeSentence < 0) return;
+    const y = sentenceOffsetsRef.current[activeSentence];
+    if (Number.isFinite(y)) {
+      transcriptScrollRef.current?.scrollTo({
+        y: Math.max(0, y - spacing.sm),
+        animated: true,
+      });
+    }
+  }, [activeSentence, followTranscript]);
+
+  useEffect(() => {
+    stopShadowingAuto();
+    setPredictionDraft({ gist: '', keywords: '', trap: '' });
+    setPredictionLocked(false);
+    setAnswers({});
+    setChecked(false);
+    setScore(null);
+  }, [task?.id, stopShadowingAuto]);
+
+  useEffect(() => {
+    if (!shadowingMode) stopShadowingAuto();
+  }, [shadowingMode, stopShadowingAuto]);
 
   // ── Play / Pause ──────────────────────────────────────────────────────────
   const handleWebviewMessage = (event) => {
@@ -239,18 +387,32 @@ export default function ListeningDetailScreen({ route, navigation }) {
     } else if (msg === 'ended') {
       setWebviewPlaying(false);
       setActiveSentence(-1);
+      stopShadowingAuto();
     }
   };
 
   const handlePlayPause = useCallback(async () => {
+    if (shadowingMode) {
+      if (shadowingAuto) {
+        stopShadowingAuto();
+        return;
+      }
+      setWebviewPlaying(false);
+      webviewRef.current?.injectJavaScript(`if(window.currentAudio){window.currentAudio.pause();}`);
+      runShadowingSequence(shadowIndex || 0);
+      return;
+    }
+
     if (webviewPlaying || isPlaying) {
       stopAll();
       clearProgress();
+      stopShadowingAuto();
       setWebviewPlaying(false);
       webviewRef.current?.injectJavaScript(`if(window.currentAudio){window.currentAudio.pause();}`);
       return;
     }
 
+    stopShadowingAuto();
     setWebviewPlaying(true);
     
     // Fallback logic: Native MP3 URL vs Google TTS chunks
@@ -297,17 +459,61 @@ export default function ListeningDetailScreen({ route, navigation }) {
       `;
       webviewRef.current?.injectJavaScript(script);
     }
-  }, [webviewPlaying, isPlaying, stopAll, clearProgress, sentences, rate, task.audioUrl, startSentenceProgress]);
+  }, [
+    shadowingMode,
+    shadowingAuto,
+    stopShadowingAuto,
+    runShadowingSequence,
+    shadowIndex,
+    webviewPlaying,
+    isPlaying,
+    stopAll,
+    clearProgress,
+    sentences,
+    rate,
+    task.audioUrl,
+    startSentenceProgress,
+  ]);
 
   // ── Answers / Score ───────────────────────────────────────────────────────
-  const select = (qi, oi) => { if (!checked) setAnswers(p => ({ ...p, [qi]: oi })); };
+  const select = (qi, oi) => {
+    if (!checked && predictionLocked) setAnswers(p => ({ ...p, [qi]: oi }));
+  };
 
   const check = () => {
     if (checked) return;
+    if (!predictionLocked) return;
     let correct = 0;
     task.questions?.forEach((q, i) => { if (answers[i] === q.answer) correct++; });
     setScore(`${correct} / ${task.questions?.length}`);
     addListeningResult({ taskId: task.id, score: correct, total: task.questions?.length });
+
+    const listeningWordPool = [];
+    (task.questions || []).forEach((question, index) => {
+      if (answers[index] === question?.answer) return;
+      listeningWordPool.push(...extractListeningTokens(question?.q || ''));
+      const correctOption = Array.isArray(question?.options) ? question.options[question.answer] : '';
+      listeningWordPool.push(...extractListeningTokens(correctOption || ''));
+      listeningWordPool.push(...extractListeningTokens(question?.explain || ''));
+    });
+    const listeningWords = Array.from(
+      new Set([
+        ...listeningWordPool,
+        ...derivedKeywords,
+      ]
+        .map((word) => String(word || '').toLowerCase().trim())
+        .filter((word) => word.length >= 4))
+    ).slice(0, 18);
+    listeningWords.forEach((word) => {
+      addUnknownWord({
+        word,
+        source: 'listening',
+        sourceModule: 'listening',
+        sourceTaskId: task?.id || '',
+        sourceTitle: task?.title || '',
+      });
+    });
+
     setListeningModel(evaluateListeningModel({
       task,
       answers,
@@ -356,6 +562,18 @@ export default function ListeningDetailScreen({ route, navigation }) {
     setDictationResult(null);
   };
 
+  const lockPrediction = () => {
+    if (!predictionReady) return;
+    setPredictionLocked(true);
+  };
+
+  const editPrediction = () => {
+    setPredictionLocked(false);
+    setAnswers({});
+    setChecked(false);
+    setScore(null);
+  };
+
   // ── Render ────────────────────────────────────────────────────────────────
   const answeredCount = Object.keys(answers).length;
 
@@ -369,9 +587,38 @@ export default function ListeningDetailScreen({ route, navigation }) {
         <Card style={styles.playerCard}>
           {/* Play / Pause */}
           <TouchableOpacity style={styles.playBtn} onPress={handlePlayPause} activeOpacity={0.85}>
-            <Text style={styles.playIcon}>{webviewPlaying || isPlaying ? '⏸' : '▶'}</Text>
-            <Text style={styles.playLabel}>{webviewPlaying || isPlaying ? 'Pause' : 'Play Audio'}</Text>
+            <Text style={styles.playIcon}>
+              {shadowingMode ? (shadowingAuto ? '⏹' : '🎙') : webviewPlaying || isPlaying ? '⏸' : '▶'}
+            </Text>
+            <Text style={styles.playLabel}>
+              {shadowingMode
+                ? shadowingAuto ? 'Stop Shadowing' : 'Start Shadowing'
+                : webviewPlaying || isPlaying ? 'Pause' : 'Play Audio'}
+            </Text>
           </TouchableOpacity>
+
+          <View style={styles.modeSwitchRow}>
+            <TouchableOpacity
+              style={[styles.modeSwitch, !shadowingMode && styles.modeSwitchActive]}
+              onPress={() => setShadowingMode(false)}
+            >
+              <Text style={[styles.modeSwitchText, !shadowingMode && styles.modeSwitchTextActive]}>Audio Track</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.modeSwitch, shadowingMode && styles.modeSwitchActive]}
+              onPress={() => setShadowingMode(true)}
+            >
+              <Text style={[styles.modeSwitchText, shadowingMode && styles.modeSwitchTextActive]}>Shadowing Mode</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.modeSwitch, followTranscript && styles.modeSwitchActive]}
+              onPress={() => setFollowTranscript((value) => !value)}
+            >
+              <Text style={[styles.modeSwitchText, followTranscript && styles.modeSwitchTextActive]}>
+                Follow Transcript {followTranscript ? 'On' : 'Off'}
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           {/* Speed selector */}
           <Text style={styles.controlLabel}>Speed</Text>
@@ -420,34 +667,94 @@ export default function ListeningDetailScreen({ route, navigation }) {
             <Text style={styles.toggleIcon}>{showTranscript ? '▲' : '▼'}</Text>
           </TouchableOpacity>
 
-          {showTranscript && sentences.map((sentence, si) => {
-            const isActive = activeSentence === si;
-            return (
-              <View key={si} style={[styles.sentenceRow, isActive && styles.sentenceRowActive]}>
-                {/* Left bar */}
-                <Animated.View style={[
-                  styles.sentenceBar,
-                  isActive && styles.sentenceBarActive,
-                ]} />
-                <View style={styles.sentenceWords}>
-                  {sentence.split(' ').map((word, wi) => {
-                    const clean = word.replace(/[^A-Za-z'-]/g, '');
-                    return (
-                      <TouchableOpacity
-                        key={wi}
-                        onPress={() => clean && speakWord(clean)}
-                        activeOpacity={0.7}
-                      >
-                        <Text style={[styles.wordText, isActive && styles.wordTextActive]}>
-                          {word}{' '}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
+          {showTranscript ? (
+            <ScrollView
+              ref={transcriptScrollRef}
+              style={styles.transcriptScroll}
+              contentContainerStyle={styles.transcriptScrollContent}
+              showsVerticalScrollIndicator={false}
+            >
+              {sentences.map((sentence, si) => {
+                const isActive = activeSentence === si;
+                return (
+                  <View
+                    key={si}
+                    style={[styles.sentenceRow, isActive && styles.sentenceRowActive]}
+                    onLayout={(event) => {
+                      sentenceOffsetsRef.current[si] = event.nativeEvent.layout.y;
+                    }}
+                  >
+                    {/* Left bar */}
+                    <Animated.View style={[
+                      styles.sentenceBar,
+                      isActive && styles.sentenceBarActive,
+                    ]} />
+                    <View style={styles.sentenceWords}>
+                      {sentence.split(' ').map((word, wi) => {
+                        const clean = word.replace(/[^A-Za-z'-]/g, '');
+                        return (
+                          <TouchableOpacity
+                            key={wi}
+                            onPress={() => clean && speakWord(clean)}
+                            activeOpacity={0.7}
+                          >
+                            <Text style={[styles.wordText, isActive && styles.wordTextActive]}>
+                              {word}{' '}
+                            </Text>
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </View>
+                  </View>
+                );
+              })}
+            </ScrollView>
+          ) : null}
+        </Card>
+
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Prediction Step (Before Questions)</Text>
+          <Text style={styles.sub}>Predict main idea, expected keywords, and one common trap before solving.</Text>
+          {predictionLocked ? (
+            <View style={styles.predictionLockedBox}>
+              <Text style={styles.bodyLine}>Main idea: {predictionDraft.gist}</Text>
+              <Text style={styles.bodyLine}>Keywords: {predictedKeywordList.join(', ')}</Text>
+              <Text style={styles.bodyLine}>Trap to avoid: {predictionDraft.trap}</Text>
+              <View style={styles.row}>
+                <Button label="Edit Prediction" variant="secondary" onPress={editPrediction} />
               </View>
-            );
-          })}
+            </View>
+          ) : (
+            <>
+              <TextInput
+                style={styles.predictionInput}
+                value={predictionDraft.gist}
+                onChangeText={(value) => setPredictionDraft((prev) => ({ ...prev, gist: value }))}
+                placeholder="What do you think the passage is mainly about?"
+                placeholderTextColor={colors.muted}
+              />
+              <TextInput
+                style={styles.predictionInput}
+                value={predictionDraft.keywords}
+                onChangeText={(value) => setPredictionDraft((prev) => ({ ...prev, keywords: value }))}
+                placeholder="Predict at least 2 keywords (comma separated)"
+                placeholderTextColor={colors.muted}
+              />
+              <TextInput
+                style={styles.predictionInput}
+                value={predictionDraft.trap}
+                onChangeText={(value) => setPredictionDraft((prev) => ({ ...prev, trap: value }))}
+                placeholder="What trap answer should you avoid?"
+                placeholderTextColor={colors.muted}
+              />
+              <Text style={styles.sub}>
+                Suggested keywords: {derivedKeywords.slice(0, 6).join(', ') || 'No keyword hints'}
+              </Text>
+              <View style={styles.row}>
+                <Button label="Lock Prediction & Start Questions" onPress={lockPrediction} disabled={!predictionReady} />
+              </View>
+            </>
+          )}
         </Card>
 
         <OpenEndedPracticeCard
@@ -459,14 +766,31 @@ export default function ListeningDetailScreen({ route, navigation }) {
 
         <Card style={styles.card}>
           <Text style={styles.h3}>Shadowing Drill</Text>
-          <Text style={styles.sub}>Repeat sentence-by-sentence after audio.</Text>
+          <Text style={styles.sub}>Repeat sentence-by-sentence after audio. Auto mode follows current speed ({rate}x).</Text>
           <View style={styles.shadowBox}>
             <Text style={styles.sub}>Sentence {Math.min(shadowIndex + 1, sentences.length)}/{sentences.length}</Text>
             <Text style={styles.shadowSentence}>{sentences[shadowIndex] || 'No sentence found.'}</Text>
             <View style={styles.row}>
               <Button label="Prev" variant="secondary" onPress={() => setShadowIndex((i) => Math.max(0, i - 1))} disabled={shadowIndex <= 0} />
-              <Button label="Play" variant="secondary" onPress={() => speakWord(sentences[shadowIndex] || '')} />
+              <Button
+                label="Play"
+                variant="secondary"
+                onPress={() => {
+                  stopShadowingAuto();
+                  playShadowSentence(shadowIndex);
+                }}
+              />
               <Button label="Next" onPress={() => setShadowIndex((i) => Math.min(sentences.length - 1, i + 1))} disabled={shadowIndex >= sentences.length - 1} />
+            </View>
+            <View style={styles.row}>
+              <Button
+                label={shadowingAuto ? 'Stop Auto Shadowing' : 'Start Auto Shadowing'}
+                variant={shadowingAuto ? 'secondary' : 'primary'}
+                onPress={() => {
+                  if (shadowingAuto) stopShadowingAuto();
+                  else runShadowingSequence(shadowIndex);
+                }}
+              />
             </View>
           </View>
         </Card>
@@ -529,8 +853,15 @@ export default function ListeningDetailScreen({ route, navigation }) {
         <Card style={styles.card}>
           <Text style={styles.h3}>Questions</Text>
           <Text style={styles.sub}>Answered: {answeredCount}/{task.questions?.length}</Text>
+          {!predictionLocked ? (
+            <Text style={styles.incorrect}>Complete the Prediction Step first to unlock questions.</Text>
+          ) : null}
           <View style={styles.row}>
-            <Button label={checked ? '✓ Checked' : 'Check Answers'} onPress={check} disabled={checked || answeredCount === 0} />
+            <Button
+              label={checked ? '✓ Checked' : 'Check Answers'}
+              onPress={check}
+              disabled={checked || answeredCount === 0 || !predictionLocked}
+            />
             <Button label="Back" variant="secondary" onPress={() => navigation.goBack()} />
           </View>
           {score && <Text style={styles.score}>Score: {score}</Text>}
@@ -575,6 +906,22 @@ export default function ListeningDetailScreen({ route, navigation }) {
             {listeningFeedback.retryPlan.map((step) => (
               <Text key={step} style={styles.bodyLine}>• {step}</Text>
             ))}
+          </Card>
+        )}
+
+        {listeningFeedback && mistakeItems.length > 0 && (
+          <Card style={styles.card}>
+            <Text style={styles.h3}>Mistake Coach</Text>
+            <Text style={styles.sub}>Ask why your answer is wrong and get targeted fixes for this listening.</Text>
+            <Button
+              label={`Open Mistake Coach (${mistakeItems.length})`}
+              onPress={() => navigation.navigate('MistakeCoach', {
+                module: 'listening',
+                moduleLabel: 'Listening',
+                taskTitle: task.title || 'Listening Practice',
+                mistakes: mistakeItems,
+              })}
+            />
           </Card>
         )}
 
@@ -674,7 +1021,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
                   checked && answers[qi] === oi && oi !== q.answer && styles.optionWrong,
                 ]}
                 onPress={() => select(qi, oi)}
-                disabled={checked}
+                disabled={checked || !predictionLocked}
                 activeOpacity={0.8}
               >
                 <Text style={[
@@ -691,11 +1038,29 @@ export default function ListeningDetailScreen({ route, navigation }) {
                 </Text>
                 {q.explain && <Text style={styles.explain}>{q.explain}</Text>}
                 {answers[qi] !== q.answer && (
-                  <Button
-                    label={similarQuestions[qi] ? 'New Similar Question' : 'Try Similar'}
-                    variant="secondary"
-                    onPress={() => createSimilar(qi)}
-                  />
+                  <>
+                    <Button
+                      label="Open Mistake Coach"
+                      variant="secondary"
+                      onPress={() => {
+                        const item = mistakeItems.find((m) => m.id === `${task.id || 'listening'}-${qi}`);
+                        if (item) {
+                          navigation.navigate('MistakeCoach', {
+                            module: 'listening',
+                            moduleLabel: 'Listening',
+                            taskTitle: task.title || 'Listening Practice',
+                            mistakes: [item],
+                          });
+                        }
+                      }}
+                      style={styles.mistakeBtn}
+                    />
+                    <Button
+                      label={similarQuestions[qi] ? 'New Similar Question' : 'Try Similar'}
+                      variant="secondary"
+                      onPress={() => createSimilar(qi)}
+                    />
+                  </>
                 )}
               </>
             )}
@@ -778,6 +1143,32 @@ const styles = StyleSheet.create({
   },
   playIcon: { fontSize: 22, color: '#fff' },
   playLabel: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: '#fff' },
+  modeSwitchRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.xs,
+    marginBottom: spacing.md,
+  },
+  modeSwitch: {
+    borderWidth: 1,
+    borderColor: '#2A3D5F',
+    borderRadius: 999,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    backgroundColor: '#0F213D',
+  },
+  modeSwitchActive: {
+    backgroundColor: '#1E3A66',
+    borderColor: colors.primary,
+  },
+  modeSwitchText: {
+    fontSize: typography.xsmall,
+    color: '#A8C0FF',
+    fontFamily: typography.fontHeadline,
+  },
+  modeSwitchTextActive: {
+    color: '#FFFFFF',
+  },
 
   controlLabel: { fontSize: typography.small, color: '#A8C0FF', fontFamily: typography.fontHeadline, marginBottom: spacing.xs },
   rateRow: { flexDirection: 'row', gap: spacing.xs, marginBottom: spacing.md, flexWrap: 'wrap' },
@@ -801,6 +1192,12 @@ const styles = StyleSheet.create({
   // Transcript
   transcriptHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.sm },
   toggleIcon: { fontSize: typography.small, color: colors.primary },
+  transcriptScroll: {
+    maxHeight: 320,
+  },
+  transcriptScrollContent: {
+    paddingBottom: spacing.xs,
+  },
 
   sentenceRow: {
     flexDirection: 'row',
@@ -853,6 +1250,7 @@ const styles = StyleSheet.create({
 
   correct: { fontSize: typography.small, color: '#1F8B4C', marginTop: spacing.xs, fontFamily: typography.fontHeadline },
   incorrect: { fontSize: typography.small, color: '#B42318', marginTop: spacing.xs, fontFamily: typography.fontHeadline },
+  mistakeBtn: { marginBottom: spacing.xs, alignSelf: 'flex-start' },
   explain: { fontSize: typography.small, color: colors.muted, marginTop: spacing.xs, marginBottom: spacing.sm },
   score: { marginTop: spacing.sm, fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.primary },
   feedbackTitle: {
@@ -871,6 +1269,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.secondary,
     borderRadius: 10,
+    padding: spacing.sm,
+  },
+  predictionInput: {
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    borderRadius: 10,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    fontSize: typography.body,
+    color: colors.text,
+    marginBottom: spacing.sm,
+  },
+  predictionLockedBox: {
+    borderWidth: 1,
+    borderColor: '#CFE0FF',
+    borderRadius: 10,
+    backgroundColor: '#F6FAFF',
     padding: spacing.sm,
   },
   shadowSentence: {

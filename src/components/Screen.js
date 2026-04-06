@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated, ScrollView, StyleSheet, useWindowDimensions, View, Image } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Animated, Easing, ScrollView, StyleSheet, useWindowDimensions, View, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { spacing } from '../theme/tokens';
+import { useFocusEffect } from '@react-navigation/native';
+import { spacing, motion } from '../theme/tokens';
 
 const BG_IMAGE = require('../assets/images/boun_campus.png');
 
@@ -19,11 +20,29 @@ export default function Screen({
   const fade = useRef(new Animated.Value(animate ? 0 : 1)).current;
   const translate = useRef(new Animated.Value(animate ? 8 : 0)).current;
 
+  // Force a re-render every time this screen comes into focus.
+  // Fixes the react-native-screens bug where native stack dismissal
+  // leaves the underlying screen's pointerEvents permanently frozen.
+  const [, setFocusTick] = useState(0);
+  useFocusEffect(useCallback(() => {
+    setFocusTick(n => n + 1);
+  }, []));
+
   useEffect(() => {
     if (!animate) return;
     Animated.parallel([
-      Animated.timing(fade, { toValue: 1, duration: 220, useNativeDriver: true }),
-      Animated.timing(translate, { toValue: 0, duration: 220, useNativeDriver: true }),
+      Animated.timing(fade, {
+        toValue: 1,
+        duration: motion.normal,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: true
+      }),
+      Animated.timing(translate, {
+        toValue: 0,
+        duration: motion.normal,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: true
+      }),
     ]).start();
   }, [animate, fade, translate]);
 
@@ -45,10 +64,12 @@ export default function Screen({
 
   const scrollNode = scroll ? (
     <ScrollView
-      keyboardShouldPersistTaps="handled"
+      keyboardShouldPersistTaps="always"
+      keyboardDismissMode="on-drag"
       contentContainerStyle={[styles.scrollContent, contentStyle]}
       showsVerticalScrollIndicator={false}
       contentInsetAdjustmentBehavior="automatic"
+      scrollEventThrottle={16}
     >
       {contentNode}
     </ScrollView>
@@ -64,7 +85,7 @@ export default function Screen({
 
   return (
     <View style={styles.container} pointerEvents="box-none">
-      <Image source={BG_IMAGE} style={styles.bgImageFull} resizeMode="cover" />
+      <Image source={BG_IMAGE} style={styles.bgImageFull} resizeMode="cover" pointerEvents="none" />
       <View style={styles.overlay} pointerEvents="none" />
       <SafeAreaView style={[styles.safeClear, style]} pointerEvents="box-none">
         {scrollNode}

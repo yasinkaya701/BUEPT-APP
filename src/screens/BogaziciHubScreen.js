@@ -702,7 +702,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   checkRowActive: {
-    borderColor: '#3B82F6',
+    borderColor: '#1D4ED8',
     backgroundColor: '#EFF6FF',
   },
   checkbox: {
@@ -724,7 +724,7 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   checkTextActive: {
-    color: '#1E3A8A',
+    color: '#172554',
     fontFamily: typography.fontHeadline,
   },
   linkRow: {

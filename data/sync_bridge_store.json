@@ -1,0 +1,311 @@
+{
+  "version": 1,
+  "updatedAt": "2026-04-01T09:55:50.103Z",
+  "clients": {
+    "extension": {
+      "updatedAt": "2026-03-30T17:21:25.896Z",
+      "fields": [
+        "unknownWords"
+      ]
+    },
+    "app": {
+      "updatedAt": "2026-04-01T09:55:50.103Z",
+      "fields": [
+        "myWords",
+        "unknownWords",
+        "vocabStats",
+        "customDecks",
+        "weeklyProgress"
+      ]
+    },
+    "maintenance": {
+      "updatedAt": "2026-03-30T17:29:08.245Z",
+      "fields": [
+        "myWords",
+        "unknownWords",
+        "vocabStats",
+        "customDecks",
+        "weeklyProgress"
+      ]
+    },
+    "subtitle-hover-extension": {
+      "updatedAt": "2026-03-30T18:46:20.799Z",
+      "fields": [
+        "unknownWords",
+        "vocabStats"
+      ]
+    },
+    "subtle-hover-extension": {
+      "updatedAt": "2026-03-31T21:45:27.266Z",
+      "fields": [
+        "unknownWords",
+        "vocabStats"
+      ]
+    },
+    "cleanup": {
+      "updatedAt": "2026-03-30T18:53:36.227Z",
+      "fields": [
+        "unknownWords"
+      ]
+    }
+  },
+  "state": {
+    "myWords": {
+      "updatedAt": "2026-04-01T09:55:50.101Z",
+      "value": [
+        {
+          "word": "bacteria",
+          "word_type": "noun",
+          "simple_definition": "(microbiology) single-celled or noncellular spherical or spiral or rod-shaped organisms lacking chlorophyll that reproduce by fission.",
+          "synonyms": [
+            "bacterium"
+          ],
+          "antonyms": [],
+          "examples": [
+            "We studied \"bacteria\" in Bogazici - Molecular Biology and Genetics.",
+            "In exam answers, bacteria is often used to improve coherence between sentences.",
+            "Think of bacteria as \"(microbiology) single-celled or noncellular spherical or spiral or rod-shaped organisms lacking chlorophyll that reproduce by fission\", then use it to support the argument with evidence."
+          ],
+          "level": "B2",
+          "source": "academic",
+          "updatedAt": "2026-03-31T20:56:28.314Z"
+        },
+        {
+          "word": "bar",
+          "word_type": "general",
+          "simple_definition": "A long thin piece of something hard; a place serving drinks.",
+          "synonyms": [
+            "banish",
+            "barricade",
+            "barroom",
+            "block",
+            "block off",
+            "block up",
+            "blockade",
+            "browning automatic rifle"
+          ],
+          "antonyms": [
+            "unbar"
+          ],
+          "examples": [
+            "She lifted the bar with both hands.",
+            "They met at the hotel bar after the conference."
+          ],
+          "level": "A2",
+          "source": "wasc-glossary",
+          "updatedAt": "2026-03-31T20:56:28.314Z"
+        },
+        {
+          "word": "coherent",
+          "word_type": "noun",
+          "simple_definition": "(physics) of waves having a constant phase relation.",
+          "synonyms": [
+            "logical",
+            "tenacious",
+            "clear",
+            "rational",
+            "orderly",
+            "well-structured",
+            "seamless",
+            "ordered",
+            "adhesive",
+            "consistent"
+          ],
+          "antonyms": [
+            "incoherent"
+          ],
+          "examples": [
+            "We used \"coherent\" in Bogazici - Physics coursework.",
+            "Scholars have historically debated the precise utility of coherent in mitigating extraneous variables.",
+            "A coherent essay guides the reader smoothly."
+          ],
+          "level": "B2",
+          "source": "extension",
+          "updatedAt": "2026-03-30T16:58:00.000Z"
+        },
+        {
+          "word": "infer",
+          "word_type": "verb",
+          "simple_definition": "conclude from evidence.",
+          "synonyms": [
+            "deduce",
+            "deduct",
+            "derive",
+            "extrapolate",
+            "generalise",
+            "generalize",
+            "guess",
+            "understand"
+          ],
+          "antonyms": [],
+          "examples": [
+            "We inferred the cause from the pattern."
+          ],
+          "level": "B2",
+          "source": "app",
+          "updatedAt": "2026-03-30T18:05:45.512Z"
+        }
+      ]
+    },
+    "unknownWords": {
+      "updatedAt": "2026-04-01T09:55:50.101Z",
+      "value": [
+        {
+          "word": "subtlehovertest",
+          "word_type": "noun",
+          "simple_definition": "integration probe",
+          "synonyms": [
+            "probe"
+          ],
+          "antonyms": [],
+          "examples": [],
+          "level": "",
+          "source": "subtle-hover",
+          "updatedAt": "2026-03-30T18:53:17.184791Z"
+        },
+        {
+          "word": "very",
+          "word_type": "adverb",
+          "simple_definition": "in a high degree.",
+          "synonyms": [
+            "terrifically",
+            "awfully",
+            "terribly",
+            "devilishly",
+            "ilk",
+            "selfsame"
+          ],
+          "antonyms": [],
+          "examples": [
+            "very much so",
+            "those were his very words"
+          ],
+          "level": "A2",
+          "source": "subtle-hover",
+          "updatedAt": "2026-03-30T18:09:27.759Z"
+        },
+        {
+          "word": "mitigate",
+          "word_type": "verb",
+          "simple_definition": "to reduce the seriousness of something.",
+          "synonyms": [
+            "reduce",
+            "palliate",
+            "alleviate",
+            "extenuate",
+            "lessen"
+          ],
+          "antonyms": [],
+          "examples": [
+            "Scholars have historically debated the precise utility of mitigate in mitigating extraneous variables.",
+            "Short breaks can mitigate exam stress."
+          ],
+          "level": "C1",
+          "source": "subtle-hover",
+          "updatedAt": "2026-03-30T18:05:45.512Z"
+        },
+        {
+          "word": "viable",
+          "word_type": "adjective",
+          "simple_definition": "capable of being done with means at hand and circumstances as they are.",
+          "synonyms": [
+            "workable",
+            "executable",
+            "feasible",
+            "practicable"
+          ],
+          "antonyms": [],
+          "examples": [],
+          "level": "B2",
+          "source": "subtle-hover",
+          "updatedAt": "2026-03-30T18:05:45.512Z"
+        },
+        {
+          "word": "coherent",
+          "word_type": "noun",
+          "simple_definition": "logical and consistent",
+          "synonyms": [
+            "tenacious",
+            "clear",
+            "rational",
+            "orderly",
+            "well-structured",
+            "seamless",
+            "ordered",
+            "adhesive",
+            "consistent",
+            "logical"
+          ],
+          "antonyms": [
+            "incoherent"
+          ],
+          "examples": [
+            "We used \"coherent\" in Bogazici - Physics coursework.",
+            "Scholars have historically debated the precise utility of coherent in mitigating extraneous variables.",
+            "A coherent essay guides the reader smoothly."
+          ],
+          "level": "B2",
+          "source": "subtle-hover",
+          "updatedAt": "2026-03-30T17:20:00.000Z"
+        }
+      ]
+    },
+    "vocabStats": {
+      "updatedAt": "2026-04-01T09:55:50.101Z",
+      "value": {
+        "subtlehovertest": {
+          "known": 0,
+          "unknown": 1
+        },
+        "very": {
+          "known": 0,
+          "unknown": 1
+        },
+        "mitigate": {
+          "known": 0,
+          "unknown": 1
+        },
+        "viable": {
+          "known": 0,
+          "unknown": 1
+        },
+        "coherent": {
+          "known": 0,
+          "unknown": 1
+        },
+        "bar": {
+          "known": 0,
+          "unknown": 1
+        },
+        "animation": {
+          "known": 1,
+          "unknown": 0
+        },
+        "bacteria": {
+          "known": 0,
+          "unknown": 1
+        },
+        "corroborate": {
+          "known": 1,
+          "unknown": 0
+        }
+      }
+    },
+    "customDecks": {
+      "updatedAt": "2026-04-01T09:55:50.101Z",
+      "value": []
+    },
+    "weeklyProgress": {
+      "updatedAt": "2026-04-01T09:55:50.101Z",
+      "value": {
+        "version": 1,
+        "selectedWeek": 1,
+        "weekStats": {},
+        "mistakes": {
+          "collocations": {},
+          "prepositions": {}
+        }
+      }
+    }
+  }
+}

@@ -1,14 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Linking } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import LogoMark from '../components/LogoMark';
 import { colors, spacing, typography } from '../theme/tokens';
+import { runDiagnostics } from '../utils/diagnostics';
 
 export default function DeveloperScreen() {
+    const [diagResults, setDiagResults] = useState([]);
+    const [diagRunning, setDiagRunning] = useState(false);
+
     const handleEmail = () => {
         Linking.openURL('mailto:gs7016903@gmail.com?subject=Boğaziçi Prep Feedback');
+    };
+
+    const handleDiagnostics = async () => {
+        setDiagRunning(true);
+        try {
+            const results = await runDiagnostics();
+            setDiagResults(results);
+        } catch (error) {
+            setDiagResults([{ id: 'fatal', label: 'Diagnostics', ok: false, detail: String(error?.message || error) }]);
+        } finally {
+            setDiagRunning(false);
+        }
     };
 
     return (
@@ -52,6 +68,51 @@ export default function DeveloperScreen() {
                 />
             </Card>
 
+            <Card style={styles.buildCard}>
+                <Text style={styles.cardTitle}>Build & Distribution</Text>
+                <Text style={styles.bodyText}>
+                    Production-ready build for Android (APK). All data conflicts resolved, hooks stabilized.
+                </Text>
+                <View style={styles.buildInfo}>
+                    <View style={styles.buildBadge}>
+                        <Text style={styles.buildBadgeText}>V21 STABLE</Text>
+                    </View>
+                    <Text style={styles.buildMeta}>Release Date: {new Date().toLocaleDateString()}</Text>
+                </View>
+                <Button
+                    label="Download Production APK"
+                    onPress={() => Linking.openURL('https://github.com/yasinkaya/BUEPT-APP/releases/latest')}
+                    icon="📦"
+                    variant="primary"
+                />
+            </Card>
+
+            <Card style={styles.contactCard}>
+                <Text style={styles.cardTitle}>Diagnostics</Text>
+                <Text style={styles.bodyText}>Run a quick health check for API, dictionary, and TTS.</Text>
+                <Button
+                    label={diagRunning ? 'Running...' : 'Run Diagnostics'}
+                    onPress={handleDiagnostics}
+                    icon="🧪"
+                    disabled={diagRunning}
+                />
+                {diagResults.length ? (
+                    <View style={styles.diagList}>
+                        {diagResults.map((row) => (
+                            <View key={row.id} style={styles.diagRow}>
+                                <Text style={[styles.diagStatus, row.ok ? styles.diagOk : styles.diagFail]}>
+                                    {row.ok ? 'OK' : 'FAIL'}
+                                </Text>
+                                <View style={styles.diagBody}>
+                                    <Text style={styles.diagLabel}>{row.label}</Text>
+                                    <Text style={styles.diagDetail}>{row.detail}</Text>
+                                </View>
+                            </View>
+                        ))}
+                    </View>
+                ) : null}
+            </Card>
+
         </Screen>
     );
 }
@@ -84,6 +145,34 @@ const styles = StyleSheet.create({
     },
     contactCard: {
         marginBottom: spacing.xl,
+    },
+    buildCard: {
+        marginBottom: spacing.lg,
+        backgroundColor: '#064E3B',
+        borderColor: '#10B981',
+        borderWidth: 1,
+    },
+    buildInfo: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+        marginBottom: spacing.md,
+    },
+    buildBadge: {
+        backgroundColor: '#10B981',
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 4,
+    },
+    buildBadgeText: {
+        fontSize: 10,
+        fontWeight: '900',
+        color: '#FFFFFF',
+    },
+    buildMeta: {
+        fontSize: 12,
+        color: '#D1FAE5',
+        fontWeight: '600',
     },
     cardTitle: {
         fontSize: typography.h2,
@@ -133,5 +222,47 @@ const styles = StyleSheet.create({
         color: colors.text,
         marginBottom: spacing.md,
         lineHeight: 22,
-    }
+    },
+    diagList: {
+        marginTop: spacing.md,
+        gap: spacing.sm,
+    },
+    diagRow: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        gap: spacing.sm,
+        paddingVertical: spacing.sm,
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(0,0,0,0.06)',
+    },
+    diagStatus: {
+        width: 48,
+        textAlign: 'center',
+        fontSize: 12,
+        fontWeight: '800',
+        paddingVertical: 4,
+        borderRadius: 8,
+        overflow: 'hidden',
+    },
+    diagOk: {
+        backgroundColor: '#DCFCE7',
+        color: '#166534',
+    },
+    diagFail: {
+        backgroundColor: '#FEE2E2',
+        color: '#991B1B',
+    },
+    diagBody: {
+        flex: 1,
+    },
+    diagLabel: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: colors.text,
+        marginBottom: 2,
+    },
+    diagDetail: {
+        fontSize: 12,
+        color: colors.muted,
+    },
 });

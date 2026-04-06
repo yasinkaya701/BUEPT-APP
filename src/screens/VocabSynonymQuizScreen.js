@@ -14,7 +14,7 @@ import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import { colors, spacing, typography, shadow } from '../theme/tokens';
-import { getEntriesWithSynonyms, getDictionarySample } from '../utils/dictionary';
+import { getEntriesWithSynonyms, getDictionarySample, subscribeDictionaryBuild } from '../utils/dictionary';
 import { useAppState } from '../context/AppState';
 import { speakText } from '../hooks/useTts';
 import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
@@ -67,10 +67,33 @@ export default function VocabSynonymQuizScreen({ route, navigation }) {
     }
     return getEntriesWithSynonyms(400);
   }, [isTestEnglish, topic, level]);
+  const { addUnknownWord, recordKnown, recordUnknown, recordQuizError, unknownWords = [] } = useAppState();
+  const [dictionaryReady, setDictionaryReady] = useState(false);
+
+  useEffect(() => {
+    return subscribeDictionaryBuild(({ status }) => {
+      if (status === 'ready') setDictionaryReady(true);
+    });
+  }, []);
+
   const seededItems = useMemo(() => {
+    if (!isTestEnglish && !dictionaryReady) {
+      return [];
+    }
     const list = getPool();
-    return shuffle(list).slice(0, size);
-  }, [getPool, size]);
+    if (!unknownWords || unknownWords.length === 0) {
+      return shuffle(list).slice(0, size);
+    }
+    const unknownKeys = new Set(unknownWords.map(w => (w?.word || '').toLowerCase()));
+    const priority = [];
+    const rest = [];
+    list.forEach(item => {
+      if (unknownKeys.has((item?.word || '').toLowerCase())) priority.push(item);
+      else rest.push(item);
+    });
+    const combined = [...shuffle(priority), ...shuffle(rest)];
+    return combined.slice(0, size);
+  }, [getPool, size, unknownWords, dictionaryReady, isTestEnglish]);
   const [items, setItems] = useState(seededItems);
   const [started, setStarted] = useState(false);
   const [index, setIndex] = useState(0);
@@ -81,8 +104,8 @@ export default function VocabSynonymQuizScreen({ route, navigation }) {
   const [streak, setStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [missedWords, setMissedWords] = useState([]);
+  const [mistakeItems, setMistakeItems] = useState([]);
   const flipAnim = useRef(new Animated.Value(0)).current;
-  const { addUnknownWord, recordKnown, recordUnknown, recordQuizError } = useAppState();
 
   useEffect(() => {
     if (!started) {
@@ -119,13 +142,40 @@ export default function VocabSynonymQuizScreen({ route, navigation }) {
         if (!current?.word || prev.some((w) => w.word === current.word)) return prev;
         return [...prev, current];
       });
+      const selectedIdx = options.indexOf(selected);
+      const correctIdx = options.indexOf(correct);
+      const example = current?.examples?.[0];
+      const explanation = current?.simple_definition
+        ? `"${current.word}" means: ${current.simple_definition}. The closest synonym here is "${correct}".`
+        : `The best synonym for "${current.word}" in this context is "${correct}".`;
+      setMistakeItems((prev) => {
+        if (!current?.word || prev.some((m) => m.word === current.word)) return prev;
+        return [
+          ...prev,
+          {
+            id: `syn-${current.word}`,
+            word: current.word,
+            module: 'vocab',
+            moduleLabel: 'Vocabulary',
+            taskTitle: 'Synonym Match',
+            question: `Select the best synonym for "${current.word}".`,
+            options,
+            correctIndex: correctIdx >= 0 ? correctIdx : null,
+            selectedIndex: selectedIdx >= 0 ? selectedIdx : null,
+            correctText: correct,
+            selectedText: selected,
+            explanation,
+            context: example || '',
+          },
+        ];
+      });
     }
     // Flip animation
     Animated.timing(flipAnim, { toValue: 1, duration: 400, useNativeDriver: true }).start();
     setRevealed(true);
     // Speak correct synonym
     speakText(correct || '');
-  }, [revealed, selected, current, flipAnim, recordQuizError]);
+  }, [revealed, selected, current, options, flipAnim, recordQuizError]);
 
   const next = useCallback((knew) => {
     if (!revealed) { revealAnswer(); return; }
@@ -151,6 +201,7 @@ export default function VocabSynonymQuizScreen({ route, navigation }) {
     flipAnim.setValue(0);
     setIndex(0); setScore(0); setSelected(null);
     setRevealed(false); setFinished(false); setStreak(0); setBestStreak(0); setMissedWords([]);
+    setMistakeItems([]);
   };
 
   const retryMissed = () => {
@@ -159,6 +210,7 @@ export default function VocabSynonymQuizScreen({ route, navigation }) {
     flipAnim.setValue(0);
     setIndex(0); setScore(0); setSelected(null);
     setRevealed(false); setFinished(false); setStreak(0); setBestStreak(0); setMissedWords([]);
+    setMistakeItems([]);
   };
 
   // Card flip interpolations
@@ -166,6 +218,20 @@ export default function VocabSynonymQuizScreen({ route, navigation }) {
   const backRotate = flipAnim.interpolate({ inputRange: [0, 1], outputRange: ['180deg', '360deg'] });
   const frontOpacity = flipAnim.interpolate({ inputRange: [0, 0.5, 1], outputRange: [1, 0, 0] });
   const backOpacity = flipAnim.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0, 0, 1] });
+
+    if (!items || items.length === 0) {
+    return (
+      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, padding: 20, backgroundColor: '#F8FAFC' }}>
+        <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#0F172A', marginBottom: 10 }}>Engine Syncing...</Text>
+        <Text style={{ textAlign: 'center', color: '#64748B', marginBottom: 20, fontSize: 16 }}>
+          The dictionary is currently building in the background. Please wait a few seconds and try again.
+        </Text>
+        <TouchableOpacity onPress={() => navigation?.goBack()} style={{ padding: 15, backgroundColor: '#8B5CF6', borderRadius: 10 }}>
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   // ── Start screen ──────────────────────────────────────────────────────────
   if (!started) {
@@ -213,6 +279,18 @@ export default function VocabSynonymQuizScreen({ route, navigation }) {
         <View style={styles.actionRow}>
           <Button label="Try Again" onPress={restart} />
           {missedWords.length > 0 && <Button label={`Retry Missed (${missedWords.length})`} variant="secondary" onPress={retryMissed} />}
+          {mistakeItems.length > 0 && (
+            <Button
+              label={`Ask Mistake Coach (${mistakeItems.length})`}
+              variant="secondary"
+              onPress={() => navigation.navigate('MistakeCoach', {
+                module: 'vocab',
+                moduleLabel: 'Vocabulary',
+                taskTitle: 'Synonym Match',
+                mistakes: mistakeItems,
+              })}
+            />
+          )}
           <Button label="Change Size" variant="secondary" onPress={() => { restart(); setStarted(false); }} />
           <Button label="Back" variant="secondary" onPress={() => navigation?.goBack()} />
         </View>

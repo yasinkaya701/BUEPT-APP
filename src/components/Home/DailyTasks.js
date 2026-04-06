@@ -50,9 +50,9 @@ const styles = StyleSheet.create({
     },
     taskCard: {
         borderWidth: 1,
-        borderColor: colors.secondary,
+        borderColor: colors.border,
         borderRadius: radius.md,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.surface,
         paddingHorizontal: spacing.sm,
         paddingVertical: spacing.xs,
         marginBottom: spacing.xs,

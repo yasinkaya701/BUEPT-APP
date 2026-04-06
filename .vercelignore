@@ -1,0 +1,11 @@
+.git
+node_modules
+android
+ios
+vendor
+*.apk
+*.ipa
+*.aab
+*.log
+coverage
+__tests__

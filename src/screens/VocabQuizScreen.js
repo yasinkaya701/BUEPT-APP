@@ -4,7 +4,7 @@ import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import { colors, spacing, typography, shadow } from '../theme/tokens';
-import { getDictionarySample } from '../utils/dictionary';
+import { getDictionarySample, subscribeDictionaryBuild } from '../utils/dictionary';
 import { useAppState } from '../context/AppState';
 import { speakText } from '../hooks/useTts';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -27,6 +27,15 @@ export default function VocabQuizScreen({ navigation, route }) {
   const topic = String(route?.params?.topic || 'all').toLowerCase();
   const level = String(route?.params?.level || 'all').toUpperCase();
   const isTestEnglish = mode === 'test_english';
+  const { addUnknownWord, recordKnown, recordUnknown, recordQuizError, unknownWords = [] } = useAppState();
+  const [dictionaryReady, setDictionaryReady] = useState(false);
+
+  useEffect(() => {
+    return subscribeDictionaryBuild(({ status }) => {
+      if (status === 'ready') setDictionaryReady(true);
+    });
+  }, []);
+
 
   const resolvePool = useCallback(() => {
     if (isTestEnglish) {
@@ -45,10 +54,24 @@ export default function VocabQuizScreen({ navigation, route }) {
     return getDictionarySample(400).filter((w) => w.simple_definition);
   }, [isTestEnglish, topic, level]);
 
-  const seedItems = useMemo(
-    () => shuffle(resolvePool()).slice(0, size),
-    [resolvePool, size]
-  );
+  const seedItems = useMemo(() => {
+    if (!isTestEnglish && !dictionaryReady) {
+      return [];
+    }
+    const pool = resolvePool();
+    if (!unknownWords || unknownWords.length === 0) {
+      return shuffle(pool).slice(0, size);
+    }
+    const unknownKeys = new Set(unknownWords.map(w => (w?.word || '').toLowerCase()));
+    const priority = [];
+    const rest = [];
+    pool.forEach(item => {
+      if (unknownKeys.has((item?.word || '').toLowerCase())) priority.push(item);
+      else rest.push(item);
+    });
+    const combined = [...shuffle(priority), ...shuffle(rest)];
+    return combined.slice(0, size);
+  }, [resolvePool, size, unknownWords, dictionaryReady, isTestEnglish]);
   
   const [quizItems, setQuizItems] = useState(seedItems);
   const [index, setIndex] = useState(0);
@@ -59,6 +82,7 @@ export default function VocabQuizScreen({ navigation, route }) {
   const [streak, setStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [wrongWords, setWrongWords] = useState([]);
+  const [mistakeItems, setMistakeItems] = useState([]);
   
   // Bugfix: ensure quiz items populate if initial seed was delayed
   useEffect(() => {
@@ -67,7 +91,7 @@ export default function VocabQuizScreen({ navigation, route }) {
     }
   }, [seedItems, quizItems.length]);
   
-  const { addUnknownWord, recordKnown, recordUnknown, recordQuizError } = useAppState();
+  // Removed duplicate useAppState
   
   // Animations
   const progressAnim = useRef(new Animated.Value(0)).current;
@@ -150,6 +174,34 @@ export default function VocabQuizScreen({ navigation, route }) {
           if (prev.some((w) => w.word === current.word)) return prev;
           return [...prev, current];
         });
+        const optionWords = options.map((o) => o.word);
+        const selectedIdx = optionWords.findIndex((w) => w === selected);
+        const correctIdx = optionWords.findIndex((w) => w === current.word);
+        const example = current.examples?.[0];
+        const explanation = example
+          ? `In the sentence "${example}", "${current.word}" means: ${current.simple_definition}.`
+          : `The definition "${current.simple_definition}" matches "${current.word}".`;
+        setMistakeItems((prev) => {
+          if (prev.some((m) => m.word === current.word)) return prev;
+          return [
+            ...prev,
+            {
+              id: `vocab-${current.word}`,
+              word: current.word,
+              module: 'vocab',
+              moduleLabel: 'Vocabulary',
+              taskTitle: 'Meaning Match',
+              question: `Which word matches: "${current.simple_definition}"?`,
+              options: optionWords,
+              correctIndex: correctIdx >= 0 ? correctIdx : null,
+              selectedIndex: selectedIdx >= 0 ? selectedIdx : null,
+              correctText: current.word,
+              selectedText: selected,
+              explanation,
+              context: example || '',
+            },
+          ];
+        });
       }
       setRevealed(true);
       return;
@@ -185,6 +237,7 @@ export default function VocabQuizScreen({ navigation, route }) {
     setStreak(0);
     setBestStreak(0);
     setWrongWords([]);
+    setMistakeItems([]);
   };
 
   const retryWrong = () => {
@@ -198,6 +251,7 @@ export default function VocabQuizScreen({ navigation, route }) {
     setStreak(0);
     setBestStreak(0);
     setWrongWords([]);
+    setMistakeItems([]);
   };
 
   const renderOption = (o) => {
@@ -241,6 +295,20 @@ export default function VocabQuizScreen({ navigation, route }) {
       </TouchableOpacity>
     );
   };
+
+  if (!items || items.length === 0) {
+    return (
+      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, padding: 20, backgroundColor: '#F8FAFC' }}>
+        <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#0F172A', marginBottom: 10 }}>Engine Syncing...</Text>
+        <Text style={{ textAlign: 'center', color: '#64748B', marginBottom: 20, fontSize: 16 }}>
+          The dictionary is currently building in the background. Please wait a few seconds and try again.
+        </Text>
+        <TouchableOpacity onPress={() => navigation?.goBack()} style={{ padding: 15, backgroundColor: '#8B5CF6', borderRadius: 10 }}>
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.master}>
@@ -319,6 +387,19 @@ export default function VocabQuizScreen({ navigation, route }) {
                     <Text style={styles.missedDef} numberOfLines={1}>{w.simple_definition}</Text>
                   </View>
                 ))}
+              </View>
+            )}
+            {mistakeItems.length > 0 && (
+              <View style={styles.missedSection}>
+                <Button
+                  label={`Ask Mistake Coach (${mistakeItems.length})`}
+                  onPress={() => navigation.navigate('MistakeCoach', {
+                    module: 'vocab',
+                    moduleLabel: 'Vocabulary',
+                    taskTitle: 'Meaning Match',
+                    mistakes: mistakeItems,
+                  })}
+                />
               </View>
             )}
           </View>
@@ -462,7 +543,7 @@ const styles = StyleSheet.create({
   },
   optSelected: {
     backgroundColor: '#EFF6FF',
-    borderColor: '#3B82F6',
+    borderColor: '#1D4ED8',
   },
   optCorrect: {
     backgroundColor: '#ECFDF5',
@@ -511,7 +592,7 @@ const styles = StyleSheet.create({
   exampleText: {
     flex: 1,
     fontSize: 15,
-    color: '#1E3A8A',
+    color: '#172554',
     lineHeight: 22,
     fontStyle: 'italic',
   },

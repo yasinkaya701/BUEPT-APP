@@ -1,9 +1,81 @@
-import dict from '../../data/dictionary_subset.json';
-import overrides from '../../data/synonym_overrides.json';
-import academicWords from '../../data/academic_wordlist.json';
-import academicVerbs from '../../data/academic_verbs.json';
-import departmentVocab from '../../data/bogazici_department_vocab.json';
-import testEnglishVocab from '../../data/test_english_vocab_items.json';
+let dict = null;
+let overrides = null;
+let antonymOverrides = null;
+let antonymLookup = null;
+let academicWords = null;
+let academicVerbs = null;
+let departmentVocab = null;
+let testEnglishVocab = null;
+let wascVocabulary = null;
+let curatedWordData = null;
+
+function loadOverrides() {
+  if (!overrides) {
+    overrides = require('../../data/synonym_overrides.json');
+  }
+  return overrides;
+}
+
+function loadAcademicWords() {
+  if (!academicWords) {
+    academicWords = require('../../data/academic_wordlist.json');
+  }
+  return academicWords;
+}
+
+function loadAntonymOverrides() {
+  if (!antonymOverrides) {
+    antonymOverrides = require('../../data/antonym_overrides.json');
+  }
+  return antonymOverrides;
+}
+
+function loadAcademicVerbs() {
+  if (!academicVerbs) {
+    academicVerbs = require('../../data/academic_verbs.json');
+  }
+  return academicVerbs;
+}
+
+function loadDepartmentVocab() {
+  if (!departmentVocab) {
+    departmentVocab = require('../../data/bogazici_department_vocab.json');
+  }
+  return departmentVocab;
+}
+
+function loadTestEnglishVocab() {
+  if (!testEnglishVocab) {
+    testEnglishVocab = require('../../data/test_english_vocab_items.json');
+  }
+  return testEnglishVocab;
+}
+
+function loadWascVocabulary() {
+  if (!wascVocabulary) {
+    const payload = require('../../data/wasc_vocab_lists.json');
+    wascVocabulary = Array.isArray(payload?.lists) ? payload.lists : [];
+  }
+  return wascVocabulary;
+}
+
+function loadCuratedWordData() {
+  if (!curatedWordData) {
+    try {
+      curatedWordData = require('../../data/curated_word_data.json');
+    } catch (_) {
+      curatedWordData = {};
+    }
+  }
+  return curatedWordData || {};
+}
+
+function loadDictionaryCore() {
+  if (!dict) {
+    dict = require('../../data/dictionary_core.json');
+  }
+  return dict;
+}
 
 const STOP = new Set([
   'the', 'a', 'an', 'and', 'or', 'but', 'of', 'to', 'in', 'on', 'for', 'with', 'at', 'by', 'from', 'as', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
@@ -73,6 +145,98 @@ const PURPOSES = [
 ];
 
 const NEGATIVE_PREFIXES = ['un', 'in', 'im', 'ir', 'il', 'non', 'dis', 'mis', 'anti', 'de'];
+const NEGATIVE_ASSIMILATED_PREFIXES = new Set(['in', 'im', 'ir', 'il']);
+const LY_ADJECTIVE_EXCEPTIONS = new Set([
+  'friendly', 'unfriendly', 'likely', 'unlikely', 'lively', 'lovely', 'lonely', 'elderly',
+  'daily', 'weekly', 'monthly', 'yearly', 'early', 'silly', 'ugly', 'costly', 'holy', 'timely',
+]);
+const CURATED_SOURCES = new Set([
+  'wasc-glossary',
+  'test-english',
+  'department',
+  'academic-list',
+  'academic-verb',
+  'live',
+]);
+
+const IRREGULAR_VERB_FORMS = {
+  be: { v2: 'was/were', v3: 'been' },
+  become: { v2: 'became', v3: 'become' },
+  begin: { v2: 'began', v3: 'begun' },
+  break: { v2: 'broke', v3: 'broken' },
+  bring: { v2: 'brought', v3: 'brought' },
+  build: { v2: 'built', v3: 'built' },
+  buy: { v2: 'bought', v3: 'bought' },
+  catch: { v2: 'caught', v3: 'caught' },
+  choose: { v2: 'chose', v3: 'chosen' },
+  come: { v2: 'came', v3: 'come' },
+  cost: { v2: 'cost', v3: 'cost' },
+  cut: { v2: 'cut', v3: 'cut' },
+  do: { v2: 'did', v3: 'done' },
+  draw: { v2: 'drew', v3: 'drawn' },
+  drink: { v2: 'drank', v3: 'drunk' },
+  drive: { v2: 'drove', v3: 'driven' },
+  eat: { v2: 'ate', v3: 'eaten' },
+  fall: { v2: 'fell', v3: 'fallen' },
+  feel: { v2: 'felt', v3: 'felt' },
+  fight: { v2: 'fought', v3: 'fought' },
+  find: { v2: 'found', v3: 'found' },
+  fly: { v2: 'flew', v3: 'flown' },
+  forget: { v2: 'forgot', v3: 'forgotten' },
+  forgive: { v2: 'forgave', v3: 'forgiven' },
+  get: { v2: 'got', v3: 'got/gotten' },
+  give: { v2: 'gave', v3: 'given' },
+  go: { v2: 'went', v3: 'gone' },
+  grow: { v2: 'grew', v3: 'grown' },
+  have: { v2: 'had', v3: 'had' },
+  hear: { v2: 'heard', v3: 'heard' },
+  hold: { v2: 'held', v3: 'held' },
+  keep: { v2: 'kept', v3: 'kept' },
+  know: { v2: 'knew', v3: 'known' },
+  lead: { v2: 'led', v3: 'led' },
+  leave: { v2: 'left', v3: 'left' },
+  lend: { v2: 'lent', v3: 'lent' },
+  let: { v2: 'let', v3: 'let' },
+  lose: { v2: 'lost', v3: 'lost' },
+  make: { v2: 'made', v3: 'made' },
+  mean: { v2: 'meant', v3: 'meant' },
+  meet: { v2: 'met', v3: 'met' },
+  pay: { v2: 'paid', v3: 'paid' },
+  put: { v2: 'put', v3: 'put' },
+  read: { v2: 'read', v3: 'read' },
+  ride: { v2: 'rode', v3: 'ridden' },
+  ring: { v2: 'rang', v3: 'rung' },
+  rise: { v2: 'rose', v3: 'risen' },
+  run: { v2: 'ran', v3: 'run' },
+  say: { v2: 'said', v3: 'said' },
+  see: { v2: 'saw', v3: 'seen' },
+  sell: { v2: 'sold', v3: 'sold' },
+  send: { v2: 'sent', v3: 'sent' },
+  set: { v2: 'set', v3: 'set' },
+  shake: { v2: 'shook', v3: 'shaken' },
+  shine: { v2: 'shone', v3: 'shone' },
+  shoot: { v2: 'shot', v3: 'shot' },
+  show: { v2: 'showed', v3: 'shown' },
+  shut: { v2: 'shut', v3: 'shut' },
+  sing: { v2: 'sang', v3: 'sung' },
+  sit: { v2: 'sat', v3: 'sat' },
+  sleep: { v2: 'slept', v3: 'slept' },
+  speak: { v2: 'spoke', v3: 'spoken' },
+  spend: { v2: 'spent', v3: 'spent' },
+  stand: { v2: 'stood', v3: 'stood' },
+  steal: { v2: 'stole', v3: 'stolen' },
+  swim: { v2: 'swam', v3: 'swum' },
+  take: { v2: 'took', v3: 'taken' },
+  teach: { v2: 'taught', v3: 'taught' },
+  tell: { v2: 'told', v3: 'told' },
+  think: { v2: 'thought', v3: 'thought' },
+  throw: { v2: 'threw', v3: 'thrown' },
+  understand: { v2: 'understood', v3: 'understood' },
+  wake: { v2: 'woke', v3: 'woken' },
+  wear: { v2: 'wore', v3: 'worn' },
+  win: { v2: 'won', v3: 'won' },
+  write: { v2: 'wrote', v3: 'written' },
+};
 
 function asList(value) {
   if (Array.isArray(value)) return value;
@@ -87,6 +251,29 @@ function normalizeToken(value = '') {
     .replace(/_/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+function ensureAntonymLookup() {
+  if (antonymLookup) return antonymLookup;
+  const raw = loadAntonymOverrides();
+  const table = new Map();
+  if (!raw || typeof raw !== 'object') {
+    antonymLookup = table;
+    return antonymLookup;
+  }
+  Object.entries(raw).forEach(([word, values]) => {
+    const head = normalizeToken(word);
+    if (!head) return;
+    const list = asList(values).map((item) => normalizeToken(item)).filter(Boolean);
+    if (!table.has(head)) table.set(head, new Set());
+    list.forEach((item) => table.get(head).add(item));
+    list.forEach((item) => {
+      if (!table.has(item)) table.set(item, new Set());
+      table.get(item).add(head);
+    });
+  });
+  antonymLookup = table;
+  return antonymLookup;
 }
 
 function sentenceCase(text = '') {
@@ -142,7 +329,8 @@ function scoreLexicalTerm(term = '', headword = '') {
   if (!normalized.includes('-')) score += 0.5;
 
   // AWL Elevation
-  const isAWL = Array.isArray(academicWords) && academicWords.some(a => normalizeToken(a.word) === normalized);
+  const awl = loadAcademicWords();
+  const isAWL = Array.isArray(awl) && awl.some(a => normalizeToken(a.word) === normalized);
   if (isAWL) score += 15; // Massive priority for Academic Word List
 
   return score;
@@ -186,14 +374,27 @@ function normalizeFamilyPos(value = '') {
 function guessFamilyPos(word = '', wordType = '') {
   const w = normalizeToken(word);
   if (!w) return '';
-  // Suffixes have highest priority for correctness (prevents "differently" as verb)
-  if (/(ly)$/.test(w)) return 'adverb';
-  if (/(ous|ive|able|ible|ic|ical|less|ful|ent|ant|ary)$/.test(w)) return 'adjective';
-  if (/(tion|sion|ment|ness|ity|ism|ist|ance|ence|ship)$/.test(w)) return 'noun';
-  if (/(ize|ise|ify|ate|en)$/.test(w)) return 'verb';
-  
+
+  // 1. Trust the data source's word_type FIRST — it's the most reliable signal
   const fromType = normalizeFamilyPos(wordType);
   if (fromType) return fromType;
+
+  // 2. Also check if the word exists in the map and has a type
+  const mapEntry = map.get(w);
+  if (mapEntry) {
+    const mapType = normalizeFamilyPos(mapEntry.word_type);
+    if (mapType) return mapType;
+  }
+
+  // 3. Suffix heuristics as last resort (with minimum length guards)
+  if (w.length >= 5 && /ly$/.test(w) && !LY_ADJECTIVE_EXCEPTIONS.has(w)) return 'adverb';
+  if (w.length >= 6 && /(ously|ively|ably|ibly|fully|lessly)$/.test(w)) return 'adverb';
+  if (w.length >= 6 && /(ous|ive|able|ible|ical|less|ful)$/.test(w)) return 'adjective';
+  if (w.length >= 5 && /(ic|ent|ant|ary)$/.test(w)) return 'adjective';
+  if (w.length >= 6 && /(tion|sion|ment|ness|ance|ence|ship)$/.test(w)) return 'noun';
+  if (w.length >= 5 && /(ity|ism|ist)$/.test(w)) return 'noun';
+  if (w.length >= 5 && /(ize|ise|ify|ate)$/.test(w)) return 'verb';
+
   return 'noun';
 }
 
@@ -232,30 +433,53 @@ function familyRoot(word = '') {
   return w;
 }
 
-function stripNegativePrefix(word = '') {
+function splitNegativePrefix(word = '') {
   const w = normalizeToken(word).replace(/[^a-z]/g, '');
-  if (!w) return '';
+  if (!w) return null;
   for (const prefix of NEGATIVE_PREFIXES) {
     if (w.startsWith(prefix) && w.length - prefix.length >= 4) {
-      return w.slice(prefix.length);
+      return { prefix, stem: w.slice(prefix.length) };
     }
   }
-  return '';
+  return null;
 }
 
 function isNegativeFamilyWord(candidate = '', headword = '') {
   const cand = normalizeToken(candidate);
   const head = normalizeToken(headword);
   if (!cand || !head || cand === head) return false;
-  if (cand.endsWith('less') && commonPrefixLen(cand, head) >= 4) return true;
-  const stripped = stripNegativePrefix(cand);
-  if (!stripped) return false;
-  if (stripped === head) return true;
-  if (commonPrefixLen(stripped, head) >= minFamilyPrefix(head)) return true;
-  const strippedRoot = familyRoot(stripped);
+  if (!map.has(cand)) return false;
+
+  if (cand.endsWith('less') && head.endsWith('ful')) {
+    return cand.slice(0, -4) === head.slice(0, -3);
+  }
+  if (cand.endsWith('ful') && head.endsWith('less')) {
+    return cand.slice(0, -3) === head.slice(0, -4);
+  }
+
+  const split = splitNegativePrefix(cand);
+  if (!split) return false;
+  const { prefix, stem } = split;
+  if (!stem || stem.length < 3) return false;
+
+  const overrideHead = new Set(getAntonymOverrideList(head));
+  const overrideCand = new Set(getAntonymOverrideList(cand));
+  const trustedByOverride = overrideHead.has(cand) || overrideCand.has(head);
+  const directMatch = stem === head;
+  const stemEntryExists = map.has(stem);
+  const headPos = guessFamilyPos(head, map.get(head)?.word_type || '');
+  const candPos = guessFamilyPos(cand, map.get(cand)?.word_type || '');
+
+  if (headPos && candPos && headPos !== candPos) return false;
+  if (NEGATIVE_ASSIMILATED_PREFIXES.has(prefix) && headPos && headPos === 'verb') return false;
+  if (!directMatch && !trustedByOverride && !stemEntryExists) return false;
+  if (directMatch) return stemEntryExists || trustedByOverride;
+
+  const strippedRoot = familyRoot(stem);
   const headRoot = familyRoot(head);
-  if (strippedRoot && headRoot && strippedRoot === headRoot && strippedRoot.length >= 3) return true;
-  return false;
+  const strongRoot = strippedRoot && headRoot && strippedRoot === headRoot && strippedRoot.length >= 4;
+  const strongPrefix = commonPrefixLen(stem, head) >= (minFamilyPrefix(head) + 1);
+  return trustedByOverride || (strongRoot && strongPrefix);
 }
 
 function isFamilyRelated(headword = '', candidate = '') {
@@ -263,41 +487,17 @@ function isFamilyRelated(headword = '', candidate = '') {
   const cand = normalizeToken(candidate);
   if (!head || !cand) return false;
   if (head === cand) return true;
-  const prefix = commonPrefixLen(head, cand);
+  if (isNegativeFamilyWord(cand, head)) return true;
+  const sharedPrefix = commonPrefixLen(head, cand);
   const minPrefix = minFamilyPrefix(head);
-  const closeLength = Math.abs(head.length - cand.length) <= 7;
-  if (prefix >= minPrefix && closeLength) return true;
   const headStem = stemToken(head);
   const candStem = stemToken(cand);
   if (headStem && candStem && headStem === candStem) return true;
   const headRoot = familyRoot(head);
   const candRoot = familyRoot(cand);
-  if (headRoot && candRoot && headRoot === candRoot && headRoot.length >= 3) return true;
-  if (head.includes(cand) || cand.includes(head)) return true;
+  if (headRoot && candRoot && headRoot === candRoot && headRoot.length >= 4 && sharedPrefix >= (minPrefix + 1)) return true;
+  if (isMorphVariant(head, cand)) return true;
   return false;
-}
-
-function generateFamilyCandidates(word = '') {
-  const w = normalizeToken(word).replace(/[^a-z]/g, '');
-  if (!w || w.length < 3) return [];
-  const stems = new Set([w, familyRoot(w)]);
-  if (w.length > 4 && w.endsWith('e')) stems.add(w.slice(0, -1));
-  if (w.length > 4 && w.endsWith('y')) stems.add(w.slice(0, -1));
-  if (w.length > 5 && w.endsWith('ic')) stems.add(w.slice(0, -2));
-  const out = new Set();
-  const nounSuffixes = ['tion', 'sion', 'ion', 'ment', 'ness', 'ity', 'ance', 'ence', 'er', 'or', 'ism', 'ist'];
-  const verbSuffixes = ['ize', 'ise', 'ify', 'ate', 'en'];
-  const adjectiveSuffixes = ['al', 'ial', 'ic', 'ical', 'ive', 'ous', 'able', 'ible', 'ary', 'ant', 'ent', 'ful', 'less'];
-  const adverbSuffixes = ['ly'];
-  stems.forEach((stem) => {
-    if (!stem || stem.length < 3) return;
-    nounSuffixes.forEach((s) => out.add(`${stem}${s}`));
-    verbSuffixes.forEach((s) => out.add(`${stem}${s}`));
-    adjectiveSuffixes.forEach((s) => out.add(`${stem}${s}`));
-    adverbSuffixes.forEach((s) => out.add(`${stem}${s}`));
-    if (stem.endsWith('y') && stem.length > 3) out.add(`${stem.slice(0, -1)}ily`);
-  });
-  return Array.from(out).filter((item) => item && item !== w);
 }
 
 function rankFamilyWord(headword = '', candidate = '') {
@@ -360,6 +560,93 @@ function cleanTermList(
     .slice(0, limit);
 }
 
+function cleanSynonymsForEntry(entry = {}) {
+  const headword = normalizeToken(entry?.word);
+  if (!headword) return [];
+  const overrideList = getOverrideList(headword);
+  const overrideSet = new Set(overrideList);
+  const antonymBlockSet = new Set([
+    ...asList(entry?.antonyms).map((item) => normalizeToken(item)),
+    ...getAntonymOverrideList(headword),
+    ...generateMorphAntonymCandidates(headword),
+  ]);
+  const rawSynonyms = [...asList(entry?.synonyms), ...overrideList];
+  const headPos = guessFamilyPos(headword, entry?.word_type || '');
+  const posFiltered = rawSynonyms.filter((syn) => {
+    const synNorm = normalizeToken(syn);
+    if (!synNorm) return false;
+    if (BLOCKED_HEADWORDS.has(synNorm)) return false;
+    const synEntry = map.get(synNorm);
+    if (!synEntry && !overrideSet.has(synNorm)) return false;
+    const synPos = guessFamilyPos(synNorm, synEntry?.word_type || entry?.word_type || '');
+    if (headPos && synPos && headPos !== synPos) return false;
+    return true;
+  });
+  const source = posFiltered.length >= 2 ? posFiltered : rawSynonyms;
+  const safe = cleanTermList(source, 16, {
+    headword,
+    maxWords: 3,
+    dropMorphVariants: true,
+  });
+  const qualityFiltered = safe.filter((term) => {
+    const normalized = normalizeToken(term);
+    if (!normalized || normalized === headword) return false;
+    if (antonymBlockSet.has(normalized)) return false;
+    if (isNegativeFamilyWord(normalized, headword)) return false;
+    if (GENERIC_NOISE_TERMS.has(normalized)) return false;
+    if (isMorphVariant(headword, normalized)) return false;
+    if (overrideSet.has(normalized)) return true;
+    if (normalized.includes(' ')) return normalized.split(' ').length <= 2;
+    const hit = map.get(normalized);
+    if (!hit) return false;
+    const reciprocal = hasReciprocalSynonymLink(headword, normalized);
+    const curatedTrust = isCuratedLexicalEntry(entry) || isCuratedLexicalEntry(hit);
+    if (!reciprocal && !curatedTrust) return false;
+    const defOk = !!sanitizeDefinition(hit.simple_definition || hit.definition || '');
+    if (!defOk) return false;
+    const hitPos = guessFamilyPos(normalized, hit.word_type || '');
+    if (headPos && hitPos && headPos !== hitPos) return false;
+    return normalized.length >= 3 && normalized.length <= 18;
+  });
+  return qualityFiltered.slice(0, 12);
+}
+
+function cleanAntonymsForEntry(entry = {}) {
+  const headword = normalizeToken(entry?.word);
+  if (!headword) return [];
+  const provided = cleanTermList(asList(entry?.antonyms), 16, {
+    headword,
+    maxWords: 3,
+    dropMorphVariants: false,
+  });
+  const override = getAntonymOverrideList(headword);
+  const providedSet = new Set(provided);
+  const overrideSet = new Set(override);
+  const headPos = guessFamilyPos(headword, entry?.word_type || '');
+  const raw = [...provided, ...override];
+  const safe = cleanTermList(raw, 16, {
+    headword,
+    maxWords: 3,
+    dropMorphVariants: false,
+  });
+  const filtered = safe.filter((term) => {
+    const normalized = normalizeToken(term);
+    if (!normalized || normalized === headword) return false;
+    const hit = map.get(normalized);
+    if (!hit) return false;
+    const hitPos = guessFamilyPos(normalized, hit.word_type || '');
+    if (headPos && hitPos && headPos !== hitPos) return false;
+    const trustedByList = providedSet.has(normalized) || overrideSet.has(normalized);
+    const reciprocal = hasReciprocalAntonymLink(headword, normalized);
+    const negativePair = isNegativeFamilyWord(normalized, headword) || isNegativeFamilyWord(headword, normalized);
+    if (negativePair) return true;
+    if (!trustedByList) return reciprocal;
+    if (trustedByList && reciprocal) return true;
+    return isCuratedLexicalEntry(entry) && isCuratedLexicalEntry(hit);
+  });
+  return filtered.slice(0, 8);
+}
+
 function cleanSentenceList(values = [], limit = 8) {
   const out = [];
   const seen = new Set();
@@ -394,9 +681,95 @@ function rotateBySeed(list = [], seed = 1) {
 }
 
 function getOverrideList(word) {
-  if (!word || !overrides || typeof overrides !== 'object') return [];
-  if (!Object.prototype.hasOwnProperty.call(overrides, word)) return [];
-  return cleanTermList(overrides[word], 20, { headword: word, maxWords: 4, dropMorphVariants: true });
+  const overrideMap = loadOverrides();
+  if (!word || !overrideMap || typeof overrideMap !== 'object') return [];
+  if (!Object.prototype.hasOwnProperty.call(overrideMap, word)) return [];
+  return cleanTermList(overrideMap[word], 20, { headword: word, maxWords: 4, dropMorphVariants: true });
+}
+
+function getAntonymOverrideList(word) {
+  const key = normalizeToken(word);
+  if (!key) return [];
+  const table = ensureAntonymLookup();
+  const set = table.get(key);
+  if (!set || !set.size) return [];
+  return cleanTermList(Array.from(set), 16, {
+    headword: key,
+    maxWords: 3,
+    dropMorphVariants: false,
+  });
+}
+
+function isCuratedLexicalEntry(entry = {}) {
+  const source = normalizeToken(entry?.source || '').replace(/\s+/g, '-');
+  if (CURATED_SOURCES.has(source)) return true;
+  return Number(entry?.rank || 0) >= 90;
+}
+
+function hasReciprocalSynonymLink(headword = '', candidate = '') {
+  const head = normalizeToken(headword);
+  const cand = normalizeToken(candidate);
+  if (!head || !cand) return false;
+  const entry = map.get(cand);
+  if (!entry) return false;
+  const candidateSynonyms = cleanTermList(
+    [...asList(entry?.synonyms), ...getOverrideList(cand)],
+    24,
+    { headword: cand, maxWords: 3, dropMorphVariants: false }
+  );
+  return candidateSynonyms.includes(head);
+}
+
+function hasReciprocalAntonymLink(headword = '', candidate = '') {
+  const head = normalizeToken(headword);
+  const cand = normalizeToken(candidate);
+  if (!head || !cand) return false;
+  const entry = map.get(cand);
+  if (!entry) return false;
+  const candidateAntonyms = cleanTermList(
+    [...asList(entry?.antonyms), ...getAntonymOverrideList(cand)],
+    20,
+    { headword: cand, maxWords: 3, dropMorphVariants: false }
+  );
+  return candidateAntonyms.includes(head);
+}
+
+function generateMorphAntonymCandidates(headword = '') {
+  const head = normalizeToken(headword).replace(/[^a-z]/g, '');
+  if (!head || head.length < 3) return [];
+  const out = new Set();
+  const headPos = guessFamilyPos(head, map.get(head)?.word_type || '');
+  const split = splitNegativePrefix(head);
+  if (split?.stem && map.has(split.stem)) out.add(split.stem);
+
+  if ((headPos === 'adjective' || headPos === 'noun') && !split) {
+    out.add(`un${head}`);
+    out.add(`non${head}`);
+  }
+  if (!split) {
+    if (headPos === 'verb') out.add(`dis${head}`);
+    if (headPos === 'adjective' || headPos === 'noun') {
+      out.add(`in${head}`);
+      out.add(`im${head}`);
+      out.add(`ir${head}`);
+      out.add(`il${head}`);
+    }
+  }
+  if (head.endsWith('ful') && head.length > 4) out.add(`${head.slice(0, -3)}less`);
+  if (head.endsWith('less') && head.length > 5) out.add(`${head.slice(0, -4)}ful`);
+  if (head.endsWith('able') && head.length > 5) out.add(`${head.slice(0, -4)}unable`);
+  if (head.startsWith('un') && head.endsWith('able') && head.length > 7) out.add(head.slice(2));
+
+  return Array.from(out)
+    .map((item) => normalizeToken(item))
+    .filter(Boolean)
+    .filter((item) => item !== head)
+    .filter((item) => map.has(item))
+    .filter((item) => {
+      const itemPos = guessFamilyPos(item, map.get(item)?.word_type || '');
+      if (headPos && itemPos && headPos !== itemPos) return false;
+      return isNegativeFamilyWord(item, head) || isNegativeFamilyWord(head, item);
+    });
 }
 
 function buildCollocations(word, wordType) {
@@ -575,12 +948,30 @@ function createBaseEntry({
   const safeDefinition = sanitizeDefinition(definition);
   if (!safeDefinition) return null;
   const normalizedWordType = String(wordType || '').trim();
-  const safeSynonyms = cleanTermList([...asList(synonyms), ...getOverrideList(normalizedWord)], 20, {
+  const headPos = guessFamilyPos(normalizedWord, normalizedWordType);
+  const rawSynonyms = [...asList(synonyms), ...getOverrideList(normalizedWord)];
+  // Filter synonyms to only include words of the SAME part of speech
+  const posFilteredSynonyms = rawSynonyms.filter((syn) => {
+    const synNorm = normalizeToken(syn);
+    if (!synNorm) return false;
+    const synEntry = map.get(synNorm);
+    const synPos = guessFamilyPos(synNorm, synEntry?.word_type || '');
+    // Allow if same POS or if we can't determine POS
+    return synPos === headPos || synPos === 'noun' && headPos === 'noun';
+  });
+  // Fall back to unfiltered if filtering removes everything
+  const synonymSource = posFilteredSynonyms.length >= 2 ? posFilteredSynonyms : rawSynonyms;
+  const safeSynonyms = cleanTermList(synonymSource, 20, {
     headword: normalizedWord,
     maxWords: 4,
     dropMorphVariants: true,
   });
-  const safeAntonyms = cleanTermList(antonyms, 12, { headword: normalizedWord, maxWords: 3, dropMorphVariants: true });
+  const rawAntonyms = [
+    ...asList(antonyms),
+    ...getAntonymOverrideList(normalizedWord),
+    ...generateMorphAntonymCandidates(normalizedWord),
+  ];
+  const safeAntonyms = cleanTermList(rawAntonyms, 12, { headword: normalizedWord, maxWords: 3, dropMorphVariants: true });
   const safeCollocations = cleanTermList(collocations, 12, {
     headword: normalizedWord,
     maxWords: 4,
@@ -610,7 +1001,7 @@ function mergeEntries(a, b) {
   const bRank = Number(b.rank || 0);
   const primary = aRank >= bRank ? a : b;
   const secondary = primary === a ? b : a;
-  const mergedCollocations = cleanTermList([...(primary.collocations || []), ...(secondary.collocations || [])], 12, {
+  const mergedCollocations = cleanTermList([...asList(primary.collocations), ...asList(secondary.collocations)], 12, {
     headword: primary.word,
     maxWords: 4,
     requireHeadword: true,
@@ -620,12 +1011,17 @@ function mergeEntries(a, b) {
     simple_definition: primary.simple_definition || secondary.simple_definition,
     word_type: primary.word_type || secondary.word_type,
     level: primary.level || secondary.level,
-    synonyms: cleanTermList([...(primary.synonyms || []), ...(secondary.synonyms || [])], 20, {
+    synonyms: cleanTermList([...asList(primary.synonyms), ...asList(secondary.synonyms)], 20, {
       headword: primary.word,
       maxWords: 4,
       dropMorphVariants: true,
     }),
-    antonyms: cleanTermList([...(primary.antonyms || []), ...(secondary.antonyms || [])], 12, {
+    antonyms: cleanTermList([
+      ...asList(primary.antonyms),
+      ...asList(secondary.antonyms),
+      ...getAntonymOverrideList(primary.word),
+      ...generateMorphAntonymCandidates(primary.word),
+    ], 12, {
       headword: primary.word,
       maxWords: 3,
       dropMorphVariants: true,
@@ -633,26 +1029,28 @@ function mergeEntries(a, b) {
     collocations: mergedCollocations.length
       ? mergedCollocations
       : buildCollocations(primary.word, primary.word_type || secondary.word_type),
-    derivatives: cleanTermList([...(primary.derivatives || []), ...(secondary.derivatives || [])], 12, { headword: primary.word, maxWords: 3 }),
-    examples: cleanSentenceList([...(primary.examples || []), ...(secondary.examples || [])], 8),
+    derivatives: cleanTermList([...asList(primary.derivatives), ...asList(secondary.derivatives)], 12, { headword: primary.word, maxWords: 3 }),
+    examples: cleanSentenceList([...asList(primary.examples), ...asList(secondary.examples)], 8),
     rank: Math.max(aRank, bRank),
     source: primary.source,
   };
 }
 
 function upsertEntry(targetMap, entry) {
-  if (!entry || !entry.word) return;
+  if (!entry || !entry.word) return false;
   const prev = targetMap.get(entry.word);
   if (!prev) {
     targetMap.set(entry.word, entry);
-    return;
+    return true;
   }
   targetMap.set(entry.word, mergeEntries(prev, entry));
+  return false;
 }
 
 function fromDepartmentData() {
   const out = [];
-  const list = Array.isArray(departmentVocab) ? departmentVocab : [];
+  const raw = loadDepartmentVocab();
+  const list = Array.isArray(raw) ? raw : [];
   list.forEach((dept) => {
     const words = Array.isArray(dept?.words) ? dept.words : [];
     words.forEach((item) => {
@@ -673,7 +1071,8 @@ function fromDepartmentData() {
 
 function fromAcademicVerbs() {
   const out = [];
-  const list = Array.isArray(academicVerbs) ? academicVerbs : [];
+  const raw = loadAcademicVerbs();
+  const list = Array.isArray(raw) ? raw : [];
   list.forEach((item) => {
     const entry = createBaseEntry({
       word: item?.word,
@@ -691,7 +1090,8 @@ function fromAcademicVerbs() {
 
 function fromAcademicWordList() {
   const out = [];
-  const list = Array.isArray(academicWords) ? academicWords : [];
+  const raw = loadAcademicWords();
+  const list = Array.isArray(raw) ? raw : [];
   list.forEach((item) => {
     const entry = createBaseEntry({
       word: item?.word,
@@ -708,7 +1108,8 @@ function fromAcademicWordList() {
 
 function fromTestEnglishVocab() {
   const out = [];
-  const list = Array.isArray(testEnglishVocab) ? testEnglishVocab : [];
+  const raw = loadTestEnglishVocab();
+  const list = Array.isArray(raw) ? raw : [];
   list.forEach((item) => {
     const entry = createBaseEntry({
       word: item?.word,
@@ -730,7 +1131,8 @@ function fromTestEnglishVocab() {
 
 function fromSubset() {
   const out = [];
-  const list = Array.isArray(dict) ? dict : [];
+  const raw = loadDictionaryCore();
+  const list = Array.isArray(raw) ? raw : [];
   list.forEach((item) => {
     const word = normalizeToken(item?.word);
     if (!isAllowedHeadword(word)) return;
@@ -754,29 +1156,254 @@ function fromSubset() {
   return out;
 }
 
-const map = new Map();
-[...fromDepartmentData(), ...fromAcademicVerbs(), ...fromAcademicWordList(), ...fromTestEnglishVocab(), ...fromSubset()].forEach((entry) => {
-  upsertEntry(map, entry);
-});
+let dictionaryBuilt = false;
+let dictionaryBuilding = false;
+let dictionaryBuildPromise = null;
+let buildProgress = 0;
+let buildStatus = 'idle';
+let buildError = null;
+const buildListeners = new Set();
+let map = new Map();
+let orderedEntries = [];
+let familyStemIndex = new Map();
+let familyIndexBuilt = false;
 
-const orderedEntries = Array.from(map.values())
-  .sort((a, b) => {
-    const rankDiff = Number(b.rank || 0) - Number(a.rank || 0);
-    if (rankDiff !== 0) return rankDiff;
-    return String(a.word).localeCompare(String(b.word));
+function notifyBuild() {
+  const payload = { status: buildStatus, progress: buildProgress, error: buildError };
+  buildListeners.forEach((fn) => {
+    try {
+      fn(payload);
+    } catch (_) {}
+  });
+}
+
+export function subscribeDictionaryBuild(listener) {
+  if (typeof listener !== 'function') return () => {};
+  buildListeners.add(listener);
+  listener({ status: buildStatus, progress: buildProgress, error: buildError });
+  return () => buildListeners.delete(listener);
+}
+
+function normalizeCoreEntry(item = {}) {
+  const word = normalizeToken(item?.word);
+  if (!word || !isAllowedHeadword(word)) return null;
+  const def = sanitizeDefinition(item?.simple_definition || item?.definition);
+  if (!def) return null;
+  return {
+    word,
+    simple_definition: def,
+    word_type: String(item?.word_type || item?.type || '').trim(),
+    level: normalizeLevel(item?.level || 'B2'),
+    synonyms: asList(item?.synonyms),
+    antonyms: asList(item?.antonyms),
+    collocations: asList(item?.collocations),
+    derivatives: asList(item?.derivatives),
+    examples: asList(item?.examples),
+    source: item?.source || 'core',
+    rank: Number(item?.rank || 0),
+  };
+}
+
+function seedFromAcademicItem(item = {}, fallbackLevel = 'B2', fallbackPos = '') {
+  const word = normalizeToken(item?.word);
+  if (!word || !isAllowedHeadword(word)) return null;
+  const def = sanitizeDefinition(item?.definition || item?.simple_definition);
+  if (!def) return null;
+  return {
+    word,
+    simple_definition: def,
+    word_type: String(fallbackPos || item?.word_type || item?.type || '').trim(),
+    level: normalizeLevel(item?.level || fallbackLevel),
+    synonyms: asList(item?.synonyms),
+    antonyms: asList(item?.antonyms),
+    collocations: asList(item?.collocations),
+    derivatives: asList(item?.derivatives),
+    examples: item?.example ? [item.example] : asList(item?.examples),
+    source: item?.source || 'academic',
+    rank: Number(item?.rank || 0),
+  };
+}
+
+function fastCoreBuild() {
+  const core = loadDictionaryCore();
+  map = new Map();
+  orderedEntries = [];
+  familyStemIndex = new Map();
+  familyIndexBuilt = false;
+  hydratedCache.clear();
+  familyCache.clear();
+
+  const items = Array.isArray(core) ? core : [];
+  items.forEach((item) => {
+    const entry = normalizeCoreEntry(item);
+    if (!entry) return;
+    if (!map.has(entry.word)) {
+      map.set(entry.word, entry);
+      orderedEntries.push(entry);
+    }
   });
 
-const familyPrefixIndex = new Map();
-orderedEntries.forEach((entry) => {
-  const w = normalizeToken(entry?.word).replace(/[^a-z]/g, '');
-  if (!w || w.length < 3) return;
-  const max = Math.min(6, w.length);
-  for (let len = 3; len <= max; len += 1) {
-    const key = w.slice(0, len);
-    if (!familyPrefixIndex.has(key)) familyPrefixIndex.set(key, new Set());
-    familyPrefixIndex.get(key).add(w);
+  const academic = loadAcademicWords();
+  const academicVerbList = loadAcademicVerbs();
+  const dept = loadDepartmentVocab();
+  const wascLists = loadWascVocabulary();
+
+  (Array.isArray(academic) ? academic : []).forEach((item) => {
+    if (!item?.word) return;
+    const entry = seedFromAcademicItem(item, item?.level || 'B2', item?.word_type || '');
+    if (!entry) return;
+    if (!map.has(entry.word)) {
+      map.set(entry.word, entry);
+      orderedEntries.push(entry);
+    }
+  });
+
+  (Array.isArray(academicVerbList) ? academicVerbList : []).forEach((item) => {
+    if (!item?.word) return;
+    const entry = seedFromAcademicItem(item, item?.level || 'B2', 'verb');
+    if (!entry) return;
+    if (!map.has(entry.word)) {
+      map.set(entry.word, entry);
+      orderedEntries.push(entry);
+    }
+  });
+
+  (Array.isArray(dept) ? dept : []).forEach((group) => {
+    const words = Array.isArray(group?.words) ? group.words : [];
+    words.forEach((item) => {
+      if (!item?.word) return;
+      const entry = seedFromAcademicItem(item, 'B2', 'noun');
+      if (!entry) return;
+      if (!map.has(entry.word)) {
+        map.set(entry.word, entry);
+        orderedEntries.push(entry);
+      }
+    });
+  });
+
+  (Array.isArray(wascLists) ? wascLists : []).forEach((group) => {
+    const fallbackLevel = normalizeLevel(group?.level || 'B1');
+    const words = Array.isArray(group?.entries) ? group.entries : [];
+    words.forEach((item) => {
+      if (!item?.word) return;
+      const entry = seedFromAcademicItem(
+        {
+          ...item,
+          source: 'wasc-glossary',
+          level: item?.level || fallbackLevel,
+          examples: item?.examples,
+        },
+        fallbackLevel,
+        item?.word_type || ''
+      );
+      if (!entry) return;
+      if (!map.has(entry.word)) {
+        map.set(entry.word, entry);
+        orderedEntries.push(entry);
+      }
+    });
+  });
+
+  // ── UPSERT test-english curated vocab (high-quality synonyms/collocations) ──
+  // This runs LAST so it can enrich/override existing entries with better data.
+  const testEnglishList = loadTestEnglishVocab();
+  (Array.isArray(testEnglishList) ? testEnglishList : []).forEach((item) => {
+    if (!item?.word) return;
+    const word = normalizeToken(item.word);
+    if (!word) return;
+    const newSynonyms = Array.isArray(item.synonyms) ? item.synonyms : [];
+    const newCollocations = Array.isArray(item.collocations) ? item.collocations : [];
+    const newExamples = Array.isArray(item.examples) ? item.examples : [];
+    const existing = map.get(word);
+    if (existing) {
+      // Enrich existing entry with curated synonyms and collocations
+      const mergedSynonyms = [...new Set([...newSynonyms, ...asList(existing.synonyms)])].slice(0, 20);
+      const mergedCollocations = [...new Set([...newCollocations, ...asList(existing.collocations)])].slice(0, 10);
+      const mergedExamples = [...new Set([...newExamples, ...asList(existing.examples)])].slice(0, 8);
+      map.set(word, {
+        ...existing,
+        synonyms: mergedSynonyms,
+        collocations: mergedCollocations,
+        examples: mergedExamples.length ? mergedExamples : existing.examples,
+        source: 'test-english', // upgrade source for quality scoring
+        rank: Math.max(Number(existing.rank || 0), 93),
+      });
+      // Invalidate cache for this word
+      hydratedCache.delete(word);
+    } else {
+      const entry = seedFromAcademicItem(
+        { ...item, source: 'test-english', rank: 93 },
+        item.level || 'B1',
+        item.word_type || ''
+      );
+      if (entry) {
+        map.set(entry.word, entry);
+        orderedEntries.push(entry);
+      }
+    }
+  });
+}
+
+export function startDictionaryBuild() {
+  if (dictionaryBuilt) {
+    buildStatus = 'ready';
+    buildProgress = 1;
+    notifyBuild();
+    return Promise.resolve(true);
   }
-});
+  if (dictionaryBuildPromise) return dictionaryBuildPromise;
+  dictionaryBuilding = true;
+  buildStatus = 'building';
+  buildProgress = 0;
+  buildError = null;
+  notifyBuild();
+
+  dictionaryBuildPromise = new Promise((resolve, reject) => {
+    try {
+      fastCoreBuild();
+      dictionaryBuilt = true;
+      dictionaryBuilding = false;
+      buildStatus = 'ready';
+      buildProgress = 1;
+      notifyBuild();
+      resolve(true);
+    } catch (err) {
+      dictionaryBuilding = false;
+      buildStatus = 'error';
+      buildError = err?.message || 'Dictionary build failed';
+      notifyBuild();
+      reject(err);
+    }
+  });
+
+  return dictionaryBuildPromise;
+}
+
+function ensureFamilyIndexReady() {
+  if (familyIndexBuilt || !dictionaryBuilt) return;
+  familyIndexBuilt = true;
+  familyStemIndex = new Map();
+  orderedEntries.forEach((entry) => {
+    const w = normalizeToken(entry?.word).replace(/[^a-z]/g, '');
+    if (!w || w.length < 3) return;
+    const stem = stemToken(w);
+    if (stem && stem.length >= 3) {
+      if (!familyStemIndex.has(stem)) familyStemIndex.set(stem, new Set());
+      familyStemIndex.get(stem).add(w);
+    }
+    const root = familyRoot(w);
+    if (root && root.length >= 3) {
+      if (!familyStemIndex.has(root)) familyStemIndex.set(root, new Set());
+      familyStemIndex.get(root).add(w);
+    }
+  });
+}
+
+function ensureDictionaryReady() {
+  if (dictionaryBuilt) return true;
+  startDictionaryBuild();
+  return false;
+}
 
 const hydratedCache = new Map();
 const familyCache = new Map();
@@ -788,20 +1415,15 @@ function buildFamilyFromEntry(entry = {}, fallback = null) {
 
   const extraDerivatives = asList(entry?.derivatives).concat(asList(fallback?.derivatives));
   const extraAntonyms = asList(entry?.antonyms).concat(asList(fallback?.antonyms));
-  const generated = generateFamilyCandidates(head);
 
   const candidates = new Set([head]);
   extraDerivatives.forEach((w) => candidates.add(normalizeToken(w)));
-  generated.forEach((w) => {
-    if (map.has(w)) candidates.add(w);
-  });
 
-  const prefixLens = [];
-  const minPrefix = minFamilyPrefix(head);
-  for (let len = minPrefix; len <= Math.min(6, head.length); len += 1) prefixLens.push(len);
-  prefixLens.forEach((len) => {
-    const key = head.slice(0, len);
-    const bucket = familyPrefixIndex.get(key);
+  const stem = stemToken(head);
+  const root = familyRoot(head);
+  [stem, root].forEach((key) => {
+    if (!key) return;
+    const bucket = familyStemIndex.get(key);
     if (!bucket) return;
     bucket.forEach((cand) => {
       if (isFamilyRelated(head, cand)) candidates.add(cand);
@@ -824,10 +1446,13 @@ function buildFamilyFromEntry(entry = {}, fallback = null) {
   const register = (rawWord, posHint = '') => {
     const w = normalizeToken(rawWord);
     if (!w || w.length < 3) return;
+    if (w !== head && !map.has(w)) return;
     if (!isFamilyRelated(head, w) && w !== head && !isNegativeFamilyWord(w, head)) return;
+    if (w !== head && commonPrefixLen(head, w) < minFamilyPrefix(head) && !isNegativeFamilyWord(w, head)) return;
     const hit = map.get(w);
     const pos = guessFamilyPos(w, posHint || hit?.word_type || '');
     const score = rankFamilyWord(head, w);
+    if (w !== head && score < 34 && !isNegativeFamilyWord(w, head)) return;
     const isNeg = isNegativeFamilyWord(w, head);
     if (pos && byPos[pos] && !isNeg) {
       const prev = byPos[pos].get(w) || -Infinity;
@@ -880,16 +1505,73 @@ function hydrateEntry(entry) {
   const finalExamples = isWeakExampleSet(rawExamples, key)
     ? cleanSentenceList([...rawExamples, ...generatedExamples], 8)
     : rawExamples;
+  const safeSynonyms = cleanSynonymsForEntry(entry);
+  const safeAntonyms = cleanAntonymsForEntry(entry);
+  const verbForms = getVerbForms(entry?.word, entry);
+
+  // ── Merge curated antonyms + word family data ──
+  const curated = loadCuratedWordData();
+  const curatedEntry = curated[key] || null;
+  const curatedAntonyms = curatedEntry?.antonyms || [];
+  const mergedAntonyms = [...new Set([...curatedAntonyms, ...safeAntonyms])].slice(0, 10);
+
+  // Build word family derivatives from curated data
+  const curatedFamily = curatedEntry?.word_family || null;
+  const curatedDerivatives = curatedFamily
+    ? [
+        ...(curatedFamily.noun || []),
+        ...(curatedFamily.verb || []),
+        ...(curatedFamily.adjective || []),
+        ...(curatedFamily.adverb || []),
+      ].filter((w) => w && w !== key)
+    : [];
+
   const hydrated = {
     ...entry,
     examples: finalExamples.length ? finalExamples : generatedExamples,
+    synonyms: safeSynonyms,
+    antonyms: mergedAntonyms,
+    verb_forms: verbForms,
     collocations: entry.collocations?.length ? entry.collocations : buildCollocations(entry.word, entry.word_type),
+    // Store curated word family for getWordFamily fallback
+    _curatedFamily: curatedFamily || null,
+    _curatedDerivatives: curatedDerivatives,
   };
   hydratedCache.set(key, hydrated);
   return hydrated;
 }
 
+export function buildFallbackEntry(word = '', definition = '', wordType = '') {
+  const cleanWord = normalizeToken(word);
+  if (!cleanWord) return null;
+  const safeDef = sanitizeDefinition(definition) || sentenceCase(definition || `Meaning of ${cleanWord}`);
+  const baseEntry = {
+    word: cleanWord,
+    word_type: String(wordType || '').trim(),
+    level: 'B2',
+    simple_definition: safeDef,
+    synonyms: [],
+    antonyms: [],
+    collocations: buildCollocations(cleanWord, wordType),
+    derivatives: [],
+    examples: [],
+    source: 'fallback',
+  };
+  const generatedExamples = buildWordSpecificExamples(baseEntry);
+  return {
+    ...baseEntry,
+    examples: generatedExamples,
+  };
+}
+
+export function sanitizeSynonymList(word = '', wordType = '', synonyms = []) {
+  return cleanSynonymsForEntry({ word, word_type: wordType, synonyms });
+}
+
 export function getWordEntry(word) {
+  if (!dictionaryBuilt && !dictionaryBuilding) {
+    startDictionaryBuild();
+  }
   const base = normalizeToken(word);
   if (!base) return null;
   const direct = map.get(base);
@@ -909,8 +1591,27 @@ export function getWordEntry(word) {
 }
 
 export function getWordFamily(word, fallbackEntry = null) {
+  if (!ensureDictionaryReady()) {
+    return { noun: [], verb: [], adjective: [], adverb: [], negative: [], all: [] };
+  }
+  ensureFamilyIndexReady();
   const baseWord = normalizeToken(word);
   if (!baseWord) return { noun: [], verb: [], adjective: [], adverb: [], negative: [], all: [] };
+
+  // ── Check curated word family FIRST (most accurate) ──
+  const curated = loadCuratedWordData();
+  const curatedEntry = curated[baseWord];
+  if (curatedEntry?.word_family) {
+    const cf = curatedEntry.word_family;
+    const noun = (cf.noun || []).filter(Boolean);
+    const verb = (cf.verb || []).filter(Boolean);
+    const adjective = (cf.adjective || []).filter(Boolean);
+    const adverb = (cf.adverb || []).filter(Boolean);
+    const negative = [];
+    const all = [...new Set([baseWord, ...noun, ...verb, ...adjective, ...adverb])];
+    return { noun, verb, adjective, adverb, negative, all };
+  }
+
   const fallbackTail = [
     ...asList(fallbackEntry?.derivatives),
     ...asList(fallbackEntry?.antonyms),
@@ -932,17 +1633,141 @@ export function getWordFamily(word, fallbackEntry = null) {
   const family = buildFamilyFromEntry(source, fallbackEntry);
   familyCache.set(cacheKey, family);
   return family;
+
+}
+
+function isLikelyVerb(word = '', wordType = '') {
+  const normalized = normalizeToken(word);
+  if (!normalized) return false;
+  const type = String(wordType || '').toLowerCase();
+  if (type.includes('verb')) return true;
+  const hit = map.get(normalized);
+  return String(hit?.word_type || '').toLowerCase().includes('verb');
+}
+
+function normalizeVerbBase(word = '') {
+  return normalizeToken(word).replace(/[^a-z]/g, '');
+}
+
+function endsWithConsonantY(word = '') {
+  return /[^aeiou]y$/.test(word);
+}
+
+function shouldDoubleFinalConsonant(word = '') {
+  if (!word || word.length < 3) return false;
+  const last = word[word.length - 1];
+  const mid = word[word.length - 2];
+  const prev = word[word.length - 3];
+  if ('wxy'.includes(last)) return false;
+  const isVowel = (ch) => 'aeiou'.includes(ch);
+  return !isVowel(last) && isVowel(mid) && !isVowel(prev) && word.length <= 6;
+}
+
+function buildRegularVerbForms(base = '') {
+  const word = normalizeVerbBase(base);
+  if (!word) return null;
+  let thirdPerson = `${word}s`;
+  if (endsWithConsonantY(word)) {
+    thirdPerson = `${word.slice(0, -1)}ies`;
+  } else if (/(s|sh|ch|x|z|o)$/.test(word)) {
+    thirdPerson = `${word}es`;
+  }
+
+  let ing = `${word}ing`;
+  if (/ie$/.test(word)) {
+    ing = `${word.slice(0, -2)}ying`;
+  } else if (/e$/.test(word) && !/(ee|ye|oe)$/.test(word)) {
+    ing = `${word.slice(0, -1)}ing`;
+  } else if (shouldDoubleFinalConsonant(word)) {
+    ing = `${word}${word[word.length - 1]}ing`;
+  }
+
+  let v2 = `${word}ed`;
+  if (/e$/.test(word)) {
+    v2 = `${word}d`;
+  } else if (endsWithConsonantY(word)) {
+    v2 = `${word.slice(0, -1)}ied`;
+  } else if (shouldDoubleFinalConsonant(word)) {
+    v2 = `${word}${word[word.length - 1]}ed`;
+  }
+
+  return {
+    base: word,
+    v2,
+    v3: v2,
+    ing,
+    thirdPerson,
+    isIrregular: false,
+  };
+}
+
+export function getVerbForms(word = '', fallbackEntry = null) {
+  const base = normalizeVerbBase(word);
+  if (!base) return null;
+  const entry = fallbackEntry || map.get(base) || null;
+  if (!isLikelyVerb(base, entry?.word_type || '')) return null;
+
+  const irregular = IRREGULAR_VERB_FORMS[base];
+  if (irregular) {
+    const regular = buildRegularVerbForms(base);
+    return {
+      base,
+      v2: irregular.v2,
+      v3: irregular.v3,
+      ing: regular?.ing || `${base}ing`,
+      thirdPerson: regular?.thirdPerson || `${base}s`,
+      isIrregular: true,
+    };
+  }
+
+  return buildRegularVerbForms(base);
 }
 
 export function getDictionarySample(limit = 50) {
+  if (!dictionaryBuilt && !dictionaryBuilding) {
+    startDictionaryBuild();
+  }
+  if (!orderedEntries.length) return [];
   return orderedEntries.slice(0, limit).map(hydrateEntry);
 }
 
+export function getDictionarySlice(limit = 50) {
+  if (!dictionaryBuilt && !dictionaryBuilding) {
+    startDictionaryBuild();
+  }
+  if (!orderedEntries.length) return [];
+  return orderedEntries.slice(0, limit);
+}
+
+export function searchDictionary({ query = '', level = 'All', limit = 2000, includeDefinitions = true, hydrate = false } = {}) {
+  if (!dictionaryBuilt && !dictionaryBuilding) {
+    startDictionaryBuild();
+  }
+  if (!orderedEntries.length) return [];
+  const q = normalizeToken(query);
+  const results = [];
+  for (const entry of orderedEntries) {
+    if (level !== 'All' && entry.level !== level) continue;
+    if (q) {
+      const w = String(entry.word || '').toLowerCase();
+      const d = String(entry.simple_definition || '').toLowerCase();
+      if (!w.includes(q) && (!includeDefinitions || !d.includes(q))) continue;
+    }
+    results.push(hydrate ? hydrateEntry(entry) : entry);
+    if (limit && results.length >= limit) break;
+  }
+  return results;
+}
+
 export function getDictionaryCount() {
+  if (!dictionaryBuilt && !dictionaryBuilding) {
+    startDictionaryBuild();
+  }
   return orderedEntries.length;
 }
 
 export function getEntriesWithExamples(limit = 200) {
+  if (!ensureDictionaryReady()) return [];
   const result = [];
   for (const entry of orderedEntries) {
     const hydrated = hydrateEntry(entry);
@@ -955,6 +1780,7 @@ export function getEntriesWithExamples(limit = 200) {
 }
 
 export function getEntriesWithSynonyms(limit = 200) {
+  if (!ensureDictionaryReady()) return [];
   const result = [];
   for (const entry of orderedEntries) {
     const hydrated = hydrateEntry(entry);

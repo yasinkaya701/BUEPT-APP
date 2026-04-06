@@ -13,7 +13,7 @@ import { detectBasicErrors } from '../utils/basicErrorDetect';
 import { scoreWritingRubric } from '../utils/rubricScoring';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
 
-const TABS = ['overview', 'rewrite', 'tools', 'deep review'];
+const TABS = ['overview', 'rewrite', 'tools', 'deep review', 'full report'];
 
 function formatLabel(value = '') {
   return String(value || '')
@@ -122,6 +122,107 @@ function buildRewriteRoute({ coverage = {}, grammarIssueCount = 0, fixes = [], t
   return route;
 }
 
+function mapReasonToRubric(reason = '') {
+  const lower = String(reason || '').toLowerCase();
+  const tags = [];
+  if (/(grammar|subject|verb|tense|article|agreement|pronoun|preposition)/.test(lower)) tags.push('Grammar');
+  if (/(word|vocab|lexical|synonym|collocation|register)/.test(lower)) tags.push('Vocabulary');
+  if (/(coherence|connector|transition|organization|flow|paragraph)/.test(lower)) tags.push('Organization');
+  if (/(task|thesis|example|support|argument|content|coverage)/.test(lower)) tags.push('Content');
+  if (/(mechanic|capital|punctuation|spelling)/.test(lower)) tags.push('Mechanics');
+  return uniqueStrings(tags);
+}
+
+function buildSentenceRevisionPlan({
+  sourceText = '',
+  sentenceUpgrades = [],
+  repetition = [],
+  weakWords = [],
+}) {
+  const repeatMap = new Map((repetition || []).map((item) => [String(item?.word || '').toLowerCase(), Number(item?.count || 0)]));
+  const weakMap = new Map((weakWords || []).map((item) => [String(item?.word || '').toLowerCase(), item?.synonyms || []]));
+
+  if (Array.isArray(sentenceUpgrades) && sentenceUpgrades.length) {
+    return sentenceUpgrades.slice(0, 8).map((item, index) => {
+      const reasons = Array.isArray(item?.reasons) ? item.reasons : [];
+      const focus = uniqueStrings(reasons.flatMap((reason) => mapReasonToRubric(reason)));
+      const sentenceLower = String(item?.sentence || '').toLowerCase();
+      const repeatedWord = Array.from(repeatMap.keys()).find((word) => sentenceLower.includes(word));
+      const synonyms = repeatedWord
+        ? uniqueStrings([
+          ...(weakMap.get(repeatedWord) || []),
+          ...lookupSynonymsForWord(repeatedWord, 6),
+        ]).slice(0, 6)
+        : [];
+      return {
+        id: `upgrade-${index}`,
+        sentence: item?.sentence || '',
+        revised: item?.revised || '',
+        reasons,
+        focus: focus.length ? focus : ['Content'],
+        repeatedWord,
+        synonyms,
+      };
+    });
+  }
+
+  return splitSentences(sourceText).slice(0, 6).map((sentence, index, list) => {
+    const words = sentence.toLowerCase().match(/[a-z']+/g) || [];
+    const repeatedWord = words.find((word) => repeatMap.has(word));
+    const focus = [];
+    if (words.length < 8) focus.push('Content');
+    if (words.length > 32) focus.push('Organization');
+    if (repeatedWord) focus.push('Vocabulary');
+    if (!/[.!?]$/.test(sentence)) focus.push('Mechanics');
+    if (index > 0 && !/\b(however|therefore|for example|in contrast|moreover|as a result)\b/i.test(sentence)) {
+      focus.push('Organization');
+    }
+    const synonyms = repeatedWord
+      ? uniqueStrings([
+        ...(weakMap.get(repeatedWord) || []),
+        ...lookupSynonymsForWord(repeatedWord, 6),
+      ]).slice(0, 6)
+      : [];
+    const revised = repeatedWord && synonyms[0]
+      ? sentence.replace(new RegExp(`\\b${repeatedWord}\\b`, 'i'), synonyms[0])
+      : sentence;
+    const reasons = [];
+    if (repeatedWord) reasons.push(`Reduce repetition of "${repeatedWord}".`);
+    if (words.length < 8) reasons.push('Develop the sentence with one reason or example.');
+    if (index > 0 && !/\b(however|therefore|for example|in contrast|moreover|as a result)\b/i.test(sentence)) {
+      reasons.push('Add a connector for smoother flow.');
+    }
+    if (!reasons.length && index === list.length - 1) reasons.push('End with a stronger academic closing phrase.');
+    if (!reasons.length) reasons.push('Tighten wording and keep academic tone consistent.');
+    return {
+      id: `fallback-${index}`,
+      sentence,
+      revised,
+      reasons,
+      focus: uniqueStrings(focus).length ? uniqueStrings(focus) : ['Content'],
+      repeatedWord,
+      synonyms,
+    };
+  });
+}
+
+function buildRepeatedWordSynonymPanel({ repetition = [], weakWords = [] }) {
+  const weakMap = new Map((weakWords || []).map((item) => [String(item?.word || '').toLowerCase(), item?.synonyms || []]));
+  return (repetition || []).slice(0, 10).map((item) => {
+    const word = String(item?.word || '').toLowerCase();
+    const autoSynonyms = uniqueStrings([
+      ...(Array.isArray(item?.synonyms) ? item.synonyms : []),
+      ...(weakMap.get(word) || []),
+      ...lookupSynonymsForWord(word, 8),
+    ]).slice(0, 8);
+    return {
+      word,
+      count: Number(item?.count || 0),
+      synonyms: autoSynonyms,
+    };
+  }).filter((item) => item.word);
+}
+
 function MetricTile({ label, value, tone = 'default' }) {
   return (
     <View style={[styles.metricTile, tone === 'accent' && styles.metricTileAccent]}>
@@ -146,7 +247,7 @@ function ScoreRow({ item }) {
   );
 }
 
-export default function FeedbackScreen({ navigation }) {
+export default function FeedbackScreen({ navigation, route }) {
   const { width } = useWindowDimensions();
   const isWide = width >= 1040;
   const {
@@ -157,6 +258,7 @@ export default function FeedbackScreen({ navigation }) {
     level,
     writingEngine,
     setWritingEngine,
+    aiReady,
   } = useAppState();
 
   const [autoGenerated, setAutoGenerated] = useState(false);
@@ -175,12 +277,28 @@ export default function FeedbackScreen({ navigation }) {
   const [synonymResults, setSynonymResults] = useState([]);
   const [grammarPluginEnabled, setGrammarPluginEnabled] = useState(true);
 
+  const draftMeta = route?.params?.draftMeta || null;
+  const reportText = String(report?.raw_text || report?.inline_feedback || '').trim();
+  const essaySnapshot = String(essayText || '').trim();
+  const shouldRegenerate = !report || (essaySnapshot && essaySnapshot !== reportText);
+
   useEffect(() => {
-    if (!report && essayText && !autoGenerated) {
-      generateReport({ text: essayText, type: 'general', level });
+    if (shouldRegenerate && essaySnapshot && !autoGenerated) {
+      generateReport({
+        text: essaySnapshot,
+        type: draftMeta?.type || 'general',
+        level: draftMeta?.level || level,
+        keywords: draftMeta?.keywords || [],
+        prompt: draftMeta?.prompt || '',
+        task: draftMeta?.task || 'paragraph',
+      });
       setAutoGenerated(true);
     }
-  }, [report, essayText, autoGenerated, generateReport, level]);
+  }, [shouldRegenerate, essaySnapshot, autoGenerated, generateReport, draftMeta, level]);
+
+  useEffect(() => {
+    setAutoGenerated(false);
+  }, [essaySnapshot]);
 
   const sourceText = essayText || report?.raw_text || report?.inline_feedback || '';
   const promptText = report?.prompt_text || '';
@@ -200,6 +318,8 @@ export default function FeedbackScreen({ navigation }) {
     () => scoreWritingRubric({ text: sourceText, prompt: promptText, targetWords: levelWordTarget }),
     [sourceText, promptText, levelWordTarget]
   );
+  const wascBand = compactRubric?.wascBand || null;
+  const wascBandDisplay = wascBand ? `${wascBand.code} (${wascBand.label})` : compactRubric.band;
   const promptCoverage = useMemo(
     () => buildPromptCoverage(sourceText, promptText, report?.keywords || []),
     [sourceText, promptText, report?.keywords]
@@ -213,11 +333,34 @@ export default function FeedbackScreen({ navigation }) {
     ...(report?.diagnostics || []),
   ]).slice(0, 6);
   const checklist = uniqueStrings([...(compactRubric.nextStepChecklist || []), ...(report?.next_steps || [])]).slice(0, 5);
-  const sentenceUpgrades = report?.sentence_corrections?.slice(0, 4) || [];
+  const sentenceUpgrades = useMemo(
+    () => report?.sentence_corrections?.slice(0, 4) || [],
+    [report?.sentence_corrections]
+  );
   const paragraphFeedback = report?.paragraph_feedback?.slice(0, 4) || [];
   const criticalErrors = report?.critical_errors?.slice(0, 6) || [];
-  const weakWords = report?.weak_words?.slice(0, 6) || [];
-  const repetition = report?.repetition || [];
+  const weakWords = useMemo(
+    () => report?.weak_words?.slice(0, 6) || [],
+    [report?.weak_words]
+  );
+  const repetition = useMemo(
+    () => report?.repetition || [],
+    [report?.repetition]
+  );
+  const sentenceRevisionPlan = useMemo(
+    () =>
+      buildSentenceRevisionPlan({
+        sourceText,
+        sentenceUpgrades,
+        repetition,
+        weakWords,
+      }),
+    [sourceText, sentenceUpgrades, repetition, weakWords]
+  );
+  const repeatedWordSynonymPanel = useMemo(
+    () => buildRepeatedWordSynonymPanel({ repetition, weakWords }),
+    [repetition, weakWords]
+  );
   const paraphraseBank = report?.paraphrase_bank || [];
   const advancedRewrite = report?.revised_advanced || '';
   const revisedVariants = report?.revised_variants || [];
@@ -363,6 +506,7 @@ export default function FeedbackScreen({ navigation }) {
       <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>
         <Card style={styles.card}>
           <Text style={styles.h3}>Rubric Breakdown</Text>
+          {wascBand?.descriptor ? <Text style={styles.sub}>WASC descriptor: {wascBand.descriptor}</Text> : null}
           {compactRubric.categories.map((item) => (
             <ScoreRow key={item.name} item={item} />
           ))}
@@ -455,11 +599,15 @@ export default function FeedbackScreen({ navigation }) {
           <Button
             label={revisionStatus === 'loading' ? 'Revising...' : 'Run AI Revision'}
             onPress={runWritingRevision}
-            disabled={revisionStatus === 'loading'}
+            disabled={revisionStatus === 'loading' || !aiReady}
             icon="sparkles-outline"
           />
         </View>
-        <Text style={styles.sub}>This calls the backend writing revision endpoint and returns a stricter BUEPT-oriented rewrite.</Text>
+        <Text style={styles.sub}>
+          {aiReady
+            ? 'This calls the backend writing revision endpoint and returns a stricter BUEPT-oriented rewrite.'
+            : 'AI revision is not available on this device. LanguageTool + local feedback remain active.'}
+        </Text>
         {revisionError ? <Text style={styles.body}>Error: {revisionError}</Text> : null}
         {revisionResult ? (
           <>
@@ -549,6 +697,37 @@ export default function FeedbackScreen({ navigation }) {
           ))}
         </Card>
       ) : null}
+
+      {sentenceRevisionPlan.length ? (
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Rubric-Linked Sentence Revision</Text>
+          <Text style={styles.sub}>Each sentence is mapped to rubric targets so you know exactly what to fix.</Text>
+          {sentenceRevisionPlan.map((item, index) => (
+            <View key={item.id} style={styles.revisionItem}>
+              <Text style={styles.sectionLabel}>Sentence {index + 1}</Text>
+              <Text style={styles.bodyBlock}>{item.sentence}</Text>
+              <View style={styles.signalRow}>
+                {item.focus.map((focus) => (
+                  <View key={`${item.id}-${focus}`} style={[styles.signalPill, styles.signalPillGood]}>
+                    <Text style={[styles.signalPillText, styles.signalPillTextGood]}>{focus}</Text>
+                  </View>
+                ))}
+              </View>
+              {item.reasons?.length ? item.reasons.map((reason) => (
+                <Text key={`${item.id}-${reason}`} style={styles.body}>• {reason}</Text>
+              )) : null}
+              <Text style={styles.bodyStrong}>Revision suggestion</Text>
+              <Text style={styles.bodyBlock}>{item.revised}</Text>
+              {item.repeatedWord && item.synonyms?.length ? (
+                <>
+                  <Text style={styles.bodyStrong}>Synonym options for "{item.repeatedWord}"</Text>
+                  <Text style={styles.body}>{item.synonyms.join(', ')}</Text>
+                </>
+              ) : null}
+            </View>
+          ))}
+        </Card>
+      ) : null}
     </>
   );
 
@@ -632,6 +811,21 @@ export default function FeedbackScreen({ navigation }) {
           <Text style={styles.body}>Repeated words: {repetition.length}</Text>
           <Text style={styles.body}>Weak replacements: {weakWords.length}</Text>
           <Text style={styles.body}>Paraphrase bank: {paraphraseBank.length}</Text>
+          {repeatedWordSynonymPanel.length ? (
+            <View style={styles.block}>
+              <Text style={styles.bodyStrong}>Auto Synonym Panel (Repeated Words)</Text>
+              {repeatedWordSynonymPanel.map((item) => (
+                <View key={`rep-${item.word}`} style={styles.repeatedRow}>
+                  <Text style={styles.bodyStrong}>{item.word} ×{item.count}</Text>
+                  <Text style={styles.body}>
+                    {item.synonyms.length ? item.synonyms.join(', ') : 'No stable synonym found yet'}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          ) : (
+            <Text style={styles.sub}>No heavy repetition detected, so auto synonym panel is empty.</Text>
+          )}
           <View style={styles.actionRow}>
             <Button label="Save Weak Words" variant="secondary" onPress={saveWeakWords} icon="bookmark-outline" />
             <Button label="Save Paraphrase Bank" variant="secondary" onPress={saveParaphraseWords} icon="copy-outline" />
@@ -701,6 +895,13 @@ export default function FeedbackScreen({ navigation }) {
     </>
   );
 
+  const renderFullReport = () => (
+    <Card style={styles.card}>
+      <Text style={styles.h3}>Full Writing Feedback Report</Text>
+      <Text style={styles.bodyBlock}>{report?.full_report || 'Report will appear once you generate feedback.'}</Text>
+    </Card>
+  );
+
   return (
     <Screen scroll contentStyle={styles.content}>
       <Card style={styles.heroCard} glow>
@@ -709,10 +910,11 @@ export default function FeedbackScreen({ navigation }) {
 
         <View style={styles.metricRow}>
           <MetricTile label="Score" value={`${compactRubric.total}/20`} tone="accent" />
-          <MetricTile label="Band" value={compactRubric.band} />
+          <MetricTile label="WASC Band" value={wascBandDisplay} />
           <MetricTile label="Readiness" value={`${compactRubric.readiness}%`} />
           <MetricTile label="Words" value={`${liveWordCount}`} />
         </View>
+        {wascBand?.descriptor ? <Text style={styles.wascBandNote}>WASC criteria: {wascBand.descriptor}</Text> : null}
 
         <View style={styles.metricRow}>
           <MetricTile label="Paragraphs" value={`${liveParagraphCount}`} />
@@ -738,6 +940,7 @@ export default function FeedbackScreen({ navigation }) {
       {activeTab === 'rewrite' ? renderRewrite() : null}
       {activeTab === 'tools' ? renderTools() : null}
       {activeTab === 'deep review' ? renderDeepReview() : null}
+      {activeTab === 'full report' ? renderFullReport() : null}
     </Screen>
   );
 }
@@ -770,6 +973,12 @@ const styles = StyleSheet.create({
   sub: {
     fontSize: typography.small,
     color: colors.muted,
+    marginBottom: spacing.md,
+    lineHeight: 20,
+  },
+  wascBandNote: {
+    fontSize: typography.small,
+    color: colors.primaryDark,
     marginBottom: spacing.md,
     lineHeight: 20,
   },
@@ -958,6 +1167,22 @@ const styles = StyleSheet.create({
   },
   routeBody: {
     flex: 1,
+  },
+  revisionItem: {
+    borderWidth: 1,
+    borderColor: '#E2EAF7',
+    backgroundColor: '#FAFCFF',
+    borderRadius: 14,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+  },
+  repeatedRow: {
+    borderWidth: 1,
+    borderColor: '#DFE8F7',
+    borderRadius: 12,
+    backgroundColor: '#FFFFFF',
+    padding: spacing.sm,
+    marginBottom: spacing.sm,
   },
   sourcePill: {
     paddingHorizontal: spacing.sm,

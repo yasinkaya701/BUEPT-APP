@@ -323,16 +323,16 @@ export default function InteractiveVocabularyScreen({ navigation, route }) {
 
     const POS_COLORS = {
         // short labels (used in new entries)
-        'noun': '#3B82F6',
+        'noun': '#1D4ED8',
         'verb': '#10B981',
         'adj': '#8B5CF6',
         'adv': '#F59E0B',
         // long labels (legacy entries)
-        'Noun': '#3B82F6',
+        'Noun': '#1D4ED8',
         'Verb': '#10B981',
         'Adjective': '#8B5CF6',
         'Adverb': '#F59E0B',
-        'Noun (person)': '#3B82F6',
+        'Noun (person)': '#1D4ED8',
     };
 
     return (
@@ -610,8 +610,8 @@ const styles = StyleSheet.create({
     heroCard: {
         marginHorizontal: spacing.xl,
         marginBottom: spacing.md,
-        backgroundColor: '#0F3F7F',
-        borderColor: '#0F3F7F',
+        backgroundColor: '#172554',
+        borderColor: '#172554',
     },
     heroHeader: {
         flexDirection: 'row',

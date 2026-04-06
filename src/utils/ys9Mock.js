@@ -16,9 +16,9 @@ function detectRepetition(text) {
   const repeated = Object.entries(counts)
     .filter(([, c]) => c >= (repetitionRules.min_count || 3))
     .sort((a, b) => b[1] - a[1])
-    .map(([word]) => {
+    .map(([word, count]) => {
       const entry = getWordEntry(word);
-      return { word, synonyms: entry?.synonyms?.slice(0, 4) || [] };
+      return { word, count, synonyms: entry?.synonyms?.slice(0, 4) || [] };
     });
   return repeated;
 }
@@ -76,6 +76,19 @@ const ERROR_TAGS = {
   prep: 'Preposition',
   pron: 'Pronoun Reference',
   rep: 'Repetition'
+};
+
+const INLINE_TAG_LABELS = {
+  ww: 'ww',
+  sv: 'A–SV',
+  cap: 'Sp/Cap',
+  wo: 'WO',
+  art: 'Art',
+  punc: 'Punc',
+  tense: 'Tense',
+  prep: 'Prep',
+  pron: 'Pron',
+  rep: 'Rep'
 };
 
 const RULES = [
@@ -241,6 +254,10 @@ function buildMetrics(text) {
   const academicSet = new Set((academicList || []).map((w) => (w.word || w).toLowerCase()));
   const academicCount = tokens.filter((t) => academicSet.has(t)).length;
   return { words, sentences, paragraphs, avgSentence, ttr, academicCount };
+}
+
+function escapeRegExp(value = '') {
+  return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function buildStrengths(metrics, errorSummary, repetition) {
@@ -820,6 +837,136 @@ function buildRewriteVariants(text = '', level = 'P2') {
   return [v1, v2];
 }
 
+function formatInlineMarkedText(segments = []) {
+  if (!segments.length) return '';
+  return segments.map((seg) => {
+    if (!seg?.tag) return seg.text || '';
+    const label = INLINE_TAG_LABELS[seg.tag] || seg.tag.toUpperCase();
+    return `${seg.text} [${label}]`;
+  }).join('');
+}
+
+function formatWWExplanationsBlock(items = []) {
+  if (!items.length) {
+    return 'No major wrong-word-choice patterns detected in this draft.';
+  }
+  const lines = [];
+  items.slice(0, 8).forEach((item) => {
+    lines.push(`🔴 "${item.wrong}"`);
+    lines.push(`❌ ${item.why}`);
+    const better = (item.better || []).filter(Boolean);
+    lines.push(`✅ ${better.length ? better.join(' / ') : 'Use a more precise academic alternative.'}`);
+    lines.push('');
+  });
+  return lines.join('\n').trim();
+}
+
+function formatRepetitionBlock(repetition = []) {
+  if (!repetition.length) {
+    return 'No heavy repetition detected. Vocabulary variety is stable.';
+  }
+  const lines = repetition.slice(0, 8).map((item) => {
+    const syns = (item.synonyms || []).filter(Boolean);
+    const count = item.count ? `${item.count}×` : '';
+    return `• ${item.word} ${count ? `(${count})` : ''} → ${syns.length ? syns.join(', ') : 'add 1–2 precise academic synonyms'}`;
+  });
+  return lines.join('\n');
+}
+
+function formatRubricBlock(rubric = {}) {
+  if (!rubric) return '';
+  return [
+    `• Grammar: ${rubric.Grammar}/4`,
+    `• Vocabulary: ${rubric.Vocabulary}/4`,
+    `• Organization: ${rubric.Organization}/4`,
+    `• Content: ${rubric.Content}/4`,
+    `• Mechanics: ${rubric.Mechanics}/4`,
+    '',
+    `Total Score: ${rubric.Total}/20`
+  ].join('\n');
+}
+
+function formatCefrBlock(cefr = '', cefrSummary = []) {
+  const lines = [];
+  if (cefr) lines.push(`Estimated CEFR Level: ${cefr}`);
+  (cefrSummary || []).slice(0, 7).forEach((item) => {
+    lines.push(`• ${item}`);
+  });
+  return lines.join('\n');
+}
+
+function buildFullWritingReport({
+  studentName = 'Student',
+  typeFeedback = '',
+  inlineMarked = '',
+  wwExplanations = [],
+  revised = '',
+  nextSteps = [],
+  rubric = {},
+  cefr = '',
+  cefrSummary = [],
+  repetition = [],
+  strengths = [],
+  issues = []
+}) {
+  const name = studentName || 'Student';
+  const bravoLines = [
+    typeFeedback,
+    ...strengths.slice(0, 3).map((s) => `• ${s}`)
+  ].filter(Boolean).join('\n');
+  const nextLines = nextSteps.length ? nextSteps.map((s) => `• ${s}`).join('\n') : '• Keep refining clarity, accuracy, and support.';
+  const issueSignal = issues.length ? `Common risk areas: ${issues.slice(0, 2).join('; ')}.` : 'Common risk areas: keep an eye on accuracy and word choice.';
+
+  const lines = [];
+  lines.push(`# ✍️ ${name} – Full Writing Feedback Report`);
+  lines.push('');
+  lines.push('## 🟢 Section 1 – Bravo');
+  lines.push('');
+  lines.push(bravoLines || 'The draft shows a clear attempt to communicate ideas and structure.');
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+  lines.push('## 🟡 Section 2 – Feedback (with Inline Marking & Explanations)');
+  lines.push('');
+  lines.push('### 🔍 Original Text with Inline Marking');
+  lines.push(inlineMarked || 'No text provided.');
+  lines.push('');
+  lines.push('### 🧠 Wrong Word Choice (ww) – Focused Explanations');
+  lines.push(formatWWExplanationsBlock(wwExplanations));
+  lines.push('');
+  lines.push('### 🔁 Repetition & Synonym Upgrade');
+  lines.push(formatRepetitionBlock(repetition));
+  lines.push('');
+  lines.push(`Pattern to watch: ${issueSignal}`);
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+  lines.push('## 🔵 Section 3 – Revised Version');
+  lines.push('');
+  lines.push(revised || 'No revised version available yet.');
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+  lines.push('## 🟣 Section 4 – The Next Step');
+  lines.push('');
+  lines.push(nextLines);
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+  lines.push('## 📊 Rubric-Based Evaluation (Out of 20)');
+  lines.push('');
+  lines.push(formatRubricBlock(rubric));
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+  lines.push('## 🎯 CEFR Alignment Summary');
+  lines.push('');
+  lines.push(formatCefrBlock(cefr, cefrSummary));
+  lines.push('');
+  lines.push(`${name}, from now on every report will include a CEFR summary and detailed wrong-word explanations. Ready for the next draft whenever you are.`);
+  return lines.join('\n');
+}
+
 export function buildYS9Report(text, type = 'general', level = 'P2', meta = {}) {
   const t = TYPE_FEEDBACK[type] || TYPE_FEEDBACK.general;
   const profile = LEVEL_PROFILE[level] || LEVEL_PROFILE.P2;
@@ -834,7 +981,15 @@ export function buildYS9Report(text, type = 'general', level = 'P2', meta = {}) 
   const repetition = detectRepetition(text);
   const keywords = (meta?.keywords || []).map((k) => k.toLowerCase());
   const keywordHits = keywords.length
-    ? keywords.filter((k) => new RegExp(`\\b${k}\\b`, 'i').test(text || ''))
+    ? keywords.filter((k) => {
+      const escaped = escapeRegExp(k);
+      if (!escaped) return false;
+      try {
+        return new RegExp(`\\b${escaped}\\b`, 'i').test(text || '');
+      } catch (_) {
+        return String(text || '').toLowerCase().includes(String(k).toLowerCase());
+      }
+    })
     : [];
   const scored = scoreRubric(profile.rubric, metrics, errorSummary, repetition, text);
   const total = Object.values(scored).reduce((a, b) => a + b, 0);
@@ -862,11 +1017,14 @@ export function buildYS9Report(text, type = 'general', level = 'P2', meta = {}) 
   const critical_errors = buildCriticalErrors(text || '');
   const criteria_comments = buildCriteriaComments(metrics, errorSummary, criteria_flags);
   const tone_advice = buildTone(level);
+  const studentName = String(meta?.studentName || meta?.name || meta?.student || '').trim() || 'Student';
+  const inlineMarked = formatInlineMarkedText(inlineSegments);
 
   return {
     type,
     raw_text: text || '',
     prompt_text: meta?.prompt || '',
+    student_name: studentName,
     bravo: t.bravo,
     inline_feedback: text || '',
     inline_segments: inlineSegments,
@@ -922,6 +1080,20 @@ export function buildYS9Report(text, type = 'general', level = 'P2', meta = {}) 
     paragraph_feedback,
     priority_fixes,
     cohesion_stats,
+    full_report: buildFullWritingReport({
+      studentName,
+      typeFeedback: t.bravo,
+      inlineMarked,
+      wwExplanations: buildWWExplanations(text),
+      revised: advancedRewrite(text, level) || autoRevise(text),
+      nextSteps: buildNextSteps(t.next, errorSummary),
+      rubric: { ...scored, Total: total },
+      cefr: profile.cefr,
+      cefrSummary: buildCefrSummary(profile.cefr, strengths, issues),
+      repetition,
+      strengths,
+      issues
+    }),
     keyword_coverage: {
       total: keywords.length,
       used: keywordHits.length,

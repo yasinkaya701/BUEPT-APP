@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import {
     View, Text, StyleSheet, TouchableOpacity,
-    TextInput, Alert
+    TextInput, Alert, Platform, PermissionsAndroid
 } from 'react-native';
 import Voice from '@react-native-voice/voice';
 import Screen from '../components/Screen';
@@ -36,6 +36,32 @@ const TYPE_COLORS = {
 };
 
 const FILLER_WORDS = ['like', 'you know', 'basically', 'actually', 'i mean', 'kind of', 'sort of'];
+
+/** Android ve iOS için mikrofon + konuşma tanıma izni ister */
+async function requestMicPermission() {
+    if (Platform.OS === 'android') {
+        try {
+            const grants = await PermissionsAndroid.requestMultiple([
+                PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+            ]);
+            const audioGranted = grants[PermissionsAndroid.PERMISSIONS.RECORD_AUDIO]
+                === PermissionsAndroid.RESULTS.GRANTED;
+            if (!audioGranted) {
+                Alert.alert(
+                    'Mikrofon İzni Gerekli',
+                    'Ses tanıma için Ayarlar > Uygulama İzinleri > Mikrofon iznini açın.',
+                );
+                return false;
+            }
+            return true;
+        } catch (e) {
+            console.warn('[Voice] Permission request error:', e);
+            return false;
+        }
+    }
+    // iOS — izinler Info.plist'ten alınır, sistem otomatik sorar
+    return true;
+}
 
 function normalizeSpeechText(text = '') {
     return String(text || '').replace(/\s+/g, ' ').trim();
@@ -124,22 +150,35 @@ export default function SpeakingDetailScreen({ route }) {
     const ttsResetRef = useRef(null);
 
     React.useEffect(() => {
+        // @react-native-voice/voice v3.x — direkt property ataması
         Voice.onSpeechStart = () => setIsRecording(true);
         Voice.onSpeechEnd = () => setIsRecording(false);
-        Voice.onSpeechError = (e) => {
-            setIsRecording(false);
-            if (e.error?.message !== '7/No match') {
-                console.log('Voice Error:', e);
-            }
+        Voice.onSpeechPartialResults = (e) => {
+            // Partial sonuçları da yakala — daha anlık hissettiriri
+            const partial = pickBestSpeechResult(e?.value);
+            if (partial) setNotes((prev) => mergeSpeechText(prev, partial));
         };
         Voice.onSpeechResults = (e) => {
             const recognized = pickBestSpeechResult(e?.value);
             if (!recognized) return;
             setNotes((prev) => mergeSpeechText(prev, recognized));
         };
+        Voice.onSpeechError = (e) => {
+            setIsRecording(false);
+            const code = String(e?.error?.code || e?.error?.message || '');
+            // 7 = No match (konuşma anlaşılmadı), 5 = Client side error — bunlar normal
+            const silent = ['7', '5', '7/No match', 'No match'].some((c) => code.includes(c));
+            if (!silent) {
+                console.warn('[Voice] Error:', e?.error);
+                Alert.alert(
+                    'Ses Tanıma Hatası',
+                    `Kod: ${code}\n\niOS: Ayarlar > Gizlilik > Konuşma Tanıma iznini açın.\nAndroid: Ayarlar > Uygulama > İzinler > Mikrofon.`,
+                );
+            }
+        };
 
         return () => {
-            Voice.destroy().then(Voice.removeAllListeners);
+            Voice.destroy().then(() => Voice.removeAllListeners()).catch(() => {});
             if (ttsResetRef.current) clearTimeout(ttsResetRef.current);
             stopEnglishTts();
         };
@@ -149,15 +188,33 @@ export default function SpeakingDetailScreen({ route }) {
         if (isRecording) {
             try {
                 await Voice.stop();
+                setIsRecording(false);
             } catch (e) {
-                console.log(e);
+                console.warn('[Voice] Stop error:', e);
+                setIsRecording(false);
             }
-        } else {
-            try {
-                await Voice.start('en-US');
-            } catch (e) {
-                console.log(e);
-                Alert.alert('Microphone Error', 'Please ensure microphone and speech recognition permissions are granted in Settings.');
+            return;
+        }
+
+        // İzin kontrolü
+        const hasPermission = await requestMicPermission();
+        if (!hasPermission) return;
+
+        try {
+            // Önceki oturumu temizle
+            try { await Voice.destroy(); } catch (_) {}
+            await Voice.start('en-US');
+        } catch (e) {
+            console.warn('[Voice] Start error:', e);
+            setIsRecording(false);
+            const msg = String(e?.message || e || '');
+            if (msg.includes('permission') || msg.includes('Permission')) {
+                Alert.alert(
+                    'Mikrofon İzni Yok',
+                    'iOS: Ayarlar > Gizlilik ve Güvenlik > Konuşma Tanıma ve Mikrofon izinlerini açın.',
+                );
+            } else {
+                Alert.alert('Ses Tanıma Başlatılamadı', `Hata: ${msg || 'Bilinmiyor'}`);
             }
         }
     };

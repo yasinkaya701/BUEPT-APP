@@ -1,4 +1,4 @@
-import { getWordEntry, getDictionarySample } from './dictionary';
+import { getWordEntry, getEntriesWithSynonyms, sanitizeSynonymList } from './dictionary';
 import repetitionRules from '../../data/repetition_rules.json';
 
 function normalizeWord(value = '') {
@@ -35,12 +35,12 @@ export function lookupSynonymsForWord(word, limit = 10) {
   if (!normalized) return [];
   const blocked = new Set([normalized]);
   const direct = getWordEntry(normalized);
-  const directList = uniqueTerms(direct?.synonyms || [], limit, blocked);
+  const directList = uniqueTerms(sanitizeSynonymList(normalized, direct?.word_type || '', direct?.synonyms || []), limit, blocked);
   if (directList.length >= Math.min(4, limit)) return directList.slice(0, limit);
 
   const root = wordRoot(normalized);
   const prefix = root.slice(0, Math.min(4, root.length));
-  const pool = getDictionarySample(1500);
+  const pool = getEntriesWithSynonyms(800);
   const candidates = [];
   pool.forEach((entry) => {
     const itemWord = normalizeWord(entry?.word);
@@ -49,10 +49,11 @@ export function lookupSynonymsForWord(word, limit = 10) {
     const rootClose =
       (root && itemRoot && (itemRoot.startsWith(root) || root.startsWith(itemRoot))) ||
       (prefix && itemWord.startsWith(prefix));
-    const synonymHit = (entry?.synonyms || []).some((syn) => normalizeWord(syn) === normalized);
+    const cleanedSyns = sanitizeSynonymList(entry?.word || '', entry?.word_type || '', entry?.synonyms || []);
+    const synonymHit = cleanedSyns.some((syn) => normalizeWord(syn) === normalized);
     if (!rootClose && !synonymHit) return;
     candidates.push(itemWord);
-    (entry?.synonyms || []).forEach((syn) => candidates.push(syn));
+    cleanedSyns.forEach((syn) => candidates.push(syn));
   });
 
   const merged = uniqueTerms([...directList, ...candidates], limit, blocked);

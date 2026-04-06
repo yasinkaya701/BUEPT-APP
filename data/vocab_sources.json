@@ -2,7 +2,25 @@
   {
     "id": "quizlet_wasc",
     "title": "WASC Boğaziçi Quizlet Sets",
-    "note": "Use level-specific sets (P1–P4). Login may be required.",
+    "note": "Official Quizlet profile for level-based sets (A2/B1/B2 and prep-level packs).",
     "source_url": "https://quizlet.com/user/WASC_Bogazici/sets"
+  },
+  {
+    "id": "wasc_a2_glossary",
+    "title": "WASC A2 Glossary",
+    "note": "865 A2 words with meanings and examples (official WASC PDF glossary).",
+    "source_url": "https://wasc.bogazici.edu.tr/uploads/resources/69b7dd3ac733f_1773657402.pdf"
+  },
+  {
+    "id": "wasc_b1_glossary",
+    "title": "WASC B1 Glossary",
+    "note": "769 B1 words with meanings and usage examples.",
+    "source_url": "https://wasc.bogazici.edu.tr/uploads/resources/69b58eb08c132_1773506224.pdf"
+  },
+  {
+    "id": "wasc_b2_glossary",
+    "title": "WASC B2 Glossary",
+    "note": "972 B2 words for advanced prep-level vocabulary growth.",
+    "source_url": "https://wasc.bogazici.edu.tr/uploads/resources/69b7e29cc8e94_1773658780.pdf"
   }
 ]

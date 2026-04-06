@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import { colors, spacing, typography } from '../theme/tokens';
-import { getEntriesWithExamples, getDictionarySample } from '../utils/dictionary';
+import { getEntriesWithExamples, getDictionarySample, subscribeDictionaryBuild } from '../utils/dictionary';
 import { useAppState } from '../context/AppState';
 import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
 
@@ -38,12 +38,21 @@ export default function VocabClozeQuizScreen({ navigation, route }) {
   const [finished, setFinished] = useState(false);
   const [knownCount, setKnownCount] = useState(0);
   const [unknownCount, setUnknownCount] = useState(0);
-  const { addUnknownWord, recordKnown, recordUnknown, recordQuizError } = useAppState();
+  const [mistakeItems, setMistakeItems] = useState([]);
+  const { addUnknownWord, recordKnown, recordUnknown, recordQuizError, unknownWords = [] } = useAppState();
   const size = route?.params?.size || 10;
   const mode = route?.params?.mode === 'test_english' ? 'test_english' : 'default';
   const topic = String(route?.params?.topic || 'all').toLowerCase();
   const level = String(route?.params?.level || 'all').toUpperCase();
   const isTestEnglish = mode === 'test_english';
+  const [dictionaryReady, setDictionaryReady] = useState(false);
+
+  React.useEffect(() => {
+    return subscribeDictionaryBuild(({ status }) => {
+      if (status === 'ready') setDictionaryReady(true);
+    });
+  }, []);
+
   const resolveBase = useCallback(() => {
     if (isTestEnglish) {
       const list = Array.isArray(testEnglishVocabItems) ? testEnglishVocabItems : [];
@@ -68,7 +77,27 @@ export default function VocabClozeQuizScreen({ navigation, route }) {
   }, [isTestEnglish, topic, level]);
 
   const seedItems = useMemo(() => {
+    if (!isTestEnglish && !dictionaryReady) {
+      return [];
+    }
     const base = resolveBase();
+    if (unknownWords && unknownWords.length > 0) {
+      const unknownKeys = new Set(unknownWords.map(w => (w?.word || '').toLowerCase()));
+      const priority = [];
+      const rest = [];
+      base.forEach(item => {
+        if (unknownKeys.has((item?.word || '').toLowerCase())) priority.push(item);
+        else rest.push(item);
+      });
+      const combined = [...shuffle(priority), ...shuffle(rest)];
+      const built = [];
+      for (const e of combined) {
+        const item = buildItem(e);
+        if (item) built.push(item);
+        if (built.length >= size) break;
+      }
+      return built;
+    }
     const built = [];
     for (const e of shuffle(base)) {
       const item = buildItem(e);
@@ -76,7 +105,7 @@ export default function VocabClozeQuizScreen({ navigation, route }) {
       if (built.length >= size) break;
     }
     return built;
-  }, [resolveBase, size]);
+  }, [resolveBase, size, unknownWords, dictionaryReady, isTestEnglish]);
 
   const [items, setItems] = useState(seedItems);
 
@@ -111,6 +140,30 @@ export default function VocabClozeQuizScreen({ navigation, route }) {
         setScore((s) => s + 1);
       } else {
         recordQuizError(current.word);
+        const selectedIdx = options.indexOf(selected);
+        const correctIdx = options.indexOf(current.word);
+        const explanation = `The blank is best filled with "${current.word}" because it fits the sentence meaning and grammar.`;
+        setMistakeItems((prev) => {
+          if (prev.some((m) => m.word === current.word)) return prev;
+          return [
+            ...prev,
+            {
+              id: `cloze-${current.word}-${index}`,
+              word: current.word,
+              module: 'vocab',
+              moduleLabel: 'Vocabulary',
+              taskTitle: 'Cloze Practice',
+              question: current.sentence || 'Fill in the blank',
+              options,
+              correctIndex: correctIdx >= 0 ? correctIdx : null,
+              selectedIndex: selectedIdx >= 0 ? selectedIdx : null,
+              correctText: current.word,
+              selectedText: selected,
+              explanation,
+              context: current.sentence || '',
+            },
+          ];
+        });
       }
       setRevealed(true);
       return;
@@ -130,6 +183,20 @@ export default function VocabClozeQuizScreen({ navigation, route }) {
       setFinished(true);
     }
   };
+
+  if (!items || items.length === 0) {
+    return (
+      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, padding: 20, backgroundColor: '#F8FAFC' }}>
+        <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#0F172A', marginBottom: 10 }}>Engine Syncing...</Text>
+        <Text style={{ textAlign: 'center', color: '#64748B', marginBottom: 20, fontSize: 16 }}>
+          The dictionary is currently building in the background. Please wait a few seconds and try again.
+        </Text>
+        <TouchableOpacity onPress={() => navigation?.goBack()} style={{ padding: 15, backgroundColor: '#8B5CF6', borderRadius: 10 }}>
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <Screen scroll contentStyle={styles.container}>
@@ -182,7 +249,20 @@ export default function VocabClozeQuizScreen({ navigation, route }) {
         {!finished && items.length === 0 ? null : !revealed && !finished ? (
           <Button label="Check Answer" onPress={() => next(true)} disabled={!selected} />
         ) : finished ? (
-          <Button label="Back to Vocab" variant="secondary" onPress={() => navigation.goBack()} />
+          <>
+            <Button label="Back to Vocab" variant="secondary" onPress={() => navigation.goBack()} />
+            {mistakeItems.length > 0 ? (
+              <Button
+                label={`Ask Mistake Coach (${mistakeItems.length})`}
+                onPress={() => navigation.navigate('MistakeCoach', {
+                  module: 'vocab',
+                  moduleLabel: 'Vocabulary',
+                  taskTitle: 'Cloze Practice',
+                  mistakes: mistakeItems,
+                })}
+              />
+            ) : null}
+          </>
         ) : (
           <>
             <Button label="Next (I knew it)" onPress={() => next(true)} />

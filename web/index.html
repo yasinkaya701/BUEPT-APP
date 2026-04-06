@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BUEPT Web App</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="bg-shape bg-1"></div>
+  <div class="bg-shape bg-2"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <h1>BUEPT Web App</h1>
+      <p>Full web access for reading, listening, grammar, writing, vocabulary, and schedule</p>
+    </div>
+    <div class="actions">
+      <button id="refreshSummary" class="btn">Refresh</button>
+      <button id="apiStatus" class="btn ghost" type="button">API Status</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel summary-panel">
+      <h2>Overview</h2>
+      <div id="summaryCards" class="summary-grid"></div>
+      <p id="summaryNote" class="muted">Loading...</p>
+    </section>
+
+    <section class="panel">
+      <h2>Vocabulary</h2>
+      <div class="row">
+        <input id="vocabQuery" placeholder="Search word (e.g. resilience)" />
+        <button id="searchVocab" class="btn">Search</button>
+        <button id="randomVocab" class="btn ghost">Random</button>
+      </div>
+      <div class="row">
+        <select id="departmentSelect"></select>
+        <button id="loadDepartmentWords" class="btn ghost">Department Words</button>
+      </div>
+      <div id="vocabResult" class="result"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Reading</h2>
+      <div class="row">
+        <select id="readingLevel">
+          <option value="">All levels</option>
+          <option value="P1">P1</option>
+          <option value="P2">P2</option>
+          <option value="P3">P3</option>
+        </select>
+        <button id="nextReading" class="btn">New Reading Task</button>
+      </div>
+      <div id="readingResult" class="result"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Grammar</h2>
+      <div class="row">
+        <select id="grammarLevel">
+          <option value="">All levels</option>
+          <option value="P1">P1</option>
+          <option value="P2">P2</option>
+          <option value="P3">P3</option>
+        </select>
+        <button id="nextGrammar" class="btn">New Grammar Task</button>
+      </div>
+      <div id="grammarResult" class="result"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Writing</h2>
+      <div class="row">
+        <select id="writingLevel">
+          <option value="">All levels</option>
+          <option value="P1">P1</option>
+          <option value="P2">P2</option>
+          <option value="P3">P3</option>
+        </select>
+        <button id="nextWriting" class="btn">New Prompt</button>
+      </div>
+      <div id="writingPrompt" class="result"></div>
+      <textarea id="writingInput" rows="6" placeholder="Write your response here..."></textarea>
+      <div class="row">
+        <span id="wordCount" class="muted">0 words</span>
+        <button id="quickWritingFeedback" class="btn ghost">Quick Feedback</button>
+      </div>
+      <div id="writingFeedback" class="result"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Listening Podcasts</h2>
+      <div id="podcasts" class="result"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Academic Calendar</h2>
+      <div id="calendar" class="result"></div>
+    </section>
+
+    <section class="panel chat-panel">
+      <h2>Coach Chatbot</h2>
+      <div id="chatLog" class="chat-log"></div>
+      <div class="row">
+        <input id="chatInput" placeholder="Ask for strategy, word meaning, or practice task..." />
+        <button id="chatSend" class="btn">Send</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

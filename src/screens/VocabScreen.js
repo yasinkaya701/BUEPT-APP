@@ -1,20 +1,17 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Pressable, TouchableOpacity, ScrollView, useWindowDimensions, InteractionManager } from 'react-native';
+import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
+import { View, Text, StyleSheet, TextInput, Pressable, TouchableOpacity, ScrollView, FlatList, useWindowDimensions, InteractionManager } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Chip from '../components/Chip';
 import Screen from '../components/Screen';
-import VocabWeeklyPlanner from '../components/vocab/VocabWeeklyPlanner';
 import { colors, spacing, typography, radius } from '../theme/tokens';
-import { getDictionaryCount, getDictionarySample, getWordEntry, getWordFamily } from '../utils/dictionary';
+import { buildFallbackEntry, getDictionaryCount, getDictionarySample, getDictionarySlice, getVerbForms, getWordEntry, getWordFamily, searchDictionary, startDictionaryBuild, subscribeDictionaryBuild } from '../utils/dictionary';
+import { fetchLiveEntry } from '../utils/liveDictionary';
 import { speakEnglish } from '../utils/ttsEnglish';
 import { useAppState } from '../context/AppState';
-import academic from '../../data/academic_wordlist.json';
-import bogaziciDeptVocab from '../../data/bogazici_department_vocab.json';
-import academicVerbs from '../../data/academic_verbs.json';
-import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
-import confusingPairs from '../../data/confusing_pronunciations.json';
+import { subscribeSmokeActions } from '../dev/smokeBus';
 
 const LEVELS = ['All', 'A1', 'A2', 'B1', 'B2', 'C1'];
 const DICTIONARY_VIEWS = ['All', 'Saved', 'Review', 'Unknown', 'Collocation'];
@@ -24,9 +21,12 @@ const SECTIONS = [
   { key: 'Dictionary', label: 'Dictionary' },
   { key: '24-Week Plan', label: '24-Week Plan' },
   { key: 'My Words', label: 'My Words' },
+  { key: 'WASC Lists', label: 'WASC Lists' },
   { key: 'Academic', label: 'Academic' },
   { key: 'Academic Verbs', label: 'Academic Verbs' },
   { key: 'Confusing', label: 'Confusing' },
+  { key: 'Listening Queue', label: 'Listening' },
+  { key: 'Subtle Hover', label: 'Subtle Hover' },
   { key: 'Unknown', label: 'Unknown' },
   { key: 'Test-English', label: 'Test-English' },
   { key: 'Bogazici Dept', label: 'BUEPT Dept' },
@@ -62,10 +62,25 @@ const SECTION_META = {
     title: 'Confusing Pairs',
     description: 'Minimal-pair style practice for easily confused forms and pronunciation traps.',
   },
+  'Listening Queue': {
+    icon: 'headset',
+    title: 'Listening Vocabulary Queue',
+    description: 'Words captured from listening quizzes and transcript-based checks are collected here for focused review.',
+  },
+  'Subtle Hover': {
+    icon: 'logo-chrome',
+    title: 'Subtle Hover Sync Queue',
+    description: 'Words coming from the Subtle Hover extension are synced here in near real-time.',
+  },
   Dictionary: {
     icon: 'book',
     title: 'Dictionary Workspace',
     description: 'Lookup, save, recycle, and practice words in one structured lexical workspace.',
+  },
+  'WASC Lists': {
+    icon: 'reader',
+    title: 'WASC Vocabulary Lists',
+    description: 'Official WASC A2/B1/B2 glossary words with searchable lists and Quizlet-style flashcards.',
   },
   Unknown: {
     icon: 'alert-circle',
@@ -83,10 +98,18 @@ const VOCAB_TOOLS = [
   {
     key: 'vocab-flashcards',
     title: 'Flashcards',
-    body: 'Study your saved words with 3D flip animations and spatial memory tracking.',
+    body: 'Study specialized BUEPT sets or create your own custom study decks.',
     icon: 'albums-outline',
-    route: 'VocabFlashcard',
+    route: 'FlashcardHome',
     tone: 'purple',
+  },
+  {
+    key: 'create-deck',
+    title: 'New Flashcard Deck',
+    body: 'Create a specific deck for your target words or department.',
+    icon: 'add-circle-outline',
+    route: 'CreateFlashcardDeck',
+    tone: 'amber',
   },
   {
     key: 'synonym-finder',
@@ -127,10 +150,12 @@ const LEVEL_COLORS = {
   B2: '#3F51B5', C1: '#9C27B0',
 };
 const DICTIONARY_CARD_BATCH = 12;
-const DICTIONARY_DEFAULT_SAMPLE_LIMIT = 900;
-const DICTIONARY_FILTERED_SAMPLE_LIMIT = 4800;
-const DICTIONARY_WORD_OF_DAY_SAMPLE_LIMIT = 360;
-const DICTIONARY_CHALLENGE_SAMPLE_LIMIT = 260;
+// Performance: Vocab tab'a girince sözlük hydration/hydrateEntry işleri JS'i kilitleyebiliyor.
+// Başlangıç örneklemini küçük tutarak UI'nin donmasını önlüyoruz.
+const DICTIONARY_DEFAULT_SAMPLE_LIMIT = 200;
+const DICTIONARY_FILTERED_SAMPLE_LIMIT = 1200;
+const DICTIONARY_WORD_OF_DAY_SAMPLE_LIMIT = 160;
+const DICTIONARY_CHALLENGE_SAMPLE_LIMIT = 140;
 
 function escapeRegExp(value = '') {
   return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -175,7 +200,6 @@ function normalizeAcademicVerbList(list = []) {
   return Array.from(byWord.values());
 }
 
-const NORMALIZED_ACADEMIC_VERBS = normalizeAcademicVerbList(academicVerbs);
 
 function safeDictionaryCount() {
   try {
@@ -188,6 +212,15 @@ function safeDictionaryCount() {
 function safeDictionarySample(limit = 50) {
   try {
     const list = getDictionarySample(limit);
+    return Array.isArray(list) ? list : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+function safeDictionarySlice(limit = 50) {
+  try {
+    const list = getDictionarySlice(limit);
     return Array.isArray(list) ? list : [];
   } catch (_) {
     return [];
@@ -208,6 +241,14 @@ function safeWordFamily(word, fallbackEntry = null) {
     if (family && typeof family === 'object') return family;
   } catch (_) { }
   return { noun: [], verb: [], adjective: [], adverb: [], negative: [], all: [] };
+}
+
+function safeVerbForms(word, fallbackEntry = null) {
+  try {
+    const forms = getVerbForms(word, fallbackEntry);
+    if (forms && typeof forms === 'object') return forms;
+  } catch (_) { }
+  return null;
 }
 
 function formatTopicLabel(topic = '') {
@@ -343,9 +384,16 @@ async function speakWord(word) {
   } catch (_) { }
 }
 
-const VocabCard = React.memo(function VocabCard({ item, expanded, onToggle, stats }) {
+const VocabCard = React.memo(function VocabCard({ item, expanded, onToggle, stats, cardKey }) {
+  const navigation = useNavigation();
   const [selectedRelated, setSelectedRelated] = useState(null);
-  const family = expanded ? safeWordFamily(item.word, item) : null;
+  const displayItem = useMemo(() => (expanded ? (safeWordEntry(item.word) || item) : item), [expanded, item]);
+  const family = useMemo(() => (expanded ? safeWordFamily(displayItem.word, displayItem) : null), [expanded, displayItem]);
+  const verbForms = useMemo(() => (expanded ? safeVerbForms(displayItem.word, displayItem) : null), [expanded, displayItem]);
+  const selectedRelatedVerbForms = useMemo(
+    () => (selectedRelated ? safeVerbForms(selectedRelated.word, selectedRelated.entry) : null),
+    [selectedRelated]
+  );
   const familyRows = family
     ? [
       { key: 'noun', label: 'Noun', values: Array.isArray(family.noun) ? family.noun : [] },
@@ -361,10 +409,18 @@ const VocabCard = React.memo(function VocabCard({ item, expanded, onToggle, stat
     const cleanWord = String(word || '').trim();
     if (!cleanWord) return;
 
-    const entry = safeWordEntry(cleanWord);
-    const fallbackDefinition = item?.simple_definition
-      ? `Related to "${item.word}": ${item.simple_definition}`
+    let entry = safeWordEntry(cleanWord);
+    const fallbackDefinition = displayItem?.simple_definition
+      ? `Related to "${displayItem.word}": ${displayItem.simple_definition}`
       : `No definition found for "${cleanWord}" yet.`;
+    if (!entry) {
+      entry = buildFallbackEntry(cleanWord, fallbackDefinition, '');
+    } else if (!Array.isArray(entry.examples) || entry.examples.length === 0) {
+      const fallback = buildFallbackEntry(cleanWord, fallbackDefinition, entry.word_type || '');
+      if (fallback?.examples?.length) {
+        entry = { ...entry, examples: fallback.examples };
+      }
+    }
 
     setSelectedRelated({
       word: cleanWord,
@@ -379,32 +435,51 @@ const VocabCard = React.memo(function VocabCard({ item, expanded, onToggle, stat
     if (!expanded) setSelectedRelated(null);
   }, [expanded]);
 
+  const handleToggle = useCallback(() => {
+    onToggle(cardKey);
+  }, [cardKey, onToggle]);
+
   return (
-    <Pressable onPress={onToggle}>
-      <Card style={styles.card}>
-        <View style={styles.wordRow}>
-          {/* Tap word text to hear pronunciation */}
-          <TouchableOpacity
-            onPress={(e) => { e.stopPropagation?.(); speakWord(item.word); }}
-            hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
-            style={styles.wordTapArea}
+    <Pressable onPress={handleToggle} style={{ width: '100%' }}>
+      <Card style={[styles.card, { padding: 0 }]}>
+        {/* Header row with word and audio */}
+        <View style={{ paddingHorizontal: spacing.sm, paddingTop: spacing.sm, paddingBottom: 4, flexDirection: 'row', alignItems: 'center' }}>
+          <Pressable
+            onPress={(e) => { e.stopPropagation?.(); speakWord(displayItem.word); }}
+            style={[styles.wordTapArea, { padding: 8, margin: -4, opacity: 1 }]}
           >
-            <Text style={styles.word}>{item.word}</Text>
+            <Text style={styles.word}>{displayItem.word}</Text>
             <Text style={styles.ttsIcon}>🔊</Text>
-          </TouchableOpacity>
-          {item.level ? (
-            <View style={[styles.levelBadge, { backgroundColor: LEVEL_COLORS[item.level] || colors.secondary }]}>
-              <Text style={styles.levelBadgeText}>{item.level}</Text>
+          </Pressable>
+          {displayItem.level ? (
+            <View style={[styles.levelBadge, { backgroundColor: LEVEL_COLORS[displayItem.level] || colors.secondary }]}>
+              <Text style={styles.levelBadgeText}>{displayItem.level}</Text>
             </View>
           ) : null}
         </View>
-        <Text style={styles.meta}>{item.word_type || '—'}</Text>
-        <Text style={styles.def}>{item.simple_definition || 'Definition pending'}</Text>
-        {stats ? (
-          <Text style={styles.stats}>Known: {stats.known || 0} • Unknown: {stats.unknown || 0}</Text>
-        ) : null}
+
+        {/* Body (Clicks pass through to outer Pressable) */}
+        <View style={{ paddingHorizontal: spacing.sm, paddingBottom: spacing.sm }}>
+          <Text style={styles.meta}>{displayItem.word_type || '—'}</Text>
+          <Text style={styles.def}>{displayItem.simple_definition || 'Definition pending'}</Text>
+          {stats ? (
+            <Text style={styles.stats}>Known: {stats.known || 0} • Unknown: {stats.unknown || 0}</Text>
+          ) : null}
+        </View>
+
+        {/* Actions */}
+        <View style={[styles.cardActions, { paddingHorizontal: spacing.sm, paddingBottom: spacing.sm }]}>
+          <Pressable
+            style={({ pressed }) => [styles.cardActionBtn, { padding: 8, margin: -4, opacity: pressed ? 0.6 : 1 }]}
+            onPress={(e) => { e.stopPropagation?.(); navigation.navigate('CreateFlashcardDeck', { initialWord: displayItem.word }); }}
+          >
+            <Ionicons name="add-circle-outline" size={16} color={colors.primary} />
+            <Text style={styles.cardActionText}>Add to Flashcard Deck</Text>
+          </Pressable>
+        </View>
+
         {expanded && (
-          <View style={styles.expandedSection}>
+          <View style={[styles.expandedSection, { paddingHorizontal: spacing.sm, paddingBottom: spacing.sm }]}>
             {hasFamily ? (
               <>
                 <Text style={styles.sectionTitle}>Word Family (Noun/Verb/Adj/Adv)</Text>
@@ -415,55 +490,68 @@ const VocabCard = React.memo(function VocabCard({ item, expanded, onToggle, stat
                       <Text style={styles.familyLabel}>{row.label}</Text>
                       <View style={styles.chipRow}>
                         {row.values.slice(0, 6).map((w, wi) => (
-                          <TouchableOpacity
+                          <Pressable
                             key={`${item.word}-${row.key}-${wi}-${w}`}
                             onPress={(e) => openRelatedWord(w, row.label, e)}
-                            style={[styles.miniChip, row.key === 'negative' && styles.miniChipNegative]}
+                            style={({ pressed }) => [styles.miniChip, row.key === 'negative' && styles.miniChipNegative, { padding: 8, margin: -4, opacity: pressed ? 0.6 : 1 }]}
                           >
                             <Text style={[styles.miniChipText, row.key === 'negative' && styles.miniChipTextNegative]}>{w} 🔊</Text>
-                          </TouchableOpacity>
+                          </Pressable>
                         ))}
                       </View>
                     </View>
                   ))}
               </>
-            ) : item.derivatives?.length > 0 ? (
+            ) : displayItem.derivatives?.length > 0 ? (
               <>
                 <Text style={styles.sectionTitle}>Word Forms</Text>
-                <Text style={styles.sub}>{item.derivatives.slice(0, 6).join(', ')}</Text>
+                <Text style={styles.sub}>{displayItem.derivatives.slice(0, 6).join(', ')}</Text>
               </>
             ) : null}
-            {item.synonyms?.length > 0 && (
+            {displayItem.synonyms?.length > 0 && (
               <>
                 <Text style={styles.sectionTitle}>Synonyms</Text>
                 <View style={styles.chipRow}>
-                  {item.synonyms.slice(0, 6).map((s, i) => (
-                    <TouchableOpacity key={`${item.word}-syn-${i}-${s}`} onPress={(e) => openRelatedWord(s, 'Synonym', e)} style={styles.miniChip}>
+                  {displayItem.synonyms.slice(0, 6).map((s, i) => (
+                    <Pressable key={`${displayItem.word}-syn-${i}-${s}`} onPress={(e) => openRelatedWord(s, 'Synonym', e)} style={({ pressed }) => [styles.miniChip, { padding: 8, margin: -4, opacity: pressed ? 0.6 : 1 }]}>
                       <Text style={styles.miniChipText}>{s} 🔊</Text>
-                    </TouchableOpacity>
+                    </Pressable>
                   ))}
                 </View>
               </>
             )}
-            {item.antonyms?.length > 0 && (
+            {displayItem.antonyms?.length > 0 && (
               <>
                 <Text style={styles.sectionTitle}>Antonyms</Text>
-                <Text style={styles.sub}>{item.antonyms.slice(0, 6).join(', ')}</Text>
+                <View style={styles.chipRow}>
+                  {displayItem.antonyms.slice(0, 6).map((a, i) => (
+                    <Pressable
+                      key={`${displayItem.word}-ant-${i}-${a}`}
+                      onPress={(e) => openRelatedWord(a, 'Antonym', e)}
+                      style={({ pressed }) => [styles.miniChip, styles.miniChipOpposite, { padding: 8, margin: -4, opacity: pressed ? 0.6 : 1 }]}
+                    >
+                      <Text style={[styles.miniChipText, styles.miniChipTextOpposite]}>{a} 🔊</Text>
+                    </Pressable>
+                  ))}
+                </View>
               </>
             )}
-            {item.collocations?.length > 0 && (
+            {displayItem.collocations?.length > 0 && (
               <>
                 <Text style={styles.sectionTitle}>Collocations</Text>
                 <View style={styles.chipRow}>
-                  {item.collocations.slice(0, 6).map((c, i) => (
-                    <TouchableOpacity key={`${item.word}-col-${i}-${c}`} onPress={(e) => openRelatedWord(c, 'Collocation', e)} style={styles.miniChip}>
+                  {displayItem.collocations.slice(0, 6).map((c, i) => (
+                    <Pressable key={`${displayItem.word}-col-${i}-${c}`} onPress={(e) => openRelatedWord(c, 'Collocation', e)} style={({ pressed }) => [styles.miniChip, { padding: 8, margin: -4, opacity: pressed ? 0.6 : 1 }]}>
                       <Text style={styles.miniChipText}>{c} 🔊</Text>
-                    </TouchableOpacity>
+                    </Pressable>
                   ))}
                 </View>
                 <Text style={styles.collocationTip}>Use these as fixed phrases in writing and speaking answers.</Text>
               </>
             )}
+            {displayItem.source ? (
+              <Text style={styles.sourceTag}>Source: {String(displayItem.source).toUpperCase()}</Text>
+            ) : null}
             {selectedRelated ? (
               <View style={styles.relatedCard}>
                 <View style={styles.relatedHeader}>
@@ -475,53 +563,64 @@ const VocabCard = React.memo(function VocabCard({ item, expanded, onToggle, stat
                     ) : null}
                   </View>
                   <View style={styles.relatedActions}>
-                    <TouchableOpacity
+                    <Pressable
                       onPress={(e) => {
                         e?.stopPropagation?.();
                         speakWord(selectedRelated.word);
                       }}
-                      style={styles.relatedActionBtn}
+                      style={({ pressed }) => [styles.relatedActionBtn, { opacity: pressed ? 0.6 : 1 }]}
                     >
                       <Ionicons name="volume-high-outline" size={15} color={colors.primary} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
+                    </Pressable>
+                    <Pressable
                       onPress={(e) => {
                         e?.stopPropagation?.();
                         setSelectedRelated(null);
                       }}
-                      style={styles.relatedActionBtn}
+                      style={({ pressed }) => [styles.relatedActionBtn, { opacity: pressed ? 0.6 : 1 }]}
                     >
                       <Ionicons name="close" size={15} color={colors.muted} />
-                    </TouchableOpacity>
+                    </Pressable>
                   </View>
                 </View>
                 <Text style={styles.relatedDef}>{selectedRelated.definition}</Text>
                 {Array.isArray(selectedRelated.entry?.synonyms) && selectedRelated.entry.synonyms.length > 0 ? (
                   <Text style={styles.relatedSyn}>≈ {selectedRelated.entry.synonyms.slice(0, 4).join(', ')}</Text>
                 ) : null}
+                {Array.isArray(selectedRelated.entry?.antonyms) && selectedRelated.entry.antonyms.length > 0 ? (
+                  <Text style={styles.relatedAnt}>↔ {selectedRelated.entry.antonyms.slice(0, 4).join(', ')}</Text>
+                ) : null}
                 {Array.isArray(selectedRelated.entry?.examples) && selectedRelated.entry.examples.length > 0 ? (
-                  <TouchableOpacity
+                  <Pressable
                     onPress={(e) => {
                       e?.stopPropagation?.();
                       speakWord(selectedRelated.entry.examples[0]);
                     }}
-                    style={styles.relatedExampleRow}
+                    style={({ pressed }) => [styles.relatedExampleRow, { opacity: pressed ? 0.6 : 1 }]}
                   >
                     <Text style={styles.relatedExample}>"{selectedRelated.entry.examples[0]}"</Text>
                     <Ionicons name="volume-medium-outline" size={14} color={colors.primary} />
-                  </TouchableOpacity>
+                  </Pressable>
+                ) : null}
+                {selectedRelatedVerbForms ? (
+                  <View style={styles.relatedVerbForms}>
+                    <Text style={styles.relatedVerbFormsTitle}>Verb forms</Text>
+                    <Text style={styles.relatedVerbFormsLine}>
+                      {`Base: ${selectedRelatedVerbForms.base} · V2: ${selectedRelatedVerbForms.v2} · V3: ${selectedRelatedVerbForms.v3} · -ing: ${selectedRelatedVerbForms.ing}`}
+                    </Text>
+                  </View>
                 ) : null}
               </View>
             ) : null}
-            {item.examples?.length > 0 && (
+            {displayItem.examples?.length > 0 && (
               <>
                 <Text style={styles.sectionTitle}>Example Sentences</Text>
-                {item.examples.slice(0, 3).map((ex, idx) => (
-                  <TouchableOpacity key={`${item.word}-ex-${idx}`} style={styles.exampleRow} onPress={() => speakWord(ex)}>
+                {displayItem.examples.slice(0, 3).map((ex, idx) => (
+                  <Pressable key={`${displayItem.word}-ex-${idx}`} style={({ pressed }) => [styles.exampleRow, { opacity: pressed ? 0.6 : 1 }]} onPress={(e) => { e.stopPropagation?.(); speakWord(ex); }}>
                     <Text style={styles.exampleBullet}>{idx + 1}.</Text>
                     <Text style={styles.example}>{ex}</Text>
                     <Ionicons name="volume-high-outline" size={14} color={colors.primary} />
-                  </TouchableOpacity>
+                  </Pressable>
                 ))}
               </>
             )}
@@ -531,13 +630,33 @@ const VocabCard = React.memo(function VocabCard({ item, expanded, onToggle, stat
                 <Text style={styles.commonErrorText}>{item.common_errors.slice(0, 2).join(' | ')}</Text>
               </>
             )}
+            {verbForms ? (
+              <>
+                <Text style={styles.sectionTitle}>Verb Forms</Text>
+                <View style={styles.verbFormsStrip}>
+                  <Text style={styles.verbFormsText}>Base: {verbForms.base}</Text>
+                  <Text style={styles.verbFormsText}>V2: {verbForms.v2}</Text>
+                  <Text style={styles.verbFormsText}>V3: {verbForms.v3}</Text>
+                  <Text style={styles.verbFormsText}>-ing: {verbForms.ing}</Text>
+                  <Text style={styles.verbFormsText}>3rd person: {verbForms.thirdPerson}</Text>
+                </View>
+              </>
+            ) : null}
           </View>
         )}
-        <Text style={styles.expandHint}>{expanded ? '▲ Collapse' : '▼ Tap to expand'}</Text>
+
+        <View style={{ width: '100%', alignItems: 'center', paddingVertical: spacing.sm, backgroundColor: '#F9FAFB' }}>
+          <Text style={[styles.expandHint, { marginTop: 0 }]}>{expanded ? '▲ Collapse' : '▼ Tap to expand'}</Text>
+        </View>
       </Card>
     </Pressable>
   );
-});
+}, (prev, next) => (
+  prev.cardKey === next.cardKey
+  && prev.expanded === next.expanded
+  && prev.item === next.item
+  && prev.stats === next.stats
+));
 
 function HubMetric({ value, label, accent = 'blue' }) {
   return (
@@ -562,7 +681,7 @@ function HubMetric({ value, label, accent = 'blue' }) {
 
 function ToolShortcutCard({ item, onPress }) {
   return (
-    <TouchableOpacity activeOpacity={0.9} onPress={onPress} style={styles.toolShortcutCard}>
+    <TouchableOpacity activeOpacity={0.9} onPress={onPress} style={styles.toolShortcutCard} hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}>
       <View
         style={[
           styles.toolShortcutIcon,
@@ -623,6 +742,8 @@ export default function VocabScreen({ navigation, route }) {
   const { width } = useWindowDimensions();
   const isWide = width >= 920;
   const [input, setInput] = useState('');
+  const queryInputRef = useRef('');
+  const searchInputRef = useRef(null);
   const [query, setQuery] = useState('');
   const [level, setLevel] = useState('All');
   const [dictionaryView, setDictionaryView] = useState('All');
@@ -631,13 +752,32 @@ export default function VocabScreen({ navigation, route }) {
   const [plannerLaunchDay, setPlannerLaunchDay] = useState(null);
   const [expanded, setExpanded] = useState({});
   const [dictionaryReady, setDictionaryReady] = useState(false);
+  const [dictionaryLoadRequested, setDictionaryLoadRequested] = useState(true);
+  const [dictionaryProgress, setDictionaryProgress] = useState(0);
+  const [dictionaryStatus, setDictionaryStatus] = useState('idle');
+  const [dictionaryError, setDictionaryError] = useState('');
+  const smokeDoneRef = useRef(false);
   const [dictionaryRenderLimit, setDictionaryRenderLimit] = useState(DICTIONARY_CARD_BATCH);
+  const [academicData, setAcademicData] = useState([]);
+  const [academicVerbData, setAcademicVerbData] = useState([]);
+  const [testEnglishData, setTestEnglishData] = useState([]);
+  const [confusingData, setConfusingData] = useState([]);
+  const [deptData, setDeptData] = useState([]);
+  const [wascListsData, setWascListsData] = useState([]);
+  const [wascDecksData, setWascDecksData] = useState([]);
+  const [wascLevel, setWascLevel] = useState('ALL');
+  const [wascQuery, setWascQuery] = useState('');
+  const [wascRenderLimit, setWascRenderLimit] = useState(80);
+  const [heavyReady, setHeavyReady] = useState(false);
   const [challengeSeed, setChallengeSeed] = useState(1);
   const [challengeSelected, setChallengeSelected] = useState(null);
   const [challengeChecked, setChallengeChecked] = useState(false);
   const [sentenceInput, setSentenceInput] = useState('');
   const [sentenceFeedback, setSentenceFeedback] = useState(null);
-  const [dept, setDept] = useState(bogaziciDeptVocab[0]?.id || '');
+  const [liveEntry, setLiveEntry] = useState(null);
+  const [liveStatus, setLiveStatus] = useState('idle');
+  const [liveError, setLiveError] = useState('');
+  const [dept, setDept] = useState('');
   const [deptQuery, setDeptQuery] = useState('');
   const [deptChallengeSeed, setDeptChallengeSeed] = useState(1);
   const [deptChallengeSelected, setDeptChallengeSelected] = useState(null);
@@ -659,6 +799,140 @@ export default function VocabScreen({ navigation, route }) {
   const [verbSentence, setVerbSentence] = useState('');
   const [verbFeedback, setVerbFeedback] = useState(null);
   const { userWords, unknownWords, addUserWord, addUserWordObject, clearUnknownWords, vocabStats } = useAppState();
+  const [screenReady, setScreenReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const task = InteractionManager.runAfterInteractions(() => {
+      if (!cancelled) setScreenReady(true);
+    });
+    return () => {
+      cancelled = true;
+      task.cancel?.();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (screenReady) return undefined;
+    const timer = setTimeout(() => setScreenReady(true), 800);
+    return () => clearTimeout(timer);
+  }, [screenReady]);
+
+  useEffect(() => {
+    let cancelled = false;
+    const task = InteractionManager.runAfterInteractions(() => {
+      setTimeout(() => {
+        if (!cancelled) setHeavyReady(true);
+      }, 80);
+    });
+    return () => {
+      cancelled = true;
+      task.cancel?.();
+    };
+  }, []);
+
+  const loadAcademic = useCallback(() => {
+    if (academicData.length) return;
+    InteractionManager.runAfterInteractions(() => {
+      try {
+        const data = require('../../data/academic_wordlist.json');
+        setAcademicData(Array.isArray(data) ? data : []);
+      } catch (_) {
+        setAcademicData([]);
+      }
+    });
+  }, [academicData.length]);
+
+  const loadAcademicVerbs = useCallback(() => {
+    if (academicVerbData.length) return;
+    InteractionManager.runAfterInteractions(() => {
+      try {
+        const data = require('../../data/academic_verbs.json');
+        setAcademicVerbData(Array.isArray(data) ? data : []);
+      } catch (_) {
+        setAcademicVerbData([]);
+      }
+    });
+  }, [academicVerbData.length]);
+
+  const loadTestEnglish = useCallback(() => {
+    if (testEnglishData.length) return;
+    InteractionManager.runAfterInteractions(() => {
+      try {
+        const data = require('../../data/test_english_vocab_items.json');
+        setTestEnglishData(Array.isArray(data) ? data : []);
+      } catch (_) {
+        setTestEnglishData([]);
+      }
+    });
+  }, [testEnglishData.length]);
+
+  const loadConfusing = useCallback(() => {
+    if (confusingData.length) return;
+    InteractionManager.runAfterInteractions(() => {
+      try {
+        const data = require('../../data/confusing_pronunciations.json');
+        setConfusingData(Array.isArray(data) ? data : []);
+      } catch (_) {
+        setConfusingData([]);
+      }
+    });
+  }, [confusingData.length]);
+
+  const loadDepartments = useCallback(() => {
+    if (deptData.length) return;
+    InteractionManager.runAfterInteractions(() => {
+      try {
+        const data = require('../../data/bogazici_department_vocab.json');
+        setDeptData(Array.isArray(data) ? data : []);
+      } catch (_) {
+        setDeptData([]);
+      }
+    });
+  }, [deptData.length]);
+
+  const loadWascLists = useCallback(() => {
+    if (wascListsData.length) return;
+    InteractionManager.runAfterInteractions(() => {
+      try {
+        const payload = require('../../data/wasc_vocab_lists.json');
+        const lists = Array.isArray(payload?.lists) ? payload.lists : [];
+        setWascListsData(lists);
+      } catch (_) {
+        setWascListsData([]);
+      }
+    });
+  }, [wascListsData.length]);
+
+  const loadWascDecks = useCallback(() => {
+    if (wascDecksData.length) return;
+    InteractionManager.runAfterInteractions(() => {
+      try {
+        const decks = require('../../data/wasc_quizlet_decks.json');
+        setWascDecksData(Array.isArray(decks) ? decks : []);
+      } catch (_) {
+        setWascDecksData([]);
+      }
+    });
+  }, [wascDecksData.length]);
+
+  useEffect(() => {
+    if (activeSection === 'Academic') loadAcademic();
+    if (activeSection === 'Academic Verbs') loadAcademicVerbs();
+    if (activeSection === 'Test-English') loadTestEnglish();
+    if (activeSection === 'Confusing') loadConfusing();
+    if (activeSection === 'Bogazici Dept') loadDepartments();
+    if (activeSection === 'WASC Lists') {
+      loadWascLists();
+      loadWascDecks();
+    }
+  }, [activeSection, loadAcademic, loadAcademicVerbs, loadConfusing, loadDepartments, loadTestEnglish, loadWascDecks, loadWascLists]);
+
+  useEffect(() => {
+    if (!dept && deptData.length) {
+      setDept(deptData[0]?.id || '');
+    }
+  }, [dept, deptData]);
 
   useEffect(() => {
     const initialSection = String(route?.params?.initialSection || '');
@@ -667,51 +941,148 @@ export default function VocabScreen({ navigation, route }) {
     }
   }, [route?.params?.initialSection]);
 
-  const openPlannerDay = (day) => {
+  useEffect(() => {
+    if (activeSection !== 'Dictionary') {
+      setDictionaryReady(false);
+      setDictionaryRenderLimit(DICTIONARY_CARD_BATCH);
+    }
+  }, [activeSection]);
+
+  const openPlannerDay = useCallback((day) => {
     setPlannerLaunchDay(day);
     setActiveSection('24-Week Plan');
-  };
+  }, []);
 
   useEffect(() => {
-    if (activeSection !== 'Dictionary') return undefined;
-    let cancelled = false;
-    const task = InteractionManager.runAfterInteractions(() => {
-      if (!cancelled) setDictionaryReady(true);
+    if (!dictionaryLoadRequested) return undefined;
+    const unsubscribe = subscribeDictionaryBuild((status) => {
+      const progress = Math.round((status?.progress || 0) * 100);
+      setDictionaryProgress(progress);
+      setDictionaryStatus(status?.status || 'idle');
+      setDictionaryError(status?.error ? String(status.error) : '');
+      if (status?.status === 'ready') {
+        setDictionaryReady(true);
+      }
     });
+    startDictionaryBuild();
     return () => {
-      cancelled = true;
-      task.cancel?.();
+      unsubscribe?.();
     };
-  }, [activeSection]);
+  }, [dictionaryLoadRequested]);
 
   useEffect(() => {
     setDictionaryRenderLimit(DICTIONARY_CARD_BATCH);
   }, [query, level, dictionaryView, dictionarySort]);
 
-  const total = safeDictionaryCount();
-  const normalizedAcademicVerbs = NORMALIZED_ACADEMIC_VERBS;
+  useEffect(() => {
+    setWascRenderLimit(80);
+  }, [wascLevel, wascQuery]);
+
+  useEffect(() => {
+    if (!__DEV__) return undefined;
+    const unsubscribe = subscribeSmokeActions((action) => {
+      if (action?.target !== 'Vocab') return;
+      if (smokeDoneRef.current) return;
+      if (action?.type !== 'dictionary_search') return;
+      smokeDoneRef.current = true;
+      const term = action?.query || 'benefit';
+      requestDictionaryLoad();
+      setActiveSection('Dictionary');
+      setQueryImmediate(term);
+      commitQuery(term);
+    });
+    return unsubscribe;
+  }, [requestDictionaryLoad, setActiveSection, setQueryImmediate, commitQuery]);
+
+  const setQueryImmediate = useCallback((value) => {
+    const next = String(value || '');
+    queryInputRef.current = next;
+    searchInputRef.current?.setNativeProps?.({ text: next });
+    setQuery(next);
+    if (!next.trim()) {
+      setLiveEntry(null);
+      setLiveStatus('idle');
+      setLiveError('');
+    }
+  }, []);
+
+  const commitQuery = useCallback((value) => {
+    const next = String(value || '').trim();
+    setQuery(next);
+    if (!next) {
+      setLiveEntry(null);
+      setLiveStatus('idle');
+      setLiveError('');
+      return;
+    }
+    setLiveStatus('loading');
+    setLiveError('');
+    fetchLiveEntry(next)
+      .then((entry) => {
+        setLiveEntry(entry || null);
+        setLiveStatus('ready');
+      })
+      .catch((err) => {
+        setLiveEntry(null);
+        setLiveStatus('error');
+        setLiveError(err?.message || 'Live lookup failed');
+      });
+  }, []);
+
+  const requestDictionaryLoad = useCallback(() => {
+    if (dictionaryLoadRequested) return;
+    setDictionaryReady(false);
+    setDictionaryStatus('building');
+    setDictionaryProgress(0);
+    setDictionaryError('');
+    setDictionaryLoadRequested(true);
+  }, [dictionaryLoadRequested]);
+
+  useEffect(() => {
+    if (!screenReady || dictionaryLoadRequested) return;
+    const task = InteractionManager.runAfterInteractions(() => {
+      const t = setTimeout(() => {
+        requestDictionaryLoad();
+      }, 650);
+      return () => clearTimeout(t);
+    });
+    return () => task.cancel?.();
+  }, [dictionaryLoadRequested, requestDictionaryLoad, screenReady]);
+
+  const total = useMemo(
+    () => (screenReady && dictionaryLoadRequested ? safeDictionaryCount() : 0),
+    [screenReady, dictionaryLoadRequested]
+  );
+  const normalizedAcademicVerbs = useMemo(
+    () => normalizeAcademicVerbList(academicVerbData),
+    [academicVerbData]
+  );
   const dictionarySampleLimit = useMemo(() => {
+    if (!dictionaryLoadRequested) return DICTIONARY_CARD_BATCH;
     const hasDeepFilter = String(query || '').trim().length >= 2
       || level !== 'All'
       || dictionaryView !== 'All'
       || dictionarySort !== 'Match';
     return hasDeepFilter ? DICTIONARY_FILTERED_SAMPLE_LIMIT : DICTIONARY_DEFAULT_SAMPLE_LIMIT;
-  }, [dictionarySort, dictionaryView, level, query]);
+  }, [dictionaryLoadRequested, dictionarySort, dictionaryView, level, query]);
   const challengePool = useMemo(() => {
-    const dict = (dictionaryReady ? safeDictionarySample(DICTIONARY_CHALLENGE_SAMPLE_LIMIT) : [])
+    const dict = (dictionaryReady && dictionaryLoadRequested ? safeDictionarySlice(DICTIONARY_CHALLENGE_SAMPLE_LIMIT) : [])
       .map((v) => ({ word: v.word, def: v.simple_definition }))
       .filter((v) => v.word && v.def);
-    const acad = (Array.isArray(academic) ? academic : []).map((w) => ({ word: w.word, def: w.definition })).filter((v) => v.word && v.def);
+    const acad = (Array.isArray(academicData) ? academicData : [])
+      .map((w) => ({ word: w.word, def: w.definition }))
+      .filter((v) => v.word && v.def);
     const verbs = (Array.isArray(normalizedAcademicVerbs) ? normalizedAcademicVerbs : []).map((w) => ({ word: w.word, def: w.definition })).filter((v) => v.word && v.def);
     return [...dict, ...acad, ...verbs];
-  }, [dictionaryReady, normalizedAcademicVerbs]);
+  }, [academicData, dictionaryLoadRequested, dictionaryReady, normalizedAcademicVerbs]);
   const challenge = useMemo(() => buildVocabChallenge(challengePool, challengeSeed), [challengePool, challengeSeed]);
   const wordOfDay = useMemo(() => {
+    if (!dictionaryLoadRequested) return null;
     const daySeed = Number(new Date().toISOString().slice(8, 10)) || 1;
-    const list = safeDictionarySample(DICTIONARY_WORD_OF_DAY_SAMPLE_LIMIT).filter((v) => v.word && v.simple_definition);
+    const list = safeDictionarySlice(DICTIONARY_WORD_OF_DAY_SAMPLE_LIMIT).filter((v) => v.word && v.simple_definition);
     if (!list.length) return null;
     return list[seededIndex(daySeed * 17, list.length)];
-  }, []);
+  }, [dictionaryLoadRequested]);
   const savedWordSet = useMemo(
     () => new Set((userWords || []).map((item) => normalizeWordKey(item?.word || item))),
     [userWords]
@@ -720,22 +1091,55 @@ export default function VocabScreen({ navigation, route }) {
     () => new Set((unknownWords || []).map((item) => normalizeWordKey(item?.word || item))),
     [unknownWords]
   );
+  const listeningUnknownWords = useMemo(() => {
+    const list = Array.isArray(unknownWords) ? unknownWords : [];
+    return list.filter((item) => {
+      const sourceHints = [
+        item?.sourceModule,
+        ...(Array.isArray(item?.sourceModules) ? item.sourceModules : []),
+        item?.source,
+        ...(Array.isArray(item?.sources) ? item.sources : []),
+      ]
+        .map((value) => String(value || '').toLowerCase())
+        .filter(Boolean);
+      return sourceHints.some((hint) => hint.includes('listening'));
+    });
+  }, [unknownWords]);
+  const subtleHoverWords = useMemo(() => {
+    const list = Array.isArray(unknownWords) ? unknownWords : [];
+    return list.filter((item) => {
+      const sourceHints = [
+        item?.sourceModule,
+        ...(Array.isArray(item?.sourceModules) ? item.sourceModules : []),
+        item?.source,
+        ...(Array.isArray(item?.sources) ? item.sources : []),
+      ]
+        .map((value) => String(value || '').toLowerCase())
+        .filter(Boolean);
+      return sourceHints.some((hint) => hint.includes('subtle') || hint.includes('hover') || hint.includes('subtitle'));
+    });
+  }, [unknownWords]);
   const dictionaryQuery = String(query || '').trim().toLowerCase();
   const dictionaryBase = useMemo(() => {
-    if (!dictionaryReady) return [];
-    const list = safeDictionarySample(dictionarySampleLimit);
+    if (!dictionaryLoadRequested || activeSection !== 'Dictionary') return [];
+    if (dictionaryQuery) {
+      return searchDictionary({ query: dictionaryQuery, level, limit: 1200, hydrate: false });
+    }
+    const list = safeDictionarySlice(dictionarySampleLimit);
     return list.filter((v) => {
-      const wordText = String(v?.word || '').toLowerCase();
-      const defText = String(v?.simple_definition || '').toLowerCase();
-      const matchQuery = dictionaryQuery ? wordText.includes(dictionaryQuery) || defText.includes(dictionaryQuery) : true;
       const matchLevel = level !== 'All' ? v.level === level : true;
-      return matchQuery && matchLevel;
+      return matchLevel;
     });
-  }, [dictionaryQuery, dictionaryReady, dictionarySampleLimit, level]);
-  const deptList = useMemo(() => bogaziciDeptVocab.map((d) => ({ id: d.id, department: d.department })), []);
+  }, [activeSection, dictionaryLoadRequested, dictionaryQuery, dictionarySampleLimit, level]);
+  const deptList = useMemo(
+    () => (Array.isArray(deptData) ? deptData : []).map((d) => ({ id: d.id, department: d.department })),
+    [deptData]
+  );
   const selectedDeptConfig = useMemo(
-    () => bogaziciDeptVocab.find((d) => d.id === dept) || bogaziciDeptVocab[0] || { department: 'Bogazici Department', words: [] },
-    [dept]
+    () => (Array.isArray(deptData) ? deptData : []).find((d) => d.id === dept)
+      || (Array.isArray(deptData) ? deptData[0] : null)
+      || { department: 'Bogazici Department', words: [] },
+    [dept, deptData]
   );
   const selectedDeptRawWords = useMemo(
     () => (Array.isArray(selectedDeptConfig?.words) ? selectedDeptConfig.words : []),
@@ -764,27 +1168,90 @@ export default function VocabScreen({ navigation, route }) {
         };
       });
   }, [activeSection, deptQuery, selectedDeptRawWords]);
+  const wascLevels = useMemo(() => {
+    const levels = Array.from(
+      new Set(
+        (Array.isArray(wascListsData) ? wascListsData : [])
+          .map((group) => String(group?.level || '').toUpperCase().trim())
+          .filter(Boolean)
+      )
+    );
+    return ['ALL', ...levels.sort((a, b) => a.localeCompare(b))];
+  }, [wascListsData]);
+  useEffect(() => {
+    if (wascLevels.includes(wascLevel)) return;
+    setWascLevel(wascLevels[0] || 'ALL');
+  }, [wascLevel, wascLevels]);
+  const wascSelectedGlossary = useMemo(() => {
+    const source = Array.isArray(wascListsData) ? wascListsData : [];
+    if (wascLevel === 'ALL') return null;
+    return source.find((group) => String(group?.level || '').toUpperCase() === wascLevel) || null;
+  }, [wascLevel, wascListsData]);
+  const wascSourceUrl = wascSelectedGlossary?.source_url || (wascListsData[0]?.source_url || '');
+  const wascQuizletProfileUrl = wascSelectedGlossary?.quizlet_source_url || (wascListsData[0]?.quizlet_source_url || 'https://quizlet.com/user/WASC_Bogazici/sets');
+  const wascWords = useMemo(() => {
+    if (activeSection !== 'WASC Lists') return [];
+    const source = Array.isArray(wascListsData) ? wascListsData : [];
+    const allEntries = source.flatMap((group) => {
+      const levelLabel = String(group?.level || '').toUpperCase();
+      const list = Array.isArray(group?.entries) ? group.entries : [];
+      return list.map((item) => ({ ...item, level: item?.level || levelLabel }));
+    });
+    const queryText = String(wascQuery || '').trim().toLowerCase();
+    return allEntries
+      .filter((item) => {
+        const levelOk = wascLevel === 'ALL' || String(item?.level || '').toUpperCase() === wascLevel;
+        if (!levelOk) return false;
+        if (!queryText) return true;
+        const hay = `${item?.word || ''} ${item?.definition || ''} ${(item?.examples || []).join(' ')}`.toLowerCase();
+        return hay.includes(queryText);
+      })
+      .map((item) => {
+        const entry = safeWordEntry(item.word) || {};
+        return {
+          ...entry,
+          word: item.word,
+          level: String(item.level || entry.level || wascLevel || 'B1').toUpperCase(),
+          word_type: entry.word_type || item.word_type || 'general',
+          simple_definition: item.definition || entry.simple_definition || 'Definition pending',
+          examples: Array.isArray(item.examples) && item.examples.length
+            ? item.examples
+            : (Array.isArray(entry.examples) ? entry.examples : []),
+          synonyms: Array.isArray(entry.synonyms) ? entry.synonyms : [],
+          antonyms: Array.isArray(entry.antonyms) ? entry.antonyms : [],
+          collocations: Array.isArray(entry.collocations) ? entry.collocations : [],
+          derivatives: Array.isArray(entry.derivatives) ? entry.derivatives : [],
+          source: 'wasc-glossary',
+        };
+      });
+  }, [activeSection, wascListsData, wascLevel, wascQuery]);
+  const wascTotalWords = useMemo(
+    () => (Array.isArray(wascListsData) ? wascListsData.reduce((sum, item) => sum + Number(item?.count || (item?.entries?.length || 0)), 0) : 0),
+    [wascListsData]
+  );
   const testEnglishTopics = useMemo(() => {
+    if (!screenReady) return ['all'];
     const topics = Array.from(
       new Set(
-        (Array.isArray(testEnglishVocabItems) ? testEnglishVocabItems : [])
+        (Array.isArray(testEnglishData) ? testEnglishData : [])
           .map((item) => String(item?.topic || '').toLowerCase().trim())
           .filter(Boolean)
       )
     );
     return ['all', ...topics.sort((a, b) => a.localeCompare(b))];
-  }, []);
+  }, [screenReady, testEnglishData]);
   const testEnglishLevels = useMemo(() => {
+    if (!screenReady) return ['ALL'];
     const present = new Set(
-      (Array.isArray(testEnglishVocabItems) ? testEnglishVocabItems : [])
+      (Array.isArray(testEnglishData) ? testEnglishData : [])
         .map((item) => String(item?.level || '').toUpperCase().trim())
         .filter(Boolean)
     );
     return TEST_ENGLISH_LEVEL_ORDER.filter((lv) => lv === 'ALL' || present.has(lv));
-  }, []);
+  }, [screenReady, testEnglishData]);
   const testEnglishWords = useMemo(() => {
-    if (activeSection !== 'Test-English') return [];
-    const base = Array.isArray(testEnglishVocabItems) ? testEnglishVocabItems : [];
+    if (!screenReady || activeSection !== 'Test-English') return [];
+    const base = Array.isArray(testEnglishData) ? testEnglishData : [];
     const queryText = String(testEnglishQuery || '').trim().toLowerCase();
     return base
       .filter((item) => {
@@ -810,10 +1277,10 @@ export default function VocabScreen({ navigation, route }) {
           topic: item.topic || 'general',
         };
       });
-  }, [activeSection, testEnglishLevel, testEnglishTopic, testEnglishQuery]);
+  }, [activeSection, screenReady, testEnglishData, testEnglishLevel, testEnglishTopic, testEnglishQuery]);
   const confusingList = useMemo(() => {
-    if (activeSection !== 'Confusing') return [];
-    const base = Array.isArray(confusingPairs) ? confusingPairs : [];
+    if (!screenReady || activeSection !== 'Confusing') return [];
+    const base = Array.isArray(confusingData) ? confusingData : [];
     const q = String(confusingQuery || '').trim().toLowerCase();
     if (!q) return base;
     return base.filter((item) => {
@@ -823,13 +1290,20 @@ export default function VocabScreen({ navigation, route }) {
       const defB = String(item?.definitions?.[1] || '').toLowerCase();
       return left.includes(q) || right.includes(q) || defA.includes(q) || defB.includes(q);
     });
-  }, [activeSection, confusingQuery]);
-  const academicList = useMemo(() => academic.slice(0, academicRenderLimit), [academicRenderLimit]);
+  }, [activeSection, confusingData, confusingQuery, screenReady]);
+  const academicList = useMemo(
+    () => (Array.isArray(academicData) ? academicData : []).slice(0, academicRenderLimit),
+    [academicData, academicRenderLimit]
+  );
   const verbList = useMemo(() => normalizedAcademicVerbs.slice(0, verbRenderLimit), [normalizedAcademicVerbs, verbRenderLimit]);
   const deptVisibleWords = useMemo(() => deptWords.slice(0, deptRenderLimit), [deptWords, deptRenderLimit]);
   const testEnglishVisibleWords = useMemo(
     () => testEnglishWords.slice(0, testEnglishRenderLimit),
     [testEnglishWords, testEnglishRenderLimit]
+  );
+  const wascVisibleWords = useMemo(
+    () => wascWords.slice(0, wascRenderLimit),
+    [wascWords, wascRenderLimit]
   );
   const selectedDeptLabel = useMemo(
     () => (selectedDeptConfig?.department || 'Bogazici Department'),
@@ -876,6 +1350,7 @@ export default function VocabScreen({ navigation, route }) {
     [smartReview]
   );
   const dictionaryResults = useMemo(() => {
+    if (activeSection !== 'Dictionary' || !dictionaryLoadRequested) return [];
     const filtered = dictionaryBase.filter((item) => {
       const key = normalizeWordKey(item?.word);
       if (dictionaryView === 'Saved') return savedWordSet.has(key);
@@ -884,6 +1359,8 @@ export default function VocabScreen({ navigation, route }) {
       if (dictionaryView === 'Collocation') return Array.isArray(item?.collocations) && item.collocations.length > 0;
       return true;
     });
+    const shouldSkipSort = dictionarySort === 'Match' && !query && dictionaryView === 'All';
+    if (shouldSkipSort) return filtered;
     const scored = [...filtered].sort((a, b) => {
       if (dictionarySort === 'A-Z') return String(a.word || '').localeCompare(String(b.word || ''));
       if (dictionarySort === 'Level') return getLevelWeight(b.level) - getLevelWeight(a.level) || String(a.word || '').localeCompare(String(b.word || ''));
@@ -892,6 +1369,7 @@ export default function VocabScreen({ navigation, route }) {
         const scoreB = (Number(vocabStats[normalizeWordKey(b.word)]?.unknown || 0) * 3) - Number(vocabStats[normalizeWordKey(b.word)]?.known || 0);
         return scoreB - scoreA || String(a.word || '').localeCompare(String(b.word || ''));
       }
+      if (!query) return String(a.word || '').localeCompare(String(b.word || ''));
       const exactA = normalizeWordKey(a.word) === normalizeWordKey(query) ? 1 : 0;
       const exactB = normalizeWordKey(b.word) === normalizeWordKey(query) ? 1 : 0;
       if (exactA !== exactB) return exactB - exactA;
@@ -901,19 +1379,21 @@ export default function VocabScreen({ navigation, route }) {
       return String(a.word || '').localeCompare(String(b.word || ''));
     });
     return scored;
-  }, [dictionaryBase, dictionarySort, dictionaryView, query, reviewWordSet, savedWordSet, unknownWordSet, vocabStats]);
+  }, [activeSection, dictionaryLoadRequested, dictionaryBase, dictionarySort, dictionaryView, query, reviewWordSet, savedWordSet, unknownWordSet, vocabStats]);
   const vocab = useMemo(
     () => dictionaryResults.slice(0, dictionaryRenderLimit),
     [dictionaryRenderLimit, dictionaryResults]
   );
   const dictionaryHasMore = dictionaryResults.length > dictionaryRenderLimit;
   const dictionaryFocusEntry = useMemo(() => {
+    if (!dictionaryLoadRequested) return null;
     const exact = query ? dictionaryBase.find((item) => normalizeWordKey(item.word) === normalizeWordKey(query)) : null;
     return exact || dictionaryResults[0] || wordOfDay || null;
-  }, [dictionaryBase, dictionaryResults, query, wordOfDay]);
+  }, [dictionaryLoadRequested, dictionaryBase, dictionaryResults, query, wordOfDay]);
+  const focusEntry = liveEntry || dictionaryFocusEntry;
   const dictionaryFocusFamily = useMemo(
-    () => (dictionaryFocusEntry ? safeWordFamily(dictionaryFocusEntry.word, dictionaryFocusEntry) : null),
-    [dictionaryFocusEntry]
+    () => (focusEntry && dictionaryLoadRequested ? safeWordFamily(focusEntry.word, focusEntry) : null),
+    [focusEntry, dictionaryLoadRequested]
   );
   const dictionaryFocusFamilyRows = useMemo(() => {
     if (!dictionaryFocusFamily) return [];
@@ -926,46 +1406,67 @@ export default function VocabScreen({ navigation, route }) {
     ].filter((row) => row.values.length > 0);
   }, [dictionaryFocusFamily]);
   const dictionaryFocusCollocations = useMemo(
-    () => (Array.isArray(dictionaryFocusEntry?.collocations) ? dictionaryFocusEntry.collocations.slice(0, 8) : []),
-    [dictionaryFocusEntry]
+    () => (Array.isArray(focusEntry?.collocations) ? focusEntry.collocations.slice(0, 8) : []),
+    [focusEntry]
+  );
+  const dictionaryFocusSynonyms = useMemo(
+    () => (Array.isArray(focusEntry?.synonyms) ? focusEntry.synonyms.slice(0, 8) : []),
+    [focusEntry]
+  );
+  const dictionaryFocusAntonyms = useMemo(
+    () => (Array.isArray(focusEntry?.antonyms) ? focusEntry.antonyms.slice(0, 8) : []),
+    [focusEntry]
   );
   const dictionaryFocusExamples = useMemo(
-    () => (Array.isArray(dictionaryFocusEntry?.examples) ? dictionaryFocusEntry.examples.slice(0, 4) : []),
-    [dictionaryFocusEntry]
+    () => (Array.isArray(focusEntry?.examples) ? focusEntry.examples.slice(0, 4) : []),
+    [focusEntry]
   );
-  const targetWord = dictionaryFocusEntry?.word || challenge?.word || wordOfDay?.word || '';
+  const dictionaryFocusVerbForms = useMemo(
+    () => (focusEntry ? safeVerbForms(focusEntry.word, focusEntry) : null),
+    [focusEntry]
+  );
+  const targetWord = focusEntry?.word || challenge?.word || wordOfDay?.word || '';
   const targetEntry = useMemo(() => {
     if (!targetWord) return null;
-    return safeWordEntry(targetWord) || dictionaryFocusEntry || wordOfDay || null;
-  }, [targetWord, dictionaryFocusEntry, wordOfDay]);
+    return safeWordEntry(targetWord) || focusEntry || wordOfDay || null;
+  }, [targetWord, focusEntry, wordOfDay]);
   const targetModelExamples = useMemo(() => {
     const examples = Array.isArray(targetEntry?.examples) ? targetEntry.examples : [];
     return examples.slice(0, 4);
   }, [targetEntry]);
-  const activeSectionMeta = SECTION_META[activeSection] || {};
+  const activeSectionMeta = useMemo(() => SECTION_META[activeSection] || {}, [activeSection]);
   const deptWordCount = activeSection === 'Bogazici Dept' ? deptWords.length : selectedDeptRawWords.length;
   const testEnglishCount = activeSection === 'Test-English'
     ? testEnglishWords.length
-    : (Array.isArray(testEnglishVocabItems) ? testEnglishVocabItems.length : 0);
+    : (Array.isArray(testEnglishData) ? testEnglishData.length : 0);
   const confusingCount = activeSection === 'Confusing'
     ? confusingList.length
-    : (Array.isArray(confusingPairs) ? confusingPairs.length : 0);
+    : (Array.isArray(confusingData) ? confusingData.length : 0);
   const sectionCounts = useMemo(() => ({
     '24-Week Plan': 24,
     'My Words': userWords.length,
-    Academic: academic.length,
+    'WASC Lists': activeSection === 'WASC Lists' ? wascWords.length : wascTotalWords,
+    Academic: academicData.length,
     'Academic Verbs': normalizedAcademicVerbs.length,
     'Test-English': testEnglishCount,
     Confusing: confusingCount,
+    'Listening Queue': listeningUnknownWords.length,
+    'Subtle Hover': subtleHoverWords.length,
     Dictionary: total,
     Unknown: unknownWords.length,
     'Bogazici Dept': deptWordCount,
   }), [
+    academicData.length,
     confusingCount,
     deptWordCount,
     normalizedAcademicVerbs.length,
+    activeSection,
+    wascTotalWords,
+    wascWords.length,
     testEnglishCount,
     total,
+    listeningUnknownWords.length,
+    subtleHoverWords.length,
     unknownWords.length,
     userWords.length,
   ]);
@@ -1012,24 +1513,39 @@ export default function VocabScreen({ navigation, route }) {
     return normalizedAcademicVerbs[seededIndex(verbSeed * 13, normalizedAcademicVerbs.length)];
   }, [normalizedAcademicVerbs, verbSeed]);
 
-  const renderWordCards = (items = [], keyPrefix = '') => (
-    <View style={[styles.listGrid, isWide && styles.listGridWide]}>
-      {items.map((v, idx) => {
-        const baseWord = String(v?.word || `item-${idx}`).trim() || `item-${idx}`;
-        const cardKey = `${keyPrefix}${baseWord.toLowerCase()}-${idx}`;
-        return (
-          <View key={cardKey} style={[styles.listItemWrap, isWide && styles.listItemWrapWide]}>
-            <VocabCard
-              item={v}
-              expanded={!!expanded[cardKey]}
-              onToggle={() => toggle(cardKey)}
-              stats={vocabStats[baseWord] || vocabStats[baseWord.toLowerCase()]}
-            />
-          </View>
-        );
-      })}
-    </View>
-  );
+  const getSectionData = useCallback(() => {
+    switch (activeSection) {
+      case 'Dictionary': return vocab;
+      case 'My Words': return userWords;
+      case 'WASC Lists': return wascVisibleWords;
+      case 'Academic': return academicList;
+      case 'Academic Verbs': return normalizedAcademicVerbs;
+      case 'Test-English': return testEnglishWords;
+      case 'Confusing': return confusingList;
+      case 'Listening Queue': return listeningUnknownWords;
+      case 'Subtle Hover': return subtleHoverWords;
+      case 'Unknown': return unknownWords;
+      case 'Bogazici Dept': return deptVisibleWords;
+      default: return [];
+    }
+  }, [activeSection, vocab, userWords, wascVisibleWords, academicList, normalizedAcademicVerbs, testEnglishWords, confusingList, listeningUnknownWords, subtleHoverWords, unknownWords, deptVisibleWords]);
+
+  const renderVocabItem = useCallback(({ item, index }) => {
+    const keyPrefix = activeSection.toLowerCase().replace(' ', '-') + '-';
+    const baseWord = String(item?.word || `item-${index}`).trim() || `item-${index}`;
+    const cardKey = `${keyPrefix}${baseWord.toLowerCase()}-${index}`;
+    return (
+      <View style={[styles.listItemWrap, isWide && styles.listItemWrapWide]}>
+        <VocabCard
+          item={item}
+          expanded={!!expanded[cardKey]}
+          onToggle={toggle}
+          cardKey={cardKey}
+          stats={vocabStats[baseWord] || vocabStats[baseWord.toLowerCase()]}
+        />
+      </View>
+    );
+  }, [activeSection, expanded, isWide, toggle, vocabStats]);
 
   const onAdd = () => {
     addUserWord(input.trim());
@@ -1125,7 +1641,37 @@ export default function VocabScreen({ navigation, route }) {
     });
   };
 
-  const toggle = (w) => setExpanded((prev) => ({ ...prev, [w]: !prev[w] }));
+  const renderFlashcardHub = useCallback(() => (
+    <Card style={styles.flashcardHubCard}>
+      <View style={styles.flashcardHubHeader}>
+        <View style={styles.flashcardHubCopy}>
+          <Text style={styles.flashcardHubTitle}>Flashcard Ecosystem ⚡️</Text>
+          <Text style={styles.flashcardHubBody}>Study specialized BUEPT sets or create your own custom decks with AI enrichment.</Text>
+        </View>
+        <Ionicons name="albums-outline" size={40} color={colors.secondary} style={{ opacity: 0.8 }} />
+      </View>
+      <View style={styles.flashcardHubActions}>
+        <Button
+          label="Open Library"
+          variant="primary"
+          icon="library-outline"
+          onPress={() => navigation.navigate('FlashcardHome')}
+          style={{ flex: 1 }}
+        />
+        <Button
+          label="Create New Deck"
+          variant="secondary"
+          icon="add-circle-outline"
+          onPress={() => navigation.navigate('CreateFlashcardDeck')}
+          style={{ flex: 1 }}
+        />
+      </View>
+    </Card>
+  ), [navigation]);
+
+  const toggle = useCallback((w) => {
+    setExpanded((prev) => ({ ...prev, [w]: !prev[w] }));
+  }, []);
   const addList = () => {
     const raw = String(listInput || '');
     const words = raw
@@ -1196,8 +1742,26 @@ export default function VocabScreen({ navigation, route }) {
   const addTopDeptWords = () => {
     deptWords.slice(0, 10).forEach((item) => addUserWord(item.word));
   };
+  const addTopWascWords = () => {
+    wascVisibleWords.slice(0, 25).forEach((item) => addUserWord(item.word));
+  };
+  const openWascDeck = useCallback((deckId) => {
+    const decks = Array.isArray(wascDecksData) ? wascDecksData : [];
+    const deck = decks.find((item) => item.id === deckId) || decks[0];
+    if (!deck) return;
+    navigation.navigate('VocabFlashcard', {
+      initialWords: deck.cards || [],
+      title: deck.title || 'WASC Quizlet Deck',
+    });
+  }, [navigation, wascDecksData]);
   const addTopTestEnglishWords = () => {
     testEnglishVisibleWords.slice(0, 20).forEach((item) => addUserWord(item.word));
+  };
+  const addTopListeningWords = () => {
+    listeningUnknownWords.slice(0, 20).forEach((item) => addUserWord(item?.word || item));
+  };
+  const addTopSubtleHoverWords = () => {
+    subtleHoverWords.slice(0, 20).forEach((item) => addUserWord(item?.word || item));
   };
   const checkDeptChallenge = () => {
     if (deptChallengeSelected == null) return;
@@ -1218,10 +1782,32 @@ export default function VocabScreen({ navigation, route }) {
     setTestEnglishChallengeChecked(false);
   };
 
-  const renderSection = () => {
+  const renderSectionHeader = () => {
+    if (!heavyReady) {
+      return (
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Preparing Vocabulary Workspace...</Text>
+          <Text style={styles.sub}>We are loading the core UI first so the screen stays smooth.</Text>
+          <View style={styles.quizRow}>
+            <Button label="Load Dictionary" onPress={requestDictionaryLoad} disabled={dictionaryLoadRequested} />
+            <Button label="Open 24-Week Plan" variant="secondary" onPress={() => setActiveSection('24-Week Plan')} />
+          </View>
+        </Card>
+      );
+    }
     switch (activeSection) {
       case '24-Week Plan':
-        return <VocabWeeklyPlanner initialDay={plannerLaunchDay} />;
+        try {
+          const Planner = require('../components/vocab/VocabWeeklyPlanner').default;
+          return <Planner initialDay={plannerLaunchDay} />;
+        } catch (e) {
+          return (
+            <Card style={styles.card}>
+              <Text style={styles.h3}>24-Week Planner</Text>
+              <Text style={styles.sub}>The planner is still loading. Please try again.</Text>
+            </Card>
+          );
+        }
       case 'My Words':
         return (
           <>
@@ -1280,11 +1866,6 @@ export default function VocabScreen({ navigation, route }) {
               </View>
               {listFeedback ? <Text style={styles.sub}>{listFeedback}</Text> : null}
             </Card>
-            {userWords.length === 0 ? (
-              <Text style={styles.sub}>No saved words yet. Add words from the Dictionary section.</Text>
-            ) : (
-              renderWordCards(userWords, 'my-')
-            )}
           </>
         );
       case 'Academic':
@@ -1293,24 +1874,59 @@ export default function VocabScreen({ navigation, route }) {
             <WorkspaceIntroCard
               title="Academic Core Bank"
               body="This is the broad academic vocabulary layer. Use it when you want clean definitions, reusable collocations, and higher-frequency essay language."
-              metricValue={academic.length}
+              metricValue={academicData.length}
               metricLabel="words"
               actions={[
-                { key: 'acad-add', label: 'Add top 20', variant: 'secondary', icon: 'bookmark-outline', onPress: () => academic.slice(0, 20).forEach((w) => addUserWord(w.word)) },
+                { key: 'acad-add', label: 'Add top 20', variant: 'secondary', icon: 'bookmark-outline', onPress: () => academicData.slice(0, 20).forEach((w) => addUserWord(w.word)) },
                 { key: 'acad-syn', label: 'Synonym Finder', variant: 'ghost', icon: 'git-compare-outline', onPress: () => navigation.navigate('SynonymFinder') },
-                { key: 'acad-more', label: 'Load more', variant: 'ghost', icon: 'add-outline', onPress: () => setAcademicRenderLimit((n) => n + 60), disabled: academicRenderLimit >= academic.length },
+                { key: 'acad-more', label: 'Load more', variant: 'ghost', icon: 'add-outline', onPress: () => setAcademicRenderLimit((n) => n + 60), disabled: academicRenderLimit >= academicData.length },
               ]}
             />
-            {renderWordCards(
-              academicList.map((w) => {
-                const entry = safeWordEntry(w.word) || {};
-                return { ...w, ...entry, simple_definition: w.definition || entry.simple_definition, word: w.word };
-              }),
-              'acad-'
-            )}
-            {academicRenderLimit < academic.length ? (
-              <Button label="Load More Academic Words" variant="secondary" onPress={() => setAcademicRenderLimit((n) => n + 60)} />
-            ) : null}
+          </>
+        );
+      case 'WASC Lists':
+        return (
+          <>
+            <WorkspaceIntroCard
+              title="WASC Vocabulary Lists"
+              body="Official WASC glossary words (A2-B1-B2) extracted into searchable lists. You can push top words into My Words and open Quizlet-style flashcard decks instantly."
+              metricValue={wascWords.length}
+              metricLabel="matched"
+              actions={[
+                { key: 'wasc-add', label: 'Add top 25', variant: 'secondary', icon: 'bookmark-outline', onPress: addTopWascWords },
+                { key: 'wasc-deck', label: 'Open mixed deck', variant: 'ghost', icon: 'albums-outline', onPress: () => openWascDeck('quizlet_wasc_mixed') },
+                { key: 'wasc-quizlet', label: 'Quizlet profile', variant: 'ghost', icon: 'open-outline', onPress: () => navigation.navigate('WebViewer', { title: 'WASC Quizlet Sets', url: wascQuizletProfileUrl }) },
+              ]}
+            />
+            <Card style={styles.card}>
+              <Text style={styles.h3}>WASC Glossary Browser</Text>
+              <Text style={styles.sub}>All lists: {wascTotalWords} words • Current filter: {wascWords.length}</Text>
+              <Text style={styles.sub}>Level</Text>
+              <View style={styles.levelRow}>
+                {wascLevels.map((lv) => (
+                  <Chip
+                    key={`wasc-level-${lv}`}
+                    label={lv}
+                    active={wascLevel === lv}
+                    onPress={() => setWascLevel(lv)}
+                  />
+                ))}
+              </View>
+              <TextInput
+                style={styles.input}
+                placeholder="Search in WASC glossary..."
+                value={wascQuery}
+                onChangeText={setWascQuery}
+                autoCapitalize="none"
+                placeholderTextColor={colors.muted}
+              />
+              <Text style={styles.dictMeta}>Showing {wascVisibleWords.length} / {wascWords.length} words</Text>
+              <View style={styles.quizRow}>
+                <Button label="WASC Mixed Deck" variant="secondary" onPress={() => openWascDeck('quizlet_wasc_mixed')} />
+                <Button label={`WASC ${wascLevel === 'ALL' ? 'A2' : wascLevel} Deck`} variant="secondary" onPress={() => openWascDeck(`quizlet_wasc_${String((wascLevel === 'ALL' ? 'A2' : wascLevel)).toLowerCase()}`)} />
+                <Button label="Open Glossary PDF" variant="ghost" onPress={() => navigation.navigate('WebViewer', { title: 'WASC Glossary', url: wascSourceUrl })} />
+              </View>
+            </Card>
           </>
         );
       case 'Academic Verbs':
@@ -1327,19 +1943,6 @@ export default function VocabScreen({ navigation, route }) {
                 { key: 'verb-more', label: 'Load more', variant: 'ghost', icon: 'add-outline', onPress: () => setVerbRenderLimit((n) => n + 60), disabled: verbRenderLimit >= normalizedAcademicVerbs.length },
               ]}
             />
-            {renderWordCards(
-              verbList.map((w) => {
-                const entry = safeWordEntry(w.word) || {};
-                return {
-                  ...entry,
-                  word: w.word,
-                  word_type: entry.word_type || 'verb',
-                  simple_definition: w.definition || entry.simple_definition,
-                  examples: w.example ? [w.example, ...(entry.examples || [])] : entry.examples || [],
-                };
-              }),
-              'verb-'
-            )}
           </>
         );
       case 'Test-English':
@@ -1354,6 +1957,7 @@ export default function VocabScreen({ navigation, route }) {
                 { key: 'te-meaning', label: 'Meaning quiz', variant: 'secondary', icon: 'help-circle-outline', onPress: () => navigation.navigate('VocabQuiz', { size: 20, mode: 'test_english', topic: testEnglishTopic, level: testEnglishLevel }) },
                 { key: 'te-syn', label: 'Synonym quiz', variant: 'ghost', icon: 'git-compare-outline', onPress: () => navigation.navigate('VocabSynonymQuiz', { size: 20, mode: 'test_english', topic: testEnglishTopic, level: testEnglishLevel }) },
                 { key: 'te-cloze', label: 'Cloze quiz', variant: 'ghost', icon: 'create-outline', onPress: () => navigation.navigate('VocabClozeQuiz', { size: 20, mode: 'test_english', topic: testEnglishTopic, level: testEnglishLevel }) },
+                { key: 'te-colloc', label: '🔗 Collocations', variant: 'ghost', icon: 'link-outline', onPress: () => navigation.navigate('VocabCollocationQuiz', { size: 20, mode: 'test_english', topic: testEnglishTopic, level: testEnglishLevel }) },
               ]}
             />
             <Card style={styles.card}>
@@ -1468,10 +2072,6 @@ export default function VocabScreen({ navigation, route }) {
                 </>
               )}
             </Card>
-            {renderWordCards(testEnglishVisibleWords, `te-${testEnglishLevel}-${testEnglishTopic}-`)}
-            {testEnglishRenderLimit < testEnglishWords.length ? (
-              <Button label="Load More Test-English Words" variant="secondary" onPress={() => setTestEnglishRenderLimit((n) => n + 80)} />
-            ) : null}
           </>
         );
       case 'Confusing':
@@ -1504,42 +2104,6 @@ export default function VocabScreen({ navigation, route }) {
                 <Button label="Clear Search" variant="secondary" onPress={() => setConfusingQuery('')} disabled={!confusingQuery} />
               </View>
             </Card>
-            {confusingList.length === 0 ? (
-              <Card style={styles.card}>
-                <Text style={styles.sub}>No confusing pair found for this search.</Text>
-              </Card>
-            ) : (
-              confusingList.map((item) => {
-                const leftWord = String(item?.pair?.[0] || '').trim();
-                const rightWord = String(item?.pair?.[1] || '').trim();
-                const leftDef = String(item?.definitions?.[0] || '').trim();
-                const rightDef = String(item?.definitions?.[1] || '').trim();
-                const leftIpa = String(item?.phonetics?.[0] || '').trim();
-                const rightIpa = String(item?.phonetics?.[1] || '').trim();
-                return (
-                  <Card key={`confusing-${item.id}-${leftWord}-${rightWord}`} style={styles.card}>
-                    <View style={styles.confusingWordsRow}>
-                      <TouchableOpacity style={styles.confusingWordChip} onPress={() => speakWord(leftWord)}>
-                        <Text style={styles.confusingWordText}>{leftWord} 🔊</Text>
-                      </TouchableOpacity>
-                      <Text style={styles.confusingVs}>vs</Text>
-                      <TouchableOpacity style={styles.confusingWordChip} onPress={() => speakWord(rightWord)}>
-                        <Text style={styles.confusingWordText}>{rightWord} 🔊</Text>
-                      </TouchableOpacity>
-                    </View>
-                    {(leftIpa || rightIpa) ? (
-                      <Text style={styles.confusingIpa}>{leftIpa || '—'}  |  {rightIpa || '—'}</Text>
-                    ) : null}
-                    <Text style={styles.confusingDef}><Text style={styles.confusingWordInline}>{leftWord}:</Text> {leftDef || 'Definition pending'}</Text>
-                    <Text style={styles.confusingDef}><Text style={styles.confusingWordInline}>{rightWord}:</Text> {rightDef || 'Definition pending'}</Text>
-                    <View style={styles.quizRow}>
-                      <Button label={`Add ${leftWord}`} variant="secondary" onPress={() => addUserWord(leftWord)} />
-                      <Button label={`Add ${rightWord}`} variant="secondary" onPress={() => addUserWord(rightWord)} />
-                    </View>
-                  </Card>
-                );
-              })
-            )}
           </>
         );
       case 'Dictionary':
@@ -1574,10 +2138,29 @@ export default function VocabScreen({ navigation, route }) {
 
             {!dictionaryReady ? (
               <Card style={styles.card}>
-                <Text style={styles.h3}>Preparing Dictionary</Text>
+                <Text style={styles.h3}>
+                  {dictionaryStatus === 'building'
+                    ? `Preparing Dictionary (${dictionaryProgress}%)`
+                    : 'Dictionary Loading'}
+                </Text>
                 <Text style={styles.sub}>
                   Loading the fast preview first so the vocab workspace opens without stalling. Search two or more letters for a deeper scan.
                 </Text>
+                <View style={styles.progressTrack}>
+                  <View
+                    style={[
+                      styles.progressFill,
+                      { width: `${Math.min(100, Math.max(2, dictionaryProgress || 0))}%` },
+                    ]}
+                  />
+                </View>
+                <Text style={styles.progressText}>{Math.min(100, Math.max(0, dictionaryProgress || 0))}%</Text>
+                {dictionaryStatus && dictionaryStatus !== 'building' ? (
+                  <Text style={styles.sub}>Status: {dictionaryStatus}</Text>
+                ) : null}
+                {dictionaryError ? (
+                  <Text style={styles.sub}>Error: {dictionaryError}</Text>
+                ) : null}
               </Card>
             ) : null}
 
@@ -1590,18 +2173,23 @@ export default function VocabScreen({ navigation, route }) {
               <View style={styles.searchBox}>
                 <Ionicons name="search" size={16} color={colors.muted} />
                 <TextInput
+                  ref={searchInputRef}
                   style={styles.searchInput}
                   placeholder="Search dictionary..."
-                  value={query}
-                  onChangeText={setQuery}
+                  onChangeText={(value) => {
+                    queryInputRef.current = value;
+                  }}
+                  onSubmitEditing={() => commitQuery(queryInputRef.current)}
                   autoCapitalize="none"
                   placeholderTextColor={colors.muted}
                 />
-                {query.length > 0 ? (
-                  <TouchableOpacity onPress={() => setQuery('')}>
-                    <Ionicons name="close-circle" size={17} color={colors.muted} />
-                  </TouchableOpacity>
-                ) : null}
+                <TouchableOpacity onPress={() => setQueryImmediate('')}>
+                  <Ionicons name="close-circle" size={17} color={colors.muted} />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.quizRow}>
+                <Button label="Search" onPress={() => commitQuery(queryInputRef.current)} />
+                <Button label="Clear" variant="secondary" onPress={() => setQueryImmediate('')} />
               </View>
               <View style={styles.levelRow}>
                 {LEVELS.map((lvl) => (
@@ -1624,46 +2212,114 @@ export default function VocabScreen({ navigation, route }) {
                 <Button label="Word quiz" variant="secondary" onPress={() => navigation.navigate('VocabPractice')} />
                 <Button label="Synonyms quiz" variant="secondary" onPress={() => navigation.navigate('VocabSynonymQuiz')} />
                 <Button label="Fill blank" variant="secondary" onPress={() => navigation.navigate('VocabClozeQuiz')} />
+                <Button label="🔗 Collocations" variant="secondary" onPress={() => navigation.navigate('VocabCollocationQuiz')} />
               </View>
+            </Card>
+
+            <Card style={styles.card}>
+              <Text style={styles.h3}>Sources</Text>
+              <Text style={styles.sub}>
+                Core dictionary entries are compiled from open lexical datasets (WordNet + word frequency lists) and the
+                Boğaziçi academic lists included in the app.
+              </Text>
+              <Text style={styles.sub}>
+                Live lookup uses dictionaryapi.dev for definitions and Datamuse for synonym expansion.
+              </Text>
+            </Card>
+
+            <Card style={styles.card}>
+              <Text style={styles.h3}>Live Dictionary Lookup</Text>
+              <Text style={styles.sub}>Uses a live dictionary source for clean definitions + synonyms + antonyms. Press Search to fetch.</Text>
+              {!query ? (
+                <Text style={styles.sub}>Type a word above and press Search.</Text>
+              ) : liveStatus === 'loading' ? (
+                <Text style={styles.sub}>Fetching live dictionary entry...</Text>
+              ) : liveStatus === 'error' ? (
+                <Text style={styles.sub}>Live lookup failed: {liveError}</Text>
+              ) : liveEntry ? (
+                <>
+                  <View style={styles.wordRow}>
+                    <TouchableOpacity onPress={() => speakWord(liveEntry.word)} style={styles.wordTapArea}>
+                      <Text style={styles.word}>{liveEntry.word}</Text>
+                      <Text style={styles.ttsIcon}>🔊</Text>
+                    </TouchableOpacity>
+                    {liveEntry.word_type ? (
+                      <View style={[styles.levelBadge, { backgroundColor: colors.secondary }]}>
+                        <Text style={styles.levelBadgeText}>{liveEntry.word_type}</Text>
+                      </View>
+                    ) : null}
+                  </View>
+                  <Text style={styles.sub}>{liveEntry.simple_definition}</Text>
+                  {Array.isArray(liveEntry.synonyms) && liveEntry.synonyms.length ? (
+                    <View style={styles.tagRow}>
+                      {liveEntry.synonyms.slice(0, 8).map((syn) => (
+                        <View key={`live-syn-${syn}`} style={styles.tag}>
+                          <Text style={styles.tagText}>{syn}</Text>
+                        </View>
+                      ))}
+                    </View>
+                  ) : null}
+                  {Array.isArray(liveEntry.antonyms) && liveEntry.antonyms.length ? (
+                    <View style={styles.tagRow}>
+                      {liveEntry.antonyms.slice(0, 8).map((ant) => (
+                        <View key={`live-ant-${ant}`} style={[styles.tag, styles.liveAntTag]}>
+                          <Text style={[styles.tagText, styles.liveAntTagText]}>{ant}</Text>
+                        </View>
+                      ))}
+                    </View>
+                  ) : null}
+                  {Array.isArray(liveEntry.examples) && liveEntry.examples.length ? (
+                    <View style={styles.exampleBox}>
+                      {liveEntry.examples.slice(0, 2).map((ex, idx) => (
+                        <Text key={`live-ex-${idx}`} style={styles.exampleText}>• {ex}</Text>
+                      ))}
+                    </View>
+                  ) : null}
+                </>
+              ) : (
+                <Text style={styles.sub}>No live entry found for "{query}".</Text>
+              )}
             </Card>
 
             <View style={[styles.dictionaryStudioGrid, isWide && styles.dictionaryStudioGridWide]}>
               <View style={[styles.dictionaryStudioColumn, isWide && styles.dictionaryStudioColumnWide]}>
                 <Card style={styles.card}>
                   <Text style={styles.h3}>Dictionary Focus</Text>
-                  {!dictionaryReady ? (
+                  {!dictionaryLoadRequested ? (
+                    <Text style={styles.sub}>Load the dictionary to unlock focus insights.</Text>
+                  ) : !dictionaryReady ? (
                     <Text style={styles.sub}>Dictionary focus will appear after the preview finishes loading.</Text>
-                  ) : !dictionaryFocusEntry ? (
+                  ) : !focusEntry ? (
                     <Text style={styles.sub}>No word available.</Text>
                   ) : (
                     <>
                       <View style={styles.wordRow}>
-                        <TouchableOpacity onPress={() => speakWord(dictionaryFocusEntry.word)} style={styles.wordTapArea}>
-                          <Text style={styles.word}>{dictionaryFocusEntry.word}</Text>
+                        <TouchableOpacity onPress={() => speakWord(focusEntry.word)} style={styles.wordTapArea}>
+                          <Text style={styles.word}>{focusEntry.word}</Text>
                           <Text style={styles.ttsIcon}>🔊</Text>
                         </TouchableOpacity>
-                        {dictionaryFocusEntry.level ? (
-                          <View style={[styles.levelBadge, { backgroundColor: LEVEL_COLORS[dictionaryFocusEntry.level] || colors.secondary }]}>
-                            <Text style={styles.levelBadgeText}>{dictionaryFocusEntry.level}</Text>
+                        {focusEntry.level ? (
+                          <View style={[styles.levelBadge, { backgroundColor: LEVEL_COLORS[focusEntry.level] || colors.secondary }]}>
+                            <Text style={styles.levelBadgeText}>{focusEntry.level}</Text>
                           </View>
                         ) : null}
                       </View>
                       <Text style={styles.sub}>
-                        {dictionaryFocusEntry.word_type || 'general academic'}{dictionaryFocusEntry.simple_definition ? ` · ${dictionaryFocusEntry.simple_definition}` : ''}
+                        {focusEntry.word_type || 'general academic'}{focusEntry.simple_definition ? ` · ${focusEntry.simple_definition}` : ''}
                       </Text>
                       <View style={styles.focusStatsRow}>
                         <View style={styles.focusStatBox}>
-                          <Text style={styles.focusStatValue}>{savedWordSet.has(normalizeWordKey(dictionaryFocusEntry.word)) ? 'Yes' : 'No'}</Text>
+                          <Text style={styles.focusStatValue}>{savedWordSet.has(normalizeWordKey(focusEntry.word)) ? 'Yes' : 'No'}</Text>
                           <Text style={styles.focusStatLabel}>Saved</Text>
                         </View>
                         <View style={styles.focusStatBox}>
-                          <Text style={styles.focusStatValue}>{unknownWordSet.has(normalizeWordKey(dictionaryFocusEntry.word)) ? 'Yes' : 'No'}</Text>
+                          <Text style={styles.focusStatValue}>{unknownWordSet.has(normalizeWordKey(focusEntry.word)) ? 'Yes' : 'No'}</Text>
                           <Text style={styles.focusStatLabel}>Unknown</Text>
                         </View>
                         <View style={styles.focusStatBox}>
                           <Text style={styles.focusStatValue}>
-                            {Number(vocabStats[normalizeWordKey(dictionaryFocusEntry.word)]?.known || 0)}/
-                            {Number(vocabStats[normalizeWordKey(dictionaryFocusEntry.word)]?.unknown || 0)}
+                            {Number(vocabStats[normalizeWordKey(focusEntry.word)]?.known || 0)}/
+                            {Number(vocabStats[normalizeWordKey(focusEntry.word)]?.unknown || 0)}
                           </Text>
                           <Text style={styles.focusStatLabel}>K/U</Text>
                         </View>
@@ -1680,7 +2336,7 @@ export default function VocabScreen({ navigation, route }) {
                                     key={`focus-family-${row.key}-${value}`}
                                     style={styles.miniChip}
                                     onPress={() => {
-                                      setQuery(value);
+                                      setQueryImmediate(value);
                                       speakWord(value);
                                     }}
                                   >
@@ -1690,6 +2346,44 @@ export default function VocabScreen({ navigation, route }) {
                               </View>
                             </View>
                           ))}
+                        </View>
+                      ) : null}
+                      {dictionaryFocusSynonyms.length > 0 ? (
+                        <View style={styles.focusModule}>
+                          <Text style={styles.focusModuleTitle}>Synonyms</Text>
+                          <View style={styles.chipRow}>
+                            {dictionaryFocusSynonyms.map((item) => (
+                              <TouchableOpacity
+                                key={`focus-synonym-${item}`}
+                                style={styles.miniChip}
+                                onPress={() => {
+                                  setQueryImmediate(item);
+                                  speakWord(item);
+                                }}
+                              >
+                                <Text style={styles.miniChipText}>{item}</Text>
+                              </TouchableOpacity>
+                            ))}
+                          </View>
+                        </View>
+                      ) : null}
+                      {dictionaryFocusAntonyms.length > 0 ? (
+                        <View style={styles.focusModule}>
+                          <Text style={styles.focusModuleTitle}>Antonyms</Text>
+                          <View style={styles.chipRow}>
+                            {dictionaryFocusAntonyms.map((item) => (
+                              <TouchableOpacity
+                                key={`focus-antonym-${item}`}
+                                style={[styles.miniChip, styles.miniChipOpposite]}
+                                onPress={() => {
+                                  setQueryImmediate(item);
+                                  speakWord(item);
+                                }}
+                              >
+                                <Text style={[styles.miniChipText, styles.miniChipTextOpposite]}>{item}</Text>
+                              </TouchableOpacity>
+                            ))}
+                          </View>
                         </View>
                       ) : null}
                       {dictionaryFocusCollocations.length > 0 ? (
@@ -1708,9 +2402,21 @@ export default function VocabScreen({ navigation, route }) {
                           </View>
                         </View>
                       ) : null}
+                      {dictionaryFocusVerbForms ? (
+                        <View style={styles.focusModule}>
+                          <Text style={styles.focusModuleTitle}>Verb Forms</Text>
+                          <View style={styles.focusVerbFormsWrap}>
+                            <Text style={styles.focusVerbFormChip}>Base: {dictionaryFocusVerbForms.base}</Text>
+                            <Text style={styles.focusVerbFormChip}>V2: {dictionaryFocusVerbForms.v2}</Text>
+                            <Text style={styles.focusVerbFormChip}>V3: {dictionaryFocusVerbForms.v3}</Text>
+                            <Text style={styles.focusVerbFormChip}>-ing: {dictionaryFocusVerbForms.ing}</Text>
+                            <Text style={styles.focusVerbFormChip}>3rd person: {dictionaryFocusVerbForms.thirdPerson}</Text>
+                          </View>
+                        </View>
+                      ) : null}
                       <View style={styles.quizRow}>
-                        <Button label="Add to My Words" variant="secondary" onPress={() => addUserWord(dictionaryFocusEntry.word)} />
-                        <Button label="Read aloud" variant="ghost" onPress={() => speakWord(dictionaryFocusEntry.word)} />
+                        <Button label="Add to My Words" variant="secondary" onPress={() => addUserWord(focusEntry.word)} />
+                        <Button label="Read aloud" variant="ghost" onPress={() => speakWord(focusEntry.word)} />
                         <Button label="Use in studio" variant="ghost" onPress={() => setSentenceInput(dictionaryFocusExamples[0] || '')} />
                       </View>
                     </>
@@ -1854,33 +2560,60 @@ export default function VocabScreen({ navigation, route }) {
                     </>
                   )}
                 </Card>
-
-                <Card style={styles.card}>
-                  <Text style={styles.h3}>Smart Review Queue</Text>
-                  <Text style={styles.sub}>These are the words your stats say still need active recycling.</Text>
-                  {smartReview.length === 0 ? (
-                    <Text style={styles.sub}>No high-risk words yet. Start with a few quizzes or the 24-week plan first.</Text>
-                  ) : (
-                    renderWordCards(smartReview, 'review-')
-                  )}
-                </Card>
               </View>
             </View>
-
-            {vocab.length === 0 ? (
-              <Card style={styles.card}>
-                <Text style={styles.sub}>No dictionary entry matched this filter. Try another search term or reset the workspace view.</Text>
-              </Card>
-            ) : (
-              renderWordCards(vocab, 'dict-')
-            )}
-            {dictionaryHasMore ? (
-              <Button
-                label={`Load More Entries (${Math.min(DICTIONARY_CARD_BATCH, dictionaryResults.length - dictionaryRenderLimit)} more)`}
-                variant="secondary"
-                onPress={() => setDictionaryRenderLimit((current) => current + DICTIONARY_CARD_BATCH)}
-              />
-            ) : null}
+          </>
+        );
+      case 'Listening Queue':
+        return (
+          <>
+            <WorkspaceIntroCard
+              title="Listening Vocabulary Queue"
+              body="Words captured from Listening tasks are collected here so you can revise listening-specific vocabulary separately."
+              metricValue={listeningUnknownWords.length}
+              metricLabel="captured"
+              actions={[
+                { key: 'listening-open', label: 'Open listening', variant: 'secondary', icon: 'headset-outline', onPress: () => navigation.navigate('Listening') },
+                { key: 'listening-my', label: 'Add top 20', variant: 'ghost', icon: 'bookmark-outline', onPress: addTopListeningWords, disabled: listeningUnknownWords.length === 0 },
+                { key: 'listening-unknown', label: 'Unknown queue', variant: 'ghost', icon: 'alert-circle-outline', onPress: () => setActiveSection('Unknown') },
+              ]}
+            />
+            <Card style={styles.card}>
+              <Text style={styles.h3}>Listening Capture Feed</Text>
+              <Text style={styles.sub}>
+                Complete a listening quiz, and the system sends core keywords and missed-question vocabulary here.
+              </Text>
+              <View style={styles.quizRow}>
+                <Button label="Go to Listening" variant="secondary" onPress={() => navigation.navigate('Listening')} />
+                <Button label="Add Top 20 to My Words" variant="secondary" onPress={addTopListeningWords} disabled={listeningUnknownWords.length === 0} />
+              </View>
+            </Card>
+          </>
+        );
+      case 'Subtle Hover':
+        return (
+          <>
+            <WorkspaceIntroCard
+              title="Subtle Hover Queue"
+              body="This queue receives vocabulary captured by the Subtle Hover Chrome extension. Sync is now near real-time while the app is open."
+              metricValue={subtleHoverWords.length}
+              metricLabel="synced"
+              actions={[
+                { key: 'subtle-add', label: 'Add top 20', variant: 'secondary', icon: 'bookmark-outline', onPress: addTopSubtleHoverWords, disabled: subtleHoverWords.length === 0 },
+                { key: 'subtle-unknown', label: 'Unknown queue', variant: 'ghost', icon: 'alert-circle-outline', onPress: () => setActiveSection('Unknown') },
+                { key: 'subtle-dict', label: 'Dictionary', variant: 'ghost', icon: 'book-outline', onPress: () => setActiveSection('Dictionary') },
+              ]}
+            />
+            <Card style={styles.card}>
+              <Text style={styles.h3}>Subtle Hover Sync Feed</Text>
+              <Text style={styles.sub}>
+                If a word is saved from the extension, it appears here first, then you can move it to My Words.
+              </Text>
+              <View style={styles.quizRow}>
+                <Button label="Add Top 20 To My Words" variant="secondary" onPress={addTopSubtleHoverWords} disabled={subtleHoverWords.length === 0} />
+                <Button label="Open Unknown Queue" variant="secondary" onPress={() => setActiveSection('Unknown')} />
+              </View>
+            </Card>
           </>
         );
       case 'Unknown':
@@ -1894,16 +2627,13 @@ export default function VocabScreen({ navigation, route }) {
               actions={[
                 { key: 'unknown-dict', label: 'Dictionary Lab', variant: 'secondary', icon: 'book-outline', onPress: () => setActiveSection('Dictionary') },
                 { key: 'unknown-my', label: 'My words', variant: 'ghost', icon: 'bookmark-outline', onPress: () => setActiveSection('My Words') },
+                { key: 'unknown-listening', label: 'Listening queue', variant: 'ghost', icon: 'headset-outline', onPress: () => setActiveSection('Listening Queue') },
+                { key: 'unknown-subtle', label: 'Subtle Hover', variant: 'ghost', icon: 'logo-chrome', onPress: () => setActiveSection('Subtle Hover') },
                 { key: 'unknown-clear', label: 'Clear list', variant: 'ghost', icon: 'trash-outline', onPress: clearUnknownWords, disabled: unknownWords.length === 0 },
               ]}
             />
             {unknownWords.length > 0 && (
               <Button label="Clear Unknown List" variant="secondary" onPress={clearUnknownWords} />
-            )}
-            {unknownWords.length === 0 ? (
-              <Text style={styles.sub}>No unknown words yet. Long-press words while reading/listening to mark them.</Text>
-            ) : (
-              renderWordCards(unknownWords, 'unknown-')
             )}
           </>
         );
@@ -1983,19 +2713,22 @@ export default function VocabScreen({ navigation, route }) {
                 </>
               )}
             </Card>
-            {renderWordCards(deptVisibleWords, `${dept}-`)}
-            {deptRenderLimit < deptWords.length ? (
-              <Button label="Load More Department Words" variant="secondary" onPress={() => setDeptRenderLimit((n) => n + 60)} />
-            ) : null}
           </>
         );
-      default:
-        return null;
     }
   };
 
-  return (
-    <Screen scroll contentStyle={styles.content}>
+  const renderListHeader = () => {
+    if (!screenReady) {
+      return (
+        <View style={styles.headerContent}>
+          <Text style={styles.h1}>Vocabulary</Text>
+          <Text style={styles.headerSub}>Preparing the vocab workspace...</Text>
+        </View>
+      );
+    }
+    return (
+      <View style={styles.headerContent}>
       <Text style={styles.h1}>Vocabulary</Text>
       <Text style={styles.headerSub}>Dictionary-first vocab workspace with a 24-week daily quiz system: days 1-5 word formation, days 6-7 collocation.</Text>
 
@@ -2020,50 +2753,65 @@ export default function VocabScreen({ navigation, route }) {
         </View>
       </Card>
 
-      <View style={styles.metricRail}>
-        <HubMetric value={total} label="Dictionary" />
-        <HubMetric value={userWords.length} label="My words" accent="teal" />
-        <HubMetric value={unknownWords.length} label="Unknown queue" accent="amber" />
-        <HubMetric value={`${progress.knownPct}%`} label="Known ratio" accent="purple" />
-      </View>
+      {heavyReady ? (
+        <>
+          {renderFlashcardHub()}
 
-      <Card style={styles.banner}>
-        <View style={styles.sectionHeader}>
-          <View>
-            <Text style={styles.bannerTitle}>Quick Start</Text>
-            <Text style={styles.sectionSub}>Open the vocab workspace by task, not by tab hunting.</Text>
+          <View style={styles.metricRail}>
+            <HubMetric value={total} label="Dictionary" />
+            <HubMetric value={userWords.length} label="My words" accent="teal" />
+            <HubMetric value={subtleHoverWords.length} label="Subtle Hover" accent="blue" />
+            <HubMetric value={listeningUnknownWords.length} label="Listening queue" accent="blue" />
+            <HubMetric value={unknownWords.length} label="Unknown queue" accent="amber" />
+            <HubMetric value={`${progress.knownPct}%`} label="Known ratio" accent="purple" />
           </View>
-        </View>
-        <View style={styles.heroActionRow}>
-          <Button label="Search Dictionary" icon="search-outline" onPress={() => setActiveSection('Dictionary')} />
-          <Button label="Word Formation Quiz" icon="create-outline" variant="secondary" onPress={() => openPlannerDay(1)} />
-          <Button label="Collocation Quiz" icon="link-outline" variant="secondary" onPress={() => openPlannerDay(6)} />
-          <Button label="Unknown Queue" icon="alert-circle-outline" variant="ghost" onPress={() => setActiveSection('Unknown')} />
-        </View>
-      </Card>
 
-      <Card style={styles.banner}>
-        <Text style={styles.bannerTitle}>Study Tip</Text>
-        <Text style={styles.bannerBody}>
-          Start with meaning, then word family, then collocations, then sentence use. Synonyms should come last, not first.
-        </Text>
-      </Card>
-
-      <Card style={styles.card}>
-        <View style={styles.sectionHeader}>
-          <View>
-            <Text style={styles.h3}>Vocab Tools</Text>
-            <Text style={styles.sectionSub}>Open a focused tool instead of scanning the full hub.</Text>
-          </View>
-        </View>
-        <View style={[styles.toolShortcutGrid, isWide && styles.toolShortcutGridWide]}>
-          {VOCAB_TOOLS.map((tool) => (
-            <View key={tool.key} style={[styles.toolShortcutWrap, isWide && styles.toolShortcutWrapWide]}>
-              <ToolShortcutCard item={tool} onPress={() => navigation.navigate(tool.route)} />
+          <Card style={styles.banner}>
+            <View style={styles.sectionHeader}>
+              <View>
+                <Text style={styles.bannerTitle}>Quick Start</Text>
+                <Text style={styles.sectionSub}>Open the vocab workspace by task, not by tab hunting.</Text>
+              </View>
             </View>
-          ))}
-        </View>
-      </Card>
+            <View style={styles.heroActionRow}>
+              <Button label="Search Dictionary" icon="search-outline" onPress={() => setActiveSection('Dictionary')} />
+              <Button label="Word Formation Quiz" icon="create-outline" variant="secondary" onPress={() => openPlannerDay(1)} />
+              <Button label="Collocation Quiz" icon="link-outline" variant="secondary" onPress={() => openPlannerDay(6)} />
+              <Button label="Listening Queue" icon="headset-outline" variant="secondary" onPress={() => setActiveSection('Listening Queue')} />
+              <Button label="Subtle Hover" icon="logo-chrome" variant="secondary" onPress={() => setActiveSection('Subtle Hover')} />
+              <Button label="Unknown Queue" icon="alert-circle-outline" variant="ghost" onPress={() => setActiveSection('Unknown')} />
+            </View>
+          </Card>
+
+          <Card style={styles.banner}>
+            <Text style={styles.bannerTitle}>Study Tip</Text>
+            <Text style={styles.bannerBody}>
+              Start with meaning, then word family, then collocations, then sentence use. Synonyms should come last, not first.
+            </Text>
+          </Card>
+
+          <Card style={styles.card}>
+            <View style={styles.sectionHeader}>
+              <View>
+                <Text style={styles.h3}>Vocab Tools</Text>
+                <Text style={styles.sectionSub}>Open a focused tool instead of scanning the full hub.</Text>
+              </View>
+            </View>
+            <View style={[styles.toolShortcutGrid, isWide && styles.toolShortcutGridWide]}>
+              {VOCAB_TOOLS.map((tool) => (
+                <View key={tool.key} style={[styles.toolShortcutWrap, isWide && styles.toolShortcutWrapWide]}>
+                  <ToolShortcutCard item={tool} onPress={() => navigation.navigate(tool.route)} />
+                </View>
+              ))}
+            </View>
+          </Card>
+        </>
+      ) : (
+        <Card style={styles.banner}>
+          <Text style={styles.bannerTitle}>Indexing Dictionary...</Text>
+          <Text style={styles.bannerBody}>We are warming up the dictionary in the background so you can start without delays.</Text>
+        </Card>
+      )}
 
       <Card style={styles.workspaceCard}>
         <View style={styles.workspaceHeader}>
@@ -2123,7 +2871,64 @@ export default function VocabScreen({ navigation, route }) {
         ))}
       </ScrollView>
 
-      {renderSection()}
+      {renderSectionHeader()}
+    </View>
+    );
+  };
+
+  const renderListFooter = useCallback(() => {
+    if (activeSection === 'Dictionary' && dictionaryHasMore) {
+      return (
+        <View style={{ padding: 20 }}>
+          <Button
+            label={`Load More Entries (${Math.min(DICTIONARY_CARD_BATCH, dictionaryResults.length - dictionaryRenderLimit)} more)`}
+            variant="secondary"
+            onPress={() => setDictionaryRenderLimit((current) => current + DICTIONARY_CARD_BATCH)}
+          />
+        </View>
+      );
+    }
+    if (activeSection === 'Bogazici Dept' && deptRenderLimit < deptWords.length) {
+      return (
+        <View style={{ padding: 20 }}>
+          <Button label="Load More Department Words" variant="secondary" onPress={() => setDeptRenderLimit((n) => n + 60)} />
+        </View>
+      );
+    }
+    if (activeSection === 'Academic' && academicRenderLimit < academicData.length) {
+      return (
+        <View style={{ padding: 20 }}>
+          <Button label="Load More Academic Words" variant="secondary" onPress={() => setAcademicRenderLimit((n) => n + 60)} />
+        </View>
+      );
+    }
+    if (activeSection === 'WASC Lists' && wascRenderLimit < wascWords.length) {
+      return (
+        <View style={{ padding: 20 }}>
+          <Button label="Load More WASC Words" variant="secondary" onPress={() => setWascRenderLimit((n) => n + 80)} />
+        </View>
+      );
+    }
+    return <View style={{ height: 120 }} />;
+  }, [activeSection, dictionaryHasMore, dictionaryResults.length, dictionaryRenderLimit, deptRenderLimit, deptWords.length, academicRenderLimit, academicData.length, wascRenderLimit, wascWords.length]);
+
+  return (
+    <Screen scroll={false}>
+      <FlatList
+        style={{ flex: 1 }}
+        data={getSectionData()}
+        renderItem={renderVocabItem}
+        keyExtractor={(item, index) => `${activeSection}-${item.word || index}-${index}`}
+        ListHeaderComponent={renderListHeader}
+        ListFooterComponent={renderListFooter}
+        windowSize={7}
+        initialNumToRender={6}
+        maxToRenderPerBatch={6}
+        updateCellsBatchingPeriod={50}
+        removeClippedSubviews={false}
+        keyboardShouldPersistTaps="always"
+        contentContainerStyle={{ paddingBottom: 100 }}
+      />
     </Screen>
   );
 }
@@ -2148,8 +2953,8 @@ const styles = StyleSheet.create({
   },
   heroCard: {
     marginBottom: spacing.lg,
-    backgroundColor: '#0F3F7F',
-    borderColor: '#0F3F7F',
+    backgroundColor: '#172554',
+    borderColor: '#172554',
   },
   heroHeader: {
     flexDirection: 'row',
@@ -2517,8 +3322,8 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   tabActive: {
-    backgroundColor: '#0F3F7F',
-    borderColor: '#0F3F7F',
+    backgroundColor: '#172554',
+    borderColor: '#172554',
   },
   tabIconWrap: {
     width: 28,
@@ -2663,6 +3468,43 @@ const styles = StyleSheet.create({
     gap: 4,
     marginTop: 4,
   },
+  tagRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginTop: spacing.sm,
+  },
+  tag: {
+    backgroundColor: '#EEF2FF',
+    borderRadius: 999,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+  },
+  tagText: {
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+  },
+  liveAntTag: {
+    backgroundColor: '#FFF1F2',
+    borderWidth: 1,
+    borderColor: '#FBCFE8',
+  },
+  liveAntTagText: {
+    color: '#BE123C',
+  },
+  exampleBox: {
+    marginTop: spacing.sm,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    padding: spacing.sm,
+    gap: spacing.xs,
+  },
+  exampleText: {
+    fontSize: typography.small,
+    color: colors.text,
+  },
   miniChip: {
     backgroundColor: colors.surface,
     borderWidth: 1,
@@ -2682,10 +3524,24 @@ const styles = StyleSheet.create({
   miniChipTextNegative: {
     color: '#B91C1C',
   },
+  miniChipOpposite: {
+    backgroundColor: '#FFF1F2',
+    borderColor: '#FBCFE8',
+  },
+  miniChipTextOpposite: {
+    color: '#BE123C',
+  },
   collocationTip: {
     fontSize: typography.xsmall,
     color: colors.muted,
     marginTop: 6,
+  },
+  sourceTag: {
+    marginTop: spacing.sm,
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
   },
   relatedCard: {
     marginTop: spacing.sm,
@@ -2751,6 +3607,10 @@ const styles = StyleSheet.create({
     fontSize: typography.small,
     color: colors.primary,
   },
+  relatedAnt: {
+    fontSize: typography.small,
+    color: '#BE123C',
+  },
   relatedExampleRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -2761,6 +3621,26 @@ const styles = StyleSheet.create({
     fontSize: typography.small,
     color: colors.muted,
     fontStyle: 'italic',
+  },
+  relatedVerbForms: {
+    marginTop: spacing.xs,
+    borderWidth: 1,
+    borderColor: '#DDEAFE',
+    borderRadius: 10,
+    backgroundColor: '#F4F8FF',
+    padding: spacing.xs,
+  },
+  relatedVerbFormsTitle: {
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    marginBottom: 2,
+  },
+  relatedVerbFormsLine: {
+    fontSize: typography.xsmall,
+    color: colors.text,
+    lineHeight: 17,
   },
   example: {
     flex: 1,
@@ -3081,6 +3961,26 @@ const styles = StyleSheet.create({
     color: colors.muted,
     marginBottom: spacing.sm,
   },
+  progressTrack: {
+    height: 10,
+    borderRadius: 999,
+    backgroundColor: '#EEF2FF',
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    overflow: 'hidden',
+    marginTop: spacing.sm,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: colors.primary,
+    borderRadius: 999,
+  },
+  progressText: {
+    marginTop: 6,
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    textAlign: 'right',
+  },
   focusStatsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -3211,5 +4111,83 @@ const styles = StyleSheet.create({
     fontSize: typography.small,
     color: '#FF5722',
     marginTop: 2,
+  },
+  verbFormsStrip: {
+    marginTop: spacing.xs,
+    borderWidth: 1,
+    borderColor: '#D9E6FD',
+    backgroundColor: '#F8FBFF',
+    borderRadius: 12,
+    padding: spacing.sm,
+    gap: 4,
+  },
+  verbFormsText: {
+    fontSize: typography.small,
+    color: colors.text,
+  },
+  focusVerbFormsWrap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.xs,
+  },
+  focusVerbFormChip: {
+    borderWidth: 1,
+    borderColor: '#CFDFFF',
+    backgroundColor: '#EFF5FF',
+    borderRadius: 999,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 5,
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+  },
+  cardActions: {
+    flexDirection: 'row',
+    marginTop: 12,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: colors.borderLight,
+  },
+  cardActionBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingVertical: 4,
+  },
+  cardActionText: {
+    fontSize: 12,
+    color: colors.primary,
+    fontWeight: '700',
+  },
+  flashcardHubCard: {
+    marginBottom: spacing.lg,
+    backgroundColor: '#1E293B',
+    borderColor: colors.primary,
+    borderWidth: 1.5,
+  },
+  flashcardHubHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+    marginBottom: 16,
+  },
+  flashcardHubCopy: {
+    flex: 1,
+  },
+  flashcardHubTitle: {
+    fontSize: 18,
+    fontFamily: typography.fontHeadline,
+    color: '#fff',
+    fontWeight: '900',
+    marginBottom: 4,
+  },
+  flashcardHubBody: {
+    fontSize: 12,
+    color: 'rgba(255,255,255,0.7)',
+    lineHeight: 18,
+  },
+  flashcardHubActions: {
+    flexDirection: 'row',
+    gap: 10,
   },
 });

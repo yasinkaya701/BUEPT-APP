@@ -1,0 +1,1632 @@
+[
+    {
+        "id": "WP001",
+        "task": "paragraph",
+        "type": "opinion",
+        "level": "P1",
+        "topic": "classroom",
+        "prompt": "Do you agree or disagree that students learn better in the morning? Give two reasons.",
+        "keywords": [
+            "education",
+            "routine",
+            "learning"
+        ]
+    },
+    {
+        "id": "WP002",
+        "task": "paragraph",
+        "type": "definition",
+        "level": "P1",
+        "topic": "friendship",
+        "prompt": "Define what a good friend is and explain two key qualities.",
+        "keywords": [
+            "values",
+            "relationships",
+            "qualities"
+        ]
+    },
+    {
+        "id": "WP003",
+        "task": "paragraph",
+        "type": "opinion",
+        "level": "P1",
+        "topic": "technology",
+        "prompt": "Do you think smartphones help or hurt study habits? Explain your opinion.",
+        "keywords": [
+            "technology",
+            "study",
+            "habits"
+        ]
+    },
+    {
+        "id": "WP004",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P1",
+        "topic": "sleep",
+        "prompt": "Many students sleep late. Describe the problem and suggest one solution.",
+        "keywords": [
+            "health",
+            "sleep",
+            "student life"
+        ]
+    },
+    {
+        "id": "WP005",
+        "task": "paragraph",
+        "type": "definition",
+        "level": "P1",
+        "topic": "success",
+        "prompt": "What does success mean to you? Give a short definition and one example.",
+        "keywords": [
+            "goals",
+            "motivation",
+            "values"
+        ]
+    },
+    {
+        "id": "WP006",
+        "task": "paragraph",
+        "type": "opinion",
+        "level": "P1",
+        "topic": "campus",
+        "prompt": "Should first-year students live on campus? Explain your reasons.",
+        "keywords": [
+            "campus",
+            "housing",
+            "students"
+        ]
+    },
+    {
+        "id": "WP007",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P1",
+        "topic": "lateness",
+        "prompt": "Explain one cause and one effect of being late to class.",
+        "keywords": [
+            "behavior",
+            "consequences",
+            "time"
+        ]
+    },
+    {
+        "id": "WP008",
+        "task": "paragraph",
+        "type": "definition",
+        "level": "P1",
+        "topic": "responsibility",
+        "prompt": "Define responsibility and give one everyday example.",
+        "keywords": [
+            "values",
+            "habits",
+            "daily life"
+        ]
+    },
+    {
+        "id": "WP009",
+        "task": "paragraph",
+        "type": "opinion",
+        "level": "P1",
+        "topic": "reading",
+        "prompt": "Is reading books more useful than watching videos for learning? Explain.",
+        "keywords": [
+            "learning",
+            "media",
+            "preferences"
+        ]
+    },
+    {
+        "id": "WP010",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P1",
+        "topic": "distractions",
+        "prompt": "Many students are distracted while studying. Describe the problem and suggest a solution.",
+        "keywords": [
+            "focus",
+            "study",
+            "technology"
+        ]
+    },
+    {
+        "id": "WP011",
+        "task": "paragraph",
+        "type": "definition",
+        "level": "P1",
+        "topic": "teamwork",
+        "prompt": "Define teamwork and explain why it is important in group projects.",
+        "keywords": [
+            "collaboration",
+            "projects",
+            "skills"
+        ]
+    },
+    {
+        "id": "WP012",
+        "task": "paragraph",
+        "type": "opinion",
+        "level": "P1",
+        "topic": "exercise",
+        "prompt": "Do you think daily exercise should be required at university? Give your opinion.",
+        "keywords": [
+            "health",
+            "policy",
+            "students"
+        ]
+    },
+    {
+        "id": "WP013",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P1",
+        "topic": "social media",
+        "prompt": "Explain one effect of social media on student life.",
+        "keywords": [
+            "social media",
+            "student life",
+            "impact"
+        ]
+    },
+    {
+        "id": "WP014",
+        "task": "paragraph",
+        "type": "definition",
+        "level": "P1",
+        "topic": "confidence",
+        "prompt": "Define confidence and describe one situation where it helps.",
+        "keywords": [
+            "personal growth",
+            "attitude",
+            "performance"
+        ]
+    },
+    {
+        "id": "WP015",
+        "task": "paragraph",
+        "type": "opinion",
+        "level": "P1",
+        "topic": "food",
+        "prompt": "Should universities offer only healthy food options? Explain.",
+        "keywords": [
+            "health",
+            "food",
+            "policy"
+        ]
+    },
+    {
+        "id": "WP016",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P1",
+        "topic": "time management",
+        "prompt": "Students often run out of time for assignments. Describe the problem and one solution.",
+        "keywords": [
+            "time management",
+            "assignments",
+            "planning"
+        ]
+    },
+    {
+        "id": "WP017",
+        "task": "paragraph",
+        "type": "definition",
+        "level": "P1",
+        "topic": "creativity",
+        "prompt": "What is creativity? Give a simple definition and an example.",
+        "keywords": [
+            "creativity",
+            "thinking",
+            "example"
+        ]
+    },
+    {
+        "id": "WP018",
+        "task": "paragraph",
+        "type": "opinion",
+        "level": "P1",
+        "topic": "music",
+        "prompt": "Does listening to music while studying help or hurt? Give your view.",
+        "keywords": [
+            "study",
+            "music",
+            "concentration"
+        ]
+    },
+    {
+        "id": "WP019",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P1",
+        "topic": "cafeteria",
+        "prompt": "Explain one cause of long lines in the cafeteria and one effect.",
+        "keywords": [
+            "campus",
+            "services",
+            "crowding"
+        ]
+    },
+    {
+        "id": "WP020",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P1",
+        "topic": "public speaking",
+        "prompt": "Many students fear public speaking. Describe the problem and suggest a solution.",
+        "keywords": [
+            "communication",
+            "anxiety",
+            "skills"
+        ]
+    },
+    {
+        "id": "WP021",
+        "task": "paragraph",
+        "type": "opinion",
+        "level": "P2",
+        "topic": "online learning",
+        "prompt": "Should some university courses be fully online? Give two reasons.",
+        "keywords": [
+            "education",
+            "online learning",
+            "policy"
+        ]
+    },
+    {
+        "id": "WP022",
+        "task": "paragraph",
+        "type": "definition",
+        "level": "P2",
+        "topic": "academic integrity",
+        "prompt": "Define academic integrity and explain why it matters.",
+        "keywords": [
+            "ethics",
+            "education",
+            "standards"
+        ]
+    },
+    {
+        "id": "WP023",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P2",
+        "topic": "stress",
+        "prompt": "Explain two causes of exam stress and one effect.",
+        "keywords": [
+            "stress",
+            "exams",
+            "health"
+        ]
+    },
+    {
+        "id": "WP024",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P2",
+        "topic": "traffic",
+        "prompt": "Traffic near campus is heavy. Describe the problem and suggest one realistic solution.",
+        "keywords": [
+            "transport",
+            "campus",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP025",
+        "task": "paragraph",
+        "type": "compare_contrast",
+        "level": "P2",
+        "topic": "study spaces",
+        "prompt": "Compare studying in a library with studying at home.",
+        "keywords": [
+            "study spaces",
+            "focus",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP026",
+        "task": "paragraph",
+        "type": "opinion",
+        "level": "P2",
+        "topic": "group work",
+        "prompt": "Is group work more effective than individual work? Explain your opinion.",
+        "keywords": [
+            "collaboration",
+            "learning",
+            "projects"
+        ]
+    },
+    {
+        "id": "WP027",
+        "task": "paragraph",
+        "type": "definition",
+        "level": "P2",
+        "topic": "leadership",
+        "prompt": "Define leadership and describe one leadership behavior.",
+        "keywords": [
+            "leadership",
+            "skills",
+            "behavior"
+        ]
+    },
+    {
+        "id": "WP028",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P2",
+        "topic": "sleep quality",
+        "prompt": "Explain how poor sleep affects academic performance.",
+        "keywords": [
+            "sleep",
+            "performance",
+            "health"
+        ]
+    },
+    {
+        "id": "WP029",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P2",
+        "topic": "procrastination",
+        "prompt": "Procrastination is common among students. Describe the problem and offer a solution.",
+        "keywords": [
+            "habits",
+            "time management",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP030",
+        "task": "paragraph",
+        "type": "compare_contrast",
+        "level": "P2",
+        "topic": "transport",
+        "prompt": "Compare using public transport with using a private car for commuting to university.",
+        "keywords": [
+            "transport",
+            "cost",
+            "environment"
+        ]
+    },
+    {
+        "id": "WP031",
+        "task": "paragraph",
+        "type": "opinion",
+        "level": "P2",
+        "topic": "technology in class",
+        "prompt": "Should laptops be allowed in every class? Give reasons.",
+        "keywords": [
+            "technology",
+            "classroom",
+            "policy"
+        ]
+    },
+    {
+        "id": "WP032",
+        "task": "paragraph",
+        "type": "definition",
+        "level": "P2",
+        "topic": "motivation",
+        "prompt": "Define motivation and explain one way to increase it.",
+        "keywords": [
+            "motivation",
+            "study",
+            "habits"
+        ]
+    },
+    {
+        "id": "WP033",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P2",
+        "topic": "part-time work",
+        "prompt": "Explain one benefit and one drawback of part-time work for students.",
+        "keywords": [
+            "work",
+            "students",
+            "balance"
+        ]
+    },
+    {
+        "id": "WP034",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P2",
+        "topic": "note-taking",
+        "prompt": "Many students take poor notes. Describe the problem and suggest a solution.",
+        "keywords": [
+            "note-taking",
+            "skills",
+            "study"
+        ]
+    },
+    {
+        "id": "WP035",
+        "task": "paragraph",
+        "type": "compare_contrast",
+        "level": "P2",
+        "topic": "reading formats",
+        "prompt": "Compare reading printed books with reading on a screen.",
+        "keywords": [
+            "reading",
+            "technology",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP036",
+        "task": "paragraph",
+        "type": "opinion",
+        "level": "P2",
+        "topic": "mandatory attendance",
+        "prompt": "Should attendance be mandatory in university courses? Explain.",
+        "keywords": [
+            "attendance",
+            "policy",
+            "education"
+        ]
+    },
+    {
+        "id": "WP037",
+        "task": "paragraph",
+        "type": "definition",
+        "level": "P2",
+        "topic": "critical thinking",
+        "prompt": "Define critical thinking and give one example of it in daily life.",
+        "keywords": [
+            "thinking",
+            "skills",
+            "example"
+        ]
+    },
+    {
+        "id": "WP038",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P2",
+        "topic": "nutrition",
+        "prompt": "Explain how poor nutrition can affect concentration.",
+        "keywords": [
+            "health",
+            "nutrition",
+            "focus"
+        ]
+    },
+    {
+        "id": "WP039",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P2",
+        "topic": "email overload",
+        "prompt": "Students get too many emails. Describe the problem and propose a solution.",
+        "keywords": [
+            "communication",
+            "organization",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP040",
+        "task": "paragraph",
+        "type": "compare_contrast",
+        "level": "P2",
+        "topic": "study methods",
+        "prompt": "Compare studying alone with studying with a group.",
+        "keywords": [
+            "study methods",
+            "collaboration",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP041",
+        "task": "paragraph",
+        "type": "compare_contrast",
+        "level": "P3",
+        "topic": "assessment",
+        "prompt": "Compare multiple-choice exams with essay exams in terms of fairness and learning.",
+        "keywords": [
+            "assessment",
+            "learning",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP042",
+        "task": "paragraph",
+        "type": "reaction",
+        "level": "P3",
+        "topic": "news",
+        "prompt": "Read a short news report about a campus event and explain your reaction.",
+        "keywords": [
+            "reaction",
+            "campus",
+            "news"
+        ]
+    },
+    {
+        "id": "WP043",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P3",
+        "topic": "urbanization",
+        "prompt": "Explain how urbanization affects the cost of living for students.",
+        "keywords": [
+            "urbanization",
+            "economy",
+            "students"
+        ]
+    },
+    {
+        "id": "WP044",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P3",
+        "topic": "environment",
+        "prompt": "Plastic waste on campus is increasing. Describe the problem and suggest a solution.",
+        "keywords": [
+            "environment",
+            "waste",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP045",
+        "task": "paragraph",
+        "type": "compare_contrast",
+        "level": "P3",
+        "topic": "learning styles",
+        "prompt": "Compare project-based learning with lecture-based learning.",
+        "keywords": [
+            "learning",
+            "methods",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP046",
+        "task": "paragraph",
+        "type": "reaction",
+        "level": "P3",
+        "topic": "lecture",
+        "prompt": "After watching a lecture on climate change, explain your reaction and one key point.",
+        "keywords": [
+            "reaction",
+            "climate",
+            "summary"
+        ]
+    },
+    {
+        "id": "WP047",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P3",
+        "topic": "technology",
+        "prompt": "Explain how artificial intelligence may change the job market for graduates.",
+        "keywords": [
+            "technology",
+            "jobs",
+            "future"
+        ]
+    },
+    {
+        "id": "WP048",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P3",
+        "topic": "housing",
+        "prompt": "Affordable housing near universities is limited. Describe the problem and propose a solution.",
+        "keywords": [
+            "housing",
+            "students",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP049",
+        "task": "paragraph",
+        "type": "compare_contrast",
+        "level": "P3",
+        "topic": "communication",
+        "prompt": "Compare face-to-face communication with online communication in academic settings.",
+        "keywords": [
+            "communication",
+            "academic",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP050",
+        "task": "paragraph",
+        "type": "reaction",
+        "level": "P3",
+        "topic": "documentary",
+        "prompt": "After watching a short documentary about recycling, describe your reaction and why.",
+        "keywords": [
+            "reaction",
+            "recycling",
+            "environment"
+        ]
+    },
+    {
+        "id": "WP051",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P3",
+        "topic": "gaming",
+        "prompt": "Explain one positive and one negative effect of online gaming on students.",
+        "keywords": [
+            "gaming",
+            "students",
+            "effects"
+        ]
+    },
+    {
+        "id": "WP052",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P3",
+        "topic": "research skills",
+        "prompt": "Many students struggle with research skills. Describe the problem and suggest a solution.",
+        "keywords": [
+            "research",
+            "skills",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP053",
+        "task": "paragraph",
+        "type": "compare_contrast",
+        "level": "P3",
+        "topic": "libraries",
+        "prompt": "Compare traditional libraries with digital libraries for academic work.",
+        "keywords": [
+            "libraries",
+            "digital",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP054",
+        "task": "paragraph",
+        "type": "reaction",
+        "level": "P3",
+        "topic": "opinion text",
+        "prompt": "Read a short opinion text about university rankings and give your reaction.",
+        "keywords": [
+            "reaction",
+            "education",
+            "rankings"
+        ]
+    },
+    {
+        "id": "WP055",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P3",
+        "topic": "commuting",
+        "prompt": "Explain how long commuting times affect student well-being.",
+        "keywords": [
+            "commuting",
+            "well-being",
+            "students"
+        ]
+    },
+    {
+        "id": "WP056",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P3",
+        "topic": "digital distraction",
+        "prompt": "Digital notifications disrupt study time. Describe the problem and propose a solution.",
+        "keywords": [
+            "distraction",
+            "technology",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP057",
+        "task": "paragraph",
+        "type": "compare_contrast",
+        "level": "P3",
+        "topic": "assessment methods",
+        "prompt": "Compare open-book exams with closed-book exams.",
+        "keywords": [
+            "assessment",
+            "exams",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP058",
+        "task": "paragraph",
+        "type": "reaction",
+        "level": "P3",
+        "topic": "public talk",
+        "prompt": "After a talk on mental health, describe your reaction and one recommendation.",
+        "keywords": [
+            "reaction",
+            "mental health",
+            "recommendation"
+        ]
+    },
+    {
+        "id": "WP059",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P3",
+        "topic": "study abroad",
+        "prompt": "Explain how studying abroad can affect language development.",
+        "keywords": [
+            "study abroad",
+            "language",
+            "effects"
+        ]
+    },
+    {
+        "id": "WP060",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P3",
+        "topic": "academic writing",
+        "prompt": "Many students struggle with academic writing. Describe the problem and suggest a solution.",
+        "keywords": [
+            "writing",
+            "academic",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP061",
+        "task": "essay",
+        "type": "argumentative",
+        "level": "P4",
+        "topic": "education policy",
+        "prompt": "Some people say university education should be free for everyone. To what extent do you agree or disagree?",
+        "keywords": [
+            "education",
+            "policy",
+            "equality"
+        ]
+    },
+    {
+        "id": "WP062",
+        "task": "essay",
+        "type": "problem_solution",
+        "level": "P4",
+        "topic": "environment",
+        "prompt": "Air pollution is rising in many cities. What are the main causes, and what solutions do you suggest?",
+        "keywords": [
+            "environment",
+            "pollution",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP063",
+        "task": "essay",
+        "type": "compare_contrast",
+        "level": "P4",
+        "topic": "work",
+        "prompt": "Compare working from home with working in an office. Which is more productive for most people?",
+        "keywords": [
+            "work",
+            "productivity",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP064",
+        "task": "essay",
+        "type": "cause_effect",
+        "level": "P4",
+        "topic": "technology",
+        "prompt": "What are the main causes of smartphone addiction, and what are its effects on young adults?",
+        "keywords": [
+            "technology",
+            "addiction",
+            "effects"
+        ]
+    },
+    {
+        "id": "WP065",
+        "task": "essay",
+        "type": "argumentative",
+        "level": "P4",
+        "topic": "media",
+        "prompt": "Social media companies should be held responsible for the content they host. Do you agree or disagree?",
+        "keywords": [
+            "media",
+            "responsibility",
+            "ethics"
+        ]
+    },
+    {
+        "id": "WP066",
+        "task": "essay",
+        "type": "problem_solution",
+        "level": "P4",
+        "topic": "transport",
+        "prompt": "Traffic congestion wastes time and energy in big cities. What solutions can reduce this problem?",
+        "keywords": [
+            "transport",
+            "cities",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP067",
+        "task": "essay",
+        "type": "compare_contrast",
+        "level": "P4",
+        "topic": "education",
+        "prompt": "Compare traditional lectures with flipped classrooms. Which leads to better learning outcomes?",
+        "keywords": [
+            "education",
+            "methods",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP068",
+        "task": "essay",
+        "type": "cause_effect",
+        "level": "P4",
+        "topic": "health",
+        "prompt": "What causes the rise of lifestyle diseases, and how do these diseases affect society?",
+        "keywords": [
+            "health",
+            "society",
+            "causes"
+        ]
+    },
+    {
+        "id": "WP069",
+        "task": "essay",
+        "type": "argumentative",
+        "level": "P4",
+        "topic": "urban planning",
+        "prompt": "Governments should limit private car use in city centers. Do you agree or disagree?",
+        "keywords": [
+            "urban",
+            "policy",
+            "transport"
+        ]
+    },
+    {
+        "id": "WP070",
+        "task": "essay",
+        "type": "problem_solution",
+        "level": "P4",
+        "topic": "education",
+        "prompt": "Many students graduate without practical skills. What are the reasons, and what can universities do?",
+        "keywords": [
+            "education",
+            "skills",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP071",
+        "task": "essay",
+        "type": "compare_contrast",
+        "level": "P4",
+        "topic": "communication",
+        "prompt": "Compare online communication with face-to-face communication in professional settings.",
+        "keywords": [
+            "communication",
+            "professional",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP072",
+        "task": "essay",
+        "type": "cause_effect",
+        "level": "P4",
+        "topic": "economy",
+        "prompt": "What are the causes of youth unemployment, and what are its long-term effects?",
+        "keywords": [
+            "economy",
+            "employment",
+            "effects"
+        ]
+    },
+    {
+        "id": "WP073",
+        "task": "essay",
+        "type": "argumentative",
+        "level": "P4",
+        "topic": "privacy",
+        "prompt": "People are willing to give up privacy for convenience. Is this a positive or negative trend?",
+        "keywords": [
+            "privacy",
+            "technology",
+            "trend"
+        ]
+    },
+    {
+        "id": "WP074",
+        "task": "essay",
+        "type": "problem_solution",
+        "level": "P4",
+        "topic": "education",
+        "prompt": "Academic dishonesty is increasing in universities. What are the causes and possible solutions?",
+        "keywords": [
+            "ethics",
+            "education",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP075",
+        "task": "essay",
+        "type": "compare_contrast",
+        "level": "P4",
+        "topic": "energy",
+        "prompt": "Compare renewable energy sources with fossil fuels in terms of cost and sustainability.",
+        "keywords": [
+            "energy",
+            "sustainability",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP076",
+        "task": "essay",
+        "type": "cause_effect",
+        "level": "P4",
+        "topic": "culture",
+        "prompt": "What causes cultural homogenization, and how does it affect local identities?",
+        "keywords": [
+            "culture",
+            "identity",
+            "globalization"
+        ]
+    },
+    {
+        "id": "WP077",
+        "task": "essay",
+        "type": "argumentative",
+        "level": "P4",
+        "topic": "education",
+        "prompt": "Universities should require all students to take courses in ethics. Do you agree or disagree?",
+        "keywords": [
+            "education",
+            "ethics",
+            "policy"
+        ]
+    },
+    {
+        "id": "WP078",
+        "task": "essay",
+        "type": "problem_solution",
+        "level": "P4",
+        "topic": "environment",
+        "prompt": "Many rivers are polluted by industrial waste. What are the causes and solutions?",
+        "keywords": [
+            "environment",
+            "industry",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP079",
+        "task": "essay",
+        "type": "compare_contrast",
+        "level": "P4",
+        "topic": "assessment",
+        "prompt": "Compare standardized tests with continuous assessment. Which is fairer for students?",
+        "keywords": [
+            "assessment",
+            "fairness",
+            "education"
+        ]
+    },
+    {
+        "id": "WP080",
+        "task": "essay",
+        "type": "cause_effect",
+        "level": "P4",
+        "topic": "technology",
+        "prompt": "What causes the spread of misinformation online, and what are its effects on democracy?",
+        "keywords": [
+            "misinformation",
+            "democracy",
+            "effects"
+        ]
+    },
+    {
+        "id": "WP081",
+        "task": "essay",
+        "type": "argumentative",
+        "level": "P4",
+        "topic": "health",
+        "prompt": "Governments should tax sugary drinks to improve public health. Do you agree or disagree?",
+        "keywords": [
+            "health",
+            "policy",
+            "tax"
+        ]
+    },
+    {
+        "id": "WP082",
+        "task": "essay",
+        "type": "problem_solution",
+        "level": "P4",
+        "topic": "housing",
+        "prompt": "Housing prices are rising faster than incomes in many cities. What can be done?",
+        "keywords": [
+            "housing",
+            "economy",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP083",
+        "task": "essay",
+        "type": "compare_contrast",
+        "level": "P4",
+        "topic": "work",
+        "prompt": "Compare gig work with traditional full-time jobs. Which provides better security?",
+        "keywords": [
+            "work",
+            "security",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP084",
+        "task": "essay",
+        "type": "cause_effect",
+        "level": "P4",
+        "topic": "education",
+        "prompt": "What causes student burnout, and how does it affect academic performance?",
+        "keywords": [
+            "burnout",
+            "education",
+            "effects"
+        ]
+    },
+    {
+        "id": "WP085",
+        "task": "essay",
+        "type": "argumentative",
+        "level": "P4",
+        "topic": "technology",
+        "prompt": "Artificial intelligence will replace many jobs, but it will also create new ones. Do you agree?",
+        "keywords": [
+            "ai",
+            "jobs",
+            "future"
+        ]
+    },
+    {
+        "id": "WP086",
+        "task": "essay",
+        "type": "problem_solution",
+        "level": "P4",
+        "topic": "environment",
+        "prompt": "Plastic packaging is widely used in food industries. What alternatives could reduce this problem?",
+        "keywords": [
+            "environment",
+            "packaging",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP087",
+        "task": "essay",
+        "type": "compare_contrast",
+        "level": "P4",
+        "topic": "education",
+        "prompt": "Compare international students and domestic students in terms of challenges they face.",
+        "keywords": [
+            "students",
+            "challenges",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP088",
+        "task": "essay",
+        "type": "cause_effect",
+        "level": "P4",
+        "topic": "society",
+        "prompt": "What are the causes of declining voter turnout among young people, and what are the effects?",
+        "keywords": [
+            "society",
+            "politics",
+            "effects"
+        ]
+    },
+    {
+        "id": "WP089",
+        "task": "essay",
+        "type": "argumentative",
+        "level": "P4",
+        "topic": "environment",
+        "prompt": "Individuals can do little to solve environmental problems; only governments and corporations can. Do you agree?",
+        "keywords": [
+            "environment",
+            "responsibility",
+            "policy"
+        ]
+    },
+    {
+        "id": "WP090",
+        "task": "essay",
+        "type": "problem_solution",
+        "level": "P4",
+        "topic": "education",
+        "prompt": "University courses often include too much theory and too little practice. How can this be improved?",
+        "keywords": [
+            "education",
+            "curriculum",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP091",
+        "task": "essay",
+        "type": "compare_contrast",
+        "level": "P4",
+        "topic": "media",
+        "prompt": "Compare traditional newspapers with online news platforms in terms of reliability.",
+        "keywords": [
+            "media",
+            "reliability",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP092",
+        "task": "essay",
+        "type": "cause_effect",
+        "level": "P4",
+        "topic": "economy",
+        "prompt": "What causes income inequality in modern economies, and what are its social effects?",
+        "keywords": [
+            "economy",
+            "inequality",
+            "effects"
+        ]
+    },
+    {
+        "id": "WP093",
+        "task": "essay",
+        "type": "argumentative",
+        "level": "P4",
+        "topic": "education",
+        "prompt": "Universities should limit the number of students to maintain quality. Do you agree or disagree?",
+        "keywords": [
+            "education",
+            "quality",
+            "policy"
+        ]
+    },
+    {
+        "id": "WP094",
+        "task": "essay",
+        "type": "problem_solution",
+        "level": "P4",
+        "topic": "health",
+        "prompt": "Mental health problems are increasing among university students. What are the causes and solutions?",
+        "keywords": [
+            "health",
+            "students",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP095",
+        "task": "essay",
+        "type": "compare_contrast",
+        "level": "P4",
+        "topic": "technology",
+        "prompt": "Compare e-books with printed textbooks for academic study.",
+        "keywords": [
+            "technology",
+            "study",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP096",
+        "task": "essay",
+        "type": "cause_effect",
+        "level": "P4",
+        "topic": "environment",
+        "prompt": "What causes water shortages in some regions, and what are the consequences?",
+        "keywords": [
+            "environment",
+            "water",
+            "effects"
+        ]
+    },
+    {
+        "id": "WP097",
+        "task": "essay",
+        "type": "argumentative",
+        "level": "P4",
+        "topic": "culture",
+        "prompt": "Globalization is weakening local cultures more than it benefits them. Do you agree?",
+        "keywords": [
+            "culture",
+            "globalization",
+            "argument"
+        ]
+    },
+    {
+        "id": "WP098",
+        "task": "essay",
+        "type": "problem_solution",
+        "level": "P4",
+        "topic": "education",
+        "prompt": "Many graduates lack strong writing skills. What should universities do to address this?",
+        "keywords": [
+            "writing",
+            "education",
+            "solutions"
+        ]
+    },
+    {
+        "id": "WP099",
+        "task": "essay",
+        "type": "compare_contrast",
+        "level": "P4",
+        "topic": "health",
+        "prompt": "Compare preventive healthcare with treatment-focused healthcare. Which is more cost-effective?",
+        "keywords": [
+            "health",
+            "policy",
+            "comparison"
+        ]
+    },
+    {
+        "id": "WP100",
+        "task": "essay",
+        "type": "reaction",
+        "level": "P4",
+        "topic": "reading",
+        "prompt": "Read a short academic article provided in the app and write your reaction to its main claim.",
+        "keywords": [
+            "reaction",
+            "reading",
+            "analysis"
+        ]
+    },
+    {
+        "level": "P1",
+        "type": "opinion",
+        "task": "paragraph",
+        "prompt": "Students should study in the morning rather than at night. Do you agree?",
+        "keywords": [
+            "education",
+            "habits"
+        ]
+    },
+    {
+        "level": "P1",
+        "type": "definition",
+        "task": "paragraph",
+        "prompt": "Define 'responsibility' and explain why it matters to students.",
+        "keywords": [
+            "society",
+            "education"
+        ]
+    },
+    {
+        "level": "P1",
+        "type": "cause_effect",
+        "task": "paragraph",
+        "prompt": "What causes students to feel stress during exams?",
+        "keywords": [
+            "education",
+            "health"
+        ]
+    },
+    {
+        "level": "P1",
+        "type": "problem_solution",
+        "task": "paragraph",
+        "prompt": "What problems do first-year students face, and how can they solve them?",
+        "keywords": [
+            "education",
+            "society"
+        ]
+    },
+    {
+        "level": "P1",
+        "type": "compare_contrast",
+        "task": "paragraph",
+        "prompt": "Compare studying alone and studying with friends.",
+        "keywords": [
+            "education",
+            "habits"
+        ]
+    },
+    {
+        "level": "P2",
+        "type": "opinion",
+        "task": "paragraph",
+        "prompt": "Online education can be as effective as face-to-face education. Do you agree?",
+        "keywords": [
+            "education",
+            "technology"
+        ]
+    },
+    {
+        "level": "P2",
+        "type": "cause_effect",
+        "task": "paragraph",
+        "prompt": "What are the effects of using smartphones in class?",
+        "keywords": [
+            "education",
+            "technology"
+        ]
+    },
+    {
+        "level": "P2",
+        "type": "problem_solution",
+        "task": "paragraph",
+        "prompt": "Universities should reduce student anxiety. What solutions can they offer?",
+        "keywords": [
+            "education",
+            "health"
+        ]
+    },
+    {
+        "level": "P2",
+        "type": "compare_contrast",
+        "task": "paragraph",
+        "prompt": "Compare city life and campus life.",
+        "keywords": [
+            "society",
+            "culture"
+        ]
+    },
+    {
+        "level": "P2",
+        "type": "argumentative",
+        "task": "essay",
+        "prompt": "Universities should require all students to take ethics courses. Discuss.",
+        "keywords": [
+            "education",
+            "society"
+        ]
+    },
+    {
+        "level": "P3",
+        "type": "opinion",
+        "task": "essay",
+        "prompt": "Governments should invest more in public transport than highways. Discuss.",
+        "keywords": [
+            "society",
+            "economy"
+        ]
+    },
+    {
+        "level": "P3",
+        "type": "cause_effect",
+        "task": "essay",
+        "prompt": "Explain the causes and effects of climate-related migration.",
+        "keywords": [
+            "environment",
+            "society"
+        ]
+    },
+    {
+        "level": "P3",
+        "type": "problem_solution",
+        "task": "essay",
+        "prompt": "What problems does misinformation create and how can societies respond?",
+        "keywords": [
+            "media",
+            "society"
+        ]
+    },
+    {
+        "level": "P3",
+        "type": "compare_contrast",
+        "task": "essay",
+        "prompt": "Compare renewable energy sources and fossil fuels in terms of sustainability.",
+        "keywords": [
+            "environment",
+            "economy"
+        ]
+    },
+    {
+        "level": "P3",
+        "type": "argumentative",
+        "task": "essay",
+        "prompt": "Some believe technology makes people less social. Do you agree?",
+        "keywords": [
+            "technology",
+            "society"
+        ]
+    },
+    {
+        "level": "P4",
+        "type": "argumentative",
+        "task": "essay",
+        "prompt": "Globalization benefits national economies more than it harms local cultures. Discuss.",
+        "keywords": [
+            "economy",
+            "culture"
+        ]
+    },
+    {
+        "level": "P4",
+        "type": "cause_effect",
+        "task": "essay",
+        "prompt": "Analyze the causes and consequences of income inequality.",
+        "keywords": [
+            "economy",
+            "society"
+        ]
+    },
+    {
+        "level": "P4",
+        "type": "problem_solution",
+        "task": "essay",
+        "prompt": "How can universities balance academic freedom with social responsibility?",
+        "keywords": [
+            "education",
+            "society"
+        ]
+    },
+    {
+        "level": "P4",
+        "type": "compare_contrast",
+        "task": "essay",
+        "prompt": "Compare the effectiveness of online and hybrid learning models.",
+        "keywords": [
+            "education",
+            "technology"
+        ]
+    },
+    {
+        "level": "P4",
+        "type": "opinion",
+        "task": "essay",
+        "prompt": "Should governments regulate artificial intelligence development?",
+        "keywords": [
+            "technology",
+            "society"
+        ]
+    },
+    {
+        "id": "WP_NEW_01",
+        "task": "paragraph",
+        "type": "opinion",
+        "level": "P1",
+        "topic": "hobbies",
+        "prompt": "Do you think everyone should have a hobby? Give two reasons to support your opinion.",
+        "keywords": [
+            "interests",
+            "stress",
+            "free time"
+        ]
+    },
+    {
+        "id": "WP_NEW_02",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P1",
+        "topic": "health",
+        "prompt": "Explain one main cause of poor health among university students.",
+        "keywords": [
+            "diet",
+            "exercise",
+            "lifestyle"
+        ]
+    },
+    {
+        "id": "WP_NEW_03",
+        "task": "paragraph",
+        "type": "problem_solution",
+        "level": "P2",
+        "topic": "technology addiction",
+        "prompt": "Many young adults spend too much time on their smartphones. Describe the problem and suggest one effective solution.",
+        "keywords": [
+            "screen time",
+            "addiction",
+            "digital detox"
+        ]
+    },
+    {
+        "id": "WP_NEW_04",
+        "task": "paragraph",
+        "type": "compare_contrast",
+        "level": "P2",
+        "topic": "living arrangements",
+        "prompt": "Compare living with roommates to living alone. What are the main differences?",
+        "keywords": [
+            "privacy",
+            "expenses",
+            "socializing"
+        ]
+    },
+    {
+        "id": "WP_NEW_05",
+        "task": "paragraph",
+        "type": "opinion",
+        "level": "P2",
+        "topic": "financial literacy",
+        "prompt": "Should personal finance be a mandatory subject in high schools? Give two reasons.",
+        "keywords": [
+            "money management",
+            "budgeting",
+            "education"
+        ]
+    },
+    {
+        "id": "WP_NEW_06",
+        "task": "paragraph",
+        "type": "cause_effect",
+        "level": "P3",
+        "topic": "climate anxiety",
+        "prompt": "Explain how climate change news affects the mental health of young people.",
+        "keywords": [
+            "anxiety",
+            "environment",
+            "future"
+        ]
+    },
+    {
+        "id": "WP_NEW_07",
+        "task": "paragraph",
+        "type": "reaction",
+        "level": "P3",
+        "topic": "remote work",
+        "prompt": "Read a short article stating that remote work decreases team innovation. Write your reaction and give one example.",
+        "keywords": [
+            "collaboration",
+            "innovation",
+            "workspace"
+        ]
+    },
+    {
+        "id": "WP_NEW_08",
+        "task": "essay",
+        "type": "argumentative",
+        "level": "P4",
+        "topic": "artificial intelligence",
+        "prompt": "Some argue that AI will eventually replace most white-collar jobs. To what extent do you agree or disagree?",
+        "keywords": [
+            "automation",
+            "employment",
+            "technology"
+        ]
+    },
+    {
+        "id": "WP_NEW_09",
+        "task": "essay",
+        "type": "problem_solution",
+        "level": "P4",
+        "topic": "global inequality",
+        "prompt": "The wealth gap between developed and developing nations continues to widen. Discuss the main causes of this issue and propose viable solutions.",
+        "keywords": [
+            "economy",
+            "globalization",
+            "distribution of wealth"
+        ]
+    },
+    {
+        "id": "WP_NEW_10",
+        "task": "essay",
+        "type": "discursive",
+        "level": "P4",
+        "topic": "space exploration",
+        "prompt": "Governments spend billions on space exploration while terrestrial problems remain unsolved. Discuss both sides of this funding debate and give your own opinion.",
+        "keywords": [
+            "budget",
+            "priority",
+            "scientific advancement"
+        ]
+    }
+]

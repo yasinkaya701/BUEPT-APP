@@ -179,11 +179,11 @@ const styles = StyleSheet.create({
     width: width - 80,
     height: width - 80,
     borderRadius: 24,
-    backgroundColor: '#1E3A8A', // Deep Boğaziçi blue
+    backgroundColor: '#172554', // Deep Boğaziçi blue
     alignItems: 'center',
     justifyContent: 'center',
     ...shadow.md,
-    shadowColor: '#1E3A8A',
+    shadowColor: '#172554',
     shadowOpacity: 0.4,
     shadowRadius: 15,
   },

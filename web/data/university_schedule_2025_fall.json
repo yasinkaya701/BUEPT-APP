@@ -1,0 +1,5413 @@
+{
+  "meta": {
+    "name": "2025-2026 Fall Term Schedules",
+    "sourceFile": "2025-2026_fall_term_schedules.xlsx",
+    "generatedAt": "2026-02-22",
+    "termStart": "2025-09-15",
+    "termEnd": "2026-01-16"
+  },
+  "programs": [
+    {
+      "program": 1,
+      "title": "PROGRAM 1",
+      "sections": [
+        {
+          "section": "1",
+          "room": "Y2 106",
+          "instructors": {
+            "A": "ESRA BENER",
+            "B": "AYSUN BALKAN"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "2",
+          "room": "Y2 205",
+          "instructors": {
+            "A": "AZAM SAMADI RAHIM",
+            "B": "AYSUN BALKAN"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "3",
+          "room": "Y2 213",
+          "instructors": {
+            "A": "HANİFE EMEL YÜKSEL AYTAR",
+            "B": "FİLİZ TÜRKMEN"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "4",
+          "room": "Y2 215",
+          "instructors": {
+            "A": "ASLIHAN AKIN",
+            "B": "FİLİZ TÜRKMEN"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "5",
+          "room": "Y1 106",
+          "instructors": {
+            "A": "YILDIZ YILDIRIM KARLIDAĞ",
+            "B": "FUAT ÖZKUL"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "6",
+          "room": "Y1 104",
+          "instructors": {
+            "A": "SEDEF ÇETİN",
+            "B": "FUAT ÖZKUL"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "7",
+          "room": "Y2 206",
+          "instructors": {
+            "A": "ZEHRA BAHADIR KURUŞ",
+            "B": "GÜLNİHAL ÖZDENER"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "8",
+          "room": "Y1 102",
+          "instructors": {
+            "A": "GÖNÜL TUĞBA AKDAĞ",
+            "B": "GÜLNİHAL ÖZDENER"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "9",
+          "room": "Y2 204",
+          "instructors": {
+            "A": "YEŞİM GÜRCİ",
+            "B": "SEMA ÖZÇALLI"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "10",
+          "room": "Y2 109",
+          "instructors": {
+            "A": "CEREN BOZKUŞ",
+            "B": "SEMA ÖZÇALLI"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "11",
+          "room": "Y1 103",
+          "instructors": {
+            "A": "BÜŞRA AYÇA KARAMAN",
+            "B": "BEGÜM ECE YILDIZ"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "12",
+          "room": "Y2 107",
+          "instructors": {
+            "A": "SENA KÖNEZ",
+            "B": "BEGÜM ECE YILDIZ"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "program": 2,
+      "title": "PROGRAM 2",
+      "sections": [
+        {
+          "section": "1",
+          "room": "Y2 218",
+          "instructors": {
+            "A": "TUBA ENGİN",
+            "B": "MUSTAFA GÖNENÇ"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "2",
+          "room": "Y2 219",
+          "instructors": {
+            "A": "JÜLİDE ÖZTÜRK",
+            "B": "MUSTAFA GÖNENÇ"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "3",
+          "room": "Y2 203",
+          "instructors": {
+            "A": "BÜŞRA OKUMUŞ",
+            "B": "DUYGU ŞİMŞEK"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "4",
+          "room": "Y2 303",
+          "instructors": {
+            "A": "ANELYA MIRZAMOVA",
+            "B": "DUYGU ŞİMŞEK"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "5",
+          "room": "Y2 216",
+          "instructors": {
+            "A": "CANSU TURAN",
+            "B": "SOMAYEH TAHMOURESI"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "6",
+          "room": "Y2 209",
+          "instructors": {
+            "A": "SEMİH TÜRKOĞLU",
+            "B": "SOMAYEH TAHMOURESI"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "7",
+          "room": "Y2 312",
+          "instructors": {
+            "A": "PETER BOYCE",
+            "B": "ÖZLEM TUNA"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "8",
+          "room": "Y2 208",
+          "instructors": {
+            "A": "MOHSEN ASKARI",
+            "B": "ÖZLEM TUNA"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "9",
+          "room": "Y2 311",
+          "instructors": {
+            "A": "ÖZGE GÜLLÜOĞLU",
+            "B": "GÜLAY TAŞSEVEN"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "10",
+          "room": "Y2 117",
+          "instructors": {
+            "A": "ÜLFET ÖĞÜT",
+            "B": "GÜLAY TAŞSEVEN"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "11",
+          "room": "Y2 313",
+          "instructors": {
+            "A": "İNAYET DENİZ SİNANGİL",
+            "B": "ÇAĞDAŞ KALAFAT"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "12",
+          "room": "Y2 310",
+          "instructors": {
+            "A": "MUSTAFA ERTÜRK",
+            "B": "ÇAĞDAŞ KALAFAT"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "13",
+          "room": "Y2 111",
+          "instructors": {
+            "A": "EDA ÜZÜM",
+            "B": "ELIZABETH KATHLEEN RITCHIE"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "14",
+          "room": "Y2 103",
+          "instructors": {
+            "A": "AYŞEGÜL KORKMAZ",
+            "B": "ELIZABETH KATHLEEN RITCHIE"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "15",
+          "room": "Y2 318",
+          "instructors": {
+            "A": "NURAY AKÇA KOYUN",
+            "B": "ROGER E. HEWITT"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (08:45 - 10:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "WED",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "16",
+          "room": "Y2 211",
+          "instructors": {
+            "A": "ELİF TÜRKOĞLU",
+            "B": "ROGER E. HEWITT"
+          },
+          "slots": [
+            {
+              "time": "9:00 - 10:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B  (08:45 - 10:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:30 - 11:45",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (10:30 - 11:45)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "12:00 - 13:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "LUNCH BREAK"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A (13:15)"
+                }
+              ]
+            },
+            {
+              "time": "LUNCH BREAK",
+              "entries": [
+                {
+                  "day": "THU",
+                  "label": "B (12:30 - 13:45)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (14:00 - 15:15)"
+                },
+                {
+                  "day": "THU",
+                  "label": "B (14:00 - 15:15)"
+                }
+              ]
+            },
+            {
+              "time": "",
+              "entries": [
+                {
+                  "day": "TUE",
+                  "label": "B (15:30 - 16:30)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "program": 3,
+      "title": "PROGRAM 3",
+      "sections": [
+        {
+          "section": "1",
+          "room": "Y2 110",
+          "instructors": {
+            "A": "ZEYNEP ABANOZ ÇELİK",
+            "B": "SEHER DEMİR AYTAŞKIN"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "2",
+          "room": "Y2 315",
+          "instructors": {
+            "A": "ÖZGE YAĞIŞ",
+            "B": "SEHER DEMİR AYTAŞKIN"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "3",
+          "room": "Y2 114",
+          "instructors": {
+            "A": "SABİHA NİL KURTALAN",
+            "B": "SEHER DEMİR AYTAŞKIN"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "4",
+          "room": "Y2 210",
+          "instructors": {
+            "A": "EMEK AYŞE YILDIZ",
+            "B": "SEHER DEMİR AYTAŞKIN"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "B"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "B"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "B"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "5",
+          "room": "Y2 116",
+          "instructors": {
+            "A": "ÖZGE ÇAĞLAR AKSOY",
+            "B": "SERAP ERDAL BULUT"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "6",
+          "room": "Y2 217",
+          "instructors": {
+            "A": "YUSUF CENGİZ",
+            "B": "SERAP ERDAL BULUT"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "7",
+          "room": "Y2 112",
+          "instructors": {
+            "A": "HÜLYA ERSOY",
+            "B": "SERAP ERDAL BULUT"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "8",
+          "room": "Y2 308",
+          "instructors": {
+            "A": "FETİYE ERBİL",
+            "B": "SERAP ERDAL BULUT"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "B"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "B"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "B"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "9",
+          "room": "Y2 104",
+          "instructors": {
+            "A": "FEYZA ÇELİKTAŞ",
+            "B": "EBRU BANK"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "10",
+          "room": "Y2 304",
+          "instructors": {
+            "A": "PAUL WARREN WAITE JR",
+            "B": "EBRU BANK"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "11",
+          "room": "Y2 314",
+          "instructors": {
+            "A": "NESRİN KUTLAY",
+            "B": "EBRU BANK"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "12",
+          "room": "Y2 309",
+          "instructors": {
+            "A": "BERAT BAŞER",
+            "B": "EBRU BANK"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "B"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "B"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "B"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "13",
+          "room": "Y2 108",
+          "instructors": {
+            "A": "FATMA BAYRAM SARIAHMET",
+            "B": "MEHMET ÇELİKBAŞ"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "B"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "14",
+          "room": "Y2 118",
+          "instructors": {
+            "A": "BİNNAZ POŞUL",
+            "B": "MEHMET ÇELİKBAŞ"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "15",
+          "room": "Y2 319",
+          "instructors": {
+            "A": "TUĞRUL EMRE KUTLAY",
+            "B": "MEHMET ÇELİKBAŞ"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "16",
+          "room": "Y2 317",
+          "instructors": {
+            "A": "DİDEM KUMBRAOĞLU",
+            "B": "RABİA BÜŞRA ÇEMÇ"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "B"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "17",
+          "room": "Y2 316",
+          "instructors": {
+            "A": "IRMAK ÇİÇEK GEZEK",
+            "B": "RABİA BÜŞRA ÇEMÇ"
+          },
+          "slots": [
+            {
+              "time": "8:45 - 10:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "10:15 - 11:30",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            },
+            {
+              "time": "11:45 - 13:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (13:15)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A"
+                },
+                {
+                  "day": "THU",
+                  "label": "B"
+                },
+                {
+                  "day": "FRI",
+                  "label": "A"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "program": 4,
+      "title": "PROGRAM 4",
+      "sections": [
+        {
+          "section": "1&2",
+          "room": "Y3 201",
+          "instructors": {
+            "A": "GİZEM BÜTÜNER"
+          },
+          "slots": [
+            {
+              "time": "10:00 - 11:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.01)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.01)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.01)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.01)"
+                }
+              ]
+            },
+            {
+              "time": "11:15 - 12:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.01)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.01)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.01)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.01)"
+                }
+              ]
+            },
+            {
+              "time": "13:00 - 14:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.02)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.02)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.02)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.02)"
+                }
+              ]
+            },
+            {
+              "time": "14:15 - 15:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.02)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.02)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.02)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.02)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "3&4",
+          "room": "Y3 202",
+          "instructors": {
+            "A": "YASEMİN PAÇALIOĞLU"
+          },
+          "slots": [
+            {
+              "time": "10:00 - 11:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.03)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.03)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.03)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.03)"
+                }
+              ]
+            },
+            {
+              "time": "11:15 - 12:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.03)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.03)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.03)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.03)"
+                }
+              ]
+            },
+            {
+              "time": "13:00 - 14:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.04)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.04)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.04)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.04)"
+                }
+              ]
+            },
+            {
+              "time": "14:15 - 15:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.04)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.04)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.04)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.04)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "5&6",
+          "room": "Y3 209",
+          "instructors": {
+            "A": "YELİZ AYAN"
+          },
+          "slots": [
+            {
+              "time": "10:00 - 11:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.05)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.05)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.05)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.05)"
+                }
+              ]
+            },
+            {
+              "time": "11:15 - 12:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.05)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.05)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.05)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.05)"
+                }
+              ]
+            },
+            {
+              "time": "13:00 - 14:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.06)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.06)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.06)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.06)"
+                }
+              ]
+            },
+            {
+              "time": "14:15 - 15:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.06)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.06)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.06)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.06)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "7&8",
+          "room": "Y3 210",
+          "instructors": {
+            "A": "BAHAREH MALMIR"
+          },
+          "slots": [
+            {
+              "time": "10:00 - 11:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.07)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.07)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.07)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.07)"
+                }
+              ]
+            },
+            {
+              "time": "11:15 - 12:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.07)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.07)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.07)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.07)"
+                }
+              ]
+            },
+            {
+              "time": "13:00 - 14:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.08)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.08)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.08)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.08)"
+                }
+              ]
+            },
+            {
+              "time": "14:15 - 15:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.08)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.08)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.08)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.08)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "9&10",
+          "room": "Y3 211",
+          "instructors": {
+            "A": "SAMUEL JAMES WILLS"
+          },
+          "slots": [
+            {
+              "time": "10:00 - 11:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.09)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.09)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.09)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.09)"
+                }
+              ]
+            },
+            {
+              "time": "11:15 - 12:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.09)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.09)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.09)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.09)"
+                }
+              ]
+            },
+            {
+              "time": "13:00 - 14:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.10)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.10)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.10)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.10)"
+                }
+              ]
+            },
+            {
+              "time": "14:15 - 15:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.10)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.10)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.10)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.10)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section": "11&12",
+          "room": "Y3 212",
+          "instructors": {
+            "A": "SAMI BATOK"
+          },
+          "slots": [
+            {
+              "time": "10:00 - 11:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.11)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.11)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.11)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.11)"
+                }
+              ]
+            },
+            {
+              "time": "11:15 - 12:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.11)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.11)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.11)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.11)"
+                }
+              ]
+            },
+            {
+              "time": "13:00 - 14:00",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.12)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.12)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.12)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.12)"
+                }
+              ]
+            },
+            {
+              "time": "14:15 - 15:15",
+              "entries": [
+                {
+                  "day": "MON",
+                  "label": "A (P4.12)"
+                },
+                {
+                  "day": "TUE",
+                  "label": "A (P4.12)"
+                },
+                {
+                  "day": "WED",
+                  "label": "A (P4.12)"
+                },
+                {
+                  "day": "THU",
+                  "label": "A (P4.12)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "holidays": [
+    {
+      "date": "2025-10-28",
+      "name": "Republic Day Holiday (No Classes)",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "date": "2025-10-29",
+      "name": "Republic Day Holiday (No Classes)",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "date": "2026-01-01",
+      "name": "New Year's Day",
+      "source": "Public Holiday"
+    }
+  ],
+  "academicEvents": [
+    {
+      "id": "fall_orientation",
+      "startDate": "2025-09-15",
+      "endDate": "2025-09-15",
+      "title": "Orientation Day",
+      "type": "orientation",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "id": "fall_registration",
+      "startDate": "2025-09-16",
+      "endDate": "2025-09-19",
+      "title": "Online Course Registration",
+      "type": "registration",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "id": "fall_classes_begin",
+      "startDate": "2025-09-22",
+      "endDate": "2025-09-22",
+      "title": "Classes Begin",
+      "type": "classes",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "id": "fall_add_drop",
+      "startDate": "2025-09-29",
+      "endDate": "2025-10-01",
+      "title": "Add/Drop Period and Late Registration",
+      "type": "registration",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "id": "fall_withdrawal",
+      "startDate": "2025-11-17",
+      "endDate": "2025-11-20",
+      "title": "Course Withdrawal Period",
+      "type": "administrative",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "id": "sfl_quiz_1",
+      "startDate": "2025-11-03",
+      "endDate": "2025-11-03",
+      "title": "SFL Quiz 1",
+      "type": "exam",
+      "source": "YADYOK Fall Exam Dates 2025-2026"
+    },
+    {
+      "id": "sfl_midterm_1",
+      "startDate": "2025-11-26",
+      "endDate": "2025-11-26",
+      "title": "SFL Midterm 1",
+      "type": "exam",
+      "source": "YADYOK Fall Exam Dates 2025-2026"
+    },
+    {
+      "id": "sfl_quiz_2",
+      "startDate": "2025-12-17",
+      "endDate": "2025-12-17",
+      "title": "SFL Quiz 2",
+      "type": "exam",
+      "source": "YADYOK Fall Exam Dates 2025-2026"
+    },
+    {
+      "id": "fall_last_day_classes",
+      "startDate": "2025-12-19",
+      "endDate": "2025-12-19",
+      "title": "Last Day of Classes",
+      "type": "classes",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "id": "fall_finals_session_1",
+      "startDate": "2025-12-22",
+      "endDate": "2025-12-30",
+      "title": "Final Exams (Session 1)",
+      "type": "exam",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "id": "fall_finals_session_2",
+      "startDate": "2026-01-02",
+      "endDate": "2026-01-09",
+      "title": "Final Exams (Session 2)",
+      "type": "exam",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    },
+    {
+      "id": "sfl_speaking_exam_1",
+      "startDate": "2026-01-07",
+      "endDate": "2026-01-08",
+      "title": "SFL Speaking Exam 1",
+      "type": "exam",
+      "source": "YADYOK Fall Exam Dates 2025-2026"
+    },
+    {
+      "id": "fall_makeups",
+      "startDate": "2026-01-13",
+      "endDate": "2026-01-15",
+      "title": "E and Make-up Exams",
+      "type": "exam",
+      "source": "Bogazici Academic Calendar 2025-2026"
+    }
+  ],
+  "notes": [
+    "Holiday list can be extended from official university calendar.",
+    "Schedules are parsed from uploaded Excel template."
+  ]
+}

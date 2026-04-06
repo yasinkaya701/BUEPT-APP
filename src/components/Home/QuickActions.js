@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { spacing, typography } from '../../theme/tokens';
+import { colors, spacing, typography } from '../../theme/tokens';
 import { useAppState } from '../../context/AppState';
 import { buildAdaptivePlan } from '../../utils/studyPlan';
 
@@ -16,7 +16,7 @@ const FALLBACK_ACTION = {
   label: 'Resources',
   route: 'Resources',
   icon: 'library-outline',
-  bg: '#F8FAFC',
+  bg: colors.surfaceAlt,
   iconColor: '#334155',
   meta: 'Browse support',
 };
@@ -55,7 +55,7 @@ export default function QuickActions({ navigation }) {
 
   const latestPractice = useMemo(() => {
     const options = [
-      { key: 'reading', route: 'Reading', title: 'Continue Reading', icon: 'book-outline', ts: latestTimestamp(readingHistory), bg: '#F8FAFC', iconColor: '#334155' },
+      { key: 'reading', route: 'Reading', title: 'Continue Reading', icon: 'book-outline', ts: latestTimestamp(readingHistory), bg: colors.surfaceAlt, iconColor: '#334155' },
       { key: 'listening', route: 'Listening', title: 'Continue Listening', icon: 'headset-outline', ts: latestTimestamp(listeningHistory), bg: '#EFF6FF', iconColor: '#1D4ED8' },
       { key: 'grammar', route: 'Grammar', title: 'Continue Grammar', icon: 'school-outline', ts: latestTimestamp(grammarHistory), bg: '#FEF3C7', iconColor: '#92400E' },
       { key: 'writing', route: 'Writing', title: 'Continue Writing', icon: 'document-text-outline', ts: latestTimestamp(history), bg: '#FFF7ED', iconColor: '#9A3412' },
@@ -147,13 +147,13 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: typography.fontHeadline,
     fontWeight: '900',
-    color: '#111827',
+    color: colors.text,
     letterSpacing: -0.3,
   },
   sectionMeta: {
     marginTop: 2,
     fontSize: 11,
-    color: '#6B7280',
+    color: colors.muted,
     fontWeight: '500',
   },
   horizontalScroll: {
@@ -165,8 +165,8 @@ const styles = StyleSheet.create({
     width: 130,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: '#E5E7EB',
-    backgroundColor: '#FFFFFF',
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
     paddingHorizontal: 10,
     paddingVertical: 12,
     gap: 4,
@@ -180,20 +180,19 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
-    backgroundColor: '#EFF6FF',
+    backgroundColor: colors.primaryUltraLight,
     alignItems: 'center',
     justifyContent: 'center',
   },
   actionLabel: {
     fontSize: 13,
-    color: '#111827',
+    color: colors.text,
     fontFamily: typography.fontHeadline,
     fontWeight: '800',
   },
   actionMeta: {
     fontSize: 10,
-    color: '#6B7280',
+    color: colors.muted,
     fontWeight: '600',
   },
 });
-

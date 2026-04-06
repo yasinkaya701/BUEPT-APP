@@ -1,4 +1,5 @@
 import { detectBasicErrors } from './basicErrorDetect';
+import bueptMarkingScheme from '../../data/buept_writing_marking_scheme.json';
 
 const CONNECTORS = [
   'however', 'therefore', 'moreover', 'furthermore', 'for example',
@@ -136,6 +137,53 @@ function bandFrom20(total) {
   return 'A2-B1';
 }
 
+function getSchemeBand(code = '') {
+  const safeCode = String(code || '').toUpperCase();
+  const bands = Array.isArray(bueptMarkingScheme?.bands) ? bueptMarkingScheme.bands : [];
+  return bands.find((item) => String(item?.code || '').toUpperCase() === safeCode) || null;
+}
+
+function resolveWascWritingBand({ total = 0, wordCount = 0, text = '' } = {}) {
+  const wc = Number(wordCount || 0);
+  const cleanText = String(text || '').trim();
+  if (!cleanText) {
+    const wn = getSchemeBand('WN');
+    return {
+      code: 'WN',
+      label: wn?.label || 'Wrote Nothing',
+      pass: wn?.pass ?? false,
+      descriptor: wn?.descriptor || 'No meaningful written response.',
+      source: bueptMarkingScheme?.source_name || 'WASC',
+    };
+  }
+  if (wc < 25) {
+    const ins = getSchemeBand('INS');
+    return {
+      code: 'INS',
+      label: ins?.label || 'Insufficient',
+      pass: ins?.pass ?? false,
+      descriptor: ins?.descriptor || 'Text is too short to evaluate reliably.',
+      source: bueptMarkingScheme?.source_name || 'WASC',
+    };
+  }
+  const numeric = Number(total || 0);
+  let code = 'FBA';
+  if (numeric >= 18) code = 'E';
+  else if (numeric >= 16) code = 'VG';
+  else if (numeric >= 14) code = 'MA';
+  else if (numeric >= 12) code = 'A';
+  else if (numeric >= 10) code = 'D';
+  else if (numeric >= 7) code = 'NA';
+  const band = getSchemeBand(code);
+  return {
+    code,
+    label: band?.label || code,
+    pass: band?.pass ?? false,
+    descriptor: band?.descriptor || '',
+    source: bueptMarkingScheme?.source_name || 'WASC',
+  };
+}
+
 function buildPriorityPlan(categories = [], actionMap = {}) {
   return categories
     .map((category) => {
@@ -227,6 +275,7 @@ export function scoreWritingRubric({ text = '', prompt = '', targetWords = 180 }
 
   const total = grammar + vocabulary + organization + content + mechanics;
   const readiness = Math.round((total / 20) * 100);
+  const wascBand = resolveWascWritingBand({ total, wordCount: wc, text });
   const categories = [
     { name: 'Grammar', score: grammar, max: 4 },
     { name: 'Vocabulary', score: vocabulary, max: 4 },
@@ -255,17 +304,14 @@ export function scoreWritingRubric({ text = '', prompt = '', targetWords = 180 }
     targetWords,
     coverage
   );
-  const feedbackSummary = readiness >= 80
-    ? 'Strong draft. Focus on precision and polish.'
-    : readiness >= 60
-      ? 'Developing draft. Improve structure and accuracy for a higher band.'
-      : 'Early draft. Build clearer content and safer grammar first.';
+  const feedbackSummary = `${wascBand.code} (${wascBand.label}) · ${readiness}% readiness. ${wascBand.descriptor || (readiness >= 80 ? 'Strong draft. Focus on precision and polish.' : readiness >= 60 ? 'Developing draft. Improve structure and accuracy for a higher band.' : 'Early draft. Build clearer content and safer grammar first.')}`;
 
   return {
     total,
     max: 20,
     readiness,
     band: bandFrom20(total),
+    wascBand,
     metrics: { wordCount: wc, sentenceCount, connectors, academics, ttr, errors, repetition, mechanicsIssues },
     categories,
     strengths,

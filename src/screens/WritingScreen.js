@@ -61,6 +61,7 @@ export default function WritingScreen({ navigation }) {
   
   const [type, setType] = useState(null);
   const [task, setTask] = useState(null);
+  const [queryInput, setQueryInput] = useState('');
   const [query, setQuery] = useState('');
   const [customPrompt, setCustomPrompt] = useState('');
   const [savedDraft, setSavedDraft] = useState('');
@@ -72,6 +73,11 @@ export default function WritingScreen({ navigation }) {
     loadDraft().then((draft) => { if (mounted) setSavedDraft(draft || ''); });
     return () => { mounted = false; };
   }, []);
+
+  useEffect(() => {
+    const t = setTimeout(() => setQuery(queryInput), 200);
+    return () => clearTimeout(t);
+  }, [queryInput]);
 
   const filtered = useMemo(() => {
     return prompts.filter((item) => {
@@ -116,7 +122,7 @@ export default function WritingScreen({ navigation }) {
   const renderEmpty = () => (
       <Card style={styles.card}>
           <Text style={styles.emptyText}>No prompts match your filters.</Text>
-          <Button label="Clear Filters" variant="secondary" onPress={() => { setType(null); setTask(null); setQuery(''); }} />
+          <Button label="Clear Filters" variant="secondary" onPress={() => { setType(null); setTask(null); setQueryInput(''); setQuery(''); }} />
       </Card>
   );
 
@@ -124,6 +130,8 @@ export default function WritingScreen({ navigation }) {
     <>
     <Screen scroll contentStyle={styles.container}>
         <View style={styles.headerSpacer}>
+            <Text style={styles.h1}>Writing</Text>
+            <Text style={styles.sub}>Topic selection, quick templates, and a clean prompt library in one place.</Text>
             <Card style={styles.heroCard} glow>
                 <View style={styles.heroTopRow}>
                     <View style={styles.heroIconWrap}>
@@ -132,6 +140,7 @@ export default function WritingScreen({ navigation }) {
                     <View style={styles.heroCopy}>
                         <Text style={styles.heroEyebrow}>Writing Studio</Text>
                         <Text style={styles.heroTitle}>Draft, review, and perfect your essays.</Text>
+                        <Text style={styles.heroBody}>Start with a template or jump to a filtered prompt set.</Text>
                     </View>
                     <View style={styles.heroCounter}>
                         <Text style={styles.heroCounterValue}>{prompts.length}</Text>
@@ -139,8 +148,13 @@ export default function WritingScreen({ navigation }) {
                     </View>
                 </View>
 
-                <View style={styles.heroActions}>
-                    <Button label="Academic Expressions" icon="library-outline" variant="secondary" onPress={() => setShowTemplates(true)} style={styles.actionFlexBtn} />
+                <View style={styles.heroActionRow}>
+                    <Button
+                        label="Start Writing"
+                        icon="create-outline"
+                        onPress={() => navigation.navigate('WritingEditor')}
+                    />
+                    <Button label="Academic Expressions" icon="library-outline" variant="secondary" onPress={() => setShowTemplates(true)} />
                 </View>
             </Card>
 
@@ -215,8 +229,8 @@ export default function WritingScreen({ navigation }) {
                 <Ionicons name="search" size={18} color={colors.muted} />
                 <TextInput
                     style={styles.searchInput}
-                    value={query}
-                    onChangeText={setQuery}
+                    value={queryInput}
+                    onChangeText={setQueryInput}
                     placeholder="Search topics..."
                     placeholderTextColor={colors.muted}
                     autoCapitalize="none"
@@ -287,8 +301,10 @@ export default function WritingScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: '#F8FAFC' },
+  container: {},
   headerSpacer: { paddingTop: spacing.md },
+  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },
+  sub: { fontSize: typography.body, color: colors.muted, marginBottom: spacing.md, lineHeight: 20 },
   listContent: { paddingBottom: spacing.xxl + 84, paddingHorizontal: spacing.lg },
   listContentWide: { paddingHorizontal: spacing.xl },
   columnWrapper: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: spacing.md },
@@ -297,8 +313,8 @@ const styles = StyleSheet.create({
   
   // Hero Widget
   heroCard: { 
-    backgroundColor: '#0F3F7F', 
-    borderColor: '#0F3F7F', 
+    backgroundColor: '#172554', 
+    borderColor: '#172554', 
     borderWidth: 1, 
     borderRadius: 16, 
     padding: spacing.xl, 
@@ -334,6 +350,11 @@ const styles = StyleSheet.create({
     color: '#FFFFFF', 
     marginBottom: spacing.xs 
   },
+  heroBody: {
+    fontSize: typography.small,
+    color: '#DBEAFE',
+    lineHeight: 20,
+  },
   
   heroCounter: { 
     minWidth: 90, 
@@ -358,14 +379,14 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase' 
   },
 
-  heroActions: { flexDirection: 'row', paddingTop: spacing.md, borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.1)' },
+  heroActionRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   actionFlexBtn: { flex: 1 },
   
   // Metric Tiles
   metricGrid: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.md },
   metricTile: { flex: 1, backgroundColor: colors.surface, borderRadius: 12, paddingVertical: spacing.md, paddingHorizontal: spacing.sm, borderWidth: 1, borderColor: '#D7E4FA', position: 'relative', overflow: 'hidden' },
   metricAccent: { position: 'absolute', top: 0, left: 0, right: 0, height: 4 },
-  metricAccentBlue: { backgroundColor: '#3B82F6' },
+  metricAccentBlue: { backgroundColor: '#1D4ED8' },
   metricAccentTeal: { backgroundColor: '#14B8A6' },
   metricAccentAmber: { backgroundColor: '#F59E0B' },
   metricValue: { fontSize: 20, fontFamily: typography.fontHeadline, fontWeight: '800', color: colors.primaryDark, marginBottom: 2 },
@@ -425,7 +446,7 @@ const styles = StyleSheet.create({
   modalContainer: { flex: 1, backgroundColor: '#F8FAFC' },
   modalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: spacing.lg, backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E2E8F0' },
   modalTitle: { fontSize: 20, fontFamily: typography.fontHeadline, fontWeight: '800', color: '#0F172A' },
-  closeBtnText: { fontSize: 16, fontWeight: '700', color: '#3B82F6' },
+  closeBtnText: { fontSize: 16, fontWeight: '700', color: '#1D4ED8' },
   modalScroll: { flex: 1 },
   modalContent: { padding: spacing.lg, paddingBottom: 60 },
   modalIntro: { fontSize: 15, color: '#475569', lineHeight: 22, marginBottom: 24 },

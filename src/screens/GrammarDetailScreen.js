@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import { Text, StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
@@ -12,6 +12,7 @@ import { useAppState } from '../context/AppState';
 import { buildSimilarQuestion } from '../utils/similarQuestion';
 import { buildGrammarOpenEndedPrompts } from '../utils/openEndedPrompts';
 import { evaluateGrammarModel } from '../utils/grammarModel';
+import { subscribeSmokeActions } from '../dev/smokeBus';
 
 const tasks = [...baseTasks, ...hardTasks, ...testEnglishTasks];
 
@@ -86,6 +87,8 @@ export default function GrammarDetailScreen({ route, navigation }) {
   const [showHints, setShowHints] = useState(true);
   const [confidence, setConfidence] = useState({});
   const [grammarModel, setGrammarModel] = useState(null);
+  const smokePendingRef = useRef(false);
+  const smokeDoneRef = useRef(false);
   const { addGrammarResult, recordGrammarError } = useAppState();
   const grammarFeedback = useMemo(() => (checked ? buildGrammarFeedback(activeTask, answers) : null), [checked, activeTask, answers]);
   const missedIndexes = useMemo(
@@ -108,6 +111,28 @@ export default function GrammarDetailScreen({ route, navigation }) {
     const taskIntro = (task.explain || '').split('\n')[0] || '';
     return `Correct answer: "${q.options[q.answer]}". ${taskIntro}`;
   }, [task.explain]);
+
+  const mistakeItems = useMemo(() => {
+    if (!checked || !taskQuestions.length) return [];
+    return taskQuestions.map((q, i) => {
+      const selected = answers[i];
+      if (selected === q.answer) return null;
+      const questionText = q.type === 'cloze' ? (q.sentence || q.q || 'Fill in the blank') : (q.q || 'Question');
+      return {
+        id: `${task.id || 'grammar'}-${i}`,
+        module: 'grammar',
+        moduleLabel: 'Grammar',
+        taskTitle: task.title || 'Grammar Practice',
+        question: questionText,
+        options: q.options || [],
+        correctIndex: q.answer,
+        selectedIndex: Number.isFinite(selected) ? selected : null,
+        explanation: getQuestionExplain(q),
+        context: task.explain || '',
+        skill: q.skill || q.topic || 'grammar',
+      };
+    }).filter(Boolean);
+  }, [checked, taskQuestions, answers, task, getQuestionExplain]);
 
   const select = (qi, oi) => {
     if (checked) return;
@@ -179,6 +204,35 @@ export default function GrammarDetailScreen({ route, navigation }) {
       check();
     }
   }, [timedMode, remainingSec, checked, check]);
+
+  useEffect(() => {
+    if (!__DEV__) return undefined;
+    const unsubscribe = subscribeSmokeActions((action) => {
+      if (action?.target !== 'GrammarDetail') return;
+      if (smokeDoneRef.current) return;
+      if (action?.type !== 'answer_and_check') return;
+      smokeDoneRef.current = true;
+      const count = Math.min(2, taskQuestions.length);
+      if (!count) return;
+      setAnswers((prev) => {
+        const next = { ...prev };
+        for (let i = 0; i < count; i += 1) {
+          if (next[i] == null) next[i] = 0;
+        }
+        return next;
+      });
+      smokePendingRef.current = true;
+    });
+    return unsubscribe;
+  }, [taskQuestions.length]);
+
+  useEffect(() => {
+    if (!__DEV__) return;
+    if (!smokePendingRef.current) return;
+    if (checked) return;
+    smokePendingRef.current = false;
+    setTimeout(() => check(), 200);
+  }, [answers, checked, check]);
 
   const formatTime = (sec) => {
     const m = Math.floor(sec / 60);
@@ -257,9 +311,9 @@ export default function GrammarDetailScreen({ route, navigation }) {
       {examMode ? <Text style={styles.note}>Exam mode: randomized set ({taskQuestions.length} questions)</Text> : null}
 
       {/* Score card when checked */}
-      {checked && (
-        <Card style={[styles.scoreCard, score.startsWith(`${taskQuestions.length}`) ? styles.perfectScoreCard : null]}>
-          {score.startsWith(`${taskQuestions.length}`) && (
+      {checked && score != null && (
+        <Card style={[styles.scoreCard, String(score).startsWith(`${taskQuestions.length}`) ? styles.perfectScoreCard : null]}>
+          {String(score).startsWith(`${taskQuestions.length}`) && (
             <Text style={styles.perfectText}>Perfect score. Strong control.</Text>
           )}
           <Text style={styles.scoreText}>Score: {score}</Text>
@@ -312,6 +366,21 @@ export default function GrammarDetailScreen({ route, navigation }) {
           ) : null}
         </Card>
       )}
+      {grammarFeedback && mistakeItems.length > 0 && (
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Mistake Coach</Text>
+          <Text style={styles.body}>Ask why your answer is wrong and get targeted fixes for this grammar set.</Text>
+          <Button
+            label={`Open Mistake Coach (${mistakeItems.length})`}
+            onPress={() => navigation.navigate('MistakeCoach', {
+              module: 'grammar',
+              moduleLabel: 'Grammar',
+              taskTitle: task.title || 'Grammar Practice',
+              mistakes: mistakeItems,
+            })}
+          />
+        </Card>
+      )}
       {grammarModel && (
         <Card style={styles.card}>
           <Text style={styles.h3}>Grammar Model</Text>
@@ -320,7 +389,7 @@ export default function GrammarDetailScreen({ route, navigation }) {
             <View style={[styles.progressFill, { width: `${grammarModel.overall}%` }]} />
           </View>
           <Text style={styles.answer}>Dimension Scores</Text>
-          {Object.entries(grammarModel.dimensions).map(([name, val]) => (
+          {Object.entries(grammarModel.dimensions || {}).map(([name, val]) => (
             <Text key={name} style={styles.note}>• {name}: {val}%</Text>
           ))}
           {grammarModel.weaknesses.length > 0 ? (
@@ -504,11 +573,29 @@ export default function GrammarDetailScreen({ route, navigation }) {
               <Text style={styles.answer}>Correct: {q.options[q.answer]}</Text>
               <Text style={styles.explain}>{getQuestionExplain(q)}</Text>
               {answers[qi] !== q.answer && (
-                <Button
-                  label={similarQuestions[qi] ? 'New Similar Question' : 'Generate Similar Question'}
-                  variant="secondary"
-                  onPress={() => createSimilarQuestion(qi)}
-                />
+                <>
+                  <Button
+                    label="Open Mistake Coach"
+                    variant="secondary"
+                    onPress={() => {
+                      const item = mistakeItems.find((m) => m.id === `${task.id || 'grammar'}-${qi}`);
+                      if (item) {
+                        navigation.navigate('MistakeCoach', {
+                          module: 'grammar',
+                          moduleLabel: 'Grammar',
+                          taskTitle: task.title || 'Grammar Practice',
+                          mistakes: [item],
+                        });
+                      }
+                    }}
+                    style={styles.mistakeBtn}
+                  />
+                  <Button
+                    label={similarQuestions[qi] ? 'New Similar Question' : 'Generate Similar Question'}
+                    variant="secondary"
+                    onPress={() => createSimilarQuestion(qi)}
+                  />
+                </>
               )}
             </>
           )}
@@ -780,6 +867,10 @@ const styles = StyleSheet.create({
     color: '#B42318',
     fontFamily: typography.fontHeadline,
     marginBottom: spacing.xs,
+  },
+  mistakeBtn: {
+    marginBottom: spacing.xs,
+    alignSelf: 'flex-start',
   },
   similarBlock: {
     marginTop: spacing.md,

@@ -1,11 +1,13 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import TabNavigator from './TabNavigator';
 import { colors, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import VocabFlashcardScreen from '../screens/VocabFlashcardScreen';
+import FlashcardHomeScreen from '../screens/FlashcardHomeScreen';
+import CreateFlashcardDeckScreen from '../screens/CreateFlashcardDeckScreen';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 export default function RootNavigator() {
   const { userToken } = useAppState();
@@ -19,7 +21,14 @@ export default function RootNavigator() {
         headerShadowVisible: false,
         headerStyle: { backgroundColor: colors.bg },
         headerTitleStyle: { fontFamily: typography.fontHeadline, fontSize: typography.h3, color: colors.text },
-        headerTintColor: colors.primary
+        headerTintColor: colors.primary,
+        animationEnabled: true,
+        gestureEnabled: true,
+        gestureResponseDistance: { horizontal: 32 },
+        cardStyle: { backgroundColor: 'transparent' },
+        animationTypeForReplace: 'push',
+        detachPreviousScreen: true,
+        ...TransitionPresets.SlideFromRightIOS,
       }}
     >
       {/* 
@@ -51,7 +60,10 @@ export default function RootNavigator() {
           <Stack.Screen name="VocabPractice" getComponent={() => require('../screens/VocabPracticeScreen').default} options={{ title: 'Vocab Practice' }} />
           <Stack.Screen name="VocabSynonymQuiz" getComponent={() => require('../screens/VocabSynonymQuizScreen').default} options={{ title: 'Synonym Match' }} />
           <Stack.Screen name="VocabClozeQuiz" getComponent={() => require('../screens/VocabClozeQuizScreen').default} options={{ title: 'Fill in the Blank' }} />
-          <Stack.Screen name="VocabFlashcard" component={VocabFlashcardScreen} options={{ title: 'Flashcards' }} />
+          <Stack.Screen name="VocabCollocationQuiz" getComponent={() => require('../screens/VocabCollocationQuizScreen').default} options={{ title: 'Collocation Quiz' }} />
+          <Stack.Screen name="VocabFlashcard" component={VocabFlashcardScreen} options={({ route }) => ({ title: route.params?.title || 'Flashcards' })} />
+          <Stack.Screen name="FlashcardHome" component={FlashcardHomeScreen} options={{ title: 'Flashcard Library' }} />
+          <Stack.Screen name="CreateFlashcardDeck" component={CreateFlashcardDeckScreen} options={{ presentation: 'modal', title: 'New Deck' }} />
           <Stack.Screen name="WebViewer" getComponent={() => require('../screens/WebViewerScreen').default} options={{ title: 'Resource' }} />
           <Stack.Screen name="Exams" getComponent={() => require('../screens/ExamsScreen').default} options={{ title: 'Exams' }} />
           <Stack.Screen name="ExamDetail" getComponent={() => require('../screens/ExamDetailScreen').default} options={{ title: 'BUEPT Practice' }} />
@@ -73,6 +85,7 @@ export default function RootNavigator() {
           <Stack.Screen name="Analytics" getComponent={() => require('../screens/AnalyticsScreen').default} options={{ title: 'Analytics' }} />
           <Stack.Screen name="OnlineFeedback" getComponent={() => require('../screens/OnlineFeedbackScreen').default} options={{ title: 'Online Feedback' }} />
           <Stack.Screen name="Chatbot" getComponent={() => require('../screens/ChatbotScreen').default} options={{ title: 'BUEPT Chat Coach' }} />
+          <Stack.Screen name="MistakeCoach" getComponent={() => require('../screens/MistakeCoachScreen').default} options={{ title: 'Mistake Coach' }} />
           <Stack.Screen name="SpeakingDetail" getComponent={() => require('../screens/SpeakingDetailScreen').default} options={{ title: 'Speaking Practice' }} />
           <Stack.Screen name="SpeakingMockInterview" getComponent={() => require('../screens/SpeakingMockInterviewScreen').default} options={{ title: 'Mock Interview' }} />
           <Stack.Screen name="Progress" getComponent={() => require('../screens/ProgressScreen').default} options={{ title: 'Progress' }} />

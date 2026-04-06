@@ -1,0 +1,67 @@
+[
+  {
+    "id": "connectors_1",
+    "title": "Essential Connectors",
+    "description": "Fundamental transitions for BUEPT Essay writing.",
+    "level": "B2-C1",
+    "cards": [
+      { "word": "Furthermore", "definition": "In addition to what has already been said.", "collocations": ["Furthermore, it is important to...", "Furthermore, studies show..."], "example": "Furthermore, the economic impact cannot be ignored." },
+      { "word": "Notwithstanding", "definition": "In spite of; despite.", "collocations": ["Notwithstanding the challenges", "Notwithstanding his efforts"], "example": "Notwithstanding the initial setbacks, the project succeeded." },
+      { "word": "Inasmuch as", "definition": "To the extent that; because.", "collocations": ["Inasmuch as it relates to...", "Inasmuch as possible"], "example": "Inasmuch as he is a taxpayer, he has a right to know." },
+      { "word": "Consequently", "definition": "As a result.", "collocations": ["Consequently, the results were...", "Consequently, we must..."], "example": "The experiment failed; consequently, we began anew." },
+      { "word": "Moreover", "definition": "In addition; also.", "collocations": ["Moreover, it should be noted...", "Moreover, the data implies..."], "example": "The roof leaks; moreover, the walls are damp." }
+    ]
+  },
+  {
+    "id": "essay_verbs_1",
+    "title": "Academic Essay Verbs",
+    "description": "Sophisticated verbs for argumentation and analysis.",
+    "level": "C1",
+    "cards": [
+      { "word": "Underscore", "definition": "To emphasize or show the importance of something.", "collocations": ["Underscore the need", "Underscore the importance"], "example": "These findings underscore the need for further research." },
+      { "word": "Corroborate", "definition": "To confirm or support with evidence.", "collocations": ["Corroborate the findings", "Corroborate the evidence"], "example": "Recent studies corroborate his theory." },
+      { "word": "Abstain", "definition": "To restrain oneself from doing or enjoying something.", "collocations": ["Abstain from voting", "Abstain from comment"], "example": "Members must abstain from voting on this issue." },
+      { "word": "Exacerbate", "definition": "To make a problem or bad situation worse.", "collocations": ["Exacerbate the situation", "Exacerbate the problem"], "example": "His comments only served to exacerbate the conflict." },
+      { "word": "Mitigate", "definition": "To make something less severe or painful.", "collocations": ["Mitigate risks", "Mitigate the impact"], "example": "Steps were taken to mitigate the environmental damage." }
+    ]
+  },
+  {
+    "id": "sociology_1",
+    "title": "Sociology & Society",
+    "description": "Terms related to social structures, norms, and behavior.",
+    "level": "B2-C1",
+    "cards": [
+      { "word": "Stratification", "definition": "The arrangement or classification of something into different groups.", "collocations": ["Social stratification", "Economic stratification"], "example": "Social stratification remains a major focus of modern sociology." },
+      { "word": "Assimilation", "definition": "The process of taking in and fully understanding information or ideas.", "collocations": ["Cultural assimilation", "Rapid assimilation"], "example": "The government promoted the assimilation of immigrants into the local culture." },
+      { "word": "Normative", "definition": "Establishing, relating to, or deriving from a standard or norm.", "collocations": ["Normative values", "Normative framework"], "example": "The study explores the normative influences on adolescent behavior." },
+      { "word": "Hegemony", "definition": "Leadership or dominance, especially by one country or social group.", "collocations": ["Cultural hegemony", "Political hegemony"], "example": "The movie explores the cultural hegemony of Western media." },
+      { "word": "Secularization", "definition": "The action or process of converting something from religious to secular possession or use.", "collocations": ["Process of secularization", "Growing secularization"], "example": "Many experts point to the secularization of European society in the 20th century." }
+    ]
+  },
+  {
+    "id": "technology_1",
+    "title": "Technology & AI",
+    "description": "Cutting-edge terms for modern tech discussions.",
+    "level": "C1",
+    "cards": [
+      { "word": "Algorithm", "definition": "A process or set of rules to be followed in calculations or other problem-solving operations.", "collocations": ["Search algorithm", "Complex algorithm"], "example": "The new search algorithm identifies relevant content more efficiently." },
+      { "word": "Automation", "definition": "The use of largely automatic equipment in a system of manufacturing or other production process.", "collocations": ["Industrial automation", "Full automation"], "example": "Increased automation in the car industry has led to job losses." },
+      { "word": "Ubiquitous", "definition": "Present, appearing, or found everywhere.", "collocations": ["Ubiquitous computing", "Ubiquitous presence"], "example": "Mobile phones are now ubiquitous in modern society." },
+      { "word": "Disruptive", "definition": "Innovative technology that significantly alters the way that consumers, industries, or businesses operate.", "collocations": ["Disruptive technology", "Disruptive innovation"], "example": "Artificial intelligence is often described as a disruptive technology." },
+      { "word": "Infrastructure", "definition": "The basic physical and organizational structures and facilities (e.g., buildings, roads, power supplies) needed for the operation of a society or enterprise.", "collocations": ["Digital infrastructure", "Critical infrastructure"], "example": "The city's digital infrastructure requires significant investment." }
+    ]
+  },
+  {
+    "id": "environment_1",
+    "title": "Environment & Ecology",
+    "description": "Essential terms for climate and sustainability topics.",
+    "level": "B2-C1",
+    "cards": [
+      { "word": "Sustainability", "definition": "The ability to be maintained at a certain rate or level.", "collocations": ["Environmental sustainability", "Long-term sustainability"], "example": "Corporate sustainability is becoming a key metric for investors." },
+      { "word": "Depletion", "definition": "Reduction in the number or quantity of something.", "collocations": ["Resource depletion", "Ozone depletion"], "example": "The rapid depletion of fossil fuels is a global concern." },
+      { "word": "Biodiversity", "definition": "The variety of life in the world or in a particular habitat or ecosystem.", "collocations": ["Protect biodiversity", "Loss of biodiversity"], "example": "Protecting biodiversity is crucial for maintaining ecosystem health." },
+      { "word": "Emission", "definition": "The production and discharge of something, especially gas or radiation.", "collocations": ["Carbon emissions", "Gas emissions"], "example": "The treaty aims to reduce greenhouse gas emissions by 20%." },
+      { "word": "Consciousness", "definition": "The state of being aware of and responsive to one's surroundings.", "collocations": ["Environmental consciousness", "Social consciousness"], "example": "There is a growing environmental consciousness among young consumers." }
+    ]
+  }
+]

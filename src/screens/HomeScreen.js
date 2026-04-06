@@ -5,7 +5,7 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import Screen from '../components/Screen';
 import LogoMark from '../components/LogoMark';
-import { colors, spacing, typography, shadow } from '../theme/tokens';
+import { colors, spacing, typography, shadow, radius } from '../theme/tokens';
 
 import { useAppState } from '../context/AppState';
 import readingTasks from '../../data/reading_tasks.json';
@@ -147,10 +147,10 @@ export default function HomeScreen({ navigation }) {
       body: 'Listen to Boğaziçi prep audio lessons and insights.',
       icon: 'headset-outline',
       route: 'Podcast',
-      bg: '#FFFFFF',
+      bg: colors.surface,
       iconBg: '#FCE7F3',
       iconColor: '#BE185D',
-      titleColor: '#111827',
+      titleColor: colors.text,
     },
     {
       key: 'focus',
@@ -158,10 +158,10 @@ export default function HomeScreen({ navigation }) {
       body: adaptive.focusAction,
       icon: 'flash-outline',
       route: weakSkill?.route || 'Reading',
-      bg: '#FFFFFF',
+      bg: colors.surface,
       iconBg: '#DBEAFE',
       iconColor: '#1D4ED8',
-      titleColor: '#111827',
+      titleColor: colors.text,
     },
     {
       key: 'vocab',
@@ -169,10 +169,10 @@ export default function HomeScreen({ navigation }) {
       body: dueCount > 0 ? `${dueCount} review items due now.` : 'Open dictionary and weekly quiz workspace.',
       icon: 'book-outline',
       route: 'Vocab',
-      bg: '#FFFFFF',
+      bg: colors.surface,
       iconBg: '#D1FAE5',
       iconColor: '#065F46',
-      titleColor: '#111827',
+      titleColor: colors.text,
     },
     {
       key: 'demo',
@@ -180,10 +180,10 @@ export default function HomeScreen({ navigation }) {
       body: isDemoUser ? 'Open the presenter flow and live modules.' : 'Open the tool hub and feature showcase.',
       icon: 'sparkles-outline',
       route: 'DemoFeatures',
-      bg: '#FFFFFF',
+      bg: colors.surface,
       iconBg: '#EDE9FE',
       iconColor: '#5B21B6',
-      titleColor: '#111827',
+      titleColor: colors.text,
     },
   ];
   const todayBoard = [
@@ -235,7 +235,7 @@ export default function HomeScreen({ navigation }) {
               {isDemoUser ? 'Demo mode' : (userProfile?.faculty || 'General track')}
             </Text>
             <TouchableOpacity style={styles.accountAction} onPress={logout}>
-              <Ionicons name="log-out-outline" size={14} color="#fff" />
+              <Ionicons name="log-out-outline" size={14} color={colors.textOnDark} />
               <Text style={styles.accountActionText}>Sign Out</Text>
             </TouchableOpacity>
           </View>
@@ -260,14 +260,14 @@ export default function HomeScreen({ navigation }) {
             style={[styles.modeChip, homeMode === 'ESSENTIAL' && styles.modeChipActive]}
             onPress={() => setHomeMode('ESSENTIAL')}
           >
-            <Ionicons name="flash-outline" size={14} color={homeMode === 'ESSENTIAL' ? '#1E3A8A' : 'rgba(255,255,255,0.9)'} />
+            <Ionicons name="flash-outline" size={14} color={homeMode === 'ESSENTIAL' ? colors.primaryDeeper : colors.textOnDarkMuted} />
             <Text style={[styles.modeChipText, homeMode === 'ESSENTIAL' && styles.modeChipTextActive]}>Essentials</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.modeChip, homeMode === 'ALL' && styles.modeChipActive]}
             onPress={() => setHomeMode('ALL')}
           >
-            <Ionicons name="grid-outline" size={14} color={homeMode === 'ALL' ? '#1E3A8A' : 'rgba(255,255,255,0.9)'} />
+            <Ionicons name="grid-outline" size={14} color={homeMode === 'ALL' ? colors.primaryDeeper : colors.textOnDarkMuted} />
             <Text style={[styles.modeChipText, homeMode === 'ALL' && styles.modeChipTextActive]}>All Tools</Text>
           </TouchableOpacity>
         </View>
@@ -460,83 +460,82 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: { paddingBottom: 120 },
 
-  // ── Blue hero card ──
-  heroCard: { marginBottom: spacing.md, borderRadius: 20, backgroundColor: '#1E3A8A', padding: spacing.md, overflow: 'hidden', ...shadow.md },
+  // ── Premium hero card ──
+  heroCard: { marginBottom: spacing.md, borderRadius: radius.xl, backgroundColor: '#172554', padding: spacing.md, overflow: 'hidden', ...shadow.premium },
 
   header: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: spacing.sm },
   headerCompact: { flexDirection: 'column' },
   headerCopy: { flex: 1 },
   headerCopyCompact: { minWidth: 0, flexBasis: '100%', marginBottom: 4 },
-  accountPanel: { borderRadius: 14, borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)', backgroundColor: 'rgba(255,255,255,0.1)', paddingHorizontal: 10, paddingVertical: 8, gap: 2 },
+  accountPanel: { borderRadius: 16, borderWidth: 1, borderColor: 'rgba(255,255,255,0.15)', backgroundColor: 'rgba(255,255,255,0.08)', paddingHorizontal: 12, paddingVertical: 10, gap: 3 },
   accountPanelCompact: { width: '100%' },
-  accountName: { fontSize: 13, fontFamily: typography.fontHeadline, color: '#fff', fontWeight: '800' },
-  accountMeta: { fontSize: 11, color: 'rgba(255,255,255,0.7)', fontWeight: '600' },
-  accountAction: { marginTop: 4, flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: 'rgba(255,255,255,0.15)', paddingVertical: 5, paddingHorizontal: 10, borderRadius: 8, alignSelf: 'flex-start' },
-  accountActionText: { fontSize: 11, color: '#fff', fontFamily: typography.fontHeadline, fontWeight: '700' },
-  dateText: { fontSize: 11, color: 'rgba(255,255,255,0.6)', marginTop: 2, fontWeight: '600' },
-  topMetaRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 8 },
-  metaPill: { flex: 1, minWidth: 85, borderRadius: 10, borderWidth: 1, borderColor: 'rgba(255,255,255,0.15)', backgroundColor: 'rgba(255,255,255,0.08)', paddingHorizontal: 8, paddingVertical: 6 },
-  metaPillLabel: { fontSize: 9, color: 'rgba(255,255,255,0.55)', fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5 },
-  metaPillValue: { marginTop: 2, fontSize: 16, color: '#fff', fontFamily: typography.fontHeadline, fontWeight: '900' },
-  h1: { fontSize: 20, fontFamily: typography.fontHeadline, fontWeight: '900', color: '#fff', letterSpacing: -0.5 },
-  h1Compact: { fontSize: 18 },
-  sub: { fontSize: 12, fontFamily: typography.fontHeadline, color: 'rgba(255,255,255,0.8)', fontWeight: '700', marginTop: 2 },
-  modeRow: { flexDirection: 'row', gap: 3, marginBottom: 8, backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 999, padding: 3, alignSelf: 'flex-start' },
-  modeChip: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: 'transparent', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 6 },
-  modeChipActive: { backgroundColor: '#fff' },
-  modeChipText: { fontSize: 11, color: 'rgba(255,255,255,0.8)', fontFamily: typography.fontHeadline, fontWeight: '700' },
-  modeChipTextActive: { color: '#1E3A8A', fontWeight: '800' },
-  profileStrip: { flexDirection: 'row', flexWrap: 'wrap', gap: 5 },
-  profileStripBox: { flex: 1, minWidth: 85, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.08)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.12)', padding: 8 },
-  profileStripLabel: { fontSize: 9, textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', fontWeight: '800', letterSpacing: 0.5 },
-  profileStripValue: { marginTop: 2, fontSize: 12, color: '#fff', fontFamily: typography.fontHeadline, fontWeight: '800' },
-  launchGrid: { gap: 6, marginTop: 8 },
+  accountName: { fontSize: 14, fontFamily: typography.fontHeadline, color: colors.textOnDark, fontWeight: '800' },
+  accountMeta: { fontSize: 11, color: colors.textOnDarkMuted, fontWeight: '600' },
+  accountAction: { marginTop: 5, flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: 'rgba(255,255,255,0.12)', paddingVertical: 6, paddingHorizontal: 12, borderRadius: 10, alignSelf: 'flex-start' },
+  accountActionText: { fontSize: 11, color: colors.textOnDark, fontFamily: typography.fontHeadline, fontWeight: '700' },
+  dateText: { fontSize: 11, color: colors.textOnDarkMuted, marginTop: 2, fontWeight: '600' },
+  topMetaRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 10 },
+  metaPill: { flex: 1, minWidth: 85, borderRadius: 12, borderWidth: 1, borderColor: 'rgba(255,255,255,0.12)', backgroundColor: 'rgba(255,255,255,0.06)', paddingHorizontal: 10, paddingVertical: 8 },
+  metaPillLabel: { fontSize: typography.micro, color: colors.textOnDarkMuted, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.6 },
+  metaPillValue: { marginTop: 3, fontSize: 18, color: '#F59E0B', fontFamily: typography.fontHeadline, fontWeight: '900' },
+  h1: { fontSize: 22, fontFamily: typography.fontHeadline, fontWeight: '900', color: colors.textOnDark, letterSpacing: -0.5 },
+  h1Compact: { fontSize: 19 },
+  sub: { fontSize: 12, fontFamily: typography.fontHeadline, color: colors.textOnDarkMuted, fontWeight: '700', marginTop: 3 },
+  modeRow: { flexDirection: 'row', gap: 3, marginBottom: 10, backgroundColor: 'rgba(0,0,0,0.25)', borderRadius: 999, padding: 3, alignSelf: 'flex-start' },
+  modeChip: { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: 'transparent', borderRadius: 999, paddingHorizontal: 14, paddingVertical: 7 },
+  modeChipActive: { backgroundColor: colors.surfaceRaised },
+  modeChipText: { fontSize: 11, color: colors.textOnDarkMuted, fontFamily: typography.fontHeadline, fontWeight: '700' },
+  modeChipTextActive: { color: '#172554', fontWeight: '800' },
+  profileStrip: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  profileStripBox: { flex: 1, minWidth: 85, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.06)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.10)', padding: 10 },
+  profileStripLabel: { fontSize: typography.micro, textTransform: 'uppercase', color: colors.textOnDarkMuted, fontWeight: '800', letterSpacing: 0.6 },
+  profileStripValue: { marginTop: 3, fontSize: 13, color: colors.textOnDark, fontFamily: typography.fontHeadline, fontWeight: '800' },
+  launchGrid: { gap: 8, marginTop: 10 },
   launchGridWide: { flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap' },
-  launchCard: { borderRadius: 14, borderWidth: 1, borderColor: '#E5E7EB', padding: 12, gap: 4, ...shadow.sm, flexBasis: '48%' },
+  launchCard: { borderRadius: 16, borderWidth: 1, borderColor: colors.border, padding: 14, gap: 5, ...shadow.sm, flexBasis: '48%', backgroundColor: colors.surface },
   launchCardWide: { flexBasis: '23.5%' },
   launchHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  launchIconWrap: { width: 32, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
-  launchTitle: { fontSize: 14, color: '#111827', fontFamily: typography.fontHeadline, marginTop: 4, fontWeight: '800' },
-  launchBody: { fontSize: 11, color: '#6B7280', lineHeight: 16, fontWeight: '500' },
+  launchIconWrap: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
+  launchTitle: { fontSize: 14, color: colors.text, fontFamily: typography.fontHeadline, marginTop: 5, fontWeight: '800' },
+  launchBody: { fontSize: 11, color: colors.muted, lineHeight: 16, fontWeight: '500' },
 
-  // ── Solid white cards below hero ──
+  // ── Premium white cards below hero ──
   card: { marginBottom: spacing.sm },
   sectionHeadRow: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: spacing.sm },
-  sectionTitle: { fontSize: 17, fontFamily: typography.fontHeadline, fontWeight: '900', color: colors.text, letterSpacing: -0.3 },
-  sectionCaption: { fontSize: 12, color: colors.muted, lineHeight: 17, fontWeight: '500', marginTop: 2 },
+  sectionTitle: { fontSize: 18, fontFamily: typography.fontHeadline, fontWeight: '900', color: colors.text, letterSpacing: -0.3 },
+  sectionCaption: { fontSize: 12, color: colors.muted, lineHeight: 18, fontWeight: '500', marginTop: 2 },
   miniSectionTitle: { marginTop: spacing.sm, marginBottom: 6, fontSize: 14, fontFamily: typography.fontHeadline, color: colors.text, fontWeight: '900' },
-  resumeRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: colors.border },
-  resumeLeft: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8, paddingRight: 6 },
-  resumeIconBadge: { width: 32, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.primaryLight },
+  resumeRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: colors.borderLight },
+  resumeLeft: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10, paddingRight: 6 },
+  resumeIconBadge: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.primaryLight },
   resumeText: { flex: 1, fontSize: 13, color: colors.text, fontWeight: '700' },
-  resumeBtn: { height: 32, minWidth: 68, paddingHorizontal: 10, borderRadius: 999 },
-  resumeBtnText: { fontSize: 11, fontWeight: '800' },
-  todayGrid: { flexDirection: 'row', gap: 6, flexWrap: 'wrap' },
-  todayBox: { flex: 1, minWidth: 95, padding: 10, borderRadius: 14, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surfaceAlt },
-  todayValue: { fontSize: 22, fontFamily: typography.fontHeadline, fontWeight: '900', color: colors.primary, letterSpacing: -0.4 },
-  todayLabel: { fontSize: 9, color: colors.muted, marginTop: 3, textTransform: 'uppercase', letterSpacing: 0.5, fontWeight: '800' },
-  todayMeta: { fontSize: 10, color: colors.primaryDark, marginTop: 2, fontWeight: '700' },
-  skillRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 4 },
-  skillBox: { flex: 1, minWidth: 85, borderWidth: 1, borderColor: colors.border, borderRadius: 12, backgroundColor: colors.surfaceAlt, paddingHorizontal: 10, paddingVertical: 10 },
-  skillValue: { fontSize: 16, color: colors.primaryDark, fontFamily: typography.fontHeadline, fontWeight: '900' },
-  skillLabel: { marginTop: 3, fontSize: 9, color: colors.muted, textTransform: 'uppercase', letterSpacing: 0.5, fontWeight: '800' },
-  skillMeta: { fontSize: 11, color: colors.muted, marginBottom: 4, fontWeight: '600' },
-  expansionCard: { backgroundColor: '#0891B2', borderRadius: 18, padding: spacing.md, borderWidth: 0 },
+  resumeBtn: { height: 44, minWidth: 80, paddingHorizontal: 16, borderRadius: 999 },
+  resumeBtnText: { fontSize: 12, fontWeight: '800' },
+  todayGrid: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
+  todayBox: { flex: 1, minWidth: 95, padding: 12, borderRadius: 16, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surfaceAlt },
+  todayValue: { fontSize: 24, fontFamily: typography.fontHeadline, fontWeight: '900', color: '#1D4ED8', letterSpacing: -0.4 },
+  todayLabel: { fontSize: typography.micro, color: colors.muted, marginTop: 4, textTransform: 'uppercase', letterSpacing: 0.6, fontWeight: '800' },
+  todayMeta: { fontSize: 10, color: '#B45309', marginTop: 3, fontWeight: '700' },
+  skillRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 6 },
+  skillBox: { flex: 1, minWidth: 85, borderWidth: 1, borderColor: colors.border, borderRadius: 14, backgroundColor: colors.surfaceAlt, paddingHorizontal: 12, paddingVertical: 12 },
+  skillValue: { fontSize: 18, color: '#172554', fontFamily: typography.fontHeadline, fontWeight: '900' },
+  skillLabel: { marginTop: 4, fontSize: typography.micro, color: colors.muted, textTransform: 'uppercase', letterSpacing: 0.6, fontWeight: '800' },
+  skillMeta: { fontSize: 11, color: colors.muted, marginBottom: 6, fontWeight: '600' },
+  expansionCard: { backgroundColor: '#172554', borderRadius: radius.xl, padding: spacing.lg, borderWidth: 0, ...shadow.premium },
   expansionRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  expansionBody: { flex: 1, paddingRight: 8 },
-  expansionTitle: { color: '#fff', fontSize: 16, marginBottom: 4, fontFamily: typography.fontHeadline, fontWeight: '900' },
-  expansionText: { color: 'rgba(255,255,255,0.9)', fontSize: 12, lineHeight: 17, fontWeight: '500' },
-  expansionBtn: { height: 34, paddingHorizontal: 12, minWidth: 0, backgroundColor: 'rgba(255,255,255,0.2)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.3)', borderRadius: 999 },
-  bouCard: { marginTop: 6, marginBottom: spacing.md, backgroundColor: '#FFFFFF', borderRadius: 18, borderWidth: 1, borderColor: colors.border, padding: spacing.md, ...shadow.sm },
-  bouTitle: { fontSize: 16, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: 4, fontWeight: '900' },
-  bouBody: { fontSize: 12, color: colors.muted, marginBottom: spacing.sm, lineHeight: 17, fontWeight: '500' },
-  bouRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 4 },
-  controlGrid: { gap: 6, marginTop: 6 },
+  expansionBody: { flex: 1, paddingRight: 10 },
+  expansionTitle: { color: '#F59E0B', fontSize: 17, marginBottom: 5, fontFamily: typography.fontHeadline, fontWeight: '900' },
+  expansionText: { color: colors.textOnDarkMuted, fontSize: 12, lineHeight: 18, fontWeight: '500' },
+  expansionBtn: { height: 36, paddingHorizontal: 14, minWidth: 0, backgroundColor: 'rgba(245,158,11,0.2)', borderWidth: 1, borderColor: 'rgba(245,158,11,0.4)', borderRadius: 999 },
+  bouCard: { marginTop: 8, marginBottom: spacing.md, backgroundColor: colors.surface, borderRadius: radius.xl, borderWidth: 1, borderColor: colors.border, padding: spacing.lg, ...shadow.sm },
+  bouTitle: { fontSize: 17, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: 5, fontWeight: '900' },
+  bouBody: { fontSize: 12, color: colors.muted, marginBottom: spacing.sm, lineHeight: 18, fontWeight: '500' },
+  bouRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 6 },
+  controlGrid: { gap: 8, marginTop: 8 },
   controlGridWide: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
-  controlPanel: { borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surfaceAlt, borderRadius: 14, padding: spacing.md },
+  controlPanel: { borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surfaceAlt, borderRadius: 16, padding: spacing.md },
   controlPanelWide: { width: '48.5%' },
-  controlPanelTitle: { fontSize: 15, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: 3, fontWeight: '900' },
-  controlPanelBody: { fontSize: 12, color: colors.muted, marginBottom: 8, lineHeight: 17, fontWeight: '500' },
+  controlPanelTitle: { fontSize: 15, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: 4, fontWeight: '900' },
+  controlPanelBody: { fontSize: 12, color: colors.muted, marginBottom: 10, lineHeight: 18, fontWeight: '500' },
   flexOne: { flex: 1 }
 });
-

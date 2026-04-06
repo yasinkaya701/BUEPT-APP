@@ -3,7 +3,7 @@
  * – Inline word tooltip: tıklanan kelime yanında açılır, kaydırma olmaz
  * – useTts ile kelime seslendirme
  */
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useMemo, useState, useCallback, useEffect, useRef, memo } from 'react';
 import {
   Text, StyleSheet, View, TouchableOpacity, Modal, Pressable, Dimensions, TextInput, useWindowDimensions, ScrollView
 } from 'react-native';
@@ -17,9 +17,11 @@ import baseTasks from '../../data/reading_tasks.json';
 import hardTasks from '../../data/reading_tasks_hard.json';
 import { useAppState } from '../context/AppState';
 import { getWordEntry } from '../utils/dictionary';
+import { getTurkishTranslation } from '../utils/trDictionary';
 import { buildSimilarQuestion } from '../utils/similarQuestion';
 import { buildReadingOpenEndedPrompts } from '../utils/openEndedPrompts';
 import { evaluateReadingModel } from '../utils/readingModel';
+import { subscribeSmokeActions } from '../dev/smokeBus';
 import clozeTasks from '../../data/reading_cloze.json';
 
 const tasks = [...baseTasks, ...hardTasks, ...clozeTasks];
@@ -121,65 +123,153 @@ function ClozeQuestion({ q, qi, answers, checked, onSelect }) {
 }
 
 
-/** Small floating tooltip rendered via a Modal overlay */
-function WordTooltip({ entry, position, onClose }) {
+/** Kelime popup kartı — ekrana sabitlenmiş merkez kart (sağ kenar kesilmez) */
+const WordTooltip = memo(function WordTooltip({ entry, onClose }) {
+  const [trTranslation, setTrTranslation] = useState(null);
+  const [trLoading, setTrLoading] = useState(false);
+  const [trError, setTrError] = useState('');
+
+  useEffect(() => {
+    if (!entry?.word) {
+      setTrTranslation(null);
+      setTrLoading(false);
+      setTrError('');
+      return;
+    }
+
+    const word = entry.word.trim();
+    setTrTranslation(null);
+    setTrError('');
+
+    // 1. Önce offline sözlüğe bak — anında, internet gerektirmez
+    const offlineResult = getTurkishTranslation(word);
+    if (offlineResult) {
+      setTrTranslation(offlineResult);
+      setTrLoading(false);
+      return;
+    }
+
+    // 2. Offline'da yoksa Google Translate gtx endpoint'ini dene
+    setTrLoading(true);
+    const url =
+      'https://translate.googleapis.com/translate_a/single' +
+      `?client=gtx&sl=en&tl=tr&dt=t&q=${encodeURIComponent(word)}`;
+
+    let cancelled = false;
+    fetch(url, { method: 'GET' })
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((data) => {
+        if (cancelled) return;
+        const t = data?.[0]?.[0]?.[0];
+        if (t && t.trim().toLowerCase() !== word.toLowerCase()) {
+          setTrTranslation(t.trim());
+        } else {
+          setTrError('—');
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setTrError('—');
+      })
+      .finally(() => {
+        if (!cancelled) setTrLoading(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [entry?.word]);
+
   if (!entry) return null;
-  const screenWidth = Dimensions.get('window').width;
-  const TOOLTIP_WIDTH = 260;
-  const MARGIN = 16;
-
-  // Base X from tap, constrained to not bleed off the right edge
-  let leftPos = Math.max(MARGIN, (position?.pageX || 20) - 20);
-  if (leftPos + TOOLTIP_WIDTH > screenWidth - MARGIN) {
-    leftPos = screenWidth - TOOLTIP_WIDTH - MARGIN;
-  }
-
-  // Arrow position dynamic logic
-  const arrowLeft = Math.min(
-    Math.max(20, (position?.pageX || 40) - leftPos - 7),
-    TOOLTIP_WIDTH - 20
-  );
 
   return (
-    <Modal transparent animationType="fade" visible={!!entry} onRequestClose={onClose}>
-      <Pressable style={styles.tooltipOverlay} onPress={onClose}>
-        <View style={[styles.tooltipBox, {
-          top: Math.max(60, (position?.pageY || 120) - 140),
-          left: leftPos,
-        }]}>
-          {/* Arrow pointer */}
-          <View style={[styles.tooltipArrow, { left: arrowLeft }]} />
+    <Modal
+      transparent
+      animationType="slide"
+      visible={!!entry}
+      onRequestClose={onClose}
+      statusBarTranslucent
+    >
+      {/*
+        Doğru React Native bottom-sheet pattern:
+        Tek flex:1 root → içinde flex:1 Pressable arka plan + altta sabit sheet
+      */}
+      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+        {/* Arka plan — tıklayınca kapatır */}
+        <Pressable
+          style={[StyleSheet.absoluteFillObject, { backgroundColor: 'rgba(0,0,0,0.45)' }]}
+          onPress={onClose}
+        />
 
+        {/* Alt sheet */}
+        <View style={styles.tooltipSheet}>
+          <View style={styles.tooltipSheetHandle} />
+
+          {/* Başlık */}
           <View style={styles.tooltipHeader}>
-            <Text style={styles.tooltipWord}>{entry.word}</Text>
-            {entry.word_type ? <Text style={styles.tooltipType}>{entry.word_type}</Text> : null}
-            <TouchableOpacity onPress={() => speakText(entry.word)} style={styles.tooltipSpeakBtn}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.tooltipWord} numberOfLines={1}>{entry.word}</Text>
+              {entry.word_type ? (
+                <Text style={styles.tooltipType}>{entry.word_type}</Text>
+              ) : null}
+            </View>
+            <TouchableOpacity onPress={() => speakText(entry.word)} style={styles.tooltipSpeakBtn} activeOpacity={0.7}>
               <Text style={styles.tooltipSpeakIcon}>🔊</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={onClose} style={styles.tooltipClose}>
+            <TouchableOpacity onPress={onClose} style={styles.tooltipClose} activeOpacity={0.7}>
               <Text style={styles.tooltipCloseText}>✕</Text>
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.tooltipDef}>
-            {entry.simple_definition || 'Definition pending'}
-          </Text>
-          {entry.synonyms?.length > 0 && (
-            <Text style={styles.tooltipSyn}>≈ {entry.synonyms.slice(0, 4).join(', ')}</Text>
-          )}
-          {entry.examples?.length > 0 && (
-            <Text style={styles.tooltipEx}>"{entry.examples[0]}"</Text>
-          )}
+          <ScrollView showsVerticalScrollIndicator={false} bounces={false} style={{ maxHeight: 320 }}>
+
+            {/* İngilizce tanım */}
+            {entry.simple_definition ? (
+              <View style={styles.tooltipDefRow}>
+                <Text style={styles.tooltipDefLabel}>EN</Text>
+                <Text style={styles.tooltipDef}>{entry.simple_definition}</Text>
+              </View>
+            ) : null}
+
+            {/* Türkçe çeviri — her zaman şeridi göster */}
+            <View style={styles.tooltipTrRow}>
+              <Text style={styles.tooltipTrFlag}>🇹🇷</Text>
+              {trLoading ? (
+                <Text style={styles.tooltipTrLoading}>çevriliyor…</Text>
+              ) : trTranslation ? (
+                <Text style={styles.tooltipTr}>{trTranslation}</Text>
+              ) : (
+                <Text style={styles.tooltipTrLoading}>{trError || '—'}</Text>
+              )}
+            </View>
+
+            {/* Eş anlamlılar */}
+            {entry.synonyms?.length > 0 ? (
+              <View style={styles.tooltipSecRow}>
+                <Text style={styles.tooltipSecLabel}>≈ EŞ ANLAMLI</Text>
+                <Text style={styles.tooltipSyn}>{entry.synonyms.slice(0, 5).join(' · ')}</Text>
+              </View>
+            ) : null}
+
+            {/* Örnek cümle */}
+            {entry.examples?.length > 0 ? (
+              <View style={styles.tooltipSecRow}>
+                <Text style={styles.tooltipSecLabel}>ÖRNEK</Text>
+                <Text style={styles.tooltipEx}>"{entry.examples[0]}"</Text>
+              </View>
+            ) : null}
+
+          </ScrollView>
         </View>
-      </Pressable>
+      </View>
     </Modal>
   );
-}
+});
 
 export default function ReadingDetailScreen({ route, navigation }) {
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
-  const useSplitLayout = isLandscape && width >= 680;
+  const useSplitLayout = isLandscape;
   // We remove horizontal scroll minimums to let it split 50/50 perfectly
   const taskId = route?.params?.taskId;
   const task = useMemo(() => tasks.find(t => t.id === taskId) || tasks[0], [taskId]);
@@ -206,6 +296,8 @@ export default function ReadingDetailScreen({ route, navigation }) {
 
   const { addReadingResult } = useAppState();
   const answeredCount = useMemo(() => Object.keys(answers).length, [answers]);
+  const smokePendingRef = useRef(false);
+  const smokeDoneRef = useRef(false);
   const readingFeedback = useMemo(() => (checked ? buildReadingFeedback(task, answers) : null), [checked, task, answers]);
   const visibleQuestionIndexes = useMemo(() => {
     const all = task.questions.map((_, idx) => idx);
@@ -221,14 +313,36 @@ export default function ReadingDetailScreen({ route, navigation }) {
 
   const select = (qi, oi) => { if (!checked) setAnswers(p => ({ ...p, [qi]: oi })); };
 
-  const getExplanation = (q, selected) => {
+  const getExplanation = useCallback((q, selected) => {
     if (q.explain) return q.explain;
     if (selected !== q.answer)
       return `Your choice is not supported by the passage. The correct answer "${q.options[q.answer]}" matches the stated information.`;
     return `Correct: "${q.options[q.answer]}". This is directly supported by the passage.`;
-  };
+  }, []);
 
-  const check = () => {
+  const mistakeItems = useMemo(() => {
+    if (!checked || !task?.questions?.length) return [];
+    return task.questions.map((q, i) => {
+      const selected = answers[i];
+      if (selected === q.answer) return null;
+      const questionText = q.type === 'cloze' ? (q.sentence || q.q || 'Fill in the blank') : (q.q || 'Question');
+      return {
+        id: `${task.id || 'reading'}-${i}`,
+        module: 'reading',
+        moduleLabel: 'Reading',
+        taskTitle: task.title || 'Reading Practice',
+        question: questionText,
+        options: q.options || [],
+        correctIndex: q.answer,
+        selectedIndex: Number.isFinite(selected) ? selected : null,
+        explanation: getExplanation(q, selected),
+        context: task.text || '',
+        skill: q.skill || q.type || 'comprehension',
+      };
+    }).filter(Boolean);
+  }, [checked, task, answers, getExplanation]);
+
+  const check = useCallback(() => {
     if (checked) return;
     let correct = 0;
     task.questions.forEach((q, i) => { if (answers[i] === q.answer) correct++; });
@@ -244,7 +358,7 @@ export default function ReadingDetailScreen({ route, navigation }) {
       scanTarget,
     }));
     setChecked(true);
-  };
+  }, [checked, task, answers, addReadingResult, evidenceNote, paragraphStatus, scanChecked, scanPick, scanTarget]);
 
   const createSimilar = (qi) => {
     const gen = buildSimilarQuestion(task.questions[qi], similarSeed + qi);
@@ -271,6 +385,35 @@ export default function ReadingDetailScreen({ route, navigation }) {
     }, 1000);
     return () => clearInterval(t);
   }, [skimRunning, skimSec]);
+
+  useEffect(() => {
+    if (!__DEV__) return undefined;
+    const unsubscribe = subscribeSmokeActions((action) => {
+      if (action?.target !== 'ReadingDetail') return;
+      if (smokeDoneRef.current) return;
+      if (action?.type !== 'answer_and_check') return;
+      smokeDoneRef.current = true;
+      const count = Math.min(2, task?.questions?.length || 0);
+      if (!count) return;
+      setAnswers((prev) => {
+        const next = { ...prev };
+        for (let i = 0; i < count; i += 1) {
+          if (next[i] == null) next[i] = 0;
+        }
+        return next;
+      });
+      smokePendingRef.current = true;
+    });
+    return unsubscribe;
+  }, [task?.questions?.length]);
+
+  useEffect(() => {
+    if (!__DEV__) return;
+    if (!smokePendingRef.current) return;
+    if (checked) return;
+    smokePendingRef.current = false;
+    setTimeout(() => check(), 200);
+  }, [answers, checked, check]);
 
   const formatTime = (sec) => {
     const m = Math.floor(sec / 60);
@@ -351,6 +494,21 @@ export default function ReadingDetailScreen({ route, navigation }) {
               onPress={() => setShowOnlyMissed((v) => !v)}
             />
           </View>
+        </Card>
+      )}
+      {readingFeedback && mistakeItems.length > 0 && (
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Mistake Coach</Text>
+          <Text style={styles.sub}>Ask why your answer is wrong and get targeted fixes for this passage.</Text>
+          <Button
+            label={`Open Mistake Coach (${mistakeItems.length})`}
+            onPress={() => navigation.navigate('MistakeCoach', {
+              module: 'reading',
+              moduleLabel: 'Reading',
+              taskTitle: task.title || 'Reading Practice',
+              mistakes: mistakeItems,
+            })}
+          />
         </Card>
       )}
       {readingModel && (
@@ -556,11 +714,29 @@ export default function ReadingDetailScreen({ route, navigation }) {
                 <Text style={styles.answer}>Correct: {q.options[q.answer]}</Text>
                 <Text style={styles.explain}>{getExplanation(q, answers[qi])}</Text>
                 {answers[qi] !== q.answer && (
-                  <Button
-                    label={similarQuestions[qi] ? 'New Similar Question' : 'Try Similar'}
-                    variant="secondary"
-                    onPress={() => createSimilar(qi)}
-                  />
+                  <>
+                    <Button
+                      label="Open Mistake Coach"
+                      variant="secondary"
+                      onPress={() => {
+                        const item = mistakeItems.find((m) => m.id === `${task.id || 'reading'}-${qi}`);
+                        if (item) {
+                          navigation.navigate('MistakeCoach', {
+                            module: 'reading',
+                            moduleLabel: 'Reading',
+                            taskTitle: task.title || 'Reading Practice',
+                            mistakes: [item],
+                          });
+                        }
+                      }}
+                      style={styles.mistakeBtn}
+                    />
+                    <Button
+                      label={similarQuestions[qi] ? 'New Similar Question' : 'Try Similar'}
+                      variant="secondary"
+                      onPress={() => createSimilar(qi)}
+                    />
+                  </>
                 )}
               </>
             )}
@@ -658,7 +834,9 @@ export default function ReadingDetailScreen({ route, navigation }) {
               nestedScrollEnabled
               showsVerticalScrollIndicator={false}
             >
-              {passageCards}
+              {progressAndTimerCards}
+              {analysisCards}
+              {questionCards}
             </ScrollView>
             <ScrollView
               style={styles.landscapePaneRight}
@@ -666,9 +844,7 @@ export default function ReadingDetailScreen({ route, navigation }) {
               nestedScrollEnabled
               showsVerticalScrollIndicator={false}
             >
-              {progressAndTimerCards}
-              {analysisCards}
-              {questionCards}
+              {passageCards}
             </ScrollView>
           </View>
         </View>
@@ -679,10 +855,9 @@ export default function ReadingDetailScreen({ route, navigation }) {
         </>
       )}
 
-      {/* Inline tooltip modal */}
+      {/* Kelime popup kartı */}
       <WordTooltip
         entry={tooltip?.entry}
-        position={tooltip}
         onClose={() => setTooltip(null)}
       />
       </>
@@ -905,6 +1080,7 @@ const styles = StyleSheet.create({
   optionText: { fontSize: typography.body, color: colors.text },
   optionTextCorrect: { color: '#1B5E20', fontFamily: typography.fontHeadline },
   optionTextWrong: { color: '#B71C1C', fontFamily: typography.fontHeadline },
+  mistakeBtn: { marginBottom: spacing.xs, alignSelf: 'flex-start' },
 
   qTypeRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: spacing.xs },
   clozeTag: { backgroundColor: '#FFF3E0', borderRadius: 6, paddingHorizontal: 8, paddingVertical: 2 },
@@ -916,44 +1092,146 @@ const styles = StyleSheet.create({
 
   similarBox: { marginTop: spacing.md, paddingTop: spacing.sm, borderTopWidth: 1, borderTopColor: colors.secondary },
 
-  // ── Tooltip ──
+  // ── Kelime Popup (Bottom Sheet) ──
   tooltipOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.35)',
-  },
-  tooltipBox: {
     position: 'absolute',
-    width: 260,
+    top: 0, left: 0, right: 0, bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+  },
+  tooltipSheet: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
     backgroundColor: '#fff',
-    borderRadius: 14,
-    padding: spacing.md,
+    borderTopLeftRadius: 22,
+    borderTopRightRadius: 22,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.sm,
+    paddingBottom: 32,
     shadowColor: '#000',
-    shadowOpacity: 0.22,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 8,
-    borderWidth: 1,
-    borderColor: colors.primary,
+    shadowOpacity: 0.28,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: -4 },
+    elevation: 16,
   },
-  tooltipArrow: {
-    position: 'absolute',
-    bottom: -8,
-    width: 14,
-    height: 14,
-    backgroundColor: '#fff',
+  tooltipSheetHandle: {
+    alignSelf: 'center',
+    width: 40,
+    height: 4,
+    borderRadius: 999,
+    backgroundColor: '#E0E0E0',
+    marginBottom: spacing.md,
+  },
+  tooltipHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+    paddingBottom: spacing.sm,
     borderBottomWidth: 1,
-    borderRightWidth: 1,
-    borderColor: colors.primary,
-    transform: [{ rotate: '45deg' }],
+    borderBottomColor: '#F0F0F0',
   },
-  tooltipHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginBottom: spacing.xs },
-  tooltipWord: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text, flex: 1 },
-  tooltipType: { fontSize: 11, color: colors.muted, fontStyle: 'italic' },
-  tooltipSpeakBtn: { padding: 4 },
-  tooltipSpeakIcon: { fontSize: 16 },
-  tooltipClose: { padding: 4 },
-  tooltipCloseText: { fontSize: 14, color: colors.muted, fontFamily: typography.fontHeadline },
-  tooltipDef: { fontSize: typography.body, color: colors.text, marginBottom: spacing.xs, lineHeight: 20 },
-  tooltipSyn: { fontSize: typography.small, color: '#1E88E5', marginBottom: 2 },
-  tooltipEx: { fontSize: typography.small, color: colors.muted, fontStyle: 'italic' },
+  tooltipWord: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+  },
+  tooltipType: {
+    fontSize: 12,
+    color: colors.muted,
+    fontStyle: 'italic',
+    marginTop: 2,
+  },
+  tooltipSpeakBtn: {
+    width: 36, height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.primarySoft,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tooltipSpeakIcon: { fontSize: 17 },
+  tooltipClose: {
+    width: 36, height: 36,
+    borderRadius: 18,
+    backgroundColor: '#F5F5F5',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tooltipCloseText: {
+    fontSize: 15,
+    color: colors.muted,
+    fontFamily: typography.fontHeadline,
+  },
+  tooltipDefRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+    marginBottom: spacing.sm,
+  },
+  tooltipDefLabel: {
+    fontSize: 10,
+    fontFamily: typography.fontHeadline,
+    color: '#fff',
+    backgroundColor: colors.primary,
+    borderRadius: 4,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    marginTop: 2,
+    overflow: 'hidden',
+  },
+  tooltipDef: {
+    flex: 1,
+    fontSize: typography.body,
+    color: colors.text,
+    lineHeight: 22,
+  },
+  tooltipTrRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+    marginBottom: spacing.sm,
+    backgroundColor: '#FFF8E1',
+    borderRadius: 10,
+    padding: spacing.sm,
+    borderLeftWidth: 3,
+    borderLeftColor: '#FFC107',
+  },
+  tooltipTrFlag: { fontSize: 18, lineHeight: 22 },
+  tooltipTr: {
+    flex: 1,
+    fontSize: typography.body,
+    color: '#5D4037',
+    fontFamily: typography.fontHeadline,
+    lineHeight: 22,
+  },
+  tooltipTrLoading: {
+    flex: 1,
+    fontSize: typography.small,
+    color: colors.muted,
+    fontStyle: 'italic',
+    lineHeight: 20,
+  },
+  tooltipSecRow: {
+    marginBottom: spacing.sm,
+  },
+  tooltipSecLabel: {
+    fontSize: 10,
+    fontFamily: typography.fontHeadline,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    marginBottom: 3,
+  },
+  tooltipSyn: {
+    fontSize: typography.body,
+    color: '#1565C0',
+    lineHeight: 20,
+  },
+  tooltipEx: {
+    fontSize: typography.small,
+    color: colors.muted,
+    fontStyle: 'italic',
+    lineHeight: 20,
+  },
 });

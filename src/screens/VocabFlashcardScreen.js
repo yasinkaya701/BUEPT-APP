@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, Animated, Easing, SafeAreaView, Modal, Switch, PanResponder } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, Animated, SafeAreaView, Modal, Switch, PanResponder, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
+import { colors, spacing, typography, shadow } from '../theme/tokens';
 import { getDictionarySample } from '../utils/dictionary';
 import { useAppState } from '../context/AppState';
 import { speakEnglish } from '../utils/ttsEnglish';
-import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
+import academicWordlist from '../../data/academic_wordlist.json';
 
 // Minimal shuffle helper
 function shuffle(array) {
@@ -25,14 +25,16 @@ export default function VocabFlashcardScreen({ navigation, route }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [sessionStats, setSessionStats] = useState({ known: 0, unknown: 0 });
   const [showSettings, setShowSettings] = useState(false);
+  const [actionHistory, setActionHistory] = useState([]);
+  const [streak, setStreak] = useState(0);
   
   // Quizlet Preferences
   const [autoPlayAudio, setAutoPlayAudio] = useState(false);
-  const [flipTermDef, setFlipTermDef] = useState(false); // If true, front is Definition
+  const [flipTermDef, setFlipTermDef] = useState(false); 
 
   const flipAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;
-  const { recordKnown, recordUnknown, addUserWord } = useAppState();
+  const { recordKnown, recordUnknown, rollbackVocabRecord, addUserWord, removeUserWord, vocabStats, userWords } = useAppState();
 
   const panResponder = useRef(
     PanResponder.create({
@@ -66,67 +68,91 @@ export default function VocabFlashcardScreen({ navigation, route }) {
     })
   ).current;
 
-  // Load words
+  // Load words with enrichment
   useEffect(() => {
     let base = route?.params?.initialWords || [];
 
     if (!base || base.length === 0) {
-      // Fallback: Pull random 20 from testEnglish mapping or general dict
-      const pool = testEnglishVocabItems && testEnglishVocabItems.length > 0 
-        ? testEnglishVocabItems.map(item => ({ word: item.word, def: item.simple_definition, fromList: true }))
+      // Pull from AWL if possible
+      const pool = academicWordlist && academicWordlist.length > 0 
+        ? academicWordlist.map(item => ({ 
+            word: item.word, 
+            def: item.definition, 
+            level: item.level,
+            collocations: item.collocations || [],
+            example: item.example || ''
+          }))
         : getDictionarySample(50).map(item => ({ word: item.word, def: item.simple_definition }));
       base = shuffle(pool).slice(0, 20);
     } else {
         base = base.map(w => {
-            if (typeof w === 'string') return { word: w, def: 'Definition pending.' };
-            return { word: w.word, def: w.definition || w.simple_definition || w.def || 'Definition pending...' };
+            const wordStr = typeof w === 'string' ? w : w.word;
+            const enriched = academicWordlist.find(awl => awl.word.toLowerCase() === wordStr.toLowerCase());
+            return { 
+                word: wordStr, 
+                def: w.definition || w.simple_definition || w.def || enriched?.definition || 'Definition pending...',
+                level: w.level || enriched?.level || 'B2',
+                collocations: enriched?.collocations || [],
+                example: enriched?.example || ''
+            };
         });
     }
 
     setDeck(shuffle(base));
     setIndex(0);
     setSessionStats({ known: 0, unknown: 0 });
+    setActionHistory([]);
+    setStreak(0);
     setIsFlipped(false);
     flipAnim.setValue(0);
     slideAnim.setValue(0);
-    
-    // We intentionally only run this when the screen is mounted/navigated to with new params
   }, [route?.params?.initialWords, flipAnim, slideAnim]);
 
   const currentCard = deck[index] || null;
 
-  // Autoplay audio when card changes if preference is true
   useEffect(() => {
       if (currentCard && autoPlayAudio && index < deck.length) {
           if (!flipTermDef) {
-               // Assuming the front is English if we aren't flipped
-               speakEnglish(currentCard.word, { rate: 0.45 });
+                speakEnglish(currentCard.word, { rate: 0.45 });
           }
       }
   }, [currentCard, autoPlayAudio, flipTermDef, index, deck.length]);
 
   const flipCard = () => {
     const toValue = isFlipped ? 0 : 1;
-    Animated.timing(flipAnim, {
+    Animated.spring(flipAnim, {
       toValue,
-      duration: 300,
-      easing: Easing.out(Easing.quad),
+      friction: 8,
+      tension: 10,
       useNativeDriver: true,
     }).start(() => setIsFlipped(!isFlipped));
   };
 
   const nextCard = (status, skipAnimation = false) => {
     if (!currentCard) return;
+    const normalizedWord = String(currentCard.word || '').trim().toLowerCase();
+    const hadUserWordBefore = status === 'unknown'
+      ? (Array.isArray(userWords) && userWords.some((item) => String(item?.word || '').toLowerCase() === normalizedWord))
+      : false;
+    setActionHistory((prev) => [
+      ...prev,
+      {
+        cardIndex: index,
+        status,
+        word: normalizedWord,
+        addedToNotebook: status === 'unknown' && !hadUserWordBefore,
+      },
+    ]);
 
-    // Track status internally and in context
     if (status === 'known') {
         setSessionStats(s => ({ ...s, known: s.known + 1 }));
         recordKnown(currentCard.word);
+        setStreak((prev) => prev + 1);
     } else {
         setSessionStats(s => ({ ...s, unknown: s.unknown + 1 }));
         recordUnknown(currentCard.word);
-        // also save to their wordlist automatically if unknown
         addUserWord(currentCard.word);
+        setStreak(0);
     }
 
     const proceed = () => {
@@ -136,7 +162,6 @@ export default function VocabFlashcardScreen({ navigation, route }) {
         flipAnim.setValue(0);
         slideAnim.setValue(0);
       } else {
-        // End of deck
         setIndex(index + 1);
         slideAnim.setValue(0);
       }
@@ -145,7 +170,6 @@ export default function VocabFlashcardScreen({ navigation, route }) {
     if (skipAnimation) {
       proceed();
     } else {
-      // Animate out (bottom buttons bypass panresponder logic)
       Animated.timing(slideAnim, {
         toValue: status === 'known' ? width : -width,
         duration: 300,
@@ -154,11 +178,50 @@ export default function VocabFlashcardScreen({ navigation, route }) {
     }
   };
 
+  const undoLastAction = () => {
+    if (actionHistory.length === 0) return;
+    const last = actionHistory[actionHistory.length - 1];
+    setActionHistory((prev) => prev.slice(0, -1));
+    setSessionStats((prev) => ({
+      known: last.status === 'known' ? Math.max(0, prev.known - 1) : prev.known,
+      unknown: last.status === 'unknown' ? Math.max(0, prev.unknown - 1) : prev.unknown,
+    }));
+    if (last.word) rollbackVocabRecord(last.word, last.status);
+    if (last.status === 'unknown' && last.addedToNotebook && last.word) {
+      removeUserWord(last.word);
+    }
+    setIndex(Math.max(0, Number(last.cardIndex || 0)));
+    setStreak(0);
+    setIsFlipped(false);
+    flipAnim.setValue(0);
+    slideAnim.setValue(0);
+  };
+
+  const shuffleRemaining = () => {
+    setDeck((prev) => {
+      if (!Array.isArray(prev) || prev.length <= 2 || index >= prev.length - 2) return prev;
+      const head = prev.slice(0, index + 1);
+      const tail = shuffle(prev.slice(index + 1));
+      return [...head, ...tail];
+    });
+  };
+
   const playVoice = (e) => {
     e?.stopPropagation();
     if (currentCard?.word) {
       speakEnglish(currentCard.word, { rate: 0.45 });
     }
+  };
+
+  const restartSession = () => {
+    setDeck((prev) => shuffle(prev));
+    setIndex(0);
+    setSessionStats({ known: 0, unknown: 0 });
+    setActionHistory([]);
+    setStreak(0);
+    setIsFlipped(false);
+    flipAnim.setValue(0);
+    slideAnim.setValue(0);
   };
 
   const frontInterpolate = flipAnim.interpolate({
@@ -170,26 +233,50 @@ export default function VocabFlashcardScreen({ navigation, route }) {
     outputRange: ['180deg', '360deg']
   });
 
-  const frontAnimatedStyle = { transform: [{ rotateY: frontInterpolate }] };
-  const backAnimatedStyle = { transform: [{ rotateY: backInterpolate }] };
+  const frontAnimatedStyle = { 
+    transform: [{ rotateY: frontInterpolate }],
+    zIndex: isFlipped ? 1 : 2,
+  };
+  const backAnimatedStyle = { 
+    transform: [{ rotateY: backInterpolate }],
+    zIndex: isFlipped ? 2 : 1,
+  };
   const slideStyle = { transform: [{ translateX: slideAnim }] };
+  const progress = deck.length > 0 ? Math.max(0, Math.min(100, ((index + 1) / deck.length) * 100)) : 0;
+  const remaining = deck.length > 0 ? Math.max(0, deck.length - index - 1) : 0;
 
   if (index >= deck.length && deck.length > 0) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-                <Ionicons name="close" size={24} color={colors.text} />
+                <Ionicons name="close" size={24} color="#fff" />
             </TouchableOpacity>
         </View>
         <View style={styles.endContainer}>
-          <Ionicons name="trophy-outline" size={64} color={colors.primary} style={{marginBottom: spacing.md}} />
-          <Text style={styles.endTitle}>Deck Completed</Text>
-          <Text style={styles.endStat}>Known: {sessionStats.known}</Text>
-          <Text style={styles.endStat}>Still Learning: {sessionStats.unknown}</Text>
-          <TouchableOpacity style={styles.restartBtn} onPress={() => { setIndex(0); setSessionStats({known: 0, unknown: 0}); setIsFlipped(false); flipAnim.setValue(0); }}>
-              <Text style={styles.restartBtnText}>Study Again</Text>
+          <View style={styles.medalCircle}>
+             <Ionicons name="trophy" size={80} color={colors.secondary} />
+          </View>
+          <Text style={styles.endTitle}>Study Session Over</Text>
+          <View style={styles.statRow}>
+             <View style={styles.statBox}>
+                <Text style={styles.statVal}>{sessionStats.known}</Text>
+                <Text style={styles.statLab}>Mastered</Text>
+             </View>
+             <View style={styles.statBox}>
+                <Text style={styles.statVal}>{sessionStats.unknown}</Text>
+                <Text style={styles.statLab}>Learning</Text>
+             </View>
+          </View>
+          <TouchableOpacity style={styles.restartBtn} onPress={restartSession}>
+              <Text style={styles.restartBtnText}>Restart Deck</Text>
           </TouchableOpacity>
+          {actionHistory.length > 0 && (
+            <TouchableOpacity style={styles.undoFromEndBtn} onPress={undoLastAction}>
+              <Ionicons name="arrow-undo-outline" size={16} color="#E2E8F0" />
+              <Text style={styles.undoFromEndText}>Undo last answer</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </SafeAreaView>
     );
@@ -197,48 +284,92 @@ export default function VocabFlashcardScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-            <Ionicons name="arrow-back" size={24} color={colors.text} />
+            <Ionicons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>
-            {index + 1} / {deck.length}
-        </Text>
-        <TouchableOpacity onPress={() => setShowSettings(true)} style={styles.settingsBtn}>
-            <Ionicons name="settings-outline" size={24} color={colors.text} />
+        <View style={styles.headerPill}>
+            <Text style={styles.headerTitle}>{index + 1} / {deck.length}</Text>
+        </View>
+        <TouchableOpacity onPress={() => setShowSettings(true)} style={styles.settingsBtn} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+            <Ionicons name="options-outline" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
 
       <View style={styles.progressTrack}>
-        <View style={[styles.progressFill, { width: `${(index / deck.length) * 100}%` }]} />
+        <View style={[styles.progressFill, { width: `${progress}%` }]} />
+      </View>
+
+      <View style={styles.metricsRow}>
+        <View style={styles.metricPill}>
+          <Ionicons name="flame-outline" size={14} color={colors.secondary} />
+          <Text style={styles.metricPillText}>Streak: {streak}</Text>
+        </View>
+        <View style={styles.metricPill}>
+          <Ionicons name="hourglass-outline" size={14} color={colors.secondary} />
+          <Text style={styles.metricPillText}>Remaining: {remaining}</Text>
+        </View>
+        <View style={styles.metricPill}>
+          <Ionicons name="shuffle-outline" size={14} color={colors.secondary} />
+          <TouchableOpacity onPress={shuffleRemaining} disabled={remaining < 2}>
+            <Text style={[styles.metricPillText, remaining < 2 && styles.metricPillTextMuted]}>Shuffle</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={[styles.cardArea, isWide && styles.cardAreaWide]}>
         {currentCard && (
           <Animated.View style={[styles.cardContainer, slideStyle]} {...panResponder.panHandlers}>
-            {/* FRONT OF CARD */}
             <View style={styles.touchableCard}>
+                {/* FRONT */}
                 <Animated.View style={[styles.cardFace, styles.cardFront, frontAnimatedStyle]}>
-                    <Text style={styles.cardWord}>{flipTermDef ? currentCard.def : currentCard.word}</Text>
-                    <Text style={styles.tapTip}>Tap to flip, swipe Left/Right to mark</Text>
-                    {!flipTermDef && (
-                        <TouchableOpacity style={styles.speakerBtn} onPress={playVoice}>
-                            <Ionicons name="volume-high" size={28} color={colors.primary} />
-                        </TouchableOpacity>
-                    )}
+                    <View style={styles.cardHeader}>
+                         <View style={styles.levelBadge}><Text style={styles.levelText}>{currentCard.level}</Text></View>
+                         <TouchableOpacity onPress={playVoice} hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}><Ionicons name="volume-medium-outline" size={26} color="#fff" /></TouchableOpacity>
+                    </View>
+                    <Text style={[styles.cardWord, (flipTermDef && currentCard.def.length > 50) && {fontSize: 22}]}>
+                        {flipTermDef ? currentCard.def : currentCard.word}
+                    </Text>
+                    <Text style={styles.tapTip}>TAP TO FLIP</Text>
                 </Animated.View>
 
-                {/* BACK OF CARD */}
+                {/* BACK */}
                 <Animated.View style={[styles.cardFace, styles.cardBack, backAnimatedStyle]}>
-                    <Text style={styles.cardWordBack}>{flipTermDef ? currentCard.word : currentCard.word}</Text>
-                    <View style={styles.divider} />
-                    <Text style={styles.cardDef}>{flipTermDef ? currentCard.word : currentCard.def}</Text>
-                    {flipTermDef && (
-                        <TouchableOpacity style={[styles.speakerBtn, styles.speakerBtnInline]} onPress={playVoice}>
-                            <Ionicons name="volume-high" size={24} color={colors.primary} />
-                        </TouchableOpacity>
-                    )}
+                    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.backScroll}>
+                        <Text style={styles.cardWordBack}>{currentCard?.word || ''}</Text>
+                        <View style={styles.divider} />
+                        <Text style={styles.cardDef}>{flipTermDef ? (currentCard?.word || '') : (currentCard?.def || '')}</Text>
+                        
+                        {(currentCard?.collocations || []).length > 0 && (
+                            <View style={styles.infoSection}>
+                                <Text style={styles.sectionTitle}>COLLOCATIONS</Text>
+                                <View style={styles.tagGrid}>
+                                    {currentCard.collocations.map((c, i) => (
+                                        <View key={i} style={styles.tag}><Text style={styles.tagText}>{c}</Text></View>
+                                    ))}
+                                </View>
+                            </View>
+                        )}
+
+                        {currentCard?.example && (
+                            <View style={styles.infoSection}>
+                                <Text style={styles.sectionTitle}>EXAMPLE</Text>
+                                <Text style={styles.exampleText}>"{currentCard.example}"</Text>
+                            </View>
+                        )}
+
+                        <View style={styles.statsContainer}>
+                            <View style={styles.statPill}>
+                                <Ionicons name="checkmark-circle" size={14} color="#10B981" />
+                                <Text style={styles.statPillText}>Total Known: {(vocabStats && currentCard?.word) ? (vocabStats[currentCard.word.toLowerCase()]?.known || 0) : 0}</Text>
+                            </View>
+                            <View style={styles.statPill}>
+                                <Ionicons name="close-circle" size={14} color="#EF4444" />
+                                <Text style={styles.statPillText}>Total Unknown: {(vocabStats && currentCard?.word) ? (vocabStats[currentCard.word.toLowerCase()]?.unknown || 0) : 0}</Text>
+                            </View>
+                        </View>
+                    </ScrollView>
+                    <Text style={styles.tapTip}>TAP TO UNFLIP</Text>
                 </Animated.View>
             </View>
           </Animated.View>
@@ -246,11 +377,29 @@ export default function VocabFlashcardScreen({ navigation, route }) {
       </View>
 
       <View style={styles.controlRibbon}>
-        <TouchableOpacity style={[styles.actionBtn, styles.actionBtnUnknown]} onPress={() => nextCard('unknown')}>
-            <Ionicons name="close" size={32} color="#fff" />
+        <TouchableOpacity 
+            activeOpacity={0.7}
+            style={[styles.actionBtn, styles.actionBtnUnknown]} 
+            onPress={() => nextCard('unknown')}
+        >
+            <Ionicons name="close-outline" size={32} color="#fff" />
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.actionBtn, styles.actionBtnKnown]} onPress={() => nextCard('known')}>
-            <Ionicons name="checkmark" size={32} color="#fff" />
+        
+        <TouchableOpacity 
+            activeOpacity={0.8}
+            style={[styles.actionBtn, styles.actionBtnUndo, actionHistory.length === 0 && styles.actionBtnDisabled]}
+            onPress={undoLastAction}
+            disabled={actionHistory.length === 0}
+        >
+            <Ionicons name="arrow-undo-outline" size={28} color="#fff" />
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+            activeOpacity={0.7}
+            style={[styles.actionBtn, styles.actionBtnKnown]} 
+            onPress={() => nextCard('known')}
+        >
+            <Ionicons name="checkmark-outline" size={32} color="#fff" />
         </TouchableOpacity>
       </View>
 
@@ -262,22 +411,22 @@ export default function VocabFlashcardScreen({ navigation, route }) {
                       <Text style={styles.closeBtnText}>Done</Text>
                   </TouchableOpacity>
               </View>
-              <View style={styles.modalContent}>
+              <ScrollView style={styles.modalContent}>
                   <View style={styles.settingRow}>
                       <View style={styles.settingTextCol}>
                           <Text style={styles.settingTitle}>Auto-play Pronunciation</Text>
-                          <Text style={styles.settingSub}>Play the English pronunciation automatically when moving to a new flashcard.</Text>
+                          <Text style={styles.settingSub}>Play the English pronunciation automatically when moving to a new card.</Text>
                       </View>
-                      <Switch value={autoPlayAudio} onValueChange={setAutoPlayAudio} trackColor={{ true: colors.primary }} />
+                      <Switch value={autoPlayAudio} onValueChange={setAutoPlayAudio} trackColor={{ true: colors.secondary }} />
                   </View>
                   <View style={styles.settingRow}>
                       <View style={styles.settingTextCol}>
                           <Text style={styles.settingTitle}>Definition on Front</Text>
                           <Text style={styles.settingSub}>Swap so the definition is shown on the front, and you guess the English word.</Text>
                       </View>
-                      <Switch value={flipTermDef} onValueChange={setFlipTermDef} trackColor={{ true: colors.primary }} />
+                      <Switch value={flipTermDef} onValueChange={setFlipTermDef} trackColor={{ true: colors.secondary }} />
                   </View>
-              </View>
+              </ScrollView>
           </SafeAreaView>
       </Modal>
 
@@ -286,7 +435,7 @@ export default function VocabFlashcardScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8FAFC' },
+  container: { flex: 1, backgroundColor: '#0F172A' }, // Deep Navy Premium
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -294,33 +443,53 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.md,
   },
-  backBtn: {
-    width: 40, height: 40,
+  headerPill: {
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    paddingHorizontal: 16,
+    paddingVertical: 6,
     borderRadius: 20,
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    justifyContent: 'center', alignItems: 'center'
-  },
-  settingsBtn: {
-    width: 40, height: 40,
-    justifyContent: 'center', alignItems: 'center'
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: typography.fontHeadline,
     fontWeight: '700',
-    color: colors.muted
+    color: '#fff'
   },
+  backBtn: { width: 44, height: 44, justifyContent: 'center', alignItems: 'center' },
+  settingsBtn: { width: 44, height: 44, justifyContent: 'center', alignItems: 'center' },
+  
   progressTrack: {
-    height: 4,
-    backgroundColor: '#E2E8F0',
+    height: 3,
+    backgroundColor: 'rgba(255,255,255,0.1)',
     marginHorizontal: spacing.xl,
     borderRadius: 2,
-    overflow: 'hidden',
     marginBottom: spacing.xl
   },
+  metricsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingHorizontal: spacing.lg,
+    marginBottom: spacing.md,
+  },
+  metricPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  metricPillText: { color: '#E2E8F0', fontSize: 12, fontWeight: '700' },
+  metricPillTextMuted: { color: 'rgba(226,232,240,0.45)' },
   progressFill: {
     height: '100%',
-    backgroundColor: colors.primary
+    backgroundColor: colors.secondary,
+    borderRadius: 2,
   },
   
   cardArea: {
@@ -328,114 +497,155 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.xl,
     justifyContent: 'center',
     alignItems: 'center',
-    perspective: 1000,
+    perspective: 1200,
   },
-  cardAreaWide: {
-    paddingHorizontal: 120,
-  },
+  cardAreaWide: { paddingHorizontal: 120 },
   cardContainer: {
     width: '100%',
-    height: '70%',
-    maxHeight: 460,
+    height: '75%',
+    maxHeight: 520,
   },
-  touchableCard: {
-      flex: 1,
-      width: '100%',
-      height: '100%'
-  },
+  touchableCard: { flex: 1 },
   cardFace: {
     position: 'absolute',
     width: '100%',
     height: '100%',
-    borderRadius: radius.xl,
-    backgroundColor: '#fff',
+    borderRadius: 32,
+    backgroundColor: 'rgba(255,255,255,0.08)', // Glassmorphism base
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: 'rgba(255,255,255,0.15)',
     backfaceVisibility: 'hidden',
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: spacing.xl,
     ...shadow.md
   },
   cardFront: {
-    zIndex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   cardBack: {
-    backgroundColor: '#FAFAFA'
+    backgroundColor: 'rgba(30, 41, 59, 0.95)', // Slightly darker for back
   },
+  backScroll: {
+      paddingBottom: 40
+  },
+  cardHeader: {
+      position: 'absolute',
+      top: 24,
+      left: 24,
+      right: 24,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+  },
+  levelBadge: {
+      backgroundColor: 'rgba(255,255,255,0.1)',
+      paddingHorizontal: 10,
+      paddingVertical: 4,
+      borderRadius: 8
+  },
+  levelText: { color: colors.secondary, fontWeight: '700', fontSize: 12 },
+  
   cardWord: {
-    fontSize: 36,
+    fontSize: 42,
     fontFamily: typography.fontHeadline,
     fontWeight: '800',
-    color: colors.text,
-    textAlign: 'center'
+    color: '#fff',
+    textAlign: 'center',
+    letterSpacing: -0.5
   },
-  speakerBtn: {
-    position: 'absolute',
-    bottom: 24,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: colors.primarySoft,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  speakerBtnInline: {
-    position: 'relative',
-    bottom: 0,
-    marginTop: 12,
-  },
-  tapTip: {
-    position: 'absolute',
-    top: 24,
-    fontSize: 13,
-    color: colors.muted,
-    textTransform: 'uppercase',
-    fontWeight: '700',
-    letterSpacing: 1
-  },
-  
   cardWordBack: {
-      fontSize: 22,
-      fontFamily: typography.fontHeadline,
-      fontWeight: '700',
-      color: colors.text,
-      marginBottom: spacing.md
+    fontSize: 24,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+    color: colors.secondary,
+    marginTop: 10
   },
   divider: {
-      width: 40,
-      height: 4,
-      borderRadius: 2,
-      backgroundColor: colors.primarySoft,
-      marginBottom: spacing.lg
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    marginVertical: 16
   },
   cardDef: {
-      fontSize: 18,
-      color: colors.text,
-      textAlign: 'center',
-      lineHeight: 28,
+    fontSize: 20,
+    color: '#F1F5F9',
+    lineHeight: 30,
+    marginBottom: 24
+  },
+  infoSection: {
+      marginTop: 20,
+      borderTopWidth: 1,
+      borderColor: 'rgba(255,255,255,0.05)',
+      paddingTop: 20
+  },
+  sectionTitle: {
+      fontSize: 11,
+      fontWeight: '800',
+      color: 'rgba(255,255,255,0.4)',
+      letterSpacing: 2,
+      marginBottom: 12
+  },
+  tagGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  tag: {
+      backgroundColor: 'rgba(255,255,255,0.05)',
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: 'rgba(255,255,255,0.1)'
+  },
+  tagText: { color: '#CBD5E1', fontSize: 13, fontWeight: '500' },
+  exampleText: {
+      fontSize: 16,
+      color: '#94A3B8',
+      fontStyle: 'italic',
+      lineHeight: 24
   },
 
+  tapTip: {
+    position: 'absolute',
+    bottom: 24,
+    left: 0,
+    right: 0,
+    textAlign: 'center',
+    fontSize: 10,
+    color: 'rgba(255,255,255,0.3)',
+    letterSpacing: 3,
+    fontWeight: '700'
+  },
+  
   controlRibbon: {
       flexDirection: 'row',
       justifyContent: 'center',
-      gap: spacing.xxl,
-      paddingVertical: spacing.xl,
-      marginBottom: spacing.md
+      gap: 28,
+      paddingVertical: 30,
   },
   actionBtn: {
-      width: 64,
-      height: 64,
-      borderRadius: 32,
+      width: 72,
+      height: 72,
+      borderRadius: 36,
       justifyContent: 'center',
       alignItems: 'center',
-      ...shadow.elev1
+      ...shadow.lg
   },
   actionBtnUnknown: {
-      backgroundColor: '#EF4444' // Error red
+      backgroundColor: 'rgba(239, 68, 68, 0.9)', // Red
+      borderWidth: 2,
+      borderColor: 'rgba(255,255,255,0.2)'
   },
   actionBtnKnown: {
-      backgroundColor: '#10B981' // Success green
+      backgroundColor: 'rgba(16, 185, 129, 0.9)', // Green
+      borderWidth: 2,
+      borderColor: 'rgba(255,255,255,0.2)'
+  },
+  actionBtnUndo: {
+      backgroundColor: 'rgba(59, 130, 246, 0.9)',
+      borderWidth: 2,
+      borderColor: 'rgba(255,255,255,0.2)',
+  },
+  actionBtnDisabled: {
+      opacity: 0.45,
   },
 
   endContainer: {
@@ -444,87 +654,93 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       paddingHorizontal: spacing.xl
   },
+  medalCircle: {
+      width: 140,
+      height: 140,
+      borderRadius: 70,
+      backgroundColor: 'rgba(255,255,255,0.05)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 30,
+      borderWidth: 2,
+      borderColor: 'rgba(255,255,255,0.1)'
+  },
   endTitle: {
-      fontSize: 28,
+      fontSize: 32,
       fontFamily: typography.fontHeadline,
       fontWeight: '800',
-      color: colors.text,
-      marginBottom: spacing.lg
-  },
-  endStat: {
-      fontSize: 16,
-      color: colors.muted,
-      marginBottom: 8
-  },
-  restartBtn: {
-      marginTop: spacing.xl,
-      backgroundColor: colors.primary,
-      paddingHorizontal: 32,
-      paddingVertical: 16,
-      borderRadius: radius.pill
-  },
-  restartBtnText: {
       color: '#fff',
-      fontSize: 16,
-      fontWeight: '700'
+      marginBottom: 40
+  },
+  statRow: {
+      flexDirection: 'row',
+      gap: 30,
+      marginBottom: 60
+  },
+  statBox: { alignItems: 'center' },
+  statVal: { fontSize: 36, fontWeight: '800', color: '#fff' },
+  statLab: { fontSize: 12, color: 'rgba(255,255,255,0.4)', fontWeight: '700', marginTop: 4 },
+  
+  restartBtn: {
+      backgroundColor: colors.secondary,
+      paddingHorizontal: 48,
+      paddingVertical: 20,
+      borderRadius: 20,
+      ...shadow.lg
+  },
+  restartBtnText: { color: colors.textOnSecondary, fontSize: 18, fontWeight: '800' },
+  undoFromEndBtn: {
+      marginTop: 14,
+      borderRadius: 14,
+      borderWidth: 1,
+      borderColor: 'rgba(255,255,255,0.15)',
+      backgroundColor: 'rgba(255,255,255,0.04)',
+      paddingHorizontal: 16,
+      paddingVertical: 10,
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 6,
+  },
+  undoFromEndText: {
+      color: '#E2E8F0',
+      fontWeight: '700',
+      fontSize: 13,
   },
   
   // Settings Modal
-  modalContainer: {
-      flex: 1,
-      backgroundColor: '#F8FAFC'
-  },
+  modalContainer: { flex: 1, backgroundColor: '#0F172A' },
   modalHeader: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      paddingHorizontal: spacing.lg,
-      paddingVertical: spacing.md,
+      paddingHorizontal: 20,
+      paddingVertical: 20,
       borderBottomWidth: 1,
-      borderColor: '#E2E8F0',
-      backgroundColor: '#fff'
+      borderColor: 'rgba(255,255,255,0.05)'
   },
-  modalTitle: {
-      fontSize: 18,
-      fontFamily: typography.fontHeadline,
-      fontWeight: '700',
-      color: colors.text
-  },
-  closeBtn: {
-      padding: spacing.xs
-  },
-  closeBtnText: {
-      fontSize: 16,
-      color: colors.primary,
-      fontWeight: '600'
-  },
-  modalContent: {
-      flex: 1,
-      padding: spacing.lg
-  },
+  modalTitle: { fontSize: 20, fontWeight: '800', color: '#fff' },
+  closeBtn: { backgroundColor: 'rgba(255,255,255,0.05)', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 12 },
+  closeBtnText: { color: colors.secondary, fontWeight: '700' },
+  modalContent: { flex: 1, padding: 20 },
   settingRow: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      backgroundColor: '#fff',
-      padding: spacing.lg,
-      borderRadius: radius.md,
-      marginBottom: spacing.md,
-      ...shadow.sm
+      backgroundColor: 'rgba(255,255,255,0.03)',
+      padding: 20,
+      borderRadius: 24,
+      marginBottom: 16,
+      borderWidth: 1,
+      borderColor: 'rgba(255,255,255,0.05)'
   },
-  settingTextCol: {
-      flex: 1,
-      marginRight: spacing.md
+  settingTextCol: { flex: 1, marginRight: 20 },
+  settingTitle: { fontSize: 17, fontWeight: '700', color: '#fff', marginBottom: 6 },
+  settingSub: { fontSize: 13, color: 'rgba(255,255,255,0.4)', lineHeight: 18 },
+  statsContainer: { flexDirection: 'row', gap: 12, marginTop: 40, paddingBottom: 20 },
+  statPill: { 
+    flexDirection: 'row', alignItems: 'center', gap: 6, 
+    backgroundColor: 'rgba(255,255,255,0.05)', paddingHorizontal: 10, paddingVertical: 6, borderRadius: 20,
+    borderWidth: 1, borderColor: 'rgba(255,255,255,0.05)'
   },
-  settingTitle: {
-      fontSize: 16,
-      fontWeight: '600',
-      color: colors.text,
-      marginBottom: 4
-  },
-  settingSub: {
-      fontSize: 14,
-      color: colors.muted,
-      lineHeight: 20
-  }
+  statPillText: { color: '#fff', fontSize: 11, fontWeight: '700' },
 });

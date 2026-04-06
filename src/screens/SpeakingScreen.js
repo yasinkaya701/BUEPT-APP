@@ -164,6 +164,8 @@ export default function SpeakingScreen({ navigation }) {
     return (
         <Screen scroll contentStyle={styles.container}>
             <View style={styles.headerSpacer}>
+            <Text style={styles.h1}>Speaking</Text>
+            <Text style={styles.sub}>Prompt-driven speaking practice with AI feedback and quick mode filters.</Text>
             <Card style={styles.heroCard} glow>
                 <View style={styles.heroTopRow}>
                     <View style={styles.heroIconWrap}>
@@ -172,6 +174,7 @@ export default function SpeakingScreen({ navigation }) {
                     <View style={styles.heroCopy}>
                         <Text style={styles.heroEyebrow}>Speaking Studio</Text>
                         <Text style={styles.heroTitle}>Choose a prompt, speak, and get AI reviews.</Text>
+                        <Text style={styles.heroBody}>One tap to start practice, then return to targeted prompts.</Text>
                     </View>
                     <View style={styles.heroCounter}>
                         <Text style={styles.heroCounterValue}>{prompts.length}</Text>
@@ -179,13 +182,17 @@ export default function SpeakingScreen({ navigation }) {
                     </View>
                 </View>
 
-                <View style={styles.heroActions}>
+                <View style={styles.heroActionRow}>
+                    <Button
+                        label="Start Speaking"
+                        icon="mic-outline"
+                        onPress={() => navigation.navigate('AISpeakingPartner', { initialMode: 'academic' })}
+                    />
                     <Button 
                         label="Full Mock Interview" 
                         variant="secondary" 
                         icon="chatbubbles-outline" 
                         onPress={() => navigation.navigate('SpeakingMockInterview')} 
-                        style={styles.actionFlexBtn} 
                     />
                 </View>
             </Card>
@@ -299,10 +306,21 @@ export default function SpeakingScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         paddingBottom: spacing.xl,
-        backgroundColor: '#F8FAFC',
     },
     headerSpacer: {
         paddingTop: spacing.md,
+    },
+    h1: {
+        fontSize: typography.h1,
+        fontFamily: typography.fontHeadline,
+        color: colors.text,
+        marginBottom: spacing.xs,
+    },
+    sub: {
+        fontSize: typography.body,
+        color: colors.muted,
+        marginBottom: spacing.md,
+        lineHeight: 20,
     },
     listContent: {
         paddingBottom: spacing.xxl + 84,
@@ -326,8 +344,8 @@ const styles = StyleSheet.create({
     
     // Hero Widget
     heroCard: {
-        backgroundColor: '#0F3F7F', 
-        borderColor: '#0F3F7F',
+        backgroundColor: '#172554',
+        borderColor: '#172554',
         borderWidth: 1,
         borderRadius: 16,
         padding: spacing.xl,
@@ -365,6 +383,11 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         marginBottom: spacing.xs,
     },
+    heroBody: {
+        fontSize: typography.small,
+        color: '#DBEAFE',
+        lineHeight: 20,
+    },
     heroCounter: {
         minWidth: 90,
         paddingHorizontal: spacing.sm,
@@ -387,11 +410,10 @@ const styles = StyleSheet.create({
         color: '#BFDBFE',
         textTransform: 'uppercase',
     },
-    heroActions: {
+    heroActionRow: {
         flexDirection: 'row',
-        paddingTop: spacing.md,
-        borderTopWidth: 1,
-        borderTopColor: 'rgba(255,255,255,0.1)',
+        flexWrap: 'wrap',
+        gap: spacing.sm,
     },
     actionFlexBtn: {
         flex: 1,
@@ -419,7 +441,7 @@ const styles = StyleSheet.create({
         right: 0,
         height: 4,
     },
-    metricAccentBlue: { backgroundColor: '#3B82F6' },
+    metricAccentBlue: { backgroundColor: '#1D4ED8' },
     metricAccentTeal: { backgroundColor: '#14B8A6' },
     metricAccentAmber: { backgroundColor: '#F59E0B' },
     metricValue: {
@@ -685,7 +707,7 @@ const styles = StyleSheet.create({
     taskRowOpen: {
         fontSize: 12,
         fontWeight: '700',
-        color: '#3B82F6',
+        color: '#1D4ED8',
         backgroundColor: '#EFF6FF',
         paddingHorizontal: 8,
         paddingVertical: 4,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { LogBox } from 'react-native';
 import { NavigationContainer, DefaultTheme, useNavigationContainerRef } from '@react-navigation/native';
+import { enableScreens } from 'react-native-screens';
 import RootNavigator from './navigation/RootNavigator';
 import { AppStateProvider } from './context/AppState';
 import { colors } from './theme/tokens';
@@ -8,7 +9,10 @@ import AppErrorBoundary from './components/AppErrorBoundary';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Tts from 'react-native-tts';
 import SimulatorSmokeRunner from './dev/SimulatorSmokeRunner';
-import { DEV_SMOKE_TEST_ENABLED } from './dev/smokeTestConfig';
+
+// Disable react-native-screens globally as early as possible.
+// This avoids the iOS pointerEvents freeze that can make taps unresponsive.
+enableScreens(false);
 
 export default function App() {
   const navigationRef = useNavigationContainerRef();
@@ -51,21 +55,15 @@ export default function App() {
             onReady={() => {
               const routeName = navigationRef.getCurrentRoute()?.name || null;
               setCurrentRouteName(routeName);
-              if (DEV_SMOKE_TEST_ENABLED && routeName) {
-                console.log(`[SMOKE] ready on ${routeName}`);
-              }
             }}
             onStateChange={() => {
               const routeName = navigationRef.getCurrentRoute()?.name || null;
               setCurrentRouteName(routeName);
-              if (DEV_SMOKE_TEST_ENABLED && routeName) {
-                console.log(`[SMOKE] route ${routeName}`);
-              }
             }}
           >
             <RootNavigator />
+            <SimulatorSmokeRunner navigationRef={navigationRef} currentRouteName={currentRouteName} />
           </NavigationContainer>
-          <SimulatorSmokeRunner navigationRef={navigationRef} currentRouteName={currentRouteName} />
         </AppStateProvider>
       </SafeAreaProvider>
     </AppErrorBoundary>

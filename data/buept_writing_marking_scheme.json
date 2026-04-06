@@ -1,0 +1,67 @@
+{
+  "title": "BUEPT Writing Marking Scheme",
+  "source_name": "WASC",
+  "source_url": "https://wasc.bogazici.edu.tr/uploads/resources/69b4386a78e9a_1773418602.pdf",
+  "bands": [
+    {
+      "code": "E",
+      "label": "Excellent",
+      "pass": true,
+      "descriptor": "Fully developed argumentation, fluent and accurate complex language, very wide vocabulary, almost no noticeable errors."
+    },
+    {
+      "code": "VG",
+      "label": "Very Good Academic English",
+      "pass": true,
+      "descriptor": "Extended support and clear significance of ideas, strong organization, effective complex structures, occasional lexical/collocation lapses."
+    },
+    {
+      "code": "MA",
+      "label": "Clearly More Than Adequate",
+      "pass": true,
+      "descriptor": "Task is addressed with supporting ideas/examples, coherent paragraph flow, mix of simple and complex sentences, minor language lapses."
+    },
+    {
+      "code": "A",
+      "label": "Adequate For University Study",
+      "pass": true,
+      "descriptor": "Relevant development and logical organization, mostly correct language, frequent error-free sentences, adequate vocabulary for intelligible expression."
+    },
+    {
+      "code": "D",
+      "label": "Doubts About Adequacy",
+      "pass": "borderline",
+      "descriptor": "Generally relevant but unevenly developed content, limited range with collocation/word-choice issues, simple structures dominate."
+    },
+    {
+      "code": "NA",
+      "label": "Not Adequate",
+      "pass": false,
+      "descriptor": "Task coverage is incomplete or repetitive, organization and paragraph unity break down, frequent grammar/collocation errors impede meaning."
+    },
+    {
+      "code": "FBA",
+      "label": "Far Below Adequacy",
+      "pass": false,
+      "descriptor": "Very limited or unclear response, no stable organization, frequent unintelligible language."
+    },
+    {
+      "code": "INS",
+      "label": "Insufficient",
+      "pass": false,
+      "descriptor": "Text is too short to evaluate reliably."
+    },
+    {
+      "code": "WN",
+      "label": "Wrote Nothing",
+      "pass": false,
+      "descriptor": "No meaningful written response."
+    },
+    {
+      "code": "ABS",
+      "label": "Absent",
+      "pass": false,
+      "descriptor": "Candidate absent."
+    }
+  ]
+}

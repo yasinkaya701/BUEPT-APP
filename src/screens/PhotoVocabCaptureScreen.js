@@ -395,8 +395,8 @@ const styles = StyleSheet.create({
   },
   heroCard: {
     marginBottom: spacing.lg,
-    backgroundColor: '#0F3F7F',
-    borderColor: '#0F3F7F',
+    backgroundColor: '#172554',
+    borderColor: '#172554',
   },
   workspaceCard: {
     marginBottom: spacing.lg,

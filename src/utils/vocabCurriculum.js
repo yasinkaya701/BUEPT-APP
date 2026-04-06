@@ -48,6 +48,19 @@ function inferAnswerForm(answer = '', familyOptions = []) {
   return 'word form';
 }
 
+function expandWordVariants(answer = '') {
+  const value = String(answer || '').trim();
+  if (!value) return [];
+  const variants = new Set([value]);
+  if (/ize$/.test(value)) variants.add(value.replace(/ize$/, 'ise'));
+  if (/ise$/.test(value)) variants.add(value.replace(/ise$/, 'ize'));
+  if (/yze$/.test(value)) variants.add(value.replace(/yze$/, 'yse'));
+  if (/yse$/.test(value)) variants.add(value.replace(/yse$/, 'yze'));
+  if (/our$/.test(value)) variants.add(value.replace(/our$/, 'or'));
+  if (/or$/.test(value)) variants.add(value.replace(/or$/, 'our'));
+  return Array.from(variants);
+}
+
 function buildFormationQuestion(item, seed = 1) {
   const frame = splitPromptFrame(item.formationPrompt);
   return {
@@ -59,7 +72,7 @@ function buildFormationQuestion(item, seed = 1) {
     level: item.level,
     prompt: `${item.formationPrompt}\nBase word: ${item.word}`,
     answer: item.formationAnswer,
-    acceptedAnswers: uniq([item.formationAnswer]),
+    acceptedAnswers: uniq(expandWordVariants(item.formationAnswer)),
     placeholder: 'Type the correct form',
     helper: `Use the base word "${item.word}" in the correct form.`,
     instruction: 'Complete the sentence with the correct form of the base word.',

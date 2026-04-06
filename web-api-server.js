@@ -12,6 +12,14 @@ const OPENAI_PRESENTATION_MODEL = process.env.OPENAI_PRESENTATION_MODEL || 'gpt-
 const OPENAI_TEXT_MODEL = process.env.OPENAI_TEXT_MODEL || process.env.BUEPT_OPENAI_MODEL || 'gpt-5-mini';
 const OPENAI_SPEAKING_MODEL = process.env.OPENAI_SPEAKING_MODEL || OPENAI_TEXT_MODEL;
 const OPENAI_VIDEO_MODEL = process.env.OPENAI_VIDEO_MODEL || OPENAI_TEXT_MODEL;
+const HF_TOKEN = process.env.HF_TOKEN || process.env.HUGGINGFACE_API_TOKEN || '';
+const HF_CHAT_ENDPOINT = process.env.HF_CHAT_ENDPOINT || 'https://router.huggingface.co/v1/chat/completions';
+const HF_CHAT_MODEL = process.env.HF_CHAT_MODEL || 'openai/gpt-oss-120b:cheapest';
+const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || 'http://127.0.0.1:11434';
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama3.2:1b';
+const OLLAMA_ENABLED = String(process.env.OLLAMA_ENABLED || '').toLowerCase() === '1';
+const SYNC_API_TOKEN = process.env.BUEPT_SYNC_TOKEN || process.env.SYNC_API_TOKEN || 'buept-sync-local';
+const SYNC_FIELDS = ['myWords', 'unknownWords', 'vocabStats', 'customDecks', 'weeklyProgress'];
 
 function exists(p) {
   try {
@@ -40,9 +48,7 @@ function detectRoots(baseDir) {
     }
 
     const directData = path.join(candidate, 'data');
-    const directIos = path.join(candidate, 'ios');
-    const directAndroid = path.join(candidate, 'android');
-    if (exists(directData) && (exists(directIos) || exists(directAndroid))) {
+    if (exists(directData)) {
       return {
         projectRoot: path.resolve(candidate, '..'),
         appRoot: candidate,
@@ -62,7 +68,12 @@ const roots = detectRoots(__dirname);
 const PROJECT_ROOT = roots.projectRoot;
 const APP_ROOT = roots.appRoot;
 const DATA_ROOT = roots.dataRoot;
-const STATIC_ROOT = path.join(PROJECT_ROOT, 'web');
+const SYNC_STORE_FILE = path.join(DATA_ROOT, 'sync_bridge_store.json');
+const STATIC_ROOT_CANDIDATES = [
+  path.join(APP_ROOT, 'web'),
+  path.join(PROJECT_ROOT, 'web'),
+];
+const STATIC_ROOT = STATIC_ROOT_CANDIDATES.find((candidate) => exists(candidate)) || STATIC_ROOT_CANDIDATES[0];
 
 const APK_FILE_CANDIDATES = {
   debug: [
@@ -527,6 +538,197 @@ async function callOpenAiStructured({ model = OPENAI_TEXT_MODEL, instructions = 
       detail: 'OpenAI returned invalid JSON.',
     };
   }
+}
+
+async function callOpenAiText({ model = OPENAI_TEXT_MODEL, instructions = '', input = '', maxOutputTokens = 380, temperature = 0.2 } = {}) {
+  if (!OPENAI_API_KEY) {
+    return {
+      ok: false,
+      status: 503,
+      error: 'OPENAI_API_KEY_MISSING',
+      detail: 'Set OPENAI_API_KEY on the server for live AI generation.',
+    };
+  }
+
+  let res;
+  let json = {};
+  try {
+    res = await fetch(`${OPENAI_BASE_URL}/responses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model,
+        store: false,
+        instructions,
+        input,
+        temperature,
+        max_output_tokens: maxOutputTokens,
+      }),
+    });
+    json = await res.json().catch(() => ({}));
+  } catch (err) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'OPENAI_NETWORK_ERROR',
+      detail: err?.message || 'OpenAI request failed.',
+    };
+  }
+
+  if (!res.ok) {
+    return {
+      ok: false,
+      status: res.status,
+      error: 'OPENAI_REQUEST_FAILED',
+      detail: cleanTextValue(json?.error?.message, `OpenAI HTTP ${res.status}`),
+    };
+  }
+
+  const outputText = extractResponseOutputText(json);
+  if (!outputText) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'OPENAI_EMPTY_OUTPUT',
+      detail: 'OpenAI returned no output.',
+    };
+  }
+
+  return {
+    ok: true,
+    status: 200,
+    text: outputText,
+    model: cleanTextValue(json?.model, model),
+  };
+}
+
+async function callHfChatCompletion({ model = HF_CHAT_MODEL, messages = [], temperature = 0.2, maxTokens = 320 } = {}) {
+  if (!HF_TOKEN) {
+    return {
+      ok: false,
+      status: 503,
+      error: 'HF_TOKEN_MISSING',
+      detail: 'Set HF_TOKEN or HUGGINGFACE_API_TOKEN on the server for HF inference.',
+    };
+  }
+
+  let res;
+  let json = {};
+  try {
+    res = await fetch(HF_CHAT_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${HF_TOKEN}`,
+      },
+      body: JSON.stringify({
+        model,
+        messages,
+        temperature,
+        max_tokens: maxTokens,
+      }),
+    });
+    json = await res.json().catch(() => ({}));
+  } catch (err) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'HF_NETWORK_ERROR',
+      detail: err?.message || 'Hugging Face request failed.',
+    };
+  }
+
+  if (!res.ok) {
+    return {
+      ok: false,
+      status: res.status,
+      error: 'HF_REQUEST_FAILED',
+      detail: cleanTextValue(json?.error?.message || json?.error, `HF HTTP ${res.status}`),
+    };
+  }
+
+  const text = cleanTextValue(json?.choices?.[0]?.message?.content, '');
+  if (!text) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'HF_EMPTY_OUTPUT',
+      detail: 'HF returned no text.',
+    };
+  }
+
+  return {
+    ok: true,
+    status: 200,
+    text,
+    model,
+  };
+}
+
+async function callOllamaChatCompletion({ model = OLLAMA_MODEL, messages = [], temperature = 0.2, maxTokens = 320 } = {}) {
+  if (!OLLAMA_BASE_URL) {
+    return {
+      ok: false,
+      status: 503,
+      error: 'OLLAMA_BASE_URL_MISSING',
+      detail: 'Set OLLAMA_BASE_URL to reach a local Ollama server.',
+    };
+  }
+
+  let res;
+  let json = {};
+  try {
+    res = await fetch(`${OLLAMA_BASE_URL.replace(/\/$/, '')}/api/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model,
+        messages,
+        stream: false,
+        options: {
+          temperature,
+          num_predict: maxTokens,
+        },
+      }),
+    });
+    json = await res.json().catch(() => ({}));
+  } catch (err) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'OLLAMA_NETWORK_ERROR',
+      detail: err?.message || 'Ollama request failed.',
+    };
+  }
+
+  if (!res.ok) {
+    return {
+      ok: false,
+      status: res.status,
+      error: 'OLLAMA_REQUEST_FAILED',
+      detail: cleanTextValue(json?.error, `Ollama HTTP ${res.status}`),
+    };
+  }
+
+  const text = cleanTextValue(json?.message?.content, '');
+  if (!text) {
+    return {
+      ok: false,
+      status: 502,
+      error: 'OLLAMA_EMPTY_OUTPUT',
+      detail: 'Ollama returned no text.',
+    };
+  }
+
+  return {
+    ok: true,
+    status: 200,
+    text,
+    model,
+  };
 }
 
 function levelRank(level = '') {
@@ -1144,6 +1346,111 @@ function buildWritingRevisionLocal({ text = '', prompt = '', level = 'B2', task 
     model: '',
     prompt: cleanTextValue(prompt, ''),
   };
+}
+
+function buildMistakeCoachFallback({ prompt = '', question = '' } = {}) {
+  const q = cleanTextValue(question, '');
+  const base = cleanTextValue(prompt, '');
+  const contextHint = q || base ? 'Use the evidence or rule stated in the question context.' : 'Use the evidence or rule stated in the task.';
+  return [
+    '• Focus on the exact evidence line or rule that proves the correct option.',
+    '• Eliminate choices that add extra information not stated in the passage/audio/lesson.',
+    '• Re-check scope words (only, mainly, most, because) before you decide.',
+    `• ${contextHint}`,
+    '• If two options look similar, pick the one that is fully supported without inference.',
+    'Tip: After each question, explain the correct answer in one sentence to lock in the logic.',
+  ].join('\n');
+}
+
+function normalizeCoachReplyText(text = '') {
+  const raw = cleanTextValue(text, '');
+  if (!raw) return raw;
+  const lines = raw.split('\n').map((l) => l.trim()).filter(Boolean);
+  if (!lines.length) return raw;
+  const tips = [];
+  const rest = [];
+  lines.forEach((line) => {
+    if (/^tip:/i.test(line)) tips.push(line);
+    else rest.push(line);
+  });
+  const ordered = rest.concat(tips);
+  return ordered.join('\n');
+}
+
+async function generateMistakeCoachWithOpenAI({ prompt = '', question = '' } = {}) {
+  const safePrompt = cleanTextValue(prompt, '');
+  const safeQuestion = cleanTextValue(question, '');
+  const instructions = [
+    'You are the BUEPT Mistake Coach.',
+    'Explain why the selected answer is wrong and why the correct option is right.',
+    'Respond only in English.',
+    'Only discuss the provided mistake. If the user asks something else, politely redirect them to the mistake.',
+    'Follow any module focus instructions included in the user prompt.',
+    'Use exactly 4 bullet points with the bullet symbol "•".',
+    'Finish with one final line starting with "Tip:"',
+    'Keep it short, academic, and supportive.',
+    'Do not mention being an AI or model.',
+  ].join(' ');
+  const input = safePrompt || `User question: ${safeQuestion}`;
+  return callOpenAiText({
+    model: OPENAI_TEXT_MODEL,
+    instructions,
+    input,
+    maxOutputTokens: 320,
+    temperature: 0.2,
+  });
+}
+
+async function generateMistakeCoachWithHF({ prompt = '', question = '' } = {}) {
+  const safePrompt = cleanTextValue(prompt, '');
+  const safeQuestion = cleanTextValue(question, '');
+  const system = [
+    'You are the BUEPT Mistake Coach.',
+    'Explain why the selected answer is wrong and why the correct option is right.',
+    'Respond only in English.',
+    'Only discuss the provided mistake. If the user asks something else, politely redirect them to the mistake.',
+    'Follow any module focus instructions included in the user prompt.',
+    'Use exactly 4 bullet points with the bullet symbol "•".',
+    'Finish with one final line starting with "Tip:"',
+    'Keep it short, academic, and supportive.',
+    'Do not mention being an AI or model.',
+  ].join(' ');
+  const user = safePrompt || `User question: ${safeQuestion}`;
+  return callHfChatCompletion({
+    model: HF_CHAT_MODEL,
+    messages: [
+      { role: 'system', content: system },
+      { role: 'user', content: user },
+    ],
+    temperature: 0.2,
+    maxTokens: 320,
+  });
+}
+
+async function generateMistakeCoachWithOllama({ prompt = '', question = '' } = {}) {
+  const safePrompt = cleanTextValue(prompt, '');
+  const safeQuestion = cleanTextValue(question, '');
+  const system = [
+    'You are the BUEPT Mistake Coach.',
+    'Explain why the selected answer is wrong and why the correct option is right.',
+    'Respond only in English.',
+    'Only discuss the provided mistake. If the user asks something else, politely redirect them to the mistake.',
+    'Follow any module focus instructions included in the user prompt.',
+    'Use exactly 4 bullet points with the bullet symbol "•".',
+    'Finish with one final line starting with "Tip:"',
+    'Keep it short, academic, and supportive.',
+    'Do not mention being an AI or model.',
+  ].join(' ');
+  const user = safePrompt || `User question: ${safeQuestion}`;
+  return callOllamaChatCompletion({
+    model: OLLAMA_MODEL,
+    messages: [
+      { role: 'system', content: system },
+      { role: 'user', content: user },
+    ],
+    temperature: 0.2,
+    maxTokens: 140,
+  });
 }
 
 function normalizeWritingRevisionPayload(payload = {}, fallback = {}) {
@@ -1853,6 +2160,268 @@ function getSummary() {
   };
 }
 
+function createEmptySyncStore() {
+  const now = new Date().toISOString();
+  return {
+    version: 1,
+    updatedAt: now,
+    clients: {},
+    state: {
+      myWords: { updatedAt: '', value: [] },
+      unknownWords: { updatedAt: '', value: [] },
+      vocabStats: { updatedAt: '', value: {} },
+      customDecks: { updatedAt: '', value: [] },
+      weeklyProgress: { updatedAt: '', value: {} },
+    },
+  };
+}
+
+function normalizeWordKey(value = '') {
+  return String(value || '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z'-]/g, '');
+}
+
+function parseTimestamp(value) {
+  const t = Date.parse(String(value || ''));
+  return Number.isFinite(t) ? t : 0;
+}
+
+function readSyncStore() {
+  const empty = createEmptySyncStore();
+  try {
+    if (!fs.existsSync(SYNC_STORE_FILE)) return empty;
+    const text = fs.readFileSync(SYNC_STORE_FILE, 'utf8');
+    const parsed = JSON.parse(text);
+    const out = {
+      ...empty,
+      ...(parsed || {}),
+      clients: (parsed && typeof parsed.clients === 'object' && parsed.clients) || {},
+      state: {
+        ...empty.state,
+        ...((parsed && typeof parsed.state === 'object' && parsed.state) || {}),
+      },
+    };
+    SYNC_FIELDS.forEach((field) => {
+      const node = out.state[field];
+      if (!node || typeof node !== 'object' || !('value' in node)) {
+        out.state[field] = empty.state[field];
+      }
+    });
+    return out;
+  } catch (_) {
+    return empty;
+  }
+}
+
+function writeSyncStore(store) {
+  try {
+    fs.writeFileSync(SYNC_STORE_FILE, JSON.stringify(store, null, 2), 'utf8');
+  } catch (_) {
+    // ignore write failures in local mode
+  }
+}
+
+function readSyncToken(req) {
+  const fromHeader = String(req.headers['x-sync-token'] || '').trim();
+  if (fromHeader) return fromHeader;
+  const auth = String(req.headers.authorization || '').trim();
+  const match = auth.match(/^Bearer\s+(.+)$/i);
+  return match ? String(match[1] || '').trim() : '';
+}
+
+function ensureSyncAuthorized(req, res) {
+  if (!SYNC_API_TOKEN) return true;
+  const token = readSyncToken(req);
+  if (token === SYNC_API_TOKEN) return true;
+  sendJson(res, 401, { ok: false, error: 'UNAUTHORIZED_SYNC' });
+  return false;
+}
+
+function sanitizeWordEntries(items, { source = 'app' } = {}) {
+  if (!Array.isArray(items)) return [];
+  const { byWord } = getDictionaryIndex();
+  const merged = new Map();
+  items.forEach((entry) => {
+    const rawWord = entry?.word || entry?.sourceText || entry?.text || '';
+    const word = normalizeWordKey(rawWord);
+    if (!word) return;
+    const dict = byWord.get(word);
+    const updatedAt = cleanTextValue(entry?.updatedAt || entry?.savedAt || entry?.createdAt || '') || new Date().toISOString();
+    const normalized = {
+      word,
+      word_type: cleanTextValue(entry?.word_type || entry?.wordType || entry?.partOfSpeech || dict?.wordType || ''),
+      simple_definition: cleanTextValue(entry?.simple_definition || entry?.definition || entry?.translatedText || dict?.definition || ''),
+      synonyms: uniq([...asList(entry?.synonyms), ...(dict?.synonyms || [])]).slice(0, 10),
+      antonyms: uniq([...asList(entry?.antonyms), ...(dict?.antonyms || [])]).slice(0, 8),
+      examples: uniq([...asList(entry?.examples || entry?.example), ...(dict?.examples || [])]).slice(0, 3),
+      level: cleanTextValue(entry?.level || dict?.level || ''),
+      source: cleanTextValue(entry?.source || source || 'app'),
+      updatedAt,
+    };
+    const existing = merged.get(word);
+    if (!existing || parseTimestamp(normalized.updatedAt) >= parseTimestamp(existing.updatedAt)) {
+      merged.set(word, normalized);
+    }
+  });
+  return Array.from(merged.values()).slice(0, 5000);
+}
+
+function sanitizeVocabStats(value) {
+  const out = {};
+  if (!value || typeof value !== 'object') return out;
+  Object.entries(value).forEach(([rawWord, rawStat]) => {
+    const word = normalizeWordKey(rawWord);
+    if (!word) return;
+    const known = Math.max(0, Math.min(9999, Number(rawStat?.known || 0)));
+    const unknown = Math.max(0, Math.min(9999, Number(rawStat?.unknown || 0)));
+    if (!known && !unknown) return;
+    out[word] = { known, unknown };
+  });
+  return out;
+}
+
+function sanitizeCustomDecks(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((deck) => {
+      const title = cleanTextValue(deck?.title || deck?.name || '');
+      if (!title) return null;
+      const words = sanitizeWordEntries(deck?.words || [], { source: 'app' }).slice(0, 400);
+      return {
+        id: cleanTextValue(deck?.id || crypto.randomUUID()),
+        title,
+        words,
+        updatedAt: cleanTextValue(deck?.updatedAt || deck?.createdAt || '') || new Date().toISOString(),
+      };
+    })
+    .filter(Boolean)
+    .slice(0, 200);
+}
+
+function sanitizeWeeklyProgress(value) {
+  if (!value || typeof value !== 'object') return {};
+  const selectedWeek = Number(value.selectedWeek || 1);
+  return {
+    version: Number(value.version || 1),
+    selectedWeek: Number.isFinite(selectedWeek) ? Math.max(1, Math.min(24, Math.round(selectedWeek))) : 1,
+    weekStats: value.weekStats && typeof value.weekStats === 'object' ? value.weekStats : {},
+    mistakes: value.mistakes && typeof value.mistakes === 'object' ? value.mistakes : {},
+  };
+}
+
+function sanitizeSyncField(field, value, { clientId = 'app' } = {}) {
+  if (field === 'myWords') return sanitizeWordEntries(value, { source: clientId || 'app' });
+  if (field === 'unknownWords') return sanitizeWordEntries(value, { source: clientId || 'extension' });
+  if (field === 'vocabStats') return sanitizeVocabStats(value);
+  if (field === 'customDecks') return sanitizeCustomDecks(value);
+  if (field === 'weeklyProgress') return sanitizeWeeklyProgress(value);
+  return value;
+}
+
+function normalizeIncomingSyncFields(body = {}, clientId = 'app') {
+  const source = body?.state && typeof body.state === 'object' ? body.state : body;
+  const defaultUpdatedAt = cleanTextValue(body?.updatedAt || '') || new Date().toISOString();
+  const incoming = {};
+  SYNC_FIELDS.forEach((field) => {
+    if (!(field in source)) return;
+    const rawField = source[field];
+    let value = rawField;
+    let updatedAt = defaultUpdatedAt;
+    if (rawField && typeof rawField === 'object' && Object.prototype.hasOwnProperty.call(rawField, 'value')) {
+      value = rawField.value;
+      updatedAt = cleanTextValue(rawField.updatedAt || '') || defaultUpdatedAt;
+    }
+    incoming[field] = {
+      updatedAt,
+      value: sanitizeSyncField(field, value, { clientId }),
+    };
+  });
+  return incoming;
+}
+
+function mergeSyncState(store, incomingFields = {}) {
+  const next = {
+    ...store,
+    state: { ...store.state },
+  };
+  SYNC_FIELDS.forEach((field) => {
+    if (!incomingFields[field]) return;
+    const incoming = incomingFields[field];
+    const existing = next.state[field] || { updatedAt: '', value: null };
+    if (parseTimestamp(incoming.updatedAt) >= parseTimestamp(existing.updatedAt)) {
+      next.state[field] = {
+        updatedAt: incoming.updatedAt,
+        value: incoming.value,
+      };
+    }
+  });
+  next.updatedAt = new Date().toISOString();
+  return next;
+}
+
+function buildSyncSnapshot(store) {
+  const snapshot = {};
+  SYNC_FIELDS.forEach((field) => {
+    const node = store?.state?.[field] || { updatedAt: '', value: null };
+    snapshot[field] = {
+      updatedAt: cleanTextValue(node.updatedAt || ''),
+      value: node.value,
+    };
+  });
+  return snapshot;
+}
+
+function buildMiniQuizFromSyncState(store, limit = 5) {
+  const wordsFromUnknown = (store?.state?.unknownWords?.value || []).map((item) => normalizeWordKey(item?.word));
+  const wordsFromKnown = (store?.state?.myWords?.value || []).map((item) => normalizeWordKey(item?.word));
+  const vocabStats = store?.state?.vocabStats?.value || {};
+  const { list, byWord } = getDictionaryIndex();
+  const mergedWords = uniq([...wordsFromUnknown, ...wordsFromKnown]).filter(Boolean);
+  if (!mergedWords.length) return [];
+
+  const ranked = mergedWords
+    .map((word) => {
+      const stat = vocabStats[word] || {};
+      const unknown = Number(stat.unknown || 0);
+      const known = Number(stat.known || 0);
+      return {
+        word,
+        priority: (unknown * 3) - known + (wordsFromUnknown.includes(word) ? 2 : 0),
+      };
+    })
+    .sort((a, b) => b.priority - a.priority)
+    .slice(0, 40);
+
+  const quiz = [];
+  for (const item of ranked) {
+    if (quiz.length >= limit) break;
+    const entry = byWord.get(item.word);
+    const correct = cleanTextValue(entry?.definition || '');
+    if (!correct) continue;
+    const distractors = [];
+    while (distractors.length < 3) {
+      const candidate = pickRandom(list);
+      const def = cleanTextValue(candidate?.definition || '');
+      if (!def || def === correct || distractors.includes(def)) continue;
+      distractors.push(def);
+      if (distractors.length >= 3) break;
+    }
+    if (!distractors.length) continue;
+    const options = uniq([correct, ...distractors]).slice(0, 4);
+    const shuffled = options.sort(() => Math.random() - 0.5);
+    quiz.push({
+      id: `quiz_${item.word}`,
+      word: item.word,
+      question: `Choose the closest meaning of "${item.word}".`,
+      options: shuffled,
+      answerIndex: Math.max(0, shuffled.indexOf(correct)),
+    });
+  }
+  return quiz;
+}
+
 function parseJsonBody(req) {
   return new Promise((resolve, reject) => {
     let raw = '';
@@ -1875,7 +2444,7 @@ function parseJsonBody(req) {
   });
 }
 
-const server = http.createServer(async (req, res) => {
+async function requestHandler(req, res) {
   try {
     const parsed = url.parse(req.url || '', true);
     const pathname = parsed.pathname || '/';
@@ -1883,7 +2452,7 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'OPTIONS') {
       res.writeHead(204, {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Sync-Token',
         'Access-Control-Allow-Methods': 'GET,POST,OPTIONS'
       });
       res.end();
@@ -1958,7 +2527,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/vocab/department') {
-      const dep = String(parsed.query.department || '').trim().toLowerCase();
+      const dep = String(parsed.query.department || parsed.query.id || '').trim().toLowerCase();
       const limit = Math.max(1, Math.min(200, Number(parsed.query.limit || 40)));
       const rows = getDepartmentVocabulary();
       const match = Array.isArray(rows)
@@ -2021,6 +2590,75 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    if (pathname === '/api/sync/status') {
+      if (!ensureSyncAuthorized(req, res)) return;
+      const store = readSyncStore();
+      sendJson(res, 200, {
+        ok: true,
+        updatedAt: store.updatedAt,
+        fields: Object.fromEntries(
+          SYNC_FIELDS.map((field) => [
+            field,
+            {
+              updatedAt: cleanTextValue(store?.state?.[field]?.updatedAt || ''),
+              size: Array.isArray(store?.state?.[field]?.value)
+                ? store.state[field].value.length
+                : (store?.state?.[field]?.value && typeof store.state[field].value === 'object')
+                  ? Object.keys(store.state[field].value).length
+                  : 0,
+            },
+          ])
+        ),
+      });
+      return;
+    }
+
+    if (pathname === '/api/sync/pull' && req.method === 'GET') {
+      if (!ensureSyncAuthorized(req, res)) return;
+      const clientId = cleanTextValue(parsed.query.client || parsed.query.clientId || 'app') || 'app';
+      const store = readSyncStore();
+      const miniQuiz = buildMiniQuizFromSyncState(store, 5);
+      sendJson(res, 200, {
+        ok: true,
+        updatedAt: store.updatedAt,
+        state: buildSyncSnapshot(store),
+        miniQuiz,
+        clientId,
+      });
+      return;
+    }
+
+    if (pathname === '/api/sync/push' && req.method === 'POST') {
+      if (!ensureSyncAuthorized(req, res)) return;
+      let body = {};
+      try {
+        body = await parseJsonBody(req);
+      } catch (e) {
+        sendJson(res, 400, { ok: false, error: e.message || 'INVALID_BODY' });
+        return;
+      }
+      const clientId = cleanTextValue(body.client || body.clientId || 'app') || 'app';
+      const incoming = normalizeIncomingSyncFields(body, clientId);
+      const before = readSyncStore();
+      let merged = mergeSyncState(before, incoming);
+      merged.clients = {
+        ...(merged.clients || {}),
+        [clientId]: {
+          updatedAt: new Date().toISOString(),
+          fields: Object.keys(incoming),
+        },
+      };
+      writeSyncStore(merged);
+      const miniQuiz = buildMiniQuizFromSyncState(merged, 5);
+      sendJson(res, 200, {
+        ok: true,
+        updatedAt: merged.updatedAt,
+        state: buildSyncSnapshot(merged),
+        miniQuiz,
+      });
+      return;
+    }
+
     if (pathname === '/api/module' && req.method === 'POST') {
       let body = {};
       try {
@@ -2029,8 +2667,8 @@ const server = http.createServer(async (req, res) => {
         sendJson(res, 400, { ok: false, error: e.message || 'INVALID_BODY' });
         return;
       }
-
-      const generated = await generateModuleResponse(body.kind, body);
+      const kind = body.kind || body.key || body.module || '';
+      const generated = await generateModuleResponse(kind, body);
       if (!generated.ok) {
         sendJson(res, generated.status || 400, {
           ok: false,
@@ -2182,18 +2820,73 @@ const server = http.createServer(async (req, res) => {
       });
 
       if (!generated.ok) {
-        sendJson(res, generated.status || 502, {
-          ok: false,
-          error: generated.error,
-          detail: generated.detail,
-          fallback: generated.fallback || null,
+        const fallback = buildPresentationFallback({
+          topic: body.topic,
+          durationMin: body.durationMin,
+          tone: body.tone,
+          level: body.level,
+          diagnostic: generated.detail || generated.error || '',
+        });
+        sendJson(res, 200, {
+          ok: true,
+          ...fallback,
+          source: 'local-presentation-fallback',
+          diagnostic: generated.detail || generated.error || '',
+        });
+        return;
+      }
+
+      sendJson(res, 200, { ok: true, ...generated.data });
+      return;
+    }
+
+    if (pathname === '/api/mistake-coach' && req.method === 'POST') {
+      let body = {};
+      try {
+        body = await parseJsonBody(req);
+      } catch (e) {
+        sendJson(res, 400, { ok: false, error: e.message || 'INVALID_BODY' });
+        return;
+      }
+
+      const prompt = cleanTextValue(body.prompt || body.message || '');
+      const question = cleanTextValue(body.question || '');
+      if (!prompt && !question) {
+        sendJson(res, 400, { ok: false, error: 'PROMPT_REQUIRED' });
+        return;
+      }
+
+      let ai = null;
+      let aiSource = '';
+      const preferLocal = OLLAMA_ENABLED || (!HF_TOKEN && !OPENAI_API_KEY);
+      if (preferLocal) {
+        ai = await generateMistakeCoachWithOllama({ prompt, question });
+        if (ai?.ok) aiSource = 'ollama';
+      }
+      if ((!ai || !ai.ok) && HF_TOKEN) {
+        ai = await generateMistakeCoachWithHF({ prompt, question });
+        if (ai?.ok) aiSource = 'huggingface';
+      }
+      if (!ai || !ai.ok) {
+        ai = await generateMistakeCoachWithOpenAI({ prompt, question });
+        if (ai?.ok) aiSource = 'openai';
+      }
+      if (!ai || !ai.ok) {
+        const fallback = buildMistakeCoachFallback({ prompt, question });
+        sendJson(res, 200, {
+          ok: true,
+          reply: fallback,
+          source: 'local-mistake-coach',
+          diagnostic: (ai && (ai.detail || ai.error)) || '',
         });
         return;
       }
 
       sendJson(res, 200, {
         ok: true,
-        ...generated.data,
+        reply: normalizeCoachReplyText(ai.text),
+        source: aiSource || 'openai',
+        model: ai.model || (aiSource === 'huggingface' ? HF_CHAT_MODEL : aiSource === 'ollama' ? OLLAMA_MODEL : OPENAI_TEXT_MODEL),
       });
       return;
     }
@@ -2234,11 +2927,24 @@ const server = http.createServer(async (req, res) => {
   } catch (err) {
     sendJson(res, 500, { ok: false, error: 'SERVER_ERROR', detail: String(err.message || err) });
   }
-});
+}
 
-server.listen(PORT, HOST, () => {
-  console.log(`BUEPT web app server running at http://${HOST}:${PORT}`);
-  console.log(`projectRoot=${PROJECT_ROOT}`);
-  console.log(`appRoot=${APP_ROOT}`);
-  console.log(`dataRoot=${DATA_ROOT}`);
-});
+function createServer() {
+  return http.createServer(requestHandler);
+}
+
+if (require.main === module) {
+  const server = createServer();
+  server.listen(PORT, HOST, () => {
+    console.log(`BUEPT web app server running at http://${HOST}:${PORT}`);
+    console.log(`projectRoot=${PROJECT_ROOT}`);
+    console.log(`appRoot=${APP_ROOT}`);
+    console.log(`dataRoot=${DATA_ROOT}`);
+    console.log(`staticRoot=${STATIC_ROOT}`);
+  });
+}
+
+module.exports = {
+  requestHandler,
+  createServer,
+};

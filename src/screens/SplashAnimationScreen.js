@@ -39,12 +39,12 @@ export default function SplashAnimationScreen({ navigation }) {
         Animated.parallel([
             Animated.timing(bgFadeAnim, {
                 toValue: 1,
-                duration: 1200,
+                duration: 600,
                 useNativeDriver: true,
             }),
             Animated.timing(bgScaleAnim, {
                 toValue: 1,
-                duration: 3500, // Lingers longer for a majestic feel
+                duration: 1200,
                 easing: Easing.out(Easing.cubic),
                 useNativeDriver: true,
             })
@@ -52,19 +52,19 @@ export default function SplashAnimationScreen({ navigation }) {
 
         // 2. Sequence for the Logo and Text
         const introAnim = Animated.sequence([
-            Animated.delay(400), // Wait for bg to become visible
+            Animated.delay(150), // Faster entry
             
             // Logo pops in
             Animated.parallel([
                 Animated.timing(logoScaleAnim, {
                     toValue: 1,
-                    duration: 800,
+                    duration: 450,
                     easing: Easing.out(Easing.back(1.7)),
                     useNativeDriver: true,
                 }),
                 Animated.timing(logoFadeAnim, {
                     toValue: 1,
-                    duration: 600,
+                    duration: 350,
                     useNativeDriver: true,
                 })
             ]),
@@ -73,12 +73,12 @@ export default function SplashAnimationScreen({ navigation }) {
             Animated.parallel([
                 Animated.timing(textFadeAnim, {
                     toValue: 1,
-                    duration: 600,
+                    duration: 350,
                     useNativeDriver: true,
                 }),
                 Animated.timing(textSlideAnim, {
                     toValue: 0,
-                    duration: 600,
+                    duration: 350,
                     easing: Easing.out(Easing.exp),
                     useNativeDriver: true,
                 })
@@ -88,7 +88,7 @@ export default function SplashAnimationScreen({ navigation }) {
             Animated.parallel([
                 Animated.timing(subFadeAnim, {
                     toValue: 1,
-                    duration: 600,
+                    duration: 350,
                     useNativeDriver: true,
                 }),
                 Animated.timing(subSlideAnim, {
@@ -116,7 +116,7 @@ export default function SplashAnimationScreen({ navigation }) {
                     routes: [{ name: dest }],
                 });
             };
-            timeoutRef.current = setTimeout(finishNavigation, 1500); // 1.5s freeze at the end
+            timeoutRef.current = setTimeout(finishNavigation, 350);
         });
 
         return () => {

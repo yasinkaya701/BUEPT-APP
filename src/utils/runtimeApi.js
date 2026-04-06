@@ -1,6 +1,8 @@
 import { NativeModules, Platform } from 'react-native';
 
 const DEFAULT_API_PORT = 8088;
+// Public production API (set when backend is deployed).
+const STATIC_PROD_API_BASE_URL = '';
 
 export function readRuntimeEnv(name, fallback = '') {
   const value = typeof process !== 'undefined' && process.env ? process.env[name] : '';
@@ -32,10 +34,11 @@ function getDevHost() {
 }
 
 export function getDefaultApiBaseUrl(port = DEFAULT_API_PORT) {
-  // Use the Mac's IP address explicitly to allow the Android physical device
-  // to reach the web-api-server backend on the same Wi-Fi network even in Release mode.
+  // In production, only use an explicit API base (public backend).
+  // This keeps the app keyless/offline by default on all phones.
   if (typeof __DEV__ === 'undefined' || !__DEV__) {
-    return `http://10.5.200.116:${port}`;
+    const prodBase = readRuntimeEnv('BUEPT_API_BASE_URL', STATIC_PROD_API_BASE_URL).trim();
+    return prodBase || '';
   }
   return `http://${getDevHost()}:${port}`;
 }
@@ -44,7 +47,8 @@ export function resolveApiEndpoint(envName, fallbackPath = '', { port = DEFAULT_
   const explicit = readRuntimeEnv(envName);
   if (explicit) return explicit;
 
-  const base = getDefaultApiBaseUrl(port);
+  const baseOverride = readRuntimeEnv('BUEPT_API_BASE_URL');
+  const base = baseOverride || getDefaultApiBaseUrl(port);
   if (!base) return '';
   if (!fallbackPath) return base;
   return `${base}${fallbackPath.startsWith('/') ? fallbackPath : `/${fallbackPath}`}`;

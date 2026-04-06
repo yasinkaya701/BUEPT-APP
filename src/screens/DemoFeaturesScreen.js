@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
-import { Alert, View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, useWindowDimensions } from 'react-native';
+import { Alert, View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, useWindowDimensions, InteractionManager } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Card from '../components/Card';
@@ -159,6 +159,7 @@ export default function DemoFeaturesScreen() {
     const [compareB, setCompareB] = useState('ai_speaking');
     const [preflight, setPreflight] = useState(DEFAULT_PREFLIGHT);
     const [showAdvanced, setShowAdvanced] = useState(false);
+    const [listReady, setListReady] = useState(false);
     const liveModules = useMemo(() => DEMO_MODULES.filter((m) => !!m.route), []);
 
     useEffect(() => {
@@ -204,6 +205,11 @@ export default function DemoFeaturesScreen() {
         return () => {
             mounted = false;
         };
+    }, []);
+
+    useEffect(() => {
+        const task = InteractionManager.runAfterInteractions(() => setListReady(true));
+        return () => task.cancel?.();
     }, []);
 
     const persistRecents = useCallback(async (next) => {
@@ -600,6 +606,10 @@ export default function DemoFeaturesScreen() {
         const s = sec % 60;
         return `${m}:${String(s).padStart(2, '0')}`;
     };
+    const visibleModules = useMemo(
+        () => (listReady ? filtered : filtered.slice(0, 6)),
+        [filtered, listReady]
+    );
 
     return (
         <SafeAreaView style={styles.container}>
@@ -638,20 +648,20 @@ export default function DemoFeaturesScreen() {
                     onPress={() => setAvailableOnly(v => !v)}
                     style={[styles.quickToggle, availableOnly && styles.quickToggleActive]}
                 >
-                    <Ionicons name={availableOnly ? 'checkmark-circle' : 'filter'} size={14} color={availableOnly ? '#fff' : '#0F3F7F'} />
+                    <Ionicons name={availableOnly ? 'checkmark-circle' : 'filter'} size={14} color={availableOnly ? '#fff' : '#172554'} />
                     <Text style={[styles.quickToggleText, availableOnly && styles.quickToggleTextActive]}>
                         Live only
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={openRandomLive} style={styles.quickAction}>
-                    <Ionicons name="shuffle" size={14} color="#0F3F7F" />
+                    <Ionicons name="shuffle" size={14} color="#172554" />
                     <Text style={styles.quickActionText}>Random</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => setShowComingSoon(v => !v)}
                     style={[styles.quickAction, !showComingSoon && styles.quickActionActive]}
                 >
-                    <Ionicons name={showComingSoon ? 'eye' : 'eye-off'} size={14} color={showComingSoon ? "#0F3F7F" : '#fff'} />
+                    <Ionicons name={showComingSoon ? 'eye' : 'eye-off'} size={14} color={showComingSoon ? "#172554" : '#fff'} />
                     <Text style={[styles.quickActionText, !showComingSoon && styles.quickActionTextActive]}>
                         Coming Soon
                     </Text>
@@ -681,7 +691,7 @@ export default function DemoFeaturesScreen() {
                             onPress={() => setProfileId(p.id)}
                             style={[styles.profileChip, profileId === p.id && styles.profileChipActive]}
                         >
-                            <Ionicons name={p.id === 'teacher' ? 'school' : 'person'} size={14} color={profileId === p.id ? '#fff' : '#0F3F7F'} />
+                            <Ionicons name={p.id === 'teacher' ? 'school' : 'person'} size={14} color={profileId === p.id ? '#fff' : '#172554'} />
                             <Text style={[styles.profileChipText, profileId === p.id && styles.profileChipTextActive]}>{p.label}</Text>
                         </TouchableOpacity>
                     ))}
@@ -689,7 +699,7 @@ export default function DemoFeaturesScreen() {
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.packRow}>
                     {DEMO_PACKS.map((pack) => (
                         <TouchableOpacity key={pack.id} onPress={() => openPack(pack)} style={styles.packChip}>
-                            <Ionicons name="rocket" size={14} color="#0F3F7F" />
+                            <Ionicons name="rocket" size={14} color="#172554" />
                             <Text style={styles.packChipText}>{pack.label}</Text>
                         </TouchableOpacity>
                     ))}
@@ -1041,6 +1051,12 @@ export default function DemoFeaturesScreen() {
             </ScrollView>
 
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.scrollContent, isWide && styles.scrollGrid]}>
+                {!listReady && filtered.length > visibleModules.length ? (
+                    <View style={styles.loadingHint}>
+                        <Ionicons name="hourglass-outline" size={16} color={colors.muted} />
+                        <Text style={styles.loadingHintText}>Loading full module grid...</Text>
+                    </View>
+                ) : null}
                 {filtered.length === 0 && (
                     <View style={styles.emptyState}>
                         <Ionicons name="search-outline" size={48} color={colors.muted} />
@@ -1060,7 +1076,7 @@ export default function DemoFeaturesScreen() {
                     </View>
                 )}
 
-                {filtered.map((mod) => (
+                {visibleModules.map((mod) => (
                     <TouchableOpacity
                         key={mod.id}
                         activeOpacity={0.85}
@@ -1111,7 +1127,7 @@ export default function DemoFeaturesScreen() {
                                 <Ionicons
                                     name={mod.route ? 'play-circle' : 'time-outline'}
                                     size={14}
-                                    color={mod.route ? '#0F3F7F' : colors.muted}
+                                    color={mod.route ? '#172554' : colors.muted}
                                 />
                                 <Text style={[styles.launchText, mod.route ? styles.launchTextActive : styles.launchTextInactive]}>
                                     {mod.route ? 'Open Module →' : 'Coming Soon'}
@@ -1137,7 +1153,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.xl, 
         paddingTop: spacing.md, 
         paddingBottom: spacing.sm,
-        backgroundColor: '#0F3F7F'
+        backgroundColor: '#172554'
     },
     headerTitleWrap: {
         flex: 1,
@@ -1149,7 +1165,7 @@ const styles = StyleSheet.create({
     heroCard: {
         margin: spacing.xl,
         marginTop: 0,
-        backgroundColor: '#0F3F7F',
+        backgroundColor: '#172554',
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
         borderBottomLeftRadius: radius.xl,
@@ -1171,13 +1187,13 @@ const styles = StyleSheet.create({
     readinessBarFill: { height: '100%', backgroundColor: '#60A5FA', borderRadius: radius.pill },
 
     statsRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: spacing.xl, marginBottom: spacing.md },
-    quickToggle: { flexDirection: 'row', alignItems: 'center', gap: 6, borderWidth: 1, borderColor: '#0F3F7F', paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.pill, backgroundColor: '#eff6ff' },
-    quickToggleActive: { backgroundColor: '#0F3F7F', borderColor: '#0F3F7F' },
-    quickToggleText: { fontSize: 12, color: '#0F3F7F', fontWeight: '700' },
+    quickToggle: { flexDirection: 'row', alignItems: 'center', gap: 6, borderWidth: 1, borderColor: '#172554', paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.pill, backgroundColor: '#eff6ff' },
+    quickToggleActive: { backgroundColor: '#172554', borderColor: '#172554' },
+    quickToggleText: { fontSize: 12, color: '#172554', fontWeight: '700' },
     quickToggleTextActive: { color: '#fff' },
     quickAction: { flexDirection: 'row', alignItems: 'center', gap: 6, borderWidth: 1, borderColor: 'rgba(15,63,127,0.1)', paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.pill, backgroundColor: '#fff' },
-    quickActionActive: { backgroundColor: '#0F3F7F', borderColor: '#0F3F7F' },
-    quickActionText: { fontSize: 12, color: '#0F3F7F', fontWeight: '700' },
+    quickActionActive: { backgroundColor: '#172554', borderColor: '#172554' },
+    quickActionText: { fontSize: 12, color: '#172554', fontWeight: '700' },
     quickActionTextActive: { color: '#fff' },
     microStatsRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: spacing.xl, marginBottom: spacing.sm },
     microStatText: { fontSize: 11, color: colors.muted, fontWeight: '700' },
@@ -1347,8 +1363,11 @@ const styles = StyleSheet.create({
     launchRowActive: { backgroundColor: colors.primarySoft },
     launchRowInactive: { backgroundColor: 'rgba(0,0,0,0.03)' },
     launchText: { fontSize: 12, fontWeight: '700' },
-    launchTextActive: { color: '#0F3F7F' },
+    launchTextActive: { color: '#172554' },
     launchTextInactive: { color: colors.muted },
+
+    loadingHint: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: spacing.sm },
+    loadingHintText: { fontSize: 12, color: colors.muted, fontWeight: '600' },
 
     emptyState: { alignItems: 'center', paddingVertical: 60 },
     listSpacer: { height: 40 },

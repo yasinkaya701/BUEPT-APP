@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { buildYS9Report } from '../utils/ys9Mock';
 import { getWordEntry } from '../utils/dictionary';
 import { loadUserWords, saveUserWords, loadUnknownWords, saveUnknownWords, loadVocabStats, saveVocabStats } from '../utils/storage';
+import { resolveApiEndpoint } from '../utils/runtimeApi';
 import {
   loadFavorites,
   loadHistory,
@@ -15,6 +16,7 @@ import {
   loadGrammarHistory,
   loadScreenTime,
   loadXP,
+  loadWeeklyVocabProgress,
   saveFavorites,
   saveHistory,
   saveLevel,
@@ -24,10 +26,12 @@ import {
   saveListeningHistory,
   saveGrammarHistory,
   saveScreenTime,
-  saveXP
+  saveXP,
+  saveWeeklyVocabProgress,
 } from '../utils/appStorage';
 import { createReviewItem } from '../utils/srs';
 import { calculateXpForAction } from '../utils/gamification';
+import { pingVocabCloudSync, pullVocabCloudSync, pushVocabCloudSync } from '../utils/vocabCloudSync';
 
 const STORAGE_ERROR_WORDS = '@buept_error_words';
 const STORAGE_GRAMMAR_ERRORS = '@buept_grammar_errors';
@@ -39,6 +43,11 @@ async function loadErrorWords() { try { const v = await AsyncStorage.getItem(STO
 async function saveErrorWords(d) { try { await AsyncStorage.setItem(STORAGE_ERROR_WORDS, JSON.stringify(d)); } catch { } }
 async function loadGrammarErrors() { try { const v = await AsyncStorage.getItem(STORAGE_GRAMMAR_ERRORS); return v ? JSON.parse(v) : {}; } catch { return {}; } }
 async function saveGrammarErrors(d) { try { await AsyncStorage.setItem(STORAGE_GRAMMAR_ERRORS, JSON.stringify(d)); } catch { } }
+
+const STORAGE_CUSTOM_DECKS = '@buept_custom_decks_v1';
+async function loadCustomDecks() { try { const v = await AsyncStorage.getItem(STORAGE_CUSTOM_DECKS); return v ? JSON.parse(v) : []; } catch { return []; } }
+async function saveCustomDecks(d) { try { await AsyncStorage.setItem(STORAGE_CUSTOM_DECKS, JSON.stringify(d)); } catch { } }
+
 async function loadUserProfile() {
   try {
     const raw = await AsyncStorage.getItem(STORAGE_USER_PROFILE);
@@ -56,6 +65,212 @@ async function saveUserProfile(profile) {
 
 function normalizeEmail(value = '') {
   return String(value || '').trim().toLowerCase();
+}
+
+function normalizeWordKey(value = '') {
+  return String(value || '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z'-]/g, '');
+}
+
+function uniqueTextList(values = [], forceLowercase = false) {
+  const list = Array.isArray(values) ? values : [values];
+  const seen = new Set();
+  const output = [];
+  list.forEach((raw) => {
+    const text = String(raw || '').trim();
+    if (!text) return;
+    const key = text.toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    output.push(forceLowercase ? key : text);
+  });
+  return output;
+}
+
+function normalizeWordEntry(rawEntry = null) {
+  const entry = typeof rawEntry === 'string' ? { word: rawEntry } : rawEntry;
+  if (!entry || typeof entry !== 'object') return null;
+  const word = normalizeWordKey(entry?.word || entry?.sourceText || entry?.term || '');
+  if (!word) return null;
+
+  const sources = uniqueTextList([
+    ...(Array.isArray(entry?.sources) ? entry.sources : []),
+    entry?.source,
+  ]);
+
+  const inferredModules = sources
+    .map((source) => {
+      const lower = String(source || '').toLowerCase();
+      if (lower.includes('listen')) return 'listening';
+      return '';
+    })
+    .filter(Boolean);
+
+  const sourceModules = uniqueTextList([
+    ...(Array.isArray(entry?.sourceModules) ? entry.sourceModules : []),
+    entry?.sourceModule,
+    entry?.module,
+    ...inferredModules,
+  ], true);
+
+  const sourceModule = String(entry?.sourceModule || sourceModules[0] || '').trim().toLowerCase();
+
+  return {
+    ...(entry || {}),
+    word,
+    synonyms: uniqueTextList(Array.isArray(entry?.synonyms) ? entry.synonyms : []),
+    antonyms: uniqueTextList(Array.isArray(entry?.antonyms) ? entry.antonyms : []),
+    sources,
+    source: sources[0] || '',
+    sourceModules,
+    sourceModule,
+  };
+}
+
+function mergeWordEntries(local = [], remote = []) {
+  const merged = new Map();
+  [...(Array.isArray(remote) ? remote : []), ...(Array.isArray(local) ? local : [])].forEach((rawEntry) => {
+    const normalized = normalizeWordEntry(rawEntry);
+    if (!normalized?.word) return;
+
+    const existing = merged.get(normalized.word);
+    if (!existing) {
+      merged.set(normalized.word, normalized);
+      return;
+    }
+
+    const sources = uniqueTextList([
+      ...(Array.isArray(existing?.sources) ? existing.sources : []),
+      ...(Array.isArray(normalized?.sources) ? normalized.sources : []),
+      existing?.source,
+      normalized?.source,
+    ]);
+    const sourceModules = uniqueTextList([
+      ...(Array.isArray(existing?.sourceModules) ? existing.sourceModules : []),
+      ...(Array.isArray(normalized?.sourceModules) ? normalized.sourceModules : []),
+      existing?.sourceModule,
+      normalized?.sourceModule,
+    ], true);
+
+    merged.set(normalized.word, {
+      ...existing,
+      ...normalized,
+      word: normalized.word,
+      synonyms: uniqueTextList([
+        ...(Array.isArray(existing?.synonyms) ? existing.synonyms : []),
+        ...(Array.isArray(normalized?.synonyms) ? normalized.synonyms : []),
+      ]),
+      antonyms: uniqueTextList([
+        ...(Array.isArray(existing?.antonyms) ? existing.antonyms : []),
+        ...(Array.isArray(normalized?.antonyms) ? normalized.antonyms : []),
+      ]),
+      sources,
+      source: normalized.source || existing.source || sources[0] || '',
+      sourceModules,
+      sourceModule: normalized.sourceModule || existing.sourceModule || sourceModules[0] || '',
+    });
+  });
+  return Array.from(merged.values());
+}
+
+function mergeVocabStats(local = {}, remote = {}) {
+  const next = {};
+  const keys = new Set([
+    ...Object.keys(local && typeof local === 'object' ? local : {}),
+    ...Object.keys(remote && typeof remote === 'object' ? remote : {}),
+  ]);
+  keys.forEach((rawWord) => {
+    const word = normalizeWordKey(rawWord);
+    if (!word) return;
+    const localStat = local?.[rawWord] || local?.[word] || {};
+    const remoteStat = remote?.[rawWord] || remote?.[word] || {};
+    const known = Math.max(Number(localStat?.known || 0), Number(remoteStat?.known || 0));
+    const unknown = Math.max(Number(localStat?.unknown || 0), Number(remoteStat?.unknown || 0));
+    if (!known && !unknown) return;
+    next[word] = { known, unknown };
+  });
+  return next;
+}
+
+function mergeDecks(local = [], remote = []) {
+  const map = new Map();
+  [...(Array.isArray(remote) ? remote : []), ...(Array.isArray(local) ? local : [])].forEach((deck) => {
+    const title = String(deck?.title || '').trim().toLowerCase();
+    const id = String(deck?.id || '').trim();
+    const key = id || title;
+    if (!key) return;
+    if (!map.has(key)) map.set(key, deck);
+  });
+  return Array.from(map.values());
+}
+
+function mergeWeeklyProgress(local = {}, remote = {}) {
+  const localWeekStats = local?.weekStats && typeof local.weekStats === 'object' ? local.weekStats : {};
+  const remoteWeekStats = remote?.weekStats && typeof remote.weekStats === 'object' ? remote.weekStats : {};
+  const localCount = Object.keys(localWeekStats).length;
+  const remoteCount = Object.keys(remoteWeekStats).length;
+  return remoteCount > localCount ? { ...local, ...remote, weekStats: remoteWeekStats } : { ...remote, ...local, weekStats: { ...remoteWeekStats, ...localWeekStats } };
+}
+
+function areWordListsEqual(a = [], b = []) {
+  const left = Array.isArray(a) ? a : [];
+  const right = Array.isArray(b) ? b : [];
+  if (left.length !== right.length) return false;
+
+  const toSignature = (entry) => {
+    const normalized = normalizeWordEntry(entry);
+    if (!normalized?.word) return '';
+    return [
+      normalized.word,
+      normalized.updatedAt || '',
+      (normalized.synonyms || []).length,
+      (normalized.antonyms || []).length,
+      (normalized.sources || []).length,
+      (normalized.sourceModules || []).length,
+    ].join('|');
+  };
+
+  const sigA = new Set(left.map(toSignature).filter(Boolean));
+  if (sigA.size !== left.length) return false;
+  for (const item of right) {
+    const signature = toSignature(item);
+    if (!signature || !sigA.has(signature)) return false;
+  }
+  return true;
+}
+
+function areStatsEqual(a = {}, b = {}) {
+  const left = a && typeof a === 'object' ? a : {};
+  const right = b && typeof b === 'object' ? b : {};
+  const keys = new Set([...Object.keys(left), ...Object.keys(right)]);
+  for (const rawKey of keys) {
+    const key = normalizeWordKey(rawKey);
+    if (!key) continue;
+    const lv = left[rawKey] || left[key] || {};
+    const rv = right[rawKey] || right[key] || {};
+    if (Number(lv.known || 0) !== Number(rv.known || 0)) return false;
+    if (Number(lv.unknown || 0) !== Number(rv.unknown || 0)) return false;
+  }
+  return true;
+}
+
+function areDecksEqual(a = [], b = []) {
+  const left = Array.isArray(a) ? a : [];
+  const right = Array.isArray(b) ? b : [];
+  if (left.length !== right.length) return false;
+  const signature = (deck) => [
+    String(deck?.id || '').trim(),
+    String(deck?.title || '').trim().toLowerCase(),
+    Array.isArray(deck?.words) ? deck.words.length : 0,
+    String(deck?.updatedAt || ''),
+  ].join('|');
+  const sigA = new Set(left.map(signature));
+  for (const deck of right) {
+    if (!sigA.has(signature(deck))) return false;
+  }
+  return true;
 }
 
 function deriveAcademicFocus(profile = null) {
@@ -91,6 +306,7 @@ export function AppStateProvider({ children }) {
 
   const [level, setLevel] = useState('P2');
   const [writingEngine, setWritingEngine] = useState('online');
+  const [aiReady, setAiReady] = useState(false);
   const [essayText, setEssayText] = useState('');
   const [report, setReport] = useState(null);
   const [history, setHistory] = useState([]);
@@ -103,6 +319,7 @@ export function AppStateProvider({ children }) {
   const lastScreenTimePersistRef = useRef(0);
   const appStateRef = useRef(RNAppState.currentState);
   const timerRef = useRef(null);
+  const aiBootRef = useRef(false);
   const [userWords, setUserWords] = useState([]);
   const [unknownWords, setUnknownWords] = useState([]);
   const [vocabStats, setVocabStats] = useState({});
@@ -111,6 +328,15 @@ export function AppStateProvider({ children }) {
   const [errorWords, setErrorWords] = useState({});
   const [grammarErrors, setGrammarErrors] = useState({});
   const [xp, setXp] = useState(0);
+  const [customDecks, setCustomDecks] = useState([]);
+  const userWordsRef = useRef([]);
+  const unknownWordsRef = useRef([]);
+  const vocabStatsRef = useRef({});
+  const customDecksRef = useRef([]);
+  const syncBusyRef = useRef(false);
+  const syncDebounceRef = useRef(null);
+  const localSyncDirtyRef = useRef(false);
+  const remoteSyncStampRef = useRef('');
 
   const applyDemoData = useCallback(async () => {
     const now = Date.now();
@@ -163,72 +389,115 @@ export function AppStateProvider({ children }) {
   useEffect(() => {
     let mounted = true;
     (async () => {
-      try {
-        const [
-          loadedUserWords,
-          loadedUnknownWords,
-          loadedVocabStats,
-          loadedLevel,
-          loadedWritingEngine,
-          loadedFavorites,
-          loadedHistory,
-          loadedMockHistory,
-          loadedReadingHistory,
-          loadedListeningHistory,
-          loadedGrammarHistory,
-          loadedScreenTime,
-          loadedErrorWords,
-          loadedGrammarErrors,
-          loadedXp,
-          loadedToken,
-          loadedProfile,
-        ] = await Promise.all([
-          loadUserWords(),
-          loadUnknownWords(),
-          loadVocabStats(),
-          loadLevel(),
-          loadWritingEngine(),
-          loadFavorites(),
-          loadHistory(),
-          loadMockHistory(),
-          loadReadingHistory(),
-          loadListeningHistory(),
-          loadGrammarHistory(),
-          loadScreenTime(),
-          loadErrorWords(),
-          loadGrammarErrors(),
-          loadXP(),
-          loadAuthToken(),
-          loadUserProfile(),
-        ]);
-        if (!mounted) return;
-        setUserWords(loadedUserWords);
-        setUnknownWords(loadedUnknownWords);
-        setVocabStats(loadedVocabStats);
-        setLevel(loadedLevel);
-        setWritingEngine(loadedWritingEngine);
-        setFavoritePrompts(loadedFavorites);
-        setHistory(loadedHistory);
-        setMockHistory(loadedMockHistory);
-        setReadingHistory(loadedReadingHistory);
-        setListeningHistory(loadedListeningHistory);
-        setGrammarHistory(loadedGrammarHistory);
-        setScreenTime(loadedScreenTime);
-        setErrorWords(loadedErrorWords);
-        setGrammarErrors(loadedGrammarErrors);
-        setXp(loadedXp);
-        setUserProfile(loadedProfile);
-        setAcademicFocus(deriveAcademicFocus(loadedProfile));
-        // Prevent async hydration from overriding a just-completed login action.
-        setUserToken((prev) => (prev ? prev : loadedToken));
-      } catch {
-        // keep defaults
-      } finally {
-        if (mounted) setAuthReady(true);
-      }
+        try {
+          const [loadedToken, loadedProfile] = await Promise.all([
+            loadAuthToken(),
+            loadUserProfile(),
+          ]);
+
+          if (!mounted) return;
+
+          setUserProfile(loadedProfile);
+          setAcademicFocus(deriveAcademicFocus(loadedProfile));
+          setUserToken((prev) => (prev ? prev : loadedToken));
+          setAuthReady(true);
+
+          const results = await Promise.all([
+            loadUserWords(),
+            loadUnknownWords(),
+            loadVocabStats(),
+            loadLevel(),
+            loadWritingEngine(),
+            loadFavorites(),
+            loadHistory(),
+            loadMockHistory(),
+            loadReadingHistory(),
+            loadListeningHistory(),
+            loadGrammarHistory(),
+            loadScreenTime(),
+            loadErrorWords(),
+            loadGrammarErrors(),
+            loadXP(),
+            loadCustomDecks(),
+          ]);
+
+          if (!mounted) return;
+
+          const [
+            loadedUserWords,
+            loadedUnknownWords,
+            loadedVocabStats,
+            loadedLevel,
+            loadedWritingEngine,
+            loadedFavorites,
+            loadedHistory,
+            loadedMockHistory,
+            loadedReadingHistory,
+            loadedListeningHistory,
+            loadedGrammarHistory,
+            loadedScreenTime,
+            loadedErrorWords,
+            loadedGrammarErrors,
+            loadedXp,
+            loadedCustomDecks,
+          ] = results;
+
+          setUserWords(Array.isArray(loadedUserWords) ? loadedUserWords : []);
+          setUnknownWords(Array.isArray(loadedUnknownWords) ? loadedUnknownWords : []);
+          setVocabStats(loadedVocabStats && typeof loadedVocabStats === 'object' ? loadedVocabStats : {});
+          setLevel(loadedLevel || 'P2');
+          setWritingEngine(loadedWritingEngine || 'online');
+          setFavoritePrompts(Array.isArray(loadedFavorites) ? loadedFavorites : []);
+          setHistory(Array.isArray(loadedHistory) ? loadedHistory : []);
+          setMockHistory(Array.isArray(loadedMockHistory) ? loadedMockHistory : []);
+          setReadingHistory(Array.isArray(loadedReadingHistory) ? loadedReadingHistory : []);
+          setListeningHistory(Array.isArray(loadedListeningHistory) ? loadedListeningHistory : []);
+          setGrammarHistory(Array.isArray(loadedGrammarHistory) ? loadedGrammarHistory : []);
+          setScreenTime(loadedScreenTime || { date: null, seconds: 0 });
+          setErrorWords(loadedErrorWords || {});
+          setGrammarErrors(loadedGrammarErrors || {});
+          setXp(Number(loadedXp) || 0);
+          setCustomDecks(Array.isArray(loadedCustomDecks) ? loadedCustomDecks : []);
+        } catch (e) {
+          console.error('[AppState] Hydration failed:', e);
+          if (mounted) setAuthReady(true);
+        }
     })();
     return () => { mounted = false; };
   }, [applyDemoData]);
+
+  useEffect(() => {
+    if (!authReady) return;
+    if (aiBootRef.current) return;
+    aiBootRef.current = true;
+
+    const healthEndpoint = resolveApiEndpoint('BUEPT_HEALTH_API_URL', '/api/health');
+    const fallbackEngine = (prev) => (prev === 'local' ? 'local' : 'online');
+
+    if (!healthEndpoint) {
+      setAiReady(false);
+      setWritingEngine(fallbackEngine);
+      return;
+    }
+
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 2200);
+
+    fetch(healthEndpoint, { signal: ctrl.signal })
+      .then((res) => {
+        if (!res.ok) throw new Error(`health ${res.status}`);
+        return res.json().catch(() => ({}));
+      })
+      .then(() => {
+        setAiReady(true);
+        setWritingEngine('hybrid');
+      })
+      .catch(() => {
+        setAiReady(false);
+        setWritingEngine(fallbackEngine);
+      })
+      .finally(() => clearTimeout(timer));
+  }, [authReady]);
 
   useEffect(() => {
     saveUserWords(userWords);
@@ -298,6 +567,134 @@ export function AppStateProvider({ children }) {
   useEffect(() => {
     saveUserProfile(userProfile);
   }, [userProfile]);
+
+  useEffect(() => {
+    saveCustomDecks(customDecks);
+  }, [customDecks]);
+
+  useEffect(() => {
+    userWordsRef.current = Array.isArray(userWords) ? userWords : [];
+  }, [userWords]);
+
+  useEffect(() => {
+    unknownWordsRef.current = Array.isArray(unknownWords) ? unknownWords : [];
+  }, [unknownWords]);
+
+  useEffect(() => {
+    vocabStatsRef.current = vocabStats && typeof vocabStats === 'object' ? vocabStats : {};
+  }, [vocabStats]);
+
+  useEffect(() => {
+    customDecksRef.current = Array.isArray(customDecks) ? customDecks : [];
+  }, [customDecks]);
+
+  const runVocabCloudSync = useCallback(async () => {
+    if (!authReady) return;
+    if (syncBusyRef.current) return;
+    syncBusyRef.current = true;
+    try {
+      const status = await pingVocabCloudSync().catch(() => null);
+      const remoteUpdatedAt = String(status?.updatedAt || '').trim();
+      const remoteChanged = !!remoteUpdatedAt && remoteUpdatedAt !== remoteSyncStampRef.current;
+      const localDirty = localSyncDirtyRef.current;
+
+      if (!remoteChanged && !localDirty) return;
+
+      let mergedMyWords = userWordsRef.current;
+      let mergedUnknownWords = unknownWordsRef.current;
+      let mergedVocabStats = vocabStatsRef.current;
+      let mergedDecks = customDecksRef.current;
+      const localWeekly = await loadWeeklyVocabProgress();
+      let mergedWeekly = localWeekly;
+
+      if (remoteChanged) {
+        const pulled = await pullVocabCloudSync({ client: 'app' });
+        const remoteState = pulled?.state || {};
+        const remoteMyWords = remoteState?.myWords?.value || [];
+        const remoteUnknownWords = remoteState?.unknownWords?.value || [];
+        const remoteVocabStats = remoteState?.vocabStats?.value || {};
+        const remoteDecks = remoteState?.customDecks?.value || [];
+        const remoteWeekly = remoteState?.weeklyProgress?.value || {};
+
+        mergedMyWords = mergeWordEntries(userWordsRef.current, remoteMyWords);
+        mergedUnknownWords = mergeWordEntries(unknownWordsRef.current, remoteUnknownWords);
+        mergedVocabStats = mergeVocabStats(vocabStatsRef.current, remoteVocabStats);
+        mergedDecks = mergeDecks(customDecksRef.current, remoteDecks);
+        mergedWeekly = mergeWeeklyProgress(localWeekly, remoteWeekly);
+
+        remoteSyncStampRef.current = String(pulled?.updatedAt || remoteUpdatedAt || '').trim();
+      }
+
+      if (!areWordListsEqual(mergedMyWords, userWordsRef.current)) {
+        setUserWords(mergedMyWords);
+      }
+      if (!areWordListsEqual(mergedUnknownWords, unknownWordsRef.current)) {
+        setUnknownWords(mergedUnknownWords);
+      }
+      if (!areStatsEqual(mergedVocabStats, vocabStatsRef.current)) {
+        setVocabStats(mergedVocabStats);
+      }
+      if (!areDecksEqual(mergedDecks, customDecksRef.current)) {
+        setCustomDecks(mergedDecks);
+      }
+      if (JSON.stringify(mergedWeekly) !== JSON.stringify(localWeekly)) {
+        await saveWeeklyVocabProgress(mergedWeekly);
+      }
+
+      if (localDirty || remoteChanged) {
+        const pushed = await pushVocabCloudSync({
+          client: 'app',
+          state: {
+            myWords: mergedMyWords,
+            unknownWords: mergedUnknownWords,
+            vocabStats: mergedVocabStats,
+            customDecks: mergedDecks,
+            weeklyProgress: mergedWeekly,
+          },
+        });
+        localSyncDirtyRef.current = false;
+        if (pushed?.updatedAt) {
+          remoteSyncStampRef.current = String(pushed.updatedAt);
+        }
+      }
+    } catch (_) {
+      // Sync should never break local usage.
+    } finally {
+      syncBusyRef.current = false;
+    }
+  }, [authReady]);
+
+  useEffect(() => {
+    if (!authReady) return undefined;
+    runVocabCloudSync();
+    const interval = setInterval(() => {
+      runVocabCloudSync();
+    }, 12000);
+    const sub = RNAppState.addEventListener('change', (nextState) => {
+      if (nextState === 'active') {
+        runVocabCloudSync();
+      }
+    });
+    return () => {
+      clearInterval(interval);
+      sub.remove();
+    };
+  }, [authReady, runVocabCloudSync]);
+
+  useEffect(() => {
+    if (!authReady) return undefined;
+    localSyncDirtyRef.current = true;
+    if (syncDebounceRef.current) clearTimeout(syncDebounceRef.current);
+    syncDebounceRef.current = setTimeout(() => {
+      runVocabCloudSync();
+    }, 1200);
+    return () => {
+      if (syncDebounceRef.current) {
+        clearTimeout(syncDebounceRef.current);
+        syncDebounceRef.current = null;
+      }
+    };
+  }, [authReady, userWords, unknownWords, vocabStats, customDecks, runVocabCloudSync]);
 
   useEffect(() => {
     postAuthRouteRef.current = postAuthRoute;
@@ -474,23 +871,41 @@ export function AppStateProvider({ children }) {
 
   const generateReport = useCallback((meta = {}) => {
     const sourceText = meta?.text ?? essayText;
-    const r = buildYS9Report(sourceText, meta?.type, meta?.level, meta);
+    const studentName = String(meta?.studentName || userProfile?.name || '').trim();
+    const enrichedMeta = { ...meta, studentName: studentName || 'Student' };
+    let r;
+    try {
+      r = buildYS9Report(sourceText, meta?.type, meta?.level, enrichedMeta);
+    } catch (error) {
+      console.error('[generateReport] fallback used:', error);
+      r = {
+        raw_text: sourceText || '',
+        prompt_text: meta?.prompt || '',
+        rubric: { Grammar: 0, Vocabulary: 0, Organization: 0, Content: 0, Mechanics: 0, Total: 0 },
+        strengths: ['Draft saved successfully.'],
+        issues: ['Automatic report generation failed. Open Tools for online/local checks.'],
+        next_steps: ['Return to editor and retry feedback generation.'],
+        full_report: 'Feedback engine recovered from a runtime issue. Please retry.',
+      };
+    }
     setReport(r);
     setHistory((prev) => [
       { id: Date.now().toString(), createdAt: new Date().toISOString(), report: r },
       ...prev
     ]);
-    const scorePct = r.rubric.Total / 20;
+    const scorePct = Number(r?.rubric?.Total || 0) / 20;
     addXp(calculateXpForAction('ESSAY_WRITTEN', scorePct));
-  }, [essayText, addXp]);
+  }, [essayText, addXp, userProfile]);
 
   const addUserWord = useCallback((word) => {
+    if (!word || typeof word !== 'string') return;
     const w = word.trim().toLowerCase();
     if (!w) return;
     const entry = getWordEntry(w) || { word: w, word_type: '', synonyms: [], antonyms: [], level: '' };
     setUserWords((prev) => {
-      if (prev.find((x) => x.word === w)) return prev;
-      return [entry, ...prev];
+      const list = Array.isArray(prev) ? prev : [];
+      if (list.find((x) => x.word === w)) return list;
+      return [entry, ...list];
     });
   }, []);
 
@@ -503,13 +918,90 @@ export function AppStateProvider({ children }) {
     });
   }, []);
 
-  const addUnknownWord = useCallback((word) => {
+  const removeUserWord = useCallback((word) => {
+    if (!word || typeof word !== 'string') return;
     const w = word.trim().toLowerCase();
     if (!w) return;
-    const entry = getWordEntry(w) || { word: w, word_type: '', synonyms: [], antonyms: [], level: '' };
+    setUserWords((prev) => (Array.isArray(prev) ? prev.filter((item) => item?.word !== w) : prev));
+  }, []);
+
+  const addUnknownWord = useCallback((rawWord, meta = null) => {
+    const payload = typeof rawWord === 'object' && rawWord != null
+      ? rawWord
+      : { word: rawWord, ...(meta && typeof meta === 'object' ? meta : {}) };
+    const normalized = normalizeWordEntry(payload);
+    if (!normalized?.word) return;
+
+    const w = normalized.word;
+    const lookupEntry = getWordEntry(w) || { word: w, word_type: '', synonyms: [], antonyms: [], level: '' };
+    const incomingSources = uniqueTextList([
+      ...(Array.isArray(normalized?.sources) ? normalized.sources : []),
+      normalized?.source,
+    ]);
+    const incomingSourceModules = uniqueTextList([
+      ...(Array.isArray(normalized?.sourceModules) ? normalized.sourceModules : []),
+      normalized?.sourceModule,
+    ], true);
+    const incomingEntry = {
+      ...lookupEntry,
+      ...normalized,
+      word: w,
+      synonyms: uniqueTextList([
+        ...(Array.isArray(lookupEntry?.synonyms) ? lookupEntry.synonyms : []),
+        ...(Array.isArray(normalized?.synonyms) ? normalized.synonyms : []),
+      ]),
+      antonyms: uniqueTextList([
+        ...(Array.isArray(lookupEntry?.antonyms) ? lookupEntry.antonyms : []),
+        ...(Array.isArray(normalized?.antonyms) ? normalized.antonyms : []),
+      ]),
+      sources: incomingSources,
+      source: normalized.source || incomingSources[0] || '',
+      sourceModules: incomingSourceModules,
+      sourceModule: normalized.sourceModule || incomingSourceModules[0] || '',
+      addedAt: normalized.addedAt || normalized.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
     setUnknownWords((prev) => {
-      if (prev.find((x) => x.word === w)) return prev;
-      return [entry, ...prev];
+      const list = Array.isArray(prev) ? prev : [];
+      const existingIndex = list.findIndex((item) => normalizeWordKey(item?.word || item) === w);
+      if (existingIndex === -1) return [incomingEntry, ...list];
+
+      const existingNormalized = normalizeWordEntry(list[existingIndex]) || { word: w, synonyms: [], antonyms: [] };
+      const mergedSources = uniqueTextList([
+        ...(Array.isArray(existingNormalized?.sources) ? existingNormalized.sources : []),
+        ...(Array.isArray(incomingEntry?.sources) ? incomingEntry.sources : []),
+        existingNormalized?.source,
+        incomingEntry?.source,
+      ]);
+      const mergedSourceModules = uniqueTextList([
+        ...(Array.isArray(existingNormalized?.sourceModules) ? existingNormalized.sourceModules : []),
+        ...(Array.isArray(incomingEntry?.sourceModules) ? incomingEntry.sourceModules : []),
+        existingNormalized?.sourceModule,
+        incomingEntry?.sourceModule,
+      ], true);
+      const mergedEntry = {
+        ...existingNormalized,
+        ...incomingEntry,
+        word: w,
+        synonyms: uniqueTextList([
+          ...(Array.isArray(existingNormalized?.synonyms) ? existingNormalized.synonyms : []),
+          ...(Array.isArray(incomingEntry?.synonyms) ? incomingEntry.synonyms : []),
+        ]),
+        antonyms: uniqueTextList([
+          ...(Array.isArray(existingNormalized?.antonyms) ? existingNormalized.antonyms : []),
+          ...(Array.isArray(incomingEntry?.antonyms) ? incomingEntry.antonyms : []),
+        ]),
+        sources: mergedSources,
+        source: incomingEntry.source || existingNormalized.source || mergedSources[0] || '',
+        sourceModules: mergedSourceModules,
+        sourceModule: incomingEntry.sourceModule || existingNormalized.sourceModule || mergedSourceModules[0] || '',
+        addedAt: existingNormalized.addedAt || incomingEntry.addedAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+
+      const remaining = list.filter((_, index) => index !== existingIndex);
+      return [mergedEntry, ...remaining];
     });
   }, []);
 
@@ -531,6 +1023,23 @@ export function AppStateProvider({ children }) {
     setVocabStats((prev) => {
       const entry = prev[w] || { known: 0, unknown: 0 };
       return { ...prev, [w]: { ...entry, unknown: entry.unknown + 1 } };
+    });
+  }, []);
+
+  const rollbackVocabRecord = useCallback((word, status) => {
+    const w = String(word || '').trim().toLowerCase();
+    if (!w) return;
+    setVocabStats((prev) => {
+      const current = prev[w];
+      if (!current) return prev;
+      const nextKnown = status === 'known' ? Math.max(0, Number(current.known || 0) - 1) : Number(current.known || 0);
+      const nextUnknown = status === 'unknown' ? Math.max(0, Number(current.unknown || 0) - 1) : Number(current.unknown || 0);
+      if (nextKnown === 0 && nextUnknown === 0) {
+        const clone = { ...prev };
+        delete clone[w];
+        return clone;
+      }
+      return { ...prev, [w]: { known: nextKnown, unknown: nextUnknown } };
     });
   }, []);
 
@@ -580,6 +1089,33 @@ export function AppStateProvider({ children }) {
   const clearErrorWords = useCallback(() => { setErrorWords({}); saveErrorWords({}); }, []);
   const clearGrammarErrors = useCallback(() => { setGrammarErrors({}); saveGrammarErrors({}); }, []);
 
+  const addCustomDeck = useCallback((title, words) => {
+    if (!title?.trim()) return;
+    setCustomDecks(prev => [
+      { id: Date.now().toString(), title: title.trim(), words: words || [] },
+      ...prev
+    ]);
+  }, []);
+
+  const deleteCustomDeck = useCallback((id) => {
+    let removedDeck = null;
+    setCustomDecks((prev) => {
+      const list = Array.isArray(prev) ? prev : [];
+      removedDeck = list.find((d) => d.id === id) || null;
+      return list.filter((d) => d.id !== id);
+    });
+    return removedDeck;
+  }, []);
+
+  const restoreCustomDeck = useCallback((deck) => {
+    if (!deck?.id || !deck?.title) return;
+    setCustomDecks((prev) => {
+      const list = Array.isArray(prev) ? prev : [];
+      if (list.some((d) => d.id === deck.id)) return list;
+      return [deck, ...list];
+    });
+  }, []);
+
   const value = useMemo(() => ({
     userToken,
     authReady,
@@ -596,6 +1132,7 @@ export function AppStateProvider({ children }) {
     setLevel,
     writingEngine,
     setWritingEngine,
+    aiReady,
     essayText,
     setEssayText,
     report,
@@ -613,13 +1150,18 @@ export function AppStateProvider({ children }) {
     errorWords,
     grammarErrors,
     xp,
+    customDecks,
     setReviews,
+    addCustomDeck,
+    deleteCustomDeck,
     addUserWord,
     addUserWordObject,
+    removeUserWord,
     addUnknownWord,
     clearUnknownWords,
     recordKnown,
     recordUnknown,
+    rollbackVocabRecord,
     generateReport,
     setActiveReportById,
     addMockResult,
@@ -633,16 +1175,18 @@ export function AppStateProvider({ children }) {
     clearGrammarErrors,
     addXp,
     applyDemoData,
+    restoreCustomDeck,
   }), [
     userToken, authReady, userProfile, postAuthRoute, academicFocus,
-    level, writingEngine, essayText, report, history, mockHistory,
+    level, writingEngine, aiReady, essayText, report, history, mockHistory,
     readingHistory, listeningHistory, grammarHistory, screenTime,
     userWords, unknownWords, vocabStats, favoritePrompts, reviews,
-    errorWords, grammarErrors, xp,
+    errorWords, grammarErrors, xp, customDecks,
     generateReport, setActiveReportById, addMockResult, addReadingResult,
-    addListeningResult, addGrammarResult, addUserWord, addUserWordObject, addUnknownWord,
-    clearUnknownWords, recordKnown, recordUnknown, toggleFavoritePrompt,
+    addListeningResult, addGrammarResult, addUserWord, addUserWordObject, removeUserWord, addUnknownWord,
+    clearUnknownWords, recordKnown, recordUnknown, rollbackVocabRecord, toggleFavoritePrompt,
     recordQuizError, recordGrammarError, clearErrorWords, clearGrammarErrors,
+    addCustomDeck, deleteCustomDeck, restoreCustomDeck,
     addXp, applyDemoData, login, register, logout, consumePostAuthRoute,
   ]);
 

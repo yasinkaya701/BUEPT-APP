@@ -1,0 +1,889 @@
+{
+  "analyze": {
+    "antonyms": [
+      "synthesize",
+      "combine",
+      "overlook"
+    ],
+    "word_family": {
+      "noun": [
+        "analysis",
+        "analyst",
+        "analytics"
+      ],
+      "verb": [
+        "analyze",
+        "analyse"
+      ],
+      "adjective": [
+        "analytical",
+        "analytic"
+      ],
+      "adverb": [
+        "analytically"
+      ]
+    }
+  },
+  "significant": {
+    "antonyms": [
+      "insignificant",
+      "trivial",
+      "minor"
+    ],
+    "word_family": {
+      "noun": [
+        "significance"
+      ],
+      "verb": [
+        "signify"
+      ],
+      "adjective": [
+        "significant",
+        "insignificant"
+      ],
+      "adverb": [
+        "significantly"
+      ]
+    }
+  },
+  "accurate": {
+    "antonyms": [
+      "inaccurate",
+      "imprecise",
+      "wrong",
+      "incorrect"
+    ],
+    "word_family": {
+      "noun": [
+        "accuracy",
+        "inaccuracy"
+      ],
+      "verb": [],
+      "adjective": [
+        "accurate",
+        "inaccurate"
+      ],
+      "adverb": [
+        "accurately"
+      ]
+    }
+  },
+  "efficient": {
+    "antonyms": [
+      "inefficient",
+      "wasteful",
+      "slow"
+    ],
+    "word_family": {
+      "noun": [
+        "efficiency",
+        "inefficiency"
+      ],
+      "verb": [],
+      "adjective": [
+        "efficient",
+        "inefficient"
+      ],
+      "adverb": [
+        "efficiently"
+      ]
+    }
+  },
+  "create": {
+    "antonyms": [
+      "destroy",
+      "demolish",
+      "dismantle"
+    ],
+    "word_family": {
+      "noun": [
+        "creation",
+        "creator",
+        "creativity",
+        "creature"
+      ],
+      "verb": [
+        "create"
+      ],
+      "adjective": [
+        "creative",
+        "uncreative"
+      ],
+      "adverb": [
+        "creatively"
+      ]
+    }
+  },
+  "define": {
+    "antonyms": [
+      "obscure",
+      "confuse",
+      "blur"
+    ],
+    "word_family": {
+      "noun": [
+        "definition",
+        "definition"
+      ],
+      "verb": [
+        "define",
+        "redefine"
+      ],
+      "adjective": [
+        "definite",
+        "definitive",
+        "undefined"
+      ],
+      "adverb": [
+        "definitively",
+        "definitely"
+      ]
+    }
+  },
+  "develop": {
+    "antonyms": [
+      "destroy",
+      "regress",
+      "underdevelop"
+    ],
+    "word_family": {
+      "noun": [
+        "development",
+        "developer"
+      ],
+      "verb": [
+        "develop",
+        "redevelop"
+      ],
+      "adjective": [
+        "developed",
+        "developing",
+        "underdeveloped"
+      ],
+      "adverb": []
+    }
+  },
+  "establish": {
+    "antonyms": [
+      "abolish",
+      "dismantle",
+      "destroy"
+    ],
+    "word_family": {
+      "noun": [
+        "establishment"
+      ],
+      "verb": [
+        "establish",
+        "re-establish"
+      ],
+      "adjective": [
+        "established"
+      ],
+      "adverb": []
+    }
+  },
+  "evident": {
+    "antonyms": [
+      "unclear",
+      "hidden",
+      "obscure"
+    ],
+    "word_family": {
+      "noun": [
+        "evidence"
+      ],
+      "verb": [
+        "evidence"
+      ],
+      "adjective": [
+        "evident",
+        "self-evident"
+      ],
+      "adverb": [
+        "evidently"
+      ]
+    }
+  },
+  "flexible": {
+    "antonyms": [
+      "inflexible",
+      "rigid",
+      "stubborn"
+    ],
+    "word_family": {
+      "noun": [
+        "flexibility",
+        "inflexibility"
+      ],
+      "verb": [],
+      "adjective": [
+        "flexible",
+        "inflexible"
+      ],
+      "adverb": [
+        "flexibly"
+      ]
+    }
+  },
+  "formal": {
+    "antonyms": [
+      "informal",
+      "casual",
+      "unofficial"
+    ],
+    "word_family": {
+      "noun": [
+        "formality",
+        "formalism"
+      ],
+      "verb": [
+        "formalize"
+      ],
+      "adjective": [
+        "formal",
+        "informal"
+      ],
+      "adverb": [
+        "formally",
+        "informally"
+      ]
+    }
+  },
+  "global": {
+    "antonyms": [
+      "local",
+      "national",
+      "regional"
+    ],
+    "word_family": {
+      "noun": [
+        "globalization",
+        "globe"
+      ],
+      "verb": [
+        "globalize"
+      ],
+      "adjective": [
+        "global",
+        "local"
+      ],
+      "adverb": [
+        "globally"
+      ]
+    }
+  },
+  "identify": {
+    "antonyms": [
+      "misidentify",
+      "overlook",
+      "mistake"
+    ],
+    "word_family": {
+      "noun": [
+        "identity",
+        "identification"
+      ],
+      "verb": [
+        "identify",
+        "misidentify"
+      ],
+      "adjective": [
+        "identifiable",
+        "identical"
+      ],
+      "adverb": [
+        "identically"
+      ]
+    }
+  },
+  "improve": {
+    "antonyms": [
+      "worsen",
+      "deteriorate",
+      "decline"
+    ],
+    "word_family": {
+      "noun": [
+        "improvement"
+      ],
+      "verb": [
+        "improve"
+      ],
+      "adjective": [
+        "improved",
+        "improving"
+      ],
+      "adverb": []
+    }
+  },
+  "include": {
+    "antonyms": [
+      "exclude",
+      "omit",
+      "eliminate"
+    ],
+    "word_family": {
+      "noun": [
+        "inclusion",
+        "exclusion"
+      ],
+      "verb": [
+        "include",
+        "exclude"
+      ],
+      "adjective": [
+        "inclusive",
+        "exclusive",
+        "included"
+      ],
+      "adverb": [
+        "inclusively"
+      ]
+    }
+  },
+  "indicate": {
+    "antonyms": [
+      "conceal",
+      "hide",
+      "obscure"
+    ],
+    "word_family": {
+      "noun": [
+        "indication",
+        "indicator"
+      ],
+      "verb": [
+        "indicate"
+      ],
+      "adjective": [
+        "indicative"
+      ],
+      "adverb": [
+        "indicatively"
+      ]
+    }
+  },
+  "negative": {
+    "antonyms": [
+      "positive",
+      "favorable",
+      "beneficial"
+    ],
+    "word_family": {
+      "noun": [
+        "negativity"
+      ],
+      "verb": [
+        "negate"
+      ],
+      "adjective": [
+        "negative",
+        "positive"
+      ],
+      "adverb": [
+        "negatively",
+        "positively"
+      ]
+    }
+  },
+  "positive": {
+    "antonyms": [
+      "negative",
+      "unfavorable",
+      "detrimental"
+    ],
+    "word_family": {
+      "noun": [
+        "positivity"
+      ],
+      "verb": [],
+      "adjective": [
+        "positive",
+        "negative"
+      ],
+      "adverb": [
+        "positively"
+      ]
+    }
+  },
+  "possible": {
+    "antonyms": [
+      "impossible",
+      "unlikely",
+      "impractical"
+    ],
+    "word_family": {
+      "noun": [
+        "possibility",
+        "impossibility"
+      ],
+      "verb": [],
+      "adjective": [
+        "possible",
+        "impossible"
+      ],
+      "adverb": [
+        "possibly",
+        "impossibly"
+      ]
+    }
+  },
+  "predict": {
+    "antonyms": [
+      "retrodict",
+      "ignore",
+      "overlook"
+    ],
+    "word_family": {
+      "noun": [
+        "prediction",
+        "predictor"
+      ],
+      "verb": [
+        "predict",
+        "forecast"
+      ],
+      "adjective": [
+        "predictable",
+        "unpredictable"
+      ],
+      "adverb": [
+        "predictably"
+      ]
+    }
+  },
+  "require": {
+    "antonyms": [
+      "forbid",
+      "prohibit",
+      "waive"
+    ],
+    "word_family": {
+      "noun": [
+        "requirement"
+      ],
+      "verb": [
+        "require"
+      ],
+      "adjective": [
+        "required",
+        "optional",
+        "mandatory"
+      ],
+      "adverb": []
+    }
+  },
+  "succeed": {
+    "antonyms": [
+      "fail",
+      "lose",
+      "collapse"
+    ],
+    "word_family": {
+      "noun": [
+        "success",
+        "failure",
+        "succession"
+      ],
+      "verb": [
+        "succeed",
+        "fail"
+      ],
+      "adjective": [
+        "successful",
+        "unsuccessful"
+      ],
+      "adverb": [
+        "successfully"
+      ]
+    }
+  },
+  "support": {
+    "antonyms": [
+      "oppose",
+      "undermine",
+      "contradict"
+    ],
+    "word_family": {
+      "noun": [
+        "support",
+        "supporter"
+      ],
+      "verb": [
+        "support",
+        "oppose"
+      ],
+      "adjective": [
+        "supportive"
+      ],
+      "adverb": [
+        "supportively"
+      ]
+    }
+  },
+  "traditional": {
+    "antonyms": [
+      "modern",
+      "contemporary",
+      "innovative"
+    ],
+    "word_family": {
+      "noun": [
+        "tradition",
+        "traditionalism"
+      ],
+      "verb": [],
+      "adjective": [
+        "traditional",
+        "nontraditional"
+      ],
+      "adverb": [
+        "traditionally"
+      ]
+    }
+  },
+  "urgent": {
+    "antonyms": [
+      "unimportant",
+      "low-priority",
+      "trivial"
+    ],
+    "word_family": {
+      "noun": [
+        "urgency"
+      ],
+      "verb": [
+        "urge"
+      ],
+      "adjective": [
+        "urgent",
+        "non-urgent"
+      ],
+      "adverb": [
+        "urgently"
+      ]
+    }
+  },
+  "budget": {
+    "antonyms": [
+      "overspend",
+      "deficit"
+    ],
+    "word_family": {
+      "noun": [
+        "budget",
+        "budgeting"
+      ],
+      "verb": [
+        "budget"
+      ],
+      "adjective": [
+        "budgeted",
+        "over-budget"
+      ],
+      "adverb": []
+    }
+  },
+  "afford": {
+    "antonyms": [
+      "cannot afford",
+      "lack funds"
+    ],
+    "word_family": {
+      "noun": [
+        "affordability"
+      ],
+      "verb": [
+        "afford"
+      ],
+      "adjective": [
+        "affordable",
+        "unaffordable"
+      ],
+      "adverb": [
+        "affordably"
+      ]
+    }
+  },
+  "invest": {
+    "antonyms": [
+      "divest",
+      "withdraw",
+      "waste"
+    ],
+    "word_family": {
+      "noun": [
+        "investment",
+        "investor"
+      ],
+      "verb": [
+        "invest",
+        "reinvest"
+      ],
+      "adjective": [
+        "invested"
+      ],
+      "adverb": []
+    }
+  },
+  "consistent": {
+    "antonyms": [
+      "inconsistent",
+      "irregular",
+      "variable"
+    ],
+    "word_family": {
+      "noun": [
+        "consistency",
+        "inconsistency"
+      ],
+      "verb": [],
+      "adjective": [
+        "consistent",
+        "inconsistent"
+      ],
+      "adverb": [
+        "consistently"
+      ]
+    }
+  },
+  "contribute": {
+    "antonyms": [
+      "withhold",
+      "hinder",
+      "subtract"
+    ],
+    "word_family": {
+      "noun": [
+        "contribution",
+        "contributor"
+      ],
+      "verb": [
+        "contribute"
+      ],
+      "adjective": [
+        "contributory"
+      ],
+      "adverb": []
+    }
+  },
+  "avoid": {
+    "antonyms": [
+      "face",
+      "confront",
+      "embrace"
+    ],
+    "word_family": {
+      "noun": [
+        "avoidance"
+      ],
+      "verb": [
+        "avoid"
+      ],
+      "adjective": [
+        "avoidable",
+        "unavoidable"
+      ],
+      "adverb": [
+        "unavoidably"
+      ]
+    }
+  },
+  "achieve": {
+    "antonyms": [
+      "fail",
+      "miss",
+      "lose"
+    ],
+    "word_family": {
+      "noun": [
+        "achievement",
+        "achiever"
+      ],
+      "verb": [
+        "achieve"
+      ],
+      "adjective": [
+        "achievable",
+        "unachievable"
+      ],
+      "adverb": []
+    }
+  },
+  "similar": {
+    "antonyms": [
+      "different",
+      "dissimilar",
+      "unlike",
+      "opposite"
+    ],
+    "word_family": {
+      "noun": [
+        "similarity",
+        "dissimilarity"
+      ],
+      "verb": [],
+      "adjective": [
+        "similar",
+        "dissimilar"
+      ],
+      "adverb": [
+        "similarly"
+      ]
+    }
+  },
+  "specific": {
+    "antonyms": [
+      "vague",
+      "general",
+      "unclear"
+    ],
+    "word_family": {
+      "noun": [
+        "specification",
+        "specificity"
+      ],
+      "verb": [
+        "specify"
+      ],
+      "adjective": [
+        "specific",
+        "unspecified"
+      ],
+      "adverb": [
+        "specifically"
+      ]
+    }
+  },
+  "complex": {
+    "antonyms": [
+      "simple",
+      "basic",
+      "straightforward"
+    ],
+    "word_family": {
+      "noun": [
+        "complexity",
+        "simplicity"
+      ],
+      "verb": [],
+      "adjective": [
+        "complex",
+        "simple"
+      ],
+      "adverb": [
+        "complexly",
+        "simply"
+      ]
+    }
+  },
+  "effective": {
+    "antonyms": [
+      "ineffective",
+      "useless",
+      "counterproductive"
+    ],
+    "word_family": {
+      "noun": [
+        "effectiveness",
+        "effect"
+      ],
+      "verb": [
+        "effect"
+      ],
+      "adjective": [
+        "effective",
+        "ineffective"
+      ],
+      "adverb": [
+        "effectively"
+      ]
+    }
+  },
+  "appropriate": {
+    "antonyms": [
+      "inappropriate",
+      "unsuitable",
+      "irrelevant"
+    ],
+    "word_family": {
+      "noun": [
+        "appropriateness"
+      ],
+      "verb": [
+        "appropriate"
+      ],
+      "adjective": [
+        "appropriate",
+        "inappropriate"
+      ],
+      "adverb": [
+        "appropriately"
+      ]
+    }
+  },
+  "sufficient": {
+    "antonyms": [
+      "insufficient",
+      "inadequate",
+      "lacking"
+    ],
+    "word_family": {
+      "noun": [
+        "sufficiency",
+        "insufficiency"
+      ],
+      "verb": [],
+      "adjective": [
+        "sufficient",
+        "insufficient"
+      ],
+      "adverb": [
+        "sufficiently"
+      ]
+    }
+  },
+  "relevant": {
+    "antonyms": [
+      "irrelevant",
+      "unrelated",
+      "tangential"
+    ],
+    "word_family": {
+      "noun": [
+        "relevance",
+        "irrelevance"
+      ],
+      "verb": [],
+      "adjective": [
+        "relevant",
+        "irrelevant"
+      ],
+      "adverb": [
+        "relevantly"
+      ]
+    }
+  },
+  "coherent": {
+    "antonyms": [
+      "incoherent",
+      "confused",
+      "disorganized"
+    ],
+    "word_family": {
+      "noun": [
+        "coherence",
+        "incoherence"
+      ],
+      "verb": [],
+      "adjective": [
+        "coherent",
+        "incoherent"
+      ],
+      "adverb": [
+        "coherently"
+      ]
+    }
+  }
+}

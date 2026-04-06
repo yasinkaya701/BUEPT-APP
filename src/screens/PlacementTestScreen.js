@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
+import Button from '../components/Button';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppState } from '../context/AppState';
@@ -551,6 +552,9 @@ function buildResult(askedQuestions, answers) {
       id: q.id,
       text: q.text,
       correct: q.options[q.correct],
+      correctIndex: q.correct,
+      selectedIndex: Number.isFinite(answers[q.id]) ? answers[q.id] : null,
+      options: q.options,
       explain: q.explain || '',
       skill: q.skill,
       band: q.band,
@@ -564,6 +568,26 @@ function buildResult(askedQuestions, answers) {
     skillMap,
     weakestSkill,
     missed,
+  };
+}
+
+function buildPlacementMistakeItem(item = {}) {
+  const skill = String(item.skill || '').toLowerCase();
+  const module = skill.includes('grammar') ? 'grammar' : skill.includes('reading') ? 'reading' : 'vocab';
+  const selectedIdx = Number.isFinite(item.selectedIndex) ? item.selectedIndex : null;
+  const correctIdx = Number.isFinite(item.correctIndex) ? item.correctIndex : null;
+  const options = Array.isArray(item.options) ? item.options : [];
+  return {
+    module,
+    moduleLabel: `Placement • ${item.skill || 'Vocabulary'}`,
+    taskTitle: `Placement ${item.band || ''}`.trim(),
+    question: item.text || '',
+    options,
+    correctIndex: correctIdx,
+    selectedIndex: selectedIdx,
+    correctText: item.correct || (correctIdx != null ? options[correctIdx] : ''),
+    selectedText: selectedIdx != null ? options[selectedIdx] : 'Skipped',
+    explanation: item.explain || '',
   };
 }
 
@@ -677,6 +701,12 @@ export default function PlacementTestScreen({ navigation }) {
                     <Text style={styles.reviewQ}>{m.text}</Text>
                     <Text style={styles.reviewA}>Correct: {m.correct}</Text>
                     {m.explain ? <Text style={styles.reviewExplain}>{m.explain}</Text> : null}
+                    <Button
+                      label="Open Mistake Coach"
+                      variant="secondary"
+                      onPress={() => navigation.navigate('MistakeCoach', { mistakes: [buildPlacementMistakeItem(m)] })}
+                      style={styles.reviewCoachBtn}
+                    />
                   </View>
                 ))}
               </View>
@@ -837,5 +867,9 @@ const styles = StyleSheet.create({
   reviewExplain: {
     fontSize: 12,
     color: colors.muted,
+  },
+  reviewCoachBtn: {
+    marginTop: spacing.xs,
+    alignSelf: 'flex-start',
   },
 });

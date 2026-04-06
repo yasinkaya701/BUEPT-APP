@@ -1,20 +1,33 @@
 {
   "title": "BUEPT Writing Rubric (20)",
+  "source_name": "WASC",
+  "source_url": "https://wasc.bogazici.edu.tr/uploads/resources/69b4386a78e9a_1773418602.pdf",
   "categories": [
-    {"name": "Grammar", "max": 4, "desc": "Accuracy, variety, sentence control"},
-    {"name": "Vocabulary", "max": 4, "desc": "Range, precision, academic tone"},
-    {"name": "Organization", "max": 4, "desc": "Coherence, cohesion, paragraphing"},
-    {"name": "Content", "max": 4, "desc": "Task response, development, relevance"},
-    {"name": "Mechanics", "max": 4, "desc": "Spelling, punctuation, formatting"}
+    { "name": "Grammar", "max": 4, "desc": "Sentence control, accuracy, complexity balance" },
+    { "name": "Vocabulary", "max": 4, "desc": "Precision, collocation, lexical range, academic tone" },
+    { "name": "Organization", "max": 4, "desc": "Paragraph unity, coherence, logical progression" },
+    { "name": "Content", "max": 4, "desc": "Task response, argument support, relevance" },
+    { "name": "Mechanics", "max": 4, "desc": "Spelling, punctuation, readability" }
+  ],
+  "wasc_bands": [
+    { "code": "E", "label": "Excellent", "pass": true },
+    { "code": "VG", "label": "Very Good Academic English", "pass": true },
+    { "code": "MA", "label": "More Than Adequate", "pass": true },
+    { "code": "A", "label": "Adequate For University Study", "pass": true },
+    { "code": "D", "label": "Doubts About Adequacy", "pass": "borderline" },
+    { "code": "NA", "label": "Not Adequate", "pass": false },
+    { "code": "FBA", "label": "Far Below Adequacy", "pass": false },
+    { "code": "INS", "label": "Insufficient", "pass": false },
+    { "code": "WN", "label": "Wrote Nothing", "pass": false },
+    { "code": "ABS", "label": "Absent", "pass": false }
   ],
   "checklist": [
-    "Clear thesis / topic sentence",
-    "Each paragraph has one main idea",
-    "Evidence or example in each body paragraph",
-    "Transitions between paragraphs",
-    "Accurate grammar (S-V agreement, articles)",
-    "Avoid repetition; use synonyms",
-    "Academic tone (no slang)",
-    "Conclusion restates main points"
+    "Directly answer the task and maintain relevance in every paragraph",
+    "Give one specific supporting example for each body paragraph",
+    "Use transitions to show clear logic between ideas",
+    "Keep sentence accuracy stable before adding complexity",
+    "Avoid repeated basic words; upgrade with precise alternatives",
+    "Check collocation fit, not only synonym similarity",
+    "Run final proofreading for punctuation and spelling"
   ]
 }
