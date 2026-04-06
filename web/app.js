@@ -2216,6 +2216,14 @@ function bind() {
       setTab(btn.getAttribute('data-jump-tab'));
     });
   });
+
+  document.querySelectorAll('[data-open-route]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const route = btn.getAttribute('data-open-route');
+      setHomeMode('ALL');
+      openModuleAdapter(route);
+    });
+  });
 }
 
 async function init() {

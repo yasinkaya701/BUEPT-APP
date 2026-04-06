@@ -5,6 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "api:start": "node web-api-server.js",
+    "web:local:ai": "./scripts/start-web-local-ai.sh",
     "ios": "react-native run-ios",
     "ios:safe": "./scripts/run-ios-safe.sh",
     "lint": "eslint .",
