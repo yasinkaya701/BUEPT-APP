@@ -1,5 +1,6 @@
 [build]
-  publish = "web"
+  command = "npm run web:rnw:build"
+  publish = "web-rnw/dist"
   functions = "netlify/functions"
 
 [[redirects]]

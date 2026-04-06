@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
   overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.5)' },
   safe: { flex: 1, backgroundColor: '#F3F4F6' },
   safeClear: { flex: 1, backgroundColor: 'transparent' },
-  scrollContent: { paddingBottom: spacing.xxl + 84 },
-  scrollContentWeb: { paddingBottom: spacing.xl },
+  scrollContent: { paddingBottom: spacing.xxl + 84, flexGrow: 1 },
+  scrollContentWeb: { paddingBottom: spacing.xl, flexGrow: 1 },
   content: {
     width: '100%',
     alignSelf: 'center',
