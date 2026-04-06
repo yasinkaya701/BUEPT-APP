@@ -811,7 +811,7 @@ export default function WritingEditorScreen({ navigation, route }) {
 
   return (
     <Screen scroll contentStyle={styles.container}>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <KeyboardAvoidingView enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <Card style={styles.heroCard} glow>
           <Text style={styles.h1}>Writing Workspace</Text>
           <Text style={styles.sub}>One prompt, one draft, one clear feedback cycle.</Text>

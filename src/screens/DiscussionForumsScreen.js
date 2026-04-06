@@ -88,7 +88,7 @@ export default function DiscussionForumsScreen({ navigation }) {
                 </TouchableOpacity>
             </View>
 
-            <KeyboardAvoidingView style={styles.flexFill} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+            <KeyboardAvoidingView style={styles.flexFill} enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
                 <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
 
                     {isPosting && (

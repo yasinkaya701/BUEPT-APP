@@ -60,7 +60,7 @@ export default function LiveClassesScreen({ navigation }) {
                 </View>
             </View>
 
-            <KeyboardAvoidingView style={styles.flexFill} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+            <KeyboardAvoidingView style={styles.flexFill} enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
                 <View style={styles.chatHeader}>
                     <Text style={styles.chatHeadText}>Live Discussion</Text>
                 </View>

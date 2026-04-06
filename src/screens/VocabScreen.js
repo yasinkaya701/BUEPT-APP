@@ -2922,22 +2922,18 @@ export default function VocabScreen({ navigation, route }) {
   }, [activeSection, dictionaryHasMore, dictionaryResults.length, dictionaryRenderLimit, deptRenderLimit, deptWords.length, academicRenderLimit, academicData.length, wascRenderLimit, wascWords.length]);
 
   return (
-    <Screen scroll={false}>
-      <FlatList
-        style={{ flex: 1 }}
-        data={getSectionData()}
-        renderItem={renderVocabItem}
-        keyExtractor={(item, index) => `${activeSection}-${item.word || index}-${index}`}
-        ListHeaderComponent={renderListHeader}
-        ListFooterComponent={renderListFooter}
-        windowSize={7}
-        initialNumToRender={6}
-        maxToRenderPerBatch={6}
-        updateCellsBatchingPeriod={50}
-        removeClippedSubviews={false}
-        keyboardShouldPersistTaps="always"
-        contentContainerStyle={{ paddingBottom: 100 }}
-      />
+    <Screen scroll animate contentStyle={styles.container}>
+      {renderListHeader()}
+      <View style={[styles.listContent, isWide && styles.listContentWide]}>
+          <View style={isWide ? styles.columnWrapper : null}>
+              {getSectionData().map((item, index) => (
+                  <View key={`${activeSection}-${item.word || index}-${index}`} style={[styles.listItemWrap, isWide && styles.listItemWrapWide]}>
+                      {renderVocabItem({ item, index })}
+                  </View>
+              ))}
+          </View>
+      </View>
+      {renderListFooter()}
     </Screen>
   );
 }

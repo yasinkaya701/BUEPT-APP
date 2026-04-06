@@ -49,7 +49,7 @@ export default function LoginScreen({ navigation }) {
     return (
         <ImageBackground source={BG_IMAGE} style={styles.bgImage} resizeMode="cover">
             <View style={styles.overlay} pointerEvents="none" />
-            <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+            <KeyboardAvoidingView style={styles.flex} enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
                 <ScrollView
                     contentContainerStyle={styles.scrollContent}
                     keyboardShouldPersistTaps="handled"

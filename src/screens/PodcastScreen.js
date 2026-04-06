@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Animated, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Animated, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Tts from 'react-native-tts';
 import Screen from '../components/Screen';
 import { colors, spacing, typography, shadow } from '../theme/tokens';
 
-const { width } = Dimensions.get('window');
 
 const PODCAST_TEXT = `Welcome to the daily Boğaziçi Prep Podcast. Today we are looking at the impact of artificial intelligence on traditional academic integrity. As universities worldwide adapt to the presence of advanced language models, the debate centers not only on plagiarism, but on how human learning might evolve. Can a student truly synthesize knowledge if a machine drafts the essay? Proponents argue that AI acts as an advanced tutor, freeing students to focus on higher-level critical thinking. Critics, however, warn of a fundamental degradation in core writing skills. In this episode, we will explore both perspectives and provide key vocabulary for your proficiency exam. Stay tuned.`;
 
 export default function PodcastScreen({ navigation }) {
+  const { width } = useWindowDimensions();
+  const albumArtSize = width - 80;
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   
@@ -91,7 +92,7 @@ export default function PodcastScreen({ navigation }) {
 
       {/* Album Art */}
       <View style={styles.artContainer}>
-        <View style={styles.albumArt}>
+        <View style={[styles.albumArt, { width: albumArtSize, height: albumArtSize }]}>
           <Ionicons name="headset-outline" size={80} color="#FFFFFF" />
           <Text style={styles.albumText}>BÜ</Text>
         </View>
@@ -176,8 +177,6 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   albumArt: {
-    width: width - 80,
-    height: width - 80,
     borderRadius: 24,
     backgroundColor: '#172554', // Deep Boğaziçi blue
     alignItems: 'center',

@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Linking, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Linking, ScrollView, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Screen from '../components/Screen';
@@ -112,6 +112,8 @@ export default function VideoLessonPlayerScreen({ route, navigation }) {
   const [durationSec, setDurationSec] = useState(0);
   const [paused, setPaused] = useState(true);
   const [muted, setMuted] = useState(false);
+  const videoRef = useRef(null);
+  const isWeb = Platform.OS === 'web';
 
   const title = route?.params?.title || 'Lesson Video';
   const videoUrl = route?.params?.videoUrl || '';
@@ -126,6 +128,30 @@ export default function VideoLessonPlayerScreen({ route, navigation }) {
   const activeScene = scenes[activeChapter] || null;
 
   const inject = (code) => {
+    if (isWeb) {
+      const video = videoRef.current;
+      if (!video) return;
+      // Simple evaluator for the code strings used elsewhere
+      if (code.includes('playbackRate')) {
+        const rate = parseFloat(code.split('=')[1]);
+        video.playbackRate = rate;
+      } else if (code.includes('currentTime')) {
+        if (code.includes('Math.max')) {
+           // seekBy logic
+           const delta = parseFloat(code.match(/\(([-+]?\d+)\)/)[1]);
+           video.currentTime = Math.max(0, video.currentTime + delta);
+        } else {
+           // jumpToScene logic
+           const target = parseFloat(code.match(/currentTime = (\d+)/)[1]);
+           video.currentTime = target;
+        }
+      } else if (code.includes('paused')) {
+        if (video.paused) video.play(); else video.pause();
+      } else if (code.includes('muted')) {
+        video.muted = !video.muted;
+      }
+      return;
+    }
     if (!webRef.current) return;
     webRef.current.injectJavaScript(makePlayerScript(code));
   };
@@ -165,6 +191,34 @@ export default function VideoLessonPlayerScreen({ route, navigation }) {
     }
   };
 
+  // Web sync
+  useEffect(() => {
+    if (!isWeb || !videoRef.current) return;
+    const v = videoRef.current;
+    const onTimeUpdate = () => setCurrentSec(v.currentTime);
+    const onLoadedMetadata = () => setDurationSec(v.duration);
+    const onPlay = () => setPaused(false);
+    const onPause = () => setPaused(true);
+    const onRateChange = () => setSpeed(v.playbackRate);
+    const onVolumeChange = () => setMuted(v.muted);
+
+    v.addEventListener('timeupdate', onTimeUpdate);
+    v.addEventListener('loadedmetadata', onLoadedMetadata);
+    v.addEventListener('play', onPlay);
+    v.addEventListener('pause', onPause);
+    v.addEventListener('ratechange', onRateChange);
+    v.addEventListener('volumechange', onVolumeChange);
+
+    return () => {
+      v.removeEventListener('timeupdate', onTimeUpdate);
+      v.removeEventListener('loadedmetadata', onLoadedMetadata);
+      v.removeEventListener('play', onPlay);
+      v.removeEventListener('pause', onPause);
+      v.removeEventListener('ratechange', onRateChange);
+      v.removeEventListener('volumechange', onVolumeChange);
+    };
+  }, [isWeb]);
+
   if (!valid) {
     return (
       <Screen scroll contentStyle={styles.container}>
@@ -195,15 +249,31 @@ export default function VideoLessonPlayerScreen({ route, navigation }) {
       </View>
 
       <View style={styles.playerArea}>
-        <WebView
-          ref={webRef}
-          originWhitelist={['*']}
-          source={{ html }}
-          allowsInlineMediaPlayback
-          mediaPlaybackRequiresUserAction={false}
-          injectedJavaScript={BRIDGE_JS}
-          onMessage={handleMessage}
-        />
+        {isWeb ? (
+          <div style={{ width: '100%', height: '100%', background: '#000', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ padding: '8px 16px', color: '#dbeafe', fontSize: '14px', background: 'rgba(0,0,0,0.4)', fontWeight: '700' }}>
+              {title}
+            </div>
+            <video
+              ref={videoRef}
+              src={videoUrl}
+              poster={posterUrl}
+              controls
+              playsInline
+              style={{ flex: 1, width: '100%', outline: 'none' }}
+            />
+          </div>
+        ) : (
+          <WebView
+            ref={webRef}
+            originWhitelist={['*']}
+            source={{ html }}
+            allowsInlineMediaPlayback
+            mediaPlaybackRequiresUserAction={false}
+            injectedJavaScript={BRIDGE_JS}
+            onMessage={handleMessage}
+          />
+        )}
       </View>
 
       <ScrollView style={styles.bottomPanel} contentContainerStyle={styles.bottomContent}>

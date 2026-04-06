@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { Text, StyleSheet, View, TextInput } from 'react-native';
-import Voice from '@react-native-voice/voice';
+import voiceEngine from '../utils/speechRecognition';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
@@ -102,10 +102,10 @@ export default function SpeakingMockInterviewScreen({ navigation }) {
   }, [index]);
 
   useEffect(() => {
-    Voice.onSpeechStart = () => setIsRecording(true);
-    Voice.onSpeechEnd = () => setIsRecording(false);
-    Voice.onSpeechError = () => setIsRecording(false);
-    Voice.onSpeechResults = (e) => {
+    voiceEngine.onSpeechStart = () => setIsRecording(true);
+    voiceEngine.onSpeechEnd = () => setIsRecording(false);
+    voiceEngine.onSpeechError = () => setIsRecording(false);
+    voiceEngine.onSpeechResults = (e) => {
       const text = pickBestSpeechResult(e?.value);
       if (!text) return;
       setAnswers((prev) => {
@@ -114,7 +114,7 @@ export default function SpeakingMockInterviewScreen({ navigation }) {
       });
     };
     return () => {
-      Voice.destroy().then(Voice.removeAllListeners);
+      voiceEngine.destroy().then(voiceEngine.removeAllListeners);
     };
   }, [index]);
 
@@ -153,11 +153,11 @@ export default function SpeakingMockInterviewScreen({ navigation }) {
   const toggleRecording = async () => {
     if (isTimeUp || done) return;
     if (isRecording) {
-      try { await Voice.stop(); } catch (_) { }
+      try { await voiceEngine.stop(); } catch (_) { }
       return;
     }
     try {
-      await Voice.start('en-US');
+      await voiceEngine.start('en-US');
     } catch (_) { }
   };
 

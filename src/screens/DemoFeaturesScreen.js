@@ -3,7 +3,7 @@ import { Alert, View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput,
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Card from '../components/Card';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import Screen from '../components/Screen';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
@@ -612,7 +612,7 @@ export default function DemoFeaturesScreen() {
     );
 
     return (
-        <SafeAreaView style={styles.container}>
+        <Screen scroll animate contentStyle={styles.container}>
             {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
@@ -1050,7 +1050,7 @@ export default function DemoFeaturesScreen() {
                 ))}
             </ScrollView>
 
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.scrollContent, isWide && styles.scrollGrid]}>
+            <View style={[styles.scrollContent, isWide && styles.scrollGrid]}>
                 {!listReady && filtered.length > visibleModules.length ? (
                     <View style={styles.loadingHint}>
                         <Ionicons name="hourglass-outline" size={16} color={colors.muted} />
@@ -1138,8 +1138,8 @@ export default function DemoFeaturesScreen() {
                 ))}
 
                 <View style={styles.listSpacer} />
-            </ScrollView>
-        </SafeAreaView>
+            </View>
+        </Screen>
     );
 }
 

@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import {
   View, Text, StyleSheet, TextInput, ScrollView,
   KeyboardAvoidingView, Platform, TouchableOpacity,
-  ActivityIndicator, Animated, Dimensions
+  ActivityIndicator, Animated, useWindowDimensions
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Screen from '../components/Screen';
@@ -12,7 +12,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { isChatApiConfigured, requestChatbotReply } from '../utils/chatbotAI';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
 
-const { width } = Dimensions.get('window');
 const CHAT_STATE_KEY = '@chatbot_state_v1';
 const DEFAULT_CHIPS = ["📝 Essay Help", "📖 Reading Skills", "🎧 Listening", "📚 Grammar", "Find Synonyms", "🧠 Vocab Quiz"];
 const WELCOME_MESSAGE = "👋 Welcome to the **BUEPT AI Coach**!\n\nI can help you with:\n• 📝 Essay structure and thesis building\n• 📖 Reading strategies and question logic\n• 🎧 Listening note-taking and podcasts\n• 📚 Grammar explanations\n• 🧠 Vocabulary quizzes and synonym work\n• 🛠️ Tool shortcuts like OCR, Presentation Prep, and Lesson Video\n\nWhat do you want to work on first?";
@@ -619,6 +618,7 @@ function applyAssistantMode(text, mode) {
 // Component
 // ─────────────────────────────────────────────────────────────────────────────
 export default function ChatbotScreen({ navigation }) {
+  const { width } = useWindowDimensions();
   const [messages, setMessages] = useState([
     {
       id: '1', role: 'ai',
@@ -873,7 +873,7 @@ export default function ChatbotScreen({ navigation }) {
         ))}
       </ScrollView>
 
-      <KeyboardAvoidingView style={styles.keyboardAvoid} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <KeyboardAvoidingView style={[styles.keyboardAvoid, { width: width }]} enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView ref={scrollRef} contentContainerStyle={styles.chatScroll} showsVerticalScrollIndicator={false}>
           <Text style={styles.timestampDivider}>BUEPT AI Coach · v2.0</Text>
 
@@ -1087,7 +1087,7 @@ const styles = StyleSheet.create({
   sendBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center', ...shadow.sm },
   sendBtnDisabled: { backgroundColor: '#CBD5E0', shadowOpacity: 0 },
 
-  artifactOverlay: { position: 'absolute', top: 0, right: 0, bottom: 0, width: width * 0.87, backgroundColor: '#fff', ...shadow.lg, borderLeftWidth: 1, borderLeftColor: 'rgba(0,0,0,0.08)', zIndex: 1000, paddingTop: Platform.OS === 'ios' ? 56 : 16 },
+  artifactOverlay: { position: 'absolute', top: 0, right: 0, bottom: 0, backgroundColor: '#fff', ...shadow.lg, borderLeftWidth: 1, borderLeftColor: 'rgba(0,0,0,0.08)', zIndex: 1000, paddingTop: Platform.OS === 'ios' ? 56 : 16 },
   artifactHeader: { flexDirection: 'row', alignItems: 'center', padding: spacing.lg, borderBottomWidth: 1, borderBottomColor: '#F1F5F9' },
   artifactIcon: { marginRight: 8 },
   artifactTitle: { flex: 1, fontSize: 16, fontWeight: '800', color: colors.primaryDark },

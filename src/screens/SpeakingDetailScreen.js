@@ -3,7 +3,7 @@ import {
     View, Text, StyleSheet, TouchableOpacity,
     TextInput, Alert, Platform, PermissionsAndroid
 } from 'react-native';
-import Voice from '@react-native-voice/voice';
+import voiceEngine from '../utils/speechRecognition';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
@@ -150,20 +150,20 @@ export default function SpeakingDetailScreen({ route }) {
     const ttsResetRef = useRef(null);
 
     React.useEffect(() => {
-        // @react-native-voice/voice v3.x — direkt property ataması
-        Voice.onSpeechStart = () => setIsRecording(true);
-        Voice.onSpeechEnd = () => setIsRecording(false);
-        Voice.onSpeechPartialResults = (e) => {
+        // voiceEngine v3.x — direkt property ataması
+        voiceEngine.onSpeechStart = () => setIsRecording(true);
+        voiceEngine.onSpeechEnd = () => setIsRecording(false);
+        voiceEngine.onSpeechPartialResults = (e) => {
             // Partial sonuçları da yakala — daha anlık hissettiriri
             const partial = pickBestSpeechResult(e?.value);
             if (partial) setNotes((prev) => mergeSpeechText(prev, partial));
         };
-        Voice.onSpeechResults = (e) => {
+        voiceEngine.onSpeechResults = (e) => {
             const recognized = pickBestSpeechResult(e?.value);
             if (!recognized) return;
             setNotes((prev) => mergeSpeechText(prev, recognized));
         };
-        Voice.onSpeechError = (e) => {
+        voiceEngine.onSpeechError = (e) => {
             setIsRecording(false);
             const code = String(e?.error?.code || e?.error?.message || '');
             // 7 = No match (konuşma anlaşılmadı), 5 = Client side error — bunlar normal
@@ -178,7 +178,7 @@ export default function SpeakingDetailScreen({ route }) {
         };
 
         return () => {
-            Voice.destroy().then(() => Voice.removeAllListeners()).catch(() => {});
+            voiceEngine.destroy().then(() => voiceEngine.removeAllListeners()).catch(() => {});
             if (ttsResetRef.current) clearTimeout(ttsResetRef.current);
             stopEnglishTts();
         };
@@ -187,7 +187,7 @@ export default function SpeakingDetailScreen({ route }) {
     const toggleRecording = async () => {
         if (isRecording) {
             try {
-                await Voice.stop();
+                await voiceEngine.stop();
                 setIsRecording(false);
             } catch (e) {
                 console.warn('[Voice] Stop error:', e);
@@ -202,8 +202,8 @@ export default function SpeakingDetailScreen({ route }) {
 
         try {
             // Önceki oturumu temizle
-            try { await Voice.destroy(); } catch (_) {}
-            await Voice.start('en-US');
+            try { await voiceEngine.destroy(); } catch (_) {}
+            await voiceEngine.start('en-US');
         } catch (e) {
             console.warn('[Voice] Start error:', e);
             setIsRecording(false);

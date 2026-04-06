@@ -395,7 +395,7 @@ export default function InteractiveVocabularyScreen({ navigation, route }) {
                 </View>
             </Card>
 
-            <KeyboardAvoidingView style={styles.keyboard} behavior={Platform.OS === 'ios' ? 'padding' : null}>
+            <KeyboardAvoidingView style={styles.keyboard} enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : null}>
                 <View style={styles.searchWrap}>
                     <View style={styles.searchInputContainer}>
                         <Ionicons name="search" size={20} color={colors.muted} style={styles.searchIcon} />

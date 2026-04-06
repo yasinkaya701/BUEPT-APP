@@ -1,13 +1,11 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Animated, Easing, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Animated, Easing, useWindowDimensions } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import { colors, spacing, typography, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const TRANSITION_WORDS = ['furthermore', 'moreover', 'however', 'therefore', 'consequently', 'nevertheless', 'in addition', 'on the other hand', 'thus', 'subsequently', 'in contrast', 'significantly', 'notably', 'conversely', 'as a result', 'in particular', 'typically', 'generally', 'to illustrate'];
 const ACADEMIC_WORDS = ['analyze', 'evaluate', 'synthesize', 'methodology', 'hypothesis', 'empirical', 'theoretical', 'paradigm', 'implication', 'comprehensive', 'validate', 'correlation', 'ambiguous', 'facilitate', 'perspective', 'framework', 'sustain', 'innovation', 'phenomenon', 'fundamental', 'transform', 'substantial', 'capacity', 'integrate', 'diminish', 'proponent', 'advocate', 'mitigate'];
@@ -184,6 +182,7 @@ const ProgressBar = ({ label, value, max = 10, color }) => {
 };
 
 export default function EssayEvaluationScreen({ navigation }) {
+    const { width: SCREEN_WIDTH } = useWindowDimensions();
     const [essay, setEssay] = useState('');
     const [isEvaluating, setIsEvaluating] = useState(false);
     const [result, setResult] = useState(null);
@@ -243,7 +242,7 @@ export default function EssayEvaluationScreen({ navigation }) {
                 </TouchableOpacity>
             </View>
 
-            <KeyboardAvoidingView style={styles.keyboard} behavior={Platform.OS === 'ios' ? 'padding' : null}>
+            <KeyboardAvoidingView style={styles.keyboard} enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : null}>
                 <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
                     
                     {!result && !isEvaluating ? (
@@ -299,7 +298,7 @@ export default function EssayEvaluationScreen({ navigation }) {
                                 <View style={styles.scoreRow}>
                                     <View>
                                         <Text style={styles.scoreTitle}>Overall Band</Text>
-                                        <Text style={styles.scoreSummary} numberOfLines={3}>{result.summary}</Text>
+                                        <Text style={[styles.scoreSummary, { maxWidth: SCREEN_WIDTH - 160 }]} numberOfLines={3}>{result.summary}</Text>
                                     </View>
                                     <View style={[styles.bandBadge, backgroundColorStyle(result.bandColor)]}>
                                         <Text style={styles.bandLetter}>{result.band}</Text>
@@ -562,7 +561,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#334155',
         lineHeight: 22,
-        maxWidth: SCREEN_WIDTH - 160,
     },
     bandBadge: {
         width: 72,

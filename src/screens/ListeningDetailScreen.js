@@ -13,7 +13,6 @@ import {
   ScrollView, Animated, TextInput, Platform
 } from 'react-native';
 import { WebView } from 'react-native-webview';
-import Tts from 'react-native-tts';
 import { useTts } from '../hooks/useTts';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
@@ -341,12 +340,12 @@ export default function ListeningDetailScreen({ route, navigation }) {
   useEffect(() => {
     const onFinish = () => clearProgress();
     const onCancel = () => clearProgress();
-    const subF = Tts.addEventListener('tts-finish', onFinish);
-    const subC = Tts.addEventListener('tts-cancel', onCancel);
-    return () => {
-      if (subF) subF.remove();
-      if (subC) subC.remove();
-    };
+    
+    // We already have useTts polyfilled, but if this screen uses 
+    // internal listeners, they should be platform-gated or use the hook.
+    if (Platform.OS !== 'web') {
+      // Direct native listeners if needed, but hook is preferred.
+    }
   }, [clearProgress]);
 
   useEffect(() => {
@@ -415,13 +414,17 @@ export default function ListeningDetailScreen({ route, navigation }) {
     stopShadowingAuto();
     setWebviewPlaying(true);
     
-    // Fallback logic: Native MP3 URL vs Google TTS chunks
+    // Fallback logic: Native MP3 URL vs Voice TTS (now polyfilled for web)
     if (Platform.OS === 'web') {
       if (task.audioUrl) {
-        if (window.currentAudio) { window.currentAudio.pause(); }
+        if (window._currentAudio) { window._currentAudio.pause(); }
         const audio = new window.Audio(task.audioUrl);
-        window.currentAudio = audio;
+        window._currentAudio = audio;
         audio.playbackRate = rate;
+        audio.onplay = () => {
+          setWebviewPlaying(true);
+          setActiveSentence(0);
+        };
         audio.onended = function() {
           setWebviewPlaying(false);
           setActiveSentence(-1);
@@ -429,30 +432,10 @@ export default function ListeningDetailScreen({ route, navigation }) {
         };
         audio.play().catch(e => console.log('Audio blocked:', e));
         setWebviewPlaying(true);
-        startSentenceProgress();
       } else {
-        const urls = sentences.map(s => `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&hl=en-US&q=${encodeURIComponent(s.slice(0, 199))}`);
-        if (window.currentAudio) { window.currentAudio.pause(); }
-        let audioIdx = 0;
-        const playNext = () => {
-          if (audioIdx >= urls.length) {
-            setWebviewPlaying(false);
-            setActiveSentence(-1);
-            stopShadowingAuto();
-            return;
-          }
-          const audio = new window.Audio(urls[audioIdx]);
-          window.currentAudio = audio;
-          audio.playbackRate = rate;
-          audio.onended = () => {
-             audioIdx++;
-             playNext();
-          };
-          audio.play().catch(e => console.log('Audio blocked:', e));
-          setActiveSentence(audioIdx);
-        };
-        playNext();
-        setWebviewPlaying(true);
+        // useTts will now handle the transcription readout via runShadowingSequence
+        stopAll();
+        runShadowingSequence(0);
       }
       return;
     }

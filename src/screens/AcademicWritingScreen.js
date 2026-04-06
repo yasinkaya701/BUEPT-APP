@@ -74,7 +74,7 @@ In conclusion, the evidence strongly supports the assertion that ${stance.toLowe
                 </View>
             </View>
 
-            <KeyboardAvoidingView style={styles.flexFill} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+            <KeyboardAvoidingView style={styles.flexFill} enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
                 <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
 
                     <Card style={styles.builderCard}>

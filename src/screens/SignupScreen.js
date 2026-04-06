@@ -35,7 +35,7 @@ export default function SignupScreen({ navigation }) {
                 <Text style={styles.headerText}>Create Account</Text>
             </View>
 
-            <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+            <KeyboardAvoidingView style={styles.flex} enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
                 <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
 
                     <Text style={styles.inputLabel}>Full Name</Text>

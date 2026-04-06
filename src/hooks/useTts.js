@@ -6,6 +6,7 @@
  * calling Tts directly to avoid race conditions.
  */
 import { useEffect, useRef, useCallback, useState } from 'react';
+import { Platform } from 'react-native';
 import Tts from 'react-native-tts';
 
 let _initialized = false;
@@ -13,11 +14,70 @@ let _initPromise = null;
 let _englishVoiceAvailable = false;
 let _missingVoiceNoticeLogged = false;
 
+const isWeb = Platform.OS === 'web';
+
+/**
+ * Web Speech Synthesis implementation
+ */
+const WebTts = {
+    speak: (text, options = {}) => {
+        if (!window.speechSynthesis) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = options.rate || 0.8;
+        utterance.pitch = 1.0;
+        utterance.lang = 'en-US';
+
+        // Attempt to find a natural English voice
+        const voices = window.speechSynthesis.getVoices();
+        const bestVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google')) ||
+                         voices.find(v => v.lang.startsWith('en')) ||
+                         voices[0];
+        if (bestVoice) utterance.voice = bestVoice;
+
+        utterance.onstart = () => {
+            window.dispatchEvent(new CustomEvent('tts-start'));
+        };
+        utterance.onend = () => {
+            window.dispatchEvent(new CustomEvent('tts-finish'));
+        };
+        utterance.onerror = () => {
+            window.dispatchEvent(new CustomEvent('tts-error'));
+        };
+
+        window.speechSynthesis.speak(utterance);
+    },
+    stop: () => {
+        if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+            window.dispatchEvent(new CustomEvent('tts-cancel'));
+        }
+    },
+    voices: async () => {
+        if (!window.speechSynthesis) return [];
+        return window.speechSynthesis.getVoices().map(v => ({
+            id: v.name,
+            name: v.name,
+            language: v.lang,
+        }));
+    },
+    addEventListener: (event, cb) => {
+        const handler = () => cb();
+        window.addEventListener(event, handler);
+        return { remove: () => window.removeEventListener(event, handler) };
+    }
+};
+
+const ttsEngine = isWeb ? WebTts : Tts;
+
 /** Call once to initialise TTS engine. Safe to call multiple times. */
 async function ensureInit() {
     if (_initialized) return;
     if (_initPromise) return _initPromise;
     _initPromise = (async () => {
+        if (isWeb) {
+            _initialized = true;
+            return;
+        }
         try {
             await Tts.getInitStatus();
             await Tts.setDefaultLanguage('en-US');
@@ -46,6 +106,7 @@ async function forceEnglish() {
  */
 // iOS'ta yüklü olan İngilizce sesleri arar
 async function findBestEnglishVoiceId() {
+    if (isWeb) return 'web-default';
     try {
         const list = await Tts.voices();
         const EN_PREFERRED = [
@@ -75,13 +136,13 @@ export async function speakText(text, customOptions = {}) {
     if (!text?.trim()) return;
     try {
         await ensureInit();
-        try { Tts.stop(); } catch (_) { }
+        try { ttsEngine.stop(); } catch (_) { }
         await new Promise(r => setTimeout(r, 60));
 
         const rate = customOptions.rate || 0.45;
         // Her seferinde dili en-US'e çek — cihazın dili Türkçe olsa bile
-        await Tts.setDefaultLanguage('en-US');
-        try { await Tts.setDefaultRate(rate); } catch (_) { }
+        if (!isWeb) await Tts.setDefaultLanguage('en-US');
+        try { if (!isWeb) await Tts.setDefaultRate(rate); } catch (_) { }
 
         // En iyi İngilizce voice'u bul (veya sabit Samantha ID'lerini dene)
         let voiceId = customOptions.iosVoiceId;
@@ -111,7 +172,7 @@ export async function speakText(text, customOptions = {}) {
             speakOptions.iosVoiceId = fallbackIds[0];
         }
 
-        Tts.speak(text.trim(), speakOptions);
+        ttsEngine.speak(text.trim(), speakOptions);
     } catch (_) {
         // Sessizce geç — TTS kritik değil
     }
@@ -134,7 +195,7 @@ export function useTts() {
 
         ensureInit().then(() => {
             if (!mounted) return;
-            Tts.voices().then(list => {
+            ttsEngine.voices().then(list => {
                 if (!mounted) return;
                 const en = (list || []).filter(
                     v => {
@@ -155,8 +216,8 @@ export function useTts() {
                 if (best?.id) {
                     setVoiceIdState(best.id);
                     try { 
-                        Tts.setDefaultVoice(best.id); 
-                        Tts.setDefaultLanguage('en-US');
+                        if (!isWeb) Tts.setDefaultVoice(best.id); 
+                        if (!isWeb) Tts.setDefaultLanguage('en-US');
                     } catch (_) { }
                 }
             }).catch(() => { });
@@ -167,15 +228,15 @@ export function useTts() {
         const onCancel = () => setIsPlaying(false);
         const onError = () => setIsPlaying(false);
 
-        const subStart = Tts.addEventListener('tts-start', onStart);
-        const subFinish = Tts.addEventListener('tts-finish', onFinish);
-        const subCancel = Tts.addEventListener('tts-cancel', onCancel);
+        const subStart = ttsEngine.addEventListener('tts-start', onStart);
+        const subFinish = ttsEngine.addEventListener('tts-finish', onFinish);
+        const subCancel = ttsEngine.addEventListener('tts-cancel', onCancel);
 
         cleanupRef.current = [onStart, onFinish, onCancel, onError];
 
         return () => {
             mounted = false;
-            try { Tts.stop(); } catch (_) { }
+            try { ttsEngine.stop(); } catch (_) { }
             if (subStart) subStart.remove();
             if (subFinish) subFinish.remove();
             if (subCancel) subCancel.remove();
@@ -188,13 +249,13 @@ export function useTts() {
         const currentId = _speakId.current;
         try {
             await ensureInit();
-            try { Tts.stop(); } catch (_) { }
+            try { ttsEngine.stop(); } catch (_) { }
             await new Promise(r => setTimeout(r, 60));
             if (_speakId.current !== currentId) return;
 
             // Her seferinde dili İngilizce'ye çek
-            await Tts.setDefaultLanguage('en-US');
-            try { await Tts.setDefaultRate(rate); } catch (_) { }
+            if (!isWeb) await Tts.setDefaultLanguage('en-US');
+            try { if (!isWeb) await Tts.setDefaultRate(rate); } catch (_) { }
 
             // En iyi yüklü İngilizce sesi bul
             let bestId = voiceId;
@@ -206,31 +267,31 @@ export function useTts() {
             options.iosVoiceId = bestId || 'com.apple.ttsbundle.Samantha-compact';
 
             if (!bestId && !_englishVoiceAvailable) {
-                if (!_missingVoiceNoticeLogged) {
+                if (!_missingVoiceNoticeLogged && !isWeb) {
                     _missingVoiceNoticeLogged = true;
                     console.log('[TTS] No installed English voice found. Install an English voice in iOS Settings > Accessibility > Spoken Content.');
                 }
             }
-            Tts.speak(text.trim(), options);
+            ttsEngine.speak(text.trim(), options);
         } catch (_) { }
     }, [rate, voiceId]);
 
     const stopAll = useCallback(() => {
         _speakId.current += 1;
-        try { Tts.stop(); } catch (_) { }
+        try { ttsEngine.stop(); } catch (_) { }
         setIsPlaying(false);
     }, []);
 
     const setRate = useCallback((r) => {
         setRateState(r);
-        try { Tts.setDefaultRate(r); } catch (_) { }
+        try { if (!isWeb) Tts.setDefaultRate(r); } catch (_) { }
     }, []);
 
     const setVoiceId = useCallback((id) => {
         setVoiceIdState(id);
         try {
-            Tts.setDefaultVoice(id);
-            Tts.setDefaultLanguage('en-US'); // Setting voice requires language reset on iOS
+            if (!isWeb) Tts.setDefaultVoice(id);
+            if (!isWeb) Tts.setDefaultLanguage('en-US'); // Setting voice requires language reset on iOS
         } catch (_) { }
     }, []);
 

@@ -168,7 +168,7 @@ export default function PlagiarismCheckerScreen({ navigation }) {
                 </View>
             </View>
 
-            <KeyboardAvoidingView style={styles.keyboard} behavior={Platform.OS === 'ios' ? 'padding' : null}>
+            <KeyboardAvoidingView style={styles.keyboard} enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : null}>
                 <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
                     <Card style={styles.heroCard}>
                         <View style={styles.heroHead}>

@@ -219,3 +219,1085 @@ Development-level warnings: ON.
 Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
 [ 3981404ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
 [ 3981408ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 4391137ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 4391279ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 4391280ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 4391290ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 4391290ms] [WARNING] [HMR] Error: Aborted because ./src/components/Screen.js is not accepted
+Update propagation: ./src/components/Screen.js -> ./src/screens/ReadingDetailScreen.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9860:31)
+    at http://127.0.0.1:8090/app.js:9566:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9565:54)
+    at http://127.0.0.1:8090/app.js:9536:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9490:48)
+    at http://127.0.0.1:8090/app.js:9534:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 4391602ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 4391603ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 4391635ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 4391676ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 4391711ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 4391725ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 4391728ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 6874908ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 6875236ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 6875236ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 6875249ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 6875249ms] [LOG] [HMR]  - ./src/screens/ListeningDetailScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 6875249ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 6894428ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 6894738ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 6894738ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 6894747ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 6894747ms] [LOG] [HMR]  - ./src/screens/ListeningDetailScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 6894747ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 6944199ms] [INFO] [webpack-dev-server] "/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/web-rnw/dist/index.html" from static directory was changed. Reloading... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 6944525ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 6944526ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 6944555ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 6944596ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 6944630ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 6944644ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 6944648ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7100243ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7100860ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7100860ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR]  - ./src/screens/AcademicWritingScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR]  - ./src/screens/ChatbotScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR]  - ./src/screens/DiscussionForumsScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR]  - ./src/screens/EmailTemplateDesignerScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR]  - ./src/screens/EssayEvaluationScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR]  - ./src/screens/InteractiveVocabularyScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR]  - ./src/screens/LectureListeningLabScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR]  - ./src/screens/LiveClassesScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR]  - ./src/screens/LoginScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR]  - ./src/screens/PlagiarismCheckerScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR]  - ./src/screens/SignupScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR]  - ./src/screens/WritingEditorScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7100880ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7113324ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7113474ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7113474ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7113488ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7113488ms] [WARNING] [HMR] Error: Aborted because ./src/screens/CreateFlashcardDeckScreen.js is not accepted
+Update propagation: ./src/screens/CreateFlashcardDeckScreen.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9860:31)
+    at http://127.0.0.1:8090/app.js:9566:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9565:54)
+    at http://127.0.0.1:8090/app.js:9536:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9490:48)
+    at http://127.0.0.1:8090/app.js:9534:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7113829ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7113829ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7113859ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 7113902ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7113934ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 7113947ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7113951ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7135873ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7135986ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7135986ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7135997ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7135997ms] [WARNING] [HMR] Error: Aborted because ./src/screens/SplashAnimationScreen.js is not accepted
+Update propagation: ./src/screens/SplashAnimationScreen.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9860:31)
+    at http://127.0.0.1:8090/app.js:9566:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9565:54)
+    at http://127.0.0.1:8090/app.js:9536:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9490:48)
+    at http://127.0.0.1:8090/app.js:9534:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7136298ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7136298ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7136328ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 7136368ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7136404ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 7136419ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7136429ms] [ERROR] %o
+
+%s
+
+%s
+ TypeError: Cannot read properties of undefined (reading 'container')
+    at SplashAnimationScreen (webpack://BUEPTApp/./src/screens/SplashAnimationScreen.js?:1:4923)
+    at Object.react_stack_bottom_frame (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:25903:20)
+    at renderWithHooks (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:7661:22)
+    at updateFunctionComponent (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:10165:19)
+    at beginWork (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:11777:18)
+    at runWithFiberInDEV (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:871:30)
+    at performUnitOfWork (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:17640:22)
+    at workLoopSync (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:17468:41)
+    at renderRootSync (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:17449:11)
+    at performWorkOnRoot (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:16582:35) The above error occurred in the <SplashAnimationScreen> component. React will try to recreate this component tree from scratch using the error boundary you provided, AppErrorBoundary. @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:9408
+[ 7136429ms] [ERROR] [AppErrorBoundary] TypeError: Cannot read properties of undefined (reading 'container')
+    at SplashAnimationScreen (webpack://BUEPTApp/./src/screens/SplashAnimationScreen.js?:1:4923)
+    at Object.react_stack_bottom_frame (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:25903:20)
+    at renderWithHooks (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:7661:22)
+    at updateFunctionComponent (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:10165:19)
+    at beginWork (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:11777:18)
+    at runWithFiberInDEV (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:871:30)
+    at performUnitOfWork (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:17640:22)
+    at workLoopSync (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:17468:41)
+    at renderRootSync (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:17449:11)
+    at performWorkOnRoot (webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:16582:35) last_smoke_step= n/a @ webpack://BUEPTApp/./src/components/AppErrorBoundary.js?:0
+[ 7137902ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7138016ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7138016ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7138027ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7138027ms] [WARNING] [HMR] Error: Aborted because ./src/screens/SplashAnimationScreen.js is not accepted
+Update propagation: ./src/screens/SplashAnimationScreen.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9860:31)
+    at http://127.0.0.1:8090/app.js:9566:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9565:54)
+    at http://127.0.0.1:8090/app.js:9536:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9490:48)
+    at http://127.0.0.1:8090/app.js:9534:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7138320ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7138323ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7138353ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 7138393ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7138428ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 7138443ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7138446ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7151724ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7151902ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7151902ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7151922ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7151922ms] [LOG] [HMR]  - ./src/screens/ChatbotScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7151922ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7153808ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7153946ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7153946ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7153953ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7153953ms] [LOG] [HMR]  - ./src/screens/EssayEvaluationScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7153953ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7189443ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7189548ms] [ERROR] [webpack-dev-server] Errors while compiling. Reload prevented. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7189548ms] [ERROR] [webpack-dev-server] ERROR in ./src/screens/ChatbotScreen.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/src/screens/ChatbotScreen.js: Identifier 'width' has already been declared. (622:10)
+
+  620 | export default function ChatbotScreen({ navigation }) {
+  621 |   const { width } = useWindowDimensions();
+> 622 |   const { width } = useWindowDimensions();
+      |           ^
+  623 |   const [messages, setMessages] = useState([
+  624 |     {
+  625 |       id: '1', role: 'ai',
+    at constructor (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:365:19)
+    at FlowParserMixin.raise (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6599:19)
+    at FlowScopeHandler.checkRedeclarationInScope (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1619:19)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1585:12)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1686:11)
+    at FlowParserMixin.declareNameFromIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7567:16)
+    at FlowParserMixin.checkIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7563:12)
+    at FlowParserMixin.checkLVal (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7500:12)
+    at FlowParserMixin.checkLVal (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7544:12)
+    at FlowParserMixin.checkLVal (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7540:16)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13412:10)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3474:11)
+    at FlowParserMixin.parseVar (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13383:12)
+    at FlowParserMixin.parseVarStatement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13230:10)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12851:23)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseStatementListItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12747:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:61)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseBlock (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13297:10)
+    at FlowParserMixin.parseFunctionBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12100:24)
+    at FlowParserMixin.parseFunctionBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2895:11)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12086:10)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2903:18)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13445:12
+    at FlowParserMixin.withSmartMixTopicForbiddingContext (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12403:14)
+    at FlowParserMixin.parseFunction (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13444:10)
+    at FlowParserMixin.parseExportDefaultExpression (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13907:19)
+    at FlowParserMixin.parseExportDefaultExpression (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2966:18)
+    at FlowParserMixin.parseExport (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13828:25)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12878:27)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseProgram (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3685:28)
+    at FlowParserMixin.parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14488:25)
+    at parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14522:38)
+    at parser (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>) @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7190819ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7190999ms] [ERROR] [webpack-dev-server] Errors while compiling. Reload prevented. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7190999ms] [ERROR] [webpack-dev-server] ERROR in ./src/screens/ChatbotScreen.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/src/screens/ChatbotScreen.js: Identifier 'width' has already been declared. (622:10)
+
+  620 | export default function ChatbotScreen({ navigation }) {
+  621 |   const { width } = useWindowDimensions();
+> 622 |   const { width } = useWindowDimensions();
+      |           ^
+  623 |   const [messages, setMessages] = useState([
+  624 |     {
+  625 |       id: '1', role: 'ai',
+    at constructor (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:365:19)
+    at FlowParserMixin.raise (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6599:19)
+    at FlowScopeHandler.checkRedeclarationInScope (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1619:19)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1585:12)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1686:11)
+    at FlowParserMixin.declareNameFromIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7567:16)
+    at FlowParserMixin.checkIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7563:12)
+    at FlowParserMixin.checkLVal (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7500:12)
+    at FlowParserMixin.checkLVal (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7544:12)
+    at FlowParserMixin.checkLVal (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7540:16)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13412:10)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3474:11)
+    at FlowParserMixin.parseVar (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13383:12)
+    at FlowParserMixin.parseVarStatement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13230:10)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12851:23)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseStatementListItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12747:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:61)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseBlock (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13297:10)
+    at FlowParserMixin.parseFunctionBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12100:24)
+    at FlowParserMixin.parseFunctionBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2895:11)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12086:10)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2903:18)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13445:12
+    at FlowParserMixin.withSmartMixTopicForbiddingContext (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12403:14)
+    at FlowParserMixin.parseFunction (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13444:10)
+    at FlowParserMixin.parseExportDefaultExpression (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13907:19)
+    at FlowParserMixin.parseExportDefaultExpression (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2966:18)
+    at FlowParserMixin.parseExport (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13828:25)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12878:27)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseProgram (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3685:28)
+    at FlowParserMixin.parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14488:25)
+    at parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14522:38)
+    at parser (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>) @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7202426ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7202614ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7202614ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7202630ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8090/app.a9852bf714444dd4c2f6.hot-update.json:0
+[ 7202631ms] [WARNING] [HMR] Cannot find update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7202631ms] [WARNING] [HMR] (Probably because of restarting the webpack-dev-server) @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7202937ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7202938ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7202966ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 7203007ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7203043ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 7203056ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7203060ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7362182ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7362346ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7362346ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7362361ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7362361ms] [LOG] [HMR]  - ./src/screens/PodcastScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7362361ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7374882ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7375007ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7375007ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7375024ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7375024ms] [LOG] [HMR]  - ./src/screens/LanguageExchangeMatchingScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7375024ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7406727ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7406877ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7406877ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7406895ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7406895ms] [LOG] [HMR]  - ./src/screens/VideoLessonPlayerScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7406895ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7515832ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7515949ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7515949ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7515961ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7515961ms] [WARNING] [HMR] Error: Aborted because ./src/components/Screen.js is not accepted
+Update propagation: ./src/components/Screen.js -> ./src/screens/GrammarScreen.js -> ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9860:31)
+    at http://127.0.0.1:8090/app.js:9566:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9565:54)
+    at http://127.0.0.1:8090/app.js:9536:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9490:48)
+    at http://127.0.0.1:8090/app.js:9534:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7516256ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7516257ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7516285ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 7516328ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7516365ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 7516379ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7516383ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7533240ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7533346ms] [ERROR] [webpack-dev-server] Errors while compiling. Reload prevented. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7533346ms] [ERROR] [webpack-dev-server] ERROR in ./src/screens/DemoFeaturesScreen.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/src/screens/DemoFeaturesScreen.js: Expected corresponding JSX closing tag for <ScrollView>. (1051:12)
+
+  1049 |                     </TouchableOpacity>
+  1050 |                 ))}
+> 1051 |             </View>
+       |             ^
+  1052 |
+  1053 |             <View style={[styles.scrollContent, isWide && styles.scrollGrid]}>
+  1054 |                 {!listReady && filtered.length > visibleModules.length ? (
+    at constructor (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:365:19)
+    at FlowParserMixin.raise (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6599:19)
+    at FlowParserMixin.jsxParseElementAt (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4727:16)
+    at FlowParserMixin.jsxParseElementAt (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4698:32)
+    at FlowParserMixin.jsxParseElement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4749:17)
+    at FlowParserMixin.parseExprAtom (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4759:19)
+    at FlowParserMixin.parseExprSubscripts (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11081:23)
+    at FlowParserMixin.parseUpdate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11066:21)
+    at FlowParserMixin.parseMaybeUnary (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11046:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10899:61)
+    at FlowParserMixin.parseExprOps (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10904:23)
+    at FlowParserMixin.parseMaybeConditional (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10881:23)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10831:21)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3498:39
+    at FlowParserMixin.tryParse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6907:20)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3498:18)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10800:39
+    at FlowParserMixin.allowInAnd (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12426:12)
+    at FlowParserMixin.parseMaybeAssignAllowIn (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10800:17)
+    at FlowParserMixin.parseMaybeAssignAllowInOrVoidPattern (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12493:17)
+    at FlowParserMixin.parseParenAndDistinguishExpression (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11675:28)
+    at FlowParserMixin.parseParenAndDistinguishExpression (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3591:18)
+    at FlowParserMixin.parseExprAtom (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11331:23)
+    at FlowParserMixin.parseExprAtom (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4764:20)
+    at FlowParserMixin.parseExprSubscripts (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11081:23)
+    at FlowParserMixin.parseUpdate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11066:21)
+    at FlowParserMixin.parseMaybeUnary (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11046:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10899:61)
+    at FlowParserMixin.parseExprOps (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10904:23)
+    at FlowParserMixin.parseMaybeConditional (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10881:23)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10831:21)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3549:18)
+    at FlowParserMixin.parseExpressionBase (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10784:23)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10780:39
+    at FlowParserMixin.allowInAnd (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12421:16)
+    at FlowParserMixin.parseExpression (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10780:17)
+    at FlowParserMixin.parseReturnStatement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13142:28)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12798:21)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseStatementListItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12747:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:61)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseBlock (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13297:10)
+    at FlowParserMixin.parseFunctionBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12100:24)
+    at FlowParserMixin.parseFunctionBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2895:11)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12086:10)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2903:18)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13445:12
+    at FlowParserMixin.withSmartMixTopicForbiddingContext (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12403:14) @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7552741ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7552835ms] [ERROR] [webpack-dev-server] Errors while compiling. Reload prevented. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7552835ms] [ERROR] [webpack-dev-server] ERROR in ./src/screens/DemoFeaturesScreen.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/src/screens/DemoFeaturesScreen.js: Expected corresponding JSX closing tag for <ScrollView>. (1051:12)
+
+  1049 |                     </TouchableOpacity>
+  1050 |                 ))}
+> 1051 |             </View>
+       |             ^
+  1052 |
+  1053 |             <View style={[styles.scrollContent, isWide && styles.scrollGrid]}>
+  1054 |                 {!listReady && filtered.length > visibleModules.length ? (
+    at constructor (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:365:19)
+    at FlowParserMixin.raise (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6599:19)
+    at FlowParserMixin.jsxParseElementAt (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4727:16)
+    at FlowParserMixin.jsxParseElementAt (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4698:32)
+    at FlowParserMixin.jsxParseElement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4749:17)
+    at FlowParserMixin.parseExprAtom (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4759:19)
+    at FlowParserMixin.parseExprSubscripts (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11081:23)
+    at FlowParserMixin.parseUpdate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11066:21)
+    at FlowParserMixin.parseMaybeUnary (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11046:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10899:61)
+    at FlowParserMixin.parseExprOps (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10904:23)
+    at FlowParserMixin.parseMaybeConditional (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10881:23)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10831:21)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3498:39
+    at FlowParserMixin.tryParse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6907:20)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3498:18)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10800:39
+    at FlowParserMixin.allowInAnd (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12426:12)
+    at FlowParserMixin.parseMaybeAssignAllowIn (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10800:17)
+    at FlowParserMixin.parseMaybeAssignAllowInOrVoidPattern (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12493:17)
+    at FlowParserMixin.parseParenAndDistinguishExpression (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11675:28)
+    at FlowParserMixin.parseParenAndDistinguishExpression (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3591:18)
+    at FlowParserMixin.parseExprAtom (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11331:23)
+    at FlowParserMixin.parseExprAtom (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4764:20)
+    at FlowParserMixin.parseExprSubscripts (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11081:23)
+    at FlowParserMixin.parseUpdate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11066:21)
+    at FlowParserMixin.parseMaybeUnary (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11046:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10899:61)
+    at FlowParserMixin.parseExprOps (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10904:23)
+    at FlowParserMixin.parseMaybeConditional (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10881:23)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10831:21)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3549:18)
+    at FlowParserMixin.parseExpressionBase (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10784:23)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10780:39
+    at FlowParserMixin.allowInAnd (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12421:16)
+    at FlowParserMixin.parseExpression (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10780:17)
+    at FlowParserMixin.parseReturnStatement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13142:28)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12798:21)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseStatementListItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12747:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:61)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseBlock (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13297:10)
+    at FlowParserMixin.parseFunctionBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12100:24)
+    at FlowParserMixin.parseFunctionBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2895:11)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12086:10)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2903:18)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13445:12
+    at FlowParserMixin.withSmartMixTopicForbiddingContext (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12403:14) @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7566727ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7566811ms] [ERROR] [webpack-dev-server] Errors while compiling. Reload prevented. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7566811ms] [ERROR] [webpack-dev-server] ERROR in ./src/screens/DemoFeaturesScreen.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/src/screens/DemoFeaturesScreen.js: Expected corresponding JSX closing tag for <ScrollView>. (1051:12)
+
+  1049 |                     </TouchableOpacity>
+  1050 |                 ))}
+> 1051 |             </View>
+       |             ^
+  1052 |
+  1053 |             <View style={[styles.scrollContent, isWide && styles.scrollGrid]}>
+  1054 |                 {!listReady && filtered.length > visibleModules.length ? (
+    at constructor (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:365:19)
+    at FlowParserMixin.raise (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6599:19)
+    at FlowParserMixin.jsxParseElementAt (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4727:16)
+    at FlowParserMixin.jsxParseElementAt (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4698:32)
+    at FlowParserMixin.jsxParseElement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4749:17)
+    at FlowParserMixin.parseExprAtom (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4759:19)
+    at FlowParserMixin.parseExprSubscripts (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11081:23)
+    at FlowParserMixin.parseUpdate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11066:21)
+    at FlowParserMixin.parseMaybeUnary (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11046:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10899:61)
+    at FlowParserMixin.parseExprOps (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10904:23)
+    at FlowParserMixin.parseMaybeConditional (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10881:23)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10831:21)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3498:39
+    at FlowParserMixin.tryParse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6907:20)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3498:18)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10800:39
+    at FlowParserMixin.allowInAnd (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12426:12)
+    at FlowParserMixin.parseMaybeAssignAllowIn (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10800:17)
+    at FlowParserMixin.parseMaybeAssignAllowInOrVoidPattern (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12493:17)
+    at FlowParserMixin.parseParenAndDistinguishExpression (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11675:28)
+    at FlowParserMixin.parseParenAndDistinguishExpression (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3591:18)
+    at FlowParserMixin.parseExprAtom (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11331:23)
+    at FlowParserMixin.parseExprAtom (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4764:20)
+    at FlowParserMixin.parseExprSubscripts (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11081:23)
+    at FlowParserMixin.parseUpdate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11066:21)
+    at FlowParserMixin.parseMaybeUnary (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11046:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10899:61)
+    at FlowParserMixin.parseExprOps (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10904:23)
+    at FlowParserMixin.parseMaybeConditional (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10881:23)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10831:21)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3549:18)
+    at FlowParserMixin.parseExpressionBase (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10784:23)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10780:39
+    at FlowParserMixin.allowInAnd (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12421:16)
+    at FlowParserMixin.parseExpression (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10780:17)
+    at FlowParserMixin.parseReturnStatement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13142:28)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12798:21)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseStatementListItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12747:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:61)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseBlock (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13297:10)
+    at FlowParserMixin.parseFunctionBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12100:24)
+    at FlowParserMixin.parseFunctionBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2895:11)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12086:10)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2903:18)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13445:12
+    at FlowParserMixin.withSmartMixTopicForbiddingContext (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12403:14) @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7572200ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7572560ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7572561ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7572569ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8090/app.8812cac59bc85f1f7fbe.hot-update.json:0
+[ 7572569ms] [WARNING] [HMR] Cannot find update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7572569ms] [WARNING] [HMR] (Probably because of restarting the webpack-dev-server) @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7572890ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7572890ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7572921ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 7572965ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7573001ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 7573016ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7573019ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7611121ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7611293ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7611293ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7611313ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7611313ms] [WARNING] [HMR] Error: Aborted because ./src/screens/GrammarScreen.js is not accepted
+Update propagation: ./src/screens/GrammarScreen.js -> ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9860:31)
+    at http://127.0.0.1:8090/app.js:9566:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9565:54)
+    at http://127.0.0.1:8090/app.js:9536:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9490:48)
+    at http://127.0.0.1:8090/app.js:9534:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7611667ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7611668ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7611699ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 7611744ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7611780ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 7611794ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7611798ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7645271ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7646320ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7646321ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7646335ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7646336ms] [WARNING] [HMR] Error: Aborted because ./src/screens/VocabScreen.js is not accepted
+Update propagation: ./src/screens/VocabScreen.js -> ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9860:31)
+    at http://127.0.0.1:8090/app.js:9566:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9565:54)
+    at http://127.0.0.1:8090/app.js:9536:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9490:48)
+    at http://127.0.0.1:8090/app.js:9534:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7646663ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7646664ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7646693ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 7646734ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7646770ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 7646784ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7646787ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7745179ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7745314ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7745314ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7745327ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7745327ms] [LOG] [HMR]  - ./src/hooks/useTts.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7745327ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7758743ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7758866ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7758866ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7758884ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7758884ms] [LOG] [HMR]  - ./src/hooks/useTts.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7758884ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7772774ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7772883ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7772883ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7772895ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7772895ms] [WARNING] [HMR] Error: Aborted because ./src/utils/ttsEnglish.js is not accepted
+Update propagation: ./src/utils/ttsEnglish.js -> ./src/screens/VocabFlashcardScreen.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9860:31)
+    at http://127.0.0.1:8090/app.js:9566:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9565:54)
+    at http://127.0.0.1:8090/app.js:9536:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9490:48)
+    at http://127.0.0.1:8090/app.js:9534:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 7773207ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7773207ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7773237ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 7773279ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7773315ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 7773330ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7773333ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7800285ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7800616ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7800616ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7800627ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7800627ms] [LOG] [HMR]  - ./src/screens/ListeningDetailScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7800627ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7811715ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7812016ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7812016ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7812036ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7812036ms] [LOG] [HMR]  - ./src/screens/ListeningDetailScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7812036ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7828373ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7828582ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7828582ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7828593ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7828593ms] [LOG] [HMR]  - ./src/screens/AISpeakingPartnerScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7828593ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7860568ms] [INFO] [webpack-dev-server] "/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/web-rnw/dist/index.html" from static directory was changed. Reloading... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7860887ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7860888ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 7860916ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 7860957ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7860993ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 7861007ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7861011ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 7893572ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7893671ms] [ERROR] [webpack-dev-server] Errors while compiling. Reload prevented. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7893672ms] [ERROR] [webpack-dev-server] ERROR in ./src/screens/AISpeakingPartnerScreen.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/src/screens/AISpeakingPartnerScreen.js: Identifier 'voiceEngine' has already been declared. (127:6)
+
+  125 | };
+  126 |
+> 127 | const voiceEngine = isWeb ? WebVoice : Voice;
+      |       ^
+  128 |
+  129 | const MODE_META = [
+  130 |   { key: 'opinion', label: 'Opinion', icon: 'chatbubble-ellipses-outline' },
+    at constructor (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:365:19)
+    at FlowParserMixin.raise (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6599:19)
+    at FlowScopeHandler.checkRedeclarationInScope (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1619:19)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1585:12)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1686:11)
+    at FlowParserMixin.declareNameFromIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7567:16)
+    at FlowParserMixin.checkIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7563:12)
+    at FlowParserMixin.checkLVal (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7500:12)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13412:10)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3474:11)
+    at FlowParserMixin.parseVar (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13383:12)
+    at FlowParserMixin.parseVarStatement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13230:10)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12851:23)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseProgram (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3685:28)
+    at FlowParserMixin.parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14488:25)
+    at parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14522:38)
+    at parser (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:261:32)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:223:11) @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7912335ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7912419ms] [ERROR] [webpack-dev-server] Errors while compiling. Reload prevented. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7912419ms] [ERROR] [webpack-dev-server] ERROR in ./src/screens/AISpeakingPartnerScreen.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/src/screens/AISpeakingPartnerScreen.js: Identifier 'voiceEngine' has already been declared. (139:6)
+
+  137 | };
+  138 |
+> 139 | const voiceEngine = isWeb ? WebVoice : Voice;
+      |       ^
+  140 |
+  141 | const MODE_META = [
+  142 |   { key: 'opinion', label: 'Opinion', icon: 'chatbubble-ellipses-outline' },
+    at constructor (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:365:19)
+    at FlowParserMixin.raise (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6599:19)
+    at FlowScopeHandler.checkRedeclarationInScope (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1619:19)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1585:12)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1686:11)
+    at FlowParserMixin.declareNameFromIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7567:16)
+    at FlowParserMixin.checkIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7563:12)
+    at FlowParserMixin.checkLVal (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7500:12)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13412:10)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3474:11)
+    at FlowParserMixin.parseVar (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13383:12)
+    at FlowParserMixin.parseVarStatement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13230:10)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12851:23)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseProgram (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3685:28)
+    at FlowParserMixin.parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14488:25)
+    at parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14522:38)
+    at parser (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:261:32)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:223:11) @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7933525ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7933756ms] [ERROR] [webpack-dev-server] Errors while compiling. Reload prevented. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7933756ms] [ERROR] [webpack-dev-server] ERROR in ./src/screens/AISpeakingPartnerScreen.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/src/screens/AISpeakingPartnerScreen.js: Identifier 'voiceEngine' has already been declared. (139:6)
+
+  137 | };
+  138 |
+> 139 | const voiceEngine = isWeb ? WebVoice : Voice;
+      |       ^
+  140 |
+  141 | const MODE_META = [
+  142 |   { key: 'opinion', label: 'Opinion', icon: 'chatbubble-ellipses-outline' },
+    at constructor (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:365:19)
+    at FlowParserMixin.raise (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6599:19)
+    at FlowScopeHandler.checkRedeclarationInScope (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1619:19)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1585:12)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1686:11)
+    at FlowParserMixin.declareNameFromIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7567:16)
+    at FlowParserMixin.checkIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7563:12)
+    at FlowParserMixin.checkLVal (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7500:12)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13412:10)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3474:11)
+    at FlowParserMixin.parseVar (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13383:12)
+    at FlowParserMixin.parseVarStatement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13230:10)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12851:23)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseProgram (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3685:28)
+    at FlowParserMixin.parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14488:25)
+    at parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14522:38)
+    at parser (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:261:32)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:223:11) @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7943564ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7943804ms] [ERROR] [webpack-dev-server] Errors while compiling. Reload prevented. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7943805ms] [ERROR] [webpack-dev-server] ERROR in ./src/screens/AISpeakingPartnerScreen.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/src/screens/AISpeakingPartnerScreen.js: Identifier 'voiceEngine' has already been declared. (139:6)
+
+  137 | };
+  138 |
+> 139 | const voiceEngine = isWeb ? WebVoice : Voice;
+      |       ^
+  140 |
+  141 | const MODE_META = [
+  142 |   { key: 'opinion', label: 'Opinion', icon: 'chatbubble-ellipses-outline' },
+    at constructor (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:365:19)
+    at FlowParserMixin.raise (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6599:19)
+    at FlowScopeHandler.checkRedeclarationInScope (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1619:19)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1585:12)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1686:11)
+    at FlowParserMixin.declareNameFromIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7567:16)
+    at FlowParserMixin.checkIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7563:12)
+    at FlowParserMixin.checkLVal (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7500:12)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13412:10)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3474:11)
+    at FlowParserMixin.parseVar (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13383:12)
+    at FlowParserMixin.parseVarStatement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13230:10)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12851:23)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseProgram (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3685:28)
+    at FlowParserMixin.parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14488:25)
+    at parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14522:38)
+    at parser (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:261:32)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:223:11) @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7954726ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7954868ms] [ERROR] [webpack-dev-server] Errors while compiling. Reload prevented. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7954868ms] [ERROR] [webpack-dev-server] ERROR in ./src/screens/AISpeakingPartnerScreen.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/src/screens/AISpeakingPartnerScreen.js: Identifier 'voiceEngine' has already been declared. (139:6)
+
+  137 | };
+  138 |
+> 139 | const voiceEngine = isWeb ? WebVoice : Voice;
+      |       ^
+  140 |
+  141 | const MODE_META = [
+  142 |   { key: 'opinion', label: 'Opinion', icon: 'chatbubble-ellipses-outline' },
+    at constructor (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:365:19)
+    at FlowParserMixin.raise (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6599:19)
+    at FlowScopeHandler.checkRedeclarationInScope (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1619:19)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1585:12)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1686:11)
+    at FlowParserMixin.declareNameFromIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7567:16)
+    at FlowParserMixin.checkIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7563:12)
+    at FlowParserMixin.checkLVal (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7500:12)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13412:10)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3474:11)
+    at FlowParserMixin.parseVar (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13383:12)
+    at FlowParserMixin.parseVarStatement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13230:10)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12851:23)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseProgram (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3685:28)
+    at FlowParserMixin.parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14488:25)
+    at parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14522:38)
+    at parser (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:261:32)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:223:11) @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7961121ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7961243ms] [ERROR] [webpack-dev-server] Errors while compiling. Reload prevented. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7961244ms] [ERROR] [webpack-dev-server] ERROR in ./src/screens/AISpeakingPartnerScreen.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/src/screens/AISpeakingPartnerScreen.js: Identifier 'voiceEngine' has already been declared. (139:6)
+
+  137 | };
+  138 |
+> 139 | const voiceEngine = isWeb ? WebVoice : Voice;
+      |       ^
+  140 |
+  141 | const MODE_META = [
+  142 |   { key: 'opinion', label: 'Opinion', icon: 'chatbubble-ellipses-outline' },
+    at constructor (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:365:19)
+    at FlowParserMixin.raise (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6599:19)
+    at FlowScopeHandler.checkRedeclarationInScope (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1619:19)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1585:12)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1686:11)
+    at FlowParserMixin.declareNameFromIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7567:16)
+    at FlowParserMixin.checkIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7563:12)
+    at FlowParserMixin.checkLVal (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7500:12)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13412:10)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3474:11)
+    at FlowParserMixin.parseVar (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13383:12)
+    at FlowParserMixin.parseVarStatement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13230:10)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12851:23)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseProgram (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3685:28)
+    at FlowParserMixin.parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14488:25)
+    at parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14522:38)
+    at parser (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:261:32)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:223:11) @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7984114ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 7984199ms] [ERROR] [webpack-dev-server] Errors while compiling. Reload prevented. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7984199ms] [ERROR] [webpack-dev-server] ERROR in ./src/screens/AISpeakingPartnerScreen.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/src/screens/AISpeakingPartnerScreen.js: Identifier 'voiceEngine' has already been declared. (135:6)
+
+  133 | };
+  134 |
+> 135 | const voiceEngine = isWeb ? WebVoice : Voice;
+      |       ^
+  136 |
+  137 | const MODE_META = [
+  138 |   { key: 'opinion', label: 'Opinion', icon: 'chatbubble-ellipses-outline' },
+    at constructor (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:365:19)
+    at FlowParserMixin.raise (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6599:19)
+    at FlowScopeHandler.checkRedeclarationInScope (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1619:19)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1585:12)
+    at FlowScopeHandler.declareName (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:1686:11)
+    at FlowParserMixin.declareNameFromIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7567:16)
+    at FlowParserMixin.checkIdentifier (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7563:12)
+    at FlowParserMixin.checkLVal (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:7500:12)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13412:10)
+    at FlowParserMixin.parseVarId (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3474:11)
+    at FlowParserMixin.parseVar (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13383:12)
+    at FlowParserMixin.parseVarStatement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13230:10)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12851:23)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseProgram (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3685:28)
+    at FlowParserMixin.parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14488:25)
+    at parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14522:38)
+    at parser (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:261:32)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:223:11) @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 7999984ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 8000073ms] [ERROR] [webpack-dev-server] Errors while compiling. Reload prevented. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 8000073ms] [ERROR] [webpack-dev-server] ERROR in ./src/screens/AISpeakingPartnerScreen.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/src/screens/AISpeakingPartnerScreen.js: Unexpected keyword 'const'. (31:0)
+
+  29 |   onSpeechEnd: null,
+  30 |
+> 31 | const MODE_META = [
+     | ^
+  32 |
+  33 | const MODE_META = [
+  34 |   { key: 'opinion', label: 'Opinion', icon: 'chatbubble-ellipses-outline' },
+    at constructor (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:365:19)
+    at FlowParserMixin.raise (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:6599:19)
+    at FlowParserMixin.checkReservedWord (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12224:12)
+    at FlowParserMixin.parseObjectProperty (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11954:12)
+    at FlowParserMixin.parseObjPropValue (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11978:100)
+    at FlowParserMixin.parseObjPropValue (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3339:26)
+    at FlowParserMixin.parsePropertyDefinition (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11915:17)
+    at FlowParserMixin.parseObjectLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11832:21)
+    at FlowParserMixin.parseExprAtom (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11339:23)
+    at FlowParserMixin.parseExprAtom (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:4764:20)
+    at FlowParserMixin.parseExprSubscripts (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11081:23)
+    at FlowParserMixin.parseUpdate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11066:21)
+    at FlowParserMixin.parseMaybeUnary (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:11046:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10899:61)
+    at FlowParserMixin.parseExprOps (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10904:23)
+    at FlowParserMixin.parseMaybeConditional (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10881:23)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10831:21)
+    at FlowParserMixin.parseMaybeAssign (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3549:18)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10800:39
+    at FlowParserMixin.allowInAnd (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12421:16)
+    at FlowParserMixin.parseMaybeAssignAllowIn (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:10800:17)
+    at FlowParserMixin.parseVar (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13384:91)
+    at FlowParserMixin.parseVarStatement (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13230:10)
+    at FlowParserMixin.parseStatementContent (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12851:23)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:13309:10)
+    at FlowParserMixin.parseProgram (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:3685:28)
+    at FlowParserMixin.parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14488:25)
+    at parse (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/parser/lib/index.js:14522:38)
+    at parser (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:261:32)
+    at /Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/node_modules/gensync/index.js:223:11) @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:607
+[ 8011311ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 8011521ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 8011521ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 8011529ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8090/app.5c0070508099a8de2fd6.hot-update.json:0
+[ 8011530ms] [WARNING] [HMR] Cannot find update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 8011530ms] [WARNING] [HMR] (Probably because of restarting the webpack-dev-server) @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 8011851ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 8011852ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 8011881ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 8011924ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 8011960ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 8011975ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 8011978ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 8025906ms] [INFO] [webpack-dev-server] "/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/web-rnw/dist/index.html" from static directory was changed. Reloading... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 8026095ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 8026095ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 8026098ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 8026112ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 8026127ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 8026131ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 8026133ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0

@@ -301,22 +301,18 @@ export default function GrammarScreen({ navigation, route }) {
   ), [navigation, startTask, stats, queryInput, levelFilter, scopeFilter, scopeCounts, weakTopics, filtered.length, latestTask]);
 
   return (
-    <Screen scroll={false}>
-      <FlatList
-        style={{ flex: 1 }}
-        data={filtered}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        ListHeaderComponent={renderListHeader}
-        ListEmptyComponent={renderEmpty}
-        contentContainerStyle={styles.container}
-        numColumns={isWide ? 2 : 1}
-        key={isWide ? 'grid' : 'list'}
-        columnWrapperStyle={isWide ? styles.columnWrapper : null}
-        removeClippedSubviews={true}
-        keyboardShouldPersistTaps="handled"
-        windowSize={5}
-      />
+    <Screen scroll animate contentStyle={styles.container}>
+      {renderListHeader()}
+      <View style={[styles.listContent, isWide && styles.listContentWide]}>
+          <View style={isWide ? styles.columnWrapper : null}>
+              {filtered.map((item) => (
+                  <View key={item.id} style={[styles.taskItemWrap, isWide && styles.taskItemWrapWide]}>
+                      {renderItem({ item })}
+                  </View>
+              ))}
+          </View>
+          {filtered.length === 0 ? renderEmpty() : null}
+      </View>
     </Screen>
   );
 }

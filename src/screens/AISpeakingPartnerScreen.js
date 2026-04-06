@@ -7,8 +7,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Platform,
 } from 'react-native';
-import Voice from '@react-native-voice/voice';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
@@ -21,6 +21,9 @@ import { analyzeSpeakingResponse } from '../utils/speakingCoach';
 import { evaluateSpeakingModel } from '../utils/speakingModel';
 import { loadSpeakingPartnerSessions, saveSpeakingPartnerSessions } from '../utils/appStorage';
 import { speakEnglish, stopEnglishTts } from '../utils/ttsEnglish';
+import voiceEngine from '../utils/speechRecognition';
+
+const isWeb = Platform.OS === 'web';
 
 const MODE_META = [
   { key: 'opinion', label: 'Opinion', icon: 'chatbubble-ellipses-outline' },
@@ -692,21 +695,21 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
   }, [isListening, micVol, waveAnims]);
 
   useEffect(() => {
-    Voice.onSpeechStart = () => {
+    voiceEngine.onSpeechStart = () => {
       setIsListening(true);
       startAtRef.current = Date.now();
     };
-    Voice.onSpeechEnd = () => {
+    voiceEngine.onSpeechEnd = () => {
       setIsListening(false);
     };
-    Voice.onSpeechError = (event) => {
+    voiceEngine.onSpeechError = (event) => {
       setIsListening(false);
       const code = String(event?.error?.code || '');
       if (code && code !== '7') {
         console.log('Voice Error:', event);
       }
     };
-    Voice.onSpeechPartialResults = (event) => {
+    voiceEngine.onSpeechPartialResults = (event) => {
       const recognized = pickBestSpeechResult(event?.value);
       const cleaned = dedupeSpeechDraft(recognized);
       if (cleaned) {
@@ -714,7 +717,7 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
         transcriptRef.current = cleaned;
       }
     };
-    Voice.onSpeechResults = (event) => {
+    voiceEngine.onSpeechResults = (event) => {
       const recognized = pickBestSpeechResult(event?.value);
       const cleaned = dedupeSpeechDraft(recognized);
       if (cleaned) {
@@ -722,12 +725,12 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
         transcriptRef.current = cleaned;
       }
     };
-    Voice.onSpeechVolumeChanged = (event) => setMicVol(Number(event?.value || 0));
+    voiceEngine.onSpeechVolumeChanged = (event) => setMicVol(Number(event?.value || 0));
 
     return () => {
       try {
-        Voice.destroy();
-        Voice.removeAllListeners();
+        voiceEngine.destroy();
+        voiceEngine.removeAllListeners();
       } catch (_) {
         // noop
       }
@@ -752,16 +755,16 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
     transcriptRef.current = '';
     try {
       await stopEnglishTts();
-      await Voice.start('en-US');
+      await voiceEngine.start('en-US');
     } catch (error) {
       console.log(error);
-      Alert.alert('Microphone Error', 'Speech recognition could not start. Check microphone and speech permissions in Settings.');
+      Alert.alert('Microphone Error', 'Speech recognition could not start. Is your microphone enabled? Browsers like Safari/Firefox might have limited support.');
     }
   }, [aiTyping]);
 
   const stopListening = useCallback(async () => {
     try {
-      await Voice.stop();
+      await voiceEngine.stop();
     } catch (error) {
       console.log(error);
     }

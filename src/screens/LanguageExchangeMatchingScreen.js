@@ -1,11 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated, PanResponder, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, PanResponder, useWindowDimensions } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const MATCHES = [
     { id: '1', name: 'Laura', from: 'Spain', faculty: 'Architecture', fluent: 'Spanish', learning: 'Turkish', avatar: '🇪🇸', bio: "Looking to practice Turkish for my exchange semester." },
@@ -15,6 +14,7 @@ const MATCHES = [
 ];
 
 export default function LanguageExchangeMatchingScreen({ navigation }) {
+    const { width: SCREEN_WIDTH } = useWindowDimensions();
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const position = useRef(new Animated.ValueXY()).current;
@@ -92,7 +92,7 @@ export default function LanguageExchangeMatchingScreen({ navigation }) {
                     <Animated.View
                         key={item.id}
                         {...panResponder.panHandlers}
-                        style={[getCardStyle(), styles.cardStackItem]}
+                        style={[getCardStyle(), styles.cardStackItem, { width: SCREEN_WIDTH - 40 }]}
                     >
                         <MatchCard item={item} />
                     </Animated.View>
@@ -102,7 +102,7 @@ export default function LanguageExchangeMatchingScreen({ navigation }) {
             return (
                 <Animated.View
                     key={item.id}
-                    style={[styles.cardStackItem, { top: 10 * (i - currentIndex), zIndex: -i, opacity: 1 - (i - currentIndex) * 0.2, transform: [{ scale: 1 - 0.05 * (i - currentIndex) }] }]}
+                    style={[styles.cardStackItem, { width: SCREEN_WIDTH - 40, top: 10 * (i - currentIndex), zIndex: -i, opacity: 1 - (i - currentIndex) * 0.2, transform: [{ scale: 1 - 0.05 * (i - currentIndex) }] }]}
                 >
                     <MatchCard item={item} />
                 </Animated.View>
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
 
     cardContainer: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-    cardStackItem: { position: 'absolute', width: SCREEN_WIDTH - 40, height: 450 },
+    cardStackItem: { position: 'absolute', height: 450 },
 
     matchCard: { padding: 0, overflow: 'hidden', height: '100%', backgroundColor: '#fff', borderRadius: radius.xl, ...shadow.lg },
     heroWrap: { alignItems: 'center', padding: spacing.xl, backgroundColor: colors.primarySoft, borderBottomColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1 },

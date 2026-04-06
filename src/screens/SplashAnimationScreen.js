@@ -4,7 +4,6 @@ import { colors, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import LinearGradient from 'react-native-linear-gradient';
 
-const { width, height } = Dimensions.get('window');
 
 export default function SplashAnimationScreen({ navigation }) {
     const { userToken, authReady } = useAppState();
@@ -208,8 +207,8 @@ const styles = StyleSheet.create({
     },
     backgroundImage: {
         flex: 1,
-        width: width,
-        height: height,
+        width: '100%',
+        height: '100%',
     },
     contentContainer: {
         flex: 1,
