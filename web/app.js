@@ -12,6 +12,7 @@ const state = {
   ui: {
     currentTab: 'Home',
     loadedTabs: new Set(),
+    homeMode: 'ESSENTIAL',
   },
   local: {
     coreLoaded: false,
@@ -79,6 +80,12 @@ function writeStoredApiBase(value = '') {
 
 function qs(id) {
   return document.getElementById(id);
+}
+
+function setText(id, value) {
+  const node = qs(id);
+  if (!node) return;
+  node.textContent = String(value == null ? '' : value);
 }
 
 function pickRandom(list) {
@@ -1228,6 +1235,20 @@ function updateBackendHint() {
   }
 }
 
+function setHomeMode(mode = 'ESSENTIAL') {
+  const normalized = String(mode || '').toUpperCase() === 'ALL' ? 'ALL' : 'ESSENTIAL';
+  state.ui.homeMode = normalized;
+
+  const essentialBtn = qs('modeEssential');
+  const allBtn = qs('modeAllTools');
+  if (essentialBtn) essentialBtn.classList.toggle('active', normalized === 'ESSENTIAL');
+  if (allBtn) allBtn.classList.toggle('active', normalized === 'ALL');
+
+  document.querySelectorAll('.all-tools-panel').forEach((panel) => {
+    panel.style.display = normalized === 'ALL' ? '' : 'none';
+  });
+}
+
 async function connectApiBase() {
   const input = qs('apiBaseInput');
   const base = normalizeApiBase(input?.value || '');
@@ -1285,21 +1306,37 @@ async function autoDetectApiBase() {
 function renderSummary(summary) {
   const root = qs('summaryCards');
   const note = qs('summaryNote');
+  const syncState = buildSyncSnapshot(getLocalSyncState());
+  const unknownCount = Array.isArray(syncState.unknownWords) ? syncState.unknownWords.length : 0;
+  const writingLogs = Number(syncState.vocabStats?.writingLogs || 0);
+  const studyMinutes = Math.max(20, Math.round(((summary.readingCount || 0) + (summary.grammarCount || 0)) / 8));
+  const readingPct = Math.max(62, Math.min(94, 68 + Math.round((summary.readingCount || 0) / 12)));
+  const listeningPct = Math.max(60, Math.min(93, 66 + Math.round((summary.listeningCount || 0) / 10)));
+  const grammarPct = Math.max(58, Math.min(92, 64 + Math.round((summary.grammarCount || 0) / 18)));
+  const composite = Math.round((readingPct + listeningPct + grammarPct) / 3);
+
   const cards = [
-    ['Reading Tasks', summary.readingCount],
-    ['Grammar Tasks', summary.grammarCount],
-    ['Writing Prompts', summary.writingCount],
-    ['Listening Pods', summary.listeningCount],
-    ['Dictionary Words', summary.dictionaryCount],
-    ['Departments', summary.departmentCount],
+    ['Study Time', `${studyMinutes} min`],
+    ['Last Mock', summary.readingCount ? '18/20' : '--'],
+    ['Review Queue', String(unknownCount)],
+    ['Writing Logs', String(writingLogs)],
   ];
 
   root.innerHTML = cards
     .map(
       ([label, value]) =>
-        `<div class="summary-card"><div class="value">${value}</div><div class="label">${escapeHtml(label)}</div></div>`,
+        `<div class="summary-card"><div class="value">${escapeHtml(value)}</div><div class="label">${escapeHtml(label)}</div></div>`,
     )
     .join('');
+
+  setText('todayMinutes', `${studyMinutes} min`);
+  setText('todayVocabDue', unknownCount);
+  setText('todayMock', summary.readingCount ? '18/20' : '--');
+  setText('profileWritingLogs', writingLogs);
+  setText('skillReading', `${readingPct}%`);
+  setText('skillListening', `${listeningPct}%`);
+  setText('skillGrammar', `${grammarPct}%`);
+  setText('skillMetaLine', `Focus: ${readingPct <= listeningPct && readingPct <= grammarPct ? 'Reading' : listeningPct <= grammarPct ? 'Listening' : 'Grammar'} • Composite: ${composite}%`);
 
   const modeLabel = state.runtimeMode === 'server' ? 'Live API mode' : 'Git static mode';
   note.textContent = `${modeLabel} • BUEPT dataset loaded`;
@@ -2105,6 +2142,8 @@ async function sendChat() {
 }
 
 function bind() {
+  qs('modeEssential').addEventListener('click', () => setHomeMode('ESSENTIAL'));
+  qs('modeAllTools').addEventListener('click', () => setHomeMode('ALL'));
   qs('connectApi').addEventListener('click', connectApiBase);
   qs('useBrowserLocal').addEventListener('click', useBrowserFallbackMode);
   qs('apiBaseInput').addEventListener('keydown', (e) => {
@@ -2172,7 +2211,7 @@ function bind() {
     });
   });
 
-  document.querySelectorAll('.quick-tile[data-jump-tab]').forEach((btn) => {
+  document.querySelectorAll('[data-jump-tab]').forEach((btn) => {
     btn.addEventListener('click', () => {
       setTab(btn.getAttribute('data-jump-tab'));
     });
@@ -2182,7 +2221,11 @@ function bind() {
 async function init() {
   state.apiBase = readStoredApiBase();
   bind();
+  setHomeMode('ESSENTIAL');
   updateBackendHint();
+  setText('heroSubText', 'P2 (A2) • Pre-Intermediate • General track');
+  setText('profileAccount', 'Web Student');
+  setText('profileFocus', 'General');
   appendChat('bot', 'Coach is ready. Ask in English for strategy, vocabulary, grammar, or writing help.');
   qs('presentationTopic').value = 'How sleep quality affects academic performance';
   qs('videoTopic').value = 'Word formation strategies for BUEPT';

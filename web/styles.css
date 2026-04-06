@@ -112,6 +112,191 @@ body {
   margin-top: 14px;
 }
 
+.app-hero-card {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 20px 34px rgba(8, 24, 51, 0.28);
+  margin-bottom: 12px;
+}
+
+.app-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.app-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(128deg, rgba(8,24,51,0.90), rgba(22,64,170,0.62));
+}
+
+.app-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.app-hero-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-hero-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.92);
+  padding: 4px;
+}
+
+.app-hero-head h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+.app-hero-head p {
+  margin: 3px 0 0;
+  color: rgba(227, 236, 249, 0.86);
+  font-size: 12px;
+}
+
+.app-meta-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.app-meta-pill {
+  flex: 1;
+  min-width: 96px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 8px 10px;
+}
+
+.app-meta-pill small {
+  display: block;
+  color: rgba(226,236,252,0.82);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.app-meta-pill strong {
+  display: block;
+  margin-top: 3px;
+  color: #fbbf24;
+  font-size: 17px;
+}
+
+.app-mode-row {
+  display: inline-flex;
+  gap: 5px;
+  background: rgba(0,0,0,0.25);
+  padding: 4px;
+  border-radius: 999px;
+  width: max-content;
+}
+
+.mode-chip {
+  border: 0;
+  border-radius: 999px;
+  padding: 7px 13px;
+  background: transparent;
+  color: rgba(227,236,252,0.78);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mode-chip.active {
+  background: #fff;
+  color: #1b3e8e;
+}
+
+.profile-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.profile-item {
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.08);
+  padding: 8px 10px;
+}
+
+.profile-item small {
+  display: block;
+  color: rgba(227,236,252,0.76);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.profile-item strong {
+  display: block;
+  margin-top: 3px;
+  color: #fff;
+  font-size: 12px;
+}
+
+.launch-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.launch-card {
+  border: 1px solid rgba(207,221,248,0.9);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.96);
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.launch-card h4 {
+  margin: 6px 0 0;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.launch-card p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.launch-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.launch-top span {
+  font-size: 16px;
+}
+
+.launch-top small {
+  color: #94a3b8;
+  font-size: 10px;
+}
+
 .tab-screen { display: none; }
 .tab-screen.active { display: block; }
 .tab-screen.active .panel {
@@ -504,6 +689,7 @@ textarea {
   .home-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .module-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .studio-grid { grid-template-columns: 1fr; }
+  .launch-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 700px) {
@@ -521,6 +707,9 @@ textarea {
   .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .home-grid { grid-template-columns: 1fr; }
   .module-grid { grid-template-columns: 1fr; }
+  .profile-strip { grid-template-columns: 1fr; }
+  .launch-grid { grid-template-columns: 1fr; }
+  .app-hero-head h2 { font-size: 18px; }
   .row { flex-wrap: wrap; }
   .btn { width: 100%; text-align: center; }
   .tabbar { grid-template-columns: repeat(4, minmax(0, 1fr)); }

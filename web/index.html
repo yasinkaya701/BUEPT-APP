@@ -10,30 +10,14 @@
   <div class="ambient-bg"></div>
 
   <div class="app-shell">
-    <header class="hero">
-      <img class="hero-bg" src="./assets/real_north_campus.jpg" alt="Boğaziçi Campus" />
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <div class="hero-brand">
-          <img class="hero-logo" src="./assets/icon.png" alt="BUEPT" />
-          <div>
-            <h1>BUEPT Dashboard</h1>
-            <p>Boğaziçi Prep Web • Mobile-like workspace</p>
-          </div>
-        </div>
-        <div class="hero-actions">
-          <button id="refreshSummary" class="btn">Refresh</button>
-          <button id="apiStatus" class="btn ghost" type="button">Status</button>
-        </div>
-      </div>
-    </header>
-
     <section class="backend-strip panel">
       <div class="backend-head">
         <h2>Backend Connector</h2>
         <span id="modeBadge" class="badge">Mode: auto</span>
       </div>
       <div class="row">
+        <button id="refreshSummary" class="btn ghost">Refresh</button>
+        <button id="apiStatus" class="btn ghost" type="button">Status</button>
         <input id="apiBaseInput" placeholder="Local AI API URL (e.g. http://127.0.0.1:8088)" />
         <button id="connectApi" class="btn">Connect Local AI</button>
         <button id="useBrowserLocal" class="btn ghost">Use Browser Fallback</button>
@@ -43,22 +27,91 @@
 
     <main class="screens">
       <section id="screen-home" class="tab-screen active">
+        <div class="app-hero-card">
+          <img class="app-hero-bg" src="./assets/real_north_campus.jpg" alt="Boğaziçi Campus" />
+          <div class="app-hero-overlay"></div>
+          <div class="app-hero-content">
+            <div class="app-hero-head">
+              <img class="app-hero-logo" src="./assets/icon.png" alt="BUEPT" />
+              <div>
+                <h2>Boğaziçi Prep Dashboard</h2>
+                <p id="heroSubText">P2 (A2) • Pre-Intermediate • General track</p>
+              </div>
+            </div>
+            <div class="app-meta-row">
+              <div class="app-meta-pill">
+                <small>Today</small>
+                <strong id="todayMinutes">0 min</strong>
+              </div>
+              <div class="app-meta-pill">
+                <small>Vocab Due</small>
+                <strong id="todayVocabDue">0</strong>
+              </div>
+              <div class="app-meta-pill">
+                <small>Last Mock</small>
+                <strong id="todayMock">--</strong>
+              </div>
+            </div>
+            <div class="app-mode-row">
+              <button id="modeEssential" class="mode-chip active">Essentials</button>
+              <button id="modeAllTools" class="mode-chip">All Tools</button>
+            </div>
+            <div class="profile-strip">
+              <div class="profile-item">
+                <small>Account</small>
+                <strong id="profileAccount">Web Student</strong>
+              </div>
+              <div class="profile-item">
+                <small>Focus Track</small>
+                <strong id="profileFocus">General</strong>
+              </div>
+              <div class="profile-item">
+                <small>Writing Logs</small>
+                <strong id="profileWritingLogs">0</strong>
+              </div>
+            </div>
+            <div class="launch-grid">
+              <button class="launch-card" data-jump-tab="Listening">
+                <div class="launch-top"><span>🎧</span><small>Open</small></div>
+                <h4>Daily Podcast</h4>
+                <p>Listen to Boğaziçi prep audio lessons and insights.</p>
+              </button>
+              <button class="launch-card" data-jump-tab="Reading">
+                <div class="launch-top"><span>📖</span><small>Focus</small></div>
+                <h4>Reading</h4>
+                <p>Text comprehension and evidence-based question solving.</p>
+              </button>
+              <button class="launch-card" data-jump-tab="Vocab">
+                <div class="launch-top"><span>📕</span><small>Review</small></div>
+                <h4>Vocabulary</h4>
+                <p>Dictionary, collocations, antonyms, and weekly quizzes.</p>
+              </button>
+              <button class="launch-card" data-jump-tab="Home">
+                <div class="launch-top"><span>✨</span><small>Hub</small></div>
+                <h4>Feature Hub</h4>
+                <p>Access all mobile modules from this web mirror.</p>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div class="panel summary-panel">
-          <h2>Overview</h2>
+          <h2>Today Board</h2>
           <div id="summaryCards" class="summary-grid"></div>
           <p id="summaryNote" class="muted">Loading...</p>
         </div>
 
         <div class="panel home-actions">
-          <h2>Quick Launch</h2>
+          <h2>Skill Snapshot</h2>
           <div class="home-grid">
-            <button class="quick-tile" data-jump-tab="Reading"><span>📖</span><strong>Reading</strong><small>Text + Questions</small></button>
-            <button class="quick-tile" data-jump-tab="Grammar"><span>🧩</span><strong>Grammar</strong><small>Use of English</small></button>
-            <button class="quick-tile" data-jump-tab="Writing"><span>✍️</span><strong>Writing</strong><small>Prompt + Feedback</small></button>
-            <button class="quick-tile" data-jump-tab="Vocab"><span>📕</span><strong>Vocab</strong><small>Dictionary + Department</small></button>
-            <button class="quick-tile" data-jump-tab="Listening"><span>🎧</span><strong>Listening</strong><small>Podcasts</small></button>
-            <button class="quick-tile" data-jump-tab="Speaking"><span>🎤</span><strong>Speaking</strong><small>Coach Chatbot</small></button>
+            <button class="quick-tile" data-jump-tab="Reading"><span>📖</span><strong>Reading</strong><small id="skillReading">--%</small></button>
+            <button class="quick-tile" data-jump-tab="Listening"><span>🎧</span><strong>Listening</strong><small id="skillListening">--%</small></button>
+            <button class="quick-tile" data-jump-tab="Grammar"><span>🧩</span><strong>Grammar</strong><small id="skillGrammar">--%</small></button>
+            <button class="quick-tile" data-jump-tab="Writing"><span>✍️</span><strong>Writing Studio</strong><small>Prompt + AI revision</small></button>
+            <button class="quick-tile" data-jump-tab="Vocab"><span>📕</span><strong>Vocab Workspace</strong><small>Dictionary + department</small></button>
+            <button class="quick-tile" data-jump-tab="Speaking"><span>🎤</span><strong>Speaking Coach</strong><small>AI coach + transcript</small></button>
           </div>
+          <p id="skillMetaLine" class="muted">Focus: Reading • Composite: --%</p>
         </div>
 
         <div class="panel">
@@ -66,7 +119,7 @@
           <div id="calendar" class="result"></div>
         </div>
 
-        <div class="panel">
+        <div class="panel all-tools-panel">
           <h2>All App Features (Web Hub)</h2>
           <div class="row">
             <input id="moduleSearch" placeholder="Search any mobile route or module (e.g. Placement, Drafts, ProficiencyMock)" />
@@ -80,7 +133,7 @@
           <div id="moduleResult" class="result"></div>
         </div>
 
-        <div class="panel">
+        <div class="panel all-tools-panel">
           <h2>AI Studio</h2>
           <div class="studio-grid">
             <article class="tool-card">
@@ -121,7 +174,7 @@
           </div>
         </div>
 
-        <div class="panel">
+        <div class="panel all-tools-panel">
           <h2>Sync Bridge (App ↔ Extension ↔ Web)</h2>
           <div class="row">
             <button id="syncStatusBtn" class="btn ghost">Status</button>
