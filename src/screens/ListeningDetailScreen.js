@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import {
   Text, StyleSheet, View, TouchableOpacity,
-  ScrollView, Animated, TextInput
+  ScrollView, Animated, TextInput, Platform
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import Tts from 'react-native-tts';
@@ -416,6 +416,47 @@ export default function ListeningDetailScreen({ route, navigation }) {
     setWebviewPlaying(true);
     
     // Fallback logic: Native MP3 URL vs Google TTS chunks
+    if (Platform.OS === 'web') {
+      if (task.audioUrl) {
+        if (window.currentAudio) { window.currentAudio.pause(); }
+        const audio = new window.Audio(task.audioUrl);
+        window.currentAudio = audio;
+        audio.playbackRate = rate;
+        audio.onended = function() {
+          setWebviewPlaying(false);
+          setActiveSentence(-1);
+          stopShadowingAuto();
+        };
+        audio.play().catch(e => console.log('Audio blocked:', e));
+        setWebviewPlaying(true);
+        startSentenceProgress();
+      } else {
+        const urls = sentences.map(s => `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&hl=en-US&q=${encodeURIComponent(s.slice(0, 199))}`);
+        if (window.currentAudio) { window.currentAudio.pause(); }
+        let audioIdx = 0;
+        const playNext = () => {
+          if (audioIdx >= urls.length) {
+            setWebviewPlaying(false);
+            setActiveSentence(-1);
+            stopShadowingAuto();
+            return;
+          }
+          const audio = new window.Audio(urls[audioIdx]);
+          window.currentAudio = audio;
+          audio.playbackRate = rate;
+          audio.onended = () => {
+             audioIdx++;
+             playNext();
+          };
+          audio.play().catch(e => console.log('Audio blocked:', e));
+          setActiveSentence(audioIdx);
+        };
+        playNext();
+        setWebviewPlaying(true);
+      }
+      return;
+    }
+
     if (task.audioUrl) {
       const script = `
           if(window.currentAudio) { window.currentAudio.pause(); }
@@ -430,8 +471,6 @@ export default function ListeningDetailScreen({ route, navigation }) {
       `;
       webviewRef.current?.injectJavaScript(script);
       
-      // We don't have accurate sentence-level timing for raw MP3s easily without a subtitle file,
-      // so we use a generic sentence playing animation fallback
       startSentenceProgress();
     } else {
       // Play using Google Translate Neural TTS Chunking
