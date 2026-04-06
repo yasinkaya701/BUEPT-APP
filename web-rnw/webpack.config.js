@@ -64,6 +64,9 @@ module.exports = (env = {}, argv = {}) => {
         {
           test: /\.[jt]sx?$/,
           include: modulePathsToTranspile,
+          // Some RN ecosystem packages ship mixed CJS/ESM metadata.
+          // Force auto mode so `exports`/`module.exports` and ESM both work.
+          type: 'javascript/auto',
           use: {
             loader: 'babel-loader',
             options: {
