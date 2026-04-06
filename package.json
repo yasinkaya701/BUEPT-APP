@@ -6,6 +6,8 @@
     "android": "react-native run-android",
     "api:start": "node web-api-server.js",
     "web:local:ai": "./scripts/start-web-local-ai.sh",
+    "web:rnw:start": "webpack serve --config web-rnw/webpack.config.js --mode development --env publicPath=/",
+    "web:rnw:build": "webpack --config web-rnw/webpack.config.js --mode production --env publicPath=/BUEPT-APP/",
     "ios": "react-native run-ios",
     "ios:safe": "./scripts/run-ios-safe.sh",
     "lint": "eslint .",
@@ -21,6 +23,7 @@
     "@react-navigation/native-stack": "^7.12.0",
     "@react-navigation/stack": "^7.8.5",
     "react": "19.2.0",
+    "react-dom": "^19.2.0",
     "react-native": "0.83.1",
     "react-native-gesture-handler": "^2.30.0",
     "react-native-image-picker": "^8.2.1",
@@ -29,11 +32,13 @@
     "react-native-screens": "^4.23.0",
     "react-native-tts": "^4.1.1",
     "react-native-vector-icons": "^10.3.0",
+    "react-native-web": "^0.21.0",
     "react-native-webview": "^13.15.0",
     "serverless-http": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
     "@bam.tech/react-native-make": "^3.0.3",
@@ -48,11 +53,18 @@
     "@types/react": "^19.2.0",
     "@types/react-native-vector-icons": "^6.4.18",
     "@types/react-test-renderer": "^19.1.0",
+    "ajv": "^8.18.0",
+    "ajv-keywords": "^5.1.0",
+    "babel-loader": "^10.1.1",
     "eslint": "^8.19.0",
+    "html-webpack-plugin": "^5.6.6",
     "jest": "^29.6.3",
     "prettier": "2.8.8",
     "react-test-renderer": "19.2.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "webpack": "^5.105.4",
+    "webpack-cli": "^7.0.2",
+    "webpack-dev-server": "^5.2.3"
   },
   "engines": {
     "node": ">=20"

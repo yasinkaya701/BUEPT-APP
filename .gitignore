@@ -80,3 +80,6 @@ build.log
 build2.log
 ios_build_error.log
 .vercel
+
+# RN Web build output
+web-rnw/dist/

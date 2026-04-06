@@ -5,7 +5,12 @@ on:
     branches:
       - main
     paths:
-      - 'web/**'
+      - 'src/**'
+      - 'data/**'
+      - 'web-rnw/**'
+      - 'web-api-server.js'
+      - 'package.json'
+      - 'package-lock.json'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -25,13 +30,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build RN Web App
+        run: npm run web:rnw:build
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./web
+          path: ./web-rnw/dist
 
   deploy:
     needs: build

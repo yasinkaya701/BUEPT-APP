@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogBox } from 'react-native';
+import { LogBox, Platform } from 'react-native';
 import { NavigationContainer, DefaultTheme, useNavigationContainerRef } from '@react-navigation/native';
 import { enableScreens } from 'react-native-screens';
 import RootNavigator from './navigation/RootNavigator';
@@ -62,7 +62,9 @@ export default function App() {
             }}
           >
             <RootNavigator />
-            <SimulatorSmokeRunner navigationRef={navigationRef} currentRouteName={currentRouteName} />
+            {Platform.OS !== 'web' ? (
+              <SimulatorSmokeRunner navigationRef={navigationRef} currentRouteName={currentRouteName} />
+            ) : null}
           </NavigationContainer>
         </AppStateProvider>
       </SafeAreaProvider>
