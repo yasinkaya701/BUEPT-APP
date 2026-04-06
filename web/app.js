@@ -3,6 +3,10 @@ const state = {
   grammar: null,
   writing: null,
   runtimeMode: 'auto',
+  ui: {
+    currentTab: 'Home',
+    loadedTabs: new Set(),
+  },
   local: {
     coreLoaded: false,
     dictionaryLoaded: false,
@@ -13,6 +17,16 @@ const state = {
 };
 
 const LOCAL_DICTIONARY_COUNT_HINT = 26795;
+const TAB_NAMES = ['Home', 'Reading', 'Grammar', 'Writing', 'Vocab', 'Listening', 'Speaking'];
+const TAB_SCREEN_IDS = {
+  Home: 'screen-home',
+  Reading: 'screen-reading',
+  Grammar: 'screen-grammar',
+  Writing: 'screen-writing',
+  Vocab: 'screen-vocab',
+  Listening: 'screen-listening',
+  Speaking: 'screen-speaking',
+};
 
 function qs(id) {
   return document.getElementById(id);
@@ -488,6 +502,73 @@ function countWords(text = '') {
   return (String(text).trim().match(/\b[\w'-]+\b/g) || []).length;
 }
 
+function normalizeTabName(raw) {
+  const text = String(raw || '').trim().toLowerCase();
+  const found = TAB_NAMES.find((tab) => tab.toLowerCase() === text);
+  return found || 'Home';
+}
+
+function getInitialTab() {
+  const fromHash = normalizeTabName((window.location.hash || '').replace('#', ''));
+  return fromHash || 'Home';
+}
+
+function activateTabUI(tab) {
+  for (const name of TAB_NAMES) {
+    const screenId = TAB_SCREEN_IDS[name];
+    const screen = qs(screenId);
+    if (screen) {
+      screen.classList.toggle('active', name === tab);
+    }
+  }
+
+  document.querySelectorAll('.tab-btn[data-tab]').forEach((btn) => {
+    const isActive = normalizeTabName(btn.getAttribute('data-tab')) === tab;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-current', isActive ? 'page' : 'false');
+  });
+
+  state.ui.currentTab = tab;
+  if (window.location.hash !== `#${tab.toLowerCase()}`) {
+    history.replaceState(null, '', `#${tab.toLowerCase()}`);
+  }
+}
+
+async function loadTabData(tab, force = false) {
+  if (!force && state.ui.loadedTabs.has(tab)) return;
+
+  switch (tab) {
+    case 'Home':
+      await Promise.allSettled([loadSummary(), loadCalendar()]);
+      break;
+    case 'Reading':
+      await loadReading();
+      break;
+    case 'Grammar':
+      await loadGrammar();
+      break;
+    case 'Writing':
+      await loadWritingPrompt();
+      break;
+    case 'Vocab':
+      await Promise.allSettled([loadDepartments(), randomVocab()]);
+      break;
+    case 'Listening':
+      await loadPodcasts();
+      break;
+    default:
+      break;
+  }
+
+  state.ui.loadedTabs.add(tab);
+}
+
+async function setTab(tab, force = false) {
+  const normalized = normalizeTabName(tab);
+  activateTabUI(normalized);
+  await loadTabData(normalized, force);
+}
+
 function renderSummary(summary) {
   const root = qs('summaryCards');
   const note = qs('summaryNote');
@@ -814,7 +895,9 @@ async function sendChat() {
 }
 
 function bind() {
-  qs('refreshSummary').addEventListener('click', loadSummary);
+  qs('refreshSummary').addEventListener('click', async () => {
+    await loadTabData(state.ui.currentTab, true);
+  });
   qs('apiStatus').addEventListener('click', async () => {
     try {
       const status = await api('/api/status');
@@ -826,6 +909,9 @@ function bind() {
   qs('searchVocab').addEventListener('click', searchVocab);
   qs('randomVocab').addEventListener('click', randomVocab);
   qs('loadDepartmentWords').addEventListener('click', loadDepartmentWords);
+  qs('vocabQuery').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') searchVocab();
+  });
 
   qs('nextReading').addEventListener('click', loadReading);
   qs('nextGrammar').addEventListener('click', loadGrammar);
@@ -838,7 +924,22 @@ function bind() {
   qs('quickWritingFeedback').addEventListener('click', writingFeedback);
   qs('chatSend').addEventListener('click', sendChat);
   qs('chatInput').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') sendChat();
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendChat();
+    }
+  });
+
+  document.querySelectorAll('.tab-btn[data-tab]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      setTab(btn.getAttribute('data-tab'));
+    });
+  });
+
+  document.querySelectorAll('.quick-tile[data-jump-tab]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      setTab(btn.getAttribute('data-jump-tab'));
+    });
   });
 }
 
@@ -846,16 +947,7 @@ async function init() {
   bind();
   appendChat('bot', 'Coach is ready. Ask in English for strategy, vocabulary, grammar, or writing help.');
 
-  await Promise.allSettled([
-    loadSummary(),
-    loadDepartments(),
-    randomVocab(),
-    loadReading(),
-    loadGrammar(),
-    loadWritingPrompt(),
-    loadPodcasts(),
-    loadCalendar(),
-  ]);
+  await setTab(getInitialTab());
 }
 
 init();
