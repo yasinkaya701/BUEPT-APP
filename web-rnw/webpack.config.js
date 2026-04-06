@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const projectRoot = path.resolve(__dirname, '..');
 const appIndex = path.resolve(projectRoot, 'web-rnw/index.web.js');
+const processPolyfill = path.resolve(projectRoot, 'web-rnw/polyfills/process.js');
 
 const modulePathsToTranspile = [
   path.resolve(projectRoot, 'src'),
@@ -30,7 +31,7 @@ module.exports = (env = {}, argv = {}) => {
     mode,
     context: projectRoot,
     entry: {
-      app: appIndex,
+      app: [processPolyfill, appIndex],
     },
     output: {
       path: path.resolve(projectRoot, 'web-rnw/dist'),
