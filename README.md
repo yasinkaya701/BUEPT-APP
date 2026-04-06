@@ -16,3 +16,23 @@ npm run android
 # veya
 npm run ios
 ```
+
+## Web (React Native Web, 1:1 UI)
+
+Gelisim:
+
+```bash
+npm run web:rnw:start
+```
+
+Production bundle:
+
+```bash
+npm run web:rnw:build
+```
+
+Yerel AI + web (tek komut):
+
+```bash
+./scripts/start-web-local-ai.sh
+```

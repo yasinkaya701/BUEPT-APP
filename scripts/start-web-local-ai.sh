@@ -21,6 +21,10 @@ echo "OLLAMA_MODEL     : ${OLLAMA_MODEL}"
 echo "Project root     : ${ROOT_DIR}"
 echo "────────────────────────────────────────────────────────"
 
+echo "Building react-native-web bundle..."
+npm run web:rnw:build
+echo "Web bundle ready: ${ROOT_DIR}/web-rnw/dist"
+
 if command -v curl >/dev/null 2>&1; then
   if curl -fsS "${OLLAMA_BASE_URL%/}/api/tags" >/dev/null 2>&1; then
     echo "Ollama is reachable."
@@ -34,4 +38,3 @@ if command -v open >/dev/null 2>&1; then
 fi
 
 node web-api-server.js
-

@@ -23,6 +23,8 @@ module.exports = (env = {}, argv = {}) => {
   const mode = argv.mode || 'development';
   const isProd = mode === 'production';
   const publicPath = env.publicPath || process.env.WEB_PUBLIC_PATH || '/';
+  const devHost = process.env.WEB_DEV_HOST || '127.0.0.1';
+  const devPort = Number(process.env.WEB_DEV_PORT || 8090);
 
   return {
     mode,
@@ -98,8 +100,8 @@ module.exports = (env = {}, argv = {}) => {
         directory: path.resolve(projectRoot, 'web-rnw/dist'),
       },
       historyApiFallback: true,
-      host: '0.0.0.0',
-      port: 8090,
+      host: devHost,
+      port: devPort,
       hot: true,
       client: {
         overlay: true,

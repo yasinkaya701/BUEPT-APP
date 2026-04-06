@@ -4,7 +4,7 @@ const path = require('path');
 const crypto = require('crypto');
 const url = require('url');
 
-const HOST = '0.0.0.0';
+const HOST = process.env.HOST || process.env.BUEPT_HOST || '0.0.0.0';
 const PORT = process.env.PORT ? Number(process.env.PORT) : 8088;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || process.env.BUEPT_OPENAI_API_KEY || '';
 const OPENAI_BASE_URL = String(process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1').replace(/\/+$/, '');
@@ -70,6 +70,8 @@ const APP_ROOT = roots.appRoot;
 const DATA_ROOT = roots.dataRoot;
 const SYNC_STORE_FILE = path.join(DATA_ROOT, 'sync_bridge_store.json');
 const STATIC_ROOT_CANDIDATES = [
+  path.join(APP_ROOT, 'web-rnw', 'dist'),
+  path.join(PROJECT_ROOT, 'BUEPTApp', 'web-rnw', 'dist'),
   path.join(APP_ROOT, 'web'),
   path.join(PROJECT_ROOT, 'web'),
 ];
