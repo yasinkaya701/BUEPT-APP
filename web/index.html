@@ -52,6 +52,72 @@
           <h2>Academic Calendar</h2>
           <div id="calendar" class="result"></div>
         </div>
+
+        <div class="panel">
+          <h2>All App Features (Web Hub)</h2>
+          <div class="row">
+            <input id="moduleSearch" placeholder="Search any mobile route or module (e.g. Placement, Drafts, ProficiencyMock)" />
+            <select id="moduleCategory">
+              <option value="all">All Categories</option>
+            </select>
+            <button id="reloadModules" class="btn ghost">Reload</button>
+          </div>
+          <p id="moduleStats" class="muted">Loading module catalog...</p>
+          <div id="moduleCatalog" class="module-grid"></div>
+          <div id="moduleResult" class="result"></div>
+        </div>
+
+        <div class="panel">
+          <h2>AI Studio</h2>
+          <div class="studio-grid">
+            <article class="tool-card">
+              <h3>Presentation Prep</h3>
+              <input id="presentationTopic" placeholder="Topic (e.g. Sleep and Learning)" />
+              <div class="row">
+                <input id="presentationDuration" type="number" min="5" max="20" value="10" />
+                <select id="presentationLevel">
+                  <option value="B1">B1</option>
+                  <option value="B2" selected>B2</option>
+                  <option value="C1">C1</option>
+                </select>
+              </div>
+              <button id="generatePresentation" class="btn">Generate Presentation</button>
+              <div id="presentationResult" class="result"></div>
+            </article>
+            <article class="tool-card">
+              <h3>Video Lesson Studio</h3>
+              <input id="videoTopic" placeholder="Lesson topic (e.g. Hedging in Academic Writing)" />
+              <div class="row">
+                <input id="videoDuration" type="number" min="2" max="12" value="4" />
+                <select id="videoLevel">
+                  <option value="A2">A2</option>
+                  <option value="B1" selected>B1</option>
+                  <option value="B2">B2</option>
+                  <option value="C1">C1</option>
+                </select>
+              </div>
+              <button id="generateVideoLesson" class="btn">Generate Lesson</button>
+              <div id="videoLessonResult" class="result"></div>
+            </article>
+            <article class="tool-card">
+              <h3>Mistake Coach</h3>
+              <textarea id="mistakePrompt" rows="4" placeholder="Paste the wrong question/answer and ask why it is wrong..."></textarea>
+              <button id="generateMistakeCoach" class="btn">Explain Mistake</button>
+              <div id="mistakeCoachResult" class="result"></div>
+            </article>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Sync Bridge (App ↔ Extension ↔ Web)</h2>
+          <div class="row">
+            <button id="syncStatusBtn" class="btn ghost">Status</button>
+            <button id="syncPullBtn" class="btn ghost">Pull</button>
+            <button id="syncPushBtn" class="btn ghost">Push Demo Data</button>
+          </div>
+          <div id="syncResult" class="result"></div>
+          <div id="syncMiniQuiz" class="result"></div>
+        </div>
       </section>
 
       <section id="screen-reading" class="tab-screen">
@@ -103,8 +169,10 @@
           <div class="row">
             <span id="wordCount" class="muted">0 words</span>
             <button id="quickWritingFeedback" class="btn ghost">Quick Feedback</button>
+            <button id="aiWritingRevision" class="btn">AI Revision</button>
           </div>
           <div id="writingFeedback" class="result"></div>
+          <div id="aiWritingRevisionResult" class="result"></div>
         </div>
       </section>
 
@@ -127,6 +195,11 @@
       <section id="screen-listening" class="tab-screen">
         <div class="panel">
           <h2>Listening Podcasts</h2>
+          <div class="row">
+            <input id="listeningPrediction" placeholder="Prediction step: What do you expect to hear?" />
+            <button id="saveListeningPrediction" class="btn ghost">Save Prediction</button>
+          </div>
+          <div id="listeningPredictionResult" class="result"></div>
           <div id="podcasts" class="result"></div>
         </div>
       </section>
@@ -134,6 +207,11 @@
       <section id="screen-speaking" class="tab-screen">
         <div class="panel chat-panel">
           <h2>Speaking Coach Chatbot</h2>
+          <textarea id="speakingInput" rows="5" placeholder="Paste your speaking transcript here for fluency + pronunciation feedback..."></textarea>
+          <div class="row">
+            <button id="speakingEvaluate" class="btn">Evaluate Speaking</button>
+          </div>
+          <div id="speakingFeedback" class="result"></div>
           <div id="chatLog" class="chat-log"></div>
           <div class="row">
             <input id="chatInput" placeholder="Ask for strategy, word meaning, or practice task..." />

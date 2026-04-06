@@ -1,0 +1,314 @@
+[
+  {
+    "route": "Splash",
+    "title": ""
+  },
+  {
+    "route": "Onboarding",
+    "title": ""
+  },
+  {
+    "route": "Login",
+    "title": ""
+  },
+  {
+    "route": "Signup",
+    "title": ""
+  },
+  {
+    "route": "MainTabs",
+    "title": ""
+  },
+  {
+    "route": "Reading",
+    "title": ""
+  },
+  {
+    "route": "ReadingDetail",
+    "title": ""
+  },
+  {
+    "route": "Listening",
+    "title": ""
+  },
+  {
+    "route": "ListeningDetail",
+    "title": ""
+  },
+  {
+    "route": "Grammar",
+    "title": ""
+  },
+  {
+    "route": "GrammarDetail",
+    "title": ""
+  },
+  {
+    "route": "GrammarSectionExam",
+    "title": ""
+  },
+  {
+    "route": "VocabQuiz",
+    "title": ""
+  },
+  {
+    "route": "VocabPractice",
+    "title": ""
+  },
+  {
+    "route": "VocabSynonymQuiz",
+    "title": ""
+  },
+  {
+    "route": "VocabClozeQuiz",
+    "title": ""
+  },
+  {
+    "route": "VocabCollocationQuiz",
+    "title": ""
+  },
+  {
+    "route": "VocabFlashcard",
+    "title": ""
+  },
+  {
+    "route": "FlashcardHome",
+    "title": "Flashcard Library"
+  },
+  {
+    "route": "CreateFlashcardDeck",
+    "title": "New Deck"
+  },
+  {
+    "route": "WebViewer",
+    "title": ""
+  },
+  {
+    "route": "Exams",
+    "title": ""
+  },
+  {
+    "route": "ExamDetail",
+    "title": ""
+  },
+  {
+    "route": "Resources",
+    "title": ""
+  },
+  {
+    "route": "ReadingHistory",
+    "title": ""
+  },
+  {
+    "route": "ListeningHistory",
+    "title": ""
+  },
+  {
+    "route": "GrammarHistory",
+    "title": ""
+  },
+  {
+    "route": "WritingEditor",
+    "title": ""
+  },
+  {
+    "route": "Feedback",
+    "title": ""
+  },
+  {
+    "route": "History",
+    "title": ""
+  },
+  {
+    "route": "Mock",
+    "title": ""
+  },
+  {
+    "route": "MockResult",
+    "title": ""
+  },
+  {
+    "route": "Favorites",
+    "title": ""
+  },
+  {
+    "route": "Drafts",
+    "title": ""
+  },
+  {
+    "route": "DraftRestore",
+    "title": ""
+  },
+  {
+    "route": "MockHistory",
+    "title": ""
+  },
+  {
+    "route": "Review",
+    "title": ""
+  },
+  {
+    "route": "StudyPlan",
+    "title": ""
+  },
+  {
+    "route": "Analytics",
+    "title": ""
+  },
+  {
+    "route": "OnlineFeedback",
+    "title": ""
+  },
+  {
+    "route": "Chatbot",
+    "title": ""
+  },
+  {
+    "route": "MistakeCoach",
+    "title": ""
+  },
+  {
+    "route": "SpeakingDetail",
+    "title": ""
+  },
+  {
+    "route": "SpeakingMockInterview",
+    "title": ""
+  },
+  {
+    "route": "Progress",
+    "title": ""
+  },
+  {
+    "route": "SynonymFinder",
+    "title": ""
+  },
+  {
+    "route": "Essay",
+    "title": ""
+  },
+  {
+    "route": "ErrorStats",
+    "title": ""
+  },
+  {
+    "route": "Developer",
+    "title": ""
+  },
+  {
+    "route": "ConfusingPronunciations",
+    "title": ""
+  },
+  {
+    "route": "DemoFeatures",
+    "title": ""
+  },
+  {
+    "route": "PhotoVocabCapture",
+    "title": ""
+  },
+  {
+    "route": "PlacementTest",
+    "title": ""
+  },
+  {
+    "route": "AcademicWriting",
+    "title": ""
+  },
+  {
+    "route": "TerminologyDictionary",
+    "title": ""
+  },
+  {
+    "route": "AISpeakingPartner",
+    "title": ""
+  },
+  {
+    "route": "CampusSocial",
+    "title": ""
+  },
+  {
+    "route": "Assignments",
+    "title": ""
+  },
+  {
+    "route": "LectureListeningLab",
+    "title": ""
+  },
+  {
+    "route": "AdvancedReading",
+    "title": ""
+  },
+  {
+    "route": "DiscussionForums",
+    "title": ""
+  },
+  {
+    "route": "CurriculumSync",
+    "title": ""
+  },
+  {
+    "route": "ClassScheduleCalendar",
+    "title": ""
+  },
+  {
+    "route": "BogaziciHub",
+    "title": ""
+  },
+  {
+    "route": "LiveClasses",
+    "title": ""
+  },
+  {
+    "route": "WeakPointAnalysis",
+    "title": ""
+  },
+  {
+    "route": "EssayEvaluation",
+    "title": ""
+  },
+  {
+    "route": "ProficiencyMock",
+    "title": ""
+  },
+  {
+    "route": "MicroLearning",
+    "title": ""
+  },
+  {
+    "route": "RealLifeModules",
+    "title": ""
+  },
+  {
+    "route": "PlagiarismChecker",
+    "title": ""
+  },
+  {
+    "route": "LanguageExchangeMatching",
+    "title": ""
+  },
+  {
+    "route": "InteractiveVocabulary",
+    "title": ""
+  },
+  {
+    "route": "EmailTemplateDesigner",
+    "title": ""
+  },
+  {
+    "route": "AIPresentationPrep",
+    "title": ""
+  },
+  {
+    "route": "AILessonVideoStudio",
+    "title": ""
+  },
+  {
+    "route": "VideoLessonPlayer",
+    "title": ""
+  },
+  {
+    "route": "Podcast",
+    "title": ""
+  }
+]
