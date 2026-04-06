@@ -47,6 +47,9 @@ module.exports = (env = {}, argv = {}) => {
         'react-native-webview': path.resolve(projectRoot, 'web-rnw/shims/react-native-webview.js'),
         'react-native-reanimated': path.resolve(projectRoot, 'web-rnw/shims/react-native-reanimated.js'),
         'react-native-vector-icons/Ionicons': path.resolve(projectRoot, 'web-rnw/shims/react-native-vector-icons-ionicons.js'),
+        '@react-native-async-storage/async-storage': path.resolve(projectRoot, 'web-rnw/shims/async-storage.js'),
+        '../dev/SimulatorSmokeRunner': path.resolve(projectRoot, 'web-rnw/shims/simulator-smoke-runner.js'),
+        './dev/SimulatorSmokeRunner': path.resolve(projectRoot, 'web-rnw/shims/simulator-smoke-runner.js'),
       },
       fallback: {
         fs: false,
