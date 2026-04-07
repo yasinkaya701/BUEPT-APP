@@ -54,6 +54,12 @@ export function getDefaultApiBaseUrl(port = DEFAULT_API_PORT) {
       if (isLocalHost && webPort === String(port)) {
         return origin || '';
       }
+      
+      // If we are on localhost but not on the API port (e.g. 8090 dev server),
+      // we still want to use the local API (proxied via /api) for development/local-ai experiments.
+      if (isLocalHost) {
+        return origin || '';
+      }
     } catch (_) {
       // continue
     }

@@ -112,8 +112,8 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.sm,
   },
   contentWide: { maxWidth: 1120, paddingHorizontal: spacing.xl },
-  contentWeb: { maxWidth: 1280, paddingHorizontal: spacing.lg },
+  contentWeb: { maxWidth: 1280, paddingHorizontal: spacing.lg, backgroundColor: colors.bg },
   contentPhone: { paddingHorizontal: spacing.sm + 2 },
   animatedFill: { flex: 1 },
-  overlayWeb: { backgroundColor: 'rgba(2, 8, 23, 0.35)' },
+  overlayWeb: { backgroundColor: 'rgba(2, 8, 23, 0.85)' },
 });

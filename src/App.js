@@ -10,9 +10,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Tts from 'react-native-tts';
 import SimulatorSmokeRunner from './dev/SimulatorSmokeRunner';
 
-// Disable react-native-screens globally as early as possible.
-// This avoids the iOS pointerEvents freeze that can make taps unresponsive.
-enableScreens(false);
+// Disable react-native-screens only on iOS as early as possible.
+// This avoids the iOS-specific pointerEvents freeze that can make taps unresponsive.
+if (Platform.OS === 'ios') {
+  enableScreens(false);
+}
 
 export default function App() {
   const navigationRef = useNavigationContainerRef();

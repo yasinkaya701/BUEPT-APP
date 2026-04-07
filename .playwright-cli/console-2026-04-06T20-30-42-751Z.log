@@ -1307,3 +1307,19 @@ Update propagation: ./src/components/Screen.js -> ./src/screens/GrammarScreen.js
 [10501401ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
 [10501402ms] [LOG] [HMR]  - ./src/utils/runtimeApi.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
 [10501402ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[10517019ms] [INFO] [webpack-dev-server] "/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/web-rnw/dist/index.html" from static directory was changed. Reloading... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[10517335ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[10517336ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[10517366ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[10517410ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[10517432ms] ReferenceError: colors is not defined
+    at eval (webpack://BUEPTApp/./src/components/Screen.js?:1:4536)
+    at ./src/components/Screen.js (http://127.0.0.1:8090/app.js:5895:1)
+    at __webpack_require__ (http://127.0.0.1:8090/app.js:9123:32)
+    at fn (http://127.0.0.1:8090/app.js:9329:21)
+    at eval (webpack://BUEPTApp/./src/screens/HomeScreen.js?:1:1224)
+    at ./src/screens/HomeScreen.js (http://127.0.0.1:8090/app.js:6315:1)
+    at __webpack_require__ (http://127.0.0.1:8090/app.js:9123:32)
+    at fn (http://127.0.0.1:8090/app.js:9329:21)
+    at eval (webpack://BUEPTApp/./src/navigation/TabNavigator.js?:1:814)
+    at ./src/navigation/TabNavigator.js (http://127.0.0.1:8090/app.js:5975:1)
