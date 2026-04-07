@@ -14,6 +14,8 @@ import SimulatorSmokeRunner from './dev/SimulatorSmokeRunner';
 // This avoids the iOS-specific pointerEvents freeze that can make taps unresponsive.
 if (Platform.OS === 'ios') {
   enableScreens(false);
+} else {
+  enableScreens(true);
 }
 
 export default function App() {

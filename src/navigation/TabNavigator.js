@@ -217,6 +217,7 @@ export default function TabNavigator() {
       screenOptions={({ route }) => ({
         headerShown: false,
         lazy: true,
+        unmountOnBlur: isWeb,
         freezeOnBlur: true,
         tabBarHideOnKeyboard: true,
         animation: isWebDesktop ? 'none' : 'shift',

@@ -1966,7 +1966,7 @@ function sendJson(res, code, payload) {
   res.writeHead(code, {
     'Content-Type': 'application/json; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Sync-Token, BUEPT-Sync-Token',
     'Access-Control-Allow-Methods': 'GET,POST,OPTIONS'
   });
   res.end(JSON.stringify(payload, null, 2));
