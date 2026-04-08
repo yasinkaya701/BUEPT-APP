@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
-import { Text, StyleSheet, View, TextInput, TouchableOpacity, useWindowDimensions, FlatList } from 'react-native';
+import { Text, StyleSheet, View, TextInput, TouchableOpacity, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
@@ -23,6 +23,12 @@ const tasks = [...baseTasks, ...hardTasks, ...testEnglishTasks].map((item) => {
     _isUoe: isUoe,
   };
 });
+
+function formatTaskMeta(item, questionCount) {
+  return [item?.level, item?.time, questionCount ? `${questionCount} questions` : null]
+    .filter(Boolean)
+    .join(' · ');
+}
 
 // UI Modules matching ReadingScreen
 function MetricTile({ value, label, accent = 'blue' }) {
@@ -149,40 +155,38 @@ export default function GrammarScreen({ navigation, route }) {
     const questions = item.questions || [];
     const hasCloze = questions.some((q) => q.type === 'cloze');
     return (
-      <View style={[styles.taskItemWrap, isWide && styles.taskItemWrapWide]}>
-         <TouchableOpacity 
-            accessibilityRole="button" 
-            activeOpacity={0.9} 
-            onPress={() => navigation.navigate('GrammarDetail', { taskId: item.id })} 
-            hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
-            style={styles.taskRow}
-        >
-            <View style={styles.taskRowBody}>
-                <View style={styles.taskRowHeader}>
-                    <Text style={styles.taskRowTitle}>{item.title}</Text>
-                    <Text style={styles.taskRowOpen}>Practice</Text>
-                </View>
-                <Text style={styles.taskRowMeta}>{item.level} · {item.time} · {questions.length} questions</Text>
-                
-                <View style={styles.taskBadgeRow}>
-                    <View style={[styles.badge, styles.badgeBlue]}>
-                        <Text style={[styles.badgeText, styles.badgeBlueText]}>{item.difficulty || 'core'}</Text>
-                    </View>
-                    <View style={[styles.badge, hasCloze ? styles.badgeGreen : styles.badgeSoft]}>
-                        <Text style={[styles.badgeText, hasCloze ? styles.badgeGreenText : {}]}>{hasCloze ? 'Cloze' : 'MCQ'}</Text>
-                    </View>
-                    {item._isTestEnglish && (
-                        <View style={[styles.badge, styles.badgeAmber]}>
-                            <Text style={[styles.badgeText, styles.badgeAmberText]}>Test English</Text>
-                        </View>
-                    )}
-                </View>
-                <Text style={styles.taskExplainLine} numberOfLines={1}>{item.explain}</Text>
+      <TouchableOpacity
+        accessibilityRole="button"
+        activeOpacity={0.9}
+        onPress={() => navigation.navigate('GrammarDetail', { taskId: item.id })}
+        hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
+        style={styles.taskRow}
+      >
+        <View style={styles.taskRowBody}>
+          <View style={styles.taskRowHeader}>
+            <Text style={styles.taskRowTitle}>{item.title}</Text>
+            <Text style={styles.taskRowOpen}>Practice</Text>
+          </View>
+          <Text style={styles.taskRowMeta}>{formatTaskMeta(item, questions.length)}</Text>
+
+          <View style={styles.taskBadgeRow}>
+            <View style={[styles.badge, styles.badgeBlue]}>
+              <Text style={[styles.badgeText, styles.badgeBlueText]}>{item.difficulty || 'core'}</Text>
             </View>
-        </TouchableOpacity>
-      </View>
+            <View style={[styles.badge, hasCloze ? styles.badgeGreen : styles.badgeSoft]}>
+              <Text style={[styles.badgeText, hasCloze ? styles.badgeGreenText : null]}>{hasCloze ? 'Cloze' : 'MCQ'}</Text>
+            </View>
+            {item._isTestEnglish ? (
+              <View style={[styles.badge, styles.badgeAmber]}>
+                <Text style={[styles.badgeText, styles.badgeAmberText]}>Test English</Text>
+              </View>
+            ) : null}
+          </View>
+          <Text style={styles.taskExplainLine} numberOfLines={2}>{item.explain}</Text>
+        </View>
+      </TouchableOpacity>
     );
-  }, [isWide, navigation]);
+  }, [navigation]);
 
   const renderEmpty = useCallback(() => (
     <Card style={styles.card}>
@@ -327,12 +331,12 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: typography.h1,
     fontFamily: typography.fontHeadline,
-    color: colors.text,
+    color: colors.textOnDark,
     marginBottom: spacing.xs,
   },
   sub: {
     fontSize: typography.body,
-    color: colors.muted,
+    color: colors.textOnDarkMuted,
     marginBottom: spacing.md,
     lineHeight: 20,
   },
@@ -611,15 +615,18 @@ const styles = StyleSheet.create({
   listHeaderTitle: {
       fontSize: 14,
       fontWeight: '700',
-      color: '#64748B',
+      color: colors.textOnDarkMuted,
       textTransform: 'uppercase',
       letterSpacing: 0.5,
   },
 
   // Task Items
   taskItemWrap: {
-      flex: 1,
+      width: '100%',
       marginBottom: spacing.md,
+  },
+  taskItemWrapWide: {
+      width: '48.5%',
   },
   taskRow: {
     backgroundColor: '#FFFFFF',
@@ -628,6 +635,7 @@ const styles = StyleSheet.create({
     borderColor: '#E2E8F0',
     ...shadow.sm,
     overflow: 'hidden',
+    minHeight: 164,
   },
   taskRowBody: {
     padding: spacing.lg,

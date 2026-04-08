@@ -16,6 +16,7 @@ export default function Screen({
 }) {
   const { width } = useWindowDimensions();
   const isWeb = Platform.OS === 'web';
+  const shouldUseNativeDriver = !isWeb;
   const isWide = width >= 980;
   const isPhone = width < 500;
   const fade = useRef(new Animated.Value(animate ? 0 : 1)).current;
@@ -36,16 +37,16 @@ export default function Screen({
         toValue: 1,
         duration: motion.normal,
         easing: Easing.out(Easing.cubic),
-        useNativeDriver: true
+        useNativeDriver: shouldUseNativeDriver
       }),
       Animated.timing(translate, {
         toValue: 0,
         duration: motion.normal,
         easing: Easing.out(Easing.cubic),
-        useNativeDriver: true
+        useNativeDriver: shouldUseNativeDriver
       }),
     ]).start();
-  }, [animate, fade, translate]);
+  }, [animate, fade, translate, shouldUseNativeDriver]);
 
   const contentNode = (
     <Animated.View

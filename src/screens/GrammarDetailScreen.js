@@ -16,6 +16,12 @@ import { subscribeSmokeActions } from '../dev/smokeBus';
 
 const tasks = [...baseTasks, ...hardTasks, ...testEnglishTasks];
 
+function formatTaskSummary(task, questionCount) {
+  return [`Level ${task?.level || '--'}`, task?.time, questionCount ? `${questionCount} questions` : null]
+    .filter(Boolean)
+    .join(' • ');
+}
+
 function buildGrammarFeedback(task, answers = {}) {
   const qs = task?.questions || [];
   if (!qs.length) return null;
@@ -307,7 +313,7 @@ export default function GrammarDetailScreen({ route, navigation }) {
       {hasValidTask ? (
         <>
       <Text style={styles.h1}>{task.title}</Text>
-      <Text style={styles.sub}>Level {task.level} {'\u2022'} {task.time}</Text>
+      <Text style={styles.sub}>{formatTaskSummary(task, taskQuestions.length)}</Text>
       {examMode ? <Text style={styles.note}>Exam mode: randomized set ({taskQuestions.length} questions)</Text> : null}
 
       {/* Score card when checked */}
@@ -647,7 +653,7 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: typography.h1,
     fontFamily: typography.fontHeadline,
-    color: colors.text,
+    color: colors.textOnDark,
     marginBottom: spacing.xs,
   },
   h3: {
@@ -658,7 +664,7 @@ const styles = StyleSheet.create({
   },
   sub: {
     fontSize: typography.small,
-    color: colors.muted,
+    color: colors.textOnDarkMuted,
     marginBottom: spacing.md,
   },
   body: {
@@ -666,8 +672,15 @@ const styles = StyleSheet.create({
     color: colors.text,
     marginBottom: spacing.xs,
   },
+  note: {
+    fontSize: typography.small,
+    color: colors.textOnDarkMuted,
+    marginBottom: spacing.sm,
+    lineHeight: 20,
+  },
   row: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: spacing.sm,
     marginTop: spacing.sm,
   },
