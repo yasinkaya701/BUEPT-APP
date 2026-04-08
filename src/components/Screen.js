@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, Easing, ScrollView, StyleSheet, useWindowDimensions, View, Image, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
-import { spacing, motion } from '../theme/tokens';
+import { spacing, motion, colors } from '../theme/tokens';
 
 const BG_IMAGE = require('../assets/images/boun_campus.png');
 
