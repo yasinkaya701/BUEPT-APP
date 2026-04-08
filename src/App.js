@@ -7,15 +7,15 @@ import { AppStateProvider } from './context/AppState';
 import { colors } from './theme/tokens';
 import AppErrorBoundary from './components/AppErrorBoundary';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Tts from 'react-native-tts';
 import SimulatorSmokeRunner from './dev/SimulatorSmokeRunner';
 
-// Disable react-native-screens only on iOS as early as possible.
-// This avoids the iOS-specific pointerEvents freeze that can make taps unresponsive.
+// Only touch react-native-screens on iOS.
+// Calling enableScreens on Web crashes the browser bundle because
+// react-native-screens has no web implementation.
 if (Platform.OS === 'ios') {
   enableScreens(false);
-} else {
-  enableScreens(true);
 }
 
 export default function App() {
@@ -68,29 +68,31 @@ export default function App() {
   };
   return (
     <AppErrorBoundary>
-      <SafeAreaProvider>
-        <AppStateProvider>
-          <NavigationContainer
-            ref={navigationRef}
-            theme={navTheme}
-            onReady={() => {
-              const routeName = navigationRef.getCurrentRoute()?.name || null;
-              setCurrentRouteName(routeName);
-              syncWebNavigationDebug();
-            }}
-            onStateChange={() => {
-              const routeName = navigationRef.getCurrentRoute()?.name || null;
-              setCurrentRouteName(routeName);
-              syncWebNavigationDebug();
-            }}
-          >
-            <RootNavigator />
-            {Platform.OS !== 'web' ? (
-              <SimulatorSmokeRunner navigationRef={navigationRef} currentRouteName={currentRouteName} />
-            ) : null}
-          </NavigationContainer>
-        </AppStateProvider>
-      </SafeAreaProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider style={{ flex: 1 }}>
+          <AppStateProvider>
+            <NavigationContainer
+              ref={navigationRef}
+              theme={navTheme}
+              onReady={() => {
+                const routeName = navigationRef.getCurrentRoute()?.name || null;
+                setCurrentRouteName(routeName);
+                syncWebNavigationDebug();
+              }}
+              onStateChange={() => {
+                const routeName = navigationRef.getCurrentRoute()?.name || null;
+                setCurrentRouteName(routeName);
+                syncWebNavigationDebug();
+              }}
+            >
+              <RootNavigator />
+              {Platform.OS !== 'web' ? (
+                <SimulatorSmokeRunner navigationRef={navigationRef} currentRouteName={currentRouteName} />
+              ) : null}
+            </NavigationContainer>
+          </AppStateProvider>
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
     </AppErrorBoundary>
   );
 }

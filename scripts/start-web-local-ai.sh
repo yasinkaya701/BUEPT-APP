@@ -22,7 +22,7 @@ echo "Project root     : ${ROOT_DIR}"
 echo "────────────────────────────────────────────────────────"
 
 echo "Building react-native-web bundle..."
-npm run web:rnw:build
+npm run web:rnw:build:root
 echo "Web bundle ready: ${ROOT_DIR}/web-rnw/dist"
 
 if command -v curl >/dev/null 2>&1; then

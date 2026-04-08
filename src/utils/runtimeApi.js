@@ -1,7 +1,7 @@
 import { NativeModules, Platform } from 'react-native';
 
 const DEFAULT_API_PORT = 8088;
-// Public production API (set when backend is deployed).
+// External API fallback used by GitHub Pages deployments that cannot host serverless routes.
 const STATIC_PROD_API_BASE_URL = 'https://buept-api.vercel.app';
 
 export function readRuntimeEnv(name, fallback = '') {
@@ -43,31 +43,34 @@ export function getDefaultApiBaseUrl(port = DEFAULT_API_PORT) {
       const host = typeof window !== 'undefined' ? String(window.location?.hostname || '').trim().toLowerCase() : '';
       const webPort = typeof window !== 'undefined' ? String(window.location?.port || '').trim() : '';
       const isLocalHost = host === 'localhost' || host === '127.0.0.1';
+      const isGithubPagesHost = host.endsWith('github.io');
 
-      // Dev on web: prefer same-origin (/api) so webpack-dev-server can proxy or fail fast
-      // without hard-blocking on a different local port.
       if (typeof __DEV__ !== 'undefined' && __DEV__) {
         return origin || '';
       }
 
-      // Local AI starter serves web+api together on port 8088.
       if (isLocalHost && webPort === String(port)) {
         return origin || '';
       }
-      
-      // If we are on localhost but not on the API port (e.g. 8090 dev server),
-      // we still want to use the local API (proxied via /api) for development/local-ai experiments.
+
       if (isLocalHost) {
         return origin || '';
       }
+
+      // GitHub Pages can only host the frontend, so keep using the dedicated API host there.
+      if (isGithubPagesHost) {
+        return readRuntimeEnv('BUEPT_API_BASE_URL', STATIC_PROD_API_BASE_URL).trim() || '';
+      }
+
+      // Full-stack web deploys (Vercel/Netlify/local server) should use same-origin /api routes.
+      if (origin) {
+        return origin;
+      }
     } catch (_) {
-      // continue
+      return readRuntimeEnv('BUEPT_API_BASE_URL', STATIC_PROD_API_BASE_URL).trim() || '';
     }
-    
-    if (typeof __DEV__ === 'undefined' || !__DEV__) {
-      return STATIC_PROD_API_BASE_URL || '';
-    }
-    return '';
+
+    return readRuntimeEnv('BUEPT_API_BASE_URL', STATIC_PROD_API_BASE_URL).trim() || '';
   }
 
   // In production, only use an explicit API base (public backend).

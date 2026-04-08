@@ -32,7 +32,9 @@ export function isVocabCloudSyncEnabled() {
     || readRuntimeEnv('BUEPT_SYNC_PUSH_URL', '')
     || readRuntimeEnv('BUEPT_API_BASE_URL', '');
 
-  return Boolean(String(explicitEndpoint || '').trim());
+  if (String(explicitEndpoint || '').trim()) return true;
+
+  return Boolean(resolveApiEndpoint('BUEPT_SYNC_STATUS_URL', '/api/sync/status'));
 }
 
 async function fetchWithTimeout(endpoint, options = {}) {
