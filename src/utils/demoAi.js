@@ -339,9 +339,10 @@ export async function generateSpeakingCoachReply({ text = '', history = [] } = {
   const cleanTextValue = cleanText(text);
   
   try {
+    const formattedHistory = Array.isArray(history) ? history.map(m => ({ role: m.role, content: m.text })) : [];
     const directReply = await executeDirectAiChat({
       systemPrompt: 'You are an IELTS/BUEPT speaking coach. Provide actionable feedback with metrics (words, coherence) and exactly 3 tips for the user response.',
-      messages: [{ role: 'user', content: cleanTextValue }],
+      messages: [...formattedHistory, { role: 'user', content: cleanTextValue }],
       jsonFormat: true
     });
     
@@ -352,6 +353,14 @@ export async function generateSpeakingCoachReply({ text = '', history = [] } = {
   } catch (err) {
     if (typeof __DEV__ !== 'undefined' && __DEV__) {
       console.warn('Direct speaking coach failed:', err);
+    }
+    const { getRuntimeApiAccessConfig } = require('./runtimeApi');
+    const cfg = getRuntimeApiAccessConfig();
+    if (cfg.provider === 'ollama' || cfg.apiKey) {
+      return normalizeSpeakingPayload({
+        text: `⚠️ Connection Failed: ${err.message}. If using Ollama, ensure it is running and CORS is enabled via OLLAMA_ORIGINS="*".`,
+        source: 'error'
+      }, cleanTextValue);
     }
   }
 

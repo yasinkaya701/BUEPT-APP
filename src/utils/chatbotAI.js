@@ -118,6 +118,14 @@ export async function requestChatbotReply({ message, mode = 'coach', history = [
     if (typeof __DEV__ !== 'undefined' && __DEV__) {
       console.warn('Direct AI request failed:', err);
     }
+    const { getRuntimeApiAccessConfig } = require('./runtimeApi');
+    const cfg = getRuntimeApiAccessConfig();
+    if (cfg.provider === 'ollama' || cfg.apiKey) {
+      return { 
+        text: `⚠️ Connection Failed: ${err.message}. If you are using Ollama locally, ensure it is running and CORS is enabled by setting OLLAMA_ORIGINS="*".`, 
+        source: 'error' 
+      };
+    }
   } finally {
     timeout.clear();
   }

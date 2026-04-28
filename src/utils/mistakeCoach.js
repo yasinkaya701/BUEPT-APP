@@ -1,7 +1,7 @@
 import { isChatApiConfigured, requestChatbotReply } from './chatbotAI';
 import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders, executeDirectAiChat } from './runtimeApi';
 
-const MAX_CONTEXT_CHARS = 900;
+const MAX_CONTEXT_CHARS = 20000;
 const MISTAKE_ENDPOINT = resolveApiEndpoint('BUEPT_MISTAKE_COACH_API_URL', '/api/mistake-coach');
 const DEFAULT_TIMEOUT_MS = 16000;
 const DEFAULT_RETRIES = 1;
@@ -169,9 +169,10 @@ export async function requestMistakeCoachReply({ mistake, question, history = []
 
   const timeout = withTimeout();
   try {
+    const formattedHistory = Array.isArray(history) ? history.map(m => ({ role: m.role, content: m.text })) : [];
     const directReply = await executeDirectAiChat({
-      systemPrompt: 'You are a helpful and precise English Mistake Coach for BUEPT students.',
-      messages: [{ role: 'user', content: prompt }],
+      systemPrompt: 'You are a helpful and precise English Mistake Coach for BUEPT students. Be concise, direct, and actionable.',
+      messages: [...formattedHistory, { role: 'user', content: prompt }],
       signal: timeout.signal
     });
     
@@ -182,9 +183,19 @@ export async function requestMistakeCoachReply({ mistake, question, history = []
     if (typeof __DEV__ !== 'undefined' && __DEV__) {
       console.warn('Direct AI request failed:', err);
     }
+    const { getRuntimeApiAccessConfig } = require('./runtimeApi');
+    const cfg = getRuntimeApiAccessConfig();
+    if (cfg.provider === 'ollama' || cfg.apiKey) {
+      return { 
+        text: `⚠️ Connection Failed: ${err.message}. If you are using Ollama locally, ensure it is running and CORS is enabled by setting OLLAMA_ORIGINS="*".`, 
+        source: 'error' 
+      };
+    }
   } finally {
     timeout.clear();
   }
+
+  if (MISTAKE_ENDPOINT) {
 
   if (MISTAKE_ENDPOINT) {
     let lastErr = null;
