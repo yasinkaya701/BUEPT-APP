@@ -91,7 +91,7 @@ const INLINE_TAG_LABELS = {
   rep: 'Rep'
 };
 
-const RULES = [
+export const RULES = [
   { tag: 'cap', pattern: /\b(china|turkey|english|boğaziçi|itu|odtü)\b/gi, why: 'Proper nouns should be capitalized.' },
   { tag: 'cap', pattern: /\bi\b/g, why: 'Pronoun “I” must be capitalized.' },
   { tag: 'art', pattern: /\bgovernment means who\b/gi, why: 'Use a noun phrase after “means”.' },

@@ -1,5 +1,9 @@
 import { detectBasicErrors } from './basicErrorDetect';
 import bueptMarkingScheme from '../../data/buept_writing_marking_scheme.json';
+import { countWords, RULES } from './ys9Mock';
+import academicList from '../../data/academic_wordlist.json';
+
+const AWL = new Set(academicList.map(w => String(w).toLowerCase()));
 
 const CONNECTORS = [
   'however', 'therefore', 'moreover', 'furthermore', 'for example',
@@ -63,10 +67,6 @@ function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
 
-function countWords(text) {
-  const words = (text || '').toLowerCase().match(/\b[a-z']+\b/g) || [];
-  return words.length;
-}
 
 function splitSentences(text) {
   return (text || '').split(/[.!?]+/).map((s) => s.trim()).filter(Boolean);
@@ -120,15 +120,21 @@ function mechanicsIssueCount(text = '') {
 }
 
 function hasThesisSignal(text = '') {
-  return /\b(i believe|in this essay|this essay argues|i argue that|the main point is)\b/i.test(text);
+  const patterns = [
+    /\b(i (firmly )?believe|in this essay|this essay (argues|discusses|will explore))\b/i,
+    /\b(i (will )?argue that|the main (point|claim) is|it is (my conviction|clear) that)\b/i,
+    /\b(this (paragraph|response) (aims to|will))\b/i,
+    /\btaken into account\b/i
+  ];
+  return patterns.some(p => p.test(text));
 }
 
 function hasConclusionSignal(text = '') {
-  return /\b(in conclusion|to conclude|to sum up|overall|to summarize)\b/i.test(text);
+  return /\b(in conclusion|to conclude|to sum up|overall|to summarize|all in all|finally|ultimately)\b/i.test(text);
 }
 
 function hasExampleSignal(text = '') {
-  return /\b(for example|for instance|such as)\b/i.test(text);
+  return /\b(for example|for instance|such as|to illustrate|specifically|namely|as evidenced by)\b/i.test(text);
 }
 
 function connectorCount(text) {
@@ -424,5 +430,70 @@ export function scoreSpeakingRubric({ text = '', prompt = '', targetWords = 110 
     priorityPlan,
     nextStepChecklist,
     feedbackSummary,
+  };
+}
+
+export const BUEPT_BANDS_META = {
+  E: { label: 'Excellent', min: 95, color: '#10B981', descriptor: 'Systematic discussion, sophisticated style.' },
+  VG: { label: 'Very Good', min: 85, color: '#059669', descriptor: 'Extended argumentation, fluent academic style.' },
+  MA: { label: 'Adequate+', min: 75, color: '#2563EB', descriptor: 'Clear structure, competent support.' },
+  A: { label: 'Adequate', min: 60, color: '#3B82F6', descriptor: 'Task addressed, intelligible elaboration.' },
+  D: { label: 'Doubts', min: 55, color: '#F59E0B', descriptor: 'Simple arguments, limited clarity.' },
+  NA: { label: 'Not Adequate', min: 50, color: '#EF4444', descriptor: 'Simplistic manner, sentence structure issues.' },
+  FBA: { label: 'Far Below', min: 45, color: '#DC2626', descriptor: 'Seriously disrupted coherence.' },
+  INS: { label: 'Insufficient', min: 0, color: '#991B1B', descriptor: 'Too short to evaluate.' },
+};
+
+export function calculateLiveInsights({ text = '', prompt = '', targetWords = 180 } = {}) {
+  const score = scoreWritingRubric({ text, prompt, targetWords });
+  const { metrics, wascBand, readiness, total } = score;
+
+  const words = (text.toLowerCase().match(/\b[a-z']+\b/g) || []);
+  const academicCount = words.filter(w => AWL.has(w)).length;
+  const density = words.length > 0 ? (academicCount / words.length) * 100 : 0;
+
+  const alerts = [];
+  RULES.forEach(rule => {
+    if (rule.pattern.test(text)) {
+      alerts.push({ id: rule.tag + Math.random(), text: rule.why, type: 'error' });
+    }
+  });
+
+  const tasks = [];
+  if (metrics.wordCount < targetWords) {
+    tasks.push({ id: 'len', text: `Add ~${targetWords - metrics.wordCount} more words`, type: 'warn' });
+  }
+  if (metrics.errors > 3) {
+    tasks.push({ id: 'err', text: `Fix ${metrics.errors} grammar issues`, type: 'error' });
+  }
+  if (metrics.repetition >= 3) {
+    tasks.push({ id: 'rep', text: 'Reduce word repetition', type: 'info' });
+  }
+  if (!hasThesisSignal(text)) {
+    tasks.push({ id: 'the', text: 'Add a clear thesis statement', type: 'warn' });
+  }
+  if (!hasConclusionSignal(text) && metrics.wordCount > 100) {
+    tasks.push({ id: 'con', text: 'Missing conclusion signal', type: 'warn' });
+  }
+  if (!hasExampleSignal(text)) {
+    tasks.push({ id: 'ex', text: 'Provide a concrete example', type: 'info' });
+  }
+
+  return {
+    band: wascBand,
+    readiness,
+    total,
+    metrics: {
+      words: metrics.wordCount,
+      accuracy: Math.round(Math.max(0, 100 - (metrics.errors * 8))),
+      flow: Math.round(Math.min(100, (metrics.connectors * 20) + (metrics.supportHits * 10))),
+      variety: Math.round(metrics.ttr * 100),
+      complexity: Math.round(Math.min(100, (density * 5) + (metrics.academics * 10) + (metrics.sentenceCount * 5))),
+      formality: Math.round(Math.min(100, 100 - (metrics.repetition * 5) + (density * 3))),
+      academicDensity: Math.round(density * 2), // Normalized for display
+    },
+    tasks: tasks.slice(0, 3),
+    alerts: alerts.slice(0, 5),
+    isPass: wascBand.pass,
   };
 }

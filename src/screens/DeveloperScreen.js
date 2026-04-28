@@ -44,7 +44,7 @@ const PROVIDER_INFO = {
   },
 };
 
-const OLLAMA_MODELS = ['llama3.2:1b', 'llama3.2:3b', 'llama3:8b', 'mistral:7b', 'phi3:mini', 'gemma2:2b'];
+const OLLAMA_MODELS = ['llama3.2:1b', 'llama3.2:3b', 'llama3.1:8b', 'qwen2.5:14b', 'mistral-nemo', 'dolphin-llama3:8b', 'qwen2.5:32b', 'qwen3-coder:30b', 'mistral:7b', 'phi3:mini'];
 
 export default function DeveloperScreen() {
   const { aiAccessConfig, updateAiAccessConfig } = useAppState();
@@ -303,8 +303,9 @@ export default function DeveloperScreen() {
         {[
           '1. ollama.com/download → Mac/Windows/Linux için kur',
           '2. Terminal: ollama pull llama3.2:1b   (veya mistral:7b)',
-          '3. Terminal: ollama serve   (sunucu başlar)',
-          '4. Yukarıda "🏠 Ollama" sekmesi → URL: http://localhost:11434 → Kaydet',
+          '3. Terminal: OLLAMA_HOST="0.0.0.0" OLLAMA_ORIGINS="*" ollama serve',
+          `4. Yukarıda "🏠 Ollama" sekmesi → URL: http://10.5.202.62:11434 (Eğer telden bağlanıyorsan)`,
+          '   Veya bilgisayardaysan: http://localhost:11434',
         ].map((s) => (
           <Text key={s} style={styles.stepText}>{s}</Text>
         ))}

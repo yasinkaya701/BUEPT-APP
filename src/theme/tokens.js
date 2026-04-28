@@ -53,6 +53,18 @@ export const colors = {
 
   // Focus & UI
   focusRing: '#93C5FD',
+
+  // BUEPT Score Bands
+  bands: {
+    E: '#10B981',   // Excellent
+    VG: '#059669',  // Very Good
+    MA: '#2563EB',  // More than Adequate
+    A: '#3B82F6',   // Adequate
+    D: '#F59E0B',   // Doubts
+    NA: '#EF4444',  // Not Adequate
+    FBA: '#DC2626', // Far Below
+    INS: '#991B1B', // Insufficient
+  },
 };
 
 export const typography = {

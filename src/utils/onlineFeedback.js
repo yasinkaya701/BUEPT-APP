@@ -697,13 +697,23 @@ Return your feedback as a JSON object with strictly these keys:
     return fallback;
   }
 }
-export async function requestWritingAssistant({ task = '', prompt = '', currentText = '', mode = 'thesis' } = {}) {
-  const context = `Task: ${task}\nPrompt: ${prompt}\nStudent Current Work: ${currentText}`;
+export async function requestWritingAssistant({ task = '', prompt = '', currentText = '', selectedText = '', mode = 'thesis' } = {}) {
+  const context = `Task: ${task}\nPrompt: ${prompt}\nFull Draft: ${currentText}\n${selectedText ? `STUDENT SELECTED TEXT FOR FOCUS: "${selectedText}"` : ''}`;
   
   const systemPrompts = {
-    thesis: "You are a BUEPT Writing Assistant. Help the student craft a strong, academic thesis statement for their essay. Provide 2 options and explain why they work.",
-    outline: "You are a BUEPT Writing Assistant. Help the student create a logical outline with clear topic sentences for each paragraph based on their thesis.",
-    transition: "You are a BUEPT Writing Assistant. Suggest academic transition words or phrases to improve the flow between the student's current paragraphs."
+    thesis: `You are a BUEPT Writing Assistant. Using the BUEPT Rubric and Samples below, help the student craft a strong, academic thesis statement. Provide 2 options (one standard, one advanced) and explain how they align with "A" or "VG/E" bands.
+
+RUBRIC:
+${BUEPT_FULL_RUBRIC}
+
+SAMPLES:
+${BUEPT_FULL_SAMPLES}`,
+    outline: `You are a BUEPT Writing Assistant. Based on the BUEPT samples, help the student create a logical outline (Intro -> 2 Body Paragraphs -> Conclusion). Ensure each body paragraph has a clear topic sentence.`,
+    transition: `You are a BUEPT Writing Assistant. Suggest academic transition words (e.g., "In contrast", "Consequently", "Moreover") to improve the flow of the student's draft.`,
+    refine: `You are a BUEPT Writing Assistant. Help the student refine their draft to reach a higher BUEPT band. Focus on vocabulary precision and sentence complexity. Reference the "Excellent" sample for stylistic guidance.`,
+    synonyms: `You are a BUEPT Vocabulary Expert. Provide 3-4 academic synonyms for the selected text: "${selectedText}". 
+For each synonym, explain its nuance and provide a sample sentence relevant to the BUEPT exam context.
+Focus on transition from B1/B2 to C1 academic vocabulary.`
   };
 
   try {

@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import {
   View, Text, StyleSheet, TextInput, ScrollView,
   KeyboardAvoidingView, Platform, TouchableOpacity,
-  ActivityIndicator, Animated, useWindowDimensions
+  ActivityIndicator, Animated, useWindowDimensions, Linking
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Screen from '../components/Screen';
@@ -12,10 +12,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { isChatApiConfigured, requestChatbotReply } from '../utils/chatbotAI';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
 import { speakEnglish, stopEnglishTts } from '../utils/ttsEnglish';
+import { performWebSearch } from '../utils/webSearch';
 
 const CHAT_STATE_KEY = '@chatbot_state_v1';
 const DEFAULT_CHIPS = ["📝 Essay Help", "📖 Reading Skills", "🎧 Listening", "📚 Grammar", "Find Synonyms", "🧠 Vocab Quiz"];
-const WELCOME_MESSAGE = "👋 Welcome to the **BUEPT AI Coach**!\n\nI can help you with:\n• 📝 Essay structure and thesis building\n• 📖 Reading strategies and question logic\n• 🎧 Listening note-taking and podcasts\n• 📚 Grammar explanations\n• 🧠 Vocabulary quizzes and synonym work\n• 🛠️ Tool shortcuts like OCR, Presentation Prep, and Lesson Video\n\nWhat do you want to work on first?";
+const WELCOME_MESSAGE = "👋 Merhaba! Ben senin **BUEPT Global AI** asistanınım.\n\nSadece sınav için değil, aklına gelen her konuda benimle özgürce konuşabilirsin. Ödevlerin, günlük soruların, İngilizce pratiği veya sadece sohbet etmek için buradayım.\n\nSana bugün nasıl yardımcı olabilirim?";
 const CHAT_MODES = [
   { id: 'coach', label: 'Coach' },
   { id: 'examiner', label: 'Examiner' },
@@ -105,15 +106,36 @@ let lastStudyTipIndex = -1;
 let lastDefaultIntroIndex = -1;
 
 function RichText({ text, style, boldStyle }) {
-  if (!text || !text.includes('**')) return <Text style={style}>{text}</Text>;
+  if (!text) return null;
+  
+  // First split by bold markers
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  
   return (
     <Text style={style}>
       {parts.map((part, i) => {
         if (part.startsWith('**') && part.endsWith('**')) {
-          return <Text key={i} style={boldStyle}>{part.slice(2, -2)}</Text>;
+          return <Text key={`bold-${i}`} style={boldStyle}>{part.slice(2, -2)}</Text>;
         }
-        return <Text key={i}>{part}</Text>;
+        
+        // Second, split by URL patterns for the remaining text
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        const subParts = part.split(urlRegex);
+        
+        return subParts.map((sub, j) => {
+          if (sub.match(urlRegex)) {
+            return (
+              <Text 
+                key={`link-${i}-${j}`} 
+                style={{ color: colors.primary, textDecorationLine: 'underline' }}
+                onPress={() => Linking.openURL(sub)}
+              >
+                {sub}
+              </Text>
+            );
+          }
+          return <Text key={`text-${i}-${j}`}>{sub}</Text>;
+        });
       })}
     </Text>
   );
@@ -632,19 +654,38 @@ export default function ChatbotScreen({ navigation }) {
   const [activeArtifact, setActiveArtifact] = useState(null);
   const [quizState, setQuizState] = useState(null);
   const [assistantMode, setAssistantMode] = useState('coach');
+  const [showTools, setShowTools] = useState(false);
+  const [webAccess, setWebAccess] = useState(false);
+  const inputRef = useRef();
   const [ttsReadingId, setTtsReadingId] = useState(null);
   const [replySource, setReplySource] = useState(isChatApiConfigured() ? 'hybrid' : 'offline');
+  const [activeModelName, setActiveModelName] = useState('...');
   const sourceMeta = getAiSourceMeta(replySource);
   const scrollRef = useRef();
   const artifactAnim = useRef(new Animated.Value(width)).current;
   const timersRef = useRef([]);
 
   useEffect(() => {
+    if (inputRef.current) {
+      const t = setTimeout(() => inputRef.current.focus(), 300);
+      timersRef.current.push(t);
+    }
+  }, []);
+
+  useEffect(() => {
     (async () => {
       try {
-        const raw = await AsyncStorage.getItem(CHAT_STATE_KEY);
-        if (!raw) return;
-        const parsed = JSON.parse(raw);
+        const raw = await AsyncStorage.getItem('@ai_access_config');
+        if (raw) {
+          const cfg = JSON.parse(raw);
+          setActiveModelName(cfg.ollamaModel || 'dolphin-llama3:8b');
+        } else {
+          setActiveModelName('dolphin-llama3:8b');
+        }
+        
+        const stateRaw = await AsyncStorage.getItem(CHAT_STATE_KEY);
+        if (!stateRaw) return;
+        const parsed = JSON.parse(stateRaw);
         if (Array.isArray(parsed.messages) && parsed.messages.length > 0) {
           setMessages(parsed.messages);
         }
@@ -743,7 +784,8 @@ export default function ChatbotScreen({ navigation }) {
     }
 
     const userMsg = { id: Date.now().toString(), role: 'user', text: txt };
-    setMessages(prev => [...prev, userMsg]);
+    const updatedMessages = [...messages, userMsg];
+    setMessages(updatedMessages);
     setInputText('');
     setActiveChips([]);
     setIsTyping(true);
@@ -756,15 +798,25 @@ export default function ChatbotScreen({ navigation }) {
 
     const t1 = setTimeout(() => {
       (async () => {
+        let webContext = "";
+        if (webAccess) {
+          setIsTyping(true); // Keep typing while searching
+          webContext = await performWebSearch(txt);
+        }
+
         const local = analyzeIntent(txt, quizState);
         let final = local;
         // Keep deterministic flows local (quiz/navigation artifacts), but upgrade free-text replies via API.
         const canUseSmartReply = !local.nextQuizState && !local.navigate && !local.artifact;
         if (canUseSmartReply) {
+          const apiMessage = webContext 
+            ? `[WEB CONTEXT]: ${webContext}\n\n[USER MESSAGE]: ${txt}`
+            : txt;
+
           const online = await requestChatbotReply({
-            message: txt,
+            message: apiMessage,
             mode: assistantMode,
-            history: messages,
+            history: updatedMessages,
           });
           if (online?.text) {
             final = {
@@ -781,11 +833,14 @@ export default function ChatbotScreen({ navigation }) {
           setReplySource('hybrid');
         }
 
-        setMessages(prev => [...prev, {
-          id: (Date.now() + 1).toString(),
-          role: 'ai',
-          text: applyAssistantMode(final.text, assistantMode),
-        }]);
+        setMessages(currentMessages => {
+          const aiMsg = {
+            id: (Date.now() + 1).toString(),
+            role: 'ai',
+            text: applyAssistantMode(final.text, assistantMode),
+          };
+          return [...currentMessages, aiMsg];
+        });
         if (Object.prototype.hasOwnProperty.call(final, 'nextQuizState')) {
           setQuizState(final.nextQuizState);
         }
@@ -821,7 +876,7 @@ export default function ChatbotScreen({ navigation }) {
   }, [ttsReadingId]);
 
   return (
-    <Screen scroll contentStyle={styles.container}>
+    <Screen contentStyle={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
@@ -831,10 +886,10 @@ export default function ChatbotScreen({ navigation }) {
           <Ionicons name="sparkles" size={18} color="#fff" />
         </View>
         <View style={styles.headerTitleWrap}>
-          <Text style={styles.pageTitle}>BUEPT AI Coach</Text>
+          <Text style={styles.pageTitle}>BUEPT Global AI</Text>
           <View style={styles.statusRow}>
             <View style={styles.onlineDot} />
-            <Text style={styles.statusText}>{sourceMeta.label} • {replySource}</Text>
+            <Text style={styles.statusText}>{sourceMeta.label} • {activeModelName}</Text>
           </View>
         </View>
       </View>
@@ -848,42 +903,45 @@ export default function ChatbotScreen({ navigation }) {
             <Text style={[styles.modeBtnText, assistantMode === m.id && styles.modeBtnTextActive]}>{m.label}</Text>
           </TouchableOpacity>
         ))}
-        <TouchableOpacity style={styles.quickBtn} onPress={() => handleSend('Open Demo Hub')}>
-          <Ionicons name="grid" size={14} color={colors.primary} />
-          <Text style={styles.quickText}>Demo Hub</Text>
+        <TouchableOpacity style={styles.quickBtn} onPress={() => setShowTools(!showTools)}>
+          <Ionicons name={showTools ? "chatbox-ellipses" : "grid"} size={14} color={colors.primary} />
+          <Text style={styles.quickText}>{showTools ? "Chat" : "Tools"}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.quickBtn} onPress={() => handleSend('Start Mock')}>
-          <Ionicons name="timer" size={14} color={colors.primary} />
-          <Text style={styles.quickText}>Mock</Text>
+        <TouchableOpacity style={styles.quickBtn} onPress={() => setWebAccess(!webAccess)}>
+          <Ionicons name={webAccess ? "globe" : "globe-outline"} size={14} color={webAccess ? colors.success : colors.primary} />
+          <Text style={[styles.quickText, webAccess && { color: colors.success }]}>Web {webAccess ? "ON" : "OFF"}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.quickBtn} onPress={() => handleSend('/clear')}>
           <Ionicons name="trash" size={14} color={colors.primary} />
           <Text style={styles.quickText}>Clear</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.toolStrip}
-        contentContainerStyle={styles.toolStripContent}
-      >
-        {TOOL_SHORTCUTS.map((tool) => (
-          <TouchableOpacity
-            key={tool.id}
-            style={styles.toolCard}
-            activeOpacity={0.88}
-            onPress={() => openTool(tool)}
-          >
-            <View style={[styles.toolCardIcon, { backgroundColor: tool.tint }]}>
-              <Ionicons name={tool.icon} size={18} color={colors.primaryDark} />
-            </View>
-            <View style={styles.toolCardBody}>
-              <Text style={styles.toolCardTitle}>{tool.label}</Text>
-              <Text style={styles.toolCardHint}>{tool.hint}</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+
+      {showTools && (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.toolStrip}
+          contentContainerStyle={styles.toolStripContent}
+        >
+          {TOOL_SHORTCUTS.map((tool) => (
+            <TouchableOpacity
+              key={tool.id}
+              style={styles.toolCard}
+              activeOpacity={0.88}
+              onPress={() => openTool(tool)}
+            >
+              <View style={[styles.toolCardIcon, { backgroundColor: tool.tint }]}>
+                <Ionicons name={tool.icon} size={18} color={colors.primaryDark} />
+              </View>
+              <View style={styles.toolCardBody}>
+                <Text style={styles.toolCardTitle}>{tool.label}</Text>
+                <Text style={styles.toolCardHint}>{tool.hint}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      )}
 
       <KeyboardAvoidingView 
         style={[styles.keyboardAvoid, { width: width }]} 
@@ -894,9 +952,9 @@ export default function ChatbotScreen({ navigation }) {
           ref={scrollRef} 
           contentContainerStyle={styles.chatScroll} 
           showsVerticalScrollIndicator={false}
-          scrollEnabled={Platform.OS !== 'web'} // Screen component handles main scroll on web
+          scrollEnabled={true}
         >
-          <Text style={styles.timestampDivider}>BUEPT AI Coach · v2.0</Text>
+          <Text style={styles.timestampDivider}>BUEPT Global AI · Unrestricted</Text>
 
           {messages.length <= 2 && (
             <>
@@ -990,6 +1048,7 @@ export default function ChatbotScreen({ navigation }) {
 
           <View style={styles.inputHero}>
             <TextInput
+              ref={inputRef}
               style={styles.inputArea}
               value={inputText}
               onChangeText={setInputText}
@@ -1101,12 +1160,12 @@ const styles = StyleSheet.create({
   workspaceTitle: { fontSize: 14, fontWeight: '800', color: colors.text, marginBottom: 2 },
   workspaceSub: { fontSize: 12, color: colors.muted, lineHeight: 17 },
 
-  messageRow: { flexDirection: 'row', marginBottom: spacing.md, alignItems: 'flex-end', maxWidth: '88%' },
-  messageRowUser: { alignSelf: 'flex-end', justifyContent: 'flex-end', flexDirection: 'row-reverse' },
-  messageRowAI: { alignSelf: 'flex-start' },
+  messageRow: { flexDirection: 'row', marginBottom: spacing.md, alignItems: 'flex-end' },
+  messageRowUser: { alignSelf: 'flex-end', justifyContent: 'flex-end' },
+  messageRowAI: { alignSelf: 'flex-start', justifyContent: 'flex-start' },
 
   aiAvatar: { width: 26, height: 26, borderRadius: 13, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center', marginRight: 8, flexShrink: 0 },
-  bubble: { paddingHorizontal: 14, paddingVertical: 10, borderRadius: 18 },
+  bubble: { paddingHorizontal: 14, paddingVertical: 10, borderRadius: 18, maxWidth: '85%' },
   bubbleUser: { backgroundColor: colors.primary, borderBottomRightRadius: 4 },
   bubbleAI: { backgroundColor: '#fff', borderBottomLeftRadius: 4, borderWidth: 1, borderColor: 'rgba(0,0,0,0.06)', ...shadow.slight },
   typingBubble: { paddingHorizontal: 20, paddingVertical: 16 },

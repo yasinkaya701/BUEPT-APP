@@ -299,15 +299,22 @@ function normalizeAiConfig(config = {}) {
   return {
     mode,
     baseUrl,
-    provider: String(config?.provider || 'openai').trim(),
+    provider: String(config?.provider || 'ollama').trim(),
     apiKey: String(config?.apiKey || '').trim(),
     ollamaUrl: String(config?.ollamaUrl || 'http://localhost:11434').trim(),
-    ollamaModel: String(config?.ollamaModel || 'llama3.2:1b').trim(),
+    ollamaModel: String(config?.ollamaModel || 'dolphin-llama3:8b').trim(),
     label: String(config?.label || (mode === 'custom' ? 'Custom AI Endpoint' : 'Hosted BUEPT AI')).trim() || 'Hosted BUEPT AI',
   };
 }
 
 const AppStateContext = createContext(null);
+
+export function useAppState() {
+  const ctx = useContext(AppStateContext);
+  if (!ctx) throw new Error('useAppState must be used within AppStateProvider');
+  return ctx;
+}
+
 
 const STORAGE_AUTH_TOKEN = '@buept_auth_token';
 async function loadAuthToken() { try { return await AsyncStorage.getItem(STORAGE_AUTH_TOKEN); } catch { return null; } }
@@ -1298,8 +1305,3 @@ export function AppStateProvider({ children }) {
   );
 }
 
-export function useAppState() {
-  const ctx = useContext(AppStateContext);
-  if (!ctx) throw new Error('useAppState must be used within AppStateProvider');
-  return ctx;
-}

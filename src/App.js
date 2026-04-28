@@ -2,14 +2,15 @@ import React from 'react';
 import { LogBox, Platform } from 'react-native';
 import { NavigationContainer, DefaultTheme, useNavigationContainerRef } from '@react-navigation/native';
 import { enableScreens } from 'react-native-screens';
-import RootNavigator from './navigation/RootNavigator';
 import { AppStateProvider } from './context/AppState';
+import RootNavigator from './navigation/RootNavigator';
 import { colors } from './theme/tokens';
 import AppErrorBoundary from './components/AppErrorBoundary';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Tts from 'react-native-tts';
 import SimulatorSmokeRunner from './dev/SimulatorSmokeRunner';
+import GlobalChatButton from './components/GlobalChatButton';
 
 // Only touch react-native-screens on iOS.
 // Calling enableScreens on Web crashes the browser bundle because
@@ -126,6 +127,10 @@ export default function App() {
               }}
             >
               <RootNavigator />
+              <GlobalChatButton 
+                navigationRef={navigationRef} 
+                currentRouteName={currentRouteName} 
+              />
               {Platform.OS !== 'web' ? (
                 <SimulatorSmokeRunner navigationRef={navigationRef} currentRouteName={currentRouteName} />
               ) : null}
