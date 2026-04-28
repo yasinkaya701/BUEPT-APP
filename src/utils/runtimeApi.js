@@ -180,3 +180,50 @@ export async function fetchDirectOllamaChat({ systemPrompt = '', messages = [], 
   const json = await res.json();
   return json?.message?.content || '';
 }
+
+export async function fetchDirectGeminiChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null }) {
+  const cfg = getRuntimeApiAccessConfig();
+  if (cfg.provider !== 'gemini') throw new Error('Gemini provider not active.');
+  
+  const apiKey = String(cfg.apiKey || '').trim();
+  if (!apiKey) throw new Error('Gemini API key is missing.');
+
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+  const contents = messages.map(m => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content || m.text || '' }]
+  }));
+
+  const payload = {
+    contents,
+  };
+
+  if (systemPrompt) {
+    payload.systemInstruction = {
+      parts: [{ text: systemPrompt }]
+    };
+  }
+
+  if (jsonFormat) {
+    payload.generationConfig = {
+      responseMimeType: 'application/json'
+    };
+  }
+
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    signal,
+  });
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => '');
+    throw new Error(`Gemini direct fetch failed: ${res.status} ${errText}`);
+  }
+
+  const json = await res.json();
+  const replyText = json?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  return replyText;
+}
