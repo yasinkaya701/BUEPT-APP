@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, Linking } from 'react-native';
 import { WebView } from 'react-native-webview';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
@@ -23,13 +23,22 @@ export default function WebViewerScreen({ route }) {
   const webRef = useRef(null);
   const title = route?.params?.title || 'Resource';
   const initialUrl = useMemo(() => normalizeUrl(route?.params?.url), [route?.params?.url]);
+  const externalPreferred = Boolean(route?.params?.externalPreferred);
   const [currentUrl, setCurrentUrl] = useState(initialUrl);
   const [error, setError] = useState(null);
+  const [externalOpened, setExternalOpened] = useState(false);
 
   useEffect(() => {
     setCurrentUrl(initialUrl);
     setError(null);
+    setExternalOpened(false);
   }, [initialUrl]);
+
+  useEffect(() => {
+    if (!externalPreferred || !currentUrl || externalOpened) return;
+    Linking.openURL(currentUrl).catch(() => {});
+    setExternalOpened(true);
+  }, [externalPreferred, currentUrl, externalOpened]);
 
   const openSafeLink = (url) => {
     setCurrentUrl(url);
@@ -48,6 +57,25 @@ export default function WebViewerScreen({ route }) {
           <Text style={styles.h1}>{title}</Text>
           <Text style={styles.body}>No URL provided.</Text>
           <View style={styles.actions}>
+            {FALLBACK_LINKS.map((item) => (
+              <Button key={item.id} label={item.label} variant="secondary" onPress={() => openSafeLink(item.url)} />
+            ))}
+          </View>
+        </Card>
+      </Screen>
+    );
+  }
+
+  if (externalPreferred) {
+    return (
+      <Screen contentStyle={styles.fallbackScreen}>
+        <Card style={styles.fallbackCard}>
+          <Text style={styles.h1}>{title}</Text>
+          <Text style={styles.body}>
+            This source works better in the device browser, so we open it externally to avoid broken embeds.
+          </Text>
+          <View style={styles.actions}>
+            <Button label="Open in Browser" onPress={() => Linking.openURL(currentUrl).catch(() => {})} />
             {FALLBACK_LINKS.map((item) => (
               <Button key={item.id} label={item.label} variant="secondary" onPress={() => openSafeLink(item.url)} />
             ))}

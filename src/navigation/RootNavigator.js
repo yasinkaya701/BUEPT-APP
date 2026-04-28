@@ -26,7 +26,8 @@ export default function RootNavigator() {
         animationEnabled: true,
         gestureEnabled: true,
         gestureResponseDistance: { horizontal: 32 },
-        cardStyle: { backgroundColor: Platform.OS === 'web' ? colors.bg : 'transparent' },
+        // flex: 1 ensures every stack screen fills its container so ScrollViews get a fixed height
+        cardStyle: { flex: 1, minHeight: 0, backgroundColor: Platform.OS === 'web' ? colors.bg : 'transparent' },
         animationTypeForReplace: 'push',
         detachPreviousScreen: true,
         ...TransitionPresets.SlideFromRightIOS,

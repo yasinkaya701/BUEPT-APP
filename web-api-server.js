@@ -462,13 +462,14 @@ async function generatePresentationWithOpenAI({ topic = '', durationMin = 10, to
   }
 }
 
-async function callOpenAiStructured({ model = OPENAI_TEXT_MODEL, instructions = '', input = '', schema, name = 'structured_payload' } = {}) {
-  if (!OPENAI_API_KEY) {
+async function callOpenAiStructured({ model = OPENAI_TEXT_MODEL, instructions = '', input = '', schema, name = 'structured_payload', clientKey = null } = {}) {
+  const activeKey = clientKey || OPENAI_API_KEY;
+  if (!activeKey) {
     return {
       ok: false,
       status: 503,
       error: 'OPENAI_API_KEY_MISSING',
-      detail: 'Set OPENAI_API_KEY on the server for live AI generation.',
+      detail: 'Set OPENAI_API_KEY on the server or provide a BYOK key for live AI generation.',
     };
   }
 
@@ -479,7 +480,7 @@ async function callOpenAiStructured({ model = OPENAI_TEXT_MODEL, instructions = 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
+        Authorization: `Bearer ${activeKey}`,
       },
       body: JSON.stringify({
         model,
@@ -1580,7 +1581,94 @@ function normalizeWritingRevisionPayload(payload = {}, fallback = {}) {
   };
 }
 
-async function generateWritingRevisionWithOpenAI({ text = '', prompt = '', level = 'B2', task = 'essay' } = {}) {
+// ── Gemini BYOK Writing Revision ──────────────────────────────────────────────
+async function generateWritingRevisionWithGemini({ text = '', prompt = '', level = 'B2', task = 'essay', geminiKey = '' } = {}) {
+  const safeText = cleanTextValue(text, '');
+  if (!safeText || !geminiKey) {
+    return { ok: false, status: 400, error: 'GEMINI_CONFIG_MISSING', detail: 'Text and geminiKey are required.' };
+  }
+
+  const systemPrompt = `You are a BUEPT academic writing evaluation engine aligned to the WASC rubric used at Boğaziçi University.
+Task type: ${task}. Target level: ${level}.
+Evaluate the following student essay across 5 WASC categories:
+1. Task Fulfillment (0-4): Does the essay address the prompt directly with a clear thesis?
+2. Vocabulary (0-4): Range, precision, and academic word use.
+3. Organization (0-4): Structure, coherence, and discourse markers.
+4. Grammar (0-4): Accuracy, complexity, and variety of structures.
+5. Mechanics (0-4): Spelling, punctuation, capitalization.
+
+Total = sum/20. Passing threshold = 12/20 (60%).
+
+Respond ONLY with a valid JSON object:
+{
+  "scores": { "taskFulfillment": 0-4, "vocabulary": 0-4, "organization": 0-4, "grammar": 0-4, "mechanics": 0-4 },
+  "total": 0-20,
+  "band": "Pass|Needs Work",
+  "strengths": ["..."],
+  "fixes": ["..."],
+  "wordCount": number,
+  "revised": "Improved version of the essay with corrections applied"
+}`;
+
+  const userMessage = `Prompt: ${prompt || 'Write an academic essay.'}\n\nStudent essay:\n${safeText}`;
+
+  try {
+    const geminiRes = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: systemPrompt }] },
+          contents: [{ role: 'user', parts: [{ text: userMessage }] }],
+          generationConfig: {
+            temperature: 0.3,
+            responseMimeType: 'application/json',
+          },
+        }),
+      }
+    );
+
+    if (!geminiRes.ok) {
+      const errBody = await geminiRes.text();
+      console.warn('[Gemini] API error:', geminiRes.status, errBody.slice(0, 200));
+      return { ok: false, status: geminiRes.status, error: 'GEMINI_API_ERROR', detail: errBody.slice(0, 200) };
+    }
+
+    const geminiJson = await geminiRes.json();
+    const rawText = geminiJson?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    let parsed;
+    try {
+      parsed = JSON.parse(rawText);
+    } catch (_) {
+      // Try extracting JSON from markdown code block
+      const match = rawText.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if (match) {
+        parsed = JSON.parse(match[1]);
+      } else {
+        return { ok: false, status: 500, error: 'GEMINI_JSON_PARSE_ERROR', detail: rawText.slice(0, 200) };
+      }
+    }
+
+    return {
+      ok: true,
+      source: 'gemini-byok',
+      model: 'gemini-1.5-flash',
+      scores: parsed.scores || {},
+      total: parsed.total || 0,
+      band: parsed.band || 'Needs Work',
+      strengths: parsed.strengths || [],
+      fixes: parsed.fixes || [],
+      wordCount: parsed.wordCount || safeText.split(/\s+/).filter(Boolean).length,
+      revised: parsed.revised || safeText,
+    };
+  } catch (netErr) {
+    console.error('[Gemini] Network error:', netErr.message);
+    return { ok: false, status: 503, error: 'GEMINI_NETWORK_ERROR', detail: netErr.message };
+  }
+}
+
+async function generateWritingRevisionWithOpenAI({ text = '', prompt = '', level = 'B2', task = 'essay', clientKey = null } = {}) {
   const safeText = cleanTextValue(text, '');
   if (!safeText) {
     return {
@@ -1605,11 +1693,16 @@ async function generateWritingRevisionWithOpenAI({ text = '', prompt = '', level
   };
 
   const instructions = [
-    'You are a BUEPT writing revision engine.',
+    'You are a Boğaziçi University writing revision engine.',
     'Revise the student draft into a cleaner academic version while preserving the original meaning.',
     'Do not invent new factual claims or examples that are not implied by the source.',
     'Make the language more coherent, more grammatical, and more academic.',
-    'The feedback must reflect a strict BUEPT-style rubric focused on content development, organization, vocabulary, grammar, and mechanics.',
+    'The feedback must strictly align with the Boğaziçi University WASC grading rubric. Specifically:',
+    '1. Task Fulfillment: Assess if it fully covers the prompt (Excellent/Very Good/Good/Satisfactory/Weak/Unacceptable).',
+    '2. Organization and Content: Assess coherence, unity, transitions, and logic (Excellent/Very Good/Good/Satisfactory/Weak/Unacceptable).',
+    '3. Vocabulary: Assess range, precision, and academic tone (Excellent/Very Good/Good/Satisfactory/Weak/Unacceptable).',
+    '4. Grammar and Mechanics: Assess sentence variety and error frequency (Excellent/Very Good/Good/Satisfactory/Weak/Unacceptable).',
+    'Include these WASC assessments in the `rubricNotes` array.',
     'Return only valid JSON.',
   ].join(' ');
 
@@ -1627,6 +1720,7 @@ async function generateWritingRevisionWithOpenAI({ text = '', prompt = '', level
     input,
     schema,
     name: 'writing_revision',
+    clientKey,
   });
 }
 
@@ -3119,31 +3213,86 @@ async function requestHandler(req, res) {
         task: body.task,
       });
 
-      const preferLocal = OLLAMA_ENABLED;
+      // ── BYOK Provider Routing ──────────────────────────────────────────────
+      // Priority: BYOK (Ollama/Gemini/OpenAI) → Server-side Ollama → OpenAI env → HF → local
+      const clientKey      = String(req.headers['x-client-api-key']    || '').trim() || null;
+      const clientProvider = String(req.headers['x-client-provider']   || 'openai').trim().toLowerCase();
+      const clientOllamaUrl   = String(req.headers['x-client-ollama-url']   || '').trim() || null;
+      const clientOllamaModel = String(req.headers['x-client-ollama-model'] || '').trim() || null;
+
       let ai = null;
-      if (preferLocal) {
+
+      // 1. BYOK Ollama (user's local machine, proxied through their browser to the backend)
+      if (clientProvider === 'ollama') {
+        try {
+          const ollamaUrl   = clientOllamaUrl   || OLLAMA_BASE_URL;
+          const ollamaModel = clientOllamaModel || OLLAMA_MODEL;
+          ai = await callOllamaChatCompletion({
+            model: ollamaModel,
+            messages: [
+              {
+                role: 'system',
+                content: `You are a BUEPT academic writing revision engine (WASC rubric, Boğaziçi University). Task: ${body.task || 'essay'}. Level: ${body.level || 'B2'}.
+Respond ONLY in JSON: {"revised":"...","strengths":["..."],"fixes":["..."],"grammar_errors":[{"error":"...","suggestion":"..."}],"score":{"total":0-20,"taskFulfillment":0-4,"vocabulary":0-4,"organization":0-4,"grammar":0-4,"mechanics":0-4}}`
+              },
+              {
+                role: 'user',
+                content: `Prompt: ${body.prompt || 'Academic essay'}\n\nStudent essay:\n${body.text}`,
+              },
+            ],
+            temperature: 0.25,
+            maxTokens: 2000,
+          });
+          if (ai?.ok) {
+            ai = { ...ai, source: 'ollama-byok', model: ollamaModel };
+          }
+        } catch (ollamaErr) {
+          console.warn('[writing-revision] Ollama BYOK call failed:', ollamaErr?.message);
+          ai = null;
+        }
+      }
+
+      // 2. BYOK Gemini (user's own Gemini key)
+      if (!ai?.ok && clientProvider === 'gemini' && clientKey) {
+        try {
+          ai = await generateWritingRevisionWithGemini({
+            text: body.text, prompt: body.prompt, level: body.level, task: body.task,
+            geminiKey: clientKey,
+          });
+        } catch (geminiErr) {
+          console.warn('[writing-revision] Gemini BYOK call failed:', geminiErr?.message);
+          ai = null;
+        }
+      }
+
+      // 3. BYOK OpenAI (user's own OpenAI key)
+      if (!ai?.ok && clientProvider === 'openai' && clientKey) {
+        ai = await generateWritingRevisionWithOpenAI({
+          text: body.text, prompt: body.prompt, level: body.level, task: body.task,
+          clientKey,
+        });
+      }
+
+      // 4. Server-side Ollama (env OLLAMA_ENABLED=1)
+      if (!ai?.ok && OLLAMA_ENABLED) {
         ai = await generateWritingRevisionWithAnyAI({
-          text: body.text,
-          prompt: body.prompt,
-          level: body.level,
-          task: body.task,
+          text: body.text, prompt: body.prompt, level: body.level, task: body.task,
           preferLocal: true,
         });
       }
-      if (!ai || !ai.ok) {
+
+      // 5. Server-side OpenAI env key
+      if (!ai?.ok && OPENAI_API_KEY) {
         ai = await generateWritingRevisionWithOpenAI({
-          text: body.text,
-          prompt: body.prompt,
-          level: body.level,
-          task: body.task,
+          text: body.text, prompt: body.prompt, level: body.level, task: body.task,
+          clientKey: null,
         });
       }
-      if (!ai || !ai.ok) {
+
+      // 6. Server-side HuggingFace / any remaining AI
+      if (!ai?.ok) {
         ai = await generateWritingRevisionWithAnyAI({
-          text: body.text,
-          prompt: body.prompt,
-          level: body.level,
-          task: body.task,
+          text: body.text, prompt: body.prompt, level: body.level, task: body.task,
           preferLocal: false,
         });
       }

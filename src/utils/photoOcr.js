@@ -1,4 +1,5 @@
 import { launchImageLibrary } from 'react-native-image-picker';
+import { getRuntimeApiKey, getAiHeaders } from './runtimeApi';
 
 const OCR_ENDPOINT =
   typeof process !== 'undefined' && process.env && process.env.BUEPT_OCR_API_URL
@@ -10,15 +11,7 @@ const OCR_API_KEY =
     ? process.env.BUEPT_OCR_API_KEY
     : 'helloworld';
 
-const API_KEY =
-  typeof process !== 'undefined' && process.env && process.env.BUEPT_API_KEY
-    ? process.env.BUEPT_API_KEY
-    : '';
-
-function authHeaders(extra = {}) {
-  if (!API_KEY) return extra;
-  return { ...extra, Authorization: `Bearer ${API_KEY}` };
-}
+// authHeaders is now handled by getAiHeaders from runtimeApi.js
 
 function isOcrSpaceEndpoint(url = '') {
   return /ocr\.space/i.test(String(url || ''));
@@ -112,7 +105,7 @@ export async function runPhotoOcr(asset) {
 
   const res = await fetch(OCR_ENDPOINT, {
     method: 'POST',
-    headers: authHeaders({ 'Content-Type': 'application/json' }),
+    headers: getAiHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({
       imageBase64: asset.base64,
       mimeType: asset.type || 'image/jpeg',

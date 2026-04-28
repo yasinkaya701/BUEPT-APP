@@ -313,12 +313,12 @@ const styles = StyleSheet.create({
     h1: {
         fontSize: typography.h1,
         fontFamily: typography.fontHeadline,
-        color: colors.text,
+        color: colors.textOnDark,
         marginBottom: spacing.xs,
     },
     sub: {
         fontSize: typography.body,
-        color: colors.muted,
+        color: colors.textOnDarkMuted,
         marginBottom: spacing.md,
         lineHeight: 20,
     },
@@ -354,6 +354,7 @@ const styles = StyleSheet.create({
     },
     heroTopRow: {
         flexDirection: 'row',
+        flexWrap: 'wrap',
         alignItems: 'flex-start',
         gap: spacing.md,
         marginBottom: spacing.md,
@@ -421,10 +422,13 @@ const styles = StyleSheet.create({
     
     metricGrid: {
         flexDirection: 'row',
+        flexWrap: 'wrap',
         gap: spacing.sm,
+        marginBottom: spacing.md,
     },
     metricTile: {
-        flex: 1,
+        flexGrow: 1,
+        flexBasis: 150,
         backgroundColor: colors.surface,
         borderRadius: 12,
         paddingVertical: spacing.md,
@@ -488,6 +492,7 @@ const styles = StyleSheet.create({
     },
     partnerMetaRow: {
         flexDirection: 'row',
+        flexWrap: 'wrap',
         gap: spacing.sm,
         marginBottom: spacing.md,
     },
@@ -669,14 +674,16 @@ const styles = StyleSheet.create({
     listHeaderTitle: {
         fontSize: 14,
         fontWeight: '700',
-        color: '#64748B',
+        color: colors.textOnDarkMuted,
         textTransform: 'uppercase',
         letterSpacing: 0.5,
     },
 
     // Task Item
     taskItemWrap: {
-        flex: 1,
+        flexGrow: 1,
+        flexBasis: 280,
+        minWidth: 0,
         marginBottom: spacing.md,
     },
     taskRow: {
@@ -684,6 +691,7 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         borderWidth: 1,
         borderColor: '#E2E8F0',
+        minHeight: 188,
         ...shadow.sm,
         overflow: 'hidden',
     },

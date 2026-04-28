@@ -224,21 +224,46 @@ export default function VocabFlashcardScreen({ navigation, route }) {
     slideAnim.setValue(0);
   };
 
-  const frontInterpolate = flipAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '180deg']
-  });
-  const backInterpolate = flipAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['180deg', '360deg']
-  });
-
-  const frontAnimatedStyle = { 
-    transform: [{ rotateY: frontInterpolate }],
+  const frontAnimatedStyle = {
+    opacity: flipAnim.interpolate({
+      inputRange: [0, 0.5, 0.51, 1],
+      outputRange: [1, 1, 0, 0],
+    }),
+    transform: [
+      {
+        rotateY: flipAnim.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['0deg', '180deg'],
+        })
+      },
+      {
+        scale: flipAnim.interpolate({
+          inputRange: [0, 0.5, 1],
+          outputRange: [1, 0.95, 1],
+        })
+      }
+    ],
     zIndex: isFlipped ? 1 : 2,
   };
-  const backAnimatedStyle = { 
-    transform: [{ rotateY: backInterpolate }],
+  const backAnimatedStyle = {
+    opacity: flipAnim.interpolate({
+      inputRange: [0, 0.49, 0.5, 1],
+      outputRange: [0, 0, 1, 1],
+    }),
+    transform: [
+      {
+        rotateY: flipAnim.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['180deg', '360deg'],
+        })
+      },
+      {
+        scale: flipAnim.interpolate({
+          inputRange: [0, 0.5, 1],
+          outputRange: [1, 0.95, 1],
+        })
+      }
+    ],
     zIndex: isFlipped ? 2 : 1,
   };
   const slideStyle = { transform: [{ translateX: slideAnim }] };
@@ -338,7 +363,7 @@ export default function VocabFlashcardScreen({ navigation, route }) {
                     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.backScroll}>
                         <Text style={styles.cardWordBack}>{currentCard?.word || ''}</Text>
                         <View style={styles.divider} />
-                        <Text style={styles.cardDef}>{flipTermDef ? (currentCard?.word || '') : (currentCard?.def || '')}</Text>
+                        <Text style={styles.cardDef}>{currentCard?.def || ''}</Text>
                         
                         {(currentCard?.collocations || []).length > 0 && (
                             <View style={styles.infoSection}>
@@ -505,17 +530,22 @@ const styles = StyleSheet.create({
     height: '75%',
     maxHeight: 520,
   },
-  touchableCard: { flex: 1 },
+  touchableCard: {
+    flex: 1,
+    // preserve-3d enables correct 3D flip rendering on web
+    transformStyle: 'preserve-3d',
+  },
   cardFace: {
     position: 'absolute',
     width: '100%',
     height: '100%',
     borderRadius: 32,
-    backgroundColor: 'rgba(255,255,255,0.08)', // Glassmorphism base
+    backgroundColor: 'rgba(255,255,255,0.08)',
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.15)',
-    backfaceVisibility: 'hidden',
     padding: spacing.xl,
+    // Critical: prevents the back showing through while the front is visible
+    backfaceVisibility: 'hidden',
     ...shadow.md
   },
   cardFront: {

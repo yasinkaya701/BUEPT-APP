@@ -1,0 +1,457 @@
+[     404ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[     405ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[     447ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[     508ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[     560ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[     580ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[     585ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[  225550ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[  225696ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[  225696ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[  225707ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[  225707ms] [WARNING] [HMR] Error: Aborted because ./src/navigation/TabNavigator.js is not accepted
+Update propagation: ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9880:31)
+    at http://127.0.0.1:8090/app.js:9586:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9585:54)
+    at http://127.0.0.1:8090/app.js:9556:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9510:48)
+    at http://127.0.0.1:8090/app.js:9554:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[  226094ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[  226095ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[  226136ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[  226192ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[  226240ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[  226260ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[  226264ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 1676347ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1676524ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1676524ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1676536ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1676536ms] [LOG] [HMR]  - ./src/hooks/useTts.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1676536ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1709944ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1710071ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1710071ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1710083ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 1710083ms] [WARNING] [HMR] Error: Aborted because ./src/utils/ttsEnglish.js is not accepted
+Update propagation: ./src/utils/ttsEnglish.js -> ./src/screens/VocabFlashcardScreen.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9880:31)
+    at http://127.0.0.1:8090/app.js:9586:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9585:54)
+    at http://127.0.0.1:8090/app.js:9556:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9510:48)
+    at http://127.0.0.1:8090/app.js:9554:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 1710515ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1710516ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1710557ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 1710616ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 1710667ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 1710687ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 1710692ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 1753283ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1753710ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1753710ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1753726ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1753726ms] [LOG] [HMR]  - ./src/screens/ListeningDetailScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1753726ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1813057ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1813470ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1813470ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1813484ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1813484ms] [LOG] [HMR]  - ./src/screens/ListeningDetailScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1813484ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1868767ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1868983ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1868983ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1868994ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 1868995ms] [WARNING] [HMR] Error: Aborted because ./src/screens/VocabFlashcardScreen.js is not accepted
+Update propagation: ./src/screens/VocabFlashcardScreen.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9880:31)
+    at http://127.0.0.1:8090/app.js:9586:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9585:54)
+    at http://127.0.0.1:8090/app.js:9556:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9510:48)
+    at http://127.0.0.1:8090/app.js:9554:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 1869397ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1869398ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1869439ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 1869496ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 1869545ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 1869565ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 1869569ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 1915959ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1916149ms] [INFO] [webpack-dev-server] Nothing changed. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1940768ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1940868ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1940869ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1940883ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 1940883ms] [WARNING] [HMR] Error: Aborted because ./data/listening_podcasts.json is not accepted
+Update propagation: ./data/listening_podcasts.json -> ./src/screens/ListeningScreen.js -> ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9880:31)
+    at http://127.0.0.1:8090/app.js:9586:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9585:54)
+    at http://127.0.0.1:8090/app.js:9556:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9510:48)
+    at http://127.0.0.1:8090/app.js:9554:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 1941271ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1941272ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1941313ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 1941369ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 1941417ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 1941436ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 1941440ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 1973353ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1973651ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1973652ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1973663ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1973663ms] [LOG] [HMR]  - ./src/screens/ReadingDetailScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1973663ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1997826ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1997969ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1997969ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1997983ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 1997983ms] [WARNING] [HMR] Error: Aborted because ./src/navigation/TabNavigator.js is not accepted
+Update propagation: ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9880:31)
+    at http://127.0.0.1:8090/app.js:9586:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9585:54)
+    at http://127.0.0.1:8090/app.js:9556:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9510:48)
+    at http://127.0.0.1:8090/app.js:9554:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 1998407ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 1998408ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 1998447ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 1998502ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 1998554ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 1998574ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 1998579ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 2015619ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 2015784ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 2015784ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2015796ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 2015796ms] [WARNING] [HMR] Error: Aborted because ./src/navigation/TabNavigator.js is not accepted
+Update propagation: ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9880:31)
+    at http://127.0.0.1:8090/app.js:9586:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9585:54)
+    at http://127.0.0.1:8090/app.js:9556:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9510:48)
+    at http://127.0.0.1:8090/app.js:9554:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 2016191ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 2016192ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2016232ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 2016286ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 2016331ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 2016351ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 2016355ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 2110407ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 2110567ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 2110567ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2110578ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2110578ms] [LOG] [HMR]  - ./src/utils/rubricScoring.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2110578ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2132297ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 2132448ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 2132448ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2132459ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2132459ms] [LOG] [HMR]  - ./src/utils/rubricScoring.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2132459ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2164186ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 2164363ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 2164363ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2164374ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2164374ms] [LOG] [HMR]  - ./src/utils/onlineFeedback.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2164374ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2227109ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 2227520ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 2227520ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2227534ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2227534ms] [LOG] [HMR]  - ./src/screens/ListeningDetailScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2227534ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2361792ms] [INFO] [webpack-dev-server] "/Users/yasinkaya/Desktop/BUEPT-APP/BUEPTApp/web-rnw/dist/index.html" from static directory was changed. Reloading... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 2362201ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 2362202ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 2362243ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 2362299ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 2362349ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 2362369ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 2362373ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3494087ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3494330ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3494330ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3494351ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3494351ms] [WARNING] [HMR] Error: Aborted because ./src/screens/ReadingScreen.js is not accepted
+Update propagation: ./src/screens/ReadingScreen.js -> ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9880:31)
+    at http://127.0.0.1:8090/app.js:9586:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9585:54)
+    at http://127.0.0.1:8090/app.js:9556:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9510:48)
+    at http://127.0.0.1:8090/app.js:9554:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3494882ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3494883ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3494923ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 3494980ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3495033ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 3495053ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3495057ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3560787ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3561001ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3561001ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3561014ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3561014ms] [WARNING] [HMR] Error: Aborted because ./src/screens/ReadingScreen.js is not accepted
+Update propagation: ./src/screens/ReadingScreen.js -> ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9890:31)
+    at http://127.0.0.1:8090/app.js:9596:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9595:54)
+    at http://127.0.0.1:8090/app.js:9566:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9520:48)
+    at http://127.0.0.1:8090/app.js:9564:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3561432ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3561433ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3561473ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 3561530ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3561579ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 3561599ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3561603ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3580473ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3580695ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3580695ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3580711ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3580711ms] [WARNING] [HMR] Error: Aborted because ./src/screens/ReadingScreen.js is not accepted
+Update propagation: ./src/screens/ReadingScreen.js -> ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9890:31)
+    at http://127.0.0.1:8090/app.js:9596:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9595:54)
+    at http://127.0.0.1:8090/app.js:9566:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9520:48)
+    at http://127.0.0.1:8090/app.js:9564:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3581125ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3581126ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3581165ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 3581221ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3581268ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 3581288ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3581292ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3602833ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3603012ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3603013ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3603026ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3603026ms] [WARNING] [HMR] Error: Aborted because ./src/screens/ReadingScreen.js is not accepted
+Update propagation: ./src/screens/ReadingScreen.js -> ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9890:31)
+    at http://127.0.0.1:8090/app.js:9596:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9595:54)
+    at http://127.0.0.1:8090/app.js:9566:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9520:48)
+    at http://127.0.0.1:8090/app.js:9564:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3603421ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3603422ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3603464ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 3603521ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3603571ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 3603592ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3603599ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3624411ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3624615ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3624615ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3624626ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3624627ms] [WARNING] [HMR] Error: Aborted because ./src/screens/ListeningScreen.js is not accepted
+Update propagation: ./src/screens/ListeningScreen.js -> ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9890:31)
+    at http://127.0.0.1:8090/app.js:9596:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9595:54)
+    at http://127.0.0.1:8090/app.js:9566:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9520:48)
+    at http://127.0.0.1:8090/app.js:9564:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3625025ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3625025ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3625065ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 3625120ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3625168ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 3625187ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3625192ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3681489ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3681683ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3681684ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3681695ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3681695ms] [WARNING] [HMR] Error: Aborted because ./src/screens/ListeningScreen.js is not accepted
+Update propagation: ./src/screens/ListeningScreen.js -> ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9890:31)
+    at http://127.0.0.1:8090/app.js:9596:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9595:54)
+    at http://127.0.0.1:8090/app.js:9566:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9520:48)
+    at http://127.0.0.1:8090/app.js:9564:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3682082ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3682083ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3682123ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 3682180ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3682229ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 3682248ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3682253ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3760640ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3760857ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3760857ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3760868ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3760868ms] [WARNING] [HMR] Error: Aborted because ./src/screens/ListeningScreen.js is not accepted
+Update propagation: ./src/screens/ListeningScreen.js -> ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9890:31)
+    at http://127.0.0.1:8090/app.js:9596:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9595:54)
+    at http://127.0.0.1:8090/app.js:9566:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9520:48)
+    at http://127.0.0.1:8090/app.js:9564:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3761285ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3761286ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3761327ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 3761387ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3761435ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 3761455ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3761460ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3794949ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3795113ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3795113ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3795124ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3795125ms] [LOG] [HMR]  - ./src/hooks/useTts.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3795125ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3816754ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3816898ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3816898ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3816912ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3816912ms] [WARNING] [HMR] Error: Aborted because ./src/utils/ttsEnglish.js is not accepted
+Update propagation: ./src/utils/ttsEnglish.js -> ./src/screens/VocabFlashcardScreen.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9890:31)
+    at http://127.0.0.1:8090/app.js:9596:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9595:54)
+    at http://127.0.0.1:8090/app.js:9566:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9520:48)
+    at http://127.0.0.1:8090/app.js:9564:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3817305ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3817306ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3817347ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 3817404ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3817453ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 3817473ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3817477ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3848533ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3848950ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3848950ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3848964ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3848964ms] [LOG] [HMR]  - ./src/screens/ListeningDetailScreen.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3848964ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3870337ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3870459ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3870459ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3870473ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3870473ms] [WARNING] [HMR] Error: Aborted because ./src/utils/appStorage.js is not accepted
+Update propagation: ./src/utils/appStorage.js -> ./src/screens/SpeakingScreen.js -> ./src/navigation/TabNavigator.js -> ./src/navigation/RootNavigator.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9890:31)
+    at http://127.0.0.1:8090/app.js:9596:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9595:54)
+    at http://127.0.0.1:8090/app.js:9566:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9520:48)
+    at http://127.0.0.1:8090/app.js:9564:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3870859ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3870859ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3870902ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 3870960ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3871008ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 3871028ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3871032ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3899073ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3899187ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3899188ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3899200ms] [WARNING] [HMR] Cannot apply update. Need to do a full reload! @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3899200ms] [WARNING] [HMR] Error: Aborted because ./src/utils/runtimeApi.js is not accepted
+Update propagation: ./src/utils/runtimeApi.js -> ./src/context/AppState.js -> ./src/App.js -> ./web-rnw/index.web.js
+    at applyHandler (http://127.0.0.1:8090/app.js:9890:31)
+    at http://127.0.0.1:8090/app.js:9596:21
+    at Array.map (<anonymous>)
+    at internalApply (http://127.0.0.1:8090/app.js:9595:54)
+    at http://127.0.0.1:8090/app.js:9566:26
+    at waitForBlockingPromises (http://127.0.0.1:8090/app.js:9520:48)
+    at http://127.0.0.1:8090/app.js:9564:24 @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:40
+[ 3899590ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3899591ms] [LOG] [HMR] Waiting for update signal from WDS... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3899633ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack://BUEPTApp/./node_modules/react-dom/cjs/react-dom-client.development.js?:28002
+[ 3899687ms] [WARNING] "shadow*" style props are deprecated. Use "boxShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3899739ms] [LOG] Running application "BUEPTApp" with appParams:
+ {rootTag: #root} 
+Development-level warnings: ON.
+Performance optimizations: OFF. @ webpack://BUEPTApp/./node_modules/react-native-web/dist/exports/AppRegistry/index.js?:0
+[ 3899759ms] [WARNING] props.pointerEvents is deprecated. Use style.pointerEvents @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3899764ms] [WARNING] "textShadow*" style props are deprecated. Use "textShadow". @ webpack://BUEPTApp/./node_modules/react-native-web/dist/modules/warnOnce/index.js?:0
+[ 3926380ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3926530ms] [INFO] [webpack-dev-server] App hot update... @ webpack://BUEPTApp/./node_modules/webpack-dev-server/client/modules/logger/index.js?:599
+[ 3926531ms] [LOG] [HMR] Checking for updates on the server... @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3926542ms] [LOG] [HMR] Updated modules: @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3926542ms] [LOG] [HMR]  - ./src/utils/onlineFeedback.js @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38
+[ 3926542ms] [LOG] [HMR] App is up to date. @ webpack://BUEPTApp/./node_modules/webpack/hot/log.js?:38

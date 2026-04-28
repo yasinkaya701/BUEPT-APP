@@ -489,93 +489,162 @@ export default function FeedbackScreen({ navigation, route }) {
     );
   }
 
-  const renderOverview = () => (
-    <>
-      <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>
-        <Card style={styles.card}>
-          <Text style={styles.h3}>Top Strengths</Text>
-          {strengths.length ? strengths.map((item) => <Text key={item} style={styles.body}>• {item}</Text>) : <Text style={styles.sub}>No clear strengths detected yet.</Text>}
-        </Card>
+  const renderOverview = () => {
+    const isPass = wascBand?.pass === true;
+    const bandColor = isPass ? '#16a34a' : '#dc2626';
+    const bandBg = isPass ? '#f0fdf4' : '#fef2f2';
+    const bandBorder = isPass ? '#86efac' : '#fca5a5';
 
-        <Card style={styles.card}>
-          <Text style={styles.h3}>Top Fixes</Text>
-          {fixes.length ? fixes.map((item) => <Text key={item} style={styles.body}>• {item}</Text>) : <Text style={styles.sub}>No urgent fixes listed.</Text>}
-        </Card>
-      </View>
+    const CATEGORY_COLORS = {
+      Grammar: { bar: '#6366f1', bg: '#eef2ff', border: '#c7d2fe' },
+      Vocabulary: { bar: '#0ea5e9', bg: '#f0f9ff', border: '#bae6fd' },
+      Organization: { bar: '#f59e0b', bg: '#fffbeb', border: '#fde68a' },
+      Content: { bar: '#10b981', bg: '#f0fdf4', border: '#a7f3d0' },
+      Mechanics: { bar: '#8b5cf6', bg: '#f5f3ff', border: '#ddd6fe' },
+    };
 
-      <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>
-        <Card style={styles.card}>
-          <Text style={styles.h3}>Rubric Breakdown</Text>
-          {wascBand?.descriptor ? <Text style={styles.sub}>WASC descriptor: {wascBand.descriptor}</Text> : null}
-          {compactRubric.categories.map((item) => (
-            <ScoreRow key={item.name} item={item} />
+    const CATEGORY_LABELS = {
+      Grammar: 'Grammar & Mechanics',
+      Vocabulary: 'Vocabulary Range',
+      Organization: 'Organization & Cohesion',
+      Content: 'Task Fulfillment',
+      Mechanics: 'Punctuation & Spelling',
+    };
+
+    return (
+      <>
+        {/* ── PASS / FAIL BANNER ────────────────────── */}
+        <View style={[styles.bandBanner, { backgroundColor: bandBg, borderColor: bandBorder }]}>
+          <View style={[styles.bandBadge, { backgroundColor: bandColor }]}>
+            <Text style={styles.bandBadgeText}>{wascBand?.code || '—'}</Text>
+          </View>
+          <View style={styles.bandMeta}>
+            <Text style={[styles.bandLabel, { color: bandColor }]}>
+              {isPass ? '✓ Pass' : '✗ Needs Work'} · {wascBand?.label || wascBandDisplay}
+            </Text>
+            <Text style={styles.bandDescriptor} numberOfLines={3}>
+              {wascBand?.descriptor || compactRubric.feedbackSummary}
+            </Text>
+          </View>
+          <View style={[styles.bandScorePill, { backgroundColor: bandColor }]}>
+            <Text style={styles.bandScorePillText}>{compactRubric.total}/20</Text>
+          </View>
+        </View>
+
+        {/* ── QUICK STATS ROW ───────────────────────── */}
+        <View style={styles.statsRow}>
+          {[
+            { label: 'Words', value: String(liveWordCount) },
+            { label: 'Paragraphs', value: String(liveParagraphCount) },
+            { label: 'Unique Words', value: String(liveUniqueWords) },
+            { label: 'Readiness', value: `${compactRubric.readiness}%` },
+          ].map((s) => (
+            <View key={s.label} style={styles.statChip}>
+              <Text style={styles.statValue}>{s.value}</Text>
+              <Text style={styles.statLabel}>{s.label}</Text>
+            </View>
           ))}
-        </Card>
+        </View>
 
-        <Card style={styles.card}>
-          <Text style={styles.h3}>Next Draft Plan</Text>
-          {checklist.map((item) => <Text key={item} style={styles.body}>• {item}</Text>)}
-          <View style={styles.sectionDivider} />
-          <Text style={styles.body}>Target words: {levelWordTarget}</Text>
-          <Text style={styles.body}>Current words: {liveWordCount}</Text>
-          <Text style={styles.body}>Paragraphs: {liveParagraphCount}</Text>
-          <Text style={styles.body}>Unique words: {liveUniqueWords}</Text>
-        </Card>
-      </View>
+        {/* ── PER-CATEGORY SCORED CARDS ─────────────── */}
+        <Text style={styles.sectionHeading}>WASC Rubric Breakdown</Text>
+        {compactRubric.categories.map((cat) => {
+          const pct = Math.round((cat.score / cat.max) * 100);
+          const theme = CATEGORY_COLORS[cat.name] || CATEGORY_COLORS.Grammar;
+          const catLabel = CATEGORY_LABELS[cat.name] || cat.name;
+          const catFix = fixes.find((f) => {
+            const lower = f.toLowerCase();
+            if (cat.name === 'Grammar') return /(grammar|tense|agreement|article|sentence)/.test(lower);
+            if (cat.name === 'Vocabulary') return /(vocab|word|synonym|repetition|lexical)/.test(lower);
+            if (cat.name === 'Organization') return /(paragraph|flow|transition|coherence|structure)/.test(lower);
+            if (cat.name === 'Content') return /(task|example|argument|coverage|prompt)/.test(lower);
+            if (cat.name === 'Mechanics') return /(punctuation|spelling|capital|mechanic)/.test(lower);
+            return false;
+          });
+          return (
+            <View key={cat.name} style={[styles.rubricCard, { backgroundColor: theme.bg, borderColor: theme.border }]}>
+              <View style={styles.rubricCardHead}>
+                <Text style={[styles.rubricCardName, { color: theme.bar }]}>{catLabel}</Text>
+                <Text style={[styles.rubricCardScore, { color: theme.bar }]}>{cat.score}/{cat.max}</Text>
+              </View>
+              <View style={styles.rubricBarTrack}>
+                <View style={[styles.rubricBarFill, { width: `${pct}%`, backgroundColor: theme.bar }]} />
+              </View>
+              <Text style={styles.rubricBarPct}>{pct}%</Text>
+              {catFix ? (
+                <View style={styles.rubricHint}>
+                  <Text style={styles.rubricHintText}>→ {catFix}</Text>
+                </View>
+              ) : null}
+            </View>
+          );
+        })}
 
-      <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>
-        <Card style={styles.card}>
-          <Text style={styles.h3}>Task Coverage</Text>
-          <Text style={styles.sub}>
-            Coverage: {promptCoverage.covered.length}/{promptCoverage.signals.length || 0} · {promptCoverage.ratio}%
-          </Text>
-          {promptCoverage.covered.length ? (
+        {/* ── STRENGTHS & FIXES ─────────────────────── */}
+        <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>
+          <Card style={styles.card}>
+            <Text style={styles.h3}>✓ Strengths</Text>
+            {strengths.length
+              ? strengths.map((item) => <Text key={item} style={[styles.body, styles.strengthText]}>• {item}</Text>)
+              : <Text style={styles.sub}>Write more to identify strengths.</Text>}
+          </Card>
+          <Card style={styles.card}>
+            <Text style={styles.h3}>⚑ Priority Fixes</Text>
+            {fixes.length
+              ? fixes.slice(0, 4).map((item) => <Text key={item} style={[styles.body, styles.fixText]}>• {item}</Text>)
+              : <Text style={styles.sub}>No critical issues detected.</Text>}
+          </Card>
+        </View>
+
+        {/* ── TASK COVERAGE ─────────────────────────── */}
+        {promptCoverage.signals.length > 0 && (
+          <Card style={styles.card}>
+            <Text style={styles.h3}>Task Coverage · {promptCoverage.ratio}%</Text>
+            <View style={styles.rubricBarTrack}>
+              <View style={[styles.rubricBarFill, {
+                width: `${promptCoverage.ratio}%`,
+                backgroundColor: promptCoverage.ratio >= 50 ? '#16a34a' : '#f59e0b',
+              }]} />
+            </View>
             <View style={styles.signalRow}>
               {promptCoverage.covered.map((item) => (
-                <View key={`coverage-good-${item}`} style={[styles.signalPill, styles.signalPillGood]}>
-                  <Text style={[styles.signalPillText, styles.signalPillTextGood]}>{item}</Text>
+                <View key={item} style={[styles.signalPill, styles.signalPillGood]}>
+                  <Text style={[styles.signalPillText, styles.signalPillTextGood]}>✓ {item}</Text>
+                </View>
+              ))}
+              {promptCoverage.missing.map((item) => (
+                <View key={item} style={[styles.signalPill, styles.signalPillWarn]}>
+                  <Text style={[styles.signalPillText, styles.signalPillTextWarn]}>✗ {item}</Text>
                 </View>
               ))}
             </View>
-          ) : null}
-          {promptCoverage.missing.length ? (
-            <>
-              <Text style={styles.sectionLabel}>Missing</Text>
-              <View style={styles.signalRow}>
-                {promptCoverage.missing.map((item) => (
-                  <View key={`coverage-missing-${item}`} style={[styles.signalPill, styles.signalPillWarn]}>
-                    <Text style={[styles.signalPillText, styles.signalPillTextWarn]}>{item}</Text>
-                  </View>
-                ))}
-              </View>
-            </>
-          ) : (
-            <Text style={styles.body}>No obvious task-signal gap detected.</Text>
-          )}
-        </Card>
-
-        <Card style={styles.card}>
-          <Text style={styles.h3}>Submission Decision</Text>
-          <Text style={styles.bodyStrong}>{submissionDecision.label}</Text>
-          {submissionDecision.reasons.length ? submissionDecision.reasons.map((item) => (
-            <Text key={item} style={styles.body}>• {item}</Text>
-          )) : (
-            <Text style={styles.body}>The draft is structurally stable enough to move into final polishing.</Text>
-          )}
-        </Card>
-      </View>
-
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Grammar Snapshot</Text>
-        <Text style={styles.sub}>Basic plugin: {grammarPluginEnabled ? 'On' : 'Off'}</Text>
-        {grammarPluginEnabled ? (
-          grammarPluginIssues.length ? grammarPluginIssues.slice(0, 10).map((item) => <Text key={item} style={styles.body}>• {item}</Text>) : <Text style={styles.body}>No basic grammar issue detected.</Text>
-        ) : (
-          <Text style={styles.body}>Turn it on in Tools if you want quick grammar alerts.</Text>
+          </Card>
         )}
-      </Card>
-    </>
-  );
+
+        {/* ── NEXT DRAFT CHECKLIST ──────────────────── */}
+        {checklist.length > 0 && (
+          <Card style={styles.card}>
+            <Text style={styles.h3}>Next Draft Checklist</Text>
+            {checklist.map((item, i) => (
+              <View key={item} style={styles.checkItem}>
+                <View style={styles.checkNum}><Text style={styles.checkNumText}>{i + 1}</Text></View>
+                <Text style={styles.body}>{item}</Text>
+              </View>
+            ))}
+          </Card>
+        )}
+
+        {/* ── SUBMISSION DECISION ───────────────────── */}
+        <View style={[styles.submissionBanner, submissionDecision.label === 'Ready' && styles.submissionBannerReady]}>
+          <Text style={styles.submissionLabel}>{submissionDecision.label}</Text>
+          {submissionDecision.reasons.map((item) => (
+            <Text key={item} style={styles.submissionReason}>• {item}</Text>
+          ))}
+        </View>
+      </>
+    );
+  };
+
 
   const renderRewrite = () => (
     <>
@@ -958,6 +1027,196 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: spacing.md,
   },
+  // ── Lexibot-style scoring UI ────────────────────────────
+  bandBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    borderRadius: 16,
+    borderWidth: 1.5,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+  },
+  bandBadge: {
+    width: 52,
+    height: 52,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bandBadgeText: {
+    fontSize: 20,
+    fontFamily: typography.fontHeadline,
+    color: '#fff',
+    fontWeight: '900',
+  },
+  bandMeta: {
+    flex: 1,
+    minWidth: 0,
+  },
+  bandLabel: {
+    fontSize: typography.body,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+    marginBottom: 4,
+  },
+  bandDescriptor: {
+    fontSize: typography.small,
+    color: colors.muted,
+    lineHeight: 19,
+  },
+  bandScorePill: {
+    borderRadius: 20,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  bandScorePillText: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: '#fff',
+    fontWeight: '900',
+  },
+  statsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  statChip: {
+    flex: 1,
+    minWidth: 72,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#E2EAF7',
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    alignItems: 'center',
+  },
+  statValue: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+  },
+  statLabel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+    marginTop: 2,
+  },
+  sectionHeading: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    marginBottom: spacing.sm,
+    marginTop: spacing.xs,
+  },
+  rubricCard: {
+    borderRadius: 14,
+    borderWidth: 1,
+    padding: spacing.md,
+    marginBottom: spacing.sm,
+  },
+  rubricCardHead: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.sm,
+  },
+  rubricCardName: {
+    fontSize: typography.body,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '700',
+    flex: 1,
+  },
+  rubricCardScore: {
+    fontSize: typography.body,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+  },
+  rubricBarTrack: {
+    height: 10,
+    borderRadius: 999,
+    backgroundColor: 'rgba(0,0,0,0.08)',
+    overflow: 'hidden',
+    marginBottom: 4,
+  },
+  rubricBarFill: {
+    height: '100%',
+    borderRadius: 999,
+  },
+  rubricBarPct: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    marginBottom: spacing.xs,
+  },
+  rubricHint: {
+    marginTop: spacing.xs,
+    padding: spacing.sm,
+    borderRadius: 8,
+    backgroundColor: 'rgba(0,0,0,0.04)',
+  },
+  rubricHintText: {
+    fontSize: typography.small,
+    color: colors.text,
+    lineHeight: 19,
+  },
+  strengthText: {
+    color: '#166534',
+  },
+  fixText: {
+    color: '#9a3412',
+  },
+  checkItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  checkNum: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: colors.primarySoft,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 1,
+  },
+  checkNumText: {
+    fontSize: 11,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    fontWeight: '800',
+  },
+  submissionBanner: {
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: '#fca5a5',
+    backgroundColor: '#fef2f2',
+    padding: spacing.md,
+    marginBottom: spacing.md,
+  },
+  submissionBannerReady: {
+    borderColor: '#86efac',
+    backgroundColor: '#f0fdf4',
+  },
+  submissionLabel: {
+    fontSize: typography.body,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    fontWeight: '800',
+    marginBottom: spacing.xs,
+  },
+  submissionReason: {
+    fontSize: typography.small,
+    color: colors.muted,
+    lineHeight: 20,
+    marginBottom: 2,
+  },
+
   h1: {
     fontSize: typography.h1,
     fontFamily: typography.fontHeadline,

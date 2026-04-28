@@ -16,32 +16,88 @@ let _missingVoiceNoticeLogged = false;
 
 const isWeb = Platform.OS === 'web';
 
+function normalizeWebSpeechRate(rate = 0.5) {
+    const safe = Number(rate);
+    if (!Number.isFinite(safe)) return 1.0;
+    // Native 0.5 is roughly Web 1.0
+    return safe * 2;
+}
+
+function normalizeNativeSpeechRate(rate = 0.5) {
+    const safe = Number(rate);
+    if (!Number.isFinite(safe)) return 0.5;
+    return safe;
+}
+
+function scoreVoiceCandidate(voice = {}) {
+    const lang = String(voice?.language || voice?.lang || '').toLowerCase();
+    const name = String(voice?.name || '').toLowerCase();
+    let total = 0;
+    if (lang.startsWith('en-us')) total += 34;
+    else if (lang.startsWith('en-gb')) total += 28;
+    else if (lang.startsWith('en-au') || lang.startsWith('en-ca')) total += 24;
+    else if (lang.startsWith('en')) total += 18;
+    if (/premium|enhanced|neural|natural/.test(name)) total += 18;
+    if (/samantha|ava|allison|daniel|alex|karen|moira|google/.test(name)) total += 12;
+    if (/compact/.test(name)) total -= 4;
+    return total;
+}
+
+function pickBestWebEnglishVoice(voiceId = '') {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return null;
+    const voices = window.speechSynthesis.getVoices();
+    const normalizedId = String(voiceId || '').toLowerCase();
+    if (!voices.length) return null;
+    const byId = voices.find((voice) => {
+        const voiceName = String(voice?.name || '').toLowerCase();
+        return normalizedId && (voiceName === normalizedId || voiceName.includes(normalizedId));
+    });
+    if (byId) return byId;
+
+    const ranked = [...voices]
+        .filter((voice) => String(voice?.lang || '').toLowerCase().startsWith('en'))
+        .sort((a, b) => {
+            const score = (voice) => {
+                const lang = String(voice?.lang || '').toLowerCase();
+                const name = String(voice?.name || '').toLowerCase();
+                let total = 0;
+                if (lang.startsWith('en-us')) total += 30;
+                else if (lang.startsWith('en-gb')) total += 24;
+                else if (lang.startsWith('en')) total += 18;
+                if (/natural|premium|enhanced|neural/.test(name)) total += 18;
+                if (/google|samantha|ava|allison|daniel|microsoft/.test(name)) total += 12;
+                if (/compact/.test(name)) total -= 4;
+                return total;
+            };
+            return score(b) - score(a);
+        });
+    return ranked[0] || voices[0] || null;
+}
+
 /**
  * Web Speech Synthesis implementation
  */
 const WebTts = {
     speak: (text, options = {}) => {
         if (!window.speechSynthesis) return;
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.rate = options.rate || 0.8;
+        const utterance = new window.SpeechSynthesisUtterance(text);
+        utterance.rate = Number.isFinite(Number(options.rate))
+            ? Number(options.rate)
+            : normalizeWebSpeechRate(0.55);
         utterance.pitch = 1.0;
         utterance.lang = 'en-US';
 
-        // Attempt to find a natural English voice
-        const voices = window.speechSynthesis.getVoices();
-        const bestVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google')) ||
-                         voices.find(v => v.lang.startsWith('en')) ||
-                         voices[0];
+        const bestVoice = pickBestWebEnglishVoice(options.iosVoiceId);
         if (bestVoice) utterance.voice = bestVoice;
 
         utterance.onstart = () => {
-            window.dispatchEvent(new CustomEvent('tts-start'));
+            window.dispatchEvent(new window.CustomEvent('tts-start'));
         };
         utterance.onend = () => {
-            window.dispatchEvent(new CustomEvent('tts-finish'));
+            window.dispatchEvent(new window.CustomEvent('tts-finish'));
         };
         utterance.onerror = () => {
-            window.dispatchEvent(new CustomEvent('tts-error'));
+            window.dispatchEvent(new window.CustomEvent('tts-error'));
         };
 
         window.speechSynthesis.speak(utterance);
@@ -49,7 +105,7 @@ const WebTts = {
     stop: () => {
         if (window.speechSynthesis) {
             window.speechSynthesis.cancel();
-            window.dispatchEvent(new CustomEvent('tts-cancel'));
+            window.dispatchEvent(new window.CustomEvent('tts-cancel'));
         }
     },
     voices: async () => {
@@ -58,7 +114,11 @@ const WebTts = {
             id: v.name,
             name: v.name,
             language: v.lang,
-        }));
+        })).sort((a, b) => {
+            const aEn = String(a.language || '').toLowerCase().startsWith('en') ? 1 : 0;
+            const bEn = String(b.language || '').toLowerCase().startsWith('en') ? 1 : 0;
+            return bEn - aEn;
+        });
     },
     addEventListener: (event, cb) => {
         const handler = () => cb();
@@ -82,6 +142,7 @@ async function ensureInit() {
             await Tts.getInitStatus();
             await Tts.setDefaultLanguage('en-US');
             await Tts.setIgnoreSilentSwitch('ignore');
+            try { await Tts.setDefaultPitch(1.0); } catch (_) { }
             _initialized = true;
         } catch (e) {
             console.error('TTS Init Error:', e);
@@ -89,15 +150,6 @@ async function ensureInit() {
         }
     })();
     return _initPromise;
-}
-
-/** 
- * Forces the engine back to English if it drifted or was reset by the OS.
- */
-async function forceEnglish() {
-    try {
-        await Tts.setDefaultLanguage('en-US');
-    } catch (e) {}
 }
 
 /**
@@ -117,6 +169,7 @@ async function findBestEnglishVoiceId() {
             const lang = (v.language || '').toLowerCase();
             return (lang.startsWith('en') || lang.startsWith('eng')) && !v.notInstalled;
         });
+        enVoices.sort((a, b) => scoreVoiceCandidate(b) - scoreVoiceCandidate(a));
         if (!enVoices.length) return null;
         // Tercih sırasına göre arama
         for (const pref of EN_PREFERRED) {
@@ -139,10 +192,12 @@ export async function speakText(text, customOptions = {}) {
         try { ttsEngine.stop(); } catch (_) { }
         await new Promise(r => setTimeout(r, 60));
 
-        const rate = customOptions.rate || 0.45;
+        const semanticRate = Number.isFinite(Number(customOptions.rate)) ? Number(customOptions.rate) : 0.55;
+        const nativeRate = normalizeNativeSpeechRate(semanticRate);
         // Her seferinde dili en-US'e çek — cihazın dili Türkçe olsa bile
         if (!isWeb) await Tts.setDefaultLanguage('en-US');
-        try { if (!isWeb) await Tts.setDefaultRate(rate); } catch (_) { }
+        try { if (!isWeb) await Tts.setDefaultRate(nativeRate); } catch (_) { }
+        try { if (!isWeb) await Tts.setDefaultPitch(1.0); } catch (_) { }
 
         // En iyi İngilizce voice'u bul (veya sabit Samantha ID'lerini dene)
         let voiceId = customOptions.iosVoiceId;
@@ -158,7 +213,7 @@ export async function speakText(text, customOptions = {}) {
         ];
 
         const speakOptions = {
-            rate,
+            rate: isWeb ? normalizeWebSpeechRate(semanticRate) : nativeRate,
             androidParams: {
                 KEY_PARAM_PAN: 0,
                 KEY_PARAM_VOLUME: 1,
@@ -186,42 +241,55 @@ export function useTts() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voiceId, setVoiceIdState] = useState('');
-    const [rate, setRateState] = useState(0.5);
+    const [rate, setRateState] = useState(0.55);
     const cleanupRef = useRef([]);
     const _speakId = useRef(0);
 
     useEffect(() => {
         let mounted = true;
 
+        const applyVoiceList = (list = []) => {
+            if (!mounted) return;
+            const en = (list || []).filter(
+                v => {
+                    const lang = (v.language || '').toLowerCase();
+                    return (lang.startsWith('en') || lang.startsWith('eng')) && !v.notInstalled;
+                }
+            );
+            en.sort((a, b) => scoreVoiceCandidate(b) - scoreVoiceCandidate(a));
+            _englishVoiceAvailable = en.length > 0;
+            setVoices(en.slice(0, 6));
+            
+            const pref = ['google us english', 'samantha', 'ava', 'allison', 'nicky', 'alex', 'daniel', 'karen', 'moira'];
+            const best =
+                en.find(v => pref.some(n => (v.name || '').toLowerCase().includes(n))) ||
+                en.find(v => (v.language || '').toLowerCase().includes('us')) ||
+                en[0];
+
+            if (best?.id) {
+                setVoiceIdState(best.id);
+                try { 
+                    if (!isWeb) Tts.setDefaultVoice(best.id); 
+                    if (!isWeb) Tts.setDefaultLanguage('en-US');
+                } catch (_) { }
+            }
+        };
+
         ensureInit().then(() => {
             if (!mounted) return;
             ttsEngine.voices().then(list => {
-                if (!mounted) return;
-                const en = (list || []).filter(
-                    v => {
-                        const lang = (v.language || '').toLowerCase();
-                        return (lang.startsWith('en') || lang.startsWith('eng')) && !v.notInstalled;
-                    }
-                );
-                _englishVoiceAvailable = en.length > 0;
-                setVoices(en.slice(0, 10));
-                
-                // Prioritize specific high-quality English voices
-                const pref = ['samantha', 'ava', 'allison', 'nicky', 'alex', 'daniel', 'karen', 'moira'];
-                const best =
-                    en.find(v => pref.some(n => (v.name || '').toLowerCase().includes(n))) ||
-                    en.find(v => (v.language || '').toLowerCase().includes('us')) ||
-                    en[0];
-
-                if (best?.id) {
-                    setVoiceIdState(best.id);
-                    try { 
-                        if (!isWeb) Tts.setDefaultVoice(best.id); 
-                        if (!isWeb) Tts.setDefaultLanguage('en-US');
-                    } catch (_) { }
-                }
+                applyVoiceList(list);
             }).catch(() => { });
         });
+
+        let removeVoicesChanged = null;
+        if (isWeb && typeof window !== 'undefined' && window.speechSynthesis?.addEventListener) {
+            const refreshVoices = () => {
+                ttsEngine.voices().then((list) => applyVoiceList(list)).catch(() => {});
+            };
+            window.speechSynthesis.addEventListener('voiceschanged', refreshVoices);
+            removeVoicesChanged = () => window.speechSynthesis.removeEventListener('voiceschanged', refreshVoices);
+        }
 
         const onStart = () => setIsPlaying(true);
         const onFinish = () => setIsPlaying(false);
@@ -240,6 +308,7 @@ export function useTts() {
             if (subStart) subStart.remove();
             if (subFinish) subFinish.remove();
             if (subCancel) subCancel.remove();
+            if (removeVoicesChanged) removeVoicesChanged();
         };
     }, []);
 
@@ -255,7 +324,9 @@ export function useTts() {
 
             // Her seferinde dili İngilizce'ye çek
             if (!isWeb) await Tts.setDefaultLanguage('en-US');
-            try { if (!isWeb) await Tts.setDefaultRate(rate); } catch (_) { }
+            const effectiveRate = isWeb ? Number(rate) : normalizeNativeSpeechRate(rate);
+            try { if (!isWeb) await Tts.setDefaultRate(effectiveRate); } catch (_) { }
+            try { if (!isWeb) await Tts.setDefaultPitch(1.0); } catch (_) { }
 
             // En iyi yüklü İngilizce sesi bul
             let bestId = voiceId;
@@ -263,7 +334,7 @@ export function useTts() {
                 bestId = await findBestEnglishVoiceId();
             }
 
-            const options = { rate };
+            const options = { rate: isWeb ? normalizeWebSpeechRate(rate) : effectiveRate };
             options.iosVoiceId = bestId || 'com.apple.ttsbundle.Samantha-compact';
 
             if (!bestId && !_englishVoiceAvailable) {
@@ -276,6 +347,47 @@ export function useTts() {
         } catch (_) { }
     }, [rate, voiceId]);
 
+    const speakWordAsync = useCallback(async (text) => {
+        if (!text?.trim()) return;
+        if (isWeb) {
+            await new Promise((resolve) => {
+                let settled = false;
+                const settle = () => {
+                    if (settled) return;
+                    settled = true;
+                    clearTimeout(timer);
+                    finishSub?.remove?.();
+                    cancelSub?.remove?.();
+                    errorSub?.remove?.();
+                    resolve();
+                };
+                const finishSub = ttsEngine.addEventListener('tts-finish', settle);
+                const cancelSub = ttsEngine.addEventListener('tts-cancel', settle);
+                const errorSub = ttsEngine.addEventListener('tts-error', settle);
+                const timer = setTimeout(settle, Math.max(1500, String(text).length * 90));
+                speakWord(text).catch(settle);
+            });
+            return;
+        }
+        await new Promise((resolve) => {
+            let settled = false;
+            const settle = () => {
+                if (settled) return;
+                settled = true;
+                clearTimeout(timer);
+                finishSub?.remove?.();
+                cancelSub?.remove?.();
+                errorSub?.remove?.();
+                resolve();
+            };
+            const finishSub = ttsEngine.addEventListener('tts-finish', settle);
+            const cancelSub = ttsEngine.addEventListener('tts-cancel', settle);
+            const errorSub = ttsEngine.addEventListener('tts-error', settle);
+            const timer = setTimeout(settle, Math.max(2200, String(text).length * 90));
+            speakWord(text).catch(settle);
+        });
+    }, [speakWord]);
+
     const stopAll = useCallback(() => {
         _speakId.current += 1;
         try { ttsEngine.stop(); } catch (_) { }
@@ -284,7 +396,7 @@ export function useTts() {
 
     const setRate = useCallback((r) => {
         setRateState(r);
-        try { if (!isWeb) Tts.setDefaultRate(r); } catch (_) { }
+        try { if (!isWeb) Tts.setDefaultRate(normalizeNativeSpeechRate(r)); } catch (_) { }
     }, []);
 
     const setVoiceId = useCallback((id) => {
@@ -295,5 +407,5 @@ export function useTts() {
         } catch (_) { }
     }, []);
 
-    return { isPlaying, voices, voiceId, rate, speakWord, stopAll, setRate, setVoiceId };
+    return { isPlaying, voices, voiceId, rate, speakWord, speakWordAsync, stopAll, setRate, setVoiceId };
 }

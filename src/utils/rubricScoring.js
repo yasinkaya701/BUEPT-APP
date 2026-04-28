@@ -89,6 +89,27 @@ function repetitionPressure(text) {
   return Object.values(counts).filter((count) => count >= 3).length;
 }
 
+function repeatedSentenceStemCount(sentences = []) {
+  const counts = {};
+  sentences.forEach((sentence) => {
+    const words = String(sentence || '').toLowerCase().match(/\b[a-z']+\b/g) || [];
+    const stem = words.slice(0, 3).join(' ');
+    if (stem.split(' ').length < 2) return;
+    counts[stem] = (counts[stem] || 0) + 1;
+  });
+  return Object.values(counts).filter((count) => count >= 2).length;
+}
+
+function specificSupportCount(text = '') {
+  const source = String(text || '');
+  let count = 0;
+  count += (source.match(/\bfor example\b|\bfor instance\b|\bsuch as\b/gi) || []).length;
+  count += (source.match(/\b\d{2,4}\b/g) || []).length;
+  count += (source.match(/\baccording to\b|\bresearch\b|\bstudy\b|\bdata\b|\bevidence\b/gi) || []).length;
+  count += (source.match(/\bchina\b|\bturkey\b|\beurope\b|\buniversity\b|\bstudents\b/gi) || []).length;
+  return count;
+}
+
 function mechanicsIssueCount(text = '') {
   const source = String(text || '');
   let count = 0;
@@ -168,12 +189,12 @@ function resolveWascWritingBand({ total = 0, wordCount = 0, text = '' } = {}) {
   }
   const numeric = Number(total || 0);
   let code = 'FBA';
-  if (numeric >= 18) code = 'E';
-  else if (numeric >= 16) code = 'VG';
-  else if (numeric >= 14) code = 'MA';
-  else if (numeric >= 12) code = 'A';
-  else if (numeric >= 10) code = 'D';
-  else if (numeric >= 7) code = 'NA';
+  if (numeric >= 19) code = 'E';
+  else if (numeric >= 17) code = 'VG';
+  else if (numeric >= 15) code = 'MA';
+  else if (numeric >= 13) code = 'A';
+  else if (numeric >= 11) code = 'D';
+  else if (numeric >= 8) code = 'NA';
   const band = getSchemeBand(code);
   return {
     code,
@@ -217,6 +238,7 @@ function buildWritingChecklist(metrics = {}, targetWords = 180, coverage = { rat
   if ((metrics.errors || 0) > 2) items.push('Run a grammar cleanup pass and fix at least 3 errors.');
   if ((coverage.ratio || 0) < 0.35) items.push('Repeat prompt keywords and answer them more directly.');
   if ((metrics.ttr || 0) < 0.45) items.push('Reduce repetition by replacing overused words with academic synonyms.');
+  if ((metrics.repeatedStems || 0) > 0) items.push('Change repeated sentence openings so the draft sounds less memorized.');
   return items.slice(0, 4);
 }
 
@@ -246,32 +268,44 @@ export function scoreWritingRubric({ text = '', prompt = '', targetWords = 180 }
   const thesis = hasThesisSignal(text);
   const conclusion = hasConclusionSignal(text);
   const example = hasExampleSignal(text);
+  const repeatedStems = repeatedSentenceStemCount(sentences);
+  const supportHits = specificSupportCount(text);
+  const rotePatternRisk = repeatedStems >= 2 && supportHits === 0 && connectors <= 2;
+  const weakTaskCoverage = coverage.total > 0 && coverage.ratio < 0.25;
 
   let grammar = 1;
   if (errors <= 1 && sentenceCount >= 5 && avgSentence >= 10 && avgSentence <= 24) grammar = 4;
-  else if (errors <= 3 && sentenceCount >= 4 && avgSentence >= 9 && avgSentence <= 28) grammar = 3;
-  else if (errors <= 6 && sentenceCount >= 3) grammar = 2;
+  else if (errors <= 3 && sentenceCount >= 4 && avgSentence >= 9 && avgSentence <= 27) grammar = 3;
+  else if (errors <= 6 && sentenceCount >= 3 && avgSentence <= 30) grammar = 2;
 
   let vocabulary = 1;
-  if (ttr >= 0.54 && academics >= 5 && repetition <= 1) vocabulary = 4;
-  else if (ttr >= 0.46 && academics >= 3 && repetition <= 2) vocabulary = 3;
+  if (ttr >= 0.54 && academics >= 4 && repetition <= 1) vocabulary = 4;
+  else if (ttr >= 0.46 && academics >= 2 && repetition <= 2) vocabulary = 3;
   else if (ttr >= 0.38 && academics >= 1) vocabulary = 2;
+  if (repetition >= 3) vocabulary = Math.max(1, vocabulary - 1);
 
   let organization = 1;
-  if (paragraphs >= 3 && thesis && conclusion && connectors >= 4) organization = 4;
+  if (paragraphs >= 3 && thesis && conclusion && connectors >= 4 && repeatedStems === 0) organization = 4;
   else if (paragraphs >= 3 && connectors >= 2 && (thesis || conclusion)) organization = 3;
   else if (paragraphs >= 2 && sentenceCount >= 4) organization = 2;
 
   let content = 1;
   const coverageReady = coverage.total > 0;
-  if (wc >= targetWords && example && (!coverageReady || coverage.ratio >= 0.35)) content = 4;
-  else if (wc >= Math.max(110, Math.round(targetWords * 0.85)) && (!coverageReady || coverage.ratio >= 0.2)) content = 3;
-  else if (wc >= Math.max(80, Math.round(targetWords * 0.65))) content = 2;
+  if (wc >= targetWords && (example || supportHits >= 2) && (!coverageReady || coverage.ratio >= 0.45) && paragraphs >= 3) content = 4;
+  else if (wc >= Math.max(110, Math.round(targetWords * 0.85)) && (!coverageReady || coverage.ratio >= 0.3) && (example || supportHits >= 1)) content = 3;
+  else if (wc >= Math.max(80, Math.round(targetWords * 0.65)) && (!coverageReady || coverage.ratio >= 0.15)) content = 2;
 
   let mechanics = 1;
-  if (mechanicsIssues === 0 && errors <= 2 && sentenceCount >= 5) mechanics = 4;
-  else if (mechanicsIssues <= 1 && errors <= 4) mechanics = 3;
+  if (mechanicsIssues === 0 && errors <= 1 && sentenceCount >= 5) mechanics = 4;
+  else if (mechanicsIssues <= 1 && errors <= 3) mechanics = 3;
   else if (mechanicsIssues <= 3) mechanics = 2;
+
+  if (weakTaskCoverage) content = Math.min(content, 2);
+  if (rotePatternRisk) {
+    content = Math.min(content, 2);
+    organization = Math.min(organization, 2);
+    vocabulary = Math.min(vocabulary, 2);
+  }
 
   const total = grammar + vocabulary + organization + content + mechanics;
   const readiness = Math.round((total / 20) * 100);
@@ -289,6 +323,10 @@ export function scoreWritingRubric({ text = '', prompt = '', targetWords = 180 }
   if (connectors >= 3 && paragraphs >= 3) strengths.push('Coherence is supported by paragraphing and linking.');
   if (ttr >= 0.5 && academics >= 3) strengths.push('Vocabulary range is moving toward academic use.');
   if ((!coverageReady && example) || coverage.ratio >= 0.35) strengths.push('The response stays on task and supports ideas.');
+  if (supportHits >= 2) strengths.push('Specific support and exemplification strengthen task development.');
+  if (wascBand.code === 'MA' || wascBand.code === 'VG' || wascBand.code === 'E') {
+    strengths.push('The draft is approaching the official WASC expectation for developed support and logical flow.');
+  }
 
   const improvements = [];
   if (wc < targetWords) improvements.push(`Increase length toward ${targetWords} words`);
@@ -297,14 +335,16 @@ export function scoreWritingRubric({ text = '', prompt = '', targetWords = 180 }
   if (mechanicsIssues > 1) improvements.push('Clean punctuation and spacing to avoid mechanics penalties');
   if (coverageReady && coverage.ratio < 0.25) improvements.push('Address prompt keywords more directly');
   if (!example) improvements.push('Add at least one concrete example to develop the argument');
+  if (repetition >= 3 || repeatedStems >= 1) improvements.push('Vary repeated sentence patterns and overused vocabulary.');
+  if (rotePatternRisk) improvements.push('Avoid memorized openings or empty general statements; build genuine argumentation instead.');
 
   const priorityPlan = buildPriorityPlan(categories, WRITING_AREA_ACTIONS);
   const nextStepChecklist = buildWritingChecklist(
-    { wordCount: wc, connectors, errors, ttr },
+    { wordCount: wc, connectors, errors, ttr, repeatedStems },
     targetWords,
     coverage
   );
-  const feedbackSummary = `${wascBand.code} (${wascBand.label}) · ${readiness}% readiness. ${wascBand.descriptor || (readiness >= 80 ? 'Strong draft. Focus on precision and polish.' : readiness >= 60 ? 'Developing draft. Improve structure and accuracy for a higher band.' : 'Early draft. Build clearer content and safer grammar first.')}`;
+  const feedbackSummary = `${wascBand.code} (${wascBand.label}) · ${readiness}% readiness. ${wascBand.descriptor || (readiness >= 80 ? 'Strong draft. Keep examples specific and polish sentence control.' : readiness >= 60 ? 'Developing draft. Improve task coverage, support, and accuracy for a higher band.' : 'Early draft. Build clearer task response, fuller support, and safer grammar first.')} The official WASC focus stays on addressing the whole task, supporting ideas with clear examples, and avoiding repeated sentence patterns.`;
 
   return {
     total,
@@ -312,7 +352,7 @@ export function scoreWritingRubric({ text = '', prompt = '', targetWords = 180 }
     readiness,
     band: bandFrom20(total),
     wascBand,
-    metrics: { wordCount: wc, sentenceCount, connectors, academics, ttr, errors, repetition, mechanicsIssues },
+    metrics: { wordCount: wc, sentenceCount, connectors, academics, ttr, errors, repetition, mechanicsIssues, repeatedStems, supportHits },
     categories,
     strengths,
     improvements,

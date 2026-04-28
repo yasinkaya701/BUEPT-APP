@@ -108,15 +108,23 @@ function buildEssayMetrics(text = '') {
     const weighted = Math.round((task * 0.28 + cohesion * 0.27 + lexical * 0.25 + grammar * 0.20) * 10);
     const score = clamp(weighted, 0, 100);
     
-    // Stricter BUEPT band mapping
-    const band = score >= 90 ? 'C2' : score >= 78 ? 'C1' : score >= 65 ? 'B2' : score >= 50 ? 'B1' : 'A2';
+    // BUEPT WASC band mapping
+    const band = score >= 90 ? 'EX' : score >= 75 ? 'VG' : score >= 60 ? 'G' : score >= 50 ? 'S' : 'F';
     
     const bandColors = {
-        C2: '#9333EA', // Purple
-        C1: '#4F46E5', // Indigo
-        B2: '#059669', // Emerald
-        B1: '#D97706', // Amber
-        A2: '#DC2626', // Red
+        EX: '#9333EA', // Purple
+        VG: '#4F46E5', // Indigo
+        G: '#059669',  // Emerald
+        S: '#D97706',  // Amber
+        F: '#DC2626',  // Red
+    };
+    
+    const summaryBandName = {
+        EX: 'Excellent',
+        VG: 'Very Good',
+        G: 'Good',
+        S: 'Satisfactory',
+        F: 'Weak',
     };
 
     const strengths = [];
@@ -141,7 +149,7 @@ function buildEssayMetrics(text = '') {
         advanced: BASIC_UPGRADES[word]
     }));
 
-    const summary = `This draft demonstrates a solid ${band} level command of academic English. Its primary strength lies in ${cohesion >= lexical ? 'structural coherence' : 'lexical control'}. To breach the next proficiency band, prioritize ${wordCount < 140 ? 'argument expansion' : transCount < 3 ? 'sophisticated transitions' : 'advanced phrasing'}.`;
+    const summary = `This draft demonstrates a ${summaryBandName[band]} (${band}) level command of academic English. Its primary strength lies in ${cohesion >= lexical ? 'structural coherence' : 'lexical control'}. To breach the next proficiency band, prioritize ${wordCount < 140 ? 'argument expansion' : transCount < 3 ? 'sophisticated transitions' : 'advanced phrasing'}.`;
 
     return {
         score,

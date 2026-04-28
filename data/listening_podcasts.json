@@ -7,7 +7,7 @@
     "level": "B1-B2",
     "duration": "10-15 min",
     "focus": "Fast headline comprehension and key-detail capture",
-    "url": "https://partners.npr.org/podcasts/510318/up-first"
+    "url": "https://www.npr.org/podcasts/510318/up-first"
   },
   {
     "id": "pod_news_today_in_focus",
@@ -27,7 +27,7 @@
     "level": "B1-B2",
     "duration": "25-35 min",
     "focus": "International news, speaker accents, detail listening",
-    "url": "https://www.bbc.co.uk/programmes/p02nq0gn/episodes/downloads"
+    "url": "https://www.bbc.co.uk/programmes/p02nq0gn"
   },
   {
     "id": "pod_academic_ted_daily",
@@ -67,7 +67,7 @@
     "level": "B2-C1",
     "duration": "20-30 min",
     "focus": "Research summaries, scientific argument extraction",
-    "url": "https://podcasts.apple.com/us/podcast/nature-podcast/id81934659"
+    "url": "https://www.nature.com/nature/podcast"
   },
   {
     "id": "pod_science_scientific_american",
@@ -87,7 +87,7 @@
     "level": "B2-C1",
     "duration": "35-55 min",
     "focus": "Data-based discussion, inference and critical listening",
-    "url": "https://freakonomics.com/podcasts/"
+    "url": "https://freakonomics.com/series/freakonomics-radio/"
   },
   {
     "id": "pod_news_daily_nyt",
@@ -97,6 +97,6 @@
     "level": "B2-C1",
     "duration": "20-30 min",
     "focus": "Journalistic narration and evidence-based reporting",
-    "url": "https://podcasts.apple.com/us/podcast/the-daily/id1200361736"
+    "url": "https://www.nytimes.com/column/the-daily"
   }
 ]

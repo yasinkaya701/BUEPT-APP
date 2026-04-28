@@ -5,7 +5,7 @@
  */
 import React, { useMemo, useState, useCallback, useEffect, useRef, memo } from 'react';
 import {
-  Text, StyleSheet, View, TouchableOpacity, Modal, Pressable, Dimensions, TextInput, useWindowDimensions, ScrollView
+  Text, StyleSheet, View, TouchableOpacity, Modal, Pressable, TextInput, useWindowDimensions, ScrollView, Platform
 } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
@@ -826,10 +826,18 @@ export default function ReadingDetailScreen({ route, navigation }) {
       {!useSplitLayout ? analysisCards : null}
 
       {useSplitLayout ? (
-        <View style={styles.landscapeOuter}>
+        <View style={[styles.landscapeOuter, Platform.OS === 'web' && { flex: 1, minHeight: 0 }]}>
           <View style={styles.landscapeSplit}>
             <ScrollView
-              style={styles.landscapePaneLeft}
+              style={[styles.landscapePaneLeft, Platform.OS === 'web' && styles.paneScrollWeb]}
+              contentContainerStyle={styles.landscapePaneContent}
+              nestedScrollEnabled
+              showsVerticalScrollIndicator={false}
+            >
+              {passageCards}
+            </ScrollView>
+            <ScrollView
+              style={[styles.landscapePaneRight, Platform.OS === 'web' && styles.paneScrollWeb]}
               contentContainerStyle={styles.landscapePaneContent}
               nestedScrollEnabled
               showsVerticalScrollIndicator={false}
@@ -837,14 +845,6 @@ export default function ReadingDetailScreen({ route, navigation }) {
               {progressAndTimerCards}
               {analysisCards}
               {questionCards}
-            </ScrollView>
-            <ScrollView
-              style={styles.landscapePaneRight}
-              contentContainerStyle={styles.landscapePaneContent}
-              nestedScrollEnabled
-              showsVerticalScrollIndicator={false}
-            >
-              {passageCards}
             </ScrollView>
           </View>
         </View>
@@ -867,7 +867,7 @@ export default function ReadingDetailScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { paddingBottom: 40 },
+  container: { },
   h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
   h3: { fontSize: typography.h3, fontFamily: typography.fontHeadline, marginBottom: spacing.sm },
   sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.lg },
@@ -928,24 +928,34 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     gap: spacing.md,
-    alignItems: 'flex-start',
+    minHeight: 0,
   },
   landscapeOuter: {
     marginBottom: spacing.lg,
     flex: 1, // Let it expand fully
+    minHeight: 0,
   },
   landscapeOuterContent: {
     flexGrow: 1,
   },
   landscapePaneLeft: {
     flex: 1,
+    minWidth: 0,
+    minHeight: 0,
   },
   landscapePaneRight: {
     flex: 1,
+    minWidth: 0,
+    minHeight: 0,
   },
+  paneScrollWeb: Platform.OS === 'web' ? {
+    overflowY: 'auto',
+    WebkitOverflowScrolling: 'touch',
+  } : {},
   landscapePaneContent: {
     flexGrow: 1,
     paddingBottom: spacing.xl,
+    minWidth: 0,
   },
   score: { marginTop: spacing.md, fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.primary },
   skimTimerText: {

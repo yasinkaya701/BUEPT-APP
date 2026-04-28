@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
@@ -11,6 +11,7 @@ const WEEK_DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 const CLASS_DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const HOMEWORK_STORAGE_KEY = 'class_schedule_homework_v1';
+const BUEPT_EXAM_AT = '2026-06-02T09:00:00+03:00';
 
 function toISO(date) {
   const y = date.getFullYear();
@@ -48,6 +49,17 @@ function formatDateLabel(isoDate) {
 function formatShortDate(isoDate) {
   if (!isoDate || typeof isoDate !== 'string' || isoDate.length < 10) return '--';
   return isoDate.slice(5);
+}
+
+function formatCountdown(msRemaining) {
+  const safe = Math.max(0, Number(msRemaining || 0));
+  const totalSeconds = Math.floor(safe / 1000);
+  return {
+    days: Math.floor(totalSeconds / 86400),
+    hours: Math.floor((totalSeconds % 86400) / 3600),
+    minutes: Math.floor((totalSeconds % 3600) / 60),
+    seconds: totalSeconds % 60,
+  };
 }
 
 function isLunch(label) {
@@ -131,11 +143,16 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
     []
   );
   const [todayISO, setTodayISO] = useState(() => toISO(new Date()));
+  const [nowClockMs, setNowClockMs] = useState(() => Date.now());
   useEffect(() => {
     const timer = setInterval(() => {
       const next = toISO(new Date());
       setTodayISO((prev) => (prev === next ? prev : next));
     }, 60 * 1000);
+    return () => clearInterval(timer);
+  }, []);
+  useEffect(() => {
+    const timer = setInterval(() => setNowClockMs(Date.now()), 1000);
     return () => clearInterval(timer);
   }, []);
 
@@ -330,13 +347,10 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
       .sort((a, b) => a.startDate.localeCompare(b.startDate))[0] || null,
     [filteredAcademicEvents, todayISO]
   );
-  const daysUntilNextExam = useMemo(() => {
-    if (!nextExamEvent?.startDate) return null;
-    const today = new Date(`${todayISO}T00:00:00`).getTime();
-    const exam = new Date(`${nextExamEvent.startDate}T00:00:00`).getTime();
-    const diff = Math.ceil((exam - today) / (1000 * 60 * 60 * 24));
-    return Number.isFinite(diff) ? diff : null;
-  }, [nextExamEvent, todayISO]);
+  const bueptCountdown = useMemo(() => {
+    const examMs = new Date(BUEPT_EXAM_AT).getTime();
+    return formatCountdown(examMs - nowClockMs);
+  }, [nowClockMs]);
 
   const homeworkDateMap = useMemo(() => {
     const map = new Map();
@@ -406,8 +420,51 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
     return { dayKey, holidayName, inTerm, sessions, events };
   }, [selectedDate, selectedDateObj, holidayMap, termStart, termEnd, activeSection, dayEvents]);
 
+  const handleBack = () => {
+    if (navigation?.canGoBack?.()) {
+      navigation.goBack();
+      return;
+    }
+    if (navigation?.navigate) {
+      navigation.navigate('BogaziciHub');
+    }
+  };
+
   return (
     <Screen scroll contentStyle={styles.container}>
+      <View style={[styles.topBar, { marginTop: Platform.OS === 'ios' ? 44 : 20 }]}>
+        <TouchableOpacity style={styles.backBtn} onPress={handleBack}>
+          <Text style={styles.backBtnText}>← Back</Text>
+        </TouchableOpacity>
+        <Text style={styles.topBarTitle}>Prep Calendar</Text>
+      </View>
+
+      <Card style={styles.countdownCard}>
+        <Text style={styles.countdownTitle}>BUEPT 2026 Exam</Text>
+        <View style={styles.countdownBlocks}>
+            <View style={styles.timeBlock}>
+                <Text style={styles.timeVal}>{bueptCountdown.days}</Text>
+                <Text style={styles.timeLab}>Gün</Text>
+            </View>
+            <Text style={styles.colon}>:</Text>
+            <View style={styles.timeBlock}>
+                <Text style={styles.timeVal}>{String(bueptCountdown.hours).padStart(2, '0')}</Text>
+                <Text style={styles.timeLab}>Saat</Text>
+            </View>
+            <Text style={styles.colon}>:</Text>
+            <View style={styles.timeBlock}>
+                <Text style={styles.timeVal}>{String(bueptCountdown.minutes).padStart(2, '0')}</Text>
+                <Text style={styles.timeLab}>Dk</Text>
+            </View>
+            <Text style={styles.colon}>:</Text>
+            <View style={styles.timeBlock}>
+                <Text style={styles.timeVal}>{String(bueptCountdown.seconds).padStart(2, '0')}</Text>
+                <Text style={styles.timeLab}>Sn</Text>
+            </View>
+        </View>
+        <Text style={styles.countdownSub}>2 Haziran 2026 • Bogazici University</Text>
+      </Card>
+
       <Card style={styles.heroCard}>
         <Text style={styles.heroTitle}>Ders Programı ve Takvim</Text>
         <Text style={styles.heroSub}>
@@ -447,9 +504,9 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
             <Text style={styles.dashboardSub}>{nextExamEvent?.title || 'No upcoming exam event'}</Text>
           </View>
           <View style={styles.dashboardItem}>
-            <Text style={styles.dashboardLabel}>Countdown</Text>
-            <Text style={styles.dashboardValue}>{daysUntilNextExam == null ? '--' : `${daysUntilNextExam}d`}</Text>
-            <Text style={styles.dashboardSub}>until next exam milestone</Text>
+            <Text style={styles.dashboardLabel}>Status</Text>
+            <Text style={styles.dashboardValue}>{termId}</Text>
+            <Text style={styles.dashboardSub}>Active Term</Text>
           </View>
           <View style={styles.dashboardItem}>
             <Text style={styles.dashboardLabel}>Open Homework</Text>
@@ -883,6 +940,91 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     paddingBottom: 40,
+  },
+  topBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+    marginBottom: spacing.md,
+  },
+  backBtn: {
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: 999,
+    backgroundColor: 'rgba(255,255,255,0.92)',
+    borderWidth: 1,
+    borderColor: 'rgba(37, 99, 235, 0.18)',
+  },
+  backBtnText: {
+    fontSize: typography.small,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+  },
+  topBarTitle: {
+    flex: 1,
+    textAlign: 'right',
+    fontSize: typography.body,
+    fontFamily: typography.fontHeadline,
+    color: colors.textOnDarkMuted,
+  },
+  countdownCard: {
+    backgroundColor: '#1E1B4B',
+    borderColor: '#312E81',
+    alignItems: 'center',
+    paddingVertical: spacing.xl,
+    marginBottom: spacing.md,
+  },
+  countdownTitle: {
+    fontSize: 16,
+    color: '#A5B4FC',
+    fontWeight: '800',
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    letterSpacing: 2,
+    marginBottom: 16,
+  },
+  countdownBlocks: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  timeBlock: {
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    width: 64,
+    height: 64,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
+  },
+  timeVal: {
+    fontSize: 24,
+    fontWeight: '900',
+    color: '#FFF',
+    fontFamily: typography.fontHeadline,
+  },
+  timeLab: {
+    fontSize: 11,
+    color: '#C7D2FE',
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    marginTop: 2,
+  },
+  colon: {
+    fontSize: 28,
+    fontWeight: '900',
+    color: 'rgba(255,255,255,0.4)',
+    marginHorizontal: 4,
+    paddingBottom: 16,
+  },
+  countdownSub: {
+    fontSize: 13,
+    color: '#818CF8',
+    marginTop: 16,
+    fontWeight: '600',
   },
   heroCard: {
     marginBottom: spacing.md,

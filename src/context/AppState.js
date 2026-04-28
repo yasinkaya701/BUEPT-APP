@@ -4,8 +4,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { buildYS9Report } from '../utils/ys9Mock';
 import { getWordEntry } from '../utils/dictionary';
 import { loadUserWords, saveUserWords, loadUnknownWords, saveUnknownWords, loadVocabStats, saveVocabStats } from '../utils/storage';
-import { resolveApiEndpoint } from '../utils/runtimeApi';
+import { resolveApiEndpoint, setRuntimeApiAccessConfig } from '../utils/runtimeApi';
+import { scoreWritingRubric } from '../utils/rubricScoring';
 import {
+  loadAiAccessConfig,
   loadFavorites,
   loadHistory,
   loadLevel,
@@ -19,6 +21,7 @@ import {
   loadWeeklyVocabProgress,
   saveFavorites,
   saveHistory,
+  saveAiAccessConfig,
   saveLevel,
   saveWritingEngine,
   saveMockHistory,
@@ -290,6 +293,17 @@ function buildDemoProfile() {
   };
 }
 
+function normalizeAiConfig(config = {}) {
+  const mode = String(config?.mode || 'hosted').trim().toLowerCase() === 'custom' ? 'custom' : 'hosted';
+  const baseUrl = String(config?.baseUrl || '').trim().replace(/\/+$/, '');
+  return {
+    mode,
+    baseUrl,
+    apiKey: String(config?.apiKey || '').trim(),
+    label: String(config?.label || (mode === 'custom' ? 'Custom AI Endpoint' : 'Hosted BUEPT AI')).trim() || 'Hosted BUEPT AI',
+  };
+}
+
 const AppStateContext = createContext(null);
 
 const STORAGE_AUTH_TOKEN = '@buept_auth_token';
@@ -307,6 +321,7 @@ export function AppStateProvider({ children }) {
   const [level, setLevel] = useState('P2');
   const [writingEngine, setWritingEngine] = useState('online');
   const [aiReady, setAiReady] = useState(false);
+  const [aiAccessConfig, setAiAccessConfig] = useState(() => normalizeAiConfig());
   const [essayText, setEssayText] = useState('');
   const [report, setReport] = useState(null);
   const [history, setHistory] = useState([]);
@@ -319,7 +334,6 @@ export function AppStateProvider({ children }) {
   const lastScreenTimePersistRef = useRef(0);
   const appStateRef = useRef(RNAppState.currentState);
   const timerRef = useRef(null);
-  const aiBootRef = useRef(false);
   const [userWords, setUserWords] = useState([]);
   const [unknownWords, setUnknownWords] = useState([]);
   const [vocabStats, setVocabStats] = useState({});
@@ -407,6 +421,7 @@ export function AppStateProvider({ children }) {
             loadUserWords(),
             loadUnknownWords(),
             loadVocabStats(),
+            loadAiAccessConfig(),
             loadLevel(),
             loadWritingEngine(),
             loadFavorites(),
@@ -428,6 +443,7 @@ export function AppStateProvider({ children }) {
             loadedUserWords,
             loadedUnknownWords,
             loadedVocabStats,
+            loadedAiAccessConfig,
             loadedLevel,
             loadedWritingEngine,
             loadedFavorites,
@@ -446,6 +462,7 @@ export function AppStateProvider({ children }) {
           setUserWords(Array.isArray(loadedUserWords) ? loadedUserWords : []);
           setUnknownWords(Array.isArray(loadedUnknownWords) ? loadedUnknownWords : []);
           setVocabStats(loadedVocabStats && typeof loadedVocabStats === 'object' ? loadedVocabStats : {});
+          setAiAccessConfig(normalizeAiConfig(loadedAiAccessConfig));
           setLevel(loadedLevel || 'P2');
           setWritingEngine(loadedWritingEngine || 'online');
           setFavoritePrompts(Array.isArray(loadedFavorites) ? loadedFavorites : []);
@@ -468,9 +485,11 @@ export function AppStateProvider({ children }) {
   }, [applyDemoData]);
 
   useEffect(() => {
+    setRuntimeApiAccessConfig(aiAccessConfig);
+  }, [aiAccessConfig]);
+
+  useEffect(() => {
     if (!authReady) return;
-    if (aiBootRef.current) return;
-    aiBootRef.current = true;
 
     const healthEndpoint = resolveApiEndpoint('BUEPT_HEALTH_API_URL', '/api/health');
     const fallbackEngine = (prev) => (prev === 'local' ? 'local' : 'online');
@@ -483,6 +502,7 @@ export function AppStateProvider({ children }) {
 
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 2200);
+    let alive = true;
 
     fetch(healthEndpoint, { signal: ctrl.signal })
       .then((res) => {
@@ -490,15 +510,22 @@ export function AppStateProvider({ children }) {
         return res.json().catch(() => ({}));
       })
       .then(() => {
+        if (!alive) return;
         setAiReady(true);
         setWritingEngine('hybrid');
       })
       .catch(() => {
+        if (!alive) return;
         setAiReady(false);
         setWritingEngine(fallbackEngine);
       })
       .finally(() => clearTimeout(timer));
-  }, [authReady]);
+    return () => {
+      alive = false;
+      clearTimeout(timer);
+      ctrl.abort();
+    };
+  }, [authReady, aiAccessConfig]);
 
   useEffect(() => {
     saveUserWords(userWords);
@@ -517,6 +544,10 @@ export function AppStateProvider({ children }) {
   useEffect(() => {
     saveLevel(level);
   }, [level]);
+
+  useEffect(() => {
+    saveAiAccessConfig(aiAccessConfig);
+  }, [aiAccessConfig]);
 
   useEffect(() => {
     saveWritingEngine(writingEngine);
@@ -892,6 +923,57 @@ export function AppStateProvider({ children }) {
         full_report: 'Feedback engine recovered from a runtime issue. Please retry.',
       };
     }
+    try {
+      const targetWords = {
+        P1: 80,
+        P2: 120,
+        P3: 180,
+        P4: 250,
+      }[String(meta?.level || level || 'P2').toUpperCase()] || 150;
+      const officialRubric = scoreWritingRubric({
+        text: sourceText,
+        prompt: meta?.prompt || '',
+        targetWords,
+      });
+      if (officialRubric && Array.isArray(officialRubric.categories)) {
+        const officialRubricMap = officialRubric.categories.reduce((acc, category) => {
+          acc[category.name] = Number(category.score || 0);
+          return acc;
+        }, {});
+        r = {
+          ...r,
+          rubric: {
+            Grammar: Number(officialRubricMap.Grammar || 0),
+            Vocabulary: Number(officialRubricMap.Vocabulary || 0),
+            Organization: Number(officialRubricMap.Organization || 0),
+            Content: Number(officialRubricMap.Content || 0),
+            Mechanics: Number(officialRubricMap.Mechanics || 0),
+            Total: Number(officialRubric.total || 0),
+          },
+          official_rubric: officialRubric,
+          wasc_band: officialRubric.wascBand || null,
+          strengths: uniqueTextList([
+            ...(officialRubric.strengths || []),
+            ...(Array.isArray(r?.strengths) ? r.strengths : []),
+          ]),
+          issues: uniqueTextList([
+            ...(officialRubric.improvements || []),
+            ...(Array.isArray(r?.issues) ? r.issues : []),
+          ]),
+          priority_fixes: uniqueTextList([
+            ...((officialRubric.priorityPlan || []).map((item) => `${item.area}: ${item.action}`)),
+            ...(Array.isArray(r?.priority_fixes) ? r.priority_fixes : []),
+          ]),
+          next_steps: uniqueTextList([
+            ...(officialRubric.nextStepChecklist || []),
+            ...(Array.isArray(r?.next_steps) ? r.next_steps : []),
+          ]),
+          feedback_summary: officialRubric.feedbackSummary || r?.feedback_summary || '',
+        };
+      }
+    } catch (error) {
+      console.error('[generateReport] official rubric fallback used:', error);
+    }
     setReport(r);
     setHistory((prev) => [
       { id: Date.now().toString(), createdAt: new Date().toISOString(), report: r },
@@ -1120,6 +1202,14 @@ export function AppStateProvider({ children }) {
     });
   }, []);
 
+  const updateAiAccessConfig = useCallback((next = {}) => {
+    setAiAccessConfig((prev) => normalizeAiConfig({ ...prev, ...(next || {}) }));
+  }, []);
+
+  const resetAiAccessConfig = useCallback(() => {
+    setAiAccessConfig(normalizeAiConfig());
+  }, []);
+
   const value = useMemo(() => ({
     userToken,
     authReady,
@@ -1137,6 +1227,7 @@ export function AppStateProvider({ children }) {
     writingEngine,
     setWritingEngine,
     aiReady,
+    aiAccessConfig,
     essayText,
     setEssayText,
     report,
@@ -1180,9 +1271,11 @@ export function AppStateProvider({ children }) {
     addXp,
     applyDemoData,
     restoreCustomDeck,
+    updateAiAccessConfig,
+    resetAiAccessConfig,
   }), [
     userToken, authReady, userProfile, postAuthRoute, academicFocus,
-    level, writingEngine, aiReady, essayText, report, history, mockHistory,
+    level, writingEngine, aiReady, aiAccessConfig, essayText, report, history, mockHistory,
     readingHistory, listeningHistory, grammarHistory, screenTime,
     userWords, unknownWords, vocabStats, favoritePrompts, reviews,
     errorWords, grammarErrors, xp, customDecks,
@@ -1192,6 +1285,7 @@ export function AppStateProvider({ children }) {
     recordQuizError, recordGrammarError, clearErrorWords, clearGrammarErrors,
     addCustomDeck, deleteCustomDeck, restoreCustomDeck,
     addXp, applyDemoData, login, register, logout, consumePostAuthRoute,
+    updateAiAccessConfig, resetAiAccessConfig,
   ]);
 
   return (

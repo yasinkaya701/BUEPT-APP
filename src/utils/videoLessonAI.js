@@ -1,8 +1,6 @@
-import { readRuntimeEnv, resolveApiEndpoint } from './runtimeApi';
+import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders } from './runtimeApi';
 
 const VIDEO_ENDPOINT = resolveApiEndpoint('BUEPT_VIDEO_LESSON_API_URL', '/api/video-lesson');
-
-const API_KEY = readRuntimeEnv('BUEPT_API_KEY');
 
 function withTimeout(ms = 18000) {
   const ctrl = new AbortController();
@@ -10,10 +8,7 @@ function withTimeout(ms = 18000) {
   return { signal: ctrl.signal, clear: () => clearTimeout(timer) };
 }
 
-function authHeaders(extra = {}) {
-  if (!API_KEY) return extra;
-  return { ...extra, Authorization: `Bearer ${API_KEY}` };
-}
+// authHeaders is now handled by getAiHeaders from runtimeApi.js
 
 function clean(value, fallback = '') {
   if (typeof value !== 'string') return fallback;
@@ -197,7 +192,7 @@ export async function generateVideoLesson({ topic, level = 'B1', durationMin = 4
   try {
     const res = await fetch(VIDEO_ENDPOINT, {
       method: 'POST',
-      headers: authHeaders({ 'Content-Type': 'application/json' }),
+      headers: getAiHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify(payload),
       signal: timeout.signal,
     });

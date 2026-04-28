@@ -1,8 +1,6 @@
-import { readRuntimeEnv, resolveApiEndpoint } from './runtimeApi';
+import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders } from './runtimeApi';
 
 const CHAT_ENDPOINT = resolveApiEndpoint('BUEPT_CHAT_API_URL', '/api/chat');
-
-const CHAT_API_KEY = readRuntimeEnv('BUEPT_API_KEY');
 
 const DEFAULT_TIMEOUT_MS = 12000;
 const DEFAULT_RETRIES = 1;
@@ -22,10 +20,7 @@ function withTimeout(ms = DEFAULT_TIMEOUT_MS) {
   return { signal: ctrl.signal, clear: () => clearTimeout(timer) };
 }
 
-function authHeaders(extra = {}) {
-  if (!CHAT_API_KEY) return extra;
-  return { ...extra, Authorization: `Bearer ${CHAT_API_KEY}` };
-}
+// authHeaders is now handled by getAiHeaders from runtimeApi.js
 
 function normalizeReply(payload = {}) {
   const text = payload.reply || payload.text || payload.message || payload.content || '';
@@ -116,7 +111,7 @@ export async function requestChatbotReply({ message, mode = 'coach', history = [
     try {
       const res = await fetch(CHAT_ENDPOINT, {
         method: 'POST',
-        headers: authHeaders({ 'Content-Type': 'application/json' }),
+        headers: getAiHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify(payload),
         signal: timeout.signal,
       });

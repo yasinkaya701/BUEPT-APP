@@ -13,6 +13,8 @@ import { buildSimilarQuestion } from '../utils/similarQuestion';
 import { buildGrammarOpenEndedPrompts } from '../utils/openEndedPrompts';
 import { evaluateGrammarModel } from '../utils/grammarModel';
 import { subscribeSmokeActions } from '../dev/smokeBus';
+import { buildGrammarLessonPack } from '../utils/grammarLessonToolkit';
+import { openExternalResource } from '../utils/externalLinks';
 
 const tasks = [...baseTasks, ...hardTasks, ...testEnglishTasks];
 
@@ -101,22 +103,28 @@ export default function GrammarDetailScreen({ route, navigation }) {
     () => (grammarFeedback ? grammarFeedback.missed.map((m) => m.index - 1) : []),
     [grammarFeedback]
   );
+  const lessonPack = useMemo(() => buildGrammarLessonPack(task), [task]);
+  const rawExplanation = lessonPack.rawExplanation || '';
 
   // Parse explain text into structured segments
   const lessonSegments = useMemo(() => {
-    const raw = task.explain || '';
-    return raw.split('\n').map(line => line.trim()).filter(Boolean);
-  }, [task.explain]);
+    if (Array.isArray(lessonPack.segments) && lessonPack.segments.length) return lessonPack.segments;
+    return rawExplanation.split('\n').map(line => line.trim()).filter(Boolean);
+  }, [lessonPack.segments, rawExplanation]);
   const lessonFlashcards = useMemo(
-    () => lessonSegments.filter((line) => line.length > 20).slice(0, 6),
-    [lessonSegments]
+    () => lessonPack.flashcards?.length ? lessonPack.flashcards : lessonSegments.filter((line) => line.length > 20).slice(0, 6),
+    [lessonPack.flashcards, lessonSegments]
+  );
+  const lessonExamples = useMemo(
+    () => (Array.isArray(task?.examples) && task.examples.length ? task.examples : lessonPack.examples || []),
+    [task?.examples, lessonPack.examples]
   );
 
   const getQuestionExplain = useCallback((q) => {
     if (q.explain) return q.explain;
-    const taskIntro = (task.explain || '').split('\n')[0] || '';
+    const taskIntro = rawExplanation.split('\n')[0] || '';
     return `Correct answer: "${q.options[q.answer]}". ${taskIntro}`;
-  }, [task.explain]);
+  }, [rawExplanation]);
 
   const mistakeItems = useMemo(() => {
     if (!checked || !taskQuestions.length) return [];
@@ -134,11 +142,11 @@ export default function GrammarDetailScreen({ route, navigation }) {
         correctIndex: q.answer,
         selectedIndex: Number.isFinite(selected) ? selected : null,
         explanation: getQuestionExplain(q),
-        context: task.explain || '',
+        context: rawExplanation,
         skill: q.skill || q.topic || 'grammar',
       };
     }).filter(Boolean);
-  }, [checked, taskQuestions, answers, task, getQuestionExplain]);
+  }, [checked, taskQuestions, answers, task, getQuestionExplain, rawExplanation]);
 
   const select = (qi, oi) => {
     if (checked) return;
@@ -448,7 +456,15 @@ export default function GrammarDetailScreen({ route, navigation }) {
           <View style={styles.lessonBody}>
             {lessonSegments.map((line, i) => {
               const isBullet = line.startsWith('-');
-              const isKeyRule = line.startsWith('Key rule') || line.startsWith('Key edit') || line.startsWith('Advanced') || line.startsWith('Common') || line.startsWith('Key preposi');
+              const normalizedLine = String(line || '').trim().toLowerCase();
+              const isKeyRule = [
+                'topic focus',
+                'overview',
+                'key form',
+                'when it is used',
+                'common exam traps',
+                'buept move',
+              ].includes(normalizedLine) || line.startsWith('Key rule') || line.startsWith('Key edit') || line.startsWith('Advanced') || line.startsWith('Common') || line.startsWith('Key preposi');
               return (
                 <Text
                   key={i}
@@ -462,6 +478,23 @@ export default function GrammarDetailScreen({ route, navigation }) {
                 </Text>
               );
             })}
+            {lessonPack?.videoUrl ? (
+              <View style={styles.lessonVideoBox}>
+                <Text style={styles.flashLabel}>VIDEO SUPPORT</Text>
+                <Text style={styles.note}>Open a focused video lesson search for this grammar topic when you want a fuller explanation outside the quiz.</Text>
+                <View style={styles.row}>
+                  <Button
+                    label="Watch Video Lesson"
+                    variant="secondary"
+                    onPress={() => openExternalResource({
+                      title: lessonPack.videoTitle || `${lessonPack.topic} Video`,
+                      url: lessonPack.videoUrl,
+                      navigation,
+                    })}
+                  />
+                </View>
+              </View>
+            ) : null}
           </View>
         )}
       </View>
@@ -479,13 +512,13 @@ export default function GrammarDetailScreen({ route, navigation }) {
       )}
 
       {/* Examples Card: wrong -> correct */}
-      {task.examples && task.examples.length > 0 && (
+      {lessonExamples && lessonExamples.length > 0 && (
         <View style={styles.examplesCard}>
           <TouchableOpacity onPress={() => setExamplesOpen(o => !o)} style={styles.lessonHeader}>
             <Text style={styles.examplesTitle}>Common Errors and Corrections</Text>
             <Text style={styles.lessonToggle}>{examplesOpen ? 'Hide' : 'Show'}</Text>
           </TouchableOpacity>
-          {examplesOpen && task.examples.map((ex, i) => (
+          {examplesOpen && lessonExamples.map((ex, i) => (
             <View key={i} style={styles.exampleItem}>
               <View style={styles.exWrongBox}>
                 <Text style={styles.exLabel}>WRONG</Text>
@@ -648,7 +681,6 @@ export default function GrammarDetailScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: spacing.xl,
   },
   h1: {
     fontSize: typography.h1,
@@ -761,6 +793,12 @@ const styles = StyleSheet.create({
     color: colors.text,
     marginBottom: spacing.xs,
     lineHeight: 20,
+  },
+  lessonVideoBox: {
+    marginTop: spacing.md,
+    paddingTop: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(30, 64, 175, 0.12)',
   },
   lessonBullet: {
     fontSize: typography.small,

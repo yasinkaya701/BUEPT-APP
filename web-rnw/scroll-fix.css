@@ -1,0 +1,4 @@
+/* Force React Navigation wrapper to pass height */
+div[style*="flex: 1"] {
+  min-height: 0 !important;
+}

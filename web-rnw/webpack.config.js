@@ -98,6 +98,10 @@ module.exports = (env = {}, argv = {}) => {
       new HtmlWebpackPlugin({
         template: path.resolve(projectRoot, 'web-rnw/index.html'),
       }),
+      new HtmlWebpackPlugin({
+        filename: '404.html',
+        template: path.resolve(projectRoot, 'web-rnw/index.html'),
+      }),
     ],
     devServer: {
       static: {

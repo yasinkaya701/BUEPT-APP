@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Text, StyleSheet, View, TextInput, TouchableOpacity, useWindowDimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -8,6 +8,7 @@ import Screen from '../components/Screen';
 import { useAppState } from '../context/AppState';
 import { colors, spacing, typography, radius } from '../theme/tokens';
 import { buildRecommendedTask } from '../utils/studyPlan';
+import { openExternalResource } from '../utils/externalLinks';
 
 import baseTasks from '../../data/listening_tasks.json';
 import hardTasks from '../../data/listening_tasks_hard.json';
@@ -341,6 +342,15 @@ export default function ListeningScreen({ navigation }) {
     setPodcastFilter('all');
   };
 
+  const handleOpenPodcast = useCallback((podcast) => {
+    if (!podcast?.url) return;
+    openExternalResource({
+      url: podcast.url,
+      title: podcast.title,
+      navigation,
+    });
+  }, [navigation]);
+
   const renderPracticeBank = (bankKey, title, description) => {
     const list = groupedTasks[bankKey];
     if (!list.length) return null;
@@ -424,7 +434,7 @@ export default function ListeningScreen({ navigation }) {
               <Button
                 label={featuredPodcast ? 'Open featured podcast' : 'Open podcast'}
                 icon="radio-outline"
-                onPress={() => featuredPodcast && navigation.navigate('WebViewer', { title: featuredPodcast.title, url: featuredPodcast.url })}
+                onPress={() => featuredPodcast && handleOpenPodcast(featuredPodcast)}
                 disabled={!featuredPodcast}
               />
               <Button label="Back to practice" icon="headset-outline" variant="secondary" onPress={() => setMode('practice')} />
@@ -590,7 +600,7 @@ export default function ListeningScreen({ navigation }) {
                 <PodcastRow
                   key={`featured-${podcast.id}`}
                   podcast={podcast}
-                  onPress={() => navigation.navigate('WebViewer', { title: podcast.title, url: podcast.url })}
+                  onPress={() => handleOpenPodcast(podcast)}
                 />
               ))}
             </View>
@@ -641,7 +651,7 @@ export default function ListeningScreen({ navigation }) {
                   <PodcastRow
                     key={podcast.id}
                     podcast={podcast}
-                    onPress={() => navigation.navigate('WebViewer', { title: podcast.title, url: podcast.url })}
+                    onPress={() => handleOpenPodcast(podcast)}
                   />
                 ))}
               </View>
@@ -660,17 +670,17 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: typography.h1,
     fontFamily: typography.fontHeadline,
-    color: colors.text,
+    color: colors.textOnDark,
     marginBottom: spacing.sm,
   },
   sub: {
     fontSize: typography.small,
-    color: colors.muted,
+    color: colors.textOnDarkMuted,
     marginBottom: spacing.lg,
   },
   section: {
     fontSize: typography.small,
-    color: colors.muted,
+    color: colors.textOnDarkMuted,
     marginBottom: spacing.sm,
     textTransform: 'uppercase',
     letterSpacing: 0.4,

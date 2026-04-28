@@ -1,4 +1,4 @@
-import { resolveApiEndpoint } from './runtimeApi';
+import { getRuntimeApiKey, resolveApiEndpoint, getRuntimeApiAccessConfig, getAiHeaders } from './runtimeApi';
 
 const LT_ENDPOINT = 'https://api.languagetool.org/v2/check';
 
@@ -13,11 +13,6 @@ const PARAPHRASE_ENDPOINT =
     : FEEDBACK_ENDPOINT;
 
 const WRITING_REVISION_ENDPOINT = resolveApiEndpoint('BUEPT_WRITING_REVISION_API_URL', '/api/writing-revision');
-
-const API_KEY =
-  typeof process !== 'undefined' && process.env && process.env.BUEPT_API_KEY
-    ? process.env.BUEPT_API_KEY
-    : '';
 
 const REQUEST_WINDOW_MS = 60 * 1000;
 const MAX_REQUESTS_PER_MIN = 20;
@@ -161,9 +156,13 @@ function enforceRateLimit(chars) {
 }
 
 function authHeaders(extra = {}) {
-  if (!API_KEY) return extra;
-  return { ...extra, Authorization: `Bearer ${API_KEY}` };
+  const runtimeKey = getRuntimeApiKey();
+  if (!runtimeKey) return extra;
+  // runtimeKey here is the sync/app token, not the user's OpenAI key
+  return { ...extra, Authorization: `Bearer ${runtimeKey}` };
 }
+
+// byokHeaders is now handled by getAiHeaders from runtimeApi.js
 
 export function categorizeMatch(m) {
   const cat = (m?.rule?.category?.id || m?.rule?.category?.name || '').toLowerCase();
@@ -364,6 +363,13 @@ function buildLocalWritingRevision({ text = '', prompt = '', level = 'B2', task 
   const hasConclusion = /\b(in conclusion|to conclude|to sum up|overall|to summarize)\b/i.test(lower);
   const hasExample = /\b(for example|for instance|such as)\b/i.test(lower);
   const connectorHits = (lower.match(/\bhowever|therefore|moreover|furthermore|in contrast|for example|as a result|on the other hand\b/g) || []).length;
+  const repeatedFrames = Array.from(new Set(
+    sentences
+      .map((sentence) => (sentence.toLowerCase().match(/\b[a-z']+\b/g) || []).slice(0, 3).join(' '))
+      .filter((item) => item.split(' ').length >= 2)
+  )).length < Math.max(1, sentences.length - 1);
+  const promptSignals = (String(prompt || '').toLowerCase().match(/\b[a-z]{5,}\b/g) || []).slice(0, 6);
+  const missingPromptSignals = promptSignals.filter((item) => !lower.includes(item));
 
   if (!hasThesis && revisedText) {
     revisedText = `In this essay, ${lowerFirst(revisedText)}`;
@@ -383,21 +389,29 @@ function buildLocalWritingRevision({ text = '', prompt = '', level = 'B2', task 
   if (connectorHits < 3) fixes.push('Add clearer transitions across body ideas.');
   if (!hasExample) fixes.push('Add one concrete example to support the claim.');
   if (!hasConclusion && task === 'essay') fixes.push('Close with a final sentence that restates the argument.');
+  if (missingPromptSignals.length) fixes.push(`Cover missing task words more directly: ${missingPromptSignals.slice(0, 3).join(', ')}.`);
+  if (repeatedFrames) fixes.push('Vary sentence openings and avoid repeating the same frame again and again.');
   if (!fixes.length) fixes.push('Focus next on precision, evidence, and sentence-level polish.');
 
   const rubricNotes = [
-    'BUEPT scoring is stricter on paragraph control, idea development, and academic tone.',
+    'BUEPT/WASC scoring is strict about full task coverage, developed support, and a consistently academic tone.',
     connectorHits < 3
       ? 'Current cohesion is not strong enough for a high Organization score.'
       : 'Connector use is helping the Organization score.',
     wordCount < 140
       ? 'Task development is limited because the response is still short.'
       : 'Length is enough for stronger task development if the evidence is specific.',
+    repeatedFrames
+      ? 'Repeated sentence frames lower the sense of range and control.'
+      : 'Sentence openings show acceptable variety.',
+    !hasExample
+      ? 'Without a concrete example or evidence, the response will struggle to reach the higher WASC bands.'
+      : 'Specific support is helping the response move toward higher WASC bands.',
   ];
 
   return {
     revisedText: normalizeText(revisedText),
-    summary: `Local revision completed for a ${String(level || 'B2').toUpperCase()} ${task} draft.`,
+    summary: `Local revision completed for a ${String(level || 'B2').toUpperCase()} ${task} draft, aligned to the official BUEPT/WASC expectations for task response, organization, vocabulary, and accuracy.`,
     strengths: normalizeList(strengths, 4),
     fixes: normalizeList(fixes, 4),
     rubricNotes: normalizeList(rubricNotes, 4),
@@ -626,7 +640,7 @@ export async function requestWritingRevision({ text = '', prompt = '', level = '
       WRITING_REVISION_ENDPOINT,
       {
         method: 'POST',
-        headers: authHeaders({ 'Content-Type': 'application/json' }),
+        headers: getAiHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({
           text: source,
           prompt: normalizeText(prompt),

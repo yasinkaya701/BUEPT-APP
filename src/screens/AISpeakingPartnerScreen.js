@@ -679,7 +679,7 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
   useEffect(() => {
     if (!isListening) {
       waveAnims.forEach((anim) => {
-        Animated.timing(anim, { toValue: 1, duration: 180, useNativeDriver: true }).start();
+        Animated.timing(anim, { toValue: 1, duration: 180, useNativeDriver: !isWeb }).start();
       });
       return undefined;
     }
@@ -687,7 +687,7 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
     const interval = setInterval(() => {
       waveAnims.forEach((anim) => {
         const target = 1 + Math.random() * Math.max(0.4, micVol / 8);
-        Animated.timing(anim, { toValue: target, duration: 110, useNativeDriver: true }).start();
+        Animated.timing(anim, { toValue: target, duration: 110, useNativeDriver: !isWeb }).start();
       });
     }, 120);
 

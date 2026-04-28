@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { Text, StyleSheet, View, TextInput, useWindowDimensions, TouchableOpacity, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -10,6 +10,7 @@ import { useAppState } from '../context/AppState';
 import { colors, spacing, typography, radius } from '../theme/tokens';
 import { buildReadingSnapshot } from '../utils/readingModel';
 import { buildRecommendedTask } from '../utils/studyPlan';
+import { openExternalResource } from '../utils/externalLinks';
 
 import baseTasks from '../../data/reading_tasks.json';
 import hardTasks from '../../data/reading_tasks_hard.json';
@@ -312,6 +313,15 @@ export default function ReadingScreen({ navigation }) {
     setFormatFilter('ALL');
   };
 
+  const handleOpenNewsSource = useCallback((item) => {
+    if (!item?.url) return;
+    openExternalResource({
+      url: item.url,
+      title: item.title,
+      navigation,
+    });
+  }, [navigation]);
+
   const renderBank = (bankKey, title, description) => {
     const list = groupedTasks[bankKey];
     if (!list.length) return null;
@@ -462,7 +472,7 @@ export default function ReadingScreen({ navigation }) {
               key={item.key}
               activeOpacity={0.9}
               style={[styles.premiumNewsCard, item.key === 'bbc' && styles.premiumNewsCardBBC, item.key === 'conversation' && styles.premiumNewsCardConv]}
-              onPress={() => navigation.navigate('WebViewer', { title: item.title, url: item.url })}
+              onPress={() => handleOpenNewsSource(item)}
             >
               <View style={styles.premiumNewsTop}>
                 <Ionicons 

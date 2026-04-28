@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-01T09:55:50.103Z",
+  "updatedAt": "2026-04-28T04:32:59.059Z",
   "clients": {
     "extension": {
       "updatedAt": "2026-03-30T17:21:25.896Z",
@@ -9,7 +9,7 @@
       ]
     },
     "app": {
-      "updatedAt": "2026-04-01T09:55:50.103Z",
+      "updatedAt": "2026-04-28T04:32:59.059Z",
       "fields": [
         "myWords",
         "unknownWords",
@@ -51,8 +51,35 @@
   },
   "state": {
     "myWords": {
-      "updatedAt": "2026-04-01T09:55:50.101Z",
+      "updatedAt": "2026-04-28T04:32:59.053Z",
       "value": [
+        {
+          "word": "corroborate",
+          "word_type": "verb",
+          "simple_definition": "Establish or strengthen as with new evidence or facts.",
+          "synonyms": [
+            "confirm",
+            "substantiate",
+            "sustain",
+            "affirm",
+            "bear out",
+            "support",
+            "underpin",
+            "validate"
+          ],
+          "antonyms": [
+            "contradict",
+            "negate"
+          ],
+          "examples": [
+            "His story confirmed my doubts.",
+            "Compared with \"substantiate\", corroborate usually sounds more academic in this context.",
+            "Students should corroborate the writer's main claim before choosing evidence while summarizing a lecture."
+          ],
+          "level": "C1",
+          "source": "wordnet",
+          "updatedAt": "2026-04-08T16:07:34.111Z"
+        },
         {
           "word": "bacteria",
           "word_type": "noun",
@@ -148,7 +175,7 @@
       ]
     },
     "unknownWords": {
-      "updatedAt": "2026-04-01T09:55:50.101Z",
+      "updatedAt": "2026-04-28T04:32:59.053Z",
       "value": [
         {
           "word": "subtlehovertest",
@@ -251,7 +278,7 @@
       ]
     },
     "vocabStats": {
-      "updatedAt": "2026-04-01T09:55:50.101Z",
+      "updatedAt": "2026-04-28T04:32:59.053Z",
       "value": {
         "subtlehovertest": {
           "known": 0,
@@ -287,16 +314,16 @@
         },
         "corroborate": {
           "known": 1,
-          "unknown": 0
+          "unknown": 1
         }
       }
     },
     "customDecks": {
-      "updatedAt": "2026-04-01T09:55:50.101Z",
+      "updatedAt": "2026-04-28T04:32:59.053Z",
       "value": []
     },
     "weeklyProgress": {
-      "updatedAt": "2026-04-01T09:55:50.101Z",
+      "updatedAt": "2026-04-28T04:32:59.053Z",
       "value": {
         "version": 1,
         "selectedWeek": 1,

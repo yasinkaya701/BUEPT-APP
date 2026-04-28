@@ -1,4 +1,4 @@
-import { readRuntimeEnv, resolveApiEndpoint } from './runtimeApi';
+import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders } from './runtimeApi';
 
 const DEMO_API_URL = resolveApiEndpoint('BUEPT_DEMO_AI_API_URL', '/api/module');
 
@@ -6,8 +6,6 @@ const SPEAKING_API_URL = resolveApiEndpoint('BUEPT_SPEAKING_API_URL', '/api/spea
 
 const PRESENTATION_API_URL =
   resolveApiEndpoint('BUEPT_PRESENTATION_API_URL', '/api/presentation') || DEMO_API_URL;
-
-const API_KEY = readRuntimeEnv('BUEPT_API_KEY');
 
 const LAST_PICK = {};
 
@@ -51,10 +49,7 @@ function withTimeout(ms = 14000) {
   return { signal: ctrl.signal, clear: () => clearTimeout(timer) };
 }
 
-function authHeaders(extra = {}) {
-  if (!API_KEY) return extra;
-  return { ...extra, Authorization: `Bearer ${API_KEY}` };
-}
+// authHeaders is now handled by getAiHeaders from runtimeApi.js
 
 function getEndpoint(kind) {
   if (kind === 'speaking') return SPEAKING_API_URL;
@@ -79,7 +74,7 @@ async function callDemoApi(kind, payload) {
   try {
     const res = await fetch(endpoint, {
       method: 'POST',
-      headers: authHeaders({ 'Content-Type': 'application/json' }),
+      headers: getAiHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ kind, app: 'buept-mobile', ...payload }),
       signal: timeout.signal,
     });
@@ -99,7 +94,7 @@ async function callJsonEndpointDetailed(endpoint, payload) {
   try {
     const res = await fetch(endpoint, {
       method: 'POST',
-      headers: authHeaders({ 'Content-Type': 'application/json' }),
+      headers: getAiHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify(payload),
       signal: timeout.signal,
     });

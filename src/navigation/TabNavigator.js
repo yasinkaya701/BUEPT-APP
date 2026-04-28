@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet, Pressable, useWindowDimensions, Platform } from 'react-native';
+import { View, Text, StyleSheet, Pressable, useWindowDimensions, Platform, ScrollView } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import WritingScreen from '../screens/WritingScreen';
 import VocabScreen from '../screens/VocabScreen';
@@ -8,6 +8,8 @@ import ListeningScreen from '../screens/ListeningScreen';
 import SpeakingScreen from '../screens/SpeakingScreen';
 import ReadingScreen from '../screens/ReadingScreen';
 import GrammarScreen from '../screens/GrammarScreen';
+import DeveloperScreen from '../screens/DeveloperScreen';
+import LogoMark from '../components/LogoMark';
 import { colors, typography, spacing, radius, shadow } from '../theme/tokens';
 
 const Tab = createBottomTabNavigator();
@@ -20,6 +22,7 @@ const TAB_ICONS = {
   Vocab: '📕',
   Listening: '🎧',
   Speaking: '🎤',
+  Settings: '⚙️',
 };
 
 const TAB_LABELS_DEFAULT = {
@@ -92,17 +95,24 @@ function WebSidebarTabBar({ state, descriptors, navigation, tabLabels }) {
   return (
     <View style={styles.webSidebar}>
       <View style={styles.webSidebarHero}>
-        <View style={styles.webSidebarBadge}>
-          <Text style={styles.webSidebarBadgeText}>BU</Text>
+        <View style={styles.webSidebarBrandRow}>
+          <LogoMark size={54} label="BÜ" />
+          <View style={styles.webSidebarBrandCopy}>
+            <Text style={styles.webSidebarEyebrow}>Bosphorus-ready</Text>
+            <Text style={styles.webSidebarBrandSubhead}>Bogazici University</Text>
+          </View>
         </View>
-        <Text style={styles.webSidebarEyebrow}>Bosphorus-ready</Text>
         <Text style={styles.webSidebarTitle}>BUEPT Web Campus</Text>
         <Text style={styles.webSidebarCopy}>
           Desktop workflow for reading, writing, vocab, and AI coaching in one place.
         </Text>
       </View>
 
-      <View style={styles.webSidebarList}>
+      <ScrollView
+        style={styles.webSidebarList}
+        contentContainerStyle={styles.webSidebarListContent}
+        showsVerticalScrollIndicator={false}
+      >
         {state.routes.map((route, index) => {
           const descriptor = descriptors[route.key];
           const focused = state.index === index;
@@ -148,9 +158,9 @@ function WebSidebarTabBar({ state, descriptors, navigation, tabLabels }) {
             </Pressable>
           );
         })}
-      </View>
+      </ScrollView>
 
-      <View style={styles.webSidebarFooter}>
+      <View style={styles.webSidebarFooter} pointerEvents="none">
         <Text style={styles.webSidebarFooterTitle}>AI status</Text>
         <Text style={styles.webSidebarFooterBody}>
           Local fallback is always available. If the API comes online, modules upgrade automatically.
@@ -212,17 +222,21 @@ export default function TabNavigator() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      detachInactiveScreens
+      detachInactiveScreens={!isWeb}
       tabBar={isWebDesktop ? (props) => <WebSidebarTabBar {...props} tabLabels={tabLabels} /> : undefined}
       screenOptions={({ route }) => ({
         headerShown: false,
         lazy: true,
-        unmountOnBlur: isWeb,
-        freezeOnBlur: true,
+        unmountOnBlur: false,
+        freezeOnBlur: !isWeb,
         tabBarHideOnKeyboard: true,
         animation: isWebDesktop ? 'none' : 'shift',
         tabBarStyle: isWebDesktop ? { display: 'none' } : computedTabBarStyle,
-        sceneStyle: isWebDesktop ? styles.sceneWebDesktop : undefined,
+        // Critical for web: without flex:1 on the scene, ScrollViews collapse to 0 height
+        sceneStyle: [
+          { flex: 1 },
+          isWebDesktop ? styles.sceneWebDesktop : undefined,
+        ],
         tabBarActiveTintColor: '#FFFFFF',
         tabBarInactiveTintColor: 'rgba(255,255,255,0.6)',
         tabBarLabel: tabLabels[route.name] || route.name,
@@ -247,6 +261,7 @@ export default function TabNavigator() {
       <Tab.Screen name="Vocab" component={VocabScreen} options={{ tabBarButtonTestID: TAB_TEST_IDS.Vocab }} />
       <Tab.Screen name="Listening" component={ListeningScreen} options={{ tabBarButtonTestID: TAB_TEST_IDS.Listening }} />
       <Tab.Screen name="Speaking" component={SpeakingScreen} options={{ tabBarButtonTestID: TAB_TEST_IDS.Speaking }} />
+      <Tab.Screen name="Settings" component={DeveloperScreen} options={{ tabBarButtonTestID: 'tab-settings' }} />
     </Tab.Navigator>
   );
 }
@@ -364,19 +379,14 @@ const styles = StyleSheet.create({
   webSidebarHero: {
     gap: spacing.sm,
   },
-  webSidebarBadge: {
-    width: 54,
-    height: 54,
-    borderRadius: radius.round,
+  webSidebarBrandRow: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.primary,
+    gap: spacing.sm,
   },
-  webSidebarBadgeText: {
-    fontFamily: typography.fontHeadline,
-    fontSize: 18,
-    fontWeight: '800',
-    color: colors.textOnDark,
+  webSidebarBrandCopy: {
+    flex: 1,
+    gap: 2,
   },
   webSidebarEyebrow: {
     color: 'rgba(191, 219, 254, 0.9)',
@@ -385,6 +395,12 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 1.1,
+  },
+  webSidebarBrandSubhead: {
+    color: 'rgba(226, 232, 240, 0.72)',
+    fontFamily: typography.fontBody,
+    fontSize: 12,
+    lineHeight: 16,
   },
   webSidebarTitle: {
     color: colors.textOnDark,
@@ -402,7 +418,11 @@ const styles = StyleSheet.create({
   webSidebarList: {
     flex: 1,
     marginTop: spacing.lg,
+    minHeight: 0,
+  },
+  webSidebarListContent: {
     gap: spacing.sm,
+    paddingBottom: spacing.xl,
   },
   webSidebarItem: {
     flexDirection: 'row',

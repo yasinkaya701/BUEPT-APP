@@ -9,29 +9,59 @@
     />
     <title>BUEPT App (Web)</title>
     <style>
-      html,
-      body,
-      #root {
+      *, *::before, *::after { box-sizing: border-box; }
+
+      html, body {
         width: 100%;
         height: 100%;
         margin: 0;
         padding: 0;
-      }
-      body {
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: auto;           /* Allow native fallback scrolling */
+        overscroll-behavior: none;
         font-family: "Avenir Next", "Segoe UI", sans-serif;
         background: #0b1f3f;
       }
-      #root {
+
+      body {
         display: flex;
-        flex: 1 1 auto;
+        flex-direction: column;
+      }
+
+      #root {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        overflow-x: hidden;
+      }
+
+      /*
+        React Native Web generates multiple nested wrapper divs (often with dir="auto" or specific classes).
+        To guarantee that height propagates all the way down to the ScrollViews, we force these 
+        structural wrappers to take up the full height and not expand beyond it.
+      */
+      #root div {
+        /* Default to preventing infinite expansion for all flex children */
         min-height: 0;
       }
-      #root > div {
-        flex: 1 1 auto;
+      
+      /* Ensure the immediate layout wrappers pass down the height */
+      #root > div,
+      #root > div > div,
+      #root > div > div > div,
+      #root > div > div > div > div,
+      #root > div > div > div > div > div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
         min-height: 0;
+        height: 100%;
+      }
+
+      /* Global fallback: any element forced to flex: 1 should NOT expand infinitely */
+      div[style*="flex: 1"] {
+        min-height: 0 !important;
       }
     </style>
   </head>

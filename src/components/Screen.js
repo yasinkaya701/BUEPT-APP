@@ -58,7 +58,7 @@ export default function Screen({
         isPhone && styles.contentPhone,
         !scroll && styles.animatedFill,
         { opacity: fade, transform: [{ translateY: translate }] },
-        !scroll && contentStyle,
+        contentStyle,   // always apply — scroll screens use it inside ScrollView contentContainer
       ]}
     >
       {children}
@@ -67,12 +67,18 @@ export default function Screen({
 
   const scrollNode = scroll ? (
     <ScrollView
+      style={styles.scrollWrapper}
       keyboardShouldPersistTaps="always"
       keyboardDismissMode="on-drag"
-      contentContainerStyle={[styles.scrollContent, isWeb && styles.scrollContentWeb, contentStyle]}
+      contentContainerStyle={[
+        styles.scrollContent,
+        isWeb && styles.scrollContentWeb,
+      ]}
       showsVerticalScrollIndicator={false}
       contentInsetAdjustmentBehavior="automatic"
       scrollEventThrottle={16}
+      bounces={!isWeb}
+      overScrollMode="never"
     >
       {contentNode}
     </ScrollView>
@@ -98,13 +104,24 @@ export default function Screen({
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.bg },
+  container: { flex: 1, minHeight: 0, backgroundColor: colors.bg },
   bgImageFull: { ...StyleSheet.absoluteFillObject, width: '100%', height: '100%', opacity: 1.0 },
   overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.5)' },
-  safe: { flex: 1, backgroundColor: '#F3F4F6' },
-  safeClear: { flex: 1, backgroundColor: 'transparent' },
-  scrollContent: { paddingBottom: spacing.xxl + 84, flexGrow: 1 },
-  scrollContentWeb: { paddingBottom: 84, flexGrow: 1 },
+  overlayWeb: { backgroundColor: 'rgba(2,8,23,0.85)' },
+  safe: { flex: 1, minHeight: 0, backgroundColor: '#F3F4F6' },
+  safeClear: { flex: 1, minHeight: 0, backgroundColor: 'transparent' },
+
+  // The scroll wrapper: flex:1 + minHeight:0 gives ScrollView a fixed height on web.
+  // Without minHeight:0, a flex child can grow beyond its parent and collapse the scroll.
+  scrollWrapper: {
+    flex: 1,
+    minHeight: 0,
+  },
+
+  // contentContainer inside ScrollView
+  scrollContent: { paddingBottom: spacing.xxl + 96, flexGrow: 1 },
+  scrollContentWeb: { paddingBottom: 72, flexGrow: 1 },
+
   content: {
     width: '100%',
     alignSelf: 'center',
@@ -115,6 +132,5 @@ const styles = StyleSheet.create({
   contentWide: { maxWidth: 1120, paddingHorizontal: spacing.xl },
   contentWeb: { maxWidth: 1280, paddingHorizontal: spacing.lg, backgroundColor: colors.bg },
   contentPhone: { paddingHorizontal: spacing.sm + 2 },
-  animatedFill: { flex: 1 },
-  overlayWeb: { backgroundColor: 'rgba(2, 8, 23, 0.85)' },
+  animatedFill: { flex: 1, minHeight: 0 },
 });

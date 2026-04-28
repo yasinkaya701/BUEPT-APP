@@ -3,19 +3,69 @@ import Tts from 'react-native-tts';
 
 const isWeb = Platform.OS === 'web';
 
+function normalizeWebSpeechRate(rate = 0.5) {
+  const safe = Number(rate);
+  if (!Number.isFinite(safe)) return 0.78;
+  if (safe <= 0.32) return 0.62;
+  if (safe <= 0.42) return 0.72;
+  if (safe <= 0.52) return 0.82;
+  if (safe <= 0.62) return 0.92;
+  return 1.0;
+}
+
+function normalizeNativeSpeechRate(rate = 0.5) {
+  const safe = Number(rate);
+  if (!Number.isFinite(safe)) return 0.4;
+  if (safe <= 0.32) return 0.28;
+  if (safe <= 0.42) return 0.34;
+  if (safe <= 0.52) return 0.4;
+  if (safe <= 0.62) return 0.46;
+  return 0.54;
+}
+
+function pickBestWebEnglishVoice(voiceId = '') {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return null;
+  const voices = window.speechSynthesis.getVoices();
+  const normalizedId = String(voiceId || '').toLowerCase();
+  if (!voices.length) return null;
+  const matching = voices.find((voice) => {
+    const voiceName = String(voice?.name || '').toLowerCase();
+    return normalizedId && (voiceName === normalizedId || voiceName.includes(normalizedId));
+  });
+  if (matching) return matching;
+  const ranked = [...voices]
+    .filter((voice) => String(voice?.lang || '').toLowerCase().startsWith('en'))
+    .sort((a, b) => {
+      const score = (voice) => {
+        const lang = String(voice?.lang || '').toLowerCase();
+        const name = String(voice?.name || '').toLowerCase();
+        let total = 0;
+        if (lang.startsWith('en-us')) total += 30;
+        else if (lang.startsWith('en-gb')) total += 24;
+        else if (lang.startsWith('en')) total += 18;
+        if (/natural|premium|enhanced|neural/.test(name)) total += 18;
+        if (/google|samantha|ava|allison|daniel|microsoft/.test(name)) total += 12;
+        if (/compact/.test(name)) total -= 4;
+        return total;
+      };
+      return score(b) - score(a);
+    });
+  return ranked[0] || voices[0] || null;
+}
+
 /**
  * Web Speech Synthesis implementation for the utility
  */
 const WebTts = {
   speak: (text, options = {}) => {
     if (!window.speechSynthesis) return;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = options.rate || 0.8;
+    const utterance = new window.SpeechSynthesisUtterance(text);
+    utterance.rate = Number.isFinite(Number(options.rate))
+      ? Number(options.rate)
+      : normalizeWebSpeechRate(0.55);
     utterance.lang = 'en-US';
-    
-    // Voices are better handled by the browser default or first English voice
-    const voices = window.speechSynthesis.getVoices();
-    const bestVoice = voices.find(v => v.lang.startsWith('en')) || voices[0];
+
+    const bestVoice = pickBestWebEnglishVoice(options.iosVoiceId);
     if (bestVoice) utterance.voice = bestVoice;
 
     window.speechSynthesis.speak(utterance);
@@ -31,7 +81,11 @@ const WebTts = {
       id: v.name,
       name: v.name,
       language: v.lang,
-    }));
+    })).sort((a, b) => {
+      const aEn = String(a.language || '').toLowerCase().startsWith('en') ? 1 : 0;
+      const bEn = String(b.language || '').toLowerCase().startsWith('en') ? 1 : 0;
+      return bEn - aEn;
+    });
   }
 };
 
@@ -56,6 +110,7 @@ async function ensureEnglishTts() {
       Tts.setIgnoreSilentSwitch('ignore');
       Tts.setDucking(true);
       Tts.setDefaultLanguage('en-US');
+      try { Tts.setDefaultPitch(1.0); } catch (_) { }
 
       const voices = await ttsEngine.voices();
       const enVoices = (voices || []).filter(
@@ -86,7 +141,10 @@ export async function speakEnglish(text, options = {}) {
   await ensureEnglishTts();
   try { await ttsEngine.stop(); } catch (_) { }
 
-  const rate = typeof options.rate === 'number' ? options.rate : 0.5;
+  const semanticRate = Number.isFinite(Number(options.rate)) ? Number(options.rate) : 0.55;
+  const rate = isWeb
+    ? normalizeWebSpeechRate(semanticRate)
+    : normalizeNativeSpeechRate(semanticRate);
   const speakOptions = { rate, androidParams: options.androidParams };
   const effectiveVoiceId = options.iosVoiceId || selectedEnglishVoiceId;
   if (effectiveVoiceId) {
@@ -96,6 +154,7 @@ export async function speakEnglish(text, options = {}) {
   try {
     if (!isWeb) {
       Tts.setDefaultLanguage('en-US');
+      try { Tts.setDefaultPitch(1.0); } catch (_) { }
       if (effectiveVoiceId) {
         Tts.setDefaultVoice(effectiveVoiceId);
       }

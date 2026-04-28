@@ -3,7 +3,7 @@
  * – useTts hook (iOS silent switch fix, proper init)
  * – Animated sentence highlight with left-border progress bar
  * – Word-level tap pronunciation
- * – Play/Pause, speed (0.3–1.0), voice selector
+ * – Play/Pause, clearer speed presets, voice selector
  */
 import React, {
   useEffect, useMemo, useRef, useState, useCallback
@@ -27,7 +27,14 @@ import { buildListeningOpenEndedPrompts } from '../utils/openEndedPrompts';
 import { deriveListeningKeywords, evaluateListeningModel } from '../utils/listeningModel';
 
 const tasks = [...baseTasks, ...hardTasks];
-const RATES = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1.0];
+const RATE_PRESETS = [
+  { label: '0.75x · Slow',   value: 0.38 },  // → getWebSpeechRate → 0.62
+  { label: '1.0x · Normal',  value: 0.52 },  // → getWebSpeechRate → 0.82
+  { label: '1.25x · Fast',   value: 0.62 },  // → getWebSpeechRate → 0.92
+  { label: '1.5x · Exam',    value: 0.72 },  // → getWebSpeechRate → 1.0
+];
+const isWeb = Platform.OS === 'web';
+const WEB_SPEECH_MAX_CHARS = 110;
 const SIGNPOSTS = [
   'however',
   'therefore',
@@ -78,11 +85,101 @@ function splitIntoSentences(text) {
   return (text.match(/[^.!?]+[.!?]*/g) || [text]).map(s => s.trim()).filter(Boolean);
 }
 
-// Estimate ms per sentence based on word count and rate
-function msPerSentence(sentence, rate) {
-  const words = sentence.split(/\s+/).length;
-  const wpm = 150 * rate; // baseline 150 wpm at rate=1
-  return Math.max(1500, (words / wpm) * 60000);
+function chunkTextForSpeech(text = '', maxChars = WEB_SPEECH_MAX_CHARS) {
+  const cleaned = String(text || '').replace(/\s+/g, ' ').trim();
+  if (!cleaned) return [];
+  const phraseParts = cleaned.split(/(?<=[,;:])\s+/);
+  const chunks = [];
+  let current = '';
+
+  const pushCurrent = () => {
+    const value = current.trim();
+    if (value) chunks.push(value);
+    current = '';
+  };
+
+  const appendWords = (input = '') => {
+    input.split(/\s+/).filter(Boolean).forEach((word) => {
+      const next = current ? `${current} ${word}` : word;
+      if (next.length > maxChars && current) {
+        pushCurrent();
+      }
+      current = current ? `${current} ${word}` : word;
+    });
+  };
+
+  phraseParts.forEach((part) => {
+    if (!part) return;
+    const next = current ? `${current} ${part}` : part;
+    if (next.length <= maxChars) {
+      current = next;
+      return;
+    }
+    if (current) pushCurrent();
+    if (part.length <= maxChars) {
+      current = part;
+      return;
+    }
+    appendWords(part);
+    pushCurrent();
+  });
+
+  pushCurrent();
+  return chunks;
+}
+
+function buildWebSpeechQueue(sentences = []) {
+  return sentences.flatMap((sentence, sentenceIndex) =>
+    chunkTextForSpeech(sentence).map((text, chunkIndex) => ({
+      id: `${sentenceIndex}-${chunkIndex}`,
+      sentenceIndex,
+      text,
+    }))
+  );
+}
+
+function pickWebVoice(voices = [], voiceId = '') {
+  if (!Array.isArray(voices) || !voices.length) return null;
+  const normalizedId = String(voiceId || '').toLowerCase();
+  const exact = voices.find((voice) => {
+    const voiceName = String(voice?.name || voice?.id || '').toLowerCase();
+    return normalizedId && (voiceName === normalizedId || voiceName.includes(normalizedId));
+  });
+  if (exact) return exact;
+  const ranked = [...voices]
+    .filter((voice) => String(voice?.language || '').toLowerCase().startsWith('en'))
+    .sort((a, b) => {
+      const score = (voice) => {
+        const lang = String(voice?.language || '').toLowerCase();
+        const name = String(voice?.name || voice?.id || '').toLowerCase();
+        let total = 0;
+        if (lang.startsWith('en-us')) total += 30;
+        else if (lang.startsWith('en-gb')) total += 24;
+        else if (lang.startsWith('en')) total += 18;
+        if (/natural|premium|enhanced|neural/.test(name)) total += 18;
+        if (/google|samantha|ava|allison|daniel|microsoft/.test(name)) total += 12;
+        if (/compact/.test(name)) total -= 4;
+        return total;
+      };
+      return score(b) - score(a);
+    });
+  return ranked[0] || voices[0] || null;
+}
+
+function getWebSpeechRate(rate = 0.52) {
+  // Maps internal TTS rate value → Web Speech API rate
+  // Web Speech API: 0.1 (slowest) – 10 (fastest), 1 = normal human speed
+  if (rate <= 0.38) return 0.72;   // 0.75x slow
+  if (rate <= 0.52) return 0.90;   // 1.0x natural / normal
+  if (rate <= 0.62) return 1.08;   // 1.25x fast
+  return 1.28;                     // 1.5x exam pace
+}
+
+function msPerSentence(sentence, rate, options = {}) {
+  const words = (sentence || '').split(/\s+/).filter(Boolean).length;
+  const effectiveRate = options.web ? getWebSpeechRate(rate) : Math.max(0.25, rate);
+  const wpm = (options.web ? 148 : 138) * effectiveRate;
+  return Math.max(2200, ((words || 1) / Math.max(42, wpm)) * 60000 + 650);
 }
 
 function normalizeDictationText(value = '') {
@@ -152,9 +249,10 @@ export default function ListeningDetailScreen({ route, navigation }) {
   );
   const openEndedPrompts = useMemo(() => buildListeningOpenEndedPrompts(task), [task]);
   const sentences = useMemo(() => splitIntoSentences(task.transcript), [task]);
+  const webSpeechQueue = useMemo(() => buildWebSpeechQueue(sentences), [sentences]);
 
   // ── TTS hook ──────────────────────────────────────────────────────────────
-  const { isPlaying, voices, voiceId, rate, speakWord, stopAll, setRate, setVoiceId } = useTts();
+  const { isPlaying, voices, voiceId, rate, speakWord, speakWordAsync, stopAll, setRate, setVoiceId } = useTts();
 
   // ── State ─────────────────────────────────────────────────────────────────
   const [answers, setAnswers] = useState({});
@@ -211,10 +309,13 @@ export default function ListeningDetailScreen({ route, navigation }) {
   const transcriptScrollRef = useRef(null);
   const sentenceOffsetsRef = useRef({});
   const webviewRef = useRef(null);
+  const webSpeechStateRef = useRef({ cancelled: false, chunkIndex: -1 });
+  const nativeSpeechStateRef = useRef({ cancelled: false, playToken: 0 });
   const [webviewPlaying, setWebviewPlaying] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const highlightAnim = useRef(new Animated.Value(0)).current;
   const { addListeningResult, addUnknownWord } = useAppState();
+  const selectedWebVoice = useMemo(() => (isWeb ? pickWebVoice(voices, voiceId) : null), [voices, voiceId]);
 
   const getExplanation = useCallback((q, selected) => {
     if (q.explain) return q.explain;
@@ -247,12 +348,14 @@ export default function ListeningDetailScreen({ route, navigation }) {
 
   // Fade in on mount
   useEffect(() => {
-    Animated.timing(fadeAnim, { toValue: 1, duration: 400, useNativeDriver: true }).start();
+    Animated.timing(fadeAnim, { toValue: 1, duration: 400, useNativeDriver: !isWeb }).start();
   }, [fadeAnim]);
 
   // Stop when unmounting
   useEffect(() => () => {
     stopAll();
+    stopWebSpeechPlayback();
+    nativeSpeechStateRef.current.cancelled = true;
     clearInterval(intervalRef.current);
     if (intervalRef._timeouts) {
       intervalRef._timeouts.forEach(clearTimeout);
@@ -260,7 +363,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
     }
     shadowingAutoRef.current = false;
     if (shadowTimerRef.current) clearTimeout(shadowTimerRef.current);
-  }, [stopAll]);
+  }, [stopAll, stopWebSpeechPlayback]);
 
   // ── Sentence progress interval ────────────────────────────────────────────
   const startSentenceProgress = useCallback(() => {
@@ -289,6 +392,15 @@ export default function ListeningDetailScreen({ route, navigation }) {
     highlightAnim.setValue(1);
   }, [sentences, rate, highlightAnim]);
 
+  const pulseSentence = useCallback((index) => {
+    sentenceIdxRef.current = index;
+    setActiveSentence(index);
+    Animated.sequence([
+      Animated.timing(highlightAnim, { toValue: 0, duration: 80, useNativeDriver: false }),
+      Animated.timing(highlightAnim, { toValue: 1, duration: 200, useNativeDriver: false }),
+    ]).start();
+  }, [highlightAnim]);
+
   const clearProgress = useCallback(() => {
     clearInterval(intervalRef.current);
     if (intervalRef._timeouts) {
@@ -296,6 +408,21 @@ export default function ListeningDetailScreen({ route, navigation }) {
       intervalRef._timeouts = [];
     }
     setActiveSentence(-1);
+  }, []);
+
+  const stopWebSpeechPlayback = useCallback(() => {
+    if (!isWeb || typeof window === 'undefined' || !window.speechSynthesis) return;
+    webSpeechStateRef.current.cancelled = true;
+    try {
+      window.speechSynthesis.cancel();
+    } catch (_) {
+      // noop
+    }
+  }, []);
+
+  const stopNativeSpeechPlayback = useCallback(() => {
+    nativeSpeechStateRef.current.cancelled = true;
+    nativeSpeechStateRef.current.playToken += 1;
   }, []);
 
   const stopShadowingAuto = useCallback(() => {
@@ -306,6 +433,101 @@ export default function ListeningDetailScreen({ route, navigation }) {
       shadowTimerRef.current = null;
     }
   }, []);
+
+  const completePlayback = useCallback(() => {
+    setWebviewPlaying(false);
+    stopShadowingAuto();
+    clearProgress();
+  }, [clearProgress, stopShadowingAuto]);
+
+  const playWebSpeechChunk = useCallback((chunkIndex) => {
+    if (!isWeb || typeof window === 'undefined' || !window.speechSynthesis) {
+      completePlayback();
+      return;
+    }
+    const chunk = webSpeechQueue[chunkIndex];
+    if (!chunk) {
+      completePlayback();
+      return;
+    }
+
+    const utterance = new window.SpeechSynthesisUtterance(chunk.text);
+    utterance.lang = 'en-US';
+    utterance.rate = getWebSpeechRate(rate);
+    utterance.pitch = 0.98;
+    utterance.volume = 1;
+    if (selectedWebVoice?.name) {
+      const browserVoice = window.speechSynthesis.getVoices().find((voice) => voice.name === selectedWebVoice.name);
+      if (browserVoice) utterance.voice = browserVoice;
+    }
+
+    utterance.onstart = () => {
+      if (webSpeechStateRef.current.cancelled) return;
+      setWebviewPlaying(true);
+      pulseSentence(chunk.sentenceIndex);
+    };
+    const continueQueue = () => {
+      if (webSpeechStateRef.current.cancelled) return;
+      const nextIndex = chunkIndex + 1;
+      if (nextIndex < webSpeechQueue.length) {
+        setTimeout(() => playWebSpeechChunk(nextIndex), 140);
+      } else {
+        completePlayback();
+      }
+    };
+    utterance.onerror = continueQueue;
+    utterance.onend = continueQueue;
+
+    webSpeechStateRef.current.chunkIndex = chunkIndex;
+    try {
+      window.speechSynthesis.speak(utterance);
+    } catch (_) {
+      completePlayback();
+    }
+  }, [completePlayback, pulseSentence, rate, selectedWebVoice, webSpeechQueue]);
+
+  const startWebTranscriptPlayback = useCallback((startSentenceIndex = 0) => {
+    if (!isWeb) return;
+    const startIndex = webSpeechQueue.findIndex((item) => item.sentenceIndex >= startSentenceIndex);
+    if (startIndex < 0) {
+      completePlayback();
+      return;
+    }
+    stopAll();
+    stopWebSpeechPlayback();
+    webSpeechStateRef.current = { cancelled: false, chunkIndex: startIndex };
+    setWebviewPlaying(true);
+    playWebSpeechChunk(startIndex);
+  }, [completePlayback, playWebSpeechChunk, stopAll, stopWebSpeechPlayback, webSpeechQueue]);
+
+  const startNativeTranscriptPlayback = useCallback((startSentenceIndex = 0) => {
+    const startIndex = webSpeechQueue.findIndex((item) => item.sentenceIndex >= startSentenceIndex);
+    if (startIndex < 0) {
+      completePlayback();
+      return;
+    }
+    stopAll();
+    stopWebSpeechPlayback();
+    stopNativeSpeechPlayback();
+    clearProgress();
+    const nextToken = Number(nativeSpeechStateRef.current.playToken || 0) + 1;
+    nativeSpeechStateRef.current = { cancelled: false, playToken: nextToken };
+    setWebviewPlaying(true);
+    (async () => {
+      for (let i = startIndex; i < webSpeechQueue.length; i += 1) {
+        const chunk = webSpeechQueue[i];
+        if (!chunk) break;
+        if (nativeSpeechStateRef.current.cancelled || nativeSpeechStateRef.current.playToken !== nextToken) return;
+        pulseSentence(chunk.sentenceIndex);
+        await speakWordAsync(chunk.text);
+        if (nativeSpeechStateRef.current.cancelled || nativeSpeechStateRef.current.playToken !== nextToken) return;
+        await new Promise((resolve) => setTimeout(resolve, 160));
+      }
+      if (!nativeSpeechStateRef.current.cancelled && nativeSpeechStateRef.current.playToken === nextToken) {
+        completePlayback();
+      }
+    })();
+  }, [clearProgress, completePlayback, pulseSentence, speakWordAsync, stopAll, stopWebSpeechPlayback, stopNativeSpeechPlayback, webSpeechQueue]);
 
   const playShadowSentence = useCallback((index) => {
     const sentence = sentences[index] || '';
@@ -330,23 +552,24 @@ export default function ListeningDetailScreen({ route, navigation }) {
         return;
       }
       playShadowSentence(index);
-      const waitMs = msPerSentence(sentences[index], Math.max(0.3, rate)) + 1400;
+      const waitMs = msPerSentence(sentences[index], Math.max(0.55, rate)) + 1200;
       shadowTimerRef.current = setTimeout(() => run(index + 1), waitMs);
     };
     run(Math.max(0, Math.min(sentences.length - 1, startIndex)));
   }, [sentences, rate, stopAll, clearProgress, playShadowSentence, stopShadowingAuto]);
 
-  // Listen for TTS finish
-  useEffect(() => {
-    const onFinish = () => clearProgress();
-    const onCancel = () => clearProgress();
-    
-    // We already have useTts polyfilled, but if this screen uses 
-    // internal listeners, they should be platform-gated or use the hook.
-    if (Platform.OS !== 'web') {
-      // Direct native listeners if needed, but hook is preferred.
+  const playerHint = useMemo(() => {
+    if (task?.audioUrl) {
+      return 'Recorded audio track is available. Use Exam or Fast once the speech feels comfortable.';
     }
-  }, [clearProgress]);
+    if (isWeb) {
+      const voiceLabel = selectedWebVoice?.name ? ` Voice: ${selectedWebVoice.name}.` : '';
+      return `This task uses browser speech in a clearer study mode. Start with Ultra Clear or Clear for full transcript playback.${voiceLabel}`;
+    }
+    const activeVoice = voices.find((item) => item.id === voiceId)?.name;
+    const voiceLine = activeVoice ? ` Active voice: ${activeVoice}.` : '';
+    return `This task uses the phone English voice. For the clearest sound, keep it on Ultra Clear or Clear and install an English premium voice in device settings.${voiceLine}`;
+  }, [task?.audioUrl, selectedWebVoice?.name, voices, voiceId]);
 
   useEffect(() => {
     if (!followTranscript || activeSentence < 0) return;
@@ -377,16 +600,10 @@ export default function ListeningDetailScreen({ route, navigation }) {
     const msg = event.nativeEvent.data;
     if (msg.startsWith('playing:') || msg.startsWith('next:')) {
       const idx = parseInt(msg.split(':')[1], 10);
-      setActiveSentence(idx);
+      pulseSentence(idx);
       setWebviewPlaying(true);
-      Animated.sequence([
-        Animated.timing(highlightAnim, { toValue: 0, duration: 80, useNativeDriver: false }),
-        Animated.timing(highlightAnim, { toValue: 1, duration: 200, useNativeDriver: false }),
-      ]).start();
     } else if (msg === 'ended') {
-      setWebviewPlaying(false);
-      setActiveSentence(-1);
-      stopShadowingAuto();
+      completePlayback();
     }
   };
 
@@ -404,6 +621,8 @@ export default function ListeningDetailScreen({ route, navigation }) {
 
     if (webviewPlaying || isPlaying) {
       stopAll();
+      stopWebSpeechPlayback();
+      stopNativeSpeechPlayback();
       clearProgress();
       stopShadowingAuto();
       setWebviewPlaying(false);
@@ -420,22 +639,18 @@ export default function ListeningDetailScreen({ route, navigation }) {
         if (window._currentAudio) { window._currentAudio.pause(); }
         const audio = new window.Audio(task.audioUrl);
         window._currentAudio = audio;
-        audio.playbackRate = rate;
+        audio.playbackRate = getWebSpeechRate(rate);
         audio.onplay = () => {
           setWebviewPlaying(true);
-          setActiveSentence(0);
+          pulseSentence(0);
         };
         audio.onended = function() {
-          setWebviewPlaying(false);
-          setActiveSentence(-1);
-          stopShadowingAuto();
+          completePlayback();
         };
         audio.play().catch(e => console.log('Audio blocked:', e));
         setWebviewPlaying(true);
       } else {
-        // useTts will now handle the transcription readout via runShadowingSequence
-        stopAll();
-        runShadowingSequence(0);
+        startWebTranscriptPlayback(0);
       }
       return;
     }
@@ -444,7 +659,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
       const script = `
           if(window.currentAudio) { window.currentAudio.pause(); }
           window.currentAudio = new Audio('${task.audioUrl}');
-          window.currentAudio.playbackRate = ${rate};
+          window.currentAudio.playbackRate = ${getWebSpeechRate(rate)};
           window.currentAudio.onended = function() {
               window.ReactNativeWebView.postMessage('ended');
           };
@@ -456,30 +671,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
       
       startSentenceProgress();
     } else {
-      // Play using Google Translate Neural TTS Chunking
-      const urls = sentences.map(s => `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&hl=en-US&q=${encodeURIComponent(s.slice(0, 199))}`);
-      const script = `
-          window.audioList = ${JSON.stringify(urls)};
-          window.audioIdx = 0;
-          if(window.currentAudio) { window.currentAudio.pause(); }
-          window.currentAudio = new Audio(window.audioList[window.audioIdx]);
-          window.currentAudio.playbackRate = ${rate};
-          window.currentAudio.onended = function() {
-             window.audioIdx++;
-             if (window.audioIdx < window.audioList.length) {
-                window.currentAudio.src = window.audioList[window.audioIdx];
-                window.currentAudio.playbackRate = ${rate};
-                window.currentAudio.play();
-                window.ReactNativeWebView.postMessage('next:' + window.audioIdx);
-             } else {
-                window.ReactNativeWebView.postMessage('ended');
-             }
-          };
-          window.currentAudio.play();
-          window.ReactNativeWebView.postMessage('playing:0');
-          true;
-      `;
-      webviewRef.current?.injectJavaScript(script);
+      startNativeTranscriptPlayback(0);
     }
   }, [
     shadowingMode,
@@ -491,10 +683,15 @@ export default function ListeningDetailScreen({ route, navigation }) {
     isPlaying,
     stopAll,
     clearProgress,
-    sentences,
     rate,
     task.audioUrl,
     startSentenceProgress,
+    pulseSentence,
+    completePlayback,
+    startWebTranscriptPlayback,
+    stopWebSpeechPlayback,
+    stopNativeSpeechPlayback,
+    startNativeTranscriptPlayback,
   ]);
 
   // ── Answers / Score ───────────────────────────────────────────────────────
@@ -603,7 +800,9 @@ export default function ListeningDetailScreen({ route, navigation }) {
     <Screen scroll contentStyle={styles.container}>
       <Animated.View style={{ opacity: fadeAnim }}>
         <Text style={styles.h1}>{task.title}</Text>
-        <Text style={styles.sub}>Level {task.level} • {task.skill}</Text>
+        <Text style={styles.pageMeta}>
+          {[task.level ? `Level ${task.level}` : '', task.skill || ''].filter(Boolean).join(' • ')}
+        </Text>
 
         {/* ── Player Card ── */}
         <Card style={styles.playerCard}>
@@ -645,16 +844,20 @@ export default function ListeningDetailScreen({ route, navigation }) {
           {/* Speed selector */}
           <Text style={styles.controlLabel}>Speed</Text>
           <View style={styles.rateRow}>
-            {RATES.map(r => (
+            {RATE_PRESETS.map((preset) => (
               <TouchableOpacity
-                key={r}
-                style={[styles.rateBtn, rate === r && styles.rateBtnActive]}
-                onPress={() => { setRate(r); if (isPlaying) { stopAll(); clearProgress(); } }}
+                key={preset.value}
+                style={[styles.rateBtn, rate === preset.value && styles.rateBtnActive]}
+                onPress={() => { setRate(preset.value); if (isPlaying || webviewPlaying) { stopAll(); stopWebSpeechPlayback(); stopNativeSpeechPlayback(); clearProgress(); setWebviewPlaying(false); } }}
               >
-                <Text style={[styles.rateTxt, rate === r && styles.rateTxtActive]}>{r}x</Text>
+                <Text style={[styles.rateTxt, rate === preset.value && styles.rateTxtActive]}>
+                  {preset.label}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
+
+          <Text style={styles.playerHint}>{playerHint}</Text>
 
           {/* Voice selector */}
           {voices.length > 1 && (
@@ -788,7 +991,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
 
         <Card style={styles.card}>
           <Text style={styles.h3}>Shadowing Drill</Text>
-          <Text style={styles.sub}>Repeat sentence-by-sentence after audio. Auto mode follows current speed ({rate}x).</Text>
+          <Text style={styles.sub}>Repeat sentence-by-sentence after audio. Auto mode follows the current preset.</Text>
           <View style={styles.shadowBox}>
             <Text style={styles.sub}>Sentence {Math.min(shadowIndex + 1, sentences.length)}/{sentences.length}</Text>
             <Text style={styles.shadowSentence}>{sentences[shadowIndex] || 'No sentence found.'}</Text>
@@ -1122,14 +1325,16 @@ export default function ListeningDetailScreen({ route, navigation }) {
           </Card>
         ))}
       </Animated.View>
-      <WebView 
-        ref={webviewRef} 
-        source={{ html: '<html><body></body></html>' }} 
-        style={styles.hiddenWebView}
-        onMessage={handleWebviewMessage}
-        mediaPlaybackRequiresUserAction={false}
-        allowsInlineMediaPlayback={true}
-      />
+      {!isWeb ? (
+        <WebView 
+          ref={webviewRef} 
+          source={{ html: '<html><body></body></html>' }} 
+          style={styles.hiddenWebView}
+          onMessage={handleWebviewMessage}
+          mediaPlaybackRequiresUserAction={false}
+          allowsInlineMediaPlayback={true}
+        />
+      ) : null}
     </Screen>
   );
 }
@@ -1143,9 +1348,10 @@ const styles = StyleSheet.create({
     top: -100,
     left: -100,
   },
-  container: { paddingBottom: 40 },
+  container: { },
 
-  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },
+  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.textOnDark, marginBottom: spacing.xs },
+  pageMeta: { fontSize: typography.small, color: colors.textOnDarkMuted, marginBottom: spacing.md },
   h3: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
   sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.md },
   card: { marginBottom: spacing.md },
@@ -1201,6 +1407,12 @@ const styles = StyleSheet.create({
   rateBtnActive: { backgroundColor: colors.primary, borderColor: colors.primary },
   rateTxt: { fontSize: typography.small, color: '#A8C0FF' },
   rateTxtActive: { color: '#fff', fontFamily: typography.fontHeadline },
+  playerHint: {
+    fontSize: 12,
+    color: '#D7E6FF',
+    lineHeight: 18,
+    marginBottom: spacing.md,
+  },
 
   voiceRow: { flexDirection: 'row', gap: spacing.xs },
   voiceBtn: {
@@ -1366,7 +1578,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xs,
   },
 
-  row: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.sm },
+  row: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: spacing.sm },
   modelTrack: {
     height: 8,
     borderRadius: 999,

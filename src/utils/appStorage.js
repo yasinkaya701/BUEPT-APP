@@ -13,6 +13,7 @@ const KEYS = {
   screenTime: 'screen_time_v1',
   xp: 'user_xp_v1',
   weeklyVocabProgress: 'weekly_vocab_progress_v1',
+  aiAccessConfig: 'ai_access_config_v1',
 };
 
 const DEFAULT_WEEKLY_VOCAB_PROGRESS = {
@@ -23,6 +24,13 @@ const DEFAULT_WEEKLY_VOCAB_PROGRESS = {
     collocations: {},
     prepositions: {},
   },
+};
+
+const DEFAULT_AI_ACCESS_CONFIG = {
+  mode: 'hosted',
+  baseUrl: '',
+  apiKey: '',
+  label: 'Hosted BUEPT AI',
 };
 
 async function loadJson(key, fallback) {
@@ -102,4 +110,22 @@ export const saveWeeklyVocabProgress = (v) =>
   saveJson(KEYS.weeklyVocabProgress, {
     ...DEFAULT_WEEKLY_VOCAB_PROGRESS,
     ...(v || {}),
+  });
+
+export async function loadAiAccessConfig() {
+  const stored = await loadJson(KEYS.aiAccessConfig, DEFAULT_AI_ACCESS_CONFIG);
+  return {
+    ...DEFAULT_AI_ACCESS_CONFIG,
+    ...(stored || {}),
+    baseUrl: String((stored && stored.baseUrl) || '').trim(),
+    apiKey: String((stored && stored.apiKey) || '').trim(),
+  };
+}
+
+export const saveAiAccessConfig = (v) =>
+  saveJson(KEYS.aiAccessConfig, {
+    ...DEFAULT_AI_ACCESS_CONFIG,
+    ...(v || {}),
+    baseUrl: String((v && v.baseUrl) || '').trim(),
+    apiKey: String((v && v.apiKey) || '').trim(),
   });

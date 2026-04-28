@@ -414,6 +414,37 @@ export default function WritingEditorScreen({ navigation, route }) {
     setSeed((current) => current + 1);
   };
 
+  const renderInner = () => (
+    <>
+      <Card style={styles.heroCard} glow>
+        <Text style={styles.h1}>Writing Workspace</Text>
+        <Text style={styles.sub}>One prompt, one draft, one clear feedback cycle.</Text>
+        <Text style={styles.promptLabel}>Current Prompt</Text>
+        <Text style={styles.promptText}>{promptItem.prompt}</Text>
+        <View style={styles.metaRow}>
+          <Text style={styles.meta}>Task: {formatLabel(promptItem.task)}</Text>
+          <Text style={styles.meta}>Type: {formatLabel(promptItem.type)}</Text>
+          <Text style={styles.meta}>Difficulty: {formatLabel(promptItem.difficulty)}</Text>
+          <Text style={styles.meta}>Level: {String(level || 'P2').toUpperCase()}</Text>
+        </View>
+        <View style={styles.actionRow}>
+          <Button label="New Prompt" variant="secondary" onPress={refreshPrompt} icon="shuffle-outline" />
+          <Button label={isFav ? 'Unfavorite' : 'Favorite'} onPress={() => toggleFavoritePrompt(promptItem.prompt)} icon={isFav ? 'heart' : 'heart-outline'} />
+          <Button label="Prompt Setup" variant="ghost" onPress={() => setActiveView('prompt')} icon="options-outline" />
+        </View>
+      </Card>
+      <View style={styles.viewRow}>
+        {VIEWS.map((item) => (
+          <Chip key={item} label={formatLabel(item)} active={activeView === item} onPress={() => setActiveView(item)} />
+        ))}
+      </View>
+      {activeView === 'draft' ? renderDraftView() : null}
+      {activeView === 'coach' ? renderCoachView() : null}
+      {activeView === 'resources' ? renderResourcesView() : null}
+      {activeView === 'prompt' ? renderPromptView() : null}
+    </>
+  );
+
   const onSubmit = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
@@ -811,39 +842,11 @@ export default function WritingEditorScreen({ navigation, route }) {
 
   return (
     <Screen scroll contentStyle={styles.container}>
-      <KeyboardAvoidingView enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <Card style={styles.heroCard} glow>
-          <Text style={styles.h1}>Writing Workspace</Text>
-          <Text style={styles.sub}>One prompt, one draft, one clear feedback cycle.</Text>
-
-          <Text style={styles.promptLabel}>Current Prompt</Text>
-          <Text style={styles.promptText}>{promptItem.prompt}</Text>
-
-          <View style={styles.metaRow}>
-            <Text style={styles.meta}>Task: {formatLabel(promptItem.task)}</Text>
-            <Text style={styles.meta}>Type: {formatLabel(promptItem.type)}</Text>
-            <Text style={styles.meta}>Difficulty: {formatLabel(promptItem.difficulty)}</Text>
-            <Text style={styles.meta}>Level: {String(level || 'P2').toUpperCase()}</Text>
-          </View>
-
-          <View style={styles.actionRow}>
-            <Button label="New Prompt" variant="secondary" onPress={refreshPrompt} icon="shuffle-outline" />
-            <Button label={isFav ? 'Unfavorite' : 'Favorite'} onPress={() => toggleFavoritePrompt(promptItem.prompt)} icon={isFav ? 'heart' : 'heart-outline'} />
-            <Button label="Prompt Setup" variant="ghost" onPress={() => setActiveView('prompt')} icon="options-outline" />
-          </View>
-        </Card>
-
-        <View style={styles.viewRow}>
-          {VIEWS.map((item) => (
-            <Chip key={item} label={formatLabel(item)} active={activeView === item} onPress={() => setActiveView(item)} />
-          ))}
-        </View>
-
-        {activeView === 'draft' ? renderDraftView() : null}
-        {activeView === 'coach' ? renderCoachView() : null}
-        {activeView === 'resources' ? renderResourcesView() : null}
-        {activeView === 'prompt' ? renderPromptView() : null}
-      </KeyboardAvoidingView>
+      {Platform.OS !== 'web' ? (
+        <KeyboardAvoidingView enabled behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+          {renderInner()}
+        </KeyboardAvoidingView>
+      ) : renderInner()}
     </Screen>
   );
 }
@@ -995,6 +998,9 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
     borderWidth: 1,
     borderColor: '#D8E3F6',
+    color: colors.text,
+    // Web: ensure cursor and pointer work properly
+    ...(Platform.OS === 'web' ? { outlineStyle: 'none', cursor: 'text' } : {}),
   },
   bottomRow: {
     flexDirection: 'row',

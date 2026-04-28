@@ -58,7 +58,13 @@ export default class AppErrorBoundary extends React.Component {
   };
 
   render() {
-    if (!this.state.hasError) return this.props.children;
+    if (!this.state.hasError) {
+      return (
+        <View style={StyleSheet.absoluteFill}>
+          {this.props.children}
+        </View>
+      );
+    }
 
     return (
       <View style={styles.root}>

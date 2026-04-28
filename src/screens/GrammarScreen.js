@@ -13,11 +13,12 @@ import { useAppState } from '../context/AppState';
 const tasks = [...baseTasks, ...hardTasks, ...testEnglishTasks].map((item) => {
   const id = String(item?.id || '');
   const title = String(item?.title || '');
-  const explain = String(item?.explain || '');
-  const isTestEnglish = id.startsWith('g_te_');
+  const explain = String(item?.explanation || item?.explain || '');
+  const isTestEnglish = id.startsWith('g_te_') || id.startsWith('te_');
   const isUoe = id.includes('_uoe_') || /use of english/i.test(title);
   return {
     ...item,
+    explain,
     _search: `${title} ${explain}`.toLowerCase(),
     _isTestEnglish: isTestEnglish,
     _isUoe: isUoe,
@@ -182,7 +183,7 @@ export default function GrammarScreen({ navigation, route }) {
               </View>
             ) : null}
           </View>
-          <Text style={styles.taskExplainLine} numberOfLines={2}>{item.explain}</Text>
+          <Text style={styles.taskExplainLine} numberOfLines={2}>{item.explain || item.explanation}</Text>
         </View>
       </TouchableOpacity>
     );

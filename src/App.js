@@ -18,16 +18,51 @@ if (Platform.OS === 'ios') {
   enableScreens(false);
 }
 
+const LINKING_CONFIG = Platform.OS === 'web' ? {
+  prefixes: [],
+  config: {
+    screens: {
+      Splash: 'splash',
+      Onboarding: 'onboarding',
+      Login: 'login',
+      Signup: 'signup',
+      MainTabs: {
+        screens: {
+          Home: '',
+          Reading: 'reading',
+          Grammar: 'grammar',
+          Writing: 'writing',
+          Vocab: 'vocab',
+          Listening: 'listening',
+          Speaking: 'speaking',
+        },
+      },
+      ReadingDetail: 'reading/:taskId',
+      ListeningDetail: 'listening/:taskId',
+      GrammarDetail: 'grammar/:taskId',
+      WritingEditor: 'writing-editor',
+      Feedback: 'writing-feedback',
+      VocabFlashcard: 'flashcard/:deckId',
+      FlashcardHome: 'flashcards',
+      Exams: 'exams',
+      ExamDetail: 'exam/:examId',
+      MockResult: 'mock-result',
+      Chatbot: 'chat',
+      StudyPlan: 'study-plan',
+      Analytics: 'analytics',
+      Progress: 'progress',
+      Developer: 'developer',
+      ClassScheduleCalendar: 'calendar',
+      BogaziciHub: 'hub',
+    },
+  },
+} : undefined;
+
 export default function App() {
   const navigationRef = useNavigationContainerRef();
   const [currentRouteName, setCurrentRouteName] = React.useState(null);
 
-  const syncWebNavigationDebug = React.useCallback(() => {
-    if (Platform.OS !== 'web' || typeof window === 'undefined') return;
-    const isReady = typeof navigationRef.isReady === 'function' ? navigationRef.isReady() : false;
-    window.__BUEPT_NAV__ = navigationRef;
-    window.__BUEPT_ROUTE__ = isReady ? navigationRef.getCurrentRoute?.() || null : null;
-  }, [navigationRef]);
+
 
   React.useEffect(() => {
     if (__DEV__) {
@@ -46,14 +81,15 @@ export default function App() {
   }, []);
 
   React.useEffect(() => {
-    syncWebNavigationDebug();
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      window.__BUEPT_NAV__ = navigationRef;
+    }
     return () => {
       if (Platform.OS === 'web' && typeof window !== 'undefined') {
         delete window.__BUEPT_NAV__;
-        delete window.__BUEPT_ROUTE__;
       }
     };
-  }, [syncWebNavigationDebug]);
+  }, [navigationRef]);
 
   const navTheme = {
     ...DefaultTheme,
@@ -68,21 +104,25 @@ export default function App() {
   };
   return (
     <AppErrorBoundary>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaProvider style={{ flex: 1 }}>
+      {/* On Web, flex containers must have minHeight: 0 to contain scrolling children. 
+          We also enforce height: '100%' to prevent the container from expanding infinitely. */}
+      <GestureHandlerRootView style={{ flex: 1, minHeight: 0, height: Platform.OS === 'web' ? '100%' : undefined }}>
+        <SafeAreaProvider style={{ flex: 1, minHeight: 0, height: Platform.OS === 'web' ? '100%' : undefined }}>
           <AppStateProvider>
             <NavigationContainer
               ref={navigationRef}
               theme={navTheme}
+              linking={LINKING_CONFIG}
               onReady={() => {
                 const routeName = navigationRef.getCurrentRoute()?.name || null;
                 setCurrentRouteName(routeName);
-                syncWebNavigationDebug();
               }}
               onStateChange={() => {
                 const routeName = navigationRef.getCurrentRoute()?.name || null;
                 setCurrentRouteName(routeName);
-                syncWebNavigationDebug();
+                if (Platform.OS === 'web' && typeof window !== 'undefined') {
+                  window.__BUEPT_ROUTE__ = navigationRef.getCurrentRoute?.() || null;
+                }
               }}
             >
               <RootNavigator />

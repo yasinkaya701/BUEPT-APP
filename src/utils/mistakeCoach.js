@@ -1,9 +1,8 @@
 import { isChatApiConfigured, requestChatbotReply } from './chatbotAI';
-import { readRuntimeEnv, resolveApiEndpoint } from './runtimeApi';
+import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders } from './runtimeApi';
 
 const MAX_CONTEXT_CHARS = 900;
 const MISTAKE_ENDPOINT = resolveApiEndpoint('BUEPT_MISTAKE_COACH_API_URL', '/api/mistake-coach');
-const API_KEY = readRuntimeEnv('BUEPT_API_KEY');
 const DEFAULT_TIMEOUT_MS = 16000;
 const DEFAULT_RETRIES = 1;
 const ENGLISH_ONLY_NOTICE = 'Please ask in English. I can only explain this specific mistake and how to fix it.';
@@ -120,10 +119,7 @@ function withTimeout(ms = DEFAULT_TIMEOUT_MS) {
   return { signal: ctrl.signal, clear: () => clearTimeout(timer) };
 }
 
-function authHeaders(extra = {}) {
-  if (!API_KEY) return extra;
-  return { ...extra, Authorization: `Bearer ${API_KEY}` };
-}
+// authHeaders is now handled by getAiHeaders from runtimeApi.js
 
 function normalizeApiReply(payload = {}) {
   const text = payload.reply || payload.text || payload.message || payload.content || '';
@@ -177,7 +173,7 @@ export async function requestMistakeCoachReply({ mistake, question, history = []
       try {
         const res = await fetch(MISTAKE_ENDPOINT, {
           method: 'POST',
-          headers: authHeaders({ 'Content-Type': 'application/json' }),
+          headers: getAiHeaders({ 'Content-Type': 'application/json' }),
           body: JSON.stringify({
             prompt,
             question: String(question || ''),
