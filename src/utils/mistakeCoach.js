@@ -1,5 +1,5 @@
 import { isChatApiConfigured, requestChatbotReply } from './chatbotAI';
-import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders } from './runtimeApi';
+import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders, getRuntimeApiAccessConfig, fetchDirectOllamaChat } from './runtimeApi';
 
 const MAX_CONTEXT_CHARS = 900;
 const MISTAKE_ENDPOINT = resolveApiEndpoint('BUEPT_MISTAKE_COACH_API_URL', '/api/mistake-coach');
@@ -166,6 +166,26 @@ export async function requestMistakeCoachReply({ mistake, question, history = []
   if (question && !isMistakeFocused(question)) {
     return { text: OFF_TOPIC_NOTICE, source: 'local' };
   }
+
+  const cfg = getRuntimeApiAccessConfig();
+  if (cfg.provider === 'ollama') {
+    const timeout = withTimeout();
+    try {
+      const replyText = await fetchDirectOllamaChat({
+        systemPrompt: 'You are a helpful and precise English Mistake Coach for BUEPT students.',
+        messages: [{ role: 'user', content: prompt }],
+        signal: timeout.signal
+      });
+      return { text: String(replyText).trim(), source: 'local-ollama' };
+    } catch (err) {
+      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        console.warn('Ollama direct request failed:', err);
+      }
+    } finally {
+      timeout.clear();
+    }
+  }
+
   if (MISTAKE_ENDPOINT) {
     let lastErr = null;
     for (let attempt = 0; attempt <= DEFAULT_RETRIES; attempt += 1) {

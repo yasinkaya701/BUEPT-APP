@@ -1,4 +1,4 @@
-import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders } from './runtimeApi';
+import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders, getRuntimeApiAccessConfig, fetchDirectOllamaChat } from './runtimeApi';
 
 const CHAT_ENDPOINT = resolveApiEndpoint('BUEPT_CHAT_API_URL', '/api/chat');
 
@@ -99,11 +99,28 @@ export async function requestChatbotReply({ message, mode = 'coach', history = [
   const payload = {
     message: String(message),
     mode,
-    history: Array.isArray(history)
-      ? history.slice(-10).map((m) => ({ role: m.role, text: m.text || m.content || '' }))
-      : [],
+    history: Array.isArray(history) ? history.slice(-8) : [],
     app: 'buept-mobile',
   };
+
+  const cfg = getRuntimeApiAccessConfig();
+  if (cfg.provider === 'ollama') {
+    const timeout = withTimeout();
+    try {
+      const replyText = await fetchDirectOllamaChat({
+        systemPrompt: `You are BUEPT AI, a supportive English tutor. Mode: ${mode}. Be concise and helpful.`,
+        messages: [...payload.history, { role: 'user', content: payload.message }],
+        signal: timeout.signal
+      });
+      return { text: String(replyText).trim(), source: 'local-ollama' };
+    } catch (err) {
+      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        console.warn('Chatbot direct ollama failed:', err);
+      }
+    } finally {
+      timeout.clear();
+    }
+  }
 
   let lastErr = null;
   for (let attempt = 0; attempt <= DEFAULT_RETRIES; attempt += 1) {

@@ -142,3 +142,41 @@ export function getAiHeaders(extra = {}) {
   }
   return headers;
 }
+
+export async function fetchDirectOllamaChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null }) {
+  const cfg = getRuntimeApiAccessConfig();
+  if (cfg.provider !== 'ollama') throw new Error('Ollama provider not active.');
+
+  const ollamaUrl = (cfg.ollamaUrl || 'http://localhost:11434').trim().replace(/\/+$/, '');
+  const model = (cfg.ollamaModel || 'llama3.2:1b').trim();
+  const endpoint = `${ollamaUrl}/api/chat`;
+
+  const ollamaMessages = [];
+  if (systemPrompt) ollamaMessages.push({ role: 'system', content: systemPrompt });
+  messages.forEach(m => ollamaMessages.push({ role: m.role || 'user', content: m.content || m.text || '' }));
+
+  const payload = {
+    model,
+    messages: ollamaMessages,
+    stream: false,
+  };
+  
+  if (jsonFormat) {
+    payload.format = 'json';
+  }
+
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    signal,
+  });
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => '');
+    throw new Error(`Ollama direct fetch failed: ${res.status} ${errText}`);
+  }
+
+  const json = await res.json();
+  return json?.message?.content || '';
+}

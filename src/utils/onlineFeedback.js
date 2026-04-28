@@ -1,4 +1,4 @@
-import { getRuntimeApiKey, resolveApiEndpoint, getRuntimeApiAccessConfig, getAiHeaders } from './runtimeApi';
+import { getRuntimeApiKey, resolveApiEndpoint, getRuntimeApiAccessConfig, getAiHeaders, fetchDirectOllamaChat } from './runtimeApi';
 
 const LT_ENDPOINT = 'https://api.languagetool.org/v2/check';
 
@@ -633,6 +633,26 @@ export async function requestWritingRevision({ text = '', prompt = '', level = '
   if (!WRITING_REVISION_ENDPOINT) {
     writeCache(revisionCache, cacheKey, localFallback);
     return localFallback;
+  }
+
+  const cfg = getRuntimeApiAccessConfig();
+  if (cfg.provider === 'ollama') {
+    try {
+      const replyText = await fetchDirectOllamaChat({
+        systemPrompt: 'You are an academic English evaluator. Return your feedback as a JSON object with strictly these keys: { "revisedText": "...", "grammarScore": 85, "vocabularyScore": 80, "feedback": "..." }',
+        messages: [{ role: 'user', content: `Task: ${task}\nLevel: ${level}\nPrompt: ${prompt}\nEssay: ${source}` }],
+        jsonFormat: true
+      });
+      
+      const parsed = JSON.parse(replyText);
+      const normalized = normalizeWritingRevisionResponse(parsed, localFallback);
+      writeCache(revisionCache, cacheKey, normalized);
+      return normalized;
+    } catch (err) {
+      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        console.warn('Ollama direct writing revision failed:', err);
+      }
+    }
   }
 
   try {
