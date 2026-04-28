@@ -1,4 +1,4 @@
-import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders } from './runtimeApi';
+import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders, executeDirectAiChat } from './runtimeApi';
 
 const DEMO_API_URL = resolveApiEndpoint('BUEPT_DEMO_AI_API_URL', '/api/module');
 
@@ -336,8 +336,27 @@ export function isDemoAiConfigured(kind = 'generic') {
 }
 
 export async function generateSpeakingCoachReply({ text = '', history = [] } = {}) {
+  const cleanTextValue = cleanText(text);
+  
+  try {
+    const directReply = await executeDirectAiChat({
+      systemPrompt: 'You are an IELTS/BUEPT speaking coach. Provide actionable feedback with metrics (words, coherence) and exactly 3 tips for the user response.',
+      messages: [{ role: 'user', content: cleanTextValue }],
+      jsonFormat: true
+    });
+    
+    if (directReply) {
+      const parsed = JSON.parse(directReply);
+      return normalizeSpeakingPayload(parsed, cleanTextValue);
+    }
+  } catch (err) {
+    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      console.warn('Direct speaking coach failed:', err);
+    }
+  }
+
   const raw = await callDemoApi('speaking', {
-    text: cleanText(text),
+    text: cleanTextValue,
     history: Array.isArray(history)
       ? history.slice(-8).map((m) => ({ role: m.role, text: m.text || '' }))
       : [],
@@ -475,6 +494,24 @@ export async function generatePresentationDeck({
   const safeDuration = Number.isFinite(durationMin) ? durationMin : 10;
   const safeTone = cleanText(tone, 'Academic');
   const safeLevel = cleanText(level, 'B2');
+  
+  try {
+    const directReply = await executeDirectAiChat({
+      systemPrompt: 'You are an academic presentation generator. Return a JSON object with { "title": "...", "summary": "...", "slides": [{ "title": "...", "points": ["..."], "script": "...", "cues": "..." }] }',
+      messages: [{ role: 'user', content: `Topic: ${cleanTopic}\nDuration: ${safeDuration}m\nTone: ${safeTone}\nLevel: ${safeLevel}` }],
+      jsonFormat: true
+    });
+    
+    if (directReply) {
+      const parsed = JSON.parse(directReply);
+      return normalizePresentationPayload(parsed, cleanTopic);
+    }
+  } catch (err) {
+    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      console.warn('Direct presentation generation failed:', err);
+    }
+  }
+
   const response = await callPresentationApi({
     topic: cleanTopic,
     durationMin: safeDuration,

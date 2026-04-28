@@ -1,4 +1,4 @@
-import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders } from './runtimeApi';
+import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders, executeDirectAiChat } from './runtimeApi';
 
 const VIDEO_ENDPOINT = resolveApiEndpoint('BUEPT_VIDEO_LESSON_API_URL', '/api/video-lesson');
 
@@ -178,6 +178,23 @@ export async function generateVideoLesson({ topic, level = 'B1', durationMin = 4
       practiceTasks: buildPracticeTasks(buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration })),
       diagnostic: '',
     };
+  }
+
+  try {
+    const directReply = await executeDirectAiChat({
+      systemPrompt: 'You are an academic video lesson storyboard generator. Return JSON object with { "title": "...", "summary": "...", "scenes": [{ "id": "...", "heading": "...", "bullets": ["..."], "narration": "...", "durationSec": 45, "quiz": "..." }], "learningGoals": ["..."], "keyTerms": ["..."], "practiceTasks": ["..."] }',
+      messages: [{ role: 'user', content: `Topic: ${normalizedTopic}\nLevel: ${normalizedLevel}\nDuration: ${normalizedDuration}m` }],
+      jsonFormat: true
+    });
+    
+    if (directReply) {
+      const parsed = JSON.parse(directReply);
+      return normalizeLesson(parsed, normalizedTopic);
+    }
+  } catch (err) {
+    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      console.warn('Direct video lesson generation failed:', err);
+    }
   }
 
   const payload = {

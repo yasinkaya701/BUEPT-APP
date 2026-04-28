@@ -1,4 +1,4 @@
-import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders, getRuntimeApiAccessConfig, fetchDirectOllamaChat, fetchDirectGeminiChat } from './runtimeApi';
+import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders, executeDirectAiChat } from './runtimeApi';
 
 const CHAT_ENDPOINT = resolveApiEndpoint('BUEPT_CHAT_API_URL', '/api/chat');
 
@@ -103,39 +103,23 @@ export async function requestChatbotReply({ message, mode = 'coach', history = [
     app: 'buept-mobile',
   };
 
-  const cfg = getRuntimeApiAccessConfig();
-  if (cfg.provider === 'ollama') {
-    const timeout = withTimeout();
-    try {
-      const replyText = await fetchDirectOllamaChat({
-        systemPrompt: `You are BUEPT AI, a supportive English tutor. Mode: ${mode}. Be concise and helpful.`,
-        messages: [...payload.history, { role: 'user', content: payload.message }],
-        signal: timeout.signal
-      });
-      return { text: String(replyText).trim(), source: 'local-ollama' };
-    } catch (err) {
-      if (typeof __DEV__ !== 'undefined' && __DEV__) {
-        console.warn('Chatbot direct ollama failed:', err);
-      }
-    } finally {
-      timeout.clear();
+  const timeout = withTimeout();
+  try {
+    const directReply = await executeDirectAiChat({
+      systemPrompt: `You are BUEPT AI, a supportive English tutor. Mode: ${mode}. Be concise and helpful.`,
+      messages: [...payload.history, { role: 'user', content: payload.message }],
+      signal: timeout.signal
+    });
+    
+    if (directReply) {
+      return { text: String(directReply).trim(), source: 'direct-ai' };
     }
-  } else if (cfg.provider === 'gemini' && cfg.apiKey) {
-    const timeout = withTimeout();
-    try {
-      const replyText = await fetchDirectGeminiChat({
-        systemPrompt: `You are BUEPT AI, a supportive English tutor. Mode: ${mode}. Be concise and helpful.`,
-        messages: [...payload.history, { role: 'user', content: payload.message }],
-        signal: timeout.signal
-      });
-      return { text: String(replyText).trim(), source: 'direct-gemini' };
-    } catch (err) {
-      if (typeof __DEV__ !== 'undefined' && __DEV__) {
-        console.warn('Chatbot direct gemini failed:', err);
-      }
-    } finally {
-      timeout.clear();
+  } catch (err) {
+    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      console.warn('Direct AI request failed:', err);
     }
+  } finally {
+    timeout.clear();
   }
 
   let lastErr = null;

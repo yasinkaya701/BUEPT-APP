@@ -1,5 +1,5 @@
 import { isChatApiConfigured, requestChatbotReply } from './chatbotAI';
-import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders, getRuntimeApiAccessConfig, fetchDirectOllamaChat, fetchDirectGeminiChat } from './runtimeApi';
+import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders, executeDirectAiChat } from './runtimeApi';
 
 const MAX_CONTEXT_CHARS = 900;
 const MISTAKE_ENDPOINT = resolveApiEndpoint('BUEPT_MISTAKE_COACH_API_URL', '/api/mistake-coach');
@@ -167,39 +167,23 @@ export async function requestMistakeCoachReply({ mistake, question, history = []
     return { text: OFF_TOPIC_NOTICE, source: 'local' };
   }
 
-  const cfg = getRuntimeApiAccessConfig();
-  if (cfg.provider === 'ollama') {
-    const timeout = withTimeout();
-    try {
-      const replyText = await fetchDirectOllamaChat({
-        systemPrompt: 'You are a helpful and precise English Mistake Coach for BUEPT students.',
-        messages: [{ role: 'user', content: prompt }],
-        signal: timeout.signal
-      });
-      return { text: String(replyText).trim(), source: 'local-ollama' };
-    } catch (err) {
-      if (typeof __DEV__ !== 'undefined' && __DEV__) {
-        console.warn('Ollama direct request failed:', err);
-      }
-    } finally {
-      timeout.clear();
+  const timeout = withTimeout();
+  try {
+    const directReply = await executeDirectAiChat({
+      systemPrompt: 'You are a helpful and precise English Mistake Coach for BUEPT students.',
+      messages: [{ role: 'user', content: prompt }],
+      signal: timeout.signal
+    });
+    
+    if (directReply) {
+      return { text: String(directReply).trim(), source: 'direct-ai' };
     }
-  } else if (cfg.provider === 'gemini' && cfg.apiKey) {
-    const timeout = withTimeout();
-    try {
-      const replyText = await fetchDirectGeminiChat({
-        systemPrompt: 'You are a helpful and precise English Mistake Coach for BUEPT students.',
-        messages: [{ role: 'user', content: prompt }],
-        signal: timeout.signal
-      });
-      return { text: String(replyText).trim(), source: 'direct-gemini' };
-    } catch (err) {
-      if (typeof __DEV__ !== 'undefined' && __DEV__) {
-        console.warn('Gemini direct request failed:', err);
-      }
-    } finally {
-      timeout.clear();
+  } catch (err) {
+    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      console.warn('Direct AI request failed:', err);
     }
+  } finally {
+    timeout.clear();
   }
 
   if (MISTAKE_ENDPOINT) {

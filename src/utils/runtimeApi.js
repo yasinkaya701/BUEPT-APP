@@ -227,3 +227,62 @@ export async function fetchDirectGeminiChat({ systemPrompt = '', messages = [], 
   const replyText = json?.candidates?.[0]?.content?.parts?.[0]?.text || '';
   return replyText;
 }
+
+export async function fetchDirectOpenAIChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null }) {
+  const cfg = getRuntimeApiAccessConfig();
+  if (cfg.provider !== 'openai') throw new Error('OpenAI provider not active.');
+  
+  const apiKey = String(cfg.apiKey || '').trim();
+  if (!apiKey) throw new Error('OpenAI API key is missing.');
+
+  const endpoint = 'https://api.openai.com/v1/chat/completions';
+  
+  const oaiMessages = [];
+  if (systemPrompt) oaiMessages.push({ role: 'system', content: systemPrompt });
+  messages.forEach(m => oaiMessages.push({ role: m.role || 'user', content: m.content || m.text || '' }));
+
+  const payload = {
+    model: 'gpt-4o-mini',
+    messages: oaiMessages,
+  };
+
+  if (jsonFormat) {
+    payload.response_format = { type: 'json_object' };
+  }
+
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify(payload),
+    signal,
+  });
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => '');
+    throw new Error(`OpenAI direct fetch failed: ${res.status} ${errText}`);
+  }
+
+  const json = await res.json();
+  return json?.choices?.[0]?.message?.content || '';
+}
+
+export async function executeDirectAiChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null }) {
+  const cfg = getRuntimeApiAccessConfig();
+  
+  if (cfg.provider === 'ollama') {
+    return await fetchDirectOllamaChat({ systemPrompt, messages, jsonFormat, signal });
+  } 
+  
+  if (cfg.provider === 'gemini' && String(cfg.apiKey || '').trim()) {
+    return await fetchDirectGeminiChat({ systemPrompt, messages, jsonFormat, signal });
+  }
+
+  if (cfg.provider === 'openai' && String(cfg.apiKey || '').trim()) {
+    return await fetchDirectOpenAIChat({ systemPrompt, messages, jsonFormat, signal });
+  }
+
+  return null;
+}
