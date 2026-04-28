@@ -22,12 +22,13 @@ import templates from '../../data/writing_templates.json';
 import transitions from '../../data/writing_transitions.json';
 import lessons from '../../data/writing_lessons.json';
 import connectors from '../../data/writing_connectors.json';
+import { requestWritingAssistant } from '../utils/onlineFeedback';
 
 const TYPES = ['opinion', 'definition', 'cause_effect', 'problem_solution', 'compare_contrast', 'argumentative', 'reaction'];
 const TASKS = ['paragraph', 'essay'];
 const DIFFICULTY = ['easy', 'medium', 'hard'];
 const TOPICS = ['education', 'technology', 'environment', 'society', 'economy', 'health', 'media', 'culture'];
-const VIEWS = ['draft', 'coach', 'resources', 'prompt'];
+const VIEWS = ['draft', 'assistant', 'coach', 'resources', 'prompt'];
 
 const TYPE_GUIDE = {
   opinion: ['State your position early.', 'Support it with two reasons.', 'Add one clear example.'],
@@ -267,6 +268,8 @@ export default function WritingEditorScreen({ navigation, route }) {
   const [manualPromptMeta, setManualPromptMeta] = useState(route?.params?.promptMeta || null);
   const draftText = route?.params?.draftText || null;
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [assistantLoading, setAssistantLoading] = useState(false);
+  const [assistantReply, setAssistantReply] = useState('');
 
   useEffect(() => {
     if (draftText) {
@@ -439,11 +442,30 @@ export default function WritingEditorScreen({ navigation, route }) {
         ))}
       </View>
       {activeView === 'draft' ? renderDraftView() : null}
+      {activeView === 'assistant' ? renderAssistantView() : null}
       {activeView === 'coach' ? renderCoachView() : null}
       {activeView === 'resources' ? renderResourcesView() : null}
       {activeView === 'prompt' ? renderPromptView() : null}
     </>
   );
+
+  const callAssistant = async (mode) => {
+    setAssistantLoading(true);
+    setAssistantReply('AI is thinking...');
+    try {
+      const res = await requestWritingAssistant({
+        task: promptItem.task,
+        prompt: promptItem.prompt,
+        currentText: text,
+        mode
+      });
+      setAssistantReply(res.text);
+    } catch (e) {
+      setAssistantReply(`Error: ${e.message}`);
+    } finally {
+      setAssistantLoading(false);
+    }
+  };
 
   const onSubmit = () => {
     if (isSubmitting) return;
@@ -615,8 +637,63 @@ export default function WritingEditorScreen({ navigation, route }) {
             <ScoreRow key={item.name} item={item} />
           ))}
         </Card>
+        <Card style={styles.card}>
+          <Text style={styles.h3}>AI Quick Help</Text>
+          <Text style={styles.sub}>Need help getting started or moving forward?</Text>
+          <View style={styles.actionRow}>
+            <Button label="Thesis Helper" variant="secondary" onPress={() => { setActiveView('assistant'); callAssistant('thesis'); }} icon="bulb-outline" />
+            <Button label="Outline Helper" variant="secondary" onPress={() => { setActiveView('assistant'); callAssistant('outline'); }} icon="list-outline" />
+          </View>
+        </Card>
       </View>
     </View>
+  );
+
+  const renderAssistantView = () => (
+    <Card style={styles.card}>
+      <Text style={styles.h3}>BUEPT AI Writing Assistant</Text>
+      <Text style={styles.sub}>Ask the AI to help you with specific parts of your writing process.</Text>
+      
+      <View style={styles.actionRow}>
+        <Button 
+          label="Generate Thesis Options" 
+          variant={assistantLoading ? 'ghost' : 'secondary'} 
+          onPress={() => callAssistant('thesis')} 
+          disabled={assistantLoading}
+          icon="bulb-outline"
+        />
+        <Button 
+          label="Create Outline" 
+          variant={assistantLoading ? 'ghost' : 'secondary'} 
+          onPress={() => callAssistant('outline')} 
+          disabled={assistantLoading}
+          icon="list-outline"
+        />
+        <Button 
+          label="Transition Help" 
+          variant={assistantLoading ? 'ghost' : 'secondary'} 
+          onPress={() => callAssistant('transition')} 
+          disabled={assistantLoading}
+          icon="git-compare-outline"
+        />
+      </View>
+
+      <View style={styles.assistantOutput}>
+        {assistantReply ? (
+          <View style={styles.replyBox}>
+            <Text style={styles.body}>{assistantReply}</Text>
+            <Button 
+              label="Clear" 
+              variant="ghost" 
+              onPress={() => setAssistantReply('')} 
+              style={{ alignSelf: 'flex-end', marginTop: spacing.sm }} 
+            />
+          </View>
+        ) : (
+          <Text style={styles.sub}>Choose an assistant mode above to get AI help.</Text>
+        )}
+      </View>
+    </Card>
   );
 
   const renderCoachView = () => (
@@ -1217,5 +1294,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#D7E2F4',
     marginBottom: spacing.md,
+  },
+  assistantOutput: {
+    marginTop: spacing.lg,
+    padding: spacing.md,
+    backgroundColor: '#F8FAFF',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#E2EAF7',
+    minHeight: 120,
+    justifyContent: 'center',
+  },
+  replyBox: {
+    gap: spacing.sm,
   },
 });

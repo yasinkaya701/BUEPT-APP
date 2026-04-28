@@ -22,6 +22,8 @@ const DEFAULT_TIMEOUT_MS = 14000;
 const DEFAULT_RETRIES = 2;
 const CACHE_TTL_MS = 3 * 60 * 1000;
 
+import { BUEPT_FULL_RUBRIC, BUEPT_FULL_SAMPLES } from './bueptRubric';
+
 const requestHistory = [];
 const feedbackCache = new Map();
 const paraphraseCache = new Map();
@@ -637,8 +639,20 @@ export async function requestWritingRevision({ text = '', prompt = '', level = '
 
   try {
     const directReply = await executeDirectAiChat({
-      systemPrompt: 'You are an academic English evaluator. Return your feedback as a JSON object with strictly these keys: { "revisedText": "...", "grammarScore": 85, "vocabularyScore": 80, "feedback": "..." }',
-      messages: [{ role: 'user', content: `Task: ${task}\nLevel: ${level}\nPrompt: ${prompt}\nEssay: ${source}` }],
+      systemPrompt: `You are an official Boğaziçi University BUEPT Writing Examiner.
+${BUEPT_FULL_RUBRIC}
+${BUEPT_FULL_SAMPLES}
+
+Evaluate the student essay strictly according to the BUEPT standards.
+Return your feedback as a JSON object with strictly these keys:
+{
+  "revisedText": "A fully corrected academic version of the essay maintaining the student's original intent but fixing all errors and improving formal register.",
+  "grammarScore": (number 0-100),
+  "vocabularyScore": (number 0-100),
+  "bueptBand": "E, VG, MA, A, D, NA, or FBA",
+  "feedback": "Detailed, professional feedback in English explaining why this specific score/band was given based on BUEPT criteria."
+}`,
+      messages: [{ role: 'user', content: `Task: ${task}\nPrompt: ${prompt}\nStudent Essay:\n${source}` }],
       jsonFormat: true
     });
     
@@ -681,5 +695,24 @@ export async function requestWritingRevision({ text = '', prompt = '', level = '
     };
     writeCache(revisionCache, cacheKey, fallback);
     return fallback;
+  }
+}
+export async function requestWritingAssistant({ task = '', prompt = '', currentText = '', mode = 'thesis' } = {}) {
+  const context = `Task: ${task}\nPrompt: ${prompt}\nStudent Current Work: ${currentText}`;
+  
+  const systemPrompts = {
+    thesis: "You are a BUEPT Writing Assistant. Help the student craft a strong, academic thesis statement for their essay. Provide 2 options and explain why they work.",
+    outline: "You are a BUEPT Writing Assistant. Help the student create a logical outline with clear topic sentences for each paragraph based on their thesis.",
+    transition: "You are a BUEPT Writing Assistant. Suggest academic transition words or phrases to improve the flow between the student's current paragraphs."
+  };
+
+  try {
+    const reply = await executeDirectAiChat({
+      systemPrompt: systemPrompts[mode] || systemPrompts.thesis,
+      messages: [{ role: 'user', content: context }]
+    });
+    return { text: String(reply).trim() };
+  } catch (err) {
+    return { text: `Assistant error: ${err.message}` };
   }
 }

@@ -1,7 +1,7 @@
 import { getDictionaryCount, getDictionarySample } from './dictionary';
 import { speakEnglish } from './ttsEnglish';
 
-import { resolveApiEndpoint } from './runtimeApi';
+import { resolveApiEndpoint, executeDirectAiChat } from './runtimeApi';
 
 const HEALTH_ENDPOINT = resolveApiEndpoint('BUEPT_HEALTH_API_URL', '/api/health');
 
@@ -25,9 +25,23 @@ async function checkTts() {
   return 'TTS ok';
 }
 
+async function checkAiConnectivity() {
+  try {
+    const reply = await executeDirectAiChat({
+      systemPrompt: 'You are a diagnostic tool. Respond with exactly the word "SUCCESS" and nothing else.',
+      messages: [{ role: 'user', content: 'Verify connection.' }]
+    });
+    if (!reply) return 'AI: Not configured (using hosted fallback)';
+    return `AI (${String(reply).trim().slice(0, 10)}) ok`;
+  } catch (e) {
+    throw new Error(`AI connectivity failed: ${e.message}`);
+  }
+}
+
 export async function runDiagnostics() {
   const checks = [
     { id: 'api', label: 'API /health', fn: checkApiHealth },
+    { id: 'ai', label: 'AI Connectivity', fn: checkAiConnectivity },
     { id: 'dict', label: 'Dictionary load', fn: checkDictionary },
     { id: 'tts', label: 'Text-to-speech', fn: checkTts },
   ];

@@ -299,7 +299,10 @@ function normalizeAiConfig(config = {}) {
   return {
     mode,
     baseUrl,
+    provider: String(config?.provider || 'openai').trim(),
     apiKey: String(config?.apiKey || '').trim(),
+    ollamaUrl: String(config?.ollamaUrl || 'http://localhost:11434').trim(),
+    ollamaModel: String(config?.ollamaModel || 'llama3.2:1b').trim(),
     label: String(config?.label || (mode === 'custom' ? 'Custom AI Endpoint' : 'Hosted BUEPT AI')).trim() || 'Hosted BUEPT AI',
   };
 }

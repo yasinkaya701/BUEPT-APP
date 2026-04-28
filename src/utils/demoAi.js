@@ -341,7 +341,14 @@ export async function generateSpeakingCoachReply({ text = '', history = [] } = {
   try {
     const formattedHistory = Array.isArray(history) ? history.map(m => ({ role: m.role, content: m.text })) : [];
     const directReply = await executeDirectAiChat({
-      systemPrompt: 'You are an IELTS/BUEPT speaking coach. Provide actionable feedback with metrics (words, coherence) and exactly 3 tips for the user response.',
+      systemPrompt: `You are the Official BUEPT Speaking Coach.
+Evaluate the student's spoken response based on Boğaziçi University BUEPT standards (B2+/C1 level).
+Provide deep, actionable feedback including:
+1. Metrics: Estimated word count, fluency, and coherence.
+2. Strengths: What did the student do well?
+3. Weaknesses: Grammar/Pronunciation/Vocabulary gaps.
+4. Tips: Exactly 3 specific tips to reach the next level.
+Return your response as a JSON object.`,
       messages: [...formattedHistory, { role: 'user', content: cleanTextValue }],
       jsonFormat: true
     });
