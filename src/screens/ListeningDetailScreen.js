@@ -139,9 +139,9 @@ function buildWebSpeechQueue(sentences = []) {
   );
 }
 
-function pickWebVoice(voices = [], voiceId = '') {
+function pickWebVoice(voices = [], activeVoiceId = '') {
   if (!Array.isArray(voices) || !voices.length) return null;
-  const normalizedId = String(voiceId || '').toLowerCase();
+  const normalizedId = String(activeVoiceId || '').toLowerCase();
   const exact = voices.find((voice) => {
     const voiceName = String(voice?.name || voice?.id || '').toLowerCase();
     return normalizedId && (voiceName === normalizedId || voiceName.includes(normalizedId));
