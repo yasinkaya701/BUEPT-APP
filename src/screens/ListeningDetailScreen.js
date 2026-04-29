@@ -26,13 +26,14 @@ import { useAppState } from '../context/AppState';
 import { buildSimilarQuestion } from '../utils/similarQuestion';
 import { buildListeningOpenEndedPrompts } from '../utils/openEndedPrompts';
 import { deriveListeningKeywords, evaluateListeningModel } from '../utils/listeningModel';
+import { gradeResponse } from '../utils/aiGrader';
 
 const tasks = [...baseTasks, ...hardTasks, ...cslTasks];
 const RATE_PRESETS = [
-  { label: '0.75x · Slow',   value: 0.38 },  // → getWebSpeechRate → 0.62
-  { label: '1.0x · Normal',  value: 0.52 },  // → getWebSpeechRate → 0.82
-  { label: '1.25x · Fast',   value: 0.62 },  // → getWebSpeechRate → 0.92
-  { label: '1.5x · Exam',    value: 0.72 },  // → getWebSpeechRate → 1.0
+  { label: '0.75x · Slow', value: 0.38 },  // → getWebSpeechRate → 0.62
+  { label: '1.0x · Normal', value: 0.52 },  // → getWebSpeechRate → 0.82
+  { label: '1.25x · Fast', value: 0.62 },  // → getWebSpeechRate → 0.92
+  { label: '1.5x · Exam', value: 0.72 },  // → getWebSpeechRate → 1.0
 ];
 const isWeb = Platform.OS === 'web';
 const WEB_SPEECH_MAX_CHARS = 110;
@@ -253,11 +254,11 @@ export default function ListeningDetailScreen({ route, navigation }) {
   const webSpeechQueue = useMemo(() => buildWebSpeechQueue(sentences), [sentences]);
 
   // ── TTS hook ──────────────────────────────────────────────────────────────
-  const { 
-    isPlaying, voices, activeVoiceId = '', rate, 
+  const {
+    isPlaying, voices, activeVoiceId = '', rate,
     useExperimental, setUseExperimental,
-    speakWord: rawSpeakWord, speakWordAsync: rawSpeakWordAsync, 
-    stopAll, setRate, setVoiceId 
+    speakWord: rawSpeakWord, speakWordAsync: rawSpeakWordAsync,
+    stopAll, setRate, setVoiceId
   } = useTts();
 
   const isLectureTask = useMemo(() => task.id?.startsWith('CSL_'), [task.id]);
@@ -296,6 +297,11 @@ export default function ListeningDetailScreen({ route, navigation }) {
     trap: '',
   });
   const [predictionLocked, setPredictionLocked] = useState(false);
+  const [openEndedAnswers, setOpenEndedAnswers] = useState({});
+  const [openEndedGrades, setOpenEndedGrades] = useState({});
+  const [gradingInProgress, setGradingInProgress] = useState(false);
+  const [selectiveAnswers, setSelectiveAnswers] = useState({});
+  const [selectiveChecked, setSelectiveChecked] = useState(false);
   const listeningFeedback = useMemo(() => (checked ? buildListeningFeedback(task, answers) : null), [checked, task, answers]);
   const derivedKeywords = useMemo(() => deriveListeningKeywords(task), [task]);
   const keywordScore = useMemo(() => {
@@ -650,7 +656,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
 
     stopShadowingAuto();
     setWebviewPlaying(true);
-    
+
     // Fallback logic: Native MP3 URL vs Voice TTS (now polyfilled for web)
     if (Platform.OS === 'web') {
       if (task.audioUrl) {
@@ -662,7 +668,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
           setWebviewPlaying(true);
           pulseSentence(0);
         };
-        audio.onended = function() {
+        audio.onended = function () {
           completePlayback();
         };
         audio.play().catch(e => console.log('Audio blocked:', e));
@@ -686,7 +692,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
           true;
       `;
       webviewRef.current?.injectJavaScript(script);
-      
+
       startSentenceProgress();
     } else {
       startNativeTranscriptPlayback(0);
@@ -809,6 +815,16 @@ export default function ListeningDetailScreen({ route, navigation }) {
     setAnswers({});
     setChecked(false);
     setScore(null);
+  };
+
+  const handleCheckOpenEnded = async (index, question, idealAnswer, keywords) => {
+    const userAnswer = openEndedAnswers[index];
+    if (!userAnswer) return;
+
+    setGradingInProgress(true);
+    const result = await gradeResponse(userAnswer, idealAnswer, keywords);
+    setOpenEndedGrades(prev => ({ ...prev, [index]: result }));
+    setGradingInProgress(false);
   };
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -1274,103 +1290,231 @@ export default function ListeningDetailScreen({ route, navigation }) {
           </Card>
         )}
 
-        {/* ── Questions ── */}
-        {task.questions?.map((q, qi) => (
-          <Card key={qi} style={styles.card}>
-            <Text style={styles.h3}>Q{qi + 1}. {q.q}</Text>
-            {q.options.map((opt, oi) => (
-              <TouchableOpacity
-                key={oi}
-                style={[
-                  styles.optionBtn,
-                  answers[qi] === oi && !checked && styles.optionSelected,
-                  checked && oi === q.answer && styles.optionCorrect,
-                  checked && answers[qi] === oi && oi !== q.answer && styles.optionWrong,
-                ]}
-                onPress={() => select(qi, oi)}
-                disabled={checked || !predictionLocked}
-                activeOpacity={0.8}
-              >
-                <Text style={[
-                  styles.optionText,
-                  checked && oi === q.answer && styles.optionTextCorrect,
-                  checked && answers[qi] === oi && oi !== q.answer && styles.optionTextWrong,
-                ]}>{opt}</Text>
-              </TouchableOpacity>
-            ))}
-            {checked && (
-              <>
-                <Text style={answers[qi] === q.answer ? styles.correct : styles.incorrect}>
-                  {answers[qi] === q.answer ? '✓ Correct' : `✗ Incorrect — Correct: ${q.options[q.answer]}`}
-                </Text>
-                {q.explain && <Text style={styles.explain}>{q.explain}</Text>}
-                {answers[qi] !== q.answer && (
-                  <>
-                    <Button
-                      label="Open Mistake Coach"
-                      variant="secondary"
-                      onPress={() => {
-                        const item = mistakeItems.find((m) => m.id === `${task.id || 'listening'}-${qi}`);
-                        if (item) {
-                          navigation.navigate('MistakeCoach', {
-                            module: 'listening',
-                            moduleLabel: 'Listening',
-                            taskTitle: task.title || 'Listening Practice',
-                            mistakes: [item],
-                          });
-                        }
-                      }}
-                      style={styles.mistakeBtn}
-                    />
-                    <Button
-                      label={similarQuestions[qi] ? 'New Similar Question' : 'Try Similar'}
-                      variant="secondary"
-                      onPress={() => createSimilar(qi)}
-                    />
-                  </>
-                )}
-              </>
-            )}
-            {similarQuestions[qi] && (
-              <View style={styles.similarBox}>
-                <Text style={styles.h3}>{similarQuestions[qi].q}</Text>
-                {similarQuestions[qi].options.map((opt, oi) => (
-                  <TouchableOpacity
-                    key={oi}
+        {/* ── Selective Listening Gap-Fill Questions ── */}
+        {task.selective_questions?.length > 0 && (
+          <Card style={styles.card}>
+            <Text style={styles.h3}>Selective Listening (Gap-Fill)</Text>
+            <Text style={styles.sub}>Listen carefully and type the exact words mentioned in the transcript.</Text>
+            {task.selective_questions.map((sq, sqi) => {
+              const userAnswer = selectiveAnswers[sqi] || '';
+              const isCorrect = selectiveChecked && userAnswer.trim().toLowerCase() === sq.answer.trim().toLowerCase();
+              return (
+                <View key={`sq-${sqi}`} style={styles.selectiveQuestionRow}>
+                  <Text style={styles.bodyLine}>{sqi + 1}. {sq.text.replace('______', '____')}</Text>
+                  <TextInput
                     style={[
-                      styles.optionBtn,
-                      similarAnswers[qi] === oi && !similarChecked[qi] && styles.optionSelected,
-                      similarChecked[qi] && oi === similarQuestions[qi].answer && styles.optionCorrect,
-                      similarChecked[qi] && similarAnswers[qi] === oi && oi !== similarQuestions[qi].answer && styles.optionWrong,
+                      styles.selectiveInput,
+                      selectiveChecked && (isCorrect ? styles.inputCorrect : styles.inputIncorrect)
                     ]}
-                    onPress={() => !similarChecked[qi] && setSimilarAnswers(p => ({ ...p, [qi]: oi }))}
-                    disabled={similarChecked[qi]}
-                    activeOpacity={0.8}
-                  >
-                    <Text style={styles.optionText}>{opt}</Text>
-                  </TouchableOpacity>
-                ))}
-                {!similarChecked[qi] && (
-                  <Button label="Check" onPress={() => setSimilarChecked(p => ({ ...p, [qi]: true }))} disabled={similarAnswers[qi] == null} />
-                )}
-                {similarChecked[qi] && (
-                  <>
-                    <Text style={similarAnswers[qi] === similarQuestions[qi].answer ? styles.correct : styles.incorrect}>
-                      {similarAnswers[qi] === similarQuestions[qi].answer ? '✓ Correct' : '✗ Incorrect'}
-                    </Text>
-                    <Text style={styles.explain}>{similarQuestions[qi].explain}</Text>
-                    <Button label="New Similar" variant="secondary" onPress={() => createSimilar(qi)} />
-                  </>
-                )}
+                    value={userAnswer}
+                    onChangeText={(text) => !selectiveChecked && setSelectiveAnswers(prev => ({ ...prev, [sqi]: text }))}
+                    placeholder="Type missing word..."
+                    placeholderTextColor={colors.muted}
+                    editable={!selectiveChecked}
+                  />
+                  {selectiveChecked && !isCorrect && (
+                    <Text style={styles.incorrect}>Correct word: {sq.answer}</Text>
+                  )}
+                  {selectiveChecked && isCorrect && (
+                    <Text style={styles.correct}>✓ Well heard</Text>
+                  )}
+                </View>
+              );
+            })}
+            {!selectiveChecked && (
+              <View style={styles.row}>
+                <Button 
+                  label="Check Gap-Fills" 
+                  onPress={() => setSelectiveChecked(true)} 
+                  disabled={Object.keys(selectiveAnswers).length === 0}
+                />
               </View>
             )}
+            {selectiveChecked && (
+              <Button label="Clear & Retry" variant="secondary" onPress={() => { setSelectiveChecked(false); setSelectiveAnswers({}); }} />
+            )}
           </Card>
-        ))}
+        )}
+
+        {/* ── Questions ── */}
+        {task.questions?.map((q, qi) => {
+          if (q.type === 'short_answer') {
+            const userAnswer = answers[qi] || '';
+            const isCorrect = checked && (
+              Array.isArray(q.answer) 
+                ? q.answer.some(a => normalizeDictationText(userAnswer) === normalizeDictationText(a))
+                : normalizeDictationText(userAnswer) === normalizeDictationText(q.answer)
+            );
+            return (
+              <Card key={qi} style={styles.card}>
+                <Text style={styles.h3}>Q{qi + 1}. {q.q}</Text>
+                <TextInput
+                  style={[
+                    styles.notesInput,
+                    { minHeight: 44, marginTop: spacing.sm },
+                    checked && (isCorrect ? styles.inputCorrect : styles.inputIncorrect)
+                  ]}
+                  value={userAnswer}
+                  onChangeText={(text) => !checked && setAnswers(p => ({ ...p, [qi]: text }))}
+                  placeholder="Type your short answer..."
+                  placeholderTextColor={colors.muted}
+                  editable={!checked}
+                />
+                {checked && (
+                  <>
+                    <View style={{ marginTop: spacing.xs }}>
+                      <Text style={isCorrect ? styles.correct : styles.incorrect}>
+                        {isCorrect ? '✓ Correct' : `✗ Incorrect — Correct: ${Array.isArray(q.answer) ? q.answer[0] : q.answer}`}
+                      </Text>
+                    </View>
+                    {q.explain && <Text style={styles.explain}>{q.explain}</Text>}
+                  </>
+                )}
+              </Card>
+            );
+          }
+
+          return (
+            <Card key={qi} style={styles.card}>
+              <Text style={styles.h3}>Q{qi + 1}. {q.q}</Text>
+              {q.options.map((opt, oi) => (
+                <TouchableOpacity
+                  key={oi}
+                  style={[
+                    styles.optionBtn,
+                    answers[qi] === oi && !checked && styles.optionSelected,
+                    checked && oi === q.answer && styles.optionCorrect,
+                    checked && answers[qi] === oi && oi !== q.answer && styles.optionWrong,
+                  ]}
+                  onPress={() => select(qi, oi)}
+                  disabled={checked || !predictionLocked}
+                  activeOpacity={0.8}
+                >
+                  <Text style={[
+                    styles.optionText,
+                    checked && oi === q.answer && styles.optionTextCorrect,
+                    checked && answers[qi] === oi && oi !== q.answer && styles.optionTextWrong,
+                  ]}>{opt}</Text>
+                </TouchableOpacity>
+              ))}
+              {checked && (
+                <>
+                  <Text style={answers[qi] === q.answer ? styles.correct : styles.incorrect}>
+                    {answers[qi] === q.answer ? '✓ Correct' : `✗ Incorrect — Correct: ${q.options[q.answer]}`}
+                  </Text>
+                  {q.explain && <Text style={styles.explain}>{q.explain}</Text>}
+                  {answers[qi] !== q.answer && (
+                    <>
+                      <Button
+                        label="Open Mistake Coach"
+                        variant="secondary"
+                        onPress={() => {
+                          const item = mistakeItems.find((m) => m.id === `${task.id || 'listening'}-${qi}`);
+                          if (item) {
+                            navigation.navigate('MistakeCoach', {
+                              module: 'listening',
+                              moduleLabel: 'Listening',
+                              taskTitle: task.title || 'Listening Practice',
+                              mistakes: [item],
+                            });
+                          }
+                        }}
+                        style={styles.mistakeBtn}
+                      />
+                      <Button
+                        label={similarQuestions[qi] ? 'New Similar Question' : 'Try Similar'}
+                        variant="secondary"
+                        onPress={() => createSimilar(qi)}
+                      />
+                    </>
+                  )}
+                </>
+              )}
+              {similarQuestions[qi] && (
+                <View style={styles.similarBox}>
+                  <Text style={styles.h3}>{similarQuestions[qi].q}</Text>
+                  {similarQuestions[qi].options.map((opt, oi) => (
+                    <TouchableOpacity
+                      key={oi}
+                      style={[
+                        styles.optionBtn,
+                        similarAnswers[qi] === oi && !similarChecked[qi] && styles.optionSelected,
+                        similarChecked[qi] && oi === similarQuestions[qi].answer && styles.optionCorrect,
+                        similarChecked[qi] && similarAnswers[qi] === oi && oi !== similarQuestions[qi].answer && styles.optionWrong,
+                      ]}
+                      onPress={() => !similarChecked[qi] && setSimilarAnswers(p => ({ ...p, [qi]: oi }))}
+                      disabled={similarChecked[qi]}
+                      activeOpacity={0.8}
+                    >
+                      <Text style={styles.optionText}>{opt}</Text>
+                    </TouchableOpacity>
+                  ))}
+                  {!similarChecked[qi] && (
+                    <Button label="Check" onPress={() => setSimilarChecked(p => ({ ...p, [qi]: true }))} disabled={similarAnswers[qi] == null} />
+                  )}
+                  {similarChecked[qi] && (
+                    <>
+                      <Text style={similarAnswers[qi] === similarQuestions[qi].answer ? styles.correct : styles.incorrect}>
+                        {similarAnswers[qi] === similarQuestions[qi].answer ? '✓ Correct' : '✗ Incorrect'}
+                      </Text>
+                      <Text style={styles.explain}>{similarQuestions[qi].explain}</Text>
+                      <Button label="New Similar" variant="secondary" onPress={() => createSimilar(qi)} />
+                    </>
+                  )}
+                </View>
+              )}
+            </Card>
+          );
+        })}
+
+        {/* ── Open Ended Questions with AI Check ── */}
+        {task.open_ended_questions?.map((oq, oqi) => {
+          const grade = openEndedGrades[oqi];
+          return (
+            <Card key={`oq-${oqi}`} style={styles.card}>
+              <Text style={styles.h3}>Academic Question {oqi + 1}</Text>
+              <Text style={styles.bodyLine}>{oq.question}</Text>
+              <TextInput
+                style={[styles.notesInput, { minHeight: 100, marginTop: spacing.md }]}
+                multiline
+                placeholder="Type your academic response here..."
+                value={openEndedAnswers[oqi] || ''}
+                onChangeText={(text) => setOpenEndedAnswers(prev => ({ ...prev, [oqi]: text }))}
+                placeholderTextColor={colors.muted}
+                textAlignVertical="top"
+              />
+              <View style={styles.row}>
+                <Button
+                  label={gradingInProgress ? "Analyzing..." : (grade ? "Re-Check with AI" : "Check Answer with AI")}
+                  onPress={() => handleCheckOpenEnded(oqi, oq.question, oq.ideal_answer, oq.keywords)}
+                  disabled={gradingInProgress || !openEndedAnswers[oqi]}
+                />
+              </View>
+              {grade && (
+                <View style={[
+                  styles.feedbackBox, 
+                  { borderLeftColor: grade.isCorrect ? '#1F8B4C' : '#B42318' }
+                ]}>
+                  <Text style={[
+                    styles.scoreText, 
+                    { color: grade.isCorrect ? '#1F8B4C' : '#B42318' }
+                  ]}>
+                    {grade.isCorrect ? '✓ Correct' : '✗ Incorrect'}
+                  </Text>
+                  <Text style={styles.feedbackText}>{grade.feedback}</Text>
+                  {grade.hits.length > 0 && (
+                    <Text style={styles.correct}>Points included: {grade.hits.join(', ')}</Text>
+                  )}
+                </View>
+              )}
+            </Card>
+          );
+        })}
       </Animated.View>
       {!isWeb ? (
-        <WebView 
-          ref={webviewRef} 
-          source={{ html: '<html><body></body></html>' }} 
+        <WebView
+          ref={webviewRef}
+          source={{ html: '<html><body></body></html>' }}
           style={styles.hiddenWebView}
           onMessage={handleWebviewMessage}
           mediaPlaybackRequiresUserAction={false}
@@ -1390,7 +1534,7 @@ const styles = StyleSheet.create({
     top: -100,
     left: -100,
   },
-  container: { },
+  container: {},
 
   h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.textOnDark, marginBottom: spacing.xs },
   pageMeta: { fontSize: typography.small, color: colors.textOnDarkMuted, marginBottom: spacing.md },
@@ -1525,7 +1669,32 @@ const styles = StyleSheet.create({
   optionTextWrong: { color: '#B71C1C', fontFamily: typography.fontHeadline },
 
   correct: { fontSize: typography.small, color: '#1F8B4C', marginTop: spacing.xs, fontFamily: typography.fontHeadline },
-  incorrect: { fontSize: typography.small, color: '#B42318', marginTop: spacing.xs, fontFamily: typography.fontHeadline },
+  incorrect: {
+    color: colors.error,
+    fontSize: typography.size.sm,
+    fontWeight: '600',
+    marginTop: spacing.xs,
+  },
+  feedbackBox: {
+    marginTop: spacing.md,
+    padding: spacing.md,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: spacing.sm,
+    borderLeftWidth: 4,
+    borderLeftColor: colors.primary,
+  },
+  scoreText: {
+    color: colors.primary,
+    fontSize: typography.size.md,
+    fontWeight: 'bold',
+    marginBottom: spacing.xs,
+  },
+  feedbackText: {
+    color: colors.text,
+    fontSize: typography.size.sm,
+    lineHeight: 20,
+    marginBottom: spacing.sm,
+  },
   mistakeBtn: { marginBottom: spacing.xs, alignSelf: 'flex-start' },
   explain: { fontSize: typography.small, color: colors.muted, marginTop: spacing.xs, marginBottom: spacing.sm },
   score: { marginTop: spacing.sm, fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.primary },
@@ -1690,4 +1859,29 @@ const styles = StyleSheet.create({
     borderRadius: 999,
   },
   similarBox: { marginTop: spacing.md, paddingTop: spacing.sm, borderTopWidth: 1, borderTopColor: colors.secondary },
+  selectiveQuestionRow: {
+    marginBottom: spacing.md,
+    paddingBottom: spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.secondary,
+  },
+  selectiveInput: {
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    borderRadius: 8,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 8,
+    marginTop: 4,
+    fontSize: typography.body,
+    color: colors.text,
+  },
+  inputCorrect: {
+    borderColor: '#1F8B4C',
+    backgroundColor: '#E8F5E9',
+  },
+  inputIncorrect: {
+    borderColor: '#B42318',
+    backgroundColor: '#FFEBEE',
+  },
 });

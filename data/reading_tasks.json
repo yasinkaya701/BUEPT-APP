@@ -815,49 +815,49 @@
       {
         "type": "short_answer",
         "q": "What is the primary academic challenge posed by AI writing assistants according to the passage?",
-        "answer": ["AI tools complicate traditional ideas of academic integrity", "blur authorship and make plagiarism easier"],
+        "answer": ["AI tools complicate traditional ideas of academic integrity", "blur authorship and make plagiarism easier", "disruption of authorship and academic integrity", "making plagiarism easier while blurring authorship"],
         "skill": "main_idea",
         "explain": "The text focuses on how generative AI disrupts established notions of authorship and integrity."
       },
       {
         "type": "short_answer",
         "q": "Describe the 'nuanced approach' recommended by some instructors for AI integration.",
-        "answer": ["permit AI support for brainstorming and language polishing with disclosure", "disclosing when and how AI was used"],
+        "answer": ["permit AI support for brainstorming and language polishing with disclosure", "disclosing when and how AI was used", "allowing AI for brainstorming but requiring disclosure", "disclosing AI usage for brainstorming and polishing"],
         "skill": "detail",
         "explain": "This approach views AI as a tool for refinement rather than a replacement for cognitive labor."
       },
       {
         "type": "short_answer",
         "q": "Identify a significant limitation of automated AI detection software mentioned in the text.",
-        "answer": ["false positives occur and polished student writing may be misclassified", "damages trust between instructors and students"],
+        "answer": ["false positives occur and polished student writing may be misclassified", "damages trust between instructors and students", "risk of false positives and trust issues", "misclassification of student work and damage to trust"],
         "skill": "detail",
         "explain": "Detection tools are not infallible and can lead to wrongful accusations."
       },
       {
         "type": "short_answer",
         "q": "Why are many academic departments transitioning toward assessment design rather than purely punitive policies?",
-        "answer": ["to make it harder to outsource thinking and evaluate actual understanding", "in-class writing and oral defenses are harder to manipulate"],
+        "answer": ["to make it harder to outsource thinking and evaluate actual understanding", "in-class writing and oral defenses are harder to manipulate", "evaluating actual understanding through harder-to-outsource methods", "shifting focus to methods that verify actual student understanding"],
         "skill": "inference",
         "explain": "Changing the nature of the task is more effective than attempting to catch misconduct after the fact."
       },
       {
         "type": "short_answer",
         "q": "What specific equity concern is associated with the unofficial assumption of AI tool access in higher education?",
-        "answer": ["unequal access to paid AI tools or advanced digital literacy", "assessment becomes less fair for underprivileged students"],
+        "answer": ["unequal access to paid AI tools or advanced digital literacy", "assessment becomes less fair for underprivileged students", "unfairness due to unequal access to tools and literacy", "disadvantaging students with limited access to tools or digital skills"],
         "skill": "detail",
         "explain": "The 'digital divide' can create systemic disadvantages if institutions do not provide equal support."
       },
       {
         "type": "short_answer",
         "q": "In the context of institutional policy, what is the discourse function of the phrase 'As a result' in paragraph 4?",
-        "answer": ["introduces a consequence or organizational response", "links the problems of detection to the shift in strategy"],
+        "answer": ["introduces a consequence or organizational response", "links the problems of detection to the shift in strategy", "signals a causal connection", "indicates a response to previously mentioned problems"],
         "skill": "discourse",
         "explain": "The phrase signals the causal link between detection failures and the adoption of new assessment models."
       },
       {
         "type": "short_answer",
         "q": "According to the passage, what is the ultimate goal of effective academic integrity policies?",
-        "answer": ["building habits of responsible authorship", "creating transparent boundaries and revised assessment practices"],
+        "answer": ["building habits of responsible authorship", "creating transparent boundaries and revised assessment practices", "fostering responsible authorship habits", "promoting integrity through clear boundaries and better assessment"],
         "skill": "summary",
         "explain": "The author advocates for a proactive, developmental approach rather than a purely surveillance-based one."
       }
@@ -873,56 +873,56 @@
       {
         "type": "short_answer",
         "q": "Analyze the core objective of digital platform design as presented in the first paragraph.",
-        "answer": ["to capture and retain attention to monetize user engagement", "maximize attention capture"],
+        "answer": ["to capture and retain attention to monetize user engagement", "maximize attention capture", "monetizing engagement by capturing and retaining attention", "to keep users engaged for monetization"],
         "skill": "main_idea",
         "explain": "The economic model of digital platforms is built on sustaining user interaction."
       },
       {
         "type": "short_answer",
         "q": "Define the concept of 'deep work' within the context of academic scholarship.",
-        "answer": ["uninterrupted periods of concentration for processing complex ideas", "focused blocks of study"],
+        "answer": ["uninterrupted periods of concentration for processing complex ideas", "focused blocks of study", "sustained periods of concentration on complex tasks", "processing complex ideas through uninterrupted focus"],
         "skill": "detail",
         "explain": "The text defines deep work as sustained, uninterrupted focus."
       },
       {
         "type": "short_answer",
         "q": "Explain the cognitive significance of the term 'residue' following an interruption.",
-        "answer": ["reduced efficiency that persists after the interruption ends", "lingering attention costs"],
+        "answer": ["reduced efficiency that persists after the interruption ends", "lingering attention costs", "mental bandwidth occupied by the previous task", "persisting loss of efficiency after an interruption"],
         "skill": "vocabulary",
         "explain": "Cognitive residue refers to the mental bandwidth still occupied by the interruption."
       },
       {
         "type": "short_answer",
         "q": "Why does fragmented attention result in inferior learning outcomes compared to focused blocks?",
-        "answer": ["reduces the depth of encoding and retrieval pathways", "lowers the quality of attention and encoding"],
+        "answer": ["reduces the depth of encoding and retrieval pathways", "lowers the quality of attention and encoding", "fragmented attention weakens encoding and retrieval", "shallow encoding due to constant switching"],
         "skill": "inference",
         "explain": "Interrupted study prevents the brain from forming strong memory connections."
       },
       {
         "type": "short_answer",
         "q": "What structural intervention is considered more reliable than individual willpower in managing focus?",
-        "answer": ["environment design, such as site blockers and notification control", "systems outperform intentions"],
+        "answer": ["environment design, such as site blockers and notification control", "systems outperform intentions", "designing the environment to block distractions", "structural changes like disabling notifications"],
         "skill": "detail",
-        "explain": "Proactive environment management is statistically more effective than relying on motivation."
+        "explain": "Proactive environment management is statistically more effective than relying on motivation alone."
       },
       {
         "type": "short_answer",
         "q": "Distinguish between 'productive' and 'extractive' technology as defined in the text.",
-        "answer": ["productive tools serve goals; extractive tools compete for attention", "instrument-like vs feed-like"],
+        "answer": ["productive tools serve goals; extractive tools compete for attention", "instrument-like vs feed-like", "tools that serve objectives vs tools that compete for focus", "goal-oriented vs engagement-oriented technology"],
         "skill": "detail",
         "explain": "Productive tools are task-oriented, while extractive tools are interaction-oriented."
       },
       {
         "type": "short_answer",
         "q": "Why does the author advocate for teaching attention management as an explicit academic skill?",
-        "answer": ["attention is a scarce cognitive resource necessary for durable understanding", "it is as important as citation style"],
+        "answer": ["attention is a scarce cognitive resource necessary for durable understanding", "it is as important as citation style", "managing cognitive resources is essential for understanding", "attention is a prerequisite for academic success"],
         "skill": "detail",
         "explain": "Managing cognitive bandwidth is essential for university-level performance."
       },
       {
         "type": "short_answer",
         "q": "Summarize the cultural risk associated with the normalization of 'continuous partial attention'.",
-        "answer": ["faster reactions but weaker reasoning quality", "weaker reasoning and lack of durable understanding"],
+        "answer": ["faster reactions but weaker reasoning quality", "weaker reasoning and lack of durable understanding", "prioritizing speed over intellectual depth", "erosion of durable understanding and reasoning"],
         "skill": "summary",
         "explain": "A culture of constant distraction prioritizes speed over intellectual depth."
       }
@@ -938,49 +938,49 @@
       {
         "type": "short_answer",
         "q": "Why do university administrators advocate for algorithmic proctoring in high-enrollment courses?",
-        "answer": ["manual review is impractical at scale", "to preserve standards in large classes"],
+        "answer": ["manual review is impractical at scale", "to preserve standards in large classes", "impossibility of manual review for many students", "automating monitoring for large-scale assessments"],
         "skill": "detail",
         "explain": "The automation allows institutions to monitor thousands of students simultaneously."
       },
       {
         "type": "short_answer",
         "q": "Explain the distinction made by measurement specialists between 'consistency' and 'validity' in proctoring.",
-        "answer": ["consistent flags for behavior do not necessarily mean valid measurement of cheating", "consistency should not be confused with validity"],
+        "answer": ["consistent flags for behavior do not necessarily mean valid measurement of cheating", "consistency should not be confused with validity", "technical precision in flagging versus pedagogical accuracy", "consistent technical alerts vs valid assessment of misconduct"],
         "skill": "main_idea",
         "explain": "Technical precision in flagging does not equal pedagogical accuracy in detecting misconduct."
       },
       {
         "type": "short_answer",
         "q": "Identify three non-misconduct factors that can trigger false positive alerts in algorithmic systems.",
-        "answer": ["unstable internet, shared living spaces, and disability accommodations", "background noise and eye direction"],
+        "answer": ["unstable internet, shared living spaces, and disability accommodations", "background noise and eye direction", "internet instability, shared spaces, or disability needs", "environment or physiology factors like noise and movement"],
         "skill": "detail",
         "explain": "External environmental and physiological factors are often misclassified by AI as 'suspicious'."
       },
       {
         "type": "short_answer",
         "q": "Analyze the potential threat to 'construct validity' posed by over-reliance on proctoring metrics.",
-        "answer": ["the test could measure students' circumstances as much as their knowledge", "scores reflect environment-related disadvantages"],
+        "answer": ["the test could measure students' circumstances as much as their knowledge", "scores reflect environment-related disadvantages", "measuring living conditions instead of actual knowledge", "bias toward students with better environments or circumstances"],
         "skill": "inference",
         "explain": "If a test measures background conditions rather than knowledge, it is no longer valid."
       },
       {
         "type": "short_answer",
         "q": "Describe the 'layered safeguards' model proposed as an alternative to automated policing.",
-        "answer": ["open-resource exams, oral follow-ups, and transparent appeal channels", "technology supports rather than replaces human judgment"],
+        "answer": ["open-resource exams, oral follow-ups, and transparent appeal channels", "technology supports rather than replaces human judgment", "combining different assessment types and appeal options", "hybrid model where technology assists human decision-making"],
         "skill": "detail",
         "explain": "This approach uses multiple evaluation methods to verify student performance."
       },
       {
         "type": "short_answer",
         "q": "What is the primary function of the final paragraph in the context of the overall argument?",
-        "answer": ["it proposes a balanced policy direction", "it summarizes the central policy question and joint goals"],
+        "answer": ["it proposes a balanced policy direction", "it summarizes the central policy question and joint goals", "shifting from critique to policy recommendations", "concluding with a summary of the core challenge"],
         "skill": "function",
         "explain": "The conclusion shifts from technical critiques to constructive policy recommendations."
       },
       {
         "type": "short_answer",
         "q": "What is identified as the central policy question that institutions must address regarding proctoring?",
-        "answer": ["how to protect integrity without undermining fairness and construct validity", "balancing integrity and fairness"],
+        "answer": ["how to protect integrity without undermining fairness and construct validity", "balancing integrity and fairness", "protecting academic standards while ensuring fairness", "maintaining integrity without sacrificing assessment validity"],
         "skill": "summary",
         "explain": "The core challenge is maintaining high standards while ensuring a fair assessment environment."
       }
@@ -996,28 +996,28 @@
       {
         "type": "short_answer",
         "q": "What is the primary distinction between a 'nudge' and a mandate within the framework of choice architecture?",
-        "answer": ["nudges preserve individual autonomy whereas mandates explicitly forbid options", "nudges alter behavior without forbidding options"],
+        "answer": ["nudges preserve individual autonomy whereas mandates explicitly forbid options", "nudges alter behavior without forbidding options", "preserving autonomy vs forbidding options", "guiding behavior without bans or mandates"],
         "skill": "detail",
         "explain": "A nudge influences decision-making through subtle shifts rather than strict legal or economic prohibition."
       },
       {
         "type": "short_answer",
         "q": "In the expanded academic context of the first paragraph, what is the specific referent of the pronoun 'it'?",
-        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "answer": ["the primary mechanism", "the underlying mechanism", "primary or underlying mechanism"],
         "skill": "reference",
         "explain": "The pronoun refers back to the core operational principle being debated."
       },
       {
         "type": "short_answer",
         "q": "According to the empirical trial mentioned in the extension, what was the critical driver for reducing misunderstanding errors?",
-        "answer": ["consistency in feedback language", "standardized feedback timing and language"],
+        "answer": ["consistency in feedback language", "standardized feedback timing and language", "consistency in language, not volume", "uniformity and consistency in feedback phrasing"],
         "skill": "detail",
         "explain": "The study found that the quality and uniformity of language were more effective than the volume of feedback."
       },
       {
         "type": "short_answer",
         "q": "Analyze the pedagogical purpose of including the empirical extension at the end of this academic passage.",
-        "answer": ["to provide empirical support and practical implications for the theoretical framework", "to connect abstract theory to concrete research outcomes"],
+        "answer": ["to provide empirical support and practical implications for the theoretical framework", "to connect abstract theory to concrete research outcomes", "providing data-driven examples to support the theory", "grounding high-level discussion in verifiable outcomes"],
         "skill": "purpose",
         "explain": "The extension serves to ground the high-level discussion in verifiable, data-driven examples."
       }
@@ -1033,21 +1033,21 @@
       {
         "type": "short_answer",
         "q": "Explain the role of the environment in the process of quantum decoherence as described in the text.",
-        "answer": ["interaction with the system causes the scattering of phase information", "environmental entanglement necessitates classical outcomes"],
+        "answer": ["interaction with the system causes the scattering of phase information", "environmental entanglement necessitates classical outcomes", "system's interaction with environment scatters phase information", "environment causes quantum phase information to scatter"],
         "skill": "main_idea",
         "explain": "Decoherence occurs when the environment 'leaks' information out of the quantum system."
       },
       {
         "type": "short_answer",
         "q": "Identify the referent of the pronoun 'it' in the academic preamble of the passage.",
-        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "answer": ["the primary mechanism", "the underlying mechanism", "primary or underlying mechanism"],
         "skill": "reference",
         "explain": "Standard academic tracking: the pronoun refers to the object of scholarly investigation."
       },
       {
         "type": "short_answer",
         "q": "According to the policy review extension, what critical condition must be met for educational interventions to be truly effective across all student groups?",
-        "answer": ["interventions must be paired with resource redistribution", "addressing the equity gap through redistribution"],
+        "answer": ["interventions must be paired with resource redistribution", "addressing the equity gap through redistribution", "pairing interventions with resource redistribution", "redistributing resources alongside educational interventions"],
         "skill": "inference",
         "explain": "The text warns that without redistribution, existing structural advantages are merely reinforced."
       }
@@ -1063,28 +1063,28 @@
       {
         "type": "short_answer",
         "q": "Define the 'paradox' of judicial objectivity as it relates to the use of predictive algorithms.",
-        "answer": ["technology designed to remove bias actually codifies and perpetuates it", "algorithms exacerbate societal stratification despite intended objectivity"],
+        "answer": ["technology designed to remove bias actually codifies and perpetuates it", "algorithms exacerbate societal stratification despite intended objectivity", "fairness-oriented tools automating historical prejudice", "tools meant to be fair perpetuating existing inequities"],
         "skill": "inference",
         "explain": "The irony is that tools meant to be fair actually automate and hide historical prejudice."
       },
       {
         "type": "short_answer",
         "q": "What is the referent of the pronoun 'it' in the academic context provided in the first paragraph?",
-        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "answer": ["the primary mechanism", "the underlying mechanism", "primary or underlying mechanism"],
         "skill": "reference",
         "explain": "Academic tracking indicates the pronoun refers to the core mechanism under debate."
       },
       {
         "type": "short_answer",
         "q": "What does a convergence rate of 0.81 signify regarding the reliability of the research data?",
-        "answer": ["indicates strong reliability across multiple sources", "strong reliability"],
+        "answer": ["indicates strong reliability across multiple sources", "strong reliability", "reliability score of 0.81 shows high consistency", "high consistency across different data types"],
         "skill": "inference",
         "explain": "High convergence across different data types suggests that the findings are robust."
       },
       {
         "type": "short_answer",
         "q": "Identify the primary longitudinal limitation of the data presented in the research extension.",
-        "answer": ["single-semester data can miss delayed effects that appear only later", "lack of multi-semester tracking"],
+        "answer": ["single-semester data can miss delayed effects that appear only later", "lack of multi-semester tracking", "missing delayed effects due to single-semester scope", "short-term scope failing to capture long-term effects"],
         "skill": "detail",
         "explain": "The authors warn that short-term data may not capture the full impact of the phenomenon."
       }
@@ -1100,35 +1100,35 @@
       {
         "type": "short_answer",
         "q": "Why is germline editing considered more ethically significant than somatic cell therapies?",
-        "answer": ["germline interventions are heritable and irrevocably integrated into the human species", "somatic therapies are not heritable while germline changes affect future generations"],
+        "answer": ["germline interventions are heritable and irrevocably integrated into the human species", "somatic therapies are not heritable while germline changes affect future generations", "germline changes are heritable and permanent for the species", "permanence and heritability of germline interventions"],
         "skill": "detail",
         "explain": "The key distinction is the permanence and transmissibility of genetic alterations across generations."
       },
       {
         "type": "short_answer",
         "q": "Identify the specific referent of the pronoun 'it' in the academic preamble of the first paragraph.",
-        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "answer": ["the primary mechanism", "the underlying mechanism", "primary or underlying mechanism"],
         "skill": "reference",
         "explain": "The pronoun tracks the core operational principle discussed in the text."
       },
       {
         "type": "short_answer",
         "q": "According to the empirical study extension, what were identified as the strongest predictors of student improvement?",
-        "answer": ["structured feedback and spaced practice", "nearly 42% of gains explained by feedback and practice"],
+        "answer": ["structured feedback and spaced practice", "nearly 42% of gains explained by feedback and practice", "feedback and spaced practice", "structured feedback paired with spaced practice"],
         "skill": "detail",
         "explain": "The research highlights procedural consistency and repetition as the primary drivers of success."
       },
       {
         "type": "short_answer",
         "q": "What specific implementation gap do the authors caution against in the context of institutional policy?",
-        "answer": ["policies may be well-designed but inconsistently applied at the classroom level", "gap between design and classroom application"],
+        "answer": ["policies may be well-designed but inconsistently applied at the classroom level", "gap between design and classroom application", "inconsistent classroom application of well-designed policies", "lack of consistent policy application by instructors"],
         "skill": "inference",
         "explain": "Design excellence does not guarantee operational success if instructors do not follow protocol."
       },
       {
         "type": "short_answer",
         "q": "Describe the two revision checkpoints recommended for complex tasks in the extension.",
-        "answer": ["minimum of two revision checkpoints", "short feedback cycles with revision points"],
+        "answer": ["minimum of two revision checkpoints", "short feedback cycles with revision points", "at least two revision points", "two or more revision checkpoints for masterly"],
         "skill": "detail",
         "explain": "The authors advocate for iterative feedback loops to ensure mastery."
       }
@@ -1144,28 +1144,28 @@
       {
         "type": "short_answer",
         "q": "Analyze the primary critique directed toward Le Corbusier's 'Radiant City' model of urban planning.",
-        "answer": ["rigid geometric formalism dehumanized the urban experience and fostered social alienation", "prioritized schematic efficiency over human social interaction"],
+        "answer": ["rigid geometric formalism dehumanized the urban experience and fostered social alienation", "prioritized schematic efficiency over human social interaction", "dehumanization and social alienation due to rigid geometric formalism", "schematic efficiency prioritized over social and psychological well-being"],
         "skill": "main_idea",
         "explain": "Critics argue that the uniform, machine-like design failed to account for psychological well-being."
       },
       {
         "type": "short_answer",
         "q": "What is the referent of the pronoun 'it' in the academic context provided in the first paragraph?",
-        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "answer": ["the primary mechanism", "the underlying mechanism", "primary or underlying mechanism"],
         "skill": "reference",
         "explain": "Standard academic tracking of the subject of debate."
       },
       {
         "type": "short_answer",
         "q": "According to the longitudinal extension, what was the impact of simplifying the baseline rubric on student outcomes?",
-        "answer": ["completion rates rose by 12% and error patterns became more consistent", "12% increase in completion due to reduced ambiguity"],
+        "answer": ["completion rates rose by 12% and error patterns became more consistent", "12% increase in completion due to reduced ambiguity", "rose completion rates by 12% while normalizing error patterns", "12 percent increase in completion through reduced ambiguity"],
         "skill": "detail",
         "explain": "The data suggests that clarity in assessment criteria is a more significant driver than task difficulty."
       },
       {
         "type": "short_answer",
         "q": "Why do the authors argue that clarity in rubrics is a 'prerequisite for fairness'?",
-        "answer": ["reduced ambiguity ensures all students understand expectations equally", "clarity prevents unfair disadvantages caused by vague criteria"],
+        "answer": ["reduced ambiguity ensures all students understand expectations equally", "clarity prevents unfair disadvantages caused by vague criteria", "all students must understand rules equally for fairness", "preventing disadvantage through explicit and clear criteria"],
         "skill": "inference",
         "explain": "Fairness requires that all participants have equal access to the rules of the assessment."
       }
@@ -1181,28 +1181,28 @@
       {
         "type": "short_answer",
         "q": "Describe the paradox of the Gulf Stream's intensification following the closure of the Isthmus of Panama.",
-        "answer": ["it supplied the moisture necessary for the glaciation of the Northern Hemisphere", "intensified currents led to cooling/glaciation despite heat transport"],
+        "answer": ["it supplied the moisture necessary for the glaciation of the Northern Hemisphere", "intensified currents led to cooling/glaciation despite heat transport", "supplied moisture for glaciation", "paradoxical link between warm currents and ice sheet formation"],
         "skill": "detail",
         "explain": "The irony is that a warm current (Gulf Stream) provided the moisture that eventually built ice sheets."
       },
       {
         "type": "short_answer",
         "q": "Identify the referent of the pronoun 'it' in the academic preamble of the passage.",
-        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "answer": ["the primary mechanism", "the underlying mechanism", "primary or underlying mechanism"],
         "skill": "reference",
         "explain": "Standard tracking of the operational mechanism under discussion."
       },
       {
         "type": "short_answer",
         "q": "According to the research extension, what was the primary retention advantage of the distributed instructional model?",
-        "answer": ["retained 27% more content after six weeks compared to the block model", "27% higher retention"],
+        "answer": ["retained 27% more content after six weeks compared to the block model", "27% higher retention", "27 percent more content retained", "better long-term recall after six weeks"],
         "skill": "detail",
         "explain": "The study highlights the superiority of spaced learning for long-term mastery."
       },
       {
         "type": "short_answer",
         "q": "What warning do the authors provide regarding the interpretation of 'short-term efficiency' in high-stakes contexts?",
-        "answer": ["efficiency should not be mistaken for long-term mastery", "fast gains do not guarantee durable learning"],
+        "answer": ["efficiency should not be mistaken for long-term mastery", "fast gains do not guarantee durable learning", "speed of learning is not equivalent to mastery", "avoid mistaking fast gains for long-term retention"],
         "skill": "inference",
         "explain": "The report suggests that rapid initial improvement can be illusory if not sustained."
       }
@@ -1218,28 +1218,28 @@
       {
         "type": "short_answer",
         "q": "Identify the factors that primarily determined the safety and commercial volume of the trans-Eurasian trade network.",
-        "answer": ["the varying stability of dominant empires such as the Han, Roman, and Mongol", "empire stability"],
+        "answer": ["the varying stability of dominant empires such as the Han, Roman, and Mongol", "empire stability", "stability of major empires like the Han and Mongol", "political security provided by dominant regional powers"],
         "skill": "detail",
         "explain": "The security of trade routes was directly linked to the political and military strength of the regional powers."
       },
       {
         "type": "short_answer",
         "q": "What is the referent of the pronoun 'it' in the academic context provided in the first paragraph?",
-        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "answer": ["the primary mechanism", "the underlying mechanism", "primary or underlying mechanism"],
         "skill": "reference",
         "explain": "Standard academic tracking of the subject of investigation."
       },
       {
         "type": "short_answer",
         "q": "According to the empirical trial in the extension, what specific attribute of feedback was identified as the 'critical driver' of error reduction?",
-        "answer": ["consistency in feedback language", "not volume, but consistency in language"],
+        "answer": ["consistency in feedback language", "not volume, but consistency in language", "consistency in language over volume", "uniform and consistent feedback language"],
         "skill": "detail",
         "explain": "The study found that how feedback is phrased is more important than how much feedback is given."
       },
       {
         "type": "short_answer",
         "q": "How large was the experimental group of instructors involved in implementing the common protocol?",
-        "answer": ["32 instructors", "32"],
+        "answer": ["32 instructors", "32", "group of 32 instructors", "thirty-two instructors"],
         "skill": "detail",
         "explain": "The extension explicitly states the participation of 32 instructors."
       }
@@ -10054,35 +10054,35 @@
       {
         "type": "short_answer",
         "q": "Identify the two fundamental principles of quantum mechanics that underpin the capabilities of quantum computers.",
-        "answer": ["superposition and entanglement"],
+        "answer": ["superposition and entanglement", "superposition, entanglement", "principles of superposition and entanglement"],
         "skill": "detail",
         "explain": "The text explicitly mentions these principles as the basis for quantum computing's threat."
       },
       {
         "type": "short_answer",
         "q": "Why do current encryption standards like RSA and ECC fail to withstand quantum attacks?",
-        "answer": ["Shor’s algorithm can solve integer factorization and discrete logarithms in polynomial time", "quantum computers can solve the underlying math problems too quickly"],
+        "answer": ["Shor’s algorithm can solve integer factorization and discrete logarithms in polynomial time", "quantum computers can solve the underlying math problems too quickly", "Shor's algorithm solves factorization and logarithms in polynomial time", "quantum computing renders integer factorization and discrete logarithms solvable"],
         "skill": "inference",
         "explain": "The text explains that Shor's algorithm renders the current 'intractable' problems solvable."
       },
       {
         "type": "short_answer",
         "q": "What is the specific referent of the pronoun 'it' in the academic preamble of the first paragraph?",
-        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "answer": ["the primary mechanism", "the underlying mechanism", "primary or underlying mechanism"],
         "skill": "reference",
         "explain": "Standard academic tracking of the core mechanism under debate."
       },
       {
         "type": "short_answer",
         "q": "According to the trial extension, how large is the percentage of firms that have actually inventoried their vulnerable assets?",
-        "answer": ["14%", "only 14%"],
+        "answer": ["14%", "only 14%", "14 percent"],
         "skill": "detail",
         "explain": "The text contrasts the 85% recognition rate with the 14% action rate."
       },
       {
         "type": "short_answer",
         "q": "Define the 'crypto-agile' approach as recommended in the research report.",
-        "answer": ["modular software architectures that allow for rapid algorithm replacement", "systems designed for easy algorithm updates without overhauls"],
+        "answer": ["modular software architectures that allow for rapid algorithm replacement", "systems designed for easy algorithm updates without overhauls", "modular software architecture for rapid algorithm replacement", "allowing rapid replacement of algorithms through modular software"],
         "skill": "detail",
         "explain": "The report advocates for agility through modularity to close the migration gap."
       }
@@ -10098,35 +10098,35 @@
       {
         "type": "short_answer",
         "q": "Beyond meteorological factors, how do sociologists characterize the Urban Heat Island effect?",
-        "answer": ["a potent driver of socioeconomic inequality", "a byproduct of inequitable urban planning"],
+        "answer": ["a potent driver of socioeconomic inequality", "a byproduct of inequitable urban planning", "a driver of socioeconomic inequality", "byproduct of urban planning inequality"],
         "skill": "main_idea",
         "explain": "The text frames UHI as a social and economic issue, not just a weather one."
       },
       {
         "type": "short_answer",
         "q": "Identify the historical factors cited as contributors to 'thermal inequity' in lower-income neighborhoods.",
-        "answer": ["historical redlining and inequitable urban planning", "redlining"],
+        "answer": ["historical redlining and inequitable urban planning", "redlining", "historical redlining", "inequitable urban planning and redlining"],
         "skill": "detail",
         "explain": "The text links current thermal stress to past discriminatory planning policies."
       },
       {
         "type": "short_answer",
         "q": "What is the referent of the pronoun 'it' in the academic preamble of the first paragraph?",
-        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "answer": ["the primary mechanism", "the underlying mechanism", "primary or underlying mechanism"],
         "skill": "reference",
         "explain": "Standard academic tracking of the mechanism in question."
       },
       {
         "type": "short_answer",
         "q": "According to the longitudinal study, by how many degrees can 'green retrofitting' lower peak temperatures?",
-        "answer": ["up to 3.5°C", "3.5 degrees Celsius"],
+        "answer": ["up to 3.5°C", "3.5 degrees Celsius", "3.5 degrees", "up to 3.5 degrees"],
         "skill": "detail",
         "explain": "The extension provides 3.5°C as the potential temperature reduction."
       },
       {
         "type": "short_answer",
         "q": "Explain the concept of 'green gentrification' as described in the research extension.",
-        "answer": ["environmental improvements leading to higher property values and displacement of residents", "improving the environment but driving up costs for locals"],
+        "answer": ["environmental improvements leading to higher property values and displacement of residents", "improving the environment but driving up costs for locals", "displacement of residents due to rising property values from environmental improvement", "environmental restoration leading to displacement and higher property values"],
         "skill": "inference",
         "explain": "The text warns that ecological gains can have negative social consequences for the poor."
       }
@@ -10142,35 +10142,35 @@
       {
         "type": "short_answer",
         "q": "What unique capability does gene drive technology provide in terms of species management?",
-        "answer": ["preferential inheritance of traits leading to rapid alteration or eradication of species", "ability to alter or eliminate entire species in the wild"],
+        "answer": ["preferential inheritance of traits leading to rapid alteration or eradication of species", "ability to alter or eliminate entire species in the wild", "preferential inheritance for species alteration or eradication", "rapidly altering or eradicating wild species through preferential inheritance"],
         "skill": "detail",
         "explain": "The text defines gene drive by its ability to force certain traits through a population."
       },
       {
         "type": "short_answer",
         "q": "Why is the lack of an international regulatory framework particularly problematic for gene drive deployment?",
-        "answer": ["a single country's decision could have planetary consequences", "ecological effects are not contained by national borders"],
+        "answer": ["a single country's decision could have planetary consequences", "ecological effects are not contained by national borders", "unilateral decisions having planetary impacts", "planetary consequences from a single country's decision"],
         "skill": "inference",
         "explain": "The text suggests that gene drives are inherently global in their potential impact."
       },
       {
         "type": "short_answer",
         "q": "Identify the referent of the pronoun 'it' in the academic preamble of the passage.",
-        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "answer": ["the primary mechanism", "the underlying mechanism", "primary or underlying mechanism"],
         "skill": "reference",
         "explain": "Standard academic tracking."
       },
       {
         "type": "short_answer",
         "q": "According to the simulation study, what percentage of participants were concerned about the absence of a 'kill switch'?",
-        "answer": ["62%", "sixty-two percent"],
+        "answer": ["62%", "sixty-two percent", "62 percent"],
         "skill": "detail",
         "explain": "The extension explicitly cites the 62% figure regarding safety concerns."
       },
       {
         "type": "short_answer",
         "q": "Define the term 'kill switch' in the context of gene drive technology.",
-        "answer": ["a mechanism to reverse the gene drive once released", "a way to stop the genetic alteration if needed"],
+        "answer": ["a mechanism to reverse the gene drive once released", "a way to stop the genetic alteration if needed", "mechanism to reverse released gene drives", "way to deactivate or reverse the gene drive"],
         "skill": "vocabulary_in_context",
         "explain": "The text defines it as a reversal mechanism for safety."
       }

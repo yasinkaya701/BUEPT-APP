@@ -249,7 +249,7 @@ export function useTts() {
             _englishVoiceAvailable = en.length > 0;
             setVoices(en.slice(0, 6));
             
-            const pref = ['google us english', 'samantha', 'ava', 'allison', 'nicky', 'alex', 'daniel', 'karen', 'moira'];
+            const pref = ['daniel', 'google us english', 'samantha', 'ava', 'allison', 'nicky', 'alex', 'karen', 'moira'];
             const best =
                 en.find(v => pref.some(n => (v.name || '').toLowerCase().includes(n))) ||
                 en.find(v => (v.language || '').toLowerCase().includes('us')) ||

@@ -5,8 +5,18 @@
  */
 import React, { useMemo, useState, useCallback, useEffect, useRef, memo } from 'react';
 import {
-  Text, StyleSheet, View, TouchableOpacity, Modal, Pressable, TextInput, useWindowDimensions, ScrollView, Platform
+  Text, StyleSheet, View, TouchableOpacity,
+  ScrollView, Animated, TextInput, Platform, useWindowDimensions, Modal, Pressable
 } from 'react-native';
+import { WebView } from 'react-native-webview';
+
+function normalizeDictationText(value = '') {
+  return value
+    .toLowerCase()
+    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
@@ -323,8 +333,21 @@ export default function ReadingDetailScreen({ route, navigation }) {
   const mistakeItems = useMemo(() => {
     if (!checked || !task?.questions?.length) return [];
     return task.questions.map((q, i) => {
-      const selected = answers[i];
-      if (selected === q.answer) return null;
+      const selected = answers[i] || '';
+      let isCorrect = false;
+      if (q.type === 'short_answer') {
+        const normSelected = normalizeDictationText(selected);
+        if (Array.isArray(q.answer)) {
+          isCorrect = q.answer.some(a => normalizeDictationText(a) === normSelected);
+        } else {
+          isCorrect = normalizeDictationText(q.answer) === normSelected;
+        }
+      } else {
+        isCorrect = selected === q.answer;
+      }
+
+      if (isCorrect) return null;
+
       const questionText = q.type === 'cloze' ? (q.sentence || q.q || 'Fill in the blank') : (q.q || 'Question');
       return {
         id: `${task.id || 'reading'}-${i}`,
@@ -333,8 +356,10 @@ export default function ReadingDetailScreen({ route, navigation }) {
         taskTitle: task.title || 'Reading Practice',
         question: questionText,
         options: q.options || [],
-        correctIndex: q.answer,
-        selectedIndex: Number.isFinite(selected) ? selected : null,
+        correctIndex: q.type === 'short_answer' ? null : q.answer,
+        correctText: q.type === 'short_answer' ? (Array.isArray(q.answer) ? q.answer[0] : q.answer) : null,
+        selectedIndex: q.type === 'short_answer' ? null : (Number.isFinite(selected) ? selected : null),
+        selectedText: q.type === 'short_answer' ? selected : null,
         explanation: getExplanation(q, selected),
         context: task.text || '',
         skill: q.skill || q.type || 'comprehension',
@@ -345,7 +370,19 @@ export default function ReadingDetailScreen({ route, navigation }) {
   const check = useCallback(() => {
     if (checked) return;
     let correct = 0;
-    task.questions.forEach((q, i) => { if (answers[i] === q.answer) correct++; });
+    task.questions.forEach((q, i) => {
+      const selected = answers[i] || '';
+      if (q.type === 'short_answer') {
+        const normSelected = normalizeDictationText(selected);
+        if (Array.isArray(q.answer)) {
+          if (q.answer.some(a => normalizeDictationText(a) === normSelected)) correct++;
+        } else {
+          if (normalizeDictationText(q.answer) === normSelected) correct++;
+        }
+      } else {
+        if (selected === q.answer) correct++;
+      }
+    });
     setScore(`${correct} / ${task.questions.length}`);
     addReadingResult({ taskId: task.id, score: correct, total: task.questions.length });
     setReadingModel(evaluateReadingModel({
@@ -684,6 +721,41 @@ export default function ReadingDetailScreen({ route, navigation }) {
                 checked={checked}
                 onSelect={select}
               />
+            ) : q.type === 'short_answer' ? (
+              <View>
+                <TextInput
+                  style={[
+                    styles.notesInput,
+                    { minHeight: 44, marginTop: spacing.sm },
+                    checked && (
+                      (Array.isArray(q.answer) 
+                        ? q.answer.some(a => (answers[qi] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                        : (answers[qi] || '').trim().toLowerCase() === q.answer.trim().toLowerCase())
+                      ? styles.inputCorrect : styles.inputIncorrect
+                    )
+                  ]}
+                  value={answers[qi] || ''}
+                  onChangeText={(text) => !checked && setAnswers(p => ({ ...p, [qi]: text }))}
+                  placeholder="Type your short answer..."
+                  placeholderTextColor={colors.muted}
+                  editable={!checked}
+                />
+                {checked && (
+                  <View style={{ marginTop: spacing.xs }}>
+                    <Text style={
+                      (Array.isArray(q.answer) 
+                        ? q.answer.some(a => (answers[qi] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                        : (answers[qi] || '').trim().toLowerCase() === q.answer.trim().toLowerCase())
+                      ? styles.correct : styles.incorrect
+                    }>
+                      {(Array.isArray(q.answer) 
+                        ? q.answer.some(a => (answers[qi] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                        : (answers[qi] || '').trim().toLowerCase() === q.answer.trim().toLowerCase())
+                        ? '✓ Correct' : `✗ Incorrect — Correct: ${Array.isArray(q.answer) ? q.answer[0] : q.answer}`}
+                    </Text>
+                  </View>
+                )}
+              </View>
             ) : (
               q.options.map((opt, oi) => (
                 <TouchableOpacity
@@ -706,12 +778,12 @@ export default function ReadingDetailScreen({ route, navigation }) {
                 </TouchableOpacity>
               ))
             )}
-            {checked && (
+            {checked && q.type !== 'short_answer' && (
               <>
                 <Text style={answers[qi] === q.answer ? styles.correct : styles.incorrect}>
                   {answers[qi] === q.answer ? 'Correct' : 'Incorrect'}
                 </Text>
-                <Text style={styles.answer}>Correct: {q.options[q.answer]}</Text>
+                <Text style={styles.answer}>Correct: {q.options ? q.options[q.answer] : q.answer}</Text>
                 <Text style={styles.explain}>{getExplanation(q, answers[qi])}</Text>
                 {answers[qi] !== q.answer && (
                   <>

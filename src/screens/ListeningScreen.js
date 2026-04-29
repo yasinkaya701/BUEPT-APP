@@ -118,6 +118,11 @@ function CompactPracticeRow({ task, badges, onPress }) {
         </View>
         <Text style={styles.libraryMeta}>{task.level} · {task.time} · {(task.questions || []).length} questions</Text>
         <View style={styles.badgeRow}>
+          {task.category === 'Real BUEPT Level' && (
+            <View style={[styles.badge, styles.badgeGold]}>
+              <Text style={[styles.badgeText, styles.badgeGoldText]}>Real BUEPT Level</Text>
+            </View>
+          )}
           {badges.map((badge) => (
             <View key={`${task.id}-${badge}`} style={[styles.badge, styles.badgeBlue]}>
               <Text style={[styles.badgeText, styles.badgeBlueText]}>{badge}</Text>
@@ -1071,6 +1076,15 @@ const styles = StyleSheet.create({
   },
   badgeBlueText: {
     color: '#1D4ED8',
+  },
+  badgeGold: {
+    backgroundColor: 'rgba(255, 193, 7, 0.15)',
+    borderWidth: 1,
+    borderColor: '#FFC107',
+  },
+  badgeGoldText: {
+    color: '#D4AF37', // Academic Gold
+    fontWeight: 'bold',
   },
   emptyCard: {
     marginBottom: spacing.lg,
