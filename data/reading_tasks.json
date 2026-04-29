@@ -38,92 +38,53 @@
     ],
     "questions": [
       {
-        "type": "multiple-choice",
+        "type": "short_answer",
         "q": "What is the primary function of the 'meritocratic narrative' according to the passage?",
-        "options": [
-          "To dismantle systemic educational inequalities.",
-          "To provide objective assessments of innate aptitude.",
-          "To legitimize pre-existing societal stratification.",
-          "To align cultural capital with institutional expectations."
-        ],
-        "answer": 2,
+        "answer": ["legitimize societal stratification", "validating pre-existing socio-economic privileges"],
         "skill": "main_idea",
         "explain": "The text states: 'the meritocratic narrative serves primarily to legitimize societal stratification'."
       },
       {
-        "type": "cloze",
-        "q": "Critics argue that standardized testing is an inherently ______ metric that favors the affluent.",
-        "options": [
-          "objective",
-          "biased",
-          "egalitarian",
-          "assiduous"
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "What kind of metric do critics consider standardized testing to be in relation to student background?",
+        "answer": ["culturally biased metric", "biased metric"],
         "skill": "vocabulary_in_context",
-        "explain": "The text calls standardized testing a 'culturally biased metric'."
+        "explain": "The text calls standardized testing a 'culturally biased metric' that correlates with zip code."
       },
       {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
+        "type": "short_answer",
+        "q": "In the context of assessment mechanisms, what does the word 'it' most likely refer to in the first paragraph?",
+        "answer": ["the primary mechanism", "underlying mechanism"],
+        "skill": "reference",
+        "explain": "The sentence discusses underlying mechanisms and their scholarly debate."
       },
       {
-        "type": "multiple-choice",
-        "q": "According to the extension, how large was the study sample?",
-        "options": [
-          "1480 participants",
-          "220 participants",
-          "1,200 participants",
-          "32 instructors"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "According to the mixed-methods study mentioned in the extension, how large was the university student sample?",
+        "answer": ["1480 university students", "1480 participants", "1480"],
         "skill": "detail",
-        "explain": "The extension explicitly states the sample size."
+        "explain": "The extension explicitly states a study of 1,480 university students."
       },
       {
-        "type": "multiple-choice",
-        "q": "Which factor explained the largest share of improvement?",
-        "options": [
-          "Structured feedback and spaced practice",
-          "Longer homework",
-          "More difficult assessments",
-          "Random variation"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "Which specific pedagogical factors were found to be the strongest predictors of student improvement?",
+        "answer": ["structured feedback and spaced practice", "feedback and spaced practice"],
         "skill": "detail_inference",
-        "explain": "The extension says structured feedback and spaced practice accounted for the largest share."
+        "explain": "The study reported these were the strongest predictors, accounting for 42% of gains."
       },
       {
-        "type": "multiple-choice",
-        "q": "What recommendation is explicitly made in the extension?",
-        "options": [
-          "two revision checkpoints",
-          "Remove all rubrics",
-          "Eliminate feedback",
-          "Shorten courses"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "What specific structural requirement is recommended for complex tasks to bridge the implementation gap?",
+        "answer": ["minimum of two revision checkpoints", "two revision checkpoints"],
         "skill": "detail",
-        "explain": "The extension states this recommendation directly."
+        "explain": "The authors recommend transparent criteria and a minimum of two revision checkpoints."
       },
       {
-        "type": "multiple-choice",
-        "q": "Why is the extension included in the passage?",
-        "options": [
-          "To provide empirical support and practical implications",
-          "To change the topic entirely",
-          "To criticize unrelated studies",
-          "To summarize background definitions"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "Explain the underlying purpose of including the empirical study in the final paragraph of the text.",
+        "answer": ["to provide empirical support and practical implications", "to offer concrete evidence and recommendations"],
         "skill": "purpose",
-        "explain": "The extension adds evidence and recommendations."
+        "explain": "The extension adds weight to the theoretical discussion by providing data-driven recommendations."
       }
     ]
   },
@@ -165,66 +126,18 @@
     ],
     "questions": [
       {
-        "type": "multiple-choice",
-        "q": "How does epigenetics challenge the neo-Darwinian perspective?",
-        "options": [
-          "By proving that mutations are not random.",
-          "By showing that acquired traits can be inherited.",
-          "By demonstrating DNA flows backward from proteins.",
-          "By accelerating nucleotide sequence changes."
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "How does the field of epigenetics fundamentally challenge the Neo-Darwinian central dogma?",
+        "answer": ["demonstrating that environmental factors can induce heritable alterations", "showing acquired traits can be inherited", "environmental stimuli influencing gene expression across generations"],
         "skill": "detail_inference",
-        "explain": "Epigenetics catalyzed a shift by demonstrating that environmental factors can induce heritable alterations, showing acquired traits can be passed down."
+        "explain": "Epigenetics shows that gene expression can be changed by the environment and passed down, which contradicts the 'non-heritable acquired traits' view."
       },
       {
-        "type": "multiple-choice",
-        "q": "The mention of a 'Lamarckian dimension' serves to highlight:",
-        "options": [
-          "That organisms can consciously alter their own DNA.",
-          "That external stimuli definitively alter the nucleotide sequence.",
-          "That an organism’s lifetime experiences can influence its offspring.",
-          "That natural selection is entirely invalid."
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "What is the primary implication of the 'Lamarckian dimension' in transgenerational epigenetic inheritance?",
+        "answer": ["an organism's experiences can influence the development of its progeny", "lifetime experiences affecting offspring's trajectory"],
         "skill": "author_purpose",
-        "explain": "Lamarckian evolution relies on the inheritance of acquired characteristics—meaning an organism's experiences (like stretching a neck) influence progeny."
-      },
-      {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
-      },
-      {
-        "type": "multiple-choice",
-        "q": "What change occurred after simplifying the rubric?",
-        "options": [
-          "Completion rates rose by 12%",
-          "Accuracy dropped by 12%",
-          "Scores were unchanged",
-          "More ambiguity"
-        ],
-        "answer": 0,
-        "skill": "detail",
-        "explain": "The extension reports a 12% increase in completion rates."
-      },
-      {
-        "type": "multiple-choice",
-        "q": "Why is the extension included in the passage?",
-        "options": [
-          "To provide empirical support and practical implications",
-          "To change the topic entirely",
-          "To criticize unrelated studies",
-          "To summarize background definitions"
-        ],
-        "answer": 0,
-        "skill": "purpose",
-        "explain": "The extension adds evidence and recommendations."
+        "explain": "The text uses the term Lamarckian to describe the inheritance of acquired characteristics resulting from environmental exposure."
       }
     ]
   },
@@ -329,76 +242,46 @@
     "text": "Before the mid-twentieth century, the dominant paradigm in linguistics and psychology was behaviorism. Propounded largely by B.F. Skinner, this theory posited that language acquisition was fundamentally a process of habit formation—children learned language through environmental exposure, imitating adults, and receiving positive reinforcement. The human mind was viewed as a 'blank slate' (tabula rasa) upon which linguistic rules were gradually imprinted. However, in 1959, Noam Chomsky published a scathing critique of Skinner's work, fundamentally revolutionizing the study of language and initiating the cognitive revolution.\n\nChomsky introduced what is now known as the Innateness Hypothesis. He argued that the behavioral model was woefully inadequate to explain the 'poverty of the stimulus'. According to this concept, the linguistic input a child receives is often fragmented, ungrammatical, and limited. Yet, despite this impoverished input, children universally acquire highly complex grammatical systems rapidly and effortlessly. Chomsky deduced that this feat is impossible unless humans are born with a specialized cognitive architecture—a biological predisposition for language.\n\nCentral to Chomsky's theory is the concept of Universal Grammar (UG). UG is not a specific set of rules for English or Japanese, but rather an innate, generalized linguistic blueprint wired into the human brain. It dictates the structural parameters that all human languages must adhere to. When a child is exposed to a specific language, they do not learn the rules from scratch; instead, environmental exposure merely 'triggers' the setting of specific parameters within the pre-existing framework of UG. This explains why children make predictable grammatical errors, such as overregularization (e.g., saying 'goed' instead of 'went'), which they have never actually heard adults produce.\n\nCritics of Chomskyan linguistics, particularly proponents of usage-based models, argue that Chomsky overstates the innateness of language. These scholars suggest that general cognitive abilities—such as pattern recognition, memory, and social intention-reading—are sufficient to explain language acquisition without the need for a hyper-specialized 'language organ' like Universal Grammar. They point to the immense variation across the world's languages as evidence that a rigid underlying structure is unlikely.\n\nRegardless of the ongoing debates, Chomsky's paradigm shift remains foundational. By repositioning language not as a cultural artifact learned through mimicry, but as a biological property of the human species, he forced disciplines from psychology to computer science to reconsider the profound inherent capabilities of the human mind.\n\nIn a controlled trial, 32 instructors implemented a common protocol for feedback timing and language. The group using the protocol reduced misunderstanding errors by 19%, while the comparison group showed no significant change. The authors emphasize that consistency in feedback language, not volume, was the critical driver.",
     "questions": [
       {
-        "q": "What is the primary purpose of the passage?",
-        "options": [
-          "To prove that behaviorism is the only valid theory of language.",
-          "To detail the biological structure of the human brain.",
-          "To explain Chomsky's Innateness Hypothesis and its contrast with behaviorism.",
-          "To argue that language acquisition is entirely dependent on environment."
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "What is the primary objective of the passage regarding language acquisition theories?",
+        "answer": ["explain Chomsky's Innateness Hypothesis and its contrast with behaviorism", "detail the shift from behaviorism to cognitive linguistics"],
         "skill": "main_idea",
         "explain": "The passage traces the shift from Skinner's behaviorism to Chomsky's Innateness Hypothesis and Universal Grammar."
       },
       {
-        "q": "In the context of the passage, the phrase 'poverty of the stimulus' refers to the idea that:",
-        "options": [
-          "Children are not exposed to enough complex vocabulary.",
-          "The language children hear is too messy and limited to explain their flawless grammar acquisition.",
-          "Parents do not speak to their children frequently enough.",
-          "Behaviorism lacks the scientific evidence to be considered a true theory."
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "Explain the concept of 'poverty of the stimulus' in the context of linguistic development.",
+        "answer": ["language children hear is too fragmented and limited to explain their grammar acquisition", "the input is insufficient for the complex result"],
         "skill": "vocab_context",
         "explain": "The text defines it as the idea that 'the linguistic input a child receives is often fragmented... Yet, children universally acquire highly complex grammatical systems'."
       },
       {
-        "q": "According to the passage, why do children say things like 'goed' instead of 'went'?",
-        "options": [
-          "Because they are imitating errors made by adults.",
-          "Because they possess a cognitive deficit in early childhood.",
-          "Because they are applying innate, underlying grammatical rules rather than just mimicking.",
-          "Because their parents reinforced the incorrect behavior."
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "According to Chomsky's theory, why do children produce non-imitative errors like 'goed'?",
+        "answer": ["applying innate grammatical rules rather than just mimicking", "result of Universal Grammar blueprint and overregularization"],
         "skill": "detail",
-        "explain": "The passage uses 'goed' as an example of overregularization to show they apply rules (UG) rather than just mimicking what they hear (since adults don't say 'goed')."
+        "explain": "The passage uses 'goed' as an example of overregularization to show they apply rules (UG) rather than just mimicking what they hear."
       },
       {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
+        "type": "short_answer",
+        "q": "In the context of the Cognitivist paradigm, what does the word 'it' most likely refer to in the third paragraph?",
+        "answer": ["the primary mechanism", "Universal Grammar", "UG"],
+        "skill": "reference",
+        "explain": "The sentence discusses the Universal Grammar blueprint and its structural parameters."
       },
       {
-        "type": "multiple-choice",
-        "q": "What reduced misunderstanding errors in the trial?",
-        "options": [
-          "consistency in feedback language",
-          "More assignments",
-          "Longer lectures",
-          "Random chance"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "What was identified as the critical driver in reducing misunderstanding errors during the feedback trial?",
+        "answer": ["consistency in feedback language", "consistent feedback language"],
         "skill": "detail",
-        "explain": "The extension attributes the reduction to the stated driver."
+        "explain": "The extension attributes the 19% reduction to the consistency in language, not volume."
       },
       {
-        "type": "multiple-choice",
-        "q": "Why is the extension included in the passage?",
-        "options": [
-          "To provide empirical support and practical implications",
-          "To change the topic entirely",
-          "To criticize unrelated studies",
-          "To summarize background definitions"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "Why does the author include the controlled trial results in the final paragraph of the text?",
+        "answer": ["to provide empirical support and practical implications", "to validate theoretical claims with concrete pedagogical data"],
         "skill": "purpose",
-        "explain": "The extension adds evidence and recommendations."
+        "explain": "The extension adds evidence and recommendations based on real-world classroom implementation."
       }
     ]
   },
@@ -410,87 +293,53 @@
     "text": "Regarding the multi-faceted dimensions of Circadian Rhythms and Cognitive Efficacy: A Neuro-Psychological Analysis, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. The physiological imperative of nocturnal rest constitutes a paramount factor in the cognitive maintenance of tertiary-level scholars. During periods of somnolence, the cerebral cortex engages in complex data consolidation, meticulously organizing mnemonic traces and facilitating the retention of scholarly content. Scholastic performance remains exceedingly compromised in the absence of adequate rest, manifesting as diminished attentional capacity and physiological lethargy. Moreover, chronic sleep deprivation correlates with heightened psychological stress and affective dysregulation. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of Circadian Rhythms and Cognitive Efficacy: A Neuro-Psychological Analysis is fully addressed within a global context.\n\nAn external review of policy outcomes highlights a persistent equity gap: improvements were strongest among students who already had access to supplementary resources. This suggests that interventions must be paired with resource redistribution, otherwise the same structural advantages are simply amplified.",
     "questions": [
       {
-        "q": "What is the main idea of the passage?",
-        "options": [
-          "Coffee is bad for students",
-          "Sleep is essential for students' memory and health",
-          "University students sleep 9 hours a day",
-          "Homework causes stress"
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "Summarize the primary thesis of the passage regarding circadian health.",
+        "answer": ["Sleep is essential for students' memory, cognitive efficacy, and health", "Adequate rest is a physiological imperative for academic success"],
         "skill": "main_idea",
-        "explain": "The text focuses on why sleep is important and how students can get better sleep."
+        "explain": "The text focuses on the biological necessity of sleep for cognitive maintenance and stress regulation."
       },
       {
-        "q": "According to the text, what does the brain do during sleep?",
-        "options": [
-          "It forgets old memories",
-          "It processes and organizes information",
-          "It produces coffee",
-          "It stops working"
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "What neuro-psychological process occurs during somnolence to facilitate learning?",
+        "answer": ["complex data consolidation and organization of mnemonic traces", "processing information and organizing memories"],
         "skill": "detail",
-        "explain": "The text states: 'During sleep, the brain processes information from the day. It organizes memories...'"
+        "explain": "The text states: 'During periods of somnolence, the cerebral cortex engages in complex data consolidation...'"
       },
       {
-        "q": "How many hours of sleep do experts recommend for young adults?",
-        "options": [
-          "5 or 6 hours",
-          "Less than 7 hours",
-          "7 to 9 hours",
-          "10 to 12 hours"
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "According to the passage, what is the recommended duration of rest for tertiary-level scholars?",
+        "answer": ["7 to 9 hours", "7-9 hours"],
         "skill": "detail",
-        "explain": "The text says 'Experts say that young adults need about 7 to 9 hours of sleep'."
+        "explain": "Experts suggest that young adults (students) need 7 to 9 hours of sleep for peak efficacy."
       },
       {
-        "q": "What is one way to improve sleep habits mentioned in the passage?",
-        "options": [
-          "Going to bed at the same time every night",
-          "Drinking coffee before bed",
-          "Studying late at night",
-          "Listening to loud music"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "Identify one specific behavioral strategy mentioned to stabilize circadian rhythms.",
+        "answer": ["Going to bed at the same time every night", "Maintaining a consistent sleep schedule"],
         "skill": "detail",
-        "explain": "The text suggests students 'should try to go to bed at the same time every night.'"
+        "explain": "Consistency in sleep timing is recommended to improve overall sleep habits."
       },
       {
-        "q": "What can lack of sleep do to a student's mood?",
-        "options": [
-          "Make them feel happy",
-          "Make them feel energetic",
-          "Make them feel stressed or sad",
-          "Improve their focus"
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "What are the primary psychological consequences of chronic sleep deprivation mentioned in the text?",
+        "answer": ["heightened psychological stress and affective dysregulation", "feeling stressed or sad", "diminished attentional capacity"],
         "skill": "detail",
-        "explain": "The text states 'lack of sleep can make people feel stressed or sad.'"
+        "explain": "Lack of sleep directly correlates with emotional instability and cognitive compromise."
       },
       {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
+        "type": "short_answer",
+        "q": "In the context of neuro-psychological maintenance, what does the word 'it' most likely refer to in the third paragraph?",
+        "answer": ["the primary mechanism", "the underlying mechanism", "circadian rhythm"],
+        "skill": "reference",
+        "explain": "The text refers back to the mechanisms discussed in the opening paragraph."
       },
       {
-        "type": "multiple-choice",
-        "q": "Why is the extension included in the passage?",
-        "options": [
-          "To provide empirical support and practical implications",
-          "To change the topic entirely",
-          "To criticize unrelated studies",
-          "To summarize background definitions"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "Explain the author's rationale for including the external policy review in the final paragraph.",
+        "answer": ["To provide empirical support and practical implications", "To highlight the equity gap in resource access"],
         "skill": "purpose",
-        "explain": "The extension adds evidence and recommendations."
+        "explain": "The extension contextualizes the biological discussion with social and structural policy implications."
       }
     ]
   },
@@ -502,100 +351,60 @@
     "text": "Regarding the multi-faceted dimensions of The Socio-Ecological Externality of Rapid-Cycle Textiles, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. The paradigm of rapid-cycle textiles denotes the large-scale manufacturing of low-cost, ephemeral apparel. This industry relies on the precipitous translation of runway trends into accessible commodities. While this model facilitates immediate consumer gratification, its ecological externalities remain profound. The production of cheap textiles necessitates an astronomical expenditure of hydraulic resources and the introduction of toxic chemical effluents into fluvial ecosystems. Furthermore, the transient nature of these garments facilitates an unsustainable global waste trajectory, with millions of tonnes of textile debris accumulating in landfills annually. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of The Socio-Ecological Externality of Rapid-Cycle Textiles is fully addressed within a global context.\n\nTo validate the findings, researchers triangulated survey responses with performance logs and peer reviews. The convergence rate across sources was 0.81, which they interpret as strong reliability. They caution, however, that single-semester data can miss delayed effects that appear only in subsequent terms.",
     "questions": [
       {
-        "q": "What defines 'fast fashion' according to the passage?",
-        "options": [
-          "High-quality, expensive clothing made slowly",
-          "The mass production of cheap, trendy clothing",
-          "Clothing made exclusively in developed countries",
-          "A movement to protect the environment"
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "Define the concept of 'rapid-cycle textiles' as presented in the text.",
+        "answer": ["mass production of cheap, trendy, and ephemeral apparel", "fast fashion model prioritizing low-cost trends"],
         "skill": "main_idea",
-        "explain": "The first sentence defines fast fashion as the mass production of cheap, trendy clothing."
+        "explain": "The passage defines the paradigm as the manufacturing of low-cost, short-lived clothing."
       },
       {
-        "q": "How does fast fashion impact water resources?",
-        "options": [
-          "It conserves water",
-          "It purifies rivers",
-          "It uses massive amounts of water and pollutes rivers with chemicals",
-          "It has no impact on water"
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "What are the specific ecological externalities associated with the production phase of this industry?",
+        "answer": ["massive hydraulic resource expenditure and toxic chemical effluents in fluvial ecosystems", "water depletion and pollution of rivers with chemicals"],
         "skill": "detail",
-        "explain": "The text notes that textile production 'requires massive amounts of water and toxic chemicals, which pollute rivers...'"
+        "explain": "Production requires 'astronomical' water use and poisons water systems with toxins."
       },
       {
-        "q": "Why do millions of tons of clothing end up in landfills?",
-        "options": [
-          "Because they are too expensive",
-          "Because they are discarded quickly due to being cheap",
-          "Because sustainable fashion is popular",
-          "Because garment workers throw them away"
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "Why does the industry facilitate an unsustainable global waste trajectory?",
+        "answer": ["garments are transient and discarded quickly due to their low cost", "millions of tonnes of textile debris accumulate in landfills"],
         "skill": "inference",
-        "explain": "The text explains that because items are cheap, they are discarded quickly, leading to waste."
+        "explain": "The cheap, 'ephemeral' nature of the products leads to rapid disposal and waste."
       },
       {
-        "q": "What are the common working conditions in fast fashion factories?",
-        "options": [
-          "High wages and short hours",
-          "Excellent safety standards",
-          "Poor working conditions, long hours, and low wages",
-          "Flexible and comfortable environments"
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "Identify the primary labor-related externalities mentioned in the passage.",
+        "answer": ["poor working conditions, long hours, and low wages", "systemic exploitation of garment workers"],
         "skill": "detail",
-        "explain": "The text explicitly states: 'Garment workers often face poor working conditions, long hours, and low wages.'"
+        "explain": "The text highlights the human cost in terms of wages and safety."
       },
       {
-        "q": "What is the goal of the 'sustainable fashion' movement?",
-        "options": [
-          "To produce clothes faster",
-          "To encourage buying high-quality, long-lasting clothes",
-          "To decrease the minimum wage of workers",
-          "To promote trendy, cheap garments"
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "What behavioral changes does the sustainable fashion movement encourage among consumers?",
+        "answer": ["purchasing high-quality, long-lasting clothes and repairing garments", "second-hand shopping and reducing consumption"],
         "skill": "detail",
-        "explain": "The movement encourages buying higher-quality garments, repairing clothes, and second-hand shopping."
+        "explain": "The movement seeks to counteract the 'throwaway' culture of fast fashion."
       },
       {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
+        "type": "short_answer",
+        "q": "In the context of socio-ecological externalities, what does the word 'it' most likely refer to in the third paragraph?",
+        "answer": ["the primary mechanism", "the underlying mechanism", "rapid-cycle textiles"],
+        "skill": "reference",
+        "explain": "The text maintains consistent reference to the underlying structural mechanisms."
       },
       {
-        "type": "multiple-choice",
-        "q": "What does the convergence rate of 0.81 indicate?",
-        "options": [
-          "Strong reliability across sources",
-          "Low validity",
-          "Sampling error",
-          "Contradictory evidence"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "What does a convergence rate of 0.81 in the extension suggest about the study's data?",
+        "answer": ["strong reliability across sources", "high degree of consistency in the triangulation of survey and logs"],
         "skill": "inference",
-        "explain": "The extension calls 0.81 strong reliability."
+        "explain": "The researchers interpreted 0.81 as an indicator of strong reliability."
       },
       {
-        "type": "multiple-choice",
-        "q": "What limitation is noted in the extension?",
-        "options": [
-          "Single-semester data may miss delayed effects",
-          "No participants were surveyed",
-          "The sample was too large",
-          "The topic is irrelevant"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "Identify the specific methodological limitation mentioned regarding the temporal scope of the data.",
+        "answer": ["single-semester data can miss delayed effects", "short-term scope hides subsequent term trends"],
         "skill": "detail",
-        "explain": "The extension explicitly notes this limitation."
+        "explain": "The authors caution that delayed effects may not appear in a single semester."
       }
     ]
   },
@@ -607,100 +416,53 @@
     "text": "Regarding the multi-faceted dimensions of The Psychology of Procrastination, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. Almost everyone procrastinates occasionally, but chronic procrastination can severely impact academic and professional success. Procrastination is often misunderstood as simple laziness or a failure of time management. However, psychologists define it primarily as an emotional regulation problem. When individuals encounter a task that provokes anxiety, boredom, or feelings of incompetence, they defer the task to avoid those negative emotions in the short term.\n\nThis avoidance yields immediate relief but inevitably generates long-term stress. The 'procrastination cycle' begins with apprehension regarding a task, leading to delay. As the deadline approaches, anxiety intensifies, reducing the quality of work when the individual finally begins. Consequently, the individual associates the task with stress, reinforcing the desire to avoid similar tasks in the future.\n\nTo combat procrastination, psychologists recommend strategies that address underlying emotions. Breaking a daunting project into manageable micro-tasks can reduce feelings of being overwhelmed. Furthermore, practicing self-compassion rather than harsh self-criticism after procrastinating has been shown to decrease future delays. Recognizing that procrastination is an emotional response rather than an intellectual failure is the first step toward developing healthier productivity habits. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of The Psychology of Procrastination is fully addressed within a global context.\n\nRecent evidence extends the discussion. A mixed-methods study of 1,480 university students across four campuses reported that structured feedback and spaced practice were the strongest predictors of improvement, accounting for nearly 42% of the observed gains. However, the authors also warn of an implementation gap: policies may be well-designed but inconsistently applied at the classroom level. They recommend transparent criteria, short feedback cycles, and a minimum of two revision checkpoints for complex tasks.",
     "questions": [
       {
-        "q": "How do psychologists primarily define procrastination?",
-        "options": [
-          "As a strict time management failure",
-          "As an emotional regulation problem",
-          "As simple laziness",
-          "As a lack of intellectual capability"
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "What is the primary psychological definition of procrastination provided in the text?",
+        "answer": ["an emotional regulation problem", "deferring tasks to avoid negative emotions"],
         "skill": "detail",
         "explain": "The text states: 'psychologists define it primarily as an emotional regulation problem.'"
       },
       {
-        "q": "Why do individuals initially delay a task according to the passage?",
-        "options": [
-          "To carefully plan their approach",
-          "Because they have too much time",
-          "To avoid negative emotions associated with the task",
-          "Because they lack the resources necessary"
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "Why do individuals initially defer a task according to the psychological avoidance model?",
+        "answer": ["to avoid negative emotions like anxiety, boredom, or incompetence", "to avoid discomfort in the short term"],
         "skill": "detail",
-        "explain": "They defer tasks 'to avoid those negative emotions in the short term.'"
+        "explain": "Avoidance provides temporary relief from the negative feelings the task provokes."
       },
       {
-        "q": "What happens as the deadline approaches in the 'procrastination cycle'?",
-        "options": [
-          "Anxiety decreases",
-          "The work quality improves",
-          "Anxiety intensifies, and work quality may decrease",
-          "The individual feels confident"
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "Analyze the consequences of task delay as the deadline approaches in the 'procrastination cycle'.",
+        "answer": ["anxiety intensifies and work quality decreases", "long-term stress is generated and future tasks are avoided"],
         "skill": "inference",
-        "explain": "The text notes that 'anxiety intensifies, reducing the quality of work...'"
+        "explain": "The cycle reinforces the association of the task with intense stress."
       },
       {
-        "q": "Which strategy is recommended to reduce the feeling of being overwhelmed?",
-        "options": [
-          "Harsh self-criticism",
-          "Ignoring the deadline completely",
-          "Breaking the project into manageable micro-tasks",
-          "Delaying until the last minute"
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "Identify a specific structural strategy recommended to reduce feelings of being overwhelmed.",
+        "answer": ["breaking a project into manageable micro-tasks", "dividing daunting projects into smaller parts"],
         "skill": "detail",
-        "explain": "The text mentions 'Breaking a daunting project into manageable micro-tasks' as a strategy."
+        "explain": "Micro-tasks make a large project feel less intimidating and more achievable."
       },
       {
-        "q": "What role does self-compassion play in combating procrastination?",
-        "options": [
-          "It encourages laziness",
-          "It decreases the likelihood of future delays",
-          "It has no effect on productivity",
-          "It increases anxiety levels"
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "According to the passage, what is the impact of practicing self-compassion on future productivity?",
+        "answer": ["decreases future delays", "shown to reduce procrastination in future tasks"],
         "skill": "detail",
-        "explain": "The passage states that self-compassion 'has been shown to decrease future delays.'"
+        "explain": "Self-compassion is more effective than harsh self-criticism in breaking the cycle."
       },
       {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
+        "type": "short_answer",
+        "q": "In the context of emotional regulation, what does the word 'it' most likely refer to in the third paragraph?",
+        "answer": ["the primary mechanism", "the underlying mechanism", "procrastination"],
+        "skill": "reference",
+        "explain": "The text maintains its focus on the underlying mechanisms of behavioral patterns."
       },
       {
-        "type": "multiple-choice",
-        "q": "According to the extension, how large was the study sample?",
-        "options": [
-          "1480 participants",
-          "220 participants",
-          "1,200 participants",
-          "32 instructors"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "According to the extension study, how large was the university student sample across the four campuses?",
+        "answer": ["1480 university students", "1480", "1480 participants"],
         "skill": "detail",
-        "explain": "The extension explicitly states the sample size."
-      },
-      {
-        "type": "multiple-choice",
-        "q": "Which factor explained the largest share of improvement?",
-        "options": [
-          "Structured feedback and spaced practice",
-          "Longer homework",
-          "More difficult assessments",
-          "Random variation"
-        ],
-        "answer": 0,
-        "skill": "detail_inference",
-        "explain": "The extension says structured feedback and spaced practice accounted for the largest share."
+        "explain": "The extension explicitly states a study of 1,480 university students."
       }
     ]
   },
@@ -712,100 +474,60 @@
     "text": "Regarding the multi-faceted dimensions of The Economic Implications of Automation, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. The advent of advanced robotics and artificial intelligence has precipitated a seismic shift in global labor markets, an epoch frequently termed the Fourth Industrial Revolution. While automation historically relegated routine manual tasks to machines, contemporary AI algorithms are increasingly capable of executing complex cognitive functions. Proponents argue that automation catalyzes unprecedented economic productivity, reducing operational costs and lowering commodity prices for consumers. This paradigm, they contend, will engender new economic sectors requiring highly skilled labor to design and maintain these autonomous systems.\n\nConversely, skeptics warn of structural unemployment and the exacerbation of socioeconomic disparities. Unlike preceding industrial shifts, which created as many jobs as they rendered obsolete, the current trajectory may disproportionately displace cognitive labor faster than workforce retraining can occur. This rapid displacement threatens to hollow out middle-class occupations, polarizing the workforce into low-paying service roles and high-paying technological positions. Consequently, the share of wealth accruing to capital owners continues to rise relative to labor, precipitating intense debates surrounding wealth redistribution mechanisms such as Universal Basic Income (UBI).\n\nAddressing this transition requires robust policy interventions. Educational institutions must pivot from rote memorization paradigms to fostering adaptability, critical thinking, and advanced digital literacy. Additionally, robust social safety nets and lifelong learning initiatives are imperative to support displaced workers. Ultimately, navigating the automation epoch demands a delicate equilibrium between harnessing technological innovation and mitigating its disruptive socio-economic externalities. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of The Economic Implications of Automation is fully addressed within a global context.\n\nA longitudinal dataset covering 18 cohorts between 2006 and 2022 shows that small procedural changes can produce disproportionate effects. When a baseline rubric was simplified and aligned with learning outcomes, completion rates rose by 12% while error patterns became more consistent. The authors attribute this to reduced ambiguity rather than increased difficulty, and they argue that clarity is a prerequisite for fairness.",
     "questions": [
       {
-        "q": "What distinguishes the current wave of automation from historical examples?",
-        "options": [
-          "It focuses entirely on agricultural labor.",
-          "It creates more jobs than it renders obsolete.",
-          "It replaces routine manual tasks exclusively.",
-          "It is capable of executing complex cognitive functions."
-        ],
-        "answer": 3,
+        "type": "short_answer",
+        "q": "What distinguishes the current wave of automation from historical industrial shifts?",
+        "answer": ["capable of executing complex cognitive functions", "displaces cognitive labor faster than retraining occurs"],
         "skill": "main_idea",
-        "explain": "The text states that 'contemporary AI algorithms are increasingly capable of executing complex cognitive functions.'"
+        "explain": "Modern AI targets cognitive functions, not just routine manual tasks."
       },
       {
-        "q": "What is a primary argument made by proponents of automation?",
-        "options": [
-          "It guarantees job security for middle-class workers.",
-          "It catalyzes economic productivity and lowers prices for consumers.",
-          "It eliminates the need for any human labor.",
-          "It immediately solves wealth redistribution problems."
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "Identify the primary economic benefits cited by proponents of the automation paradigm.",
+        "answer": ["unprecedented economic productivity, reduced operational costs, and lower commodity prices", "productivity and lower prices"],
         "skill": "detail",
-        "explain": "Proponents argue it 'catalyzes unprecedented economic productivity, reducing operational costs and lowering commodity prices...'"
+        "explain": "Proponents focus on efficiency and consumer savings."
       },
       {
-        "q": "According to skeptics, how might the workforce become polarized?",
-        "options": [
-          "Between agricultural and industrial sectors.",
-          "Between low-paying service roles and high-paying technological positions.",
-          "Between government employees and private sector workers.",
-          "Between domestic and international laborers."
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "Explain the 'hollowing out' effect mentioned in the context of the middle class.",
+        "answer": ["polarizing the workforce into low-paying service roles and high-paying technological positions", "displacing middle-class occupations"],
         "skill": "detail",
-        "explain": "The text notes a concern about 'polarizing the workforce into low-paying service roles and high-paying technological positions.'"
+        "explain": "The text describes a polarization into two extremes, leaving the middle empty."
       },
       {
-        "q": "What is posited as a necessary response from educational institutions?",
-        "options": [
-          "Increasing focus on rote memorization.",
-          "Reducing the length of degree programs.",
-          "Fostering adaptability, critical thinking, and digital literacy.",
-          "Eliminating technical vocational training."
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "What specific institutional shifts are recommended for the education sector to address automation?",
+        "answer": ["pivot to fostering adaptability, critical thinking, and advanced digital literacy", "moving away from rote memorization paradigms"],
         "skill": "inference",
-        "explain": "Educational institutions must pivot to 'fostering adaptability, critical thinking, and advanced digital literacy.'"
+        "explain": "Schools must move away from memorization toward higher-order cognitive skills."
       },
       {
-        "q": "What is the author's overall stance regarding the automation epoch?",
-        "options": [
-          "It should be halted entirely to protect jobs.",
-          "It is an unmitigated disaster for global economies.",
-          "It requires a balance between technological innovation and mitigating socio-economic disruption.",
-          "It is a utopian shift that requires no government intervention."
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "What is the author's recommended approach to navigating the disruptive externalities of automation?",
+        "answer": ["delicate equilibrium between harnessing technological innovation and mitigating socio-economic externalities", "balancing innovation and social protection"],
         "skill": "tone",
-        "explain": "The concluding sentence emphasizes demanding 'a delicate equilibrium between harnessing technological innovation and mitigating its disruptive socio-economic externalities.'"
+        "explain": "The author advocates for a balanced, proactive policy approach."
       },
       {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
+        "type": "short_answer",
+        "q": "In the context of wealth redistribution, what does the word 'it' most likely refer to in the third paragraph?",
+        "answer": ["the primary mechanism", "the underlying mechanism", "automation epoch"],
+        "skill": "reference",
+        "explain": "The text maintains its focus on the underlying mechanisms of the current epoch."
       },
       {
-        "type": "multiple-choice",
-        "q": "What change occurred after simplifying the rubric?",
-        "options": [
-          "Completion rates rose by 12%",
-          "Accuracy dropped by 12%",
-          "Scores were unchanged",
-          "More ambiguity"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "According to the longitudinal data, what was the specific outcome of aligning rubrics with learning outcomes?",
+        "answer": ["completion rates rose by 12%", "rose by 12%", "12% increase in completion"],
         "skill": "detail",
-        "explain": "The extension reports a 12% increase in completion rates."
+        "explain": "The change led to a measurable increase in student success."
       },
       {
-        "type": "multiple-choice",
-        "q": "Why is the extension included in the passage?",
-        "options": [
-          "To provide empirical support and practical implications",
-          "To change the topic entirely",
-          "To criticize unrelated studies",
-          "To summarize background definitions"
-        ],
-        "answer": 0,
-        "skill": "purpose",
-        "explain": "The extension adds evidence and recommendations."
+        "type": "short_answer",
+        "q": "What is considered a 'prerequisite for fairness' in the context of academic assessment?",
+        "answer": ["clarity", "reduced ambiguity", "transparent criteria"],
+        "skill": "detail",
+        "explain": "The text explicitly states: 'clarity is a prerequisite for fairness'."
       }
     ]
   },
@@ -817,124 +539,74 @@
     "text": "Regarding the multi-faceted dimensions of Urban Heat and Public Health, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. Cities tend to be warmer than surrounding rural areas, a phenomenon known as the urban heat island effect. Dense construction materials absorb solar radiation during the day and release heat slowly at night, which keeps nighttime temperatures elevated. This pattern can increase energy use, worsen air quality, and raise health risks, especially for older adults and outdoor workers. Researchers have found that neighborhoods with less tree cover and more asphalt often experience the highest heat burden. These findings have led some cities to adopt mitigation strategies such as reflective roofing, expanded green spaces, and redesigned street layouts that improve airflow.\n\nHowever, implementing these measures is not merely a technical challenge. Funding constraints, competing political priorities, and unequal distribution of green infrastructure can limit the effectiveness of heat‑reduction plans. Critics argue that policies sometimes prioritize commercial districts while leaving low‑income areas exposed. Supporters counter that early projects can demonstrate value and attract further investment. The debate therefore centers on how to design interventions that are both scientifically effective and socially equitable.\n\nRecent studies also caution that short‑term temperature reductions may not be sufficient if regional climate trends continue to intensify. Adaptation, they suggest, should combine immediate cooling tactics with long‑term resilience planning, including housing standards and public health outreach. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of Urban Heat and Public Health is fully addressed within a global context.\n\nA follow-up analysis compared two instructional designs: an intensive block model and a distributed model. Although the block model produced faster short-term gains, the distributed model retained 27% more content after six weeks. The report concludes that short-term efficiency should not be mistaken for long-term mastery, especially in high-stakes assessment contexts.",
     "questions": [
       {
-        "q": "What is the primary cause of higher nighttime temperatures in cities?",
-        "options": [
-          "Rural areas reflect more sunlight during the night",
-          "Construction materials store heat and release it slowly",
-          "Urban residents use more air conditioning at night",
-          "Wind patterns reverse after sunset"
-        ],
-        "answer": 1,
-        "explain": "The passage states that dense materials absorb radiation and release heat slowly at night.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "What is the primary physical cause of elevated nocturnal temperatures in urban environments?",
+        "answer": ["dense construction materials absorb solar radiation and release heat slowly at night", "construction materials store heat"],
+        "skill": "detail",
+        "explain": "The passage explains that dense materials like concrete and asphalt are the primary drivers of nighttime heat."
       },
       {
-        "q": "Which neighborhoods experience the greatest heat burden?",
-        "options": [
-          "Those with higher elevation",
-          "Those with more trees and parks",
-          "Those with less tree cover and more asphalt",
-          "Those located near rivers"
-        ],
-        "answer": 2,
-        "explain": "The passage links higher heat burden to less tree cover and more asphalt.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Identify the two specific urban features correlated with the highest heat burden in neighborhoods.",
+        "answer": ["less tree cover and more asphalt", "low vegetation and high asphalt density"],
+        "skill": "detail",
+        "explain": "The text links heat burden directly to tree cover and asphalt prevalence."
       },
       {
-        "q": "Why do some critics oppose current heat‑reduction policies?",
-        "options": [
-          "They believe heat islands are exaggerated",
-          "They argue policies favor commercial districts",
-          "They think reflective roofing is ineffective",
-          "They prefer rural solutions"
-        ],
-        "answer": 1,
-        "explain": "Critics say policies prioritize commercial districts and neglect low‑income areas.",
-        "skill": "inference"
+        "type": "short_answer",
+        "q": "What is the primary socio-political critique leveled against current heat-reduction policies?",
+        "answer": ["policies prioritize commercial districts while leaving low-income areas exposed", "unequal distribution of green infrastructure favoring commercial zones"],
+        "skill": "inference",
+        "explain": "Critics argue that resource allocation for cooling is often socially inequitable."
       },
       {
-        "q": "What does the author suggest about short‑term temperature reductions?",
-        "options": [
-          "They are sufficient on their own",
-          "They are ineffective and should be abandoned",
-          "They should be combined with long‑term resilience planning",
-          "They are unnecessary if trees are planted"
-        ],
-        "answer": 2,
-        "explain": "The passage recommends combining immediate tactics with long‑term planning.",
-        "skill": "main_idea"
+        "type": "short_answer",
+        "q": "According to the passage, what must immediate cooling tactics be integrated with to ensure efficacy?",
+        "answer": ["long-term resilience planning, including housing standards and public health outreach", "long-term resilience planning"],
+        "skill": "main_idea",
+        "explain": "The author advocates for a dual approach of immediate and systemic adaptation."
       },
       {
-        "q": "Which strategy is mentioned as a mitigation measure?",
-        "options": [
-          "Building taller residential towers",
-          "Reflective roofing",
-          "Relocating factories",
-          "Closing public transit"
-        ],
-        "answer": 1,
-        "explain": "Reflective roofing is explicitly listed among strategies.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Identify one specific engineering-based mitigation strategy mentioned in the text.",
+        "answer": ["reflective roofing", "expanded green spaces", "redesigned street layouts"],
+        "skill": "detail",
+        "explain": "Reflective roofing and redesigned layouts are listed as technical solutions."
       },
       {
-        "q": "The phrase \"the debate therefore centers on\" signals: ",
-        "options": [
-          "a conclusion about temperature trends",
-          "a shift to the key controversy",
-          "a summary of research methods",
-          "a personal opinion"
-        ],
-        "answer": 1,
-        "explain": "It introduces the central controversy in the policy discussion.",
-        "skill": "discourse"
+        "type": "short_answer",
+        "q": "In the context of urban planning, what is the discourse function of the phrase 'the debate therefore centers on'?",
+        "answer": ["introduces the central controversy in the policy discussion", "signals a shift to the key controversy", "identifies the core tension"],
+        "skill": "discourse",
+        "explain": "This phrase marks the transition to the most critical part of the academic argument."
       },
       {
-        "q": "What is implied about funding constraints?",
-        "options": [
-          "They make technical solutions impossible",
-          "They can restrict how widely solutions are applied",
-          "They are no longer a problem for cities",
-          "They only affect rural areas"
-        ],
-        "answer": 1,
-        "explain": "The passage says funding can limit effectiveness of heat‑reduction plans.",
-        "skill": "inference"
+        "type": "short_answer",
+        "q": "How do funding constraints influence the implementation of heat-reduction frameworks?",
+        "answer": ["can restrict how widely and effectively solutions are applied", "limit the effectiveness of plans"],
+        "skill": "inference",
+        "explain": "The text notes that technical solutions are often limited by economic realities."
       },
       {
-        "q": "Which option best summarizes the passage?",
-        "options": [
-          "Urban heat is a minor issue solved by planting trees",
-          "Heat islands have technical and social dimensions requiring layered responses",
-          "Cities should avoid green infrastructure due to cost",
-          "Nighttime temperatures are unrelated to construction materials"
-        ],
-        "answer": 1,
-        "explain": "The text emphasizes technical causes and social equity concerns plus resilience.",
-        "skill": "summary"
+        "type": "short_answer",
+        "q": "Summarize the overarching thesis regarding the nature of urban heat islands.",
+        "answer": ["Heat islands have technical and social dimensions requiring layered, equitable responses", "Urban heat is a complex problem needing both technical and social solutions"],
+        "skill": "summary",
+        "explain": "The passage highlights that urban heat is not just a thermal issue but a social and structural one."
       },
       {
-        "q": "What role do early projects play, according to supporters?",
-        "options": [
-          "They replace long‑term planning",
-          "They demonstrate value and attract investment",
-          "They shift heat burden to other areas",
-          "They end political debate"
-        ],
-        "answer": 1,
-        "explain": "Supporters argue early projects can show value and draw funding.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "What role do early-stage pilot projects play in the broader policy landscape according to supporters?",
+        "answer": ["demonstrate value and attract further investment", "act as a catalyst for future funding"],
+        "skill": "detail",
+        "explain": "Supporters believe initial successes can overcome political and economic inertia."
       },
       {
-        "q": "Which statement is true based on the passage?",
-        "options": [
-          "Air quality is unaffected by heat islands",
-          "Older adults face higher health risks in heat islands",
-          "Nighttime temperatures are lower in cities",
-          "Only energy use increases"
-        ],
-        "answer": 1,
-        "explain": "The passage notes higher health risks for older adults and outdoor workers.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Which demographic group is explicitly identified as facing disproportionate health risks from urban heat?",
+        "answer": ["older adults and outdoor workers", "the elderly and outdoor laborers"],
+        "skill": "detail",
+        "explain": "The text identifies specific populations that are more vulnerable to thermal stress."
       }
     ]
   },
@@ -946,124 +618,74 @@
     "text": "Regarding the multi-faceted dimensions of Automation and the Nature of Work, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. Public discussion about automation often swings between two extremes: optimism that technology will eliminate drudgery and pessimism that it will erase jobs. Yet historical evidence suggests a more complex pattern. Mechanization has repeatedly displaced specific tasks while creating new categories of work, frequently in areas that did not previously exist. The key question, therefore, is not whether jobs will vanish, but how quickly workers can transition into roles that demand different skills.\n\nEconomists describe this challenge as a problem of adjustment rather than absolute scarcity. When a machine takes over a routine task, the value of complementary skills, such as analysis, design, or interpersonal communication, can rise. However, these shifts are not automatic. Training programs, wage supports, and credentialing systems determine who can access new opportunities. Without coordinated policy, the benefits of automation may accumulate unevenly, widening inequality.\n\nSome firms have tried to address these risks by redesigning jobs instead of eliminating them. For instance, in logistics, automation can handle repetitive sorting while workers oversee exceptions, manage safety protocols, and optimize workflows. This approach suggests that the future of work is not purely technological but also organizational. It depends on how institutions choose to integrate tools with human expertise.\n\nThe passage implies that the social outcome of automation is contingent rather than predetermined. In other words, policy and organizational choices will shape whether technology expands opportunity or concentrates advantage. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of Automation and the Nature of Work is fully addressed within a global context.\n\nIn a controlled trial, 32 instructors implemented a common protocol for feedback timing and language. The group using the protocol reduced misunderstanding errors by 19%, while the comparison group showed no significant change. The authors emphasize that consistency in feedback language, not volume, was the critical driver.",
     "questions": [
       {
-        "q": "What does the author identify as the \"key question\" about automation?",
-        "options": [
-          "Whether machines can replace all human labor",
-          "How fast workers can move into new roles",
-          "Why companies prefer automation",
-          "Whether wages will increase"
-        ],
-        "answer": 1,
-        "explain": "The passage states the key question is the speed of transition to new roles.",
-        "skill": "main_idea"
+        "type": "short_answer",
+        "q": "What does the author identify as the 'key question' concerning the future of the labor market in an automated epoch?",
+        "answer": ["how quickly workers can transition into roles that demand different skills", "speed of transition to new roles"],
+        "skill": "main_idea",
+        "explain": "The passage argues that the primary challenge is the rate of workforce adjustment."
       },
       {
-        "q": "What is meant by \"adjustment rather than absolute scarcity\"?",
-        "options": [
-          "Jobs disappear permanently",
-          "The main challenge is adapting to new skill demands",
-          "Automation reduces overall productivity",
-          "There are too few workers"
-        ],
-        "answer": 1,
-        "explain": "The phrase emphasizes adaptation and skill shifts rather than total job loss.",
-        "skill": "inference"
+        "type": "short_answer",
+        "q": "Explain the economists' perspective on automation as a problem of 'adjustment rather than absolute scarcity'.",
+        "answer": ["the main challenge is adapting to new skill demands rather than a permanent loss of all jobs", "shifts in skill value requiring policy intervention"],
+        "skill": "inference",
+        "explain": "The text suggests that labor scarcity is not the issue, but rather the mismatch of skills."
       },
       {
-        "q": "Which example illustrates job redesign?",
-        "options": [
-          "Workers replaced entirely by machines",
-          "Automation handling sorting while workers manage exceptions",
-          "Firms ending training programs",
-          "Robots negotiating contracts"
-        ],
-        "answer": 1,
-        "explain": "The logistics example shows humans overseeing exceptions and workflows.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Describe the hybrid workflow example provided in the logistics sector.",
+        "answer": ["automation handles repetitive sorting while workers oversee exceptions, manage safety, and optimize workflows", "hybrid human-machine collaboration"],
+        "skill": "detail",
+        "explain": "The logistics example illustrates job redesign rather than total replacement."
       },
       {
-        "q": "According to the passage, what happens to complementary skills when routine tasks are automated?",
-        "options": [
-          "They become less valuable",
-          "They can increase in value",
-          "They disappear",
-          "They are irrelevant"
-        ],
-        "answer": 1,
-        "explain": "The passage says complementary skills can rise in value.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "What typically happens to the value of 'complementary skills' when routine tasks are relegated to machines?",
+        "answer": ["the value can rise", "they become more critical for organizational success"],
+        "skill": "detail",
+        "explain": "Skills like analysis and interpersonal communication become more valuable as routine tasks are automated."
       },
       {
-        "q": "What condition influences who benefits from automation?",
-        "options": [
-          "Weather patterns",
-          "Training and credentialing systems",
-          "Tax rates alone",
-          "Machine error rates"
-        ],
-        "answer": 1,
-        "explain": "Access to training and credentials shapes who benefits.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Identify the institutional mechanisms that determine who accesses new opportunities in an automated economy.",
+        "answer": ["training programs, wage supports, and credentialing systems", "educational and policy frameworks"],
+        "skill": "detail",
+        "explain": "Policy choices shape the distribution of automation's benefits."
       },
       {
-        "q": "The author’s stance on automation can best be described as: ",
-        "options": [
-          "Strictly pessimistic",
-          "Strictly optimistic",
-          "Balanced and conditional",
-          "Uninformed"
-        ],
-        "answer": 2,
-        "explain": "The passage frames outcomes as contingent on policy and institutions.",
-        "skill": "tone"
+        "type": "short_answer",
+        "q": "Analyze the author's stance regarding the inevitability of social outcomes from automation.",
+        "answer": ["outcomes are contingent rather than predetermined; they depend on policy and organizational choices", "balanced and conditional on institutional response"],
+        "skill": "tone",
+        "explain": "The author believes that the outcome depends on active human and institutional decisions."
       },
       {
-        "q": "What does \"contingent rather than predetermined\" imply?",
-        "options": [
-          "Outcomes depend on choices",
-          "Outcomes are fixed by technology",
-          "Automation is random",
-          "Policy has no effect"
-        ],
-        "answer": 0,
-        "explain": "The passage says outcomes depend on policy and organizational choices.",
-        "skill": "inference"
+        "type": "short_answer",
+        "q": "In the context of labor market shifts, what does the word 'it' most likely refer to in the third paragraph?",
+        "answer": ["the primary mechanism", "the underlying mechanism", "automation"],
+        "skill": "reference",
+        "explain": "The text maintains consistent reference to the underlying structural mechanisms of technological change."
       },
       {
-        "q": "Which statement is supported by the passage?",
-        "options": [
-          "Automation always increases inequality",
-          "Automation always creates more jobs",
-          "Institutions influence how benefits are distributed",
-          "Workers do not need new skills"
-        ],
-        "answer": 2,
-        "explain": "The passage highlights the role of institutions and policy.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "What was identified as the critical driver in reducing misunderstanding errors during the pedagogical trial?",
+        "answer": ["consistency in feedback language", "consistent feedback language"],
+        "skill": "detail",
+        "explain": "The extension attributes the 19% reduction to the consistency in language, not volume."
       },
       {
-        "q": "What is the function of the logistics example in the passage?",
-        "options": [
-          "To show automation can eliminate all human labor",
-          "To illustrate a hybrid human‑machine workflow",
-          "To argue that logistics is irrelevant",
-          "To provide historical evidence"
-        ],
-        "answer": 1,
-        "explain": "It illustrates how jobs can be redesigned rather than removed.",
-        "skill": "function"
+        "type": "short_answer",
+        "q": "Identify the specific organizational shift mentioned as a potential alternative to job elimination.",
+        "answer": ["redesigning jobs instead of eliminating them", "hybrid human-machine integration"],
+        "skill": "detail",
+        "explain": "The text suggests firms can adapt by changing the nature of roles."
       },
       {
-        "q": "Which title best fits the passage?",
-        "options": [
-          "Why Automation Always Harms Workers",
-          "Automation and Adjustment in the Labor Market",
-          "The End of All Jobs",
-          "Machines as the Only Source of Productivity"
-        ],
-        "answer": 1,
-        "explain": "The passage stresses adjustment and institutional choices.",
-        "skill": "summary"
+        "type": "short_answer",
+        "q": "Propose a suitable academic title for the passage based on its core arguments.",
+        "answer": ["Automation and Adjustment in the Labor Market", "The Contingent Nature of Technological Displacement"],
+        "skill": "summary",
+        "explain": "The text focuses on the role of institutions and the speed of transition."
       }
     ]
   },
@@ -1075,100 +697,60 @@
     "text": "Regarding the multi-faceted dimensions of The Science of Murder (More to Read II), it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. Painful as it is to think about, murder has become a grim fact of modern society. Solving a murder involves more than the contributions of the police and witnesses. It also involves the detailed work of people in the fields of forensic science and medicine: scientists and doctors who analyze evidence to help solve murders.\n\nToday the evidence of forensic science ranges from footprints to blood samples, from hair analyses to identification of bite marks. The forensic scientists' work begins at the scene of the crime, and their first piece of evidence is a body - a dead body.\n\nBefore the body is removed to the morgue, the location of every item of the scene is diagrammed, and then the search is begun for physical evidence that could identify the killer. The killer could have left saliva on a cigarette butt, fingerprints on a glass, hairs on a hat, or blood from a cut on any surface. Once the possible sources of evidence are identified, investigators must be careful to protect them, because evidence may easily be destroyed.\n\nThe next step is the medical examination, and an examiner will arrive at the scene to confirm the death and check the body for injuries. The body will then be shipped to the morgue, where a forensic autopsy will be performed. This procedure involves close examination of both the outside and inside of the body. The specialist will study the hands and face for signs that a fight took place and will remove any evidence, such as a bullet, that is in the body. He or she will also send samples of body organs to the laboratory to see if the victim took any drugs.\n\nBesides testing the body for evidence, forensic technicians must also analyze all evidence the police have collected from the scene. If the murder involved a shooting, ballistics experts (specialists in firearms and ammunition) are involved in the investigation. Using a microscope, they try to match bullets taken from the scene and identify the gun. They also examine gunpowder around a bullet hole to estimate firing distance and infer details about the weapon.\n\nHair can be matched with increasing accuracy. People's hair can differ in color, texture, thickness, and many other characteristics. Blood-sample testing, called serology, has also become a highly useful tool in criminal investigations. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of The Science of Murder (More to Read II) is fully addressed within a global context.\n\nAn external review of policy outcomes highlights a persistent equity gap: improvements were strongest among students who already had access to supplementary resources. This suggests that interventions must be paired with resource redistribution, otherwise the same structural advantages are simply amplified.",
     "questions": [
       {
-        "q": "What is the main role of forensic scientists in murder cases?",
-        "options": [
-          "To replace police officers at crime scenes",
-          "To analyze evidence that helps solve crimes",
-          "To question witnesses in court",
-          "To decide the punishment for suspects"
-        ],
-        "answer": 1,
-        "explain": "The text states that forensic experts analyze evidence to help solve murders.",
-        "skill": "main_idea"
+        "type": "short_answer",
+        "q": "What is the primary objective of forensic scientists and medical professionals in homicide investigations?",
+        "answer": ["analyze evidence to help solve murders", "provide scientific support for criminal investigations"],
+        "skill": "main_idea",
+        "explain": "The text highlights the central role of analyzing physical and biological evidence."
       },
       {
-        "q": "Which evidence type is explicitly mentioned in the passage?",
-        "options": [
-          "Voice recordings",
-          "Email records",
-          "Blood samples",
-          "Satellite images"
-        ],
-        "answer": 2,
-        "explain": "The passage lists blood samples among key forensic evidence types.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Identify three specific categories of biological evidence explicitly mentioned in the text.",
+        "answer": ["blood samples, saliva, and hairs", "saliva, fingerprints, and hairs", "blood, saliva, and fingerprints"],
+        "skill": "detail",
+        "explain": "The passage lists various biological traces that can identify a killer."
       },
       {
-        "q": "Why must investigators protect possible evidence carefully?",
-        "options": [
-          "Because evidence can be destroyed easily",
-          "Because evidence is always expensive",
-          "Because only judges can handle evidence",
-          "Because evidence must be moved immediately"
-        ],
-        "answer": 0,
-        "explain": "The text says evidence can disappear if not protected properly.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Why is the immediate preservation of evidence at a crime scene considered a procedural priority?",
+        "answer": ["because evidence may easily be destroyed", "to prevent the loss of critical physical traces"],
+        "skill": "detail",
+        "explain": "Investigators must protect sources of evidence from environmental or human interference."
       },
       {
-        "q": "In the passage, what does \"This procedure\" refer to?",
-        "options": [
-          "The transport of suspects",
-          "The forensic autopsy",
-          "The police interview",
-          "The courtroom trial"
-        ],
-        "answer": 1,
-        "explain": "\"This procedure\" refers to the forensic autopsy in the morgue.",
-        "skill": "reference"
+        "type": "short_answer",
+        "q": "In the context of the medical examination, what does the phrase 'This procedure' denote in the fourth paragraph?",
+        "answer": ["the forensic autopsy", "detailed examination of the body inside and out"],
+        "skill": "reference",
+        "explain": "The phrase refers to the autopsy conducted at the morgue."
       },
       {
-        "q": "Why are body organ samples sent to the laboratory?",
-        "options": [
-          "To estimate the victim's age",
-          "To check whether the victim took drugs",
-          "To compare fingerprints",
-          "To identify the victim's family"
-        ],
-        "answer": 1,
-        "explain": "The passage says organ samples are tested for drug intake.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "For what specific analytical purpose are organ samples extracted during a forensic autopsy?",
+        "answer": ["to see if the victim took any drugs", "to check for toxicological evidence or drugs"],
+        "skill": "detail",
+        "explain": "Laboratory testing of organs can reveal drug intake or other physiological clues."
       },
       {
-        "q": "What is the function of gunpowder analysis in this text?",
-        "options": [
-          "To identify the victim's blood type",
-          "To estimate shooting distance and weapon clues",
-          "To prove who called the police",
-          "To identify the witness list"
-        ],
-        "answer": 1,
-        "explain": "Experts examine gunpowder to infer distance and weapon details.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Explain the role of ballistics experts in resolving shooting-related homicides.",
+        "answer": ["match bullets taken from the scene and identify the gun", "examine gunpowder to estimate firing distance"],
+        "skill": "detail",
+        "explain": "Ballistics analysis focuses on identifying weapons and the mechanics of the shooting."
       },
       {
-        "q": "Which statement is true according to the passage?",
-        "options": [
-          "Hair analysis is no longer used",
-          "Serology is blood-sample testing",
-          "Autopsies only examine the outside of the body",
-          "Forensic science started with DNA tests"
-        ],
-        "answer": 1,
-        "explain": "The passage explicitly defines serology as blood testing.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Define the term 'serology' as it is applied in criminal investigations according to the passage.",
+        "answer": ["blood-sample testing", "the study and analysis of blood traces"],
+        "skill": "vocab_context",
+        "explain": "The text explicitly defines serology as blood-sample testing."
       },
       {
-        "q": "What overall message does the passage emphasize?",
-        "options": [
-          "Witness memory is enough to solve every case",
-          "Forensic work is central to modern murder investigations",
-          "Only ballistics experts matter in murder cases",
-          "Medical examiners never work at crime scenes"
-        ],
-        "answer": 1,
-        "explain": "The text repeatedly highlights the critical role of forensic science.",
-        "skill": "summary"
+        "type": "short_answer",
+        "q": "Summarize the overarching role of forensic science in modern criminal justice as presented in the text.",
+        "answer": ["Forensic work is central to modern murder investigations", "Scientific analysis is essential for identifying suspects and solving crimes"],
+        "skill": "summary",
+        "explain": "The passage underscores that witness testimony is insufficient without scientific corroboration."
       }
     ]
   },
@@ -1180,205 +762,104 @@
     "text": "Regarding the multi-faceted dimensions of DNA Fingerprinting (More to Read II), it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. The characteristics of living organisms, including humans, are essentially determined by information contained within DNA inherited from parents. Organisms with different characteristics have different DNA sequences. DNA fingerprinting is a rapid way to compare DNA patterns between organisms.\n\nAlthough DNA fingerprinting is highly powerful, nothing in science is one hundred percent guaranteed. In criminal investigation, a DNA match indicates a probability rather than absolute certainty. That probability can be extremely high, but it is still expressed statistically.\n\nThe probability of a DNA fingerprint belonging to a specific person must be high, especially in criminal cases, because the result may support guilt or innocence. This concern has led some legal systems to re-open past convictions when DNA evidence was later reanalyzed.\n\nA DNA fingerprint differs from a conventional fingerprint in important ways. It is present in every cell, tissue, and organ of the body and cannot be altered by known treatments. It is now possible to test tiny biological samples, including hair or degraded matter, and obtain a DNA profile.\n\nDNA databases have expanded in many places, and this has made matching faster. Police can compare crime-scene evidence with existing profiles, even when no local suspect has been identified yet. At the same time, some people argue that wider DNA collection may raise privacy concerns. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of DNA Fingerprinting (More to Read II) is fully addressed within a global context.\n\nTo validate the findings, researchers triangulated survey responses with performance logs and peer reviews. The convergence rate across sources was 0.81, which they interpret as strong reliability. They caution, however, that single-semester data can miss delayed effects that appear only in subsequent terms.",
     "questions": [
       {
-        "q": "According to the passage, what primarily determines the characteristics of living organisms?",
-        "options": [
-          "Weather conditions",
-          "Inherited DNA information",
-          "School education",
-          "Diet alone"
-        ],
-        "answer": 1,
-        "explain": "The passage says inherited DNA is the essential determinant.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "What biological entity primarily determines the phenotypic characteristics of living organisms?",
+        "answer": ["inherited DNA information", "DNA sequences inherited from parents"],
+        "skill": "detail",
+        "explain": "The passage identifies DNA as the essential determinant of biological characteristics."
       },
       {
-        "q": "How does the text describe certainty in DNA fingerprinting?",
-        "options": [
-          "Always absolute",
-          "Mostly unreliable",
-          "Probabilistic, not absolute",
-          "Unrelated to statistics"
-        ],
-        "answer": 2,
-        "explain": "The passage clearly states that DNA matches are expressed as probabilities.",
-        "skill": "main_idea"
+        "type": "short_answer",
+        "q": "How does the passage conceptualize the nature of certainty in DNA fingerprinting results?",
+        "answer": ["probabilistic rather than absolute certainty", "indicated by a high statistical probability"],
+        "skill": "main_idea",
+        "explain": "The text emphasizes that while highly accurate, DNA results are expressed statistically."
       },
       {
-        "q": "Why is high match probability especially important in criminal cases?",
-        "options": [
-          "To speed up media reporting",
-          "Because outcomes affect guilt or innocence",
-          "To reduce court paperwork",
-          "Because all crimes are identical"
-        ],
-        "answer": 1,
-        "explain": "The text links high probability to fair decisions on guilt and innocence.",
-        "skill": "inference"
+        "type": "short_answer",
+        "q": "Why is establishing a high statistical probability critical in judicial contexts?",
+        "answer": ["because the result may support guilt or innocence", "to avoid judicial errors and wrongful convictions"],
+        "skill": "inference",
+        "explain": "High accuracy is essential because legal outcomes depend on these results."
       },
       {
-        "q": "Which statement about DNA fingerprints is correct?",
-        "options": [
-          "They appear only on fingertips",
-          "They can be changed easily by surgery",
-          "They are found across cells, tissues, and organs",
-          "They disappear after death immediately"
-        ],
-        "answer": 2,
-        "explain": "The passage says DNA profiles are present in all body cells/tissues/organs.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Identify two fundamental differences between conventional fingerprints and DNA fingerprints.",
+        "answer": ["DNA is present in every cell and cannot be altered by known treatments", "DNA is internal/biological while conventional is surface-level"],
+        "skill": "detail",
+        "explain": "DNA profiles are pervasive throughout the body and resistant to physical alteration."
       },
       {
-        "q": "What sample type can now be used for DNA profiling?",
-        "options": [
-          "Only fresh blood",
-          "Only bone fragments",
-          "Tiny samples such as hair, including degraded matter",
-          "Only fingerprints on glass"
-        ],
-        "answer": 2,
-        "explain": "The text states that tiny and degraded biological samples can be tested.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "What technological and systemic development has facilitated more rapid DNA matching?",
+        "answer": ["expansion of DNA databases", "digitized and expanded profile repositories"],
+        "skill": "detail",
+        "explain": "Databases allow for faster cross-referencing of crime-scene evidence."
       },
       {
-        "q": "What is one practical effect of expanded DNA databases?",
-        "options": [
-          "They eliminate all false positives",
-          "They make matching evidence faster",
-          "They remove the need for courts",
-          "They make police interviews unnecessary"
-        ],
-        "answer": 1,
-        "explain": "The passage says larger databases speed up evidence matching.",
-        "skill": "detail"
-      },
-      {
-        "q": "Which concern is presented as a counterpoint to broader DNA collection?",
-        "options": [
-          "Higher electricity costs",
-          "Privacy concerns",
-          "Lower literacy rates",
-          "Fewer laboratory workers"
-        ],
-        "answer": 1,
-        "explain": "The final paragraph notes objections about privacy.",
-        "skill": "detail"
-      },
-      {
-        "q": "Which title best summarizes this passage?",
-        "options": [
-          "DNA Fingerprinting: Power, Limits, and Legal Impact",
-          "How to Build a Microscope",
-          "Why Fingerprints Are Useless",
-          "The History of Telephone Networks"
-        ],
-        "answer": 0,
-        "explain": "The passage covers DNA use, probabilistic limits, legal use, and privacy.",
-        "skill": "summary"
+        "type": "short_answer",
+        "q": "What is the primary ethical concern raised by critics regarding the expansion of genetic repositories?",
+        "answer": ["privacy concerns", "unauthorized access to genetic information"],
+        "skill": "inference",
+        "explain": "The widespread collection of DNA raises questions about individual privacy rights."
       }
     ]
   },
-  {
-    "id": "r_p3_mtr3_05",
+{
+    "id": "r_p4_mtr3_05",
     "level": "P4",
     "title": "Academic Integrity in the Age of AI (More to Read III)",
     "time": "25 min",
     "text": "Regarding the multi-faceted dimensions of Academic Integrity in the Age of AI (More to Read III), it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. Universities have long considered academic integrity a core value. Traditionally, this meant not copying from books, articles, or classmates without proper citation. In recent years, however, new tools have complicated this principle. AI writing assistants can produce fluent paragraphs in seconds, and students may submit this output as if it were their own work.\n\nSome instructors argue that these tools should be banned entirely, because they make plagiarism easier and blur authorship. Others suggest a more nuanced approach: permit AI support for brainstorming and language polishing, but require students to disclose when and how the tool was used. This position treats AI as a calculator for language rather than a replacement for thinking.\n\nResearch on student behavior indicates that strict bans are difficult to enforce consistently. Detection software can flag suspicious passages, but false positives occur, and polished student writing may be misclassified. Over-reliance on automated detection can also damage trust between instructors and students.\n\nAs a result, many departments are shifting from purely punitive policies toward assessment design. They use in-class writing, oral defenses, draft portfolios, and reflective commentaries that ask students to explain their choices. These methods make it harder to outsource thinking and easier to evaluate actual understanding.\n\nAt the same time, institutions recognize equity concerns. Not all students have equal access to paid AI tools or advanced digital literacy. If courses quietly assume such access, assessment may become less fair. Transparent rules and support workshops can reduce this gap.\n\nThe most effective policies appear to combine clear boundaries, practical guidance, and revised assessment practices. In this model, integrity is not just about catching misconduct; it is about building habits of responsible authorship. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of Academic Integrity in the Age of AI (More to Read III) is fully addressed within a global context.\n\nRecent evidence extends the discussion. A mixed-methods study of 1,480 university students across four campuses reported that structured feedback and spaced practice were the strongest predictors of improvement, accounting for nearly 42% of the observed gains. However, the authors also warn of an implementation gap: policies may be well-designed but inconsistently applied at the classroom level. They recommend transparent criteria, short feedback cycles, and a minimum of two revision checkpoints for complex tasks.",
     "questions": [
       {
-        "q": "What central challenge does the passage describe?",
-        "options": [
-          "Libraries are closing too early",
-          "AI tools complicate traditional ideas of academic integrity",
-          "Students no longer write essays",
-          "Citation rules have been removed"
-        ],
-        "answer": 1,
-        "explain": "The passage focuses on how AI changes authorship and integrity.",
-        "skill": "main_idea"
+        "type": "short_answer",
+        "q": "What is the primary academic challenge posed by AI writing assistants according to the passage?",
+        "answer": ["AI tools complicate traditional ideas of academic integrity", "blur authorship and make plagiarism easier"],
+        "skill": "main_idea",
+        "explain": "The text focuses on how generative AI disrupts established notions of authorship and integrity."
       },
       {
-        "q": "What is the 'nuanced approach' mentioned in paragraph 2?",
-        "options": [
-          "Ban all AI tools permanently",
-          "Allow AI for limited support with disclosure",
-          "Grade only multiple-choice exams",
-          "Ignore AI use completely"
-        ],
-        "answer": 1,
-        "explain": "The text proposes controlled use plus transparency.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Describe the 'nuanced approach' recommended by some instructors for AI integration.",
+        "answer": ["permit AI support for brainstorming and language polishing with disclosure", "disclosing when and how AI was used"],
+        "skill": "detail",
+        "explain": "This approach views AI as a tool for refinement rather than a replacement for cognitive labor."
       },
       {
-        "q": "Why is detection software described as imperfect?",
-        "options": [
-          "It only works in science classes",
-          "It cannot read citations",
-          "It can produce false positives and misclassify writing",
-          "It is always too expensive to use"
-        ],
-        "answer": 2,
-        "explain": "The passage explicitly mentions false positives and misclassification.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Identify a significant limitation of automated AI detection software mentioned in the text.",
+        "answer": ["false positives occur and polished student writing may be misclassified", "damages trust between instructors and students"],
+        "skill": "detail",
+        "explain": "Detection tools are not infallible and can lead to wrongful accusations."
       },
       {
-        "q": "What is implied about punitive-only policies?",
-        "options": [
-          "They are sufficient in all contexts",
-          "They are being replaced by assessment redesign in many departments",
-          "They improve trust automatically",
-          "They eliminate all misconduct"
-        ],
-        "answer": 1,
-        "explain": "The passage states that many departments now redesign assessments.",
-        "skill": "inference"
+        "type": "short_answer",
+        "q": "Why are many academic departments transitioning toward assessment design rather than purely punitive policies?",
+        "answer": ["to make it harder to outsource thinking and evaluate actual understanding", "in-class writing and oral defenses are harder to manipulate"],
+        "skill": "inference",
+        "explain": "Changing the nature of the task is more effective than attempting to catch misconduct after the fact."
       },
       {
-        "q": "Which practice is listed as part of redesigned assessment?",
-        "options": [
-          "Shorter library hours",
-          "Oral defenses and draft portfolios",
-          "Removing writing tasks",
-          "Using only final exams"
-        ],
-        "answer": 1,
-        "explain": "Oral defenses and draft portfolios are named directly.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "What specific equity concern is associated with the unofficial assumption of AI tool access in higher education?",
+        "answer": ["unequal access to paid AI tools or advanced digital literacy", "assessment becomes less fair for underprivileged students"],
+        "skill": "detail",
+        "explain": "The 'digital divide' can create systemic disadvantages if institutions do not provide equal support."
       },
       {
-        "q": "What equity concern is raised?",
-        "options": [
-          "Some students lack equal access to paid AI tools and digital skills",
-          "Students in cities write faster",
-          "Teachers cannot access journals",
-          "Only engineering students use AI"
-        ],
-        "answer": 0,
-        "explain": "The passage notes unequal access and digital literacy differences.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "In the context of institutional policy, what is the discourse function of the phrase 'As a result' in paragraph 4?",
+        "answer": ["introduces a consequence or organizational response", "links the problems of detection to the shift in strategy"],
+        "skill": "discourse",
+        "explain": "The phrase signals the causal link between detection failures and the adoption of new assessment models."
       },
       {
-        "q": "How does the final paragraph define effective policy?",
-        "options": [
-          "Pure surveillance and punishment",
-          "No rules, only trust",
-          "Clear boundaries, guidance, and assessment redesign",
-          "Full AI automation of grading"
-        ],
-        "answer": 2,
-        "explain": "This exact combination is stated in the conclusion.",
-        "skill": "summary"
-      },
-      {
-        "q": "Which statement would the author most likely support?",
-        "options": [
-          "Integrity policies should focus only on catching cheaters",
-          "Responsible authorship should be taught through course design and transparency",
-          "AI use should remain undocumented",
-          "Detection tools should replace teacher judgment"
-        ],
-        "answer": 1,
-        "explain": "The passage emphasizes habit-building and responsible authorship.",
-        "skill": "inference"
+        "type": "short_answer",
+        "q": "According to the passage, what is the ultimate goal of effective academic integrity policies?",
+        "answer": ["building habits of responsible authorship", "creating transparent boundaries and revised assessment practices"],
+        "skill": "summary",
+        "explain": "The author advocates for a proactive, developmental approach rather than a purely surveillance-based one."
       }
     ]
   },
@@ -1390,100 +871,60 @@
     "text": "Regarding the multi-faceted dimensions of Attention Economy and Deep Work (More to Read III), it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. Digital platforms are designed to capture and retain attention. Notifications, recommendation feeds, and infinite scrolling are not accidental features; they are products of an economic model that monetizes user engagement. In this model, sustained focus is not profitable unless it occurs within the platform itself.\n\nFor students, this creates a structural conflict. Academic tasks often require deep work: uninterrupted periods of concentration in which complex ideas are processed, evaluated, and connected. Yet students now study in an environment engineered for constant interruption. Even short disruptions can leave cognitive residue, reducing efficiency after the interruption ends.\n\nSome researchers distinguish between time spent and quality of attention. Two students may both study for three hours, but one may alternate every few minutes between notes and social media, while the other works in focused blocks. Learning outcomes differ because fragmented attention reduces the depth of encoding and retrieval pathways.\n\nAttempts to solve this problem often focus on willpower. However, behavior studies suggest that environment design is more reliable than motivation alone. Students who disable notifications, use site blockers, and pre-commit to specific work intervals report fewer context switches and higher task completion. In other words, systems outperform intentions.\n\nThis does not mean all digital tools are harmful. Some tools support deep work by reducing administrative burden, organizing references, or automating routine tasks. The key distinction is whether a tool serves a defined objective or continuously competes for attention. Productive technology is instrument-like; extractive technology is feed-like.\n\nEducational institutions can respond by teaching attention management explicitly. Workshops on task batching, recovery breaks, and deliberate practice can be as important as workshops on citation style. If attention is a scarce cognitive resource, then managing it is not a personal preference but an academic skill.\n\nThe broader implication is cultural. A society that normalizes continuous partial attention may produce faster reactions but weaker reasoning. Deep work is slower, but it is often where durable understanding is formed. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of Attention Economy and Deep Work (More to Read III) is fully addressed within a global context.\n\nA longitudinal dataset covering 18 cohorts between 2006 and 2022 shows that small procedural changes can produce disproportionate effects. When a baseline rubric was simplified and aligned with learning outcomes, completion rates rose by 12% while error patterns became more consistent. The authors attribute this to reduced ambiguity rather than increased difficulty, and they argue that clarity is a prerequisite for fairness.",
     "questions": [
       {
-        "q": "What is the passage's main claim about digital platforms?",
-        "options": [
-          "They are neutral tools with no design bias",
-          "They are designed to maximize attention capture",
-          "They are mainly built for education",
-          "They reduce interruptions by default"
-        ],
-        "answer": 1,
-        "explain": "The first paragraph states this directly.",
-        "skill": "main_idea"
+        "type": "short_answer",
+        "q": "Analyze the core objective of digital platform design as presented in the first paragraph.",
+        "answer": ["to capture and retain attention to monetize user engagement", "maximize attention capture"],
+        "skill": "main_idea",
+        "explain": "The economic model of digital platforms is built on sustaining user interaction."
       },
       {
-        "q": "In the passage, 'deep work' refers to:",
-        "options": [
-          "Group discussion in short intervals",
-          "Long periods of uninterrupted concentration",
-          "Fast reactions to notifications",
-          "Administrative organization tasks"
-        ],
-        "answer": 1,
-        "explain": "Deep work is defined as uninterrupted concentration on complex tasks.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Define the concept of 'deep work' within the context of academic scholarship.",
+        "answer": ["uninterrupted periods of concentration for processing complex ideas", "focused blocks of study"],
+        "skill": "detail",
+        "explain": "The text defines deep work as sustained, uninterrupted focus."
       },
       {
-        "q": "What is 'cognitive residue' in this context?",
-        "options": [
-          "Physical tiredness after exercise",
-          "Memory loss from long-term stress",
-          "Reduced efficiency after interruptions",
-          "A software bug in study apps"
-        ],
-        "answer": 2,
-        "explain": "The passage links interruptions to lingering attention costs.",
-        "skill": "vocabulary"
+        "type": "short_answer",
+        "q": "Explain the cognitive significance of the term 'residue' following an interruption.",
+        "answer": ["reduced efficiency that persists after the interruption ends", "lingering attention costs"],
+        "skill": "vocabulary",
+        "explain": "Cognitive residue refers to the mental bandwidth still occupied by the interruption."
       },
       {
-        "q": "Why can equal study time lead to different outcomes?",
-        "options": [
-          "Because time never predicts learning",
-          "Because fragmented attention lowers depth of learning",
-          "Because social media improves recall",
-          "Because notes are not useful"
-        ],
-        "answer": 1,
-        "explain": "The text contrasts time quantity with attention quality.",
-        "skill": "inference"
+        "type": "short_answer",
+        "q": "Why does fragmented attention result in inferior learning outcomes compared to focused blocks?",
+        "answer": ["reduces the depth of encoding and retrieval pathways", "lowers the quality of attention and encoding"],
+        "skill": "inference",
+        "explain": "Interrupted study prevents the brain from forming strong memory connections."
       },
       {
-        "q": "What solution does the passage consider more reliable than willpower alone?",
-        "options": [
-          "Studying only at night",
-          "Environment design (blockers, notification control, pre-commitment)",
-          "Reading faster",
-          "Using more social apps"
-        ],
-        "answer": 1,
-        "explain": "Behavior studies in paragraph 4 support system-based design.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "What structural intervention is considered more reliable than individual willpower in managing focus?",
+        "answer": ["environment design, such as site blockers and notification control", "systems outperform intentions"],
+        "skill": "detail",
+        "explain": "Proactive environment management is statistically more effective than relying on motivation."
       },
       {
-        "q": "How does the author distinguish productive vs extractive technology?",
-        "options": [
-          "Productive tools are always free",
-          "Extractive tools are used only by teenagers",
-          "Productive tools serve goals; extractive tools compete for attention",
-          "There is no meaningful distinction"
-        ],
-        "answer": 2,
-        "explain": "Paragraph 5 makes this distinction explicitly.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Distinguish between 'productive' and 'extractive' technology as defined in the text.",
+        "answer": ["productive tools serve goals; extractive tools compete for attention", "instrument-like vs feed-like"],
+        "skill": "detail",
+        "explain": "Productive tools are task-oriented, while extractive tools are interaction-oriented."
       },
       {
-        "q": "What role should institutions play, according to the passage?",
-        "options": [
-          "Ignore attention management",
-          "Teach attention management as an academic skill",
-          "Ban all digital tools",
-          "Replace teachers with software"
-        ],
-        "answer": 1,
-        "explain": "The passage calls for explicit training in attention management.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Why does the author advocate for teaching attention management as an explicit academic skill?",
+        "answer": ["attention is a scarce cognitive resource necessary for durable understanding", "it is as important as citation style"],
+        "skill": "detail",
+        "explain": "Managing cognitive bandwidth is essential for university-level performance."
       },
       {
-        "q": "Which statement best reflects the final implication?",
-        "options": [
-          "Faster reactions always produce better reasoning",
-          "Continuous partial attention may weaken reasoning quality",
-          "Deep work is obsolete",
-          "Culture has no effect on cognition"
-        ],
-        "answer": 1,
-        "explain": "The conclusion contrasts quick reaction culture with durable reasoning.",
-        "skill": "summary"
+        "type": "short_answer",
+        "q": "Summarize the cultural risk associated with the normalization of 'continuous partial attention'.",
+        "answer": ["faster reactions but weaker reasoning quality", "weaker reasoning and lack of durable understanding"],
+        "skill": "summary",
+        "explain": "A culture of constant distraction prioritizes speed over intellectual depth."
       }
     ]
   },
@@ -1495,124 +936,53 @@
     "text": "Regarding the multi-faceted dimensions of Algorithmic Proctoring and Assessment Validity, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. Universities that expanded online assessment during emergency periods often adopted algorithmic proctoring systems to deter cheating. These platforms typically combine webcam monitoring, keystroke logs, and identity checks, then assign a risk score for each exam session. Administrators argue that such tools preserve academic standards in large classes where manual review is impractical. They also note that proctoring logs can document irregular events, which appears to increase procedural consistency.\n\nYet measurement specialists caution that consistency should not be confused with validity. A system may flag movement, eye direction, or background noise with technical precision while still misclassifying honest behavior as suspicious. Students with unstable internet, shared living spaces, or disability related accommodations may trigger alerts more frequently for reasons unrelated to misconduct. If these false positives influence grades, the test could end up measuring students' circumstances as much as their knowledge.\n\nRecent policy discussions therefore focus on proportional use. Instead of relying on automated flags as final evidence, institutions are experimenting with layered safeguards: shorter open-resource exams, random oral follow-ups, and transparent appeal channels. In this model, technology supports human judgment rather than replacing it. The central policy question is not whether integrity matters, but how to protect integrity without undermining fairness and construct validity. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of Algorithmic Proctoring and Assessment Validity is fully addressed within a global context.\n\nA follow-up analysis compared two instructional designs: an intensive block model and a distributed model. Although the block model produced faster short-term gains, the distributed model retained 27% more content after six weeks. The report concludes that short-term efficiency should not be mistaken for long-term mastery, especially in high-stakes assessment contexts.",
     "questions": [
       {
-        "q": "Why do administrators support algorithmic proctoring in large classes?",
-        "options": [
-          "It eliminates the need for exams",
-          "It makes manual review unnecessary in many cases",
-          "It guarantees zero cheating",
-          "It lowers tuition costs"
-        ],
-        "answer": 1,
-        "explain": "The passage says administrators value proctoring because manual review is impractical at scale.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Why do university administrators advocate for algorithmic proctoring in high-enrollment courses?",
+        "answer": ["manual review is impractical at scale", "to preserve standards in large classes"],
+        "skill": "detail",
+        "explain": "The automation allows institutions to monitor thousands of students simultaneously."
       },
       {
-        "q": "What distinction do measurement specialists emphasize?",
-        "options": [
-          "Consistency is more important than fairness",
-          "Validity should be separated from consistency",
-          "Risk scores should replace grades",
-          "Online exams are always invalid"
-        ],
-        "answer": 1,
-        "explain": "The text states that consistent flagging does not automatically mean valid measurement.",
-        "skill": "main_idea"
+        "type": "short_answer",
+        "q": "Explain the distinction made by measurement specialists between 'consistency' and 'validity' in proctoring.",
+        "answer": ["consistent flags for behavior do not necessarily mean valid measurement of cheating", "consistency should not be confused with validity"],
+        "skill": "main_idea",
+        "explain": "Technical precision in flagging does not equal pedagogical accuracy in detecting misconduct."
       },
       {
-        "q": "Which factor may increase false positive alerts?",
-        "options": [
-          "Using shorter exams",
-          "Having a private test center",
-          "Shared living spaces and unstable internet",
-          "Submitting answers early"
-        ],
-        "answer": 2,
-        "explain": "The passage explicitly mentions shared spaces and unstable internet as non-misconduct triggers.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Identify three non-misconduct factors that can trigger false positive alerts in algorithmic systems.",
+        "answer": ["unstable internet, shared living spaces, and disability accommodations", "background noise and eye direction"],
+        "skill": "detail",
+        "explain": "External environmental and physiological factors are often misclassified by AI as 'suspicious'."
       },
       {
-        "q": "What is implied by the phrase 'measuring students' circumstances as much as their knowledge'?",
-        "options": [
-          "Exams should ignore technical issues",
-          "Scores may reflect environment-related disadvantages",
-          "Knowledge cannot be assessed online",
-          "Only oral exams are fair"
-        ],
-        "answer": 1,
-        "explain": "The author implies external conditions can distort what the assessment captures.",
-        "skill": "inference"
+        "type": "short_answer",
+        "q": "Analyze the potential threat to 'construct validity' posed by over-reliance on proctoring metrics.",
+        "answer": ["the test could measure students' circumstances as much as their knowledge", "scores reflect environment-related disadvantages"],
+        "skill": "inference",
+        "explain": "If a test measures background conditions rather than knowledge, it is no longer valid."
       },
       {
-        "q": "Which practice belongs to the 'layered safeguards' approach?",
-        "options": [
-          "Treating automated flags as final proof",
-          "Removing all appeal options",
-          "Random oral follow-ups",
-          "Banning open-resource exams"
-        ],
-        "answer": 2,
-        "explain": "Random oral follow-ups are listed as one of the layered safeguards.",
-        "skill": "detail"
+        "type": "short_answer",
+        "q": "Describe the 'layered safeguards' model proposed as an alternative to automated policing.",
+        "answer": ["open-resource exams, oral follow-ups, and transparent appeal channels", "technology supports rather than replaces human judgment"],
+        "skill": "detail",
+        "explain": "This approach uses multiple evaluation methods to verify student performance."
       },
       {
-        "q": "What is the function of the final paragraph?",
-        "options": [
-          "It introduces historical background",
-          "It proposes a balanced policy direction",
-          "It argues for abolishing online learning",
-          "It presents statistical evidence"
-        ],
-        "answer": 1,
-        "explain": "The final paragraph shifts to policy solutions and a proportional model.",
-        "skill": "function"
+        "type": "short_answer",
+        "q": "What is the primary function of the final paragraph in the context of the overall argument?",
+        "answer": ["it proposes a balanced policy direction", "it summarizes the central policy question and joint goals"],
+        "skill": "function",
+        "explain": "The conclusion shifts from technical critiques to constructive policy recommendations."
       },
       {
-        "q": "In the proposed model, technology should primarily:",
-        "options": [
-          "replace instructors' decisions",
-          "be ignored in grading",
-          "support human judgment",
-          "focus only on identity checks"
-        ],
-        "answer": 2,
-        "explain": "The passage explicitly says technology should support, not replace, human judgment.",
-        "skill": "detail"
-      },
-      {
-        "q": "Which statement best reflects the author's tone?",
-        "options": [
-          "Uncritical enthusiasm",
-          "Absolute rejection",
-          "Analytical and cautious",
-          "Humorous and informal"
-        ],
-        "answer": 2,
-        "explain": "The passage weighs benefits and risks, then recommends proportionate use.",
-        "skill": "tone"
-      },
-      {
-        "q": "What is identified as the central policy question?",
-        "options": [
-          "Whether cheating exists",
-          "How to protect integrity without sacrificing fairness and validity",
-          "How to maximize surveillance intensity",
-          "Whether to remove all online exams"
-        ],
-        "answer": 1,
-        "explain": "The final sentence frames integrity and fairness-validity as joint goals.",
-        "skill": "summary"
-      },
-      {
-        "q": "Which claim is supported by the passage?",
-        "options": [
-          "Automated systems always classify behavior correctly",
-          "Procedural consistency alone proves exam quality",
-          "False positives can have equity consequences",
-          "Appeal channels weaken standards"
-        ],
-        "answer": 2,
-        "explain": "The passage argues false positives may affect some students unfairly.",
-        "skill": "inference"
+        "type": "short_answer",
+        "q": "What is identified as the central policy question that institutions must address regarding proctoring?",
+        "answer": ["how to protect integrity without undermining fairness and construct validity", "balancing integrity and fairness"],
+        "skill": "summary",
+        "explain": "The core challenge is maintaining high standards while ensuring a fair assessment environment."
       }
     ]
   },
@@ -1624,53 +994,32 @@
     "text": "Regarding the multi-faceted dimensions of The Architecture of Nudge: Behavioral Economics in Public Policy, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. The conceptual framework of 'Nudge Theory,' pioneered by Richard Thaler and Cass Sunstein, has fundamentally recalibrated the approach to public policy. At its core, a nudge constitutes any aspect of choice architecture that alters people’s behavior in a predictable way without forbidding any options or significantly changing their economic incentives. Unlike mandates or bans, nudges preserve individual autonomy while strategically guiding subjects toward more salutary outcomes. For instance, the default enrollment in pension schemes or the tactical placement of nutritional information in supermarkets serves to minimize inertia and cognitive friction. Critics, however, hypothesize that such interventions risk being paternalistic, potentially manipulating individuals who remain unaware of the subtle architectural shifts influencing their decision-making processes. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of The Architecture of Nudge: Behavioral Economics in Public Policy is fully addressed within a global context.\n\nIn a controlled trial, 32 instructors implemented a common protocol for feedback timing and language. The group using the protocol reduced misunderstanding errors by 19%, while the comparison group showed no significant change. The authors emphasize that consistency in feedback language, not volume, was the critical driver.",
     "questions": [
       {
-        "type": "multiple-choice",
-        "q": "What is the primary distinction between a 'nudge' and a mandate?",
-        "options": [
-          "Nudges eliminate choice while mandates preserve it.",
-          "Nudges preserve autonomy whereas mandates explicitly forbid options.",
-          "Nudges rely on economic incentives while mandates do not.",
-          "Mandates are always more effective than choice architecture."
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "What is the primary distinction between a 'nudge' and a mandate within the framework of choice architecture?",
+        "answer": ["nudges preserve individual autonomy whereas mandates explicitly forbid options", "nudges alter behavior without forbidding options"],
         "skill": "detail",
-        "explain": "The text states nudges alter behavior 'without forbidding any options', unlike mandates."
+        "explain": "A nudge influences decision-making through subtle shifts rather than strict legal or economic prohibition."
       },
       {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
+        "type": "short_answer",
+        "q": "In the expanded academic context of the first paragraph, what is the specific referent of the pronoun 'it'?",
+        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "skill": "reference",
+        "explain": "The pronoun refers back to the core operational principle being debated."
       },
       {
-        "type": "multiple-choice",
-        "q": "What reduced misunderstanding errors in the trial?",
-        "options": [
-          "consistency in feedback language",
-          "More assignments",
-          "Longer lectures",
-          "Random chance"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "According to the empirical trial mentioned in the extension, what was the critical driver for reducing misunderstanding errors?",
+        "answer": ["consistency in feedback language", "standardized feedback timing and language"],
         "skill": "detail",
-        "explain": "The extension attributes the reduction to the stated driver."
+        "explain": "The study found that the quality and uniformity of language were more effective than the volume of feedback."
       },
       {
-        "type": "multiple-choice",
-        "q": "Why is the extension included in the passage?",
-        "options": [
-          "To provide empirical support and practical implications",
-          "To change the topic entirely",
-          "To criticize unrelated studies",
-          "To summarize background definitions"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "Analyze the pedagogical purpose of including the empirical extension at the end of this academic passage.",
+        "answer": ["to provide empirical support and practical implications for the theoretical framework", "to connect abstract theory to concrete research outcomes"],
         "skill": "purpose",
-        "explain": "The extension adds evidence and recommendations."
+        "explain": "The extension serves to ground the high-level discussion in verifiable, data-driven examples."
       }
     ]
   },
@@ -1682,40 +1031,25 @@
     "text": "Regarding the multi-faceted dimensions of Quantum Decoherence and the Collapse of the Wavefunction, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. In the esoteric realm of quantum mechanics, the phenomenon of decoherence elucidates the transition from quantum superposition to classical reality. According to the Schrodinger equation, a quantum system remains in a coherent superposition of all possible states until a measurement occurs. However, decoherence posits that the system’s inevitable interaction with its environment—even a single photon or air molecule—effectively 'scatters' the quantum phase information. This environmental entanglement necessitates the emergence of classical outcomes, rendering the 'cat' either dead or alive long before a macroscopic observer intervenes. Thus, decoherence does not technically 'collapse' the wavefunction in the traditional sense; rather, it suppresses the interference patterns that constitute the visible hallmark of quantum coherence in a macroscopic context. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of Quantum Decoherence and the Collapse of the Wavefunction is fully addressed within a global context.\n\nAn external review of policy outcomes highlights a persistent equity gap: improvements were strongest among students who already had access to supplementary resources. This suggests that interventions must be paired with resource redistribution, otherwise the same structural advantages are simply amplified.",
     "questions": [
       {
-        "type": "multiple-choice",
-        "q": "According to the passage, what role does the environment play in quantum decoherence?",
-        "options": [
-          "It preserves the coherence of the quantum system.",
-          "It acts as a macroscopic observer that intentionally collapses the wavefunction.",
-          "Its interaction with the system causes the scattering of phase information.",
-          "It prevents the system from ever entering a state of superposition."
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "Explain the role of the environment in the process of quantum decoherence as described in the text.",
+        "answer": ["interaction with the system causes the scattering of phase information", "environmental entanglement necessitates classical outcomes"],
         "skill": "main_idea",
-        "explain": "The text states 'environmental entanglement necessitates the emergence of classical outcomes... by scattering phase information'."
+        "explain": "Decoherence occurs when the environment 'leaks' information out of the quantum system."
       },
       {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
+        "type": "short_answer",
+        "q": "Identify the referent of the pronoun 'it' in the academic preamble of the passage.",
+        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "skill": "reference",
+        "explain": "Standard academic tracking: the pronoun refers to the object of scholarly investigation."
       },
       {
-        "type": "multiple-choice",
-        "q": "Why is the extension included in the passage?",
-        "options": [
-          "To provide empirical support and practical implications",
-          "To change the topic entirely",
-          "To criticize unrelated studies",
-          "To summarize background definitions"
-        ],
-        "answer": 0,
-        "skill": "purpose",
-        "explain": "The extension adds evidence and recommendations."
+        "type": "short_answer",
+        "q": "According to the policy review extension, what critical condition must be met for educational interventions to be truly effective across all student groups?",
+        "answer": ["interventions must be paired with resource redistribution", "addressing the equity gap through redistribution"],
+        "skill": "inference",
+        "explain": "The text warns that without redistribution, existing structural advantages are merely reinforced."
       }
     ]
   },
@@ -1727,66 +1061,32 @@
     "text": "Regarding the multi-faceted dimensions of Algorithmic Bias and the Paradox of Judicial Objectivity, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. The integration of predictive algorithms into the criminal justice system was initially heralded as a triumph of objective data over human fallibility. Proponents argued that machine learning could mitigate the subconscious biases inherent in traditional judicial sentencing. Yet, empirical studies have elucidated a deleterious reality: these algorithms often perpetuate, and even exacerbate, existing societal stratification. By utilizing historical data points—such as zip codes or employment history—as proxies for risk, the software inadvertently codifies historical racial and socio-economic inequities. Consequently, the facade of mathematical neutrality facilitates a systemic feedback loop that disproportionately penalizes marginalized populations while insulating the technology’s proponents from accusations of overt prejudice. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of Algorithmic Bias and the Paradox of Judicial Objectivity is fully addressed within a global context.\n\nTo validate the findings, researchers triangulated survey responses with performance logs and peer reviews. The convergence rate across sources was 0.81, which they interpret as strong reliability. They caution, however, that single-semester data can miss delayed effects that appear only in subsequent terms.",
     "questions": [
       {
-        "type": "multiple-choice",
-        "q": "What is the 'paradox' mentioned in the context of the passage?",
-        "options": [
-          "That humans are more objective than machines.",
-          "That technology designed to remove bias actually codifies and perpetuates it.",
-          "That zip codes are more important than judicial sentencing.",
-          "That employment history has no impact on criminal risk."
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "Define the 'paradox' of judicial objectivity as it relates to the use of predictive algorithms.",
+        "answer": ["technology designed to remove bias actually codifies and perpetuates it", "algorithms exacerbate societal stratification despite intended objectivity"],
         "skill": "inference",
-        "explain": "The paradox lies in the fact that algorithms meant to be objective actually 'perpetuate... existing societal stratification'."
+        "explain": "The irony is that tools meant to be fair actually automate and hide historical prejudice."
       },
       {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
+        "type": "short_answer",
+        "q": "What is the referent of the pronoun 'it' in the academic context provided in the first paragraph?",
+        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "skill": "reference",
+        "explain": "Academic tracking indicates the pronoun refers to the core mechanism under debate."
       },
       {
-        "type": "multiple-choice",
-        "q": "What does the convergence rate of 0.81 indicate?",
-        "options": [
-          "Strong reliability across sources",
-          "Low validity",
-          "Sampling error",
-          "Contradictory evidence"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "What does a convergence rate of 0.81 signify regarding the reliability of the research data?",
+        "answer": ["indicates strong reliability across multiple sources", "strong reliability"],
         "skill": "inference",
-        "explain": "The extension calls 0.81 strong reliability."
+        "explain": "High convergence across different data types suggests that the findings are robust."
       },
       {
-        "type": "multiple-choice",
-        "q": "What limitation is noted in the extension?",
-        "options": [
-          "Single-semester data may miss delayed effects",
-          "No participants were surveyed",
-          "The sample was too large",
-          "The topic is irrelevant"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "Identify the primary longitudinal limitation of the data presented in the research extension.",
+        "answer": ["single-semester data can miss delayed effects that appear only later", "lack of multi-semester tracking"],
         "skill": "detail",
-        "explain": "The extension explicitly notes this limitation."
-      },
-      {
-        "type": "multiple-choice",
-        "q": "Why is the extension included in the passage?",
-        "options": [
-          "To provide empirical support and practical implications",
-          "To change the topic entirely",
-          "To criticize unrelated studies",
-          "To summarize background definitions"
-        ],
-        "answer": 0,
-        "skill": "purpose",
-        "explain": "The extension adds evidence and recommendations."
+        "explain": "The authors warn that short-term data may not capture the full impact of the phenomenon."
       }
     ]
   },
@@ -1798,79 +1098,39 @@
     "text": "Regarding the multi-faceted dimensions of CRISPR-Cas9 and the Ethics of Human Germline Editing, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. The advent of CRISPR-Cas9 technology has revolutionized molecular biology, offering a precise and exceedingly cost-effective tool for genome engineering. While its potential to eradicate hereditary pathologies constitutes a paramount scientific breakthrough, the prospects of germline editing—altering the genetic blueprint of future generations—necessitate profound ethical scrutiny. Unlike somatic cell therapies, germline interventions are heritable, meaning any off-target mutations or unintended consequences would be irrevocably integrated into the human species. Concerns surrounding the emergence of 'designer babies' and the potential for a genetic divide between the affluent and the impoverished have catalyzed a global debate. Hence, the scientific community remains divided on whether the salutary benefits of such technology outweigh the systemic risks to human genetic diversity and societal egalitarianism. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of CRISPR-Cas9 and the Ethics of Human Germline Editing is fully addressed within a global context.\n\nRecent evidence extends the discussion. A mixed-methods study of 1,480 university students across four campuses reported that structured feedback and spaced practice were the strongest predictors of improvement, accounting for nearly 42% of the observed gains. However, the authors also warn of an implementation gap: policies may be well-designed but inconsistently applied at the classroom level. They recommend transparent criteria, short feedback cycles, and a minimum of two revision checkpoints for complex tasks.",
     "questions": [
       {
-        "type": "multiple-choice",
-        "q": "Why is germline editing considered more ethically significant than somatic editing?",
-        "options": [
-          "Because somatic editing is more expensive.",
-          "Because germline changes are heritable and affect all future generations.",
-          "Because CRISPR is only capable of performing germline editing.",
-          "Because somatic cells do not contain DNA."
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "Why is germline editing considered more ethically significant than somatic cell therapies?",
+        "answer": ["germline interventions are heritable and irrevocably integrated into the human species", "somatic therapies are not heritable while germline changes affect future generations"],
         "skill": "detail",
-        "explain": "The text notes germline interventions 'are heritable' and would be 'irrevocably integrated into the human species'."
+        "explain": "The key distinction is the permanence and transmissibility of genetic alterations across generations."
       },
       {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
+        "type": "short_answer",
+        "q": "Identify the specific referent of the pronoun 'it' in the academic preamble of the first paragraph.",
+        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "skill": "reference",
+        "explain": "The pronoun tracks the core operational principle discussed in the text."
       },
       {
-        "type": "multiple-choice",
-        "q": "According to the extension, how large was the study sample?",
-        "options": [
-          "1480 participants",
-          "220 participants",
-          "1,200 participants",
-          "32 instructors"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "According to the empirical study extension, what were identified as the strongest predictors of student improvement?",
+        "answer": ["structured feedback and spaced practice", "nearly 42% of gains explained by feedback and practice"],
         "skill": "detail",
-        "explain": "The extension explicitly states the sample size."
+        "explain": "The research highlights procedural consistency and repetition as the primary drivers of success."
       },
       {
-        "type": "multiple-choice",
-        "q": "Which factor explained the largest share of improvement?",
-        "options": [
-          "Structured feedback and spaced practice",
-          "Longer homework",
-          "More difficult assessments",
-          "Random variation"
-        ],
-        "answer": 0,
-        "skill": "detail_inference",
-        "explain": "The extension says structured feedback and spaced practice accounted for the largest share."
+        "type": "short_answer",
+        "q": "What specific implementation gap do the authors caution against in the context of institutional policy?",
+        "answer": ["policies may be well-designed but inconsistently applied at the classroom level", "gap between design and classroom application"],
+        "skill": "inference",
+        "explain": "Design excellence does not guarantee operational success if instructors do not follow protocol."
       },
       {
-        "type": "multiple-choice",
-        "q": "What recommendation is explicitly made in the extension?",
-        "options": [
-          "two revision checkpoints",
-          "Remove all rubrics",
-          "Eliminate feedback",
-          "Shorten courses"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "Describe the two revision checkpoints recommended for complex tasks in the extension.",
+        "answer": ["minimum of two revision checkpoints", "short feedback cycles with revision points"],
         "skill": "detail",
-        "explain": "The extension states this recommendation directly."
-      },
-      {
-        "type": "multiple-choice",
-        "q": "Why is the extension included in the passage?",
-        "options": [
-          "To provide empirical support and practical implications",
-          "To change the topic entirely",
-          "To criticize unrelated studies",
-          "To summarize background definitions"
-        ],
-        "answer": 0,
-        "skill": "purpose",
-        "explain": "The extension adds evidence and recommendations."
+        "explain": "The authors advocate for iterative feedback loops to ensure mastery."
       }
     ]
   },
@@ -1882,53 +1142,32 @@
     "text": "Regarding the multi-faceted dimensions of The Machine-a-Habit: Le Corbusier and the Ethics of High Modernism, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. Le Corbusier’s dictum that 'a house is a machine for living in' perfectly encapsulates the ethos of high modernism in architecture. His 'Five Points of Architecture'—including pilotis, ribbon windows, and roof gardens—sought to utilize industrial materials like reinforced concrete to liberate the human habitat from the constraints of traditional masonry. While his vision successfully facilitated the rapid urbanization necessitated by post-war recovery, critics hypothesize that its rigid geometric formalism dehumanized the urban experience. The vast, uniform housing blocks of the 'Radiant City' model often fostered a sense of civic detachment and social alienation. Consequently, the high-modernist paradigm is now frequently viewed as a utopian experiment that prioritized schematic efficiency over the complexities of human social interaction and psychological well-being. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of The Machine-a-Habit: Le Corbusier and the Ethics of High Modernism is fully addressed within a global context.\n\nA longitudinal dataset covering 18 cohorts between 2006 and 2022 shows that small procedural changes can produce disproportionate effects. When a baseline rubric was simplified and aligned with learning outcomes, completion rates rose by 12% while error patterns became more consistent. The authors attribute this to reduced ambiguity rather than increased difficulty, and they argue that clarity is a prerequisite for fairness.",
     "questions": [
       {
-        "type": "multiple-choice",
-        "q": "According to critics, what was the primary deficiency of Corbusier’s architectural vision?",
-        "options": [
-          "It was too expensive to build with reinforced concrete.",
-          "It failed to facilitate post-war urbanization.",
-          "It prioritized efficiency over human social and psychological needs.",
-          "It ignored the use of industrial materials."
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "Analyze the primary critique directed toward Le Corbusier's 'Radiant City' model of urban planning.",
+        "answer": ["rigid geometric formalism dehumanized the urban experience and fostered social alienation", "prioritized schematic efficiency over human social interaction"],
         "skill": "main_idea",
-        "explain": "Critics hypothesize that it 'dehumanized the urban experience' and 'prioritized schematic efficiency over... human social interaction'."
+        "explain": "Critics argue that the uniform, machine-like design failed to account for psychological well-being."
       },
       {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
+        "type": "short_answer",
+        "q": "What is the referent of the pronoun 'it' in the academic context provided in the first paragraph?",
+        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "skill": "reference",
+        "explain": "Standard academic tracking of the subject of debate."
       },
       {
-        "type": "multiple-choice",
-        "q": "What change occurred after simplifying the rubric?",
-        "options": [
-          "Completion rates rose by 12%",
-          "Accuracy dropped by 12%",
-          "Scores were unchanged",
-          "More ambiguity"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "According to the longitudinal extension, what was the impact of simplifying the baseline rubric on student outcomes?",
+        "answer": ["completion rates rose by 12% and error patterns became more consistent", "12% increase in completion due to reduced ambiguity"],
         "skill": "detail",
-        "explain": "The extension reports a 12% increase in completion rates."
+        "explain": "The data suggests that clarity in assessment criteria is a more significant driver than task difficulty."
       },
       {
-        "type": "multiple-choice",
-        "q": "Why is the extension included in the passage?",
-        "options": [
-          "To provide empirical support and practical implications",
-          "To change the topic entirely",
-          "To criticize unrelated studies",
-          "To summarize background definitions"
-        ],
-        "answer": 0,
-        "skill": "purpose",
-        "explain": "The extension adds evidence and recommendations."
+        "type": "short_answer",
+        "q": "Why do the authors argue that clarity in rubrics is a 'prerequisite for fairness'?",
+        "answer": ["reduced ambiguity ensures all students understand expectations equally", "clarity prevents unfair disadvantages caused by vague criteria"],
+        "skill": "inference",
+        "explain": "Fairness requires that all participants have equal access to the rules of the assessment."
       }
     ]
   },
@@ -1940,53 +1179,32 @@
     "text": "Regarding the multi-faceted dimensions of Plate Tectonics and the Paleoclimatic Record, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. The dynamic movement of Earth’s lithospheric plates constitutes a primary, albeit slow-acting, driver of climatic shifts over geological timescales. The redistribution of continental landmasses alters global ocean circulation patterns and atmospheric heat transport. For instance, the closure of the Isthmus of Panama approximately three million years ago facilitated the intensification of the Gulf Stream, which, paradoxically, may have supplied the moisture necessary for the glaciation of the Northern Hemisphere. Furthermore, the varying rates of subduction and volcanic activity influence the atmospheric concentration of CO2, thereby regulating the planetary greenhouse effect over millions of years. This intricate interplay between tectonic forcing and the paleoclimatic record elucidates why Earth’s climate remains in a state of perpetual, multi-scale flux. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of Plate Tectonics and the Paleoclimatic Record is fully addressed within a global context.\n\nA follow-up analysis compared two instructional designs: an intensive block model and a distributed model. Although the block model produced faster short-term gains, the distributed model retained 27% more content after six weeks. The report concludes that short-term efficiency should not be mistaken for long-term mastery, especially in high-stakes assessment contexts.",
     "questions": [
       {
-        "type": "multiple-choice",
-        "q": "How did the closure of the Isthmus of Panama influence the climate according to the passage?",
-        "options": [
-          "It caused the Gulf Stream to stop entirely.",
-          "It directly reduced the concentration of CO2 in the atmosphere.",
-          "It facilitated the intensification of currents that provided moisture for glaciation.",
-          "It prevented landmasses from redistributing heat."
-        ],
-        "answer": 2,
+        "type": "short_answer",
+        "q": "Describe the paradox of the Gulf Stream's intensification following the closure of the Isthmus of Panama.",
+        "answer": ["it supplied the moisture necessary for the glaciation of the Northern Hemisphere", "intensified currents led to cooling/glaciation despite heat transport"],
         "skill": "detail",
-        "explain": "The text states it 'facilitated the intensification of the Gulf Stream... supplied the moisture necessary for glaciation'."
+        "explain": "The irony is that a warm current (Gulf Stream) provided the moisture that eventually built ice sheets."
       },
       {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
+        "type": "short_answer",
+        "q": "Identify the referent of the pronoun 'it' in the academic preamble of the passage.",
+        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "skill": "reference",
+        "explain": "Standard tracking of the operational mechanism under discussion."
       },
       {
-        "type": "multiple-choice",
-        "q": "What was the retention advantage of the distributed model?",
-        "options": [
-          "27% more retained after six weeks",
-          "12% faster short-term gains",
-          "No difference",
-          "Lower comprehension"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "According to the research extension, what was the primary retention advantage of the distributed instructional model?",
+        "answer": ["retained 27% more content after six weeks compared to the block model", "27% higher retention"],
         "skill": "detail",
-        "explain": "The extension compares retention across models."
+        "explain": "The study highlights the superiority of spaced learning for long-term mastery."
       },
       {
-        "type": "multiple-choice",
-        "q": "Why is the extension included in the passage?",
-        "options": [
-          "To provide empirical support and practical implications",
-          "To change the topic entirely",
-          "To criticize unrelated studies",
-          "To summarize background definitions"
-        ],
-        "answer": 0,
-        "skill": "purpose",
-        "explain": "The extension adds evidence and recommendations."
+        "type": "short_answer",
+        "q": "What warning do the authors provide regarding the interpretation of 'short-term efficiency' in high-stakes contexts?",
+        "answer": ["efficiency should not be mistaken for long-term mastery", "fast gains do not guarantee durable learning"],
+        "skill": "inference",
+        "explain": "The report suggests that rapid initial improvement can be illusory if not sustained."
       }
     ]
   },
@@ -1998,53 +1216,32 @@
     "text": "Regarding the multi-faceted dimensions of The Silk Road: A Network of Economic and Cultural Diffusion, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. Far from being a single road, the 'Silk Road' comprised a vast, shifting network of trans-Eurasian trade routes that facilitated the diffusion of commodities, technologies, and ideologies for nearly two millennia. While silk remains the most celebrated commodity of this exchange, the transmission of paper-making, gunpowder, and mathematical concepts from East to West was arguably of greater historical significance. The varying stability of the dominant empires—such as the Han, Roman, and Mongol—dictated the safety and volume of this trans-continental commerce. This economic connectivity fostered the emergence of cosmopolitan hubs like Samarkand and Chang'an, where diverse cultural traditions hybridized. Consequently, the Silk Road serves as a historical precursor to contemporary globalization, demonstrating that systemic interdependence remains a recurring hallmark of human civilization. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of The Silk Road: A Network of Economic and Cultural Diffusion is fully addressed within a global context.\n\nIn a controlled trial, 32 instructors implemented a common protocol for feedback timing and language. The group using the protocol reduced misunderstanding errors by 19%, while the comparison group showed no significant change. The authors emphasize that consistency in feedback language, not volume, was the critical driver.",
     "questions": [
       {
-        "type": "multiple-choice",
-        "q": "What determined the safety and volume of commerce along the Silk Road?",
-        "options": [
-          "The quality of the silk produced in the East.",
-          "The stability of the major empires along the route.",
-          "The total distance between Samarkand and Chang'an.",
-          "The discovery of gunpowder."
-        ],
-        "answer": 1,
+        "type": "short_answer",
+        "q": "Identify the factors that primarily determined the safety and commercial volume of the trans-Eurasian trade network.",
+        "answer": ["the varying stability of dominant empires such as the Han, Roman, and Mongol", "empire stability"],
         "skill": "detail",
-        "explain": "The text states: 'The varying stability of the dominant empires... dictated the safety and volume of this trans-continental commerce.'"
+        "explain": "The security of trade routes was directly linked to the political and military strength of the regional powers."
       },
       {
-        "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
-        ],
-        "answer": 0
+        "type": "short_answer",
+        "q": "What is the referent of the pronoun 'it' in the academic context provided in the first paragraph?",
+        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "skill": "reference",
+        "explain": "Standard academic tracking of the subject of investigation."
       },
       {
-        "type": "multiple-choice",
-        "q": "What reduced misunderstanding errors in the trial?",
-        "options": [
-          "consistency in feedback language",
-          "More assignments",
-          "Longer lectures",
-          "Random chance"
-        ],
-        "answer": 0,
+        "type": "short_answer",
+        "q": "According to the empirical trial in the extension, what specific attribute of feedback was identified as the 'critical driver' of error reduction?",
+        "answer": ["consistency in feedback language", "not volume, but consistency in language"],
         "skill": "detail",
-        "explain": "The extension attributes the reduction to the stated driver."
+        "explain": "The study found that how feedback is phrased is more important than how much feedback is given."
       },
       {
-        "type": "multiple-choice",
-        "q": "Why is the extension included in the passage?",
-        "options": [
-          "To provide empirical support and practical implications",
-          "To change the topic entirely",
-          "To criticize unrelated studies",
-          "To summarize background definitions"
-        ],
-        "answer": 0,
-        "skill": "purpose",
-        "explain": "The extension adds evidence and recommendations."
+        "type": "short_answer",
+        "q": "How large was the experimental group of instructors involved in implementing the common protocol?",
+        "answer": ["32 instructors", "32"],
+        "skill": "detail",
+        "explain": "The extension explicitly states the participation of 32 instructors."
       }
     ]
   },
@@ -10844,6 +10041,138 @@
         ],
         "answer": 2,
         "skill": "main_idea"
+      }
+    ]
+  },
+  {
+    "id": "READ_BUEPT_26",
+    "title": "BUEPT Style: Quantum Supremacy and Cryptographic Transition",
+    "level": "P4",
+    "time": "25 min",
+    "text": "Regarding the multi-faceted dimensions of Quantum Supremacy and the Post-Quantum Cryptographic Transition, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. The advent of large-scale quantum computers, utilizing the principles of superposition and entanglement, poses an existential threat to contemporary asymmetric encryption protocols. Current standards, such as RSA and Elliptic Curve Cryptography (ECC), rely on the computational intractability of integer factorization and discrete logarithms—problems that Shor’s algorithm can solve in polynomial time. Consequently, the transition to post-quantum cryptography (PQC) is no longer a theoretical exercise but a systemic necessity for maintaining global data sovereignty. Modern scholars argue that the implementation of lattice-based or code-based cryptographic schemes must be prioritized to withstand quantum-level brute-force attacks. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of Quantum Supremacy is fully addressed within a global context.\n\nRecent evidence from a multi-institutional trial involving 12 cybersecurity firms suggests that the 'migration gap'—the time between the release of PQC standards and their full enterprise deployment—remains dangerously wide. The study found that while 85% of firms recognized the risk, only 14% had initiated a hardware-level inventory of quantum-vulnerable assets. The report recommends a 'crypto-agile' approach, emphasizing modular software architectures that allow for rapid algorithm replacement without complete system overhauls.",
+    "questions": [
+      {
+        "type": "short_answer",
+        "q": "Identify the two fundamental principles of quantum mechanics that underpin the capabilities of quantum computers.",
+        "answer": ["superposition and entanglement"],
+        "skill": "detail",
+        "explain": "The text explicitly mentions these principles as the basis for quantum computing's threat."
+      },
+      {
+        "type": "short_answer",
+        "q": "Why do current encryption standards like RSA and ECC fail to withstand quantum attacks?",
+        "answer": ["Shor’s algorithm can solve integer factorization and discrete logarithms in polynomial time", "quantum computers can solve the underlying math problems too quickly"],
+        "skill": "inference",
+        "explain": "The text explains that Shor's algorithm renders the current 'intractable' problems solvable."
+      },
+      {
+        "type": "short_answer",
+        "q": "What is the specific referent of the pronoun 'it' in the academic preamble of the first paragraph?",
+        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "skill": "reference",
+        "explain": "Standard academic tracking of the core mechanism under debate."
+      },
+      {
+        "type": "short_answer",
+        "q": "According to the trial extension, how large is the percentage of firms that have actually inventoried their vulnerable assets?",
+        "answer": ["14%", "only 14%"],
+        "skill": "detail",
+        "explain": "The text contrasts the 85% recognition rate with the 14% action rate."
+      },
+      {
+        "type": "short_answer",
+        "q": "Define the 'crypto-agile' approach as recommended in the research report.",
+        "answer": ["modular software architectures that allow for rapid algorithm replacement", "systems designed for easy algorithm updates without overhauls"],
+        "skill": "detail",
+        "explain": "The report advocates for agility through modularity to close the migration gap."
+      }
+    ]
+  },
+  {
+    "id": "READ_BUEPT_27",
+    "title": "BUEPT Style: Urban Heat Islands and Health Sociology",
+    "level": "P4",
+    "time": "25 min",
+    "text": "Regarding the multi-faceted dimensions of Urban Heat Islands (UHI) and the Sociology of Public Health, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. The UHI effect—where metropolitan areas experience significantly higher temperatures than their rural counterparts—is not merely a meteorological anomaly but a potent driver of socioeconomic inequality. The high concentration of impermeable surfaces, such as asphalt and concrete, coupled with the lack of vegetative canopies, creates thermal pockets that disproportionately affect marginalized communities. Sociologists argue that 'thermal inequity' is a byproduct of historical redlining and inequitable urban planning, which left lower-income neighborhoods with fewer green spaces and higher building densities. This environmental stressor exacerbates pre-existing health conditions, leading to increased rates of heat-related morbidity during extreme weather events. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of Urban Heat Islands is fully addressed within a global context.\n\nA longitudinal analysis of 24 major cities conducted between 2018 and 2023 indicates that 'green retrofitting'—the integration of vertical gardens and reflective roofing—can reduce localized peak temperatures by up to 3.5°C. However, the study warns of 'green gentrification,' where environmental improvements lead to increased property values, potentially displacing the very residents the interventions were intended to protect. The authors advocate for policy frameworks that pair ecological restoration with rent stabilization and community land trusts.",
+    "questions": [
+      {
+        "type": "short_answer",
+        "q": "Beyond meteorological factors, how do sociologists characterize the Urban Heat Island effect?",
+        "answer": ["a potent driver of socioeconomic inequality", "a byproduct of inequitable urban planning"],
+        "skill": "main_idea",
+        "explain": "The text frames UHI as a social and economic issue, not just a weather one."
+      },
+      {
+        "type": "short_answer",
+        "q": "Identify the historical factors cited as contributors to 'thermal inequity' in lower-income neighborhoods.",
+        "answer": ["historical redlining and inequitable urban planning", "redlining"],
+        "skill": "detail",
+        "explain": "The text links current thermal stress to past discriminatory planning policies."
+      },
+      {
+        "type": "short_answer",
+        "q": "What is the referent of the pronoun 'it' in the academic preamble of the first paragraph?",
+        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "skill": "reference",
+        "explain": "Standard academic tracking of the mechanism in question."
+      },
+      {
+        "type": "short_answer",
+        "q": "According to the longitudinal study, by how many degrees can 'green retrofitting' lower peak temperatures?",
+        "answer": ["up to 3.5°C", "3.5 degrees Celsius"],
+        "skill": "detail",
+        "explain": "The extension provides 3.5°C as the potential temperature reduction."
+      },
+      {
+        "type": "short_answer",
+        "q": "Explain the concept of 'green gentrification' as described in the research extension.",
+        "answer": ["environmental improvements leading to higher property values and displacement of residents", "improving the environment but driving up costs for locals"],
+        "skill": "inference",
+        "explain": "The text warns that ecological gains can have negative social consequences for the poor."
+      }
+    ]
+  },
+  {
+    "id": "READ_BUEPT_28",
+    "title": "BUEPT Style: Bioethics and CRISPR Gene Drives",
+    "level": "P4",
+    "time": "25 min",
+    "text": "Regarding the multi-faceted dimensions of Bioethics and CRISPR-Based Gene Drives, it is imperative to acknowledge that notwithstanding the initial empirical observations, the underlying mechanisms remain subject to rigorous scholarly debate. Gene drive technology allows for the preferential inheritance of specific genetic traits, potentially enabling the rapid alteration or even eradication of entire species in the wild. While the potential to eliminate vector-borne diseases like malaria or zika constitutes a monumental public health opportunity, the ecological risks remain profound. Critics hypothesize that the accidental release of gene-drive-modified organisms could lead to irreversible ecosystem collapse or the unintended extinction of non-target species. The lack of an international regulatory framework complicates the ethical landscape, as a single country’s decision to deploy a gene drive could have planetary consequences. Consequently, the bioethical discourse has shifted from technical feasibility to the necessity of 'global consent' and precautionary governance. Furthermore, the juxtaposition of these variables highlights a fundamental tension within the field—a tension that is compounded by the lack of consensus on primary methodological approaches. By the same token, the qualitative data points to a subtle but significant transformation in how these phenomena are conceptualized by stakeholders across various sectors. Inasmuch as the contemporary discourse suggests a pivot toward more integrated frameworks, the implications for future research are profound. Consequently, researchers must remain vigilant against reductive interpretations, ensuring that the complexity of CRISPR-Based Gene Drives is fully addressed within a global context.\n\nIn a controlled simulation involving 45 ecologists and bioethicists, the 'consensus gap' regarding the definition of 'acceptable risk' was identified as the primary barrier to policy formation. The simulation showed that while participants agreed on the high utility of the technology, 62% expressed concern over the lack of a 'kill switch'—a mechanism to reverse the gene drive once released. The report emphasizes the need for 'containment-by-design' and the development of synthetic neutralizers before field trials are authorized.",
+    "questions": [
+      {
+        "type": "short_answer",
+        "q": "What unique capability does gene drive technology provide in terms of species management?",
+        "answer": ["preferential inheritance of traits leading to rapid alteration or eradication of species", "ability to alter or eliminate entire species in the wild"],
+        "skill": "detail",
+        "explain": "The text defines gene drive by its ability to force certain traits through a population."
+      },
+      {
+        "type": "short_answer",
+        "q": "Why is the lack of an international regulatory framework particularly problematic for gene drive deployment?",
+        "answer": ["a single country's decision could have planetary consequences", "ecological effects are not contained by national borders"],
+        "skill": "inference",
+        "explain": "The text suggests that gene drives are inherently global in their potential impact."
+      },
+      {
+        "type": "short_answer",
+        "q": "Identify the referent of the pronoun 'it' in the academic preamble of the passage.",
+        "answer": ["the primary mechanism", "the underlying mechanism"],
+        "skill": "reference",
+        "explain": "Standard academic tracking."
+      },
+      {
+        "type": "short_answer",
+        "q": "According to the simulation study, what percentage of participants were concerned about the absence of a 'kill switch'?",
+        "answer": ["62%", "sixty-two percent"],
+        "skill": "detail",
+        "explain": "The extension explicitly cites the 62% figure regarding safety concerns."
+      },
+      {
+        "type": "short_answer",
+        "q": "Define the term 'kill switch' in the context of gene drive technology.",
+        "answer": ["a mechanism to reverse the gene drive once released", "a way to stop the genetic alteration if needed"],
+        "skill": "vocabulary_in_context",
+        "explain": "The text defines it as a reversal mechanism for safety."
       }
     ]
   }
