@@ -225,6 +225,8 @@ export async function speakText(text, customOptions = {}) {
  */
 export function useTts() {
     const [isPlaying, setIsPlaying] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voiceId, setVoiceIdState] = useState('');
     const [rate, setRateState] = useState(0.55);
     const [useExperimental, setUseExperimental] = useState(isWeb); // On by default for Web for "Real Person" feel
     const [apiEndpoint, setApiEndpoint] = useState('https://translate.google.com/translate_tts?ie=UTF-8&q={{TEXT}}&tl=en&client=tw-ob'); 
