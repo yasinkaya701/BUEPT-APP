@@ -12,9 +12,10 @@ import { openExternalResource } from '../utils/externalLinks';
 
 import baseTasks from '../../data/listening_tasks.json';
 import hardTasks from '../../data/listening_tasks_hard.json';
+import cslTasks from '../../data/careful_selective_tasks.json';
 import podcasts from '../../data/listening_podcasts.json';
 
-const tasks = [...baseTasks, ...hardTasks];
+const tasks = [...baseTasks, ...hardTasks, ...cslTasks];
 const LEVEL_OPTIONS = ['ALL', 'P1', 'P2', 'P3', 'P4'];
 const TYPE_OPTIONS = [
   { key: 'ALL', label: 'All types' },

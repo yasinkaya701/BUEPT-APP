@@ -1,0 +1,618 @@
+[
+  {
+    "id": "CSL_P4_01",
+    "title": "Neuroplasticity and the Architecture of Adult Learning",
+    "type": "careful",
+    "level": "P4",
+    "time": "15 min",
+    "category": "Neuroscience",
+    "transcript": "Good morning, everyone. Today, we delve into a topic that has radically transformed our understanding of the human brain over the last few decades: neuroplasticity, specifically within the context of adult learning. For a long time, the prevailing dogma in neuroscience was that the adult brain was relatively fixed, a rigid structure whose critical periods for growth had long since closed. We believed that once you reached a certain age, your neural pathways were essentially 'hard-wired.' However, we now know that this is far from the truth. The brain is, in fact, an exquisitely plastic organ, capable of structural and functional reorganization throughout the entire lifespan.\n\nTo understand adult neuroplasticity, we must first look at the cellular level. When we learn a new skill—whether it's a foreign language, a complex mathematical theorem, or even a physical task like playing the cello—our neurons are engaged in a process known as synaptogenesis. This involves the creation of new synaptic connections. But more importantly for adults, it involves the strengthening or weakening of existing synapses, a phenomenon described by Hebbian theory: 'cells that fire together, wire together.'\n\nOne of the most critical mechanisms in this process is long-term potentiation, or LTP. LTP is a persistent strengthening of synapses based on recent patterns of activity. These are patterns of synaptic activity that produce a long-lasting increase in signal transmission between two neurons. Think of it as a well-trodden path in a forest. The more you walk it, the clearer and more established the path becomes. In the brain, this 'path' is a neural circuit. Conversely, we have long-term depression, or LTD, which is the selective weakening of specific synapses. This pruning is just as vital as the strengthening. Without it, the brain would become overly cluttered with irrelevant information, leading to what some researchers call 'neural noise.'\n\nNow, let's pivot to the role of myelin. You might recall from introductory biology that myelin is the fatty sheath that insulates the axons of neurons. For a long time, it was thought to be a static insulator. Recent research, however, suggests that 'myelination'—the process of forming this sheath—is actually a dynamic component of adult learning. When we practice a skill repeatedly, the oligodendrocytes in our brain increase the thickness of the myelin around the specific circuits being used. This increases the speed of electrical impulses, making the circuit significantly more efficient. In essence, our brain isn't just changing its 'wiring'; it's upgrading its 'bandwidth.'\n\nHowever, neuroplasticity in adults comes with a catch. Unlike the 'effortless' plasticity of childhood, adult plasticity is 'gated.' It requires intense focus and emotional salience. This is regulated by the basal forebrain, which releases acetylcholine during tasks that require deep concentration. Without this cholinergic input, the brain's 'plasticity switches' remain largely in the 'off' position. This is why mindlessly scrolling through a textbook rarely leads to lasting knowledge. True learning requires the metabolic cost of deep focus.\n\nFurthermore, we must consider the impact of environmental enrichment. Studies on aging populations have shown that individuals who engage in 'cognitive cross-training'—that is, learning skills outside their usual expertise—show higher levels of Brain-Derived Neurotrophic Factor, or BDNF. BDNF is often referred to as 'Miracle-Gro for the brain.' It supports the survival of existing neurons and encourages the growth and differentiation of new neurons and synapses.\n\nIn conclusion, the architecture of the adult brain is not a static blueprint but a living, breathing work in progress. While the metabolic and cognitive cost of change is higher in adulthood, the rewards are immense. By understanding the roles of LTP, myelination, and cholinergic gating, we can better design educational frameworks that leverage the brain's inherent ability to rewire itself. Next week, we will examine how chronic stress can hijack these same mechanisms to induce maladaptive plasticity. Are there any questions before we conclude?",
+    "ideal_clusters": [
+      ["neuroplasticity", "plastic", "reorganization", "lifespan"],
+      ["synaptogenesis", "synapses", "Hebbian", "wire together"],
+      ["long-term potentiation", "LTP", "strengthening", "transmission"],
+      ["long-term depression", "LTD", "weakening", "pruning"],
+      ["myelin", "insulation", "efficiency", "bandwidth"],
+      ["acetylcholine", "focus", "basal forebrain", "gated"],
+      ["BDNF", "growth", "survival", "neurotrophic"]
+    ],
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "q": "What was the traditional 'dogma' in neuroscience regarding the adult brain?",
+        "options": [
+          "The brain continues to grow new neurons indefinitely.",
+          "The brain's structure becomes fixed and unchangeable after a certain age.",
+          "Critical periods for learning remain open throughout adulthood.",
+          "Myelination is the primary driver of childhood development only."
+        ],
+        "answer": 1,
+        "skill": "main_idea",
+        "explain": "The speaker mentions the 'prevailing dogma' was that the adult brain was 'relatively fixed' and 'hard-wired'."
+      },
+      {
+        "type": "cloze",
+        "q": "According to Hebbian theory, neurons that ______ together, ______ together.",
+        "options": [
+          "fire, wire",
+          "learn, grow",
+          "act, react",
+          "bond, strengthen"
+        ],
+        "answer": 0,
+        "skill": "detail",
+        "explain": "The speaker explicitly quotes: 'cells that fire together, wire together.'"
+      },
+      {
+        "type": "multiple-choice",
+        "q": "How does the speaker contrast synaptogenesis with LTP/LTD?",
+        "options": [
+          "Synaptogenesis is childhood-specific, while LTP is for adults.",
+          "Synaptogenesis creates new connections, while LTP/LTD modifies existing ones.",
+          "LTP is a chemical process, whereas synaptogenesis is purely electrical.",
+          "LTD is the failure of synaptogenesis."
+        ],
+        "answer": 1,
+        "skill": "inference",
+        "explain": "The speaker states synaptogenesis is the 'creation of new synaptic connections' but modification of existing ones (LTP/LTD) is 'more important for adults'."
+      },
+      {
+        "type": "multiple-choice",
+        "q": "What is the primary function of Long-Term Depression (LTD) mentioned in the lecture?",
+        "options": [
+          "To cause clinical depression in the learner.",
+          "To speed up neural impulses across axons.",
+          "To selectively weaken synapses and reduce 'neural noise'.",
+          "To prevent the release of acetylcholine."
+        ],
+        "answer": 2,
+        "skill": "detail",
+        "explain": "The speaker says LTD is 'selective weakening' which is 'vital' to prevent the brain from becoming 'cluttered with irrelevant information'."
+      },
+      {
+        "type": "multiple-choice",
+        "q": "Why does the speaker refer to myelination as an 'upgrading of bandwidth'?",
+        "options": [
+          "Because it increases the number of neurons in the brain.",
+          "Because it thickens the insulating sheath to speed up electrical signals.",
+          "Because it allows the brain to connect to external digital devices.",
+          "Because it replaces damaged neural circuits with new ones."
+        ],
+        "answer": 1,
+        "skill": "inference",
+        "explain": "The speaker explains that myelination increases the speed of impulses, making the circuit 'more efficient'."
+      },
+      {
+        "type": "multiple-choice",
+        "q": "According to the lecture, why is 'mindless scrolling' ineffective for learning?",
+        "options": [
+          "The blue light from screens inhibits synaptogenesis.",
+          "Adult plasticity requires the release of acetylcholine triggered by intense focus.",
+          "Textbooks are inherently less engaging than digital media.",
+          "The brain cannot process information faster than 140 words per minute."
+        ],
+        "answer": 1,
+        "skill": "detail_inference",
+        "explain": "The speaker notes that adult plasticity is 'gated' and requires focus to release acetylcholine from the basal forebrain."
+      },
+      {
+        "type": "cloze",
+        "q": "BDNF is described as '______ for the brain' because it supports neuron survival and growth.",
+        "options": [
+          "Fuel",
+          "Miracle-Gro",
+          "Oxygen",
+          "Electricity"
+        ],
+        "answer": 1,
+        "skill": "vocabulary_in_context",
+        "explain": "The speaker says: 'BDNF is often referred to as Miracle-Gro for the brain.'"
+      }
+    ]
+  },
+  {
+    "id": "CSL_P4_02",
+    "title": "Historical Impact of the Printing Press",
+    "type": "selective",
+    "level": "P4",
+    "time": "15 min",
+    "category": "History",
+    "transcript": "In this session, we're going to track the specific developments and quantitative shifts brought about by the invention of the printing press in 15th-century Europe. While we often discuss its general impact on the Reformation and the Scientific Revolution, today I want you to focus on the technical milestones, key figures, and specific dates that defined this era.\n\nFirst, the timeline. Johannes Gutenberg is credited with the invention of the movable type printing press in Mainz, Germany, around the year 1440. It's important to note that woodblock printing had existed in East Asia for centuries, but Gutenberg's innovation was the combination of three key elements: movable metal type, oil-based ink, and a screw-type press derived from agricultural wine presses.\n\nBy 1450, Gutenberg's press was fully operational. His most famous project, the 'Gutenberg Bible,' also known as the 42-line Bible, began production in 1452 and was completed in 1455. Approximately 180 copies were printed—a staggering number for the time. Of these, 135 were printed on paper and 45 on vellum, which is fine calfskin. To give you an idea of the speed, a single press could produce about 3,600 pages per workday, whereas a hand-copying monk might manage only a few pages a day.\n\nNow, let's look at the rapid spread of this technology. By 1480, printing presses were operational in over 110 cities across Europe. By 1500, that number had jumped to 236 cities. We estimate that by the turn of the century, over 20 million volumes had been produced. This period of early printing, from 1450 to 1500, is known to historians as the 'Incunabula' period, from the Latin word for 'cradle.'\n\nOne of the most influential figures after Gutenberg was Aldus Manutius, who established the Aldine Press in Venice in 1494. Manutius is credited with several innovations we take for granted today. In 1501, he introduced the 'Octavo' format—a smaller, portable book size that was roughly equivalent to a modern pocketbook. Before this, books were usually large 'Folios' meant to stay on lecterns. He also introduced the Italic typeface in the same year, 1501, which was designed to mimic humanistic handwriting and save space on the page.\n\nAnother key metric is the drop in book prices. Between 1450 and 1500, the cost of a book dropped by approximately 80%. This democratization of information led to a surge in literacy. In England, for example, literacy rates among the urban male population rose from roughly 5% in 1450 to nearly 15% by 1500.\n\nWe also see the birth of the first 'best-sellers.' Desiderius Erasmus, the Dutch humanist, is often cited as the first author to truly leverage the press for fame. His work, 'The Praise of Folly,' printed in 1511, went through dozens of editions in his lifetime. By the 1520s, Martin Luther's German translation of the New Testament had sold an estimated 200,000 copies—a feat impossible just 80 years earlier.\n\nFinally, consider the impact on language standardization. William Caxton, who set up the first press in England in 1476, chose the East Midlands dialect for his translations. Because these books were distributed widely, this specific dialect became the basis for what we now know as Standard Modern English. Without Caxton's 1476 press in Westminster, English might have remained a fractured collection of regional dialects.\n\nI'll pause here. Please ensure you have the specific dates for Gutenberg's Bible, the start of the Aldine Press, and Caxton's first English press in your notes. We will now move on to the impact on the scientific community.",
+    "ideal_clusters": [
+      ["Gutenberg", "Mainz", "1440", "movable type"],
+      ["42-line Bible", "1452-1455", "180 copies", "vellum"],
+      ["Incunabula", "1450-1500", "20 million volumes"],
+      ["Aldus Manutius", "Venice", "1494", "Octavo", "1501"],
+      ["Italic", "1501", "handwriting", "space-saving"],
+      ["literacy", "80% price drop", "urban males"],
+      ["Caxton", "1476", "Westminster", "standardization"]
+    ],
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "q": "In which city did Johannes Gutenberg invent the movable type press?",
+        "options": [
+          "Venice",
+          "Mainz",
+          "Westminster",
+          "Amsterdam"
+        ],
+        "answer": 1,
+        "skill": "detail",
+        "explain": "The speaker mentions Gutenberg is credited with the invention in Mainz, Germany."
+      },
+      {
+        "type": "multiple-choice",
+        "q": "What was the total estimated volume of books produced during the 'Incunabula' period?",
+        "options": [
+          "180 copies",
+          "3,600 volumes",
+          "20 million volumes",
+          "200,000 volumes"
+        ],
+        "answer": 2,
+        "skill": "detail",
+        "explain": "The speaker says: 'over 20 million volumes had been produced' by 1500."
+      },
+      {
+        "type": "multiple-choice",
+        "q": "What was the primary innovation of the 'Octavo' format introduced in 1501?",
+        "options": [
+          "It used oil-based ink for the first time.",
+          "It was a smaller, portable book size.",
+          "It allowed for color printing.",
+          "It was the first format to use vellum."
+        ],
+        "answer": 1,
+        "skill": "detail",
+        "explain": "Aldus Manutius introduced the Octavo format in 1501 as a 'smaller, portable book size'."
+      },
+      {
+        "type": "multiple-choice",
+        "q": "When did William Caxton establish the first printing press in England?",
+        "options": [
+          "1440",
+          "1455",
+          "1476",
+          "1501"
+        ],
+        "answer": 2,
+        "skill": "detail",
+        "explain": "The speaker states: 'William Caxton, who set up the first press in England in 1476'."
+      },
+      {
+        "type": "multiple-choice",
+        "q": "By what percentage did the price of books drop between 1450 and 1500?",
+        "options": [
+          "5%",
+          "15%",
+          "50%",
+          "80%"
+        ],
+        "answer": 3,
+        "skill": "detail",
+        "explain": "The speaker mentions the cost of a book dropped by 'approximately 80%'."
+      }
+    ]
+  },
+  {
+    "id": "CSL_P4_03",
+    "title": "Macroeconomic Policy and the Middle-Income Trap",
+    "type": "careful",
+    "level": "P4",
+    "time": "15 min",
+    "category": "Economics",
+    "transcript": "In today's lecture, we focus on the challenges facing developing nations as they attempt to transition from middle-income to high-income status—a phenomenon often referred to as the 'Middle-Income Trap.' This occurs when a country's growth plateaus and eventually stagnates after reaching a certain per capita income level, usually between $1,000 and $12,000. \n\nHistorically, many nations achieved initial growth through low-cost labor and the export of manufactured goods. However, as wages rise, these countries lose their competitive advantage against lower-income neighbors. To escape the trap, they must transition from 'input-driven' growth to 'innovation-driven' growth. This requires a fundamental shift in macroeconomic policy. \n\nOne of the primary hurdles is the 'Lewisian turning point,' where the surplus of cheap rural labor is exhausted. When this happens, wage inflation begins to outpace productivity gains. If a nation does not have a robust industrial policy to move up the value chain—into high-tech manufacturing or advanced services—it becomes stuck. It can no longer compete with low-wage economies in simple manufacturing, nor can it compete with advanced economies in innovation.\n\nFiscal policy plays a crucial role here. Governments must invest heavily in human capital—specifically, higher education and technical vocational training. However, many middle-income nations suffer from 'fiscal procyclicality,' meaning they spend too much during booms and are forced to cut spending during recessions. This volatility discourages long-term private investment. Furthermore, we must look at the 'Exchange Rate Regime.' A fixed exchange rate can provide stability but may lead to a loss of export competitiveness if the currency becomes overvalued. \n\nIn conclusion, escaping the Middle-Income Trap is not just about growth; it's about structural transformation. It requires building institutions that protect intellectual property, foster competition, and ensure a stable macroeconomic environment. Next time, we will look at South Korea and Brazil as two contrasting case studies in this regard.",
+    "ideal_clusters": [
+      ["middle-income trap", "stagnation", "plateau"],
+      ["innovation-driven", "input-driven", "transition"],
+      ["Lewisian turning point", "surplus labor", "wage inflation"],
+      ["fiscal procyclicality", "volatility", "human capital"],
+      ["structural transformation", "institutions", "competitiveness"]
+    ],
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "q": "What defines the 'Middle-Income Trap' according to the speaker?",
+        "options": [
+          "A complete collapse of the national currency.",
+          "Growth stagnation after reaching a specific income level.",
+          "Over-reliance on high-tech exports.",
+          "A lack of natural resources for industrialization."
+        ],
+        "answer": 1,
+        "skill": "main_idea"
+      },
+      {
+        "type": "multiple-choice",
+        "q": "What is the 'Lewisian turning point' mentioned in the lecture?",
+        "options": [
+          "The moment a country enters the WTO.",
+          "The point where rural labor surplus is exhausted, leading to wage rises.",
+          "The transition from a monarchy to a democracy.",
+          "The discovery of significant oil or gas reserves."
+        ],
+        "answer": 1,
+        "skill": "detail"
+      }
+    ]
+  },
+  {
+    "id": "CSL_P4_04",
+    "title": "Quantum Ethics: The Power of Entanglement",
+    "type": "careful",
+    "level": "P4",
+    "time": "15 min",
+    "category": "Technology/Ethics",
+    "transcript": "The advent of quantum computing is often framed as a purely technical race—a quest for qubits and coherence times. But today, I want to address the ethical landscape of this second quantum revolution. Quantum entanglement, which allows particles to share information instantaneously across vast distances, isn't just a physics curiosity; it's the foundation for a new era of global power dynamics.\n\nFirst, consider the 'Quantum Decryption' threat. Most of our current digital security—from banking to state secrets—relies on RSA encryption, which is based on the mathematical difficulty of factoring large numbers. A sufficiently powerful quantum computer running Shor's Algorithm could theoretically break this encryption in minutes. The ethical dilemma here is 'Harvest Now, Decrypt Later.' State actors are currently intercepting and storing encrypted data today, waiting for the day they have the quantum hardware to unlock it. This creates a retroactive loss of privacy on a global scale.\n\nSecond, we must discuss the 'Quantum Divide.' The cost of developing quantum hardware is immense, limiting it to a few powerful nations and mega-corporations. This could lead to a form of 'computational colonialism,' where those with quantum supremacy can monopolize drug discovery, materials science, and financial modeling, leaving the rest of the world at a permanent disadvantage.\n\nIn conclusion, we need 'Post-Quantum Cryptography' standards now. We cannot wait for the first 'Y2Q'—the year quantum computers break the internet—before we act. We must ensure that the benefits of quantum technology are distributed equitably and that our digital foundations are secured against the looming threat of decryption.",
+    "ideal_clusters": [
+      ["quantum decryption", "Shor's Algorithm", "RSA encryption"],
+      ["Harvest Now, Decrypt Later", "retroactive privacy"],
+      ["Quantum Divide", "computational colonialism", "monopoly"],
+      ["Post-Quantum Cryptography", "Y2Q", "equitable distribution"]
+    ],
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "q": "What is the 'Harvest Now, Decrypt Later' strategy?",
+        "options": [
+          "Planting malware that activates only in the presence of quantum hardware.",
+          "Collecting encrypted data today to decrypt it once quantum computers are available.",
+          "Investing in quantum startups to control the future market.",
+          "Using quantum sensors to improve agricultural yields."
+        ],
+        "answer": 1,
+        "skill": "detail"
+      },
+      {
+        "type": "multiple-choice",
+        "q": "What is the speaker's main concern regarding the 'Quantum Divide'?",
+        "options": [
+          "The environmental impact of cooling quantum computers.",
+          "The potential for a few entities to monopolize high-level technological advances.",
+          "The difficulty of teaching quantum physics in schools.",
+          "The risk of quantum computers becoming sentient."
+        ],
+        "answer": 1,
+        "skill": "inference"
+      }
+    ]
+  },
+  {
+    "id": "CSL_P4_05",
+    "title": "Marine Biology: Coral Reef Vital Signs",
+    "type": "selective",
+    "level": "P4",
+    "time": "15 min",
+    "category": "Science",
+    "transcript": "Welcome to the Marine Biology Lab. Today we are looking at the Great Barrier Reef's vital signs. I want you to note down the specific percentages and temperature thresholds mentioned in this briefing.\n\nAs of 2023, the Great Barrier Reef has experienced four major mass bleaching events in the last seven years. The most severe occurred in 2016, where an estimated 22% of the entire reef's coral died. In the northern section alone, that figure rose to a staggering 67%.\n\nCoral bleaching is primarily driven by rising sea surface temperatures. The critical threshold is a sustained increase of just 1.5 degrees Celsius above the historical summer maximum. If temperatures remain at this level for more than 4 to 6 weeks, the symbiotic relationship between the coral polyps and the zooxanthellae—the colorful algae that provide them with nutrients—breaks down. The coral expels the algae, loses its color, and begins to starve.\n\nWhile some recovery was seen in 2021, with coral cover reaching 36% in the northern and central regions—the highest in 36 years—this recovery is fragile. The dominant coral species, Acropora, is fast-growing but highly susceptible to heat stress and storm damage. \n\nWe also need to track the impact of the Crown-of-Thorns starfish. One starfish can consume up to 10 square meters of coral per year. Outbreaks are often linked to nutrient runoff from the mainland, which increases the survival rate of starfish larvae. \n\nMake sure you have recorded the 2016 mortality rate for the northern section and the specific degree of temperature rise that triggers a bleaching event.",
+    "ideal_clusters": [
+      ["bleaching events", "2016", "22%", "67% northern"],
+      ["1.5 degrees Celsius", "4 to 6 weeks", "zooxanthellae"],
+      ["Acropora", "36% coral cover", "recovery"],
+      ["Crown-of-Thorns starfish", "10 square meters", "nutrient runoff"]
+    ],
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "q": "What percentage of coral in the northern section of the reef died during the 2016 bleaching event?",
+        "options": [
+          "22%",
+          "36%",
+          "67%",
+          "1.5%"
+        ],
+        "answer": 2,
+        "skill": "detail"
+      },
+      {
+        "type": "multiple-choice",
+        "q": "What is the specific temperature increase that triggers a mass bleaching event?",
+        "options": [
+          "0.5 degrees Celsius",
+          "1.0 degrees Celsius",
+          "1.5 degrees Celsius",
+          "3.0 degrees Celsius"
+        ],
+        "answer": 2,
+        "skill": "detail"
+      }
+    ]
+  },
+  {
+    "id": "CSL_P4_06",
+    "title": "Landmarks of the Civil Rights Movement",
+    "type": "selective",
+    "level": "P4",
+    "time": "15 min",
+    "category": "History",
+    "transcript": "In this review, we are focusing on the specific locations and dates that defined the peak of the Civil Rights Movement between 1954 and 1968. \n\nThe starting point is often cited as the Brown v. Board of Education Supreme Court decision in 1954, which ruled that 'separate but equal' was unconstitutional in public schools. This was followed by the Montgomery Bus Boycott, which began on December 5, 1955, after Rosa Parks' arrest, and lasted for 381 days until December 20, 1956.\n\nIn 1960, the 'Greensboro Sit-ins' began on February 1st at a Woolworth's lunch counter in North Carolina. This sparked a wave of non-violent protests across the South. In 1963, we see the 'Birmingham Campaign,' where police use of fire hoses and dogs against child protesters in May led to a national outcry. This culminated in the March on Washington on August 28, 1963, where an estimated 250,000 people gathered to hear the 'I Have a Dream' speech.\n\nTwo major pieces of legislation followed: The Civil Rights Act of 1964, signed on July 2nd, and the Voting Rights Act of 1965, signed on August 6th. The latter was pushed forward by the 'Bloody Sunday' march in Selma, Alabama, on March 7, 1965.\n\nFinally, the movement faced a major turning point with the assassination of Dr. King on April 4, 1968, in Memphis, Tennessee. \n\nEnsure your notes include the exact duration of the Montgomery Bus Boycott and the date the Voting Rights Act was signed into law.",
+    "ideal_clusters": [
+      ["Brown v. Board", "1954", "unconstitutional"],
+      ["Montgomery Bus Boycott", "381 days", "1955-1956"],
+      ["Greensboro Sit-ins", "Feb 1, 1960"],
+      ["March on Washington", "Aug 28, 1963", "250,000 people"],
+      ["Civil Rights Act 1964", "July 2"],
+      ["Voting Rights Act 1965", "Aug 6", "Selma", "Bloody Sunday"],
+      ["Assassination", "April 4, 1968", "Memphis"]
+    ],
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "q": "How long did the Montgomery Bus Boycott last?",
+        "options": [
+          "100 days",
+          "250 days",
+          "381 days",
+          "500 days"
+        ],
+        "answer": 2,
+        "skill": "detail"
+      },
+      {
+        "type": "multiple-choice",
+        "q": "On what date was the Voting Rights Act of 1965 signed into law?",
+        "options": [
+          "July 2, 1964",
+          "March 7, 1965",
+          "August 6, 1965",
+          "April 4, 1968"
+        ],
+        "answer": 2,
+        "skill": "detail"
+      }
+    ]
+  },
+  {
+    "id": "CSL_P4_07",
+    "title": "Post-Colonial Literature: The Subaltern Voice",
+    "type": "careful",
+    "level": "P4",
+    "time": "15 min",
+    "category": "Literature/Sociology",
+    "transcript": "In this seminar, we examine the 'Subaltern' in post-colonial literature—a term borrowed from Antonio Gramsci but significantly expanded by Gayatri Chakravorty Spivak. The central question we must grapple with is: 'Can the subaltern speak?' \n\nBy 'subaltern,' we refer to those segments of society who are outside of the established power structures—socially, politically, and geographically. In the colonial context, this includes the colonized population whose history and identity were often erased or rewritten by the colonizer. Spivak argues that when we attempt to 'speak for' the subaltern, we often inadvertently reinforce their silence. The act of translation and representation by the intellectual often overwrites the original voice of the oppressed.\n\nWe also need to consider Edward Said's 'Orientalism.' Said describes how the West created a romanticized, exotic, and often patronizing view of the 'East' (the Orient). This wasn't just a literary trend; it was a tool of imperial domination. By defining the Orient as 'irrational' and 'backwards,' the West justified its 'civilizing mission.' \n\nIn conclusion, studying post-colonial literature requires us to read 'against the grain.' We must look for the gaps, the silences, and the marginalized figures who were never meant to be the protagonists. Next week, we will analyze Chinua Achebe's 'Things Fall Apart' through this lens. Are there any thoughts on how these concepts apply to modern digital media representation?",
+    "ideal_clusters": [
+      ["subaltern", "Gramsci", "Spivak", "silence"],
+      ["Orientalism", "Edward Said", "imperial domination"],
+      ["representation", "intellectual", "overwriting"],
+      ["read against the grain", "marginalized figures"]
+    ],
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "q": "What is Spivak's main argument regarding intellectuals 'speaking for' the subaltern?",
+        "options": [
+          "It is the only way to get the subaltern's message across.",
+          "It often results in overwriting and reinforcing the subaltern's silence.",
+          "It is a necessary step towards decolonization.",
+          "It helps in standardizing the subaltern's language."
+        ],
+        "answer": 1,
+        "skill": "inference"
+      }
+    ]
+  },
+  {
+    "id": "CSL_P4_08",
+    "title": "Astrophysics: The Dark Matter Mystery",
+    "type": "careful",
+    "level": "P4",
+    "time": "15 min",
+    "category": "Science",
+    "transcript": "Today we address one of the most profound mysteries in modern astrophysics: Dark Matter. This is the 'missing mass' problem that has puzzled scientists since Fritz Zwicky first observed it in the Coma Cluster in the 1930s.\n\nThe core evidence comes from 'Galactic Rotation Curves.' According to Newtonian physics, stars at the edge of a galaxy should move slower than those at the center. However, observations show that stars at the outskirts are moving just as fast as those near the core. There must be an invisible, massive substance providing the gravitational pull to keep these stars in orbit. We call this Dark Matter.\n\nDark Matter does not emit, absorb, or reflect light, making it invisible to our telescopes. It interacts only through gravity. We estimate that Dark Matter makes up about 27% of the universe, while normal matter—everything we can see—makes up only 5%. The rest is Dark Energy.\n\nOne leading candidate for Dark Matter is 'WIMPs'—Weakly Interacting Massive Particles. These are hypothetical particles that pass through normal matter without any interaction except for gravity. Another possibility is 'MACHOs'—Massive Compact Halo Objects—like black holes or brown dwarfs, though current data suggests MACHOs cannot account for all the missing mass.\n\nIn conclusion, we are currently in a race to detect a Dark Matter particle directly. Underground labs like the Sanford Underground Research Facility are using liquid xenon tanks to catch the faint flash of a WIMP interaction. If we solve this, we unlock the secret to the structure and fate of our universe.",
+    "ideal_clusters": [
+      ["Dark Matter", "missing mass", "Zwicky"],
+      ["Galactic Rotation Curves", "Newtonian physics", "orbital speed"],
+      ["27% Dark Matter", "5% normal matter"],
+      ["WIMPs", "Weakly Interacting Massive Particles"],
+      ["MACHOs", "Liquid Xenon", "detection"]
+    ],
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "q": "What is the primary evidence for Dark Matter provided by 'Galactic Rotation Curves'?",
+        "options": [
+          "Stars at the center of galaxies move faster than expected.",
+          "Stars at the edges of galaxies move as fast as those near the center.",
+          "Galaxies are expanding faster than the speed of light.",
+          "Black holes at the center of galaxies are shrinking."
+        ],
+        "answer": 1,
+        "skill": "detail"
+      }
+    ]
+  },
+  {
+    "id": "CSL_P4_09",
+    "title": "Renaissance Art: The Chemistry of Color",
+    "type": "selective",
+    "level": "P4",
+    "time": "15 min",
+    "category": "Art History/Science",
+    "transcript": "In this briefing, we're tracking the material costs and chemical origins of the most expensive pigments used in 15th-century Renaissance Florence. \n\nThe most prized pigment was 'Ultramarine,' made from the semi-precious stone Lapis Lazuli, imported primarily from the Sar-e-Sang mines in modern-day Afghanistan. In 1450, high-quality Ultramarine could cost up to 5 Florins per ounce—more than the weight of gold.\n\nNext is 'Vermilion,' a brilliant red made from Cinnabar (mercury sulfide). While cheaper than Ultramarine, it was highly toxic. A pound of standard Vermilion cost roughly 1 Florin. For the deeper 'Crimson,' artists used 'Kermes' or 'Cochineal,' derived from crushed insects. These were often reserved for the robes of the Virgin Mary or high-ranking patrons.\n\nFor blues on a budget, artists used 'Azurite,' a copper carbonate mineral. Azurite was about 1/10th the cost of Ultramarine, but it had a greenish tint over time. Finally, 'Lead-Tin Yellow' was the go-to for highlights, costing about 0.5 Florins per pound. It was valued for its stability and opacity.\n\nMake sure you have the 1450 cost of Ultramarine and the chemical origin of Vermilion in your records. We will now discuss how these costs dictated the composition of famous altarpieces.",
+    "ideal_clusters": [
+      ["Ultramarine", "Lapis Lazuli", "5 Florins per ounce"],
+      ["Vermilion", "Cinnabar", "mercury sulfide", "1 Florin"],
+      ["Azurite", "copper carbonate", "budget blue"],
+      ["Lead-Tin Yellow", "0.5 Florins"]
+    ],
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "q": "How much did an ounce of high-quality Ultramarine cost in 1450?",
+        "options": [
+          "0.5 Florins",
+          "1 Florin",
+          "5 Florins",
+          "10 Florins"
+        ],
+        "answer": 2,
+        "skill": "detail"
+      },
+      {
+        "type": "multiple-choice",
+        "q": "What is the chemical composition of the pigment Vermilion?",
+        "options": [
+          "Copper carbonate",
+          "Mercury sulfide",
+          "Lead oxide",
+          "Lapis Lazuli"
+        ],
+        "answer": 1,
+        "skill": "detail"
+      }
+    ]
+  },
+  {
+    "id": "CSL_P4_10",
+    "title": "Renewable Energy: Global Yield 2023",
+    "type": "selective",
+    "level": "P4",
+    "time": "15 min",
+    "category": "Environment/Economics",
+    "transcript": "Note down the following statistics regarding global renewable energy capacity and costs for the year ending 2023.\n\nGlobal renewable capacity reached a record high, with 473 GW (Gigawatts) of new power added in 2023. This is an 8% increase over 2022. Solar energy accounted for the lion's share, contributing 340 GW, while Wind energy followed with 115 GW.\n\nThe Levelized Cost of Electricity (LCOE) continued to fall. Utility-scale Solar PV now averages $0.04 per kWh (kilowatt-hour), down from $0.38 in 2010—an 89% reduction. Onshore Wind sits at $0.03 per kWh, representing a 68% drop since 2010.\n\nInvestment billions are also shifting. In 2023, global investment in the energy transition reached $1.7 trillion. Of this, China led with $676 billion, followed by the European Union at $340 billion and the United States at $239 billion.\n\nFinally, the target set by the COP28 summit is to triple global renewable capacity to 11,000 GW by 2030. \n\nEnsure you have the 2023 Solar contribution in GW and the LCOE of Solar PV compared to its 2010 price.",
+    "ideal_clusters": [
+      ["473 GW total", "340 GW Solar", "115 GW Wind"],
+      ["Solar LCOE $0.04", "89% drop since 2010"],
+      ["Wind LCOE $0.03", "68% drop since 2010"],
+      ["Investment: $1.7 trillion", "China $676 billion"],
+      ["COP28 Target: 11,000 GW by 2030"]
+    ],
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "q": "How many Gigawatts (GW) did solar energy contribute to the new capacity in 2023?",
+        "options": [
+          "115 GW",
+          "239 GW",
+          "340 GW",
+          "473 GW"
+        ],
+        "answer": 2,
+        "skill": "detail"
+      },
+      {
+        "type": "multiple-choice",
+        "q": "By what percentage has the cost of utility-scale solar PV dropped since 2010?",
+        "options": [
+          "8%",
+          "68%",
+          "89%",
+          "99%"
+        ],
+        "answer": 2,
+        "skill": "detail"
+      }
+    ]
+  },
+  {
+    "id": "CSL_P4_MEGA_01",
+    "title": "The Epigenetic Revolution: Beyond the DNA Sequence",
+    "type": "careful",
+    "level": "P4",
+    "time": "15 min",
+    "category": "Advanced Biology",
+    "transcript": "Good morning. Today we delve into a field that has fundamentally shifted our understanding of heredity and biological destiny: Epigenetics. For decades, the 'Central Dogma' of molecular biology suggested that our genetic code was a fixed blueprint—a static script written in the four-letter alphabet of DNA. However, the epigenetic revolution has revealed that there is a layer of control 'above' the genome that determines which genes are expressed and which are silenced, often in response to the environment.\n\nTo understand epigenetics, we must first look at the physical packaging of DNA. If you were to stretch out the DNA from a single human cell, it would be about two meters long. To fit into a microscopic nucleus, it must be tightly wound around proteins called histones. This complex of DNA and protein is known as chromatin. Epigenetic modifications primarily occur through two mechanisms: DNA methylation and histone modification.\n\nDNA methylation involves the addition of a methyl group—a small chemical tag—to the DNA molecule, typically at 'CpG sites.' High levels of methylation in a gene's promoter region generally act as a 'stop' signal, preventing the cellular machinery from reading that gene. Think of it as a dimmer switch rather than an on/off switch. This process is crucial for cellular differentiation; it's why a skin cell and a neuron, despite having the exact same DNA, perform vastly different functions.\n\nHistone modification is more complex. Chemical tags like acetyl or phosphate groups can be added to the 'tails' of histone proteins. These tags can either loosen the chromatin structure, making genes more accessible (euchromatin), or tighten it, locking genes away (heterochromatin). This dynamic 'remodeling' allows the cell to respond rapidly to external stimuli, such as diet, stress, or toxins.\n\nPerhaps the most controversial and fascinating aspect of epigenetics is 'transgenerational epigenetic inheritance.' Traditional Darwinian theory suggests that acquired traits cannot be passed down. However, landmark studies—such as the Dutch Hunger Winter study—have shown that environmental stressors experienced by one generation can leave chemical 'scars' on the epigenome that affect the health of grandchildren. We see increased risks of obesity, diabetes, and cardiovascular disease in descendants of those who experienced famine, even if the descendants themselves had adequate nutrition.\n\nThis brings us to the ethical and medical implications of 'Personalized Epigenetic Medicine.' If we can map an individual's epigenome, we might be able to predict their susceptibility to chronic diseases long before symptoms appear. We are already seeing the development of 'Epidrugs'—compounds designed to reverse abnormal methylation patterns in cancer cells. Unlike traditional chemotherapy, which kills cells indiscriminately, epidrugs aim to 'reprogram' the cell back to a healthy state.\n\nIn conclusion, epigenetics proves that while we cannot change the cards we are dealt (our DNA), we have significant control over how those cards are played. The choices we make—and the environments we inhabit—leave a lasting imprint not just on our own biology, but potentially on the biology of future generations. For your seminar next week, I want you to research the role of 'long non-coding RNAs' in epigenetic silencing. Class dismissed.",
+    "ideal_clusters": [
+      ["epigenetics", "above the genome", "gene expression"],
+      ["histones", "chromatin", "DNA packaging"],
+      ["DNA methylation", "methyl group", "CpG sites", "dimmer switch"],
+      ["histone modification", "acetylation", "euchromatin", "heterochromatin"],
+      ["transgenerational inheritance", "Dutch Hunger Winter", "chemical scars"],
+      ["epidrugs", "reprogramming", "personalized medicine"]
+    ],
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "q": "How does the speaker describe the function of DNA methylation in gene expression?",
+        "options": [
+          "As a permanent on/off switch that cannot be reversed.",
+          "As a 'dimmer switch' that modulates how much a gene is read.",
+          "As a mechanism that physically deletes unused DNA sequences.",
+          "As a process that only occurs in reproductive cells."
+        ],
+        "answer": 1,
+        "skill": "detail"
+      },
+      {
+        "type": "multiple-choice",
+        "q": "What was the significant finding of the 'Dutch Hunger Winter' study mentioned?",
+        "options": [
+          "Famine only affects those who experience it directly.",
+          "Environmental stressors can leave epigenetic marks passed to future generations.",
+          "Diet has no impact on histone modification.",
+          "The human epigenome is completely reset in every new generation."
+        ],
+        "answer": 1,
+        "skill": "inference"
+      },
+      {
+        "type": "multiple-choice",
+        "q": "What is the primary goal of 'Epidrugs' compared to traditional chemotherapy?",
+        "options": [
+          "To kill cancer cells faster using higher toxicity.",
+          "To rewrite the DNA sequence of the patient.",
+          "To 'reprogram' cancer cells by reversing abnormal epigenetic patterns.",
+          "To prevent the formation of any histones in the body."
+        ],
+        "answer": 2,
+        "skill": "inference"
+      }
+    ]
+  },
+  {
+    "id": "CSL_P4_MEGA_02",
+    "title": "Quantitative Economic History: The Great Divergence",
+    "type": "selective",
+    "level": "P4",
+    "time": "15 min",
+    "category": "Economic History",
+    "transcript": "Today we address one of the most debated questions in the social sciences: 'The Great Divergence.' Why did a small corner of Western Europe experience a sustained per capita income explosion after 1750, while the rest of the world—including advanced economies like China and India—remained in a Malthusian trap until much later? \n\nTo understand this, we must look at the quantitative data. According to estimates by Angus Maddison, in the year 1500, the GDP per capita of Western Europe and China were roughly equal, at around $600 in 1990 international dollars. By 1820, Western Europe had reached $1,200, while China remained stagnant at approximately $600. By 1913, the gap was astronomical: Western Europe was at $3,500, while China had dropped to around $550 due to internal conflict and colonial pressure.\n\nWhat were the drivers? First, 'Institutional Quality.' Economist Douglass North argued that the 'Glorious Revolution' of 1688 in England was a turning point. It limited the power of the monarchy and established secure property rights. This lowered the cost of capital. In 1700, the interest rate on government debt in England was about 10%; by 1750, it had fallen to 3%. This 'financial revolution' provided the capital necessary for large-scale industrial projects.\n\nSecond, we must look at 'Geography and Resources.' Kenneth Pomeranz points to the 'Double Windfall' of England: easily accessible coal and the 'ghost acreage' of the New World. In 1800, England was producing 10 million tons of coal per year, providing a source of energy that would have required 15 million acres of forest to replicate. This allowed the economy to escape the land constraints that eventually throttled growth in the Yangtze Delta.\n\nThird, consider 'Human Capital.' While literacy rates in 1600 were comparable between London and Beijing—at around 20%—the *type* of knowledge differed. Europe saw the rise of 'Useful Knowledge' through the Scientific Revolution. By 1750, the number of patents issued in England had risen from 5 per year to over 50. The development of the high-pressure steam engine by Richard Trevithick in 1801 was not just a lucky guess; it was the result of a century of cumulative scientific inquiry.\n\nFinally, we must mention the 'Reversal of Fortune.' Countries that were the wealthiest in 1500—often those with high population densities and extractive colonial institutions—ended up being the poorest by 2000. Conversely, those with 'Settler Institutions' that protected private property saw sustained growth.\n\nEnsure you have recorded the GDP per capita figures for 1500 and 1913, and the specific interest rate drop in 18th-century England. Next time, we will discuss the 'Great Convergence' of the late 20th century.",
+    "ideal_clusters": [
+      ["Great Divergence", "1750", "per capita income"],
+      ["Angus Maddison", "GDP per capita", "1500: $600", "1913: $3,500 vs $550"],
+      ["Glorious Revolution", "1688", "property rights", "interest rate 10% to 3%"],
+      ["Pomeranz", "coal", "10 million tons", "ghost acreage"],
+      ["Useful Knowledge", "patents 5 to 50", "Scientific Revolution"],
+      ["Reversal of Fortune", "extractive vs settler institutions"]
+    ],
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "q": "According to the lecture, what was the estimated GDP per capita of Western Europe in 1913?",
+        "options": [
+          "$600",
+          "$1,200",
+          "$3,500",
+          "$5,500"
+        ],
+        "answer": 2,
+        "skill": "detail"
+      },
+      {
+        "type": "multiple-choice",
+        "q": "What specific financial change occurred in England between 1700 and 1750?",
+        "options": [
+          "The interest rate on government debt rose from 3% to 10%.",
+          "The interest rate on government debt fell from 10% to 3%.",
+          "The monarchy abolished all forms of private property.",
+          "The national debt was completely eliminated."
+        ],
+        "answer": 1,
+        "skill": "detail"
+      },
+      {
+        "type": "multiple-choice",
+        "q": "What does Kenneth Pomeranz mean by 'ghost acreage'?",
+        "options": [
+          "Land that is haunted by former residents.",
+          "The land saved in Europe by importing resources from the New World.",
+          "Acres of forest that were destroyed by coal mining.",
+          "Underwater territory used for seaweed farming."
+        ],
+        "answer": 1,
+        "skill": "inference"
+      }
+    ]
+  }
+]

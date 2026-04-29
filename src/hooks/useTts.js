@@ -161,25 +161,15 @@ async function findBestEnglishVoiceId() {
     if (isWeb) return 'web-default';
     try {
         const list = await Tts.voices();
-        const EN_PREFERRED = [
-            'samantha', 'ava', 'karen', 'moira', 'nicky',
-            'aaron', 'alex', 'allison', 'daniel', 'oliver',
-        ];
-        const enVoices = (list || []).filter((v) => {
-            const lang = (v.language || '').toLowerCase();
-            return (lang.startsWith('en') || lang.startsWith('eng')) && !v.notInstalled;
-        });
-        enVoices.sort((a, b) => scoreVoiceCandidate(b) - scoreVoiceCandidate(a));
-        if (!enVoices.length) return null;
-        // Tercih sırasına göre arama
-        for (const pref of EN_PREFERRED) {
-            const match = enVoices.find((v) => (v.name || '').toLowerCase().includes(pref));
-            if (match?.id) return match.id;
-        }
-        // Tercih bulunamazsa herhangi bir en-US sesi
-        return enVoices.find((v) => (v.language || '').toLowerCase().includes('us'))?.id
-            || enVoices[0]?.id
-            || null;
+        // Priority ranking for natural sounding voices
+        const ranked = (list || [])
+            .filter((v) => {
+                const lang = (v.language || '').toLowerCase();
+                return (lang.startsWith('en') || lang.startsWith('eng')) && !v.notInstalled;
+            })
+            .sort((a, b) => scoreVoiceCandidate(b) - scoreVoiceCandidate(a));
+        
+        return ranked[0]?.id || null;
     } catch (_) {
         return null;
     }
@@ -192,25 +182,24 @@ export async function speakText(text, customOptions = {}) {
         try { ttsEngine.stop(); } catch (_) { }
         await new Promise(r => setTimeout(r, 60));
 
-        const semanticRate = Number.isFinite(Number(customOptions.rate)) ? Number(customOptions.rate) : 0.55;
+        // Natural variation for "Lecture Mode"
+        const isLecture = customOptions.isLecture;
+        const baseRate = Number.isFinite(Number(customOptions.rate)) ? Number(customOptions.rate) : 0.55;
+        
+        // Add subtle variation if in lecture mode to sound more natural
+        const variation = isLecture ? (Math.random() * 0.04 - 0.02) : 0;
+        const semanticRate = baseRate + variation;
         const nativeRate = normalizeNativeSpeechRate(semanticRate);
-        // Her seferinde dili en-US'e çek — cihazın dili Türkçe olsa bile
+        const pitch = isLecture ? (1.0 + (Math.random() * 0.1 - 0.05)) : 1.0;
+
         if (!isWeb) await Tts.setDefaultLanguage('en-US');
         try { if (!isWeb) await Tts.setDefaultRate(nativeRate); } catch (_) { }
-        try { if (!isWeb) await Tts.setDefaultPitch(1.0); } catch (_) { }
+        try { if (!isWeb) await Tts.setDefaultPitch(pitch); } catch (_) { }
 
-        // En iyi İngilizce voice'u bul (veya sabit Samantha ID'lerini dene)
         let voiceId = customOptions.iosVoiceId;
         if (!voiceId) {
             voiceId = await findBestEnglishVoiceId();
         }
-        // Samantha'nın bilinen iOS ID'leri — fallback zinciri
-        const fallbackIds = [
-            'com.apple.ttsbundle.Samantha-compact',
-            'com.apple.voice.compact.en-US.Samantha',
-            'com.apple.ttsbundle.Ava-compact',
-            'com.apple.voice.compact.en-US.Nicky',
-        ];
 
         const speakOptions = {
             rate: isWeb ? normalizeWebSpeechRate(semanticRate) : nativeRate,
@@ -222,14 +211,11 @@ export async function speakText(text, customOptions = {}) {
         };
         if (voiceId) {
             speakOptions.iosVoiceId = voiceId;
-        } else {
-            // Hiç İngilizce ses bulunamazsa language zorlaması yeterli
-            speakOptions.iosVoiceId = fallbackIds[0];
         }
 
         ttsEngine.speak(text.trim(), speakOptions);
     } catch (_) {
-        // Sessizce geç — TTS kritik değil
+        // Sessizce geç
     }
 }
 
@@ -239,11 +225,12 @@ export async function speakText(text, customOptions = {}) {
  */
 export function useTts() {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [voices, setVoices] = useState([]);
-    const [voiceId, setVoiceIdState] = useState('');
     const [rate, setRateState] = useState(0.55);
+    const [useExperimental, setUseExperimental] = useState(isWeb); // On by default for Web for "Real Person" feel
+    const [apiEndpoint, setApiEndpoint] = useState('https://translate.google.com/translate_tts?ie=UTF-8&q={{TEXT}}&tl=en&client=tw-ob'); 
     const cleanupRef = useRef([]);
     const _speakId = useRef(0);
+    const audioRef = useRef(null);
 
     useEffect(() => {
         let mounted = true;
@@ -305,6 +292,10 @@ export function useTts() {
         return () => {
             mounted = false;
             try { ttsEngine.stop(); } catch (_) { }
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.src = "";
+            }
             if (subStart) subStart.remove();
             if (subFinish) subFinish.remove();
             if (subCancel) subCancel.remove();
@@ -312,63 +303,86 @@ export function useTts() {
         };
     }, []);
 
-    const speakWord = useCallback(async (text) => {
+    const speakWord = useCallback(async (text, options = {}) => {
         if (!text?.trim()) return;
         _speakId.current += 1;
         const currentId = _speakId.current;
+
+        // "Real Human" Model (GitHub/Web Neural Fallback)
+        if (useExperimental && isWeb) {
+            setIsPlaying(true);
+            try {
+                if (audioRef.current) {
+                    audioRef.current.pause();
+                    audioRef.current.src = "";
+                }
+                const encoded = encodeURIComponent(text.trim().slice(0, 200)); // Google limits to 200 chars per request
+                const url = apiEndpoint.replace('{{TEXT}}', encoded);
+                
+                const audio = new Audio(url);
+                audioRef.current = audio;
+                audio.playbackRate = rate * 2; // Normalize to human speed
+                audio.onended = () => {
+                    if (currentId === _speakId.current) setIsPlaying(false);
+                };
+                audio.onerror = () => {
+                    console.warn('Natural TTS failed, falling back to system.');
+                    setUseExperimental(false);
+                };
+                await audio.play();
+                return;
+            } catch (e) {
+                console.warn('Natural TTS play failed.', e);
+            }
+        }
+
         try {
             await ensureInit();
             try { ttsEngine.stop(); } catch (_) { }
             await new Promise(r => setTimeout(r, 60));
             if (_speakId.current !== currentId) return;
 
-            // Her seferinde dili İngilizce'ye çek
             if (!isWeb) await Tts.setDefaultLanguage('en-US');
-            const effectiveRate = isWeb ? Number(rate) : normalizeNativeSpeechRate(rate);
-            try { if (!isWeb) await Tts.setDefaultRate(effectiveRate); } catch (_) { }
-            try { if (!isWeb) await Tts.setDefaultPitch(1.0); } catch (_) { }
 
-            // En iyi yüklü İngilizce sesi bul
+            const isLecture = options?.isLecture;
+            const variation = isLecture ? (Math.random() * 0.04 - 0.02) : 0;
+            const effectiveRate = isWeb ? Number(rate + variation) : normalizeNativeSpeechRate(rate + variation);
+            const pitch = isLecture ? (1.0 + (Math.random() * 0.08 - 0.04)) : 1.0;
+
+            try { if (!isWeb) await Tts.setDefaultRate(effectiveRate); } catch (_) { }
+            try { if (!isWeb) await Tts.setDefaultPitch(pitch); } catch (_) { }
+
             let bestId = voiceId;
             if (!bestId) {
                 bestId = await findBestEnglishVoiceId();
             }
 
-            const options = { rate: isWeb ? normalizeWebSpeechRate(rate) : effectiveRate };
-            options.iosVoiceId = bestId || 'com.apple.ttsbundle.Samantha-compact';
+            const speakOptions = { rate: isWeb ? normalizeWebSpeechRate(rate + variation) : effectiveRate };
+            speakOptions.iosVoiceId = bestId || 'com.apple.ttsbundle.Samantha-compact';
+            speakOptions.isLecture = isLecture;
 
-            if (!bestId && !_englishVoiceAvailable) {
-                if (!_missingVoiceNoticeLogged && !isWeb) {
-                    _missingVoiceNoticeLogged = true;
-                    console.log('[TTS] No installed English voice found. Install an English voice in iOS Settings > Accessibility > Spoken Content.');
-                }
-            }
-            ttsEngine.speak(text.trim(), options);
+            ttsEngine.speak(text.trim(), speakOptions);
         } catch (_) { }
-    }, [rate, voiceId]);
+    }, [rate, voiceId, useExperimental, apiEndpoint]);
 
-    const speakWordAsync = useCallback(async (text) => {
+    const speakWordAsync = useCallback(async (text, options = {}) => {
         if (!text?.trim()) return;
-        if (isWeb) {
-            await new Promise((resolve) => {
-                let settled = false;
-                const settle = () => {
-                    if (settled) return;
-                    settled = true;
-                    clearTimeout(timer);
-                    finishSub?.remove?.();
-                    cancelSub?.remove?.();
-                    errorSub?.remove?.();
-                    resolve();
-                };
-                const finishSub = ttsEngine.addEventListener('tts-finish', settle);
-                const cancelSub = ttsEngine.addEventListener('tts-cancel', settle);
-                const errorSub = ttsEngine.addEventListener('tts-error', settle);
-                const timer = setTimeout(settle, Math.max(1500, String(text).length * 90));
-                speakWord(text).catch(settle);
+        if (useExperimental && isWeb) {
+            await speakWord(text, options);
+            // Real human audio duration estimation (roughly 1 sec per 15 chars)
+            await new Promise(r => {
+                const timer = setTimeout(r, Math.max(1000, text.length * 75));
+                if (audioRef.current) {
+                    audioRef.current.onended = () => {
+                        clearTimeout(timer);
+                        r();
+                    };
+                }
             });
             return;
         }
+        
+        // ... rest of the existing async logic ...
         await new Promise((resolve) => {
             let settled = false;
             const settle = () => {
@@ -384,13 +398,17 @@ export function useTts() {
             const cancelSub = ttsEngine.addEventListener('tts-cancel', settle);
             const errorSub = ttsEngine.addEventListener('tts-error', settle);
             const timer = setTimeout(settle, Math.max(2200, String(text).length * 90));
-            speakWord(text).catch(settle);
+            speakWord(text, options).catch(settle);
         });
-    }, [speakWord]);
+    }, [speakWord, useExperimental]);
 
     const stopAll = useCallback(() => {
         _speakId.current += 1;
         try { ttsEngine.stop(); } catch (_) { }
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.src = "";
+        }
         setIsPlaying(false);
     }, []);
 
@@ -403,9 +421,13 @@ export function useTts() {
         setVoiceIdState(id);
         try {
             if (!isWeb) Tts.setDefaultVoice(id);
-            if (!isWeb) Tts.setDefaultLanguage('en-US'); // Setting voice requires language reset on iOS
+            if (!isWeb) Tts.setDefaultLanguage('en-US');
         } catch (_) { }
     }, []);
 
-    return { isPlaying, voices, voiceId, rate, speakWord, speakWordAsync, stopAll, setRate, setVoiceId };
+    return { 
+        isPlaying, voices, voiceId, rate, 
+        useExperimental, setUseExperimental, apiEndpoint, setApiEndpoint,
+        speakWord, speakWordAsync, stopAll, setRate, setVoiceId 
+    };
 }

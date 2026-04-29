@@ -21,12 +21,13 @@ import OpenEndedPracticeCard from '../components/OpenEndedPracticeCard';
 import { colors, spacing, typography } from '../theme/tokens';
 import baseTasks from '../../data/listening_tasks.json';
 import hardTasks from '../../data/listening_tasks_hard.json';
+import cslTasks from '../../data/careful_selective_tasks.json';
 import { useAppState } from '../context/AppState';
 import { buildSimilarQuestion } from '../utils/similarQuestion';
 import { buildListeningOpenEndedPrompts } from '../utils/openEndedPrompts';
 import { deriveListeningKeywords, evaluateListeningModel } from '../utils/listeningModel';
 
-const tasks = [...baseTasks, ...hardTasks];
+const tasks = [...baseTasks, ...hardTasks, ...cslTasks];
 const RATE_PRESETS = [
   { label: '0.75x · Slow',   value: 0.38 },  // → getWebSpeechRate → 0.62
   { label: '1.0x · Normal',  value: 0.52 },  // → getWebSpeechRate → 0.82
@@ -252,12 +253,28 @@ export default function ListeningDetailScreen({ route, navigation }) {
   const webSpeechQueue = useMemo(() => buildWebSpeechQueue(sentences), [sentences]);
 
   // ── TTS hook ──────────────────────────────────────────────────────────────
-  const { isPlaying, voices, voiceId, rate, speakWord, speakWordAsync, stopAll, setRate, setVoiceId } = useTts();
+  const { 
+    isPlaying, voices, voiceId, rate, 
+    useExperimental, setUseExperimental,
+    speakWord: rawSpeakWord, speakWordAsync: rawSpeakWordAsync, 
+    stopAll, setRate, setVoiceId 
+  } = useTts();
+
+  const isLectureTask = useMemo(() => task.id?.startsWith('CSL_'), [task.id]);
+
+  const speakWord = useCallback((text) => {
+    rawSpeakWord(text, { isLecture: isLectureTask });
+  }, [rawSpeakWord, isLectureTask]);
+
+  const speakWordAsync = useCallback((text) => {
+    return rawSpeakWordAsync(text, { isLecture: isLectureTask });
+  }, [rawSpeakWordAsync, isLectureTask]);
 
   // ── State ─────────────────────────────────────────────────────────────────
   const [answers, setAnswers] = useState({});
   const [score, setScore] = useState(null);
   const [checked, setChecked] = useState(false);
+  const [playbackFinished, setPlaybackFinished] = useState(false);
   const [activeSentence, setActiveSentence] = useState(-1);
   const [showTranscript, setShowTranscript] = useState(true);
   const [similarQuestions, setSimilarQuestions] = useState({});
@@ -436,6 +453,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
 
   const completePlayback = useCallback(() => {
     setWebviewPlaying(false);
+    setPlaybackFinished(true);
     stopShadowingAuto();
     clearProgress();
   }, [clearProgress, stopShadowingAuto]);
@@ -799,7 +817,16 @@ export default function ListeningDetailScreen({ route, navigation }) {
   return (
     <Screen scroll contentStyle={styles.container}>
       <Animated.View style={{ opacity: fadeAnim }}>
-        <Text style={styles.h1}>{task.title}</Text>
+        <View style={styles.headerRow}>
+          <Text style={styles.h1}>{task.title}</Text>
+          {task.type && (
+            <View style={[styles.typeBadge, task.type === 'careful' ? styles.carefulBadge : styles.selectiveBadge]}>
+              <Text style={styles.typeBadgeText}>
+                {task.type === 'careful' ? 'Careful Listening' : 'Selective Listening'}
+              </Text>
+            </View>
+          )}
+        </View>
         <Text style={styles.pageMeta}>
           {[task.level ? `Level ${task.level}` : '', task.skill || ''].filter(Boolean).join(' • ')}
         </Text>
@@ -837,6 +864,14 @@ export default function ListeningDetailScreen({ route, navigation }) {
             >
               <Text style={[styles.modeSwitchText, followTranscript && styles.modeSwitchTextActive]}>
                 Follow Transcript {followTranscript ? 'On' : 'Off'}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.modeSwitch, useExperimental && styles.modeSwitchActive]}
+              onPress={() => setUseExperimental((v) => !v)}
+            >
+              <Text style={[styles.modeSwitchText, useExperimental && styles.modeSwitchTextActive]}>
+                {useExperimental ? 'Human-like Voice On' : 'Human-like Voice Off'}
               </Text>
             </TouchableOpacity>
           </View>
@@ -1078,7 +1113,14 @@ export default function ListeningDetailScreen({ route, navigation }) {
         <Card style={styles.card}>
           <Text style={styles.h3}>Questions</Text>
           <Text style={styles.sub}>Answered: {answeredCount}/{task.questions?.length}</Text>
-          {!predictionLocked ? (
+          {task.type === 'careful' && !playbackFinished && (
+            <View style={styles.lockOverlay}>
+              <Text style={styles.lockTitle}>🔒 Careful Listening Mode</Text>
+              <Text style={styles.lockSub}>Questions are hidden until you finish listening and taking notes once.</Text>
+              <Button label="Force Unlock (Not Recommended)" variant="secondary" onPress={() => setPlaybackFinished(true)} />
+            </View>
+          )}
+          {!predictionLocked && (task.type !== 'careful' || playbackFinished) ? (
             <Text style={styles.incorrect}>Complete the Prediction Step first to unlock questions.</Text>
           ) : null}
           <View style={styles.row}>
