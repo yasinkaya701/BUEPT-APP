@@ -70,18 +70,18 @@ export default function RootNavigator() {
           <Stack.Screen name="Exams" getComponent={() => require('../screens/ExamsScreen').default} options={{ title: 'Exams' }} />
           <Stack.Screen name="ExamDetail" getComponent={() => require('../screens/ExamDetailScreen').default} options={{ title: 'BUEPT Practice' }} />
           <Stack.Screen name="Resources" getComponent={() => require('../screens/ResourcesScreen').default} options={{ title: 'General Resources' }} />
-          <Stack.Screen name="ReadingHistory" getComponent={() => require('../screens/ReadingHistoryScreen').default} options={{ title: 'Reading History' }} />
-          <Stack.Screen name="ListeningHistory" getComponent={() => require('../screens/ListeningHistoryScreen').default} options={{ title: 'Listening History' }} />
-          <Stack.Screen name="GrammarHistory" getComponent={() => require('../screens/GrammarHistoryScreen').default} options={{ title: 'Grammar History' }} />
+          <Stack.Screen name="ReadingHistory" getComponent={() => require('../screens/GenericHistoryScreen').default} options={{ title: 'Reading History' }} initialParams={{ type: 'reading' }} />
+          <Stack.Screen name="ListeningHistory" getComponent={() => require('../screens/GenericHistoryScreen').default} options={{ title: 'Listening History' }} initialParams={{ type: 'listening' }} />
+          <Stack.Screen name="GrammarHistory" getComponent={() => require('../screens/GenericHistoryScreen').default} options={{ title: 'Grammar History' }} initialParams={{ type: 'grammar' }} />
           <Stack.Screen name="WritingEditor" getComponent={() => require('../screens/WritingEditorScreen').default} options={{ title: 'Writing Studio' }} />
           <Stack.Screen name="Feedback" getComponent={() => require('../screens/FeedbackScreen').default} options={{ title: 'Writing Feedback' }} />
-          <Stack.Screen name="History" getComponent={() => require('../screens/HistoryScreen').default} options={{ title: 'Writing History' }} />
+          <Stack.Screen name="History" getComponent={() => require('../screens/GenericHistoryScreen').default} options={{ title: 'Writing History' }} initialParams={{ type: 'writing' }} />
           <Stack.Screen name="Mock" getComponent={() => require('../screens/MockScreen').default} options={{ title: 'Mock Exam' }} />
           <Stack.Screen name="MockResult" getComponent={() => require('../screens/MockResultScreen').default} options={{ title: 'Mock Result' }} />
           <Stack.Screen name="Favorites" getComponent={() => require('../screens/FavoritesScreen').default} options={{ title: 'Favorites' }} />
           <Stack.Screen name="Drafts" getComponent={() => require('../screens/DraftsScreen').default} options={{ title: 'Drafts' }} />
           <Stack.Screen name="DraftRestore" getComponent={() => require('../screens/DraftRestoreScreen').default} options={{ title: 'Restore Draft' }} />
-          <Stack.Screen name="MockHistory" getComponent={() => require('../screens/MockHistoryScreen').default} options={{ title: 'Mock History' }} />
+          <Stack.Screen name="MockHistory" getComponent={() => require('../screens/GenericHistoryScreen').default} options={{ title: 'Mock History' }} initialParams={{ type: 'mock' }} />
           <Stack.Screen name="Review" getComponent={() => require('../screens/ReviewScreen').default} options={{ title: 'Daily Review' }} />
           <Stack.Screen name="StudyPlan" getComponent={() => require('../screens/StudyPlanScreen').default} options={{ title: 'Study Plan' }} />
           <Stack.Screen name="Analytics" getComponent={() => require('../screens/AnalyticsScreen').default} options={{ title: 'Analytics' }} />

@@ -642,12 +642,7 @@ function applyAssistantMode(text, mode) {
 // ─────────────────────────────────────────────────────────────────────────────
 export default function ChatbotScreen({ navigation }) {
   const { width } = useWindowDimensions();
-  const [messages, setMessages] = useState([
-    {
-      id: '1', role: 'ai',
-      text: WELCOME_MESSAGE
-    }
-  ]);
+  const [messages, setMessages] = useState([]); // Populated from AsyncStorage on mount
   const [activeChips, setActiveChips] = useState(DEFAULT_CHIPS);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -665,12 +660,10 @@ export default function ChatbotScreen({ navigation }) {
   const artifactAnim = useRef(new Animated.Value(width)).current;
   const timersRef = useRef([]);
 
-  useEffect(() => {
-    if (inputRef.current) {
-      const t = setTimeout(() => inputRef.current.focus(), 300);
-      timersRef.current.push(t);
-    }
-  }, []);
+  const WELCOME = {
+    id: '1', role: 'ai',
+    text: WELCOME_MESSAGE,
+  };
 
   useEffect(() => {
     (async () => {
@@ -682,12 +675,19 @@ export default function ChatbotScreen({ navigation }) {
         } else {
           setActiveModelName('dolphin-llama3:8b');
         }
-        
+
         const stateRaw = await AsyncStorage.getItem(CHAT_STATE_KEY);
-        if (!stateRaw) return;
+        if (!stateRaw) {
+          // First launch — show welcome message
+          setMessages([WELCOME]);
+          return;
+        }
         const parsed = JSON.parse(stateRaw);
         if (Array.isArray(parsed.messages) && parsed.messages.length > 0) {
+          // Restore previous session — do NOT add welcome on top
           setMessages(parsed.messages);
+        } else {
+          setMessages([WELCOME]);
         }
         if (Array.isArray(parsed.activeChips)) {
           setActiveChips(parsed.activeChips);
@@ -698,8 +698,11 @@ export default function ChatbotScreen({ navigation }) {
         if (parsed.assistantMode === 'coach' || parsed.assistantMode === 'examiner' || parsed.assistantMode === 'tool-guide') {
           setAssistantMode(parsed.assistantMode);
         }
-      } catch (_) { }
+      } catch (_) {
+        setMessages([WELCOME]);
+      }
     })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

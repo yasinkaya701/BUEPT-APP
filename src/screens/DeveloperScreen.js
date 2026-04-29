@@ -58,6 +58,7 @@ export default function DeveloperScreen() {
   const [diagResults, setDiagResults] = useState([]);
   const [diagRunning, setDiagRunning] = useState(false);
   const [ollamaTest, setOllamaTest]   = useState(null); // null | 'testing' | 'ok' | 'fail'
+  const [installedModels, setInstalledModels] = useState([]); // list of installed model names
 
   const info = PROVIDER_INFO[provider] || PROVIDER_INFO.openai;
   const currentKeySet = Boolean(String(aiAccessConfig?.apiKey || '').trim());
@@ -109,12 +110,18 @@ export default function DeveloperScreen() {
     try {
       const res = await fetch(`${url}/api/tags`, { signal: AbortSignal.timeout ? AbortSignal.timeout(4000) : undefined });
       if (res.ok) {
+        const data = await res.json();
+        // Extract installed model names
+        const names = (data?.models || []).map(m => String(m.name || '').split(':')[0]);
+        setInstalledModels(names);
         setOllamaTest('ok');
       } else {
         setOllamaTest('fail');
+        setInstalledModels([]);
       }
     } catch (_) {
       setOllamaTest('fail');
+      setInstalledModels([]);
     }
   };
 
@@ -224,17 +231,30 @@ export default function DeveloperScreen() {
 
             <Text style={styles.inputLabel}>Model</Text>
             <View style={styles.modelChips}>
-              {OLLAMA_MODELS.map((m) => (
-                <TouchableOpacity
-                  key={m}
-                  style={[styles.modelChip, ollamaModel === m && styles.modelChipActive]}
-                  onPress={() => setOllamaModel(m)}
-                  activeOpacity={0.8}
-                >
-                  <Text style={[styles.modelChipText, ollamaModel === m && styles.modelChipTextActive]}>{m}</Text>
-                </TouchableOpacity>
-              ))}
+              {OLLAMA_MODELS.map((m) => {
+                const baseName = m.split(':')[0];
+                const isInstalled = installedModels.length > 0 && installedModels.includes(baseName);
+                const isUnknown = installedModels.length === 0;
+                return (
+                  <TouchableOpacity
+                    key={m}
+                    style={[styles.modelChip, ollamaModel === m && styles.modelChipActive]}
+                    onPress={() => setOllamaModel(m)}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={[styles.modelChipText, ollamaModel === m && styles.modelChipTextActive]}>{m}</Text>
+                    {!isUnknown && (
+                      <Text style={[styles.modelChipBadge, isInstalled ? styles.modelChipBadgeOk : styles.modelChipBadgeMissing]}>
+                        {isInstalled ? '✓' : '⬇'}
+                      </Text>
+                    )}
+                  </TouchableOpacity>
+                );
+              })}
             </View>
+            {installedModels.length > 0 && (
+              <Text style={styles.modelHint}>✓ = kurulu, ⬇ = indirilmeli</Text>
+            )}
 
             <View style={styles.ollamaTestRow}>
               <Button
@@ -440,6 +460,10 @@ const styles = StyleSheet.create({
   modelChipActive: { borderColor: '#FF6B35', backgroundColor: 'rgba(255,107,53,0.15)' },
   modelChipText: { fontSize: typography.xsmall, color: 'rgba(203,213,225,0.7)', fontFamily: 'monospace' },
   modelChipTextActive: { color: '#FF6B35', fontFamily: typography.fontHeadline },
+  modelChipBadge: { fontSize: 10, fontWeight: '700', marginLeft: 4 },
+  modelChipBadgeOk: { color: '#4ade80' },
+  modelChipBadgeMissing: { color: '#fb923c' },
+  modelHint: { fontSize: 11, color: 'rgba(203,213,225,0.45)', marginBottom: spacing.sm, fontStyle: 'italic' },
   ollamaTestRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.md },
   testOk: { fontSize: typography.small, color: '#4ade80', fontFamily: typography.fontHeadline },
   testFail: { fontSize: typography.small, color: '#f87171', fontFamily: typography.fontHeadline },
