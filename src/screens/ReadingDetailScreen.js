@@ -757,7 +757,7 @@ export default function ReadingDetailScreen({ route, navigation }) {
                 )}
               </View>
             ) : (
-              q.options.map((opt, oi) => (
+              (q.options || []).map((opt, oi) => (
                 <TouchableOpacity
                   key={oi}
                   style={[
@@ -815,7 +815,7 @@ export default function ReadingDetailScreen({ route, navigation }) {
             {similarQuestions[qi] && (
               <View style={styles.similarBox}>
                 <Text style={styles.h3}>{similarQuestions[qi].q}</Text>
-                {similarQuestions[qi].options.map((opt, oi) => (
+                {(similarQuestions[qi].options || []).map((opt, oi) => (
                   <TouchableOpacity
                     key={oi}
                     style={[

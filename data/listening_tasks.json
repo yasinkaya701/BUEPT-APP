@@ -39,15 +39,11 @@
     ],
     "questions": [
       {
-        "type": "multiple-choice",
+        "type": "short_answer",
         "q": "What is the core premise of the Activation Threshold Hypothesis?",
-        "options": [
-          "Lexical items are permanently erased from memory if unused.",
-          "The ease of retrieving a word depends on the frequency of its past use.",
-          "L1 grammar inherently suppresses L2 vocabulary acquisition.",
-          "Neural pathways for language are established strictly during childhood."
+        "answer": [
+          "The ease of retrieving a word depends on the frequency of its past use."
         ],
-        "answer": 1,
         "skill": "detail_inference",
         "timestamp": 45,
         "explain": "The hypothesis posits that each time a word is retrieved, its threshold lowers (making it easier), and if unused, it rises (making it harder)."
@@ -68,61 +64,46 @@
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       },
       {
         "q": "What improvement followed the recap segments?",
-        "options": [
-          "A 15% increase in delayed recall",
-          "Lower accuracy",
-          "No change",
-          "Faster speech"
+        "answer": [
+          "A 15% increase in delayed recall"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker says scores rose by this percentage."
+        "explain": "The speaker says scores rose by this percentage.",
+        "type": "short_answer"
       },
       {
         "q": "What did the speaker say was the key factor behind the improvement?",
-        "options": [
-          "timing",
-          "Longer lectures",
-          "More homework",
-          "Lower difficulty"
+        "answer": [
+          "timing"
         ],
-        "answer": 0,
         "skill": "detail_inference",
-        "explain": "The speaker says timing, not length, drove the effect."
+        "explain": "The speaker says timing, not length, drove the effect.",
+        "type": "short_answer"
       },
       {
         "q": "What is the speaker's main purpose in the added segment?",
-        "options": [
-          "To give evidence-based practical advice",
-          "To change the topic",
-          "To tell a personal story",
-          "To dismiss prior research"
+        "answer": [
+          "To give evidence-based practical advice"
         ],
-        "answer": 0,
         "skill": "purpose",
-        "explain": "The added segment reports data and gives a practical takeaway."
+        "explain": "The added segment reports data and gives a practical takeaway.",
+        "type": "short_answer"
       }
     ]
   },
@@ -166,66 +147,49 @@
     ],
     "questions": [
       {
-        "type": "multiple-choice",
+        "type": "short_answer",
         "q": "What two mechanisms do asphalt and concrete use to contribute to the UHI effect?",
-        "options": [
-          "Deflection of solar radiation and high evaporative cooling.",
-          "Absorption of short-wave radiation and re-emission of long-wave radiation.",
-          "Reduction of anthropogenic energy and stabilization of microclimates.",
-          "Inhibition of long-wave radiation and emission of short-wave radiation."
+        "answer": [
+          "Absorption of short-wave radiation and re-emission of long-wave radiation."
         ],
-        "answer": 1,
         "skill": "detail_inference",
         "timestamp": 35,
         "explain": "The transcript explicitly states these materials 'absorb short-wave solar radiation during the day and re-emit it as long-wave thermal radiation'."
       },
       {
-        "type": "multiple-choice",
+        "type": "short_answer",
         "q": "How does green infrastructure, such as canopy restoration, alleviate the UHI effect?",
-        "options": [
-          "By increasing the urban surface energy balance.",
-          "By utilizing high-albedo coatings on street levels.",
-          "By providing shading and evaporative cooling.",
-          "By absorbing long-wave thermal radiation at night."
+        "answer": [
+          "By providing shading and evaporative cooling."
         ],
-        "answer": 2,
         "skill": "main_idea",
         "timestamp": 75,
         "explain": "The professor mentions that eradicating trees eliminates 'evaporative cooling and shading', implying restoring them provides these benefits."
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       },
       {
         "q": "What is the speaker's main purpose in the added segment?",
-        "options": [
-          "To give evidence-based practical advice",
-          "To change the topic",
-          "To tell a personal story",
-          "To dismiss prior research"
+        "answer": [
+          "To give evidence-based practical advice"
         ],
-        "answer": 0,
         "skill": "purpose",
-        "explain": "The added segment reports data and gives a practical takeaway."
+        "explain": "The added segment reports data and gives a practical takeaway.",
+        "type": "short_answer"
       }
     ]
   },
@@ -238,61 +202,46 @@
     "questions": [
       {
         "q": "What is the primary constraint that Cognitive Load Theory seeks to address?",
-        "options": [
-          "The infinite capacity of long-term memory.",
-          "The limitations of the auditory processing channel.",
-          "The bottleneck of working memory capacity.",
-          "The inherent difficulty of all academic subjects."
+        "answer": [
+          "The bottleneck of working memory capacity."
         ],
-        "answer": 2,
         "skill": "detail",
-        "explain": "The lecturer explicitly states the theory requires accepting 'a fundamental biological limitation—the bottleneck of working memory'."
+        "explain": "The lecturer explicitly states the theory requires accepting 'a fundamental biological limitation—the bottleneck of working memory'.",
+        "type": "short_answer"
       },
       {
         "q": "Which type of cognitive load is described as 'unnecessary mental gymnastics' caused by poor design?",
-        "options": [
-          "Intrinsic",
-          "Germane",
-          "Working",
+        "answer": [
           "Extraneous"
         ],
-        "answer": 3,
         "skill": "detail",
-        "explain": "Extraneous load is the effort 'to process poorly designed instruction', like the 'split-attention effect' example."
+        "explain": "Extraneous load is the effort 'to process poorly designed instruction', like the 'split-attention effect' example.",
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       },
       {
         "q": "What is the speaker's main purpose in the added segment?",
-        "options": [
-          "To give evidence-based practical advice",
-          "To change the topic",
-          "To tell a personal story",
-          "To dismiss prior research"
+        "answer": [
+          "To give evidence-based practical advice"
         ],
-        "answer": 0,
         "skill": "purpose",
-        "explain": "The added segment reports data and gives a practical takeaway."
+        "explain": "The added segment reports data and gives a practical takeaway.",
+        "type": "short_answer"
       }
     ],
     "type": "selective"
@@ -306,85 +255,64 @@
     "questions": [
       {
         "q": "How does Dr. Aris justify renewable energy subsidies against the claim that they 'distort the market'?",
-        "options": [
-          "By claiming that free markets do not actually exist in any sector.",
-          "By arguing the market is already distorted because fossil fuels do not pay for their negative impacts.",
-          "By stating that renewable energy is inherently cheaper than fossil fuels.",
-          "By suggesting that taxpayer money should not be used for energy at all."
+        "answer": [
+          "By arguing the market is already distorted because fossil fuels do not pay for their negative impacts."
         ],
-        "answer": 1,
         "skill": "main_idea",
-        "explain": "Dr. Aris states: 'fossil fuels have enjoyed massive... subsidies in the form of unpriced negative externalities'."
+        "explain": "Dr. Aris states: 'fossil fuels have enjoyed massive... subsidies in the form of unpriced negative externalities'.",
+        "type": "short_answer"
       },
       {
         "q": "What is the 'moral hazard' Dr. Chen worries about regarding aggressive subsidies?",
-        "options": [
-          "Companies might use the money to build fossil fuel plants instead.",
-          "Companies become dependent on government money rather than innovating to lower costs.",
-          "Consumers will stop buying electricity entirely.",
-          "The government will go bankrupt immediately."
+        "answer": [
+          "Companies become dependent on government money rather than innovating to lower costs."
         ],
-        "answer": 1,
         "skill": "detail",
-        "explain": "Dr. Chen says subsidies 'guarantee profits regardless of technological innovation... Companies become reliant on the subsidy rather than striving to lower... Cost'."
+        "explain": "Dr. Chen says subsidies 'guarantee profits regardless of technological innovation... Companies become reliant on the subsidy rather than striving to lower... Cost'.",
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       },
       {
         "q": "What improvement followed the recap segments?",
-        "options": [
-          "A 15% increase in delayed recall",
-          "Lower accuracy",
-          "No change",
-          "Faster speech"
+        "answer": [
+          "A 15% increase in delayed recall"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker says scores rose by this percentage."
+        "explain": "The speaker says scores rose by this percentage.",
+        "type": "short_answer"
       },
       {
         "q": "What did the speaker say was the key factor behind the improvement?",
-        "options": [
-          "timing",
-          "Longer lectures",
-          "More homework",
-          "Lower difficulty"
+        "answer": [
+          "timing"
         ],
-        "answer": 0,
         "skill": "detail_inference",
-        "explain": "The speaker says timing, not length, drove the effect."
+        "explain": "The speaker says timing, not length, drove the effect.",
+        "type": "short_answer"
       },
       {
         "q": "What is the speaker's main purpose in the added segment?",
-        "options": [
-          "To give evidence-based practical advice",
-          "To change the topic",
-          "To tell a personal story",
-          "To dismiss prior research"
+        "answer": [
+          "To give evidence-based practical advice"
         ],
-        "answer": 0,
         "skill": "purpose",
-        "explain": "The added segment reports data and gives a practical takeaway."
+        "explain": "The added segment reports data and gives a practical takeaway.",
+        "type": "short_answer"
       }
     ],
     "type": "selective"
@@ -399,123 +327,93 @@
     "questions": [
       {
         "q": "What attendance level is associated with higher grades, according to the brief?",
-        "options": [
-          "At least 60 percent",
-          "At least 70 percent",
-          "At least 80 percent",
-          "At least 90 percent"
+        "answer": [
+          "At least 80 percent"
         ],
-        "answer": 2,
         "explain": "The speaker says students who attend at least eighty percent perform better.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "Which recommendation is NOT mentioned?",
-        "options": [
-          "Clear expectations in the syllabus",
-          "Weekly checkpoints",
-          "Mandatory attendance for all classes",
-          "Support for scheduling conflicts"
+        "answer": [
+          "Mandatory attendance for all classes"
         ],
-        "answer": 2,
         "explain": "The committee does not propose mandatory attendance for every class.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "What is the purpose of weekly checkpoints?",
-        "options": [
-          "To replace final exams",
-          "To track engagement regularly",
-          "To reduce workload for instructors",
-          "To eliminate participation grades"
+        "answer": [
+          "To track engagement regularly"
         ],
-        "answer": 1,
         "explain": "Checkpoints are suggested to keep students engaged week by week.",
-        "skill": "function"
+        "skill": "function",
+        "type": "short_answer"
       },
       {
         "q": "Which group is highlighted as needing support for scheduling conflicts?",
-        "options": [
-          "International students",
-          "Students with part‑time jobs or caregiving duties",
-          "Students in online courses",
-          "Graduate teaching assistants"
+        "answer": [
+          "Students with part‑time jobs or caregiving duties"
         ],
-        "answer": 1,
         "explain": "The brief mentions part‑time jobs and caregiving responsibilities.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "What concern do some faculty raise?",
-        "options": [
-          "Attendance rules may be unfair to some students",
-          "Quizzes are too difficult",
-          "Participation grades are illegal",
-          "Budget cuts will increase"
+        "answer": [
+          "Attendance rules may be unfair to some students"
         ],
-        "answer": 0,
         "explain": "Some faculty worry strict rules disadvantage students with challenges.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "How does the brief respond to fairness concerns?",
-        "options": [
-          "By removing attendance expectations",
-          "By encouraging flexible make‑ups and clear rationale",
-          "By lowering academic standards",
-          "By increasing tuition"
+        "answer": [
+          "By encouraging flexible make‑ups and clear rationale"
         ],
-        "answer": 1,
         "explain": "It suggests flexible make‑ups and explains the learning rationale.",
-        "skill": "inference"
+        "skill": "inference",
+        "type": "short_answer"
       },
       {
         "q": "What is the committee’s overall stance on attendance?",
-        "options": [
-          "Strict enforcement in all courses",
-          "No attendance expectations at all",
-          "Transparency and early intervention without universal mandates",
-          "Attendance should replace grading"
+        "answer": [
+          "Transparency and early intervention without universal mandates"
         ],
-        "answer": 2,
         "explain": "The brief emphasizes transparency and early intervention, not universal mandates.",
-        "skill": "main_idea"
+        "skill": "main_idea",
+        "type": "short_answer"
       },
       {
         "q": "What does the speaker say about budget impact?",
-        "options": [
-          "Major increases are required",
-          "Measures can be implemented without major increases",
-          "The budget is irrelevant",
-          "Funding will be cut"
+        "answer": [
+          "Measures can be implemented without major increases"
         ],
-        "answer": 1,
         "explain": "The final sentence notes no major budget increases are needed.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "Which point best captures the relationship between attendance and performance?",
-        "options": [
-          "Performance rises steadily with every additional class",
-          "Performance improves up to a threshold, then levels off",
-          "Performance is unrelated to attendance",
-          "Performance drops after sixty percent attendance"
+        "answer": [
+          "Performance improves up to a threshold, then levels off"
         ],
-        "answer": 1,
         "explain": "The speaker notes gains level off beyond a threshold.",
-        "skill": "inference"
+        "skill": "inference",
+        "type": "short_answer"
       },
       {
         "q": "What is the main goal of the brief?",
-        "options": [
-          "To eliminate participation grades",
-          "To create a standardized, transparent attendance approach",
-          "To make all courses optional",
-          "To remove student support services"
+        "answer": [
+          "To create a standardized, transparent attendance approach"
         ],
-        "answer": 1,
         "explain": "The brief focuses on clarity, consistency, and support.",
-        "skill": "summary"
+        "skill": "summary",
+        "type": "short_answer"
       }
     ]
   },
@@ -529,123 +427,93 @@
     "questions": [
       {
         "q": "What did participants learn at 9 p.m.?",
-        "options": [
-          "Math formulas",
-          "Word pairs",
-          "Historical dates",
-          "Picture sequences"
+        "answer": [
+          "Word pairs"
         ],
-        "answer": 1,
         "explain": "The study asked participants to learn pairs of words at 9 p.m.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "What activity did the wake group do overnight?",
-        "options": [
-          "Stayed awake and studied new material",
-          "Watched calm documentaries",
-          "Played memory games",
-          "Listened to lectures"
+        "answer": [
+          "Watched calm documentaries"
         ],
-        "answer": 1,
         "explain": "The wake group watched calm documentaries to avoid new learning.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "How much better did the sleep group recall on average?",
-        "options": [
-          "About 10 percent",
-          "About 20 percent",
-          "About 30 percent",
-          "About 40 percent"
+        "answer": [
+          "About 20 percent"
         ],
-        "answer": 1,
         "explain": "The speaker says the sleep group recalled about twenty percent more.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "Who benefited the most from sleep?",
-        "options": [
-          "Participants with high initial learning",
-          "Participants with weak initial performance",
-          "Participants who stayed awake longer",
-          "Participants with prior sleep deprivation"
+        "answer": [
+          "Participants with weak initial performance"
         ],
-        "answer": 1,
         "explain": "Those with weaker initial performance improved the most.",
-        "skill": "inference"
+        "skill": "inference",
+        "type": "short_answer"
       },
       {
         "q": "What does the term \"time‑sensitive window\" refer to?",
-        "options": [
-          "A long‑term effect of sleep over weeks",
-          "A period soon after learning when sleep is most beneficial",
-          "The testing time at 9 a.m.",
-          "The duration of documentaries"
+        "answer": [
+          "A period soon after learning when sleep is most beneficial"
         ],
-        "answer": 1,
         "explain": "It refers to the stronger benefit when sleep occurs soon after learning.",
-        "skill": "inference"
+        "skill": "inference",
+        "type": "short_answer"
       },
       {
         "q": "Which limitation is mentioned?",
-        "options": [
-          "Participants did not consent",
-          "Multiple learning tasks were used",
-          "Small sample size",
-          "Brain activity was measured directly"
+        "answer": [
+          "Small sample size"
         ],
-        "answer": 2,
         "explain": "The speaker notes a relatively small sample size.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "What claim does the speaker avoid making?",
-        "options": [
-          "That sleep can improve retention",
-          "That consolidation has a time window",
-          "That brain mechanisms are proven",
-          "That sleep group recalled more"
+        "answer": [
+          "That brain mechanisms are proven"
         ],
-        "answer": 2,
         "explain": "They did not measure brain activity, so mechanisms are not claimed.",
-        "skill": "inference"
+        "skill": "inference",
+        "type": "short_answer"
       },
       {
         "q": "What is the main conclusion?",
-        "options": [
-          "Sleep right after study can improve memory retention",
-          "Watching documentaries improves memory",
-          "High performers benefit most from sleep",
-          "Sleep has no effect on memory"
+        "answer": [
+          "Sleep right after study can improve memory retention"
         ],
-        "answer": 0,
         "explain": "The results support sleep soon after study to improve retention.",
-        "skill": "main_idea"
+        "skill": "main_idea",
+        "type": "short_answer"
       },
       {
         "q": "Why did the researchers avoid new learning for the wake group?",
-        "options": [
-          "To keep them entertained",
-          "To prevent interference with memory",
-          "To match the sleep group",
-          "To shorten the study"
+        "answer": [
+          "To prevent interference with memory"
         ],
-        "answer": 1,
         "explain": "New learning could interfere with memory consolidation.",
-        "skill": "inference"
+        "skill": "inference",
+        "type": "short_answer"
       },
       {
         "q": "What does the speaker say about consistency with prior research?",
-        "options": [
-          "The results contradict earlier studies",
-          "The results align with previous research",
-          "No prior research exists",
-          "Prior research was ignored"
+        "answer": [
+          "The results align with previous research"
         ],
-        "answer": 1,
         "explain": "They say the results align with previous research.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       }
     ]
   },
@@ -659,123 +527,93 @@
     "questions": [
       {
         "q": "Why are historical baselines less reliable now?",
-        "options": [
-          "Data collection has stopped",
-          "Climate volatility causes wider year-to-year variation",
-          "Reservoir technology is outdated",
-          "Water demand no longer changes"
+        "answer": [
+          "Climate volatility causes wider year-to-year variation"
         ],
-        "answer": 1,
         "explain": "The speaker says climate volatility has weakened the reliability of long-term averages.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "What is a key feature of the resilience model?",
-        "options": [
-          "Using all capacity immediately",
-          "Reserving a strategic buffer",
-          "Ignoring drought forecasts",
-          "Allocating only to agriculture"
+        "answer": [
+          "Reserving a strategic buffer"
         ],
-        "answer": 1,
         "explain": "The resilience model keeps a reserve buffer even under favorable signals.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "How does the efficiency model behave when forecasts are wrong?",
-        "options": [
-          "It improves emergency response",
-          "It amplifies shortage risk",
-          "It becomes identical to resilience",
-          "It eliminates uncertainty"
+        "answer": [
+          "It amplifies shortage risk"
         ],
-        "answer": 1,
         "explain": "The briefing states efficiency can amplify shortages under forecast failure.",
-        "skill": "inference"
+        "skill": "inference",
+        "type": "short_answer"
       },
       {
         "q": "Why does resilience seem expensive initially?",
-        "options": [
-          "It requires new desalination plants",
-          "Some capacity remains unused in the short term",
-          "It bans industrial use",
-          "It increases leak rates"
+        "answer": [
+          "Some capacity remains unused in the short term"
         ],
-        "answer": 1,
         "explain": "The speaker notes resilience appears costlier because part of capacity is held in reserve.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "What concern do agricultural stakeholders raise?",
-        "options": [
-          "Monthly updates are too frequent",
-          "Reserve targets may reduce seasonal flexibility",
-          "Municipal demand is underestimated",
-          "Compensation is always delayed"
+        "answer": [
+          "Reserve targets may reduce seasonal flexibility"
         ],
-        "answer": 1,
         "explain": "Agricultural groups worry reserve targets constrain seasonal flexibility.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "What common ground appears across stakeholder groups?",
-        "options": [
-          "Rejecting all restrictions",
-          "Supporting clear thresholds and transparent communication",
-          "Preferring fixed annual allocations",
-          "Avoiding public reporting"
+        "answer": [
+          "Supporting clear thresholds and transparent communication"
         ],
-        "answer": 1,
         "explain": "Both groups support clearer triggers and transparent communication.",
-        "skill": "main_idea"
+        "skill": "main_idea",
+        "type": "short_answer"
       },
       {
         "q": "What does 'manage risk explicitly' imply in context?",
-        "options": [
-          "Assume average years will return soon",
-          "Design policy around uncertainty, not certainty",
-          "Eliminate all short-term forecasts",
-          "Prioritize one sector permanently"
+        "answer": [
+          "Design policy around uncertainty, not certainty"
         ],
-        "answer": 1,
         "explain": "The recommendation is to incorporate uncertainty ranges and adaptive updates.",
-        "skill": "inference"
+        "skill": "inference",
+        "type": "short_answer"
       },
       {
         "q": "Which measure is part of the final recommendation?",
-        "options": [
-          "Update allocations monthly",
-          "Freeze allocations for five years",
-          "Stop publishing forecasts",
-          "End compensation programs"
+        "answer": [
+          "Update allocations monthly"
         ],
-        "answer": 0,
         "explain": "Monthly allocation updates are explicitly recommended.",
-        "skill": "detail"
+        "skill": "detail",
+        "type": "short_answer"
       },
       {
         "q": "What is the overall stance of the speaker?",
-        "options": [
-          "Efficiency should always dominate",
-          "Resilience should replace all economic goals",
-          "A balanced adaptive policy is needed",
-          "No planning model is useful"
+        "answer": [
+          "A balanced adaptive policy is needed"
         ],
-        "answer": 2,
         "explain": "The speaker recommends embedding adaptive rules while not abandoning efficiency.",
-        "skill": "tone"
+        "skill": "tone",
+        "type": "short_answer"
       },
       {
         "q": "Which title best summarizes the talk?",
-        "options": [
-          "Why Forecasts Are Useless",
-          "Choosing Between Agriculture and Cities",
-          "Balancing Efficiency and Resilience in Water Allocation",
-          "Ending Conservation Policies"
+        "answer": [
+          "Balancing Efficiency and Resilience in Water Allocation"
         ],
-        "answer": 2,
         "explain": "The transcript compares efficiency vs resilience and proposes adaptive balance.",
-        "skill": "summary"
+        "skill": "summary",
+        "type": "short_answer"
       }
     ]
   },
@@ -788,49 +626,37 @@
     "questions": [
       {
         "q": "What is the primary evidence for the existence of dark matter mentioned in the talk?",
-        "options": [
-          "The observation of dark matter reflecting starlight.",
-          "The rotational speed of stars at the edges of galaxies.",
-          "The fact that baryonic matter emits too much light.",
-          "The absence of gravity in the Global South."
+        "answer": [
+          "The rotational speed of stars at the edges of galaxies."
         ],
-        "answer": 1,
         "skill": "detail",
-        "explain": "The speaker mentions 'rotation curves of spiral galaxies' and that stars at the periphery orbit faster than expected."
+        "explain": "The speaker mentions 'rotation curves of spiral galaxies' and that stars at the periphery orbit faster than expected.",
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       },
       {
         "q": "What is the speaker's main purpose in the added segment?",
-        "options": [
-          "To give evidence-based practical advice",
-          "To change the topic",
-          "To tell a personal story",
-          "To dismiss prior research"
+        "answer": [
+          "To give evidence-based practical advice"
         ],
-        "answer": 0,
         "skill": "purpose",
-        "explain": "The added segment reports data and gives a practical takeaway."
+        "explain": "The added segment reports data and gives a practical takeaway.",
+        "type": "short_answer"
       }
     ]
   },
@@ -843,49 +669,37 @@
     "questions": [
       {
         "q": "What does 'loss aversion' imply about investor behavior?",
-        "options": [
-          "Investors enjoy losing money to learn from their mistakes.",
-          "The pain of loss is psychologically more significant than the pleasure of a gain.",
-          "Investors always sell their best-performing stocks immediately.",
-          "Market participants are always rational and avoid any losses."
+        "answer": [
+          "The pain of loss is psychologically more significant than the pleasure of a gain."
         ],
-        "answer": 1,
         "skill": "detail",
-        "explain": "The talk states 'the psychological pain of losing money is twice as powerful as the joy of gaining it'."
+        "explain": "The talk states 'the psychological pain of losing money is twice as powerful as the joy of gaining it'.",
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       },
       {
         "q": "What is the speaker's main purpose in the added segment?",
-        "options": [
-          "To give evidence-based practical advice",
-          "To change the topic",
-          "To tell a personal story",
-          "To dismiss prior research"
+        "answer": [
+          "To give evidence-based practical advice"
         ],
-        "answer": 0,
         "skill": "purpose",
-        "explain": "The added segment reports data and gives a practical takeaway."
+        "explain": "The added segment reports data and gives a practical takeaway.",
+        "type": "short_answer"
       }
     ]
   },
@@ -898,73 +712,55 @@
     "questions": [
       {
         "q": "What is a consequence of continuous monoculture mentioned in the lecture?",
-        "options": [
-          "An increase in the nutritional value of crops.",
-          "The restoration of organic matter in the topsoil.",
-          "The reduction of organic matter and microbial diversity.",
-          "A decrease in the use of chemical fertilizers."
+        "answer": [
+          "The reduction of organic matter and microbial diversity."
         ],
-        "answer": 2,
         "skill": "main_idea",
-        "explain": "The speaker says it 'strips the soil of its organic matter and microbial diversity'."
+        "explain": "The speaker says it 'strips the soil of its organic matter and microbial diversity'.",
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       },
       {
         "q": "What improvement followed the recap segments?",
-        "options": [
-          "A 15% increase in delayed recall",
-          "Lower accuracy",
-          "No change",
-          "Faster speech"
+        "answer": [
+          "A 15% increase in delayed recall"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker says scores rose by this percentage."
+        "explain": "The speaker says scores rose by this percentage.",
+        "type": "short_answer"
       },
       {
         "q": "What did the speaker say was the key factor behind the improvement?",
-        "options": [
-          "timing",
-          "Longer lectures",
-          "More homework",
-          "Lower difficulty"
+        "answer": [
+          "timing"
         ],
-        "answer": 0,
         "skill": "detail_inference",
-        "explain": "The speaker says timing, not length, drove the effect."
+        "explain": "The speaker says timing, not length, drove the effect.",
+        "type": "short_answer"
       },
       {
         "q": "What is the speaker's main purpose in the added segment?",
-        "options": [
-          "To give evidence-based practical advice",
-          "To change the topic",
-          "To tell a personal story",
-          "To dismiss prior research"
+        "answer": [
+          "To give evidence-based practical advice"
         ],
-        "answer": 0,
         "skill": "purpose",
-        "explain": "The added segment reports data and gives a practical takeaway."
+        "explain": "The added segment reports data and gives a practical takeaway.",
+        "type": "short_answer"
       }
     ]
   },
@@ -977,49 +773,37 @@
     "questions": [
       {
         "q": "What was the purpose of 'Orientalism' according to the passage?",
-        "options": [
-          "To promote the beauty of Eastern cultures in the West.",
-          "To justify colonial rule by creating an exoticized and distorted image of the East.",
-          "To encourage the West to adopt Eastern philosophical concepts.",
-          "To demonstrate that all cultures are naturally equal."
+        "answer": [
+          "To justify colonial rule by creating an exoticized and distorted image of the East."
         ],
-        "answer": 1,
         "skill": "inference",
-        "explain": "The speaker says 'Orientalism' showed how the West 'constructed a distorted, exoticized image... to justify colonial administration'."
+        "explain": "The speaker says 'Orientalism' showed how the West 'constructed a distorted, exoticized image... to justify colonial administration'.",
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       },
       {
         "q": "What is the speaker's main purpose in the added segment?",
-        "options": [
-          "To give evidence-based practical advice",
-          "To change the topic",
-          "To tell a personal story",
-          "To dismiss prior research"
+        "answer": [
+          "To give evidence-based practical advice"
         ],
-        "answer": 0,
         "skill": "purpose",
-        "explain": "The added segment reports data and gives a practical takeaway."
+        "explain": "The added segment reports data and gives a practical takeaway.",
+        "type": "short_answer"
       }
     ]
   },
@@ -1032,49 +816,37 @@
     "questions": [
       {
         "q": "What is a major criticism of AI-generated art mentioned in the talk?",
-        "options": [
-          "It is too expensive for the average consumer.",
-          "It lacks the 'intentionality' and 'lived experience' of human art.",
-          "It is much better than anything humans can create.",
-          "It uses too much hydraulic resource."
+        "answer": [
+          "It lacks the 'intentionality' and 'lived experience' of human art."
         ],
-        "answer": 1,
         "skill": "detail",
-        "explain": "The text states machines 'lack the intentionality and lived experience that define human artistic expression'."
+        "explain": "The text states machines 'lack the intentionality and lived experience that define human artistic expression'.",
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       },
       {
         "q": "What is the speaker's main purpose in the added segment?",
-        "options": [
-          "To give evidence-based practical advice",
-          "To change the topic",
-          "To tell a personal story",
-          "To dismiss prior research"
+        "answer": [
+          "To give evidence-based practical advice"
         ],
-        "answer": 0,
         "skill": "purpose",
-        "explain": "The added segment reports data and gives a practical takeaway."
+        "explain": "The added segment reports data and gives a practical takeaway.",
+        "type": "short_answer"
       }
     ]
   },
@@ -1087,73 +859,55 @@
     "questions": [
       {
         "q": "When does 'flow' typically occur according to the speaker?",
-        "options": [
-          "When a task is so simple that it requires no focus.",
-          "When the difficulty of a task perfectly matches a person's skills.",
-          "When an individual is under extreme stress due to a lack of feedback.",
-          "When a task is impossible to complete."
+        "answer": [
+          "When the difficulty of a task perfectly matches a person's skills."
         ],
-        "answer": 1,
         "skill": "detail",
-        "explain": "The speaker says it 'occurs when the challenge of the task perfectly aligns with the individual's skill level'."
+        "explain": "The speaker says it 'occurs when the challenge of the task perfectly aligns with the individual's skill level'.",
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       },
       {
         "q": "What improvement followed the recap segments?",
-        "options": [
-          "A 15% increase in delayed recall",
-          "Lower accuracy",
-          "No change",
-          "Faster speech"
+        "answer": [
+          "A 15% increase in delayed recall"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker says scores rose by this percentage."
+        "explain": "The speaker says scores rose by this percentage.",
+        "type": "short_answer"
       },
       {
         "q": "What did the speaker say was the key factor behind the improvement?",
-        "options": [
-          "timing",
-          "Longer lectures",
-          "More homework",
-          "Lower difficulty"
+        "answer": [
+          "timing"
         ],
-        "answer": 0,
         "skill": "detail_inference",
-        "explain": "The speaker says timing, not length, drove the effect."
+        "explain": "The speaker says timing, not length, drove the effect.",
+        "type": "short_answer"
       },
       {
         "q": "What is the speaker's main purpose in the added segment?",
-        "options": [
-          "To give evidence-based practical advice",
-          "To change the topic",
-          "To tell a personal story",
-          "To dismiss prior research"
+        "answer": [
+          "To give evidence-based practical advice"
         ],
-        "answer": 0,
         "skill": "purpose",
-        "explain": "The added segment reports data and gives a practical takeaway."
+        "explain": "The added segment reports data and gives a practical takeaway.",
+        "type": "short_answer"
       }
     ]
   },
@@ -1166,49 +920,37 @@
     "questions": [
       {
         "q": "What is a 'smart contract' in the context of DeFi?",
-        "options": [
-          "A physical contract signed by a bank manager.",
-          "A self-executing agreement with terms written directly into code.",
-          "A rule that prevents individuals from trading assets.",
-          "A type of insurance policy for centralized institutions."
+        "answer": [
+          "A self-executing agreement with terms written directly into code."
         ],
-        "answer": 1,
         "skill": "detail",
-        "explain": "The speaker defines them as 'self-executing agreements with the terms directly codified'."
+        "explain": "The speaker defines them as 'self-executing agreements with the terms directly codified'.",
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       },
       {
         "q": "What is the speaker's main purpose in the added segment?",
-        "options": [
-          "To give evidence-based practical advice",
-          "To change the topic",
-          "To tell a personal story",
-          "To dismiss prior research"
+        "answer": [
+          "To give evidence-based practical advice"
         ],
-        "answer": 0,
         "skill": "purpose",
-        "explain": "The added segment reports data and gives a practical takeaway."
+        "explain": "The added segment reports data and gives a practical takeaway.",
+        "type": "short_answer"
       }
     ]
   },
@@ -1221,49 +963,37 @@
     "questions": [
       {
         "q": "What is the primary contradiction mentioned in the Fermi Paradox?",
-        "options": [
-          "The high probability of ET life vs. the complete lack of evidence.",
-          "The fact that the universe is small but we are many.",
-          "The idea that galaxies rotate faster than they should.",
-          "The conflict between baryonic and dark matter."
+        "answer": [
+          "The high probability of ET life vs. the complete lack of evidence."
         ],
-        "answer": 0,
         "skill": "main_idea",
-        "explain": "The speaker describes it as the 'apparent contradiction between the high probability of extra-terrestrial civilizations and the total lack of contact'."
+        "explain": "The speaker describes it as the 'apparent contradiction between the high probability of extra-terrestrial civilizations and the total lack of contact'.",
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       },
       {
         "q": "What is the speaker's main purpose in the added segment?",
-        "options": [
-          "To give evidence-based practical advice",
-          "To change the topic",
-          "To tell a personal story",
-          "To dismiss prior research"
+        "answer": [
+          "To give evidence-based practical advice"
         ],
-        "answer": 0,
         "skill": "purpose",
-        "explain": "The added segment reports data and gives a practical takeaway."
+        "explain": "The added segment reports data and gives a practical takeaway.",
+        "type": "short_answer"
       }
     ]
   },
@@ -1276,75 +1006,54 @@
     "questions": [
       {
         "q": "What is the main definition of inflation given?",
-        "options": [
-          "Increase in purchasing power.",
-          "General increase in prices.",
-          "The study of central banks.",
-          "A period of high employment."
+        "answer": [
+          "General increase in prices."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How do central banks respond to high inflation?",
-        "options": [
-          "Lowering interest rates.",
-          "Raising interest rates.",
-          "Printing more money.",
-          "Increasing government spending."
+        "answer": [
+          "Raising interest rates."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the risk of raising interest rates too quickly?",
-        "options": [
-          "Low prices.",
-          "Unemployment.",
-          "High investment.",
-          "A speculative bubble."
+        "answer": [
+          "Unemployment."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the goal of lowering interest rates during a recession?",
-        "options": [
-          "To slow down the economy.",
-          "To stimulate growth.",
-          "To increase savings.",
-          "To reduce imports."
+        "answer": [
+          "To stimulate growth."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What phrase is used to describe macroeconomic management?",
-        "options": [
-          "Feeding the beast.",
-          "Taming the beast.",
-          "Ignoring the beast.",
-          "Creating the beast."
+        "answer": [
+          "Taming the beast."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -1357,75 +1066,54 @@
     "questions": [
       {
         "q": "What are the two main stages of photosynthesis?",
-        "options": [
-          "Respiration and Digestion.",
-          "Light-dependent reactions and the Calvin Cycle.",
-          "Evaporation and Condensation.",
-          "Growth and Decay."
+        "answer": [
+          "Light-dependent reactions and the Calvin Cycle."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the role of chlorophyll in the first stage?",
-        "options": [
-          "To create oxygen directly.",
-          "To capture solar energy.",
-          "To produce glucose.",
-          "To absorb water from the roots."
+        "answer": [
+          "To capture solar energy."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which molecule is a byproduct of the first stage?",
-        "options": [
-          "Carbon dioxide.",
-          "Oxygen.",
-          "Glucose.",
-          "Nitrogen."
+        "answer": [
+          "Oxygen."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What happens during the Calvin Cycle?",
-        "options": [
-          "Sunlight is captured.",
-          "Water is split.",
-          "Carbon dioxide is fixed into glucose.",
-          "Energy is lost as heat."
+        "answer": [
+          "Carbon dioxide is fixed into glucose."
         ],
-        "answer": 2
+        "type": "short_answer"
       },
       {
         "q": "How does the speaker describe photosynthesis at the end?",
-        "options": [
-          "A secondary process.",
-          "The foundation of the global food web.",
-          "A wasteful energy conversion.",
-          "A process only for flowers."
+        "answer": [
+          "The foundation of the global food web."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -1438,75 +1126,54 @@
     "questions": [
       {
         "q": "What is 'social stratification'?",
-        "options": [
-          "A way to plant trees.",
-          "Hierarchical layering of society.",
-          "The study of ancient rocks.",
-          "Movement between cities."
+        "answer": [
+          "Hierarchical layering of society."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What does the functionalist perspective argue?",
-        "options": [
-          "Stratification is unnecessary.",
-          "High rewards motivate individuals for key roles.",
-          "Wealth should be distributed equally.",
-          "Everyone should be a doctor."
+        "answer": [
+          "High rewards motivate individuals for key roles."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Who influenced the conflict theory?",
-        "options": [
-          "William Labov.",
-          "Karl Marx.",
-          "Adam Smith.",
-          "John Nash."
+        "answer": [
+          "Karl Marx."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How does conflict theory view the ruling class?",
-        "options": [
-          "As providers of jobs.",
-          "As exploiters of the working class.",
-          "As the most talented members of society.",
-          "As a neutral group."
+        "answer": [
+          "As exploiters of the working class."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What core question does the speaker pose at the end?",
-        "options": [
-          "Is wealth good?",
-          "Is society a meritocracy or a power struggle?",
-          "When will poverty end?",
-          "Who is the richest person?"
+        "answer": [
+          "Is society a meritocracy or a power struggle?"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -1519,75 +1186,54 @@
     "questions": [
       {
         "q": "Where and when did the Industrial Revolution begin?",
-        "options": [
-          "France in the 17th century.",
-          "Britain in the late 18th century.",
-          "USA in the 19th century.",
-          "Germany in the 15th century."
+        "answer": [
+          "Britain in the late 18th century."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What does 'urbanization' mean in this context?",
-        "options": [
-          "Building more farms.",
-          "Movement of people to cities.",
-          "The invention of trains.",
-          "A decrease in population."
+        "answer": [
+          "Movement of people to cities."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which group emerged as a 'new middle class'?",
-        "options": [
-          "Farmers.",
-          "Factory owners and managers.",
-          "Kings and Queens.",
-          "Artists."
+        "answer": [
+          "Factory owners and managers."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What negative aspect of working-class life is mentioned?",
-        "options": [
-          "High salaries.",
-          "Brutal conditions and child labor.",
-          "Too many holidays.",
-          "Lack of available jobs."
+        "answer": [
+          "Brutal conditions and child labor."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What organization was born during this period to help workers?",
-        "options": [
-          "The Red Cross.",
-          "Labor unions.",
-          "Central banks.",
-          "University clubs."
+        "answer": [
+          "Labor unions."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -1600,75 +1246,54 @@
     "questions": [
       {
         "q": "What is the core idea of the Sapir-Whorf Hypothesis?",
-        "options": [
-          "Language is purely biological.",
-          "Language structure influences how we see the world.",
-          "Everyone should speak the same language.",
-          "Thinking is impossible without words."
+        "answer": [
+          "Language structure influences how we see the world."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What example is given for linguistic variation in concepts?",
-        "options": [
-          "Words for 'car'.",
-          "Words for 'snow' or 'green'.",
-          "The number of verbs.",
-          "Pronunciation of names."
+        "answer": [
+          "Words for 'snow' or 'green'."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is Noam Chomsky's alternative view?",
-        "options": [
-          "Linguistic relativity.",
-          "Universal grammar.",
-          "Phoneticism.",
-          "Cultural determinism."
+        "answer": [
+          "Universal grammar."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Is the 'extreme' version of the hypothesis accepted today?",
-        "options": [
-          "Yes, completely.",
-          "No, it is largely discredited.",
-          "It is only accepted in Asia.",
-          "It was never studied."
+        "answer": [
+          "No, it is largely discredited."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the current consensus among linguists?",
-        "options": [
-          "Language has no effect on thought.",
-          "Language has at least some 'framing effect' on cognition.",
-          "Grammar is more important than meaning.",
-          "All languages are equally difficult."
+        "answer": [
+          "Language has at least some 'framing effect' on cognition."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -1681,75 +1306,54 @@
     "questions": [
       {
         "q": "What is the primary subject of the lecture?",
-        "options": [
-          "The water cycle.",
-          "The carbon cycle and global warming.",
-          "The fossilization of dinosaurs.",
-          "The growth of forests."
+        "answer": [
+          "The carbon cycle and global warming."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How has human activity disrupted the carbon balance?",
-        "options": [
-          "By planting too many trees.",
-          "By burning fossil fuels and deforestation.",
-          "By stopping all industrial work.",
-          "By cooling the oceans."
+        "answer": [
+          "By burning fossil fuels and deforestation."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the 'greenhouse effect' described as?",
-        "options": [
-          "A way to grow vegetables.",
-          "The trapping of heat in the atmosphere.",
-          "A method to clean the air.",
-          "The cooling of the planet."
+        "answer": [
+          "The trapping of heat in the atmosphere."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What are 'carbon sinks'?",
-        "options": [
-          "Kitchen appliances.",
-          "Natural reservoirs that absorb CO2.",
-          "Sources of carbon emissions.",
-          "Waste disposal sites."
+        "answer": [
+          "Natural reservoirs that absorb CO2."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What happens as the oceans warm?",
-        "options": [
-          "They absorb more carbon.",
-          "Their capacity to absorb carbon decreases.",
-          "They turn into ice.",
-          "They stop moving."
+        "answer": [
+          "Their capacity to absorb carbon decreases."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -1762,75 +1366,54 @@
     "questions": [
       {
         "q": "What is 'opportunity cost'?",
-        "options": [
-          "The price of a product.",
-          "The value of the next best alternative given up.",
-          "The profit made from a sale.",
-          "The cost of manufacturing."
+        "answer": [
+          "The value of the next best alternative given up."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why do all choices have an opportunity cost?",
-        "options": [
-          "Because people are greedy.",
-          "Because resources like time and money are finite.",
-          "Because of inflation.",
-          "Because everything is free."
+        "answer": [
+          "Because resources like time and money are finite."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Give an example of an opportunity cost for a student.",
-        "options": [
-          "Paying for books.",
-          "Time that could have been spent sleeping or working.",
-          "Getting a high grade.",
-          "The cost of tuition."
+        "answer": [
+          "Time that could have been spent sleeping or working."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How does this concept apply to governments?",
-        "options": [
-          "They have unlimited money.",
-          "Choosing to build schools instead of hospitals.",
-          "Investing in one area means giving up another.",
-          "They ignore costs."
+        "answer": [
+          "Investing in one area means giving up another."
         ],
-        "answer": 2
+        "type": "short_answer"
       },
       {
         "q": "What is the benefit of recognizing opportunity costs?",
-        "options": [
-          "It makes people unhappy.",
-          "It helps in making rational decisions.",
-          "It avoids all costs.",
-          "It increases spending."
+        "answer": [
+          "It helps in making rational decisions."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -1843,75 +1426,54 @@
     "questions": [
       {
         "q": "What is 'cognitive dissonance'?",
-        "options": [
-          "A type of memory loss.",
-          "Mental discomfort from conflicting beliefs.",
-          "A positive state of mind.",
-          "The ability to multitask."
+        "answer": [
+          "Mental discomfort from conflicting beliefs."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Who is the primary theorist mentioned?",
-        "options": [
-          "Sigmund Freud.",
-          "Leon Festinger.",
-          "B.F. Skinner.",
-          "Abraham Maslow."
+        "answer": [
+          "Leon Festinger."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Give an example of dissonance mentioned in the text.",
-        "options": [
-          "Cooking a meal.",
-          "A smoker knowing that smoking is harmful.",
-          "Reading a book.",
-          "Going for a walk."
+        "answer": [
+          "A smoker knowing that smoking is harmful."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How do people typically reduce dissonance?",
-        "options": [
-          "By ignoring it forever.",
-          "By changing attitudes or justifying behavior.",
-          "By experiencing more stress.",
-          "By asking for help."
+        "answer": [
+          "By changing attitudes or justifying behavior."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why is this theory important for understanding human behavior?",
-        "options": [
-          "It explains why people love change.",
-          "It explains resistance to change and evidence.",
-          "It shows that people are always rational.",
-          "It helps in learning languages."
+        "answer": [
+          "It explains resistance to change and evidence."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -1924,75 +1486,54 @@
     "questions": [
       {
         "q": "What is another name for High-tech architecture?",
-        "options": [
-          "Classical revival.",
-          "Structural Expressionism.",
-          "Gothic style.",
-          "Minimalism."
+        "answer": [
+          "Structural Expressionism."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is meant by 'honesty of structure'?",
-        "options": [
-          "Using cheap materials.",
-          "Exposing functional elements like pipes and ducts.",
-          "Building small houses.",
-          "Hiding the foundation."
+        "answer": [
+          "Exposing functional elements like pipes and ducts."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which famous building in Paris is given as an example?",
-        "options": [
-          "The Louvre.",
-          "The Pompidou Centre.",
-          "The Eiffel Tower.",
-          "Notre Dame."
+        "answer": [
+          "The Pompidou Centre."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is a benefit of placing structural elements on the outside?",
-        "options": [
-          "It's easier to paint.",
-          "It allows for a flexible, open interior space.",
-          "It's more expensive.",
-          "It protects from the rain."
+        "answer": [
+          "It allows for a flexible, open interior space."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What materials are commonly used in this style?",
-        "options": [
-          "Wood and brick.",
-          "Steel, glass, and prefabricated parts.",
-          "Mud and straw.",
-          "Stone and marble."
+        "answer": [
+          "Steel, glass, and prefabricated parts."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -2005,75 +1546,54 @@
     "questions": [
       {
         "q": "What was the primary initial goal of European integration?",
-        "options": [
-          "To increase trade with Asia.",
-          "To prevent future wars in Europe.",
-          "To build a common language.",
-          "To explore space."
+        "answer": [
+          "To prevent future wars in Europe."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which community was formed in 1951?",
-        "options": [
-          "The United Nations.",
-          "The European Coal and Steel Community.",
-          "The World Bank.",
-          "The Olympic Committee."
+        "answer": [
+          "The European Coal and Steel Community."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What was the logic behind integrating coal and steel?",
-        "options": [
-          "To make them cheaper.",
-          "To make war between members materially impossible.",
-          "To build stronger houses.",
-          "To protect the environment."
+        "answer": [
+          "To make war between members materially impossible."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Define 'supranationalism' in this context.",
-        "options": [
-          "Creating more nations.",
-          "Giving up some sovereignty to a larger body.",
-          "Promoting local culture only.",
-          "Ending all immigration."
+        "answer": [
+          "Giving up some sovereignty to a larger body."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which treaty officially created the European Union as we know it?",
-        "options": [
-          "Treaty of Versailles.",
-          "Maastricht Treaty.",
-          "Treaty of London.",
-          "Treaty of Paris."
+        "answer": [
+          "Maastricht Treaty."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -2086,75 +1606,54 @@
     "questions": [
       {
         "q": "What characterizes the gravity of a black hole?",
-        "options": [
-          "Weak and unstable.",
-          "So strong that light cannot escape.",
-          "Equivalent to Earth's gravity.",
-          "Only affects large planets."
+        "answer": [
+          "So strong that light cannot escape."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What does the theory of general relativity predict about compact mass?",
-        "options": [
-          "It can form a black hole by deforming spacetime.",
-          "It will always explode.",
-          "It becomes a star.",
-          "It moves faster than light."
+        "answer": [
+          "It can form a black hole by deforming spacetime."
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Define the 'event horizon' based on the text.",
-        "options": [
-          "A place where time stops.",
-          "The boundary from which no escape is possible.",
-          "The center of the black hole.",
-          "A bright ring of light."
+        "answer": [
+          "The boundary from which no escape is possible."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why is a black hole compared to an ideal black body?",
-        "options": [
-          "It is very hot.",
-          "It reflects no light.",
-          "It is perfectly round.",
-          "It is made of carbon."
+        "answer": [
+          "It reflects no light."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is Hawking radiation?",
-        "options": [
-          "Light from nearby stars.",
-          "Radiation emitted by event horizons.",
-          "A type of radio wave.",
-          "Heat from the center of the Earth."
+        "answer": [
+          "Radiation emitted by event horizons."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -2167,75 +1666,54 @@
     "questions": [
       {
         "q": "What is the primary goal of sustainable architecture?",
-        "options": [
-          "To build as fast as possible.",
-          "To minimize negative environmental impact.",
-          "To make the most expensive buildings.",
-          "To ignore local ecosystems."
+        "answer": [
+          "To minimize negative environmental impact."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What does 'ecological design' aim to ensure?",
-        "options": [
-          "Future generations have no resources.",
-          "Our actions do not inhibit future opportunities.",
-          "All buildings are made of wood.",
-          "Electricity is never used."
+        "answer": [
+          "Our actions do not inhibit future opportunities."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Name a renewable energy source mentioned in the text.",
-        "options": [
-          "Coal.",
-          "Solar and wind.",
-          "Oil.",
-          "Natural gas."
+        "answer": [
+          "Solar and wind."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is 'passive solar design'?",
-        "options": [
-          "Using solar panels for everything.",
-          "Designing to use the sun's energy for heating and cooling naturally.",
-          "Storing sunlight in batteries.",
-          "Painting buildings yellow."
+        "answer": [
+          "Designing to use the sun's energy for heating and cooling naturally."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How is water managed in sustainable architecture?",
-        "options": [
-          "Using only bottled water.",
-          "Greywater recycling and on-site composting.",
-          "Dumping waste into rivers.",
-          "Building deep wells."
+        "answer": [
+          "Greywater recycling and on-site composting."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -2248,75 +1726,54 @@
     "questions": [
       {
         "q": "What was the main focus of the Stanford prison experiment?",
-        "options": [
-          "The history of prisons.",
-          "The psychological effects of perceived power.",
-          "The diet of prisoners.",
-          "The architecture of Stanford University."
+        "answer": [
+          "The psychological effects of perceived power."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Who led the research team for this experiment?",
-        "options": [
-          "Stanley Milgram.",
-          "Philip Zimbardo.",
-          "Abraham Maslow.",
-          "Sigmund Freud."
+        "answer": [
+          "Philip Zimbardo."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why was the experiment terminated early?",
-        "options": [
-          "Lack of funding.",
-          "Guards became abusive and sadistic.",
-          "The prisoners escaped.",
-          "The university closed for holidays."
+        "answer": [
+          "Guards became abusive and sadistic."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What did the study demonstrate about human behavior?",
-        "options": [
-          "People are naturally evil.",
-          "The power of situational factors and social roles.",
-          "Guards are more intelligent than prisoners.",
-          "Experiments are always dangerous."
+        "answer": [
+          "The power of situational factors and social roles."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How long did the experiment actually last?",
-        "options": [
-          "Two weeks.",
-          "Six days.",
-          "One month.",
-          "One day."
+        "answer": [
+          "Six days."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -2329,75 +1786,54 @@
     "questions": [
       {
         "q": "Who is considered the 'father of modern economics'?",
-        "options": [
-          "Karl Marx.",
-          "Adam Smith.",
-          "John Maynard Keynes.",
-          "David Ricardo."
+        "answer": [
+          "Adam Smith."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the core idea of the 'invisible hand'?",
-        "options": [
-          "The government should control everything.",
-          "Self-interest can unintentionally promote public good.",
-          "People should only work for others.",
-          "Hands are invisible in a factory."
+        "answer": [
+          "Self-interest can unintentionally promote public good."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "In which book did Smith introduce this concept?",
-        "options": [
-          "Das Kapital.",
-          "The Wealth of Nations.",
-          "The Social Contract.",
-          "Principia Mathematica."
+        "answer": [
+          "The Wealth of Nations."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What keeps prices low in a free market?",
-        "options": [
-          "Government laws.",
-          "Competition.",
-          "Rich people's generosity.",
-          "Lack of demand."
+        "answer": [
+          "Competition."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Under what condition might the 'invisible hand' fail?",
-        "options": [
-          "When people are too honest.",
-          "In the presence of market failures or monopolies.",
-          "When there is too much competition.",
-          "When taxes are too low."
+        "answer": [
+          "In the presence of market failures or monopolies."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -2410,75 +1846,54 @@
     "questions": [
       {
         "q": "How long did the Great Depression last?",
-        "options": [
-          "Two years.",
-          "Ten years (1929-1939).",
-          "Twenty years.",
-          "Five years."
+        "answer": [
+          "Ten years (1929-1939)."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What event triggered the Great Depression?",
-        "options": [
-          "World War I.",
-          "The stock market crash of October 1929.",
-          "The end of the British Empire.",
-          "A massive drought."
+        "answer": [
+          "The stock market crash of October 1929."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How many Americans were unemployed at the lowest point?",
-        "options": [
-          "1 million.",
-          "15 million.",
-          "50 million.",
-          "5 million."
+        "answer": [
+          "15 million."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What helped the US economy finally recover?",
-        "options": [
-          "A decrease in taxes.",
-          "Entry into World War II.",
-          "A new gold discovery.",
-          "Stopping all international trade."
+        "answer": [
+          "Entry into World War II."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Name one long-term legacy of the Great Depression mentioned.",
-        "options": [
-          "The invention of the internet.",
-          "Creation of Social Security and banking regulations.",
-          "The end of capitalism.",
-          "Moving the capital to Washington."
+        "answer": [
+          "Creation of Social Security and banking regulations."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -2491,75 +1906,54 @@
     "questions": [
       {
         "q": "What is the primary mechanism of evolution according to Darwin?",
-        "options": [
-          "Genetic engineering.",
-          "Natural selection.",
-          "Random chance.",
-          "Climate change."
+        "answer": [
+          "Natural selection."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What does 'fitness' mean in a biological context?",
-        "options": [
-          "Physical strength.",
-          "Reproductive success.",
-          "Speed.",
-          "Intelligence."
+        "answer": [
+          "Reproductive success."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How did Darwin explain the diversity of life?",
-        "options": [
-          "Through overnight changes.",
-          "Through adaptation over long periods.",
-          "By studying only humans.",
-          "By ignoring the environment."
+        "answer": [
+          "Through adaptation over long periods."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the genetic foundation of these traits?",
-        "options": [
-          "Protein.",
-          "DNA.",
-          "Carbohydrates.",
-          "Vitamin C."
+        "answer": [
+          "DNA."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Give an example of adaptation mentioned.",
-        "options": [
-          "The size of a rock.",
-          "Beaks of finches or insect camouflage.",
-          "The color of the sky.",
-          "The speed of light."
+        "answer": [
+          "Beaks of finches or insect camouflage."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -2572,75 +1966,54 @@
     "questions": [
       {
         "q": "What was the original Panopticon?",
-        "options": [
-          "A type of camera.",
-          "A prison design where one guard watches many.",
-          "A new social media app.",
-          "A museum in Paris."
+        "answer": [
+          "A prison design where one guard watches many."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Who used the Panopticon as a metaphor for social power?",
-        "options": [
-          "Karl Marx.",
-          "Michel Foucault.",
-          "Jeremy Bentham.",
-          "Jean-Paul Sartre."
+        "answer": [
+          "Michel Foucault."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is 'self-surveillance'?",
-        "options": [
-          "Watching yourself in the mirror.",
-          "Policing one's own behavior because of potential monitoring.",
-          "Setting up cameras in your house.",
-          "Reading your own diary."
+        "answer": [
+          "Policing one's own behavior because of potential monitoring."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why is this system considered efficient?",
-        "options": [
-          "It costs no money.",
-          "It doesn't require constant physical force.",
-          "It makes people happy.",
-          "It's faster than the internet."
+        "answer": [
+          "It doesn't require constant physical force."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the 'digital panopticon'?",
-        "options": [
-          "A types of computer virus.",
-          "A world of constant data tracking and logging.",
-          "A new government agency.",
-          "A movie about space."
+        "answer": [
+          "A world of constant data tracking and logging."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -2653,75 +2026,54 @@
     "questions": [
       {
         "q": "What is the 'bystander effect'?",
-        "options": [
-          "Helping people more in a crowd.",
-          "Being less likely to help when others are present.",
-          "Staying at home during emergencies.",
-          "Always recording events on a phone."
+        "answer": [
+          "Being less likely to help when others are present."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Define 'diffusion of responsibility'.",
-        "options": [
-          "Taking full blame.",
-          "Assuming someone else will take action in a group.",
-          "Ignoring all responsibility.",
-          "A mathematical formula."
+        "answer": [
+          "Assuming someone else will take action in a group."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is 'pluralistic ignorance'?",
-        "options": [
-          "Learning many things at once.",
-          "Assuming a situation isn't an emergency because others aren't reacting.",
-          "Not knowing the law.",
-          "Ignoring the needs of others."
+        "answer": [
+          "Assuming a situation isn't an emergency because others aren't reacting."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which famous case sparked research into this effect?",
-        "options": [
-          "The Stanford Prison case.",
-          "The Kitty Genovese case.",
-          "The Milgram case.",
-          "The French Revolution."
+        "answer": [
+          "The Kitty Genovese case."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How can we overcome the bystander effect?",
-        "options": [
-          "By having more people nearby.",
-          "By teaching individual personal responsibility.",
-          "By calling for more help.",
-          "By ignoring the crowd."
+        "answer": [
+          "By teaching individual personal responsibility."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -2734,75 +2086,54 @@
     "questions": [
       {
         "q": "What is a 'Nash Equilibrium'?",
-        "options": [
-          "A state of constant change.",
-          "A situation where no player benefits from switching alone.",
-          "A market with no competition.",
-          "A state where everyone wins."
+        "answer": [
+          "A situation where no player benefits from switching alone."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Is a Nash Equilibrium always the 'best' outcome for society?",
-        "options": [
-          "Yes, always.",
-          "No, it's just the most stable.",
-          "It only applies to small groups.",
-          "It is only true in math."
+        "answer": [
+          "No, it's just the most stable."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Who is the theory named after?",
-        "options": [
-          "John Nash.",
-          "Adam Smith.",
-          "David Ricardo.",
-          "John Maynard Keynes."
+        "answer": [
+          "John Nash."
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What example is given for firm behavior?",
-        "options": [
-          "Firms in an oligopoly setting prices.",
-          "A bakery selling bread.",
-          "A government building a bridge.",
-          "A person shopping for clothes."
+        "answer": [
+          "Firms in an oligopoly setting prices."
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What is the core takeaway regarding self-interest?",
-        "options": [
-          "It always leads to the best result.",
-          "It can lead to a stable but sub-optimal state.",
-          "It should be ignored.",
-          "It is the only way to play."
+        "answer": [
+          "It can lead to a stable but sub-optimal state."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -2815,75 +2146,54 @@
     "questions": [
       {
         "q": "Why was it called the 'Cold' War?",
-        "options": [
-          "It happened in winter.",
-          "There was no large-scale direct fighting between superpowers.",
-          "The technology used was cold.",
-          "It was a very peaceful time."
+        "answer": [
+          "There was no large-scale direct fighting between superpowers."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Between which two superpowers did the tension exist?",
-        "options": [
-          "UK and France.",
-          "US and Soviet Union.",
-          "China and Japan.",
-          "Germany and Italy."
+        "answer": [
+          "US and Soviet Union."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What are 'proxy wars'?",
-        "options": [
-          "Wars fought by computer programs.",
-          "Wars where superpowers support opposing sides rather than fighting directly.",
-          "Wars about the ocean.",
-          "Wars that only last one day."
+        "answer": [
+          "Wars where superpowers support opposing sides rather than fighting directly."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What were the two main races during the Cold War?",
-        "options": [
-          "A car race and a horse race.",
-          "A nuclear arms race and a space race.",
-          "A marathon and a sprint.",
-          "A wealth race and a food race."
+        "answer": [
+          "A nuclear arms race and a space race."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What event symbolically marked the end of the Cold War?",
-        "options": [
-          "The moon landing.",
-          "The fall of the Berlin Wall in 1989.",
-          "The invention of the computer.",
-          "A meeting in London."
+        "answer": [
+          "The fall of the Berlin Wall in 1989."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -2896,75 +2206,54 @@
     "questions": [
       {
         "q": "What is the speed of light in a vacuum according to the theory?",
-        "options": [
-          "Variable depending on the observer.",
-          "Constant for all observers.",
-          "Faster than any star.",
-          "Only true in space."
+        "answer": [
+          "Constant for all observers."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is 'time dilation'?",
-        "options": [
-          "Time stopping completely.",
-          "Time moving slower for an object in motion.",
-          "Time moving faster in a vacuum.",
-          "A way to travel to the past."
+        "answer": [
+          "Time moving slower for an object in motion."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What does the equation E=mc² demonstrate?",
-        "options": [
-          "Light is very fast.",
-          "Mass and energy are interchangeable.",
-          "Electricity is powerful.",
-          "Gravity is a wave."
+        "answer": [
+          "Mass and energy are interchangeable."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which modern technology requires these principles to work?",
-        "options": [
-          "The radio.",
-          "GPS.",
-          "The steam engine.",
-          "The television."
+        "answer": [
+          "GPS."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Are the laws of physics different in moving frames of reference?",
-        "options": [
-          "Yes, they change completely.",
-          "No, they are the same in all inertial frames.",
-          "They only vary in space.",
-          "They only apply to light."
+        "answer": [
+          "No, they are the same in all inertial frames."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -2977,75 +2266,54 @@
     "questions": [
       {
         "q": "What is a 'pidgin'?",
-        "options": [
-          "A types of bird.",
-          "A simplified language used between different language speakers.",
-          "A secret code.",
-          "A language that is only written."
+        "answer": [
+          "A simplified language used between different language speakers."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Is a pidgin anyone's first language?",
-        "options": [
-          "Yes, always.",
-          "No, it is a bridge language used for limited purposes.",
-          "Only for traders.",
-          "It was once."
+        "answer": [
+          "No, it is a bridge language used for limited purposes."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How does a pidgin become a 'creole'?",
-        "options": [
-          "By being written down.",
-          "When it is learned as a native language by children.",
-          "By adding more English words.",
-          "By being banned by the government."
+        "answer": [
+          "When it is learned as a native language by children."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What characterizes a creole language?",
-        "options": [
-          "Simplified grammar.",
-          "Fully developed and sophisticated grammatical systems.",
-          "Only used for trade.",
-          "A mix of math and logic."
+        "answer": [
+          "Fully developed and sophisticated grammatical systems."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What does this process provide evidence for in linguistics?",
-        "options": [
-          "Cultural evolution.",
-          "The existence of 'universal grammar'.",
-          "The history of travel.",
-          "The importance of translation."
+        "answer": [
+          "The existence of 'universal grammar'."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -3058,75 +2326,54 @@
     "questions": [
       {
         "q": "What was the core shift of the Neolithic Revolution?",
-        "options": [
-          "Invention of fire.",
-          "From hunting/gathering to agriculture and settlement.",
-          "The start of the Industrial Revolution.",
-          "Moving to the Americas."
+        "answer": [
+          "From hunting/gathering to agriculture and settlement."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "When did this revolution begin?",
-        "options": [
-          "1,000 BCE.",
-          "10,000 BCE.",
-          "2025 CE.",
-          "50,000 BCE."
+        "answer": [
+          "10,000 BCE."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What did a 'food surplus' allow for?",
-        "options": [
-          "Population explosion and specialization.",
-          "Everyone became a hunter.",
-          "People stopped eating plants.",
-          "The invention of money immediately."
+        "answer": [
+          "Population explosion and specialization."
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How did social structure change because of settlement?",
-        "options": [
-          "Everyone became equal.",
-          "It led to social stratification and wealth accumulation.",
-          "People moved more often.",
-          "There was no change."
+        "answer": [
+          "It led to social stratification and wealth accumulation."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What was a negative consequence mentioned?",
-        "options": [
-          "Less food.",
-          "New diseases and more labor-intensive days.",
-          "Bigger houses.",
-          "No more travel."
+        "answer": [
+          "New diseases and more labor-intensive days."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -3139,75 +2386,54 @@
     "questions": [
       {
         "q": "Why is the ozone layer important?",
-        "options": [
-          "It keeps the Earth warm.",
-          "It absorbs harmful UV radiation.",
-          "It provides oxygen for flight.",
-          "It creates the color of the sky."
+        "answer": [
+          "It absorbs harmful UV radiation."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What chemicals were found to be destroying the ozone?",
-        "options": [
-          "CO2.",
-          "CFCs (chlorofluorocarbons).",
-          "Nitrogen.",
-          "Natural gas."
+        "answer": [
+          "CFCs (chlorofluorocarbons)."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Where were these chemicals mainly used?",
-        "options": [
-          "Cars and trains.",
-          "Refrigerators, air conditioners, and aerosols.",
-          "Food production.",
-          "Building materials."
+        "answer": [
+          "Refrigerators, air conditioners, and aerosols."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the Montreal Protocol?",
-        "options": [
-          "A treaty to stop all industry.",
-          "An international treaty to phase out CFCs.",
-          "A meeting about climate change in general.",
-          "A types of computer software."
+        "answer": [
+          "An international treaty to phase out CFCs."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the current status of the ozone layer?",
-        "options": [
-          "It is completely gone.",
-          "It is slowly recovering.",
-          "It is getting worse every day.",
-          "It never changed."
+        "answer": [
+          "It is slowly recovering."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -3220,75 +2446,54 @@
     "questions": [
       {
         "q": "What do the 'shadows' on the wall represent for the prisoners?",
-        "options": [
-          "A movie.",
-          "Their entire reality.",
-          "A dream.",
-          "A mistake."
+        "answer": [
+          "Their entire reality."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What does the journey out of the cave represent?",
-        "options": [
-          "Moving to a new city.",
-          "The process of education and finding truth.",
-          "Escaping from prison.",
-          "Learning how to build a fire."
+        "answer": [
+          "The process of education and finding truth."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why is the sunlight initially painful for the freed prisoner?",
-        "options": [
-          "It is too hot.",
-          "They aren't used to the true light/intellectual truth.",
-          "They have an eye disease.",
-          "The sun is too bright on Earth."
+        "answer": [
+          "They aren't used to the true light/intellectual truth."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the 'philosopher's duty' according to Plato?",
-        "options": [
-          "To stay outside in the sun.",
-          "To return to the cave and free others.",
-          "To write books only.",
-          "To become the king."
+        "answer": [
+          "To return to the cave and free others."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "In which book did Plato present this allegory?",
-        "options": [
-          "The Social Contract.",
-          "The Republic.",
-          "The Prince.",
-          "Ethics."
+        "answer": [
+          "The Republic."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -3301,75 +2506,54 @@
     "questions": [
       {
         "q": "What is the primary feature of the Socratic method?",
-        "options": [
-          "Giving long lectures.",
-          "Asking and answering questions to stimulate critical thinking.",
-          "Reading ancient books.",
-          "Writing poems."
+        "answer": [
+          "Asking and answering questions to stimulate critical thinking."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How does a teacher using this method help a student?",
-        "options": [
-          "By giving them the answers.",
-          "By leading them to discover truth through questions.",
-          "By telling them to stop thinking.",
-          "By grading them strictly."
+        "answer": [
+          "By leading them to discover truth through questions."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Define 'aporia' based on the text.",
-        "options": [
-          "A state of happiness.",
-          "A state of bewilderment or confusion.",
-          "A new idea.",
-          "The end of a book."
+        "answer": [
+          "A state of bewilderment or confusion."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What was Socrates's view on the 'unexamined life'?",
-        "options": [
-          "It is the best life.",
-          "It is not worth living.",
-          "It is very easy.",
-          "It is for animals."
+        "answer": [
+          "It is not worth living."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "In which field is this method still widely used today?",
-        "options": [
-          "Culinary arts.",
-          "Legal education.",
-          "Carpentry.",
-          "Sports."
+        "answer": [
+          "Legal education."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -3382,75 +2566,54 @@
     "questions": [
       {
         "q": "What are the three main components needed for photosynthesis?",
-        "options": [
-          "Soil, Rock, Dust.",
-          "Sunlight, Carbon Dioxide, and Water.",
-          "Oxygen, Nitrogen, Argon.",
-          "Wind, Rain, Heat."
+        "answer": [
+          "Sunlight, Carbon Dioxide, and Water."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which pigment is responsible for capturing light energy?",
-        "options": [
-          "Hemoglobin.",
-          "Chlorophyll.",
-          "Melanin.",
-          "Xanthophyll."
+        "answer": [
+          "Chlorophyll."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the primary byproduct of photosynthesis for humans?",
-        "options": [
-          "Sugar.",
-          "Oxygen.",
-          "Carbon dioxide.",
-          "Water."
+        "answer": [
+          "Oxygen."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the second stage of photosynthesis called?",
-        "options": [
-          "The Light Race.",
-          "The Calvin Cycle.",
-          "The Krebs Cycle.",
-          "The Solar Path."
+        "answer": [
+          "The Calvin Cycle."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why is photosynthesis considered the 'foundation of life'?",
-        "options": [
-          "It makes the sky blue.",
-          "It provides oxygen and food energy.",
-          "It keeps the Earth warm.",
-          "It creates soil."
+        "answer": [
+          "It provides oxygen and food energy."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -3463,75 +2626,54 @@
     "questions": [
       {
         "q": "What is the Barnum Effect?",
-        "options": [
-          "Forgetting your name.",
-          "Rating vague personality descriptions as highly accurate.",
-          "Fear of clowns.",
-          "The ability to read minds."
+        "answer": [
+          "Rating vague personality descriptions as highly accurate."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which of these is an example of a 'Barnum statement'?",
-        "options": [
-          "You were born on a Monday.",
-          "You have a great deal of unused capacity.",
-          "You weigh 70 kilograms.",
-          "You live in a city."
+        "answer": [
+          "You have a great deal of unused capacity."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why do people tend to believe these general descriptions?",
-        "options": [
-          "They are stupid.",
-          "They want to believe positive things about themselves.",
-          "They have no memory.",
-          "They are looking for attention."
+        "answer": [
+          "They want to believe positive things about themselves."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What increases the likelihood of people accepting these descriptions?",
-        "options": [
-          "If the test results are negative.",
-          "If the test is perceived as highly scientific.",
-          "If the test is very short.",
-          "If the test is free."
+        "answer": [
+          "If the test is perceived as highly scientific."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Name one area where the Barnum Effect is highly visible.",
-        "options": [
-          "Mathematics.",
-          "Astrology and fortune-telling.",
-          "Cooking.",
-          "Engineering."
+        "answer": [
+          "Astrology and fortune-telling."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -3544,75 +2686,54 @@
     "questions": [
       {
         "q": "What does the prisoner's dilemma illustrate?",
-        "options": [
-          "Why criminals are caught.",
-          "Why rational individuals might not cooperate even if it benefits them.",
-          "How to escape from prison.",
-          "The history of the legal system."
+        "answer": [
+          "Why rational individuals might not cooperate even if it benefits them."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "In the classic scenario, what is the 'silent' strategy called?",
-        "options": [
-          "Defection.",
-          "Cooperation.",
-          "Betrayal.",
-          "Ignorance."
+        "answer": [
+          "Cooperation."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why is 'betraying' the rational choice for one individual?",
-        "options": [
-          "It always leads to the best result for both.",
-          "It yields a better individual result regardless of the other's choice.",
-          "Because they hate each other.",
-          "Because they want to stay in prison."
+        "answer": [
+          "It yields a better individual result regardless of the other's choice."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the result when *both* prisoners act rationally in their own self-interest?",
-        "options": [
-          "They both go free.",
-          "They both serve a longer sentence than if they had cooperated.",
-          "One goes free, one stays.",
-          "The game ends immediately."
+        "answer": [
+          "They both serve a longer sentence than if they had cooperated."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What real-world situation is explained by this model?",
-        "options": [
-          "Birthday parties.",
-          "Arms races and price wars.",
-          "Building a house.",
-          "Writing a book."
+        "answer": [
+          "Arms races and price wars."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -3625,75 +2746,54 @@
     "questions": [
       {
         "q": "When did the Great Fire of London occur?",
-        "options": [
-          "1066.",
-          "1666.",
-          "1866.",
-          "1966."
+        "answer": [
+          "1666."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Where did the fire start?",
-        "options": [
-          "A palace.",
-          "A bakery in Pudding Lane.",
-          "A library.",
-          "A church."
+        "answer": [
+          "A bakery in Pudding Lane."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What fuel made the fire spread so quickly?",
-        "options": [
-          "Strong winds and timber-framed buildings.",
-          "A lot of oil.",
-          "Large piles of paper.",
-          "Coal mines."
+        "answer": [
+          "Strong winds and timber-framed buildings."
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What surprising positive effect did the fire have?",
-        "options": [
-          "It created more jobs.",
-          "It helped end the Great Plague.",
-          "It made the weather warmer.",
-          "It improved the food."
+        "answer": [
+          "It helped end the Great Plague."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How did London change after the fire?",
-        "options": [
-          "It was abandoned.",
-          "It was rebuilt with wider streets and brick buildings.",
-          "It became a park.",
-          "It was moved to a new location."
+        "answer": [
+          "It was rebuilt with wider streets and brick buildings."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -3706,75 +2806,54 @@
     "questions": [
       {
         "q": "Where are stars born?",
-        "options": [
-          "In black holes.",
-          "In nebulae (clouds of gas and dust).",
-          "On planets.",
-          "At the center of the galaxy."
+        "answer": [
+          "In nebulae (clouds of gas and dust)."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What process powers a star in the 'main sequence'?",
-        "options": [
-          "Burning wood.",
-          "Nuclear fusion (hydrogen into helium).",
-          "Electricity.",
-          "Solar panels."
+        "answer": [
+          "Nuclear fusion (hydrogen into helium)."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What happens to a star when its hydrogen runs out?",
-        "options": [
-          "It disappears.",
-          "It expands into a red giant.",
-          "It becomes a planet.",
-          "It turns blue."
+        "answer": [
+          "It expands into a red giant."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the final stage for an average-sized star like our Sun?",
-        "options": [
-          "Supernova.",
-          "White dwarf.",
-          "Black hole.",
-          "Neutron star."
+        "answer": [
+          "White dwarf."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What creates a black hole?",
-        "options": [
-          "A small star dying.",
-          "The collapse of a very massive star after a supernova.",
-          "Two planets crashing.",
-          "A giant comet."
+        "answer": [
+          "The collapse of a very massive star after a supernova."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -3787,75 +2866,54 @@
     "questions": [
       {
         "q": "What is eutrophication?",
-        "options": [
-          "Water becoming very clean.",
-          "Water becoming overly enriched with nutrients, causing algae growth.",
-          "The movement of water into the ocean.",
-          "Drought in a lake."
+        "answer": [
+          "Water becoming overly enriched with nutrients, causing algae growth."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What are the two main nutrients that drive this process?",
-        "options": [
-          "Oxygen and carbon.",
-          "Nitrogen and phosphorus.",
-          "Gold and silver.",
-          "Salt and sugar."
+        "answer": [
+          "Nitrogen and phosphorus."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is a major source of these nutrients?",
-        "options": [
-          "Rainwater.",
-          "Agricultural runoff from fertilizers.",
-          "Wind.",
-          "Trees."
+        "answer": [
+          "Agricultural runoff from fertilizers."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why do fish die during eutrophication?",
-        "options": [
-          "They eat too much algae.",
-          "The decomposing algae use up all the dissolved oxygen.",
-          "The water becomes too hot.",
-          "The algae are poisonous."
+        "answer": [
+          "The decomposing algae use up all the dissolved oxygen."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What are 'dead zones'?",
-        "options": [
-          "Areas in space.",
-          "Areas in water with too little oxygen for life to survive.",
-          "Old cemeteries.",
-          "Abandoned cities."
+        "answer": [
+          "Areas in water with too little oxygen for life to survive."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -3868,75 +2926,54 @@
     "questions": [
       {
         "q": "What is a phoneme?",
-        "options": [
-          "A type of letter.",
-          "The smallest unit of sound that changes meaning.",
-          "A whole word.",
-          "A sentence structure."
+        "answer": [
+          "The smallest unit of sound that changes meaning."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Give an example of two phonemes based on the text.",
-        "options": [
-          "'cat' and 'dog'.",
-          "The /b/ in 'bat' and /c/ in 'cat'.",
-          "'s' in 'cats'.",
-          "A loud noise."
+        "answer": [
+          "The /b/ in 'bat' and /c/ in 'cat'."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is a morpheme?",
-        "options": [
-          "A types of book.",
-          "The smallest unit of meaning or grammatical function.",
-          "A single vowel.",
-          "A paragraph."
+        "answer": [
+          "The smallest unit of meaning or grammatical function."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What does the 's' in 'cats' represent in linguistics?",
-        "options": [
-          "A phoneme.",
-          "A morpheme (adding plural meaning).",
-          "A mistake.",
-          "A silent letter."
+        "answer": [
+          "A morpheme (adding plural meaning)."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What's the difference between a free and bound morpheme?",
-        "options": [
-          "Fast vs slow.",
-          "A free one can stand alone; a bound one must be attached.",
-          "Big vs small.",
-          "Written vs spoken."
+        "answer": [
+          "A free one can stand alone; a bound one must be attached."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -3949,75 +2986,54 @@
     "questions": [
       {
         "q": "Who was Ötzi the Iceman?",
-        "options": [
-          "A modern explorer.",
-          "A natural mummy from the Copper Age.",
-          "A king of the Alps.",
-          "A fictional character."
+        "answer": [
+          "A natural mummy from the Copper Age."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "When was he discovered?",
-        "options": [
-          "1891.",
-          "1991.",
-          "2001.",
-          "1950."
+        "answer": [
+          "1991."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What was unique about the tool he was carrying?",
-        "options": [
-          "It was made of plastic.",
-          "It was a copper axe.",
-          "It was a gold sword.",
-          "He had no tools."
+        "answer": [
+          "It was a copper axe."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What did scientists find in his stomach?",
-        "options": [
-          "Nothing.",
-          "Ibex (wild goat meat) and grains.",
-          "Modern food.",
-          "Fish and wine."
+        "answer": [
+          "Ibex (wild goat meat) and grains."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How did Ötzi likely die?",
-        "options": [
-          "Old age.",
-          "An arrow wound revealed by X-rays.",
-          "A fall.",
-          "Freezing in a storm."
+        "answer": [
+          "An arrow wound revealed by X-rays."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -4030,75 +3046,54 @@
     "questions": [
       {
         "q": "What was Durkheim's goal in his study on suicide?",
-        "options": [
-          "To find a cure for doctors.",
-          "To prove that individual acts are influenced by social factors.",
-          "To teach people how to live longer.",
-          "To study the history of Rome."
+        "answer": [
+          "To prove that individual acts are influenced by social factors."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which data did Durkheim analyze?",
-        "options": [
-          "His own dreams.",
-          "Statistical data from different countries/social groups.",
-          "Private letters.",
-          "Newspaper opinions."
+        "answer": [
+          "Statistical data from different countries/social groups."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Define 'anomic' suicide.",
-        "options": [
-          "Happens when someone is too famous.",
-          "Occurs during social chaos where norms break down.",
-          "Dying for a friend.",
-          "Suicide out of selfishness."
+        "answer": [
+          "Occurs during social chaos where norms break down."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is 'altruistic' suicide in this context?",
-        "options": [
-          "Dying for a cause or group.",
-          "Dying because you are lonely.",
-          "Accidental death.",
-          "Dying because of health issues."
+        "answer": [
+          "Dying for a cause or group."
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What did this work prove about private acts?",
-        "options": [
-          "They are completely random.",
-          "They have deep social roots.",
-          "They are not important to sociology.",
-          "They are only psychological."
+        "answer": [
+          "They have deep social roots."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -4111,75 +3106,54 @@
     "questions": [
       {
         "q": "What is static electricity?",
-        "options": [
-          "Current in a wire.",
-          "An imbalance of electric charges on a material's surface.",
-          "A type of battery.",
-          "Magnetism."
+        "answer": [
+          "An imbalance of electric charges on a material's surface."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is 'triboelectric' charging?",
-        "options": [
-          "Charging a phone.",
-          "Creating static charge by rubbing two materials together.",
-          "A way to use solar energy.",
-          "A types of light."
+        "answer": [
+          "Creating static charge by rubbing two materials together."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What particles jump between materials to create charge?",
-        "options": [
-          "Protons.",
-          "Neutrons.",
-          "Electrons.",
-          "Atoms."
+        "answer": [
+          "Electrons."
         ],
-        "answer": 2
+        "type": "short_answer"
       },
       {
         "q": "Why does hair stand up after being rubbed with a balloon?",
-        "options": [
-          "It gets hot.",
-          "Opposite charges attract or like charges repel.",
-          "It's a chemical reaction.",
-          "The hair becomes heavy."
+        "answer": [
+          "Opposite charges attract or like charges repel."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the 'spark' you feel on a metal handle?",
-        "options": [
-          "A small fire.",
-          "Sudden discharge of accumulated static energy.",
-          "A bad wire.",
-          "A nerve reaction."
+        "answer": [
+          "Sudden discharge of accumulated static energy."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -4192,75 +3166,54 @@
     "questions": [
       {
         "q": "Where is the amygdala located?",
-        "options": [
-          "The spinal cord.",
-          "Deep within the brain's temporal lobe.",
-          "In the eyes.",
-          "On the skin."
+        "answer": [
+          "Deep within the brain's temporal lobe."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the primary function of the amygdala?",
-        "options": [
-          "Processing language.",
-          "Processing emotions like fear and aggression.",
-          "Controlling motor skills.",
-          "Storing long-term facts."
+        "answer": [
+          "Processing emotions like fear and aggression."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which survival response does it trigger?",
-        "options": [
-          "Eat or sleep.",
-          "Fight-or-flight.",
-          "Think and wait.",
-          "Run and hide only."
+        "answer": [
+          "Fight-or-flight."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What happened to Patient SM who had amygdala damage?",
-        "options": [
-          "She couldn't speak.",
-          "She was unable to experience fear.",
-          "She lost her memory.",
-          "She could not see colors."
+        "answer": [
+          "She was unable to experience fear."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What disorder is linked to an overactive amygdala?",
-        "options": [
-          "Diabetes.",
-          "Anxiety disorders and PTSD.",
-          "Cancer.",
-          "Broken bones."
+        "answer": [
+          "Anxiety disorders and PTSD."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -4273,75 +3226,54 @@
     "questions": [
       {
         "q": "What is desertification?",
-        "options": [
-          "Building cities in the desert.",
-          "Land degradation making dry areas increasingly arid.",
-          "A types of storm.",
-          "Planting new forests."
+        "answer": [
+          "Land degradation making dry areas increasingly arid."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Name one human cause of desertification.",
-        "options": [
-          "Overgrazing or deforestation.",
-          "Building skyscrapers.",
-          "The internet.",
-          "Solar energy."
+        "answer": [
+          "Overgrazing or deforestation."
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Why does removing vegetation lead to desertification?",
-        "options": [
-          "It makes the soil too cold.",
-          "The soil loses its ability to retain moisture and erodes.",
-          "The plants were producing oil.",
-          "The sun gets brighter."
+        "answer": [
+          "The soil loses its ability to retain moisture and erodes."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which region is famously affected by desertification?",
-        "options": [
-          "Greenland.",
-          "The Sahel region of Africa.",
-          "The Amazon.",
-          "The Alps."
+        "answer": [
+          "The Sahel region of Africa."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is one method to combat desertification mentioned?",
-        "options": [
-          "Building giant fans.",
-          "Great Green Wall projects (planting trees).",
-          "Replacing soil with sand.",
-          "Removing all water."
+        "answer": [
+          "Great Green Wall projects (planting trees)."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -4354,75 +3286,54 @@
     "questions": [
       {
         "q": "What is market equilibrium?",
-        "options": [
-          "The government sets all prices.",
-          "Product supply equals consumer demand at a certain price.",
-          "The market is closed for holidays.",
-          "Only one person is buying."
+        "answer": [
+          "Product supply equals consumer demand at a certain price."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What happens when the price is too high?",
-        "options": [
-          "A shortage.",
-          "A surplus (more supply than demand).",
-          "A fire.",
-          "Everyone gets rich."
+        "answer": [
+          "A surplus (more supply than demand)."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is a 'shortage'?",
-        "options": [
-          "Too many goods.",
-          "Quantity demanded is greater than quantity supplied.",
-          "The price is too high.",
-          "Nobody wants the good."
+        "answer": [
+          "Quantity demanded is greater than quantity supplied."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How do prices act as 'signals'?",
-        "options": [
-          "They are bright lights.",
-          "They guide behavior of producers and consumers.",
-          "They show the date.",
-          "They are used for counting people."
+        "answer": [
+          "They guide behavior of producers and consumers."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the result of the 'invisible hand' in equilibrium?",
-        "options": [
-          "Inefficient waste.",
-          "Efficient allocation of resources.",
-          "Total chaos.",
-          "Higher taxes."
+        "answer": [
+          "Efficient allocation of resources."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -4435,75 +3346,54 @@
     "questions": [
       {
         "q": "Where did the Industrial Revolution begin?",
-        "options": [
-          "USA.",
-          "Britain.",
-          "China.",
-          "France."
+        "answer": [
+          "Britain."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What was the main shift in production?",
-        "options": [
-          "From machines to hand production.",
-          "From hand production to machine production.",
-          "From food to clothing.",
-          "From wood to plastic."
+        "answer": [
+          "From hand production to machine production."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why did people move to cities during this time?",
-        "options": [
-          "For factory jobs.",
-          "To go to university.",
-          "To see the king.",
-          "Because the farms were too big."
+        "answer": [
+          "For factory jobs."
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What was a negative side effect of rapid urbanization?",
-        "options": [
-          "Too much money.",
-          "Overcrowded slums and poor sanitation.",
-          "Fewer factory jobs.",
-          "Too many trees."
+        "answer": [
+          "Overcrowded slums and poor sanitation."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What social movement arose as a result of these conditions?",
-        "options": [
-          "The space race.",
-          "Labor unions.",
-          "The French Revolution.",
-          "The Renaissance."
+        "answer": [
+          "Labor unions."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -4516,75 +3406,54 @@
     "questions": [
       {
         "q": "Who is the researcher behind the fixed vs growth mindset theory?",
-        "options": [
-          "Sigmund Freud.",
-          "Carol Dweck.",
-          "Abraham Maslow.",
-          "Jane Goodall."
+        "answer": [
+          "Carol Dweck."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What do people in a 'fixed' mindset believe?",
-        "options": [
-          "They can learn anything.",
-          "Their intelligence is a fixed trait.",
-          "Hard work is fun.",
-          "Failure is not possible."
+        "answer": [
+          "Their intelligence is a fixed trait."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Define the 'growth' mindset.",
-        "options": [
-          "Believing qualities are fixed.",
-          "Believing abilities can be developed through hard work.",
-          "Growing taller.",
-          "Thinking you are already perfect."
+        "answer": [
+          "Believing abilities can be developed through hard work."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is a key benefit of a growth mindset?",
-        "options": [
-          "Never working.",
-          "A love of learning and resilience.",
-          "Instant success.",
-          "Being popular."
+        "answer": [
+          "A love of learning and resilience."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What should we praise to encourage a growth mindset?",
-        "options": [
-          "Innate talent.",
-          "Effort and dedication.",
-          "Grade point average.",
-          "Good luck."
+        "answer": [
+          "Effort and dedication."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -4597,75 +3466,54 @@
     "questions": [
       {
         "q": "What is a keystone species?",
-        "options": [
-          "A very common animal.",
-          "A species with a disproportionately large effect on its environment.",
-          "A species that lives in caves.",
-          "The biggest predator."
+        "answer": [
+          "A species with a disproportionately large effect on its environment."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What happens to the ecosystem if a keystone species is removed?",
-        "options": [
-          "It becomes stronger.",
-          "It can collapse or change dramatically.",
-          "It has no effect.",
-          "More animals arrive."
+        "answer": [
+          "It can collapse or change dramatically."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why are sea otters considered a keystone species?",
-        "options": [
-          "They are cute.",
-          "They keep sea urchin populations in check, protecting kelp forests.",
-          "They produce a lot of oxygen.",
-          "They build dams."
+        "answer": [
+          "They keep sea urchin populations in check, protecting kelp forests."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What happened when wolves returned to Yellowstone?",
-        "options": [
-          "They killed all the trees.",
-          "They controlled elks, allowing vegetation to recover.",
-          "They left the park.",
-          "They ate the visitors."
+        "answer": [
+          "They controlled elks, allowing vegetation to recover."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why are these species a priority for conservation?",
-        "options": [
-          "They are rare.",
-          "Losing one can lead to an ecosystem collapse.",
-          "They are easier to catch.",
-          "They only live in parks."
+        "answer": [
+          "Losing one can lead to an ecosystem collapse."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   },
@@ -4678,75 +3526,54 @@
     "questions": [
       {
         "q": "What is hyperinflation?",
-        "options": [
-          "Prices going down slowly.",
-          "Rapid, out-of-control price increases (over 50% per month).",
-          "A types of computer game.",
-          "The cost of flying to space."
+        "answer": [
+          "Rapid, out-of-control price increases (over 50% per month)."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "When did a famous example occur in Weimar Germany?",
-        "options": [
-          "1720s.",
-          "1920s.",
-          "1990s.",
-          "2020s."
+        "answer": [
+          "1920s."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What did people in 1920s Germany need to buy bread?",
-        "options": [
-          "One coin.",
-          "Wheelbarrows of cash.",
-          "A credit card.",
-          "A secret password."
+        "answer": [
+          "Wheelbarrows of cash."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the primary cause of hyperinflation?",
-        "options": [
-          "Too much gold.",
-          "Printing too much money not supported by growth.",
-          "Not enough demand.",
-          "Banning all trade."
+        "answer": [
+          "Printing too much money not supported by growth."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is a consequence of hyperinflation?",
-        "options": [
-          "Savings become more valuable.",
-          "The value of currency and savings is destroyed.",
-          "The government gets richer.",
-          "Everyone stops working."
+        "answer": [
+          "The value of currency and savings is destroyed."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "How large was the pilot sample mentioned near the end?",
-        "options": [
-          "220 participants",
-          "120 participants",
-          "480 participants",
-          "32 participants"
+        "answer": [
+          "220 participants"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker states the exact sample size."
+        "explain": "The speaker states the exact sample size.",
+        "type": "short_answer"
       }
     ]
   },
@@ -4759,75 +3586,54 @@
     "questions": [
       {
         "q": "What are the three types of bees in a colony?",
-        "options": [
-          "King, Queen, Soldier.",
-          "Queen, Drone, Worker.",
-          "Pilot, Builder, Nurse.",
-          "Fly, Stinger, Honey."
+        "answer": [
+          "Queen, Drone, Worker."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the primary job of the queen bee?",
-        "options": [
-          "Collecting honey.",
-          "Laying eggs.",
-          "Guarding the entrance.",
-          "Dancing."
+        "answer": [
+          "Laying eggs."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the role of male drones?",
-        "options": [
-          "Hard labor.",
-          "Mating with the queen.",
-          "Cleaning the hive.",
-          "Building wax."
+        "answer": [
+          "Mating with the queen."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "How do bees communicate the location of food?",
-        "options": [
-          "Singing.",
-          "Using a 'waggle dance'.",
-          "Leaving a trail of wax.",
-          "Making loud buzzing noises."
+        "answer": [
+          "Using a 'waggle dance'."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why are worker bees important for the hive?",
-        "options": [
-          "They are the biggest.",
-          "They perform all maintenance, collection, and nursing tasks.",
-          "They are the only ones with wings.",
-          "They become the next queen."
+        "answer": [
+          "They perform all maintenance, collection, and nursing tasks."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "What reduced listener confusion in the comparison run?",
-        "options": [
-          "explicit signposting",
-          "Higher volume",
-          "Faster speed",
-          "More slang"
+        "answer": [
+          "explicit signposting"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker attributes the reduction to this cause."
+        "explain": "The speaker attributes the reduction to this cause.",
+        "type": "short_answer"
       }
     ]
   },
@@ -4840,75 +3646,54 @@
     "questions": [
       {
         "q": "What ethical problem do self-driving cars face?",
-        "options": [
-          "High fuel costs.",
-          "The 'trolley problem' of prioritizing lives in an accident.",
-          "They are too fast.",
-          "They lack color choice."
+        "answer": [
+          "The 'trolley problem' of prioritizing lives in an accident."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is the 'trolley problem' metaphor for?",
-        "options": [
-          "Train schedules.",
-          "Choosing between different bad outcomes in an unavoidable accident.",
-          "How to use a brake.",
-          "Saving money on transit."
+        "answer": [
+          "Choosing between different bad outcomes in an unavoidable accident."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Who might be legally liable for an autonomous car crash?",
-        "options": [
-          "Only the car.",
-          "The owner, programmer, or manufacturer.",
-          "The person walking.",
-          "Nobody."
+        "answer": [
+          "The owner, programmer, or manufacturer."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "What is one major promise of autonomous vehicles?",
-        "options": [
-          "Unlimited speed.",
-          "Eliminating 90% of accidents caused by human error.",
-          "Free travel.",
-          "Curing traffic jams."
+        "answer": [
+          "Eliminating 90% of accidents caused by human error."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Why is adoption difficult despite the technology?",
-        "options": [
-          "Technology is too slow.",
-          "The technology outpaces legal and moral frameworks.",
-          "The cars are too small.",
-          "The colors are too bright."
+        "answer": [
+          "The technology outpaces legal and moral frameworks."
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
-        "options": [
-          "The primary mechanism",
-          "Initial empirical observation",
-          "Contemporary discourse",
-          "Methodological approach"
+        "answer": [
+          "The primary mechanism"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "At what pace did accuracy drop sharply?",
-        "options": [
-          "Above 170 words per minute",
-          "Below 120 words per minute",
-          "Exactly 100 words per minute",
-          "After 5 minutes"
+        "answer": [
+          "Above 170 words per minute"
         ],
-        "answer": 0,
         "skill": "detail",
-        "explain": "The speaker gives a specific pace threshold."
+        "explain": "The speaker gives a specific pace threshold.",
+        "type": "short_answer"
       }
     ]
   }
