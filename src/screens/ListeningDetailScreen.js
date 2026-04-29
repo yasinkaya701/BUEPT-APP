@@ -62,9 +62,29 @@ function buildListeningFeedback(task, answers = {}) {
   if (!total) return null;
   let correct = 0;
   const missed = [];
+
+  const normalize = (val) => String(val || '').toLowerCase().trim().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ');
+
   qs.forEach((q, i) => {
-    if (answers[i] === q.answer) correct += 1;
-    else missed.push({ index: i + 1, q: q.q, explain: q.explain });
+    const userAnswer = answers[i];
+    let isCorrect = false;
+
+    if (q.type === 'short_answer') {
+      const normalizedUser = normalize(userAnswer);
+      if (Array.isArray(q.answer)) {
+        isCorrect = q.answer.some(a => normalize(a) === normalizedUser);
+      } else {
+        isCorrect = normalize(q.answer) === normalizedUser;
+      }
+    } else {
+      isCorrect = userAnswer === q.answer;
+    }
+
+    if (isCorrect) {
+      correct += 1;
+    } else {
+      missed.push({ index: i + 1, q: q.q, explain: q.explain });
+    }
   });
   const accuracy = Math.round((correct / total) * 100);
   const strengths = [];
@@ -350,9 +370,26 @@ export default function ListeningDetailScreen({ route, navigation }) {
 
   const mistakeItems = useMemo(() => {
     if (!checked || !task?.questions?.length) return [];
+    
+    const normalize = (val) => String(val || '').toLowerCase().trim().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ');
+
     return task.questions.map((q, i) => {
       const selected = answers[i];
-      if (selected === q.answer) return null;
+      let isCorrect = false;
+
+      if (q.type === 'short_answer') {
+        const normalizedUser = normalize(selected);
+        if (Array.isArray(q.answer)) {
+          isCorrect = q.answer.some(a => normalize(a) === normalizedUser);
+        } else {
+          isCorrect = normalize(q.answer) === normalizedUser;
+        }
+      } else {
+        isCorrect = selected === q.answer;
+      }
+
+      if (isCorrect) return null;
+      
       return {
         id: `${task.id || 'listening'}-${i}`,
         module: 'listening',
@@ -360,8 +397,10 @@ export default function ListeningDetailScreen({ route, navigation }) {
         taskTitle: task.title || 'Listening Practice',
         question: q.q || 'Question',
         options: q.options || [],
-        correctIndex: q.answer,
-        selectedIndex: Number.isFinite(selected) ? selected : null,
+        correctIndex: q.type === 'short_answer' ? null : q.answer,
+        correctText: q.type === 'short_answer' ? (Array.isArray(q.answer) ? q.answer[0] : q.answer) : null,
+        selectedIndex: q.type === 'short_answer' ? null : (Number.isFinite(selected) ? selected : null),
+        selectedText: q.type === 'short_answer' ? selected : null,
         explanation: getExplanation(q, selected),
         context: task.transcript || '',
         skill: q.skill || 'comprehension',

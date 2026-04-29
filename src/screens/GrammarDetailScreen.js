@@ -30,8 +30,23 @@ function buildGrammarFeedback(task, answers = {}) {
   let correct = 0;
   const missed = [];
   const bySkill = {};
+  const normalize = (val) => String(val || '').toLowerCase().trim().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ');
+
   qs.forEach((q, i) => {
-    const ok = answers[i] === q.answer;
+    const userAnswer = answers[i];
+    let ok = false;
+
+    if (q.type === 'short_answer') {
+      const normalizedUser = normalize(userAnswer);
+      if (Array.isArray(q.answer)) {
+        ok = q.answer.some(a => normalize(a) === normalizedUser);
+      } else {
+        ok = normalize(q.answer) === normalizedUser;
+      }
+    } else {
+      ok = userAnswer === q.answer;
+    }
+
     if (ok) correct += 1;
     else missed.push({ index: i + 1, q: q.q, explain: q.explain });
     const key = q.skill || q.topic || 'general';
@@ -128,9 +143,26 @@ export default function GrammarDetailScreen({ route, navigation }) {
 
   const mistakeItems = useMemo(() => {
     if (!checked || !taskQuestions.length) return [];
+    
+    const normalize = (val) => String(val || '').toLowerCase().trim().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ');
+
     return taskQuestions.map((q, i) => {
       const selected = answers[i];
-      if (selected === q.answer) return null;
+      let isCorrect = false;
+
+      if (q.type === 'short_answer') {
+        const normalizedUser = normalize(selected);
+        if (Array.isArray(q.answer)) {
+          isCorrect = q.answer.some(a => normalize(a) === normalizedUser);
+        } else {
+          isCorrect = normalize(q.answer) === normalizedUser;
+        }
+      } else {
+        isCorrect = selected === q.answer;
+      }
+
+      if (isCorrect) return null;
+      
       const questionText = q.type === 'cloze' ? (q.sentence || q.q || 'Fill in the blank') : (q.q || 'Question');
       return {
         id: `${task.id || 'grammar'}-${i}`,
@@ -139,8 +171,10 @@ export default function GrammarDetailScreen({ route, navigation }) {
         taskTitle: task.title || 'Grammar Practice',
         question: questionText,
         options: q.options || [],
-        correctIndex: q.answer,
-        selectedIndex: Number.isFinite(selected) ? selected : null,
+        correctIndex: q.type === 'short_answer' ? null : q.answer,
+        correctText: q.type === 'short_answer' ? (Array.isArray(q.answer) ? q.answer[0] : q.answer) : null,
+        selectedIndex: q.type === 'short_answer' ? null : (Number.isFinite(selected) ? selected : null),
+        selectedText: q.type === 'short_answer' ? selected : null,
         explanation: getQuestionExplain(q),
         context: rawExplanation,
         skill: q.skill || q.topic || 'grammar',
@@ -156,8 +190,25 @@ export default function GrammarDetailScreen({ route, navigation }) {
   const check = useCallback(() => {
     if (checked) return;
     let correct = 0;
+    
+    const normalize = (val) => String(val || '').toLowerCase().trim().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ');
+
     taskQuestions.forEach((q, i) => {
-      if (answers[i] === q.answer) correct += 1;
+      const userAnswer = answers[i];
+      let ok = false;
+
+      if (q.type === 'short_answer') {
+        const normalizedUser = normalize(userAnswer);
+        if (Array.isArray(q.answer)) {
+          ok = q.answer.some(a => normalize(a) === normalizedUser);
+        } else {
+          ok = normalize(q.answer) === normalizedUser;
+        }
+      } else {
+        ok = userAnswer === q.answer;
+      }
+
+      if (ok) correct += 1;
     });
     const result = { taskId: task.id, score: correct, total: taskQuestions.length };
     setScore(`${correct} / ${taskQuestions.length}`);
@@ -628,19 +679,27 @@ export default function GrammarDetailScreen({ route, navigation }) {
           {checked && (
             <>
               <Text style={
-                (Array.isArray(q.answer) 
-                  ? q.answer.some(a => (answers[qi] || '').trim().toLowerCase() === a.trim().toLowerCase())
-                  : (answers[qi] || '').trim().toLowerCase() === q.answer.trim().toLowerCase())
+                (q.type === 'short_answer'
+                  ? (Array.isArray(q.answer) 
+                      ? q.answer.some(a => (answers[qi] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                      : (answers[qi] || '').trim().toLowerCase() === q.answer.trim().toLowerCase())
+                  : (answers[qi] === q.answer))
                 ? styles.correct : styles.incorrect
               }>
-                {(Array.isArray(q.answer) 
-                  ? q.answer.some(a => (answers[qi] || '').trim().toLowerCase() === a.trim().toLowerCase())
-                  : (answers[qi] || '').trim().toLowerCase() === q.answer.trim().toLowerCase())
-                  ? 'Correct' : `Incorrect (Your answer: ${answers[qi] || '—'})`}
+                {(q.type === 'short_answer'
+                  ? (Array.isArray(q.answer) 
+                      ? q.answer.some(a => (answers[qi] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                      : (answers[qi] || '').trim().toLowerCase() === q.answer.trim().toLowerCase())
+                  : (answers[qi] === q.answer))
+                  ? 'Correct' : `Incorrect (Your answer: ${q.type === 'short_answer' ? (answers[qi] || '—') : (q.options ? q.options[answers[qi]] : '—')})`}
               </Text>
-              <Text style={styles.answer}>Correct: {Array.isArray(q.answer) ? q.answer[0] : q.answer}</Text>
+              <Text style={styles.answer}>Correct: {q.type === 'short_answer' ? (Array.isArray(q.answer) ? q.answer[0] : q.answer) : (q.options ? q.options[q.answer] : '—')}</Text>
               <Text style={styles.explain}>{getQuestionExplain(q)}</Text>
-              {answers[qi] !== q.answer && (
+              {!(q.type === 'short_answer'
+                  ? (Array.isArray(q.answer) 
+                      ? q.answer.some(a => (answers[qi] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                      : (answers[qi] || '').trim().toLowerCase() === q.answer.trim().toLowerCase())
+                  : (answers[qi] === q.answer)) && (
                 <>
                   <Button
                     label="Open Mistake Coach"
