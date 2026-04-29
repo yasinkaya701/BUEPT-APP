@@ -212,24 +212,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: spacing.sm,
   },
-  predictionInput: {
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.secondary,
-    borderRadius: 10,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    fontSize: typography.body,
-    color: colors.text,
-    marginBottom: spacing.sm,
-  },
-  predictionLockedBox: {
-    borderWidth: 1,
-    borderColor: '#CFE0FF',
-    borderRadius: 10,
-    backgroundColor: '#F6FAFF',
-    padding: spacing.sm,
-  },
   shadowSentence: {
     fontSize: typography.body,
     color: colors.text,
@@ -600,11 +582,6 @@ function parsePredictionKeywords(text = '') {
         .toLowerCase()
         .split(/[,;\n]/)
         .map((item) => item.trim())
-        .filter((item) => item.length >= 3)
-    )
-  ).slice(0, 8);
-}
-
 function extractListeningTokens(text = '') {
   return String(text || '')
     .toLowerCase()
@@ -676,12 +653,6 @@ export default function ListeningDetailScreen({ route, navigation }) {
   const [followTranscript, setFollowTranscript] = useState(true);
   const [shadowingMode, setShadowingMode] = useState(false);
   const [shadowingAuto, setShadowingAuto] = useState(false);
-  const [predictionDraft, setPredictionDraft] = useState({
-    gist: '',
-    keywords: '',
-    trap: '',
-  });
-  const [predictionLocked, setPredictionLocked] = useState(false);
   const [openEndedAnswers, setOpenEndedAnswers] = useState({});
   const [openEndedGrades, setOpenEndedGrades] = useState({});
   const [gradingInProgress, setGradingInProgress] = useState(false);
@@ -698,17 +669,6 @@ export default function ListeningDetailScreen({ route, navigation }) {
   }, [derivedKeywords, noteText]);
   const dictationTarget = useMemo(() => buildDictationTarget(sentences, dictationSeed), [sentences, dictationSeed]);
   const signposts = useMemo(() => detectSignposts(task?.transcript || ''), [task?.transcript]);
-  const predictedKeywordList = useMemo(
-    () => parsePredictionKeywords(predictionDraft.keywords),
-    [predictionDraft.keywords]
-  );
-  const predictionReady = useMemo(
-    () =>
-      predictionDraft.gist.trim().length >= 16 &&
-      predictedKeywordList.length >= 2 &&
-      predictionDraft.trap.trim().length >= 8,
-    [predictionDraft.gist, predictedKeywordList, predictionDraft.trap]
-  );
 
   const intervalRef = useRef(null);
   const sentenceIdxRef = useRef(0);
@@ -1012,8 +972,6 @@ export default function ListeningDetailScreen({ route, navigation }) {
 
   useEffect(() => {
     stopShadowingAuto();
-    setPredictionDraft({ gist: '', keywords: '', trap: '' });
-    setPredictionLocked(false);
     setAnswers({});
     setChecked(false);
     setScore(null);
@@ -1124,12 +1082,11 @@ export default function ListeningDetailScreen({ route, navigation }) {
 
   // ── Answers / Score ───────────────────────────────────────────────────────
   const select = (qi, oi) => {
-    if (!checked && predictionLocked) setAnswers(p => ({ ...p, [qi]: oi }));
+    if (!checked) setAnswers(p => ({ ...p, [qi]: oi }));
   };
 
   const check = () => {
     if (checked) return;
-    if (!predictionLocked) return;
     let correct = 0;
     task.questions?.forEach((q, i) => { if (answers[i] === q.answer) correct++; });
     setScore(`${correct} / ${task.questions?.length}`);
@@ -1143,15 +1100,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
       listeningWordPool.push(...extractListeningTokens(correctOption || ''));
       listeningWordPool.push(...extractListeningTokens(question?.explain || ''));
     });
-    const listeningWords = Array.from(
-      new Set([
-        ...listeningWordPool,
-        ...derivedKeywords,
-      ]
-        .map((word) => String(word || '').toLowerCase().trim())
-        .filter((word) => word.length >= 4))
-    ).slice(0, 18);
-    listeningWords.forEach((word) => {
+    listeningWordPool.forEach((word) => {
       addUnknownWord({
         word,
         source: 'listening',
@@ -1207,18 +1156,6 @@ export default function ListeningDetailScreen({ route, navigation }) {
     setDictationSeed((s) => s + 1);
     setDictationInput('');
     setDictationResult(null);
-  };
-
-  const lockPrediction = () => {
-    if (!predictionReady) return;
-    setPredictionLocked(true);
-  };
-
-  const editPrediction = () => {
-    setPredictionLocked(false);
-    setAnswers({});
-    setChecked(false);
-    setScore(null);
   };
 
   const handleCheckOpenEnded = async (index, question, idealAnswer, keywords) => {
@@ -1392,50 +1329,6 @@ export default function ListeningDetailScreen({ route, navigation }) {
           ) : null}
         </Card>
 
-        <Card style={styles.card}>
-          <Text style={styles.h3}>Prediction Step (Before Questions)</Text>
-          <Text style={styles.sub}>Predict main idea, expected keywords, and one common trap before solving.</Text>
-          {predictionLocked ? (
-            <View style={styles.predictionLockedBox}>
-              <Text style={styles.bodyLine}>Main idea: {predictionDraft.gist}</Text>
-              <Text style={styles.bodyLine}>Keywords: {predictedKeywordList.join(', ')}</Text>
-              <Text style={styles.bodyLine}>Trap to avoid: {predictionDraft.trap}</Text>
-              <View style={styles.row}>
-                <Button label="Edit Prediction" variant="secondary" onPress={editPrediction} />
-              </View>
-            </View>
-          ) : (
-            <>
-              <TextInput
-                style={styles.predictionInput}
-                value={predictionDraft.gist}
-                onChangeText={(value) => setPredictionDraft((prev) => ({ ...prev, gist: value }))}
-                placeholder="What do you think the passage is mainly about?"
-                placeholderTextColor={colors.muted}
-              />
-              <TextInput
-                style={styles.predictionInput}
-                value={predictionDraft.keywords}
-                onChangeText={(value) => setPredictionDraft((prev) => ({ ...prev, keywords: value }))}
-                placeholder="Predict at least 2 keywords (comma separated)"
-                placeholderTextColor={colors.muted}
-              />
-              <TextInput
-                style={styles.predictionInput}
-                value={predictionDraft.trap}
-                onChangeText={(value) => setPredictionDraft((prev) => ({ ...prev, trap: value }))}
-                placeholder="What trap answer should you avoid?"
-                placeholderTextColor={colors.muted}
-              />
-              <Text style={styles.sub}>
-                Suggested keywords: {derivedKeywords.slice(0, 6).join(', ') || 'No keyword hints'}
-              </Text>
-              <View style={styles.row}>
-                <Button label="Lock Prediction & Start Questions" onPress={lockPrediction} disabled={!predictionReady} />
-              </View>
-            </>
-          )}
-        </Card>
 
         <OpenEndedPracticeCard
           title="Open-Ended Listening Questions"
@@ -1540,14 +1433,11 @@ export default function ListeningDetailScreen({ route, navigation }) {
               <Button label="Force Unlock (Not Recommended)" variant="secondary" onPress={() => setPlaybackFinished(true)} />
             </View>
           )}
-          {!predictionLocked && (task.type !== 'careful' || playbackFinished) ? (
-            <Text style={styles.incorrect}>Complete the Prediction Step first to unlock questions.</Text>
-          ) : null}
           <View style={styles.row}>
             <Button
               label={checked ? '✓ Checked' : 'Check Answers'}
               onPress={check}
-              disabled={checked || answeredCount === 0 || !predictionLocked}
+              disabled={checked || answeredCount === 0}
             />
             <Button label="Back" variant="secondary" onPress={() => navigation.goBack()} />
           </View>
@@ -1791,7 +1681,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
                     checked && answers[qi] === oi && oi !== q.answer && styles.optionWrong,
                   ]}
                   onPress={() => select(qi, oi)}
-                  disabled={checked || !predictionLocked}
+                  disabled={checked}
                   activeOpacity={0.8}
                 >
                   <Text style={[
