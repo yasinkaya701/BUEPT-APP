@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useRef, useCallback } from 'react';
-import { Text, StyleSheet, View, Alert } from 'react-native';
+import { Text, StyleSheet, View, Alert, TextInput } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
@@ -110,16 +110,17 @@ export default function ExamDetailScreen({ route, navigation }) {
     if (selected === undefined) {
       return <Text style={styles.incorrect}>No answer selected.</Text>;
     }
-    const isCorrect = selected === active.answer;
-    const genericExplain = contextLabel === 'grammar'
-      ? `The correct option fits the grammar rule in the sentence.`
-      : `The correct option is directly supported by the ${contextLabel}.`;
+    const correctValue = Array.isArray(active.answer) ? active.answer[0] : active.answer;
+    const isCorrect = Array.isArray(active.answer) 
+      ? active.answer.some(a => (selected || '').toString().trim().toLowerCase() === a.toString().trim().toLowerCase())
+      : (selected || '').toString().trim().toLowerCase() === (active.answer || '').toString().trim().toLowerCase();
+
     return (
       <>
         <Text style={isCorrect ? styles.correct : styles.incorrect}>
-          {isCorrect ? 'Correct' : `Incorrect (Your answer: ${active.options[selected] || '—'})`}
+          {isCorrect ? 'Correct' : `Incorrect (Your answer: ${selected || '—'})`}
         </Text>
-        <Text style={styles.meta}>Correct: {active.options[active.answer]}</Text>
+        <Text style={styles.meta}>Correct: {active.options ? active.options[active.answer] : correctValue}</Text>
         <Text style={styles.meta}>{active.explain || genericExplain}</Text>
       </>
     );
@@ -154,19 +155,40 @@ export default function ExamDetailScreen({ route, navigation }) {
             return (
               <Card key={key} style={styles.card}>
                 <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
-                {active.options.map((opt, oi) => (
-                  <Button
-                    key={oi}
-                    label={opt}
-                    variant={
-                      checked
-                        ? (oi === active.answer ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
-                        : (answers[key] === oi ? 'primary' : 'secondary')
-                    }
-                    onPress={() => select(key, oi)}
-                    disabled={checked}
-                  />
-                ))}
+                {active.type === 'short_answer' ? (
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                      style={[
+                        styles.textInput,
+                        checked && (
+                          (Array.isArray(active.answer) 
+                            ? active.answer.some(a => (answers[key] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                            : (answers[key] || '').trim().toLowerCase() === (active.answer || '').trim().toLowerCase())
+                          ? styles.inputCorrect : styles.inputIncorrect
+                        )
+                      ]}
+                      value={answers[key] || ''}
+                      onChangeText={(text) => !checked && setAnswers(p => ({ ...p, [key]: text }))}
+                      placeholder="Type your short answer..."
+                      placeholderTextColor={colors.muted}
+                      editable={!checked}
+                    />
+                  </View>
+                ) : (
+                  (active.options || []).map((opt, oi) => (
+                    <Button
+                      key={oi}
+                      label={opt}
+                      variant={
+                        checked
+                          ? (oi === active.answer ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
+                          : (answers[key] === oi ? 'primary' : 'secondary')
+                      }
+                      onPress={() => select(key, oi)}
+                      disabled={checked}
+                    />
+                  ))
+                )}
                 {renderFeedback(active, key, 'passage')}
                 {isWrong && (
                   <Button
@@ -214,19 +236,40 @@ export default function ExamDetailScreen({ route, navigation }) {
             return (
               <Card key={key} style={styles.card}>
                 <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
-                {active.options.map((opt, oi) => (
-                  <Button
-                    key={oi}
-                    label={opt}
-                    variant={
-                      checked
-                        ? (oi === active.answer ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
-                        : (answers[key] === oi ? 'primary' : 'secondary')
-                    }
-                    onPress={() => select(key, oi)}
-                    disabled={checked}
-                  />
-                ))}
+                {active.type === 'short_answer' ? (
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                      style={[
+                        styles.textInput,
+                        checked && (
+                          (Array.isArray(active.answer) 
+                            ? active.answer.some(a => (answers[key] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                            : (answers[key] || '').trim().toLowerCase() === (active.answer || '').trim().toLowerCase())
+                          ? styles.inputCorrect : styles.inputIncorrect
+                        )
+                      ]}
+                      value={answers[key] || ''}
+                      onChangeText={(text) => !checked && setAnswers(p => ({ ...p, [key]: text }))}
+                      placeholder="Type your short answer..."
+                      placeholderTextColor={colors.muted}
+                      editable={!checked}
+                    />
+                  </View>
+                ) : (
+                  (active.options || []).map((opt, oi) => (
+                    <Button
+                      key={oi}
+                      label={opt}
+                      variant={
+                        checked
+                          ? (oi === active.answer ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
+                          : (answers[key] === oi ? 'primary' : 'secondary')
+                      }
+                      onPress={() => select(key, oi)}
+                      disabled={checked}
+                    />
+                  ))
+                )}
                 {renderFeedback(active, key, 'transcript')}
                 {isWrong && (
                   <Button
@@ -271,19 +314,40 @@ export default function ExamDetailScreen({ route, navigation }) {
             return (
               <Card key={key} style={styles.card}>
                 <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
-                {active.options.map((opt, oi) => (
-                  <Button
-                    key={oi}
-                    label={opt}
-                    variant={
-                      checked
-                        ? (oi === active.answer ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
-                        : (answers[key] === oi ? 'primary' : 'secondary')
-                    }
-                    onPress={() => select(key, oi)}
-                    disabled={checked}
-                  />
-                ))}
+                {active.type === 'short_answer' ? (
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                      style={[
+                        styles.textInput,
+                        checked && (
+                          (Array.isArray(active.answer) 
+                            ? active.answer.some(a => (answers[key] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                            : (answers[key] || '').trim().toLowerCase() === (active.answer || '').trim().toLowerCase())
+                          ? styles.inputCorrect : styles.inputIncorrect
+                        )
+                      ]}
+                      value={answers[key] || ''}
+                      onChangeText={(text) => !checked && setAnswers(p => ({ ...p, [key]: text }))}
+                      placeholder="Type your short answer..."
+                      placeholderTextColor={colors.muted}
+                      editable={!checked}
+                    />
+                  </View>
+                ) : (
+                  (active.options || []).map((opt, oi) => (
+                    <Button
+                      key={oi}
+                      label={opt}
+                      variant={
+                        checked
+                          ? (oi === active.answer ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
+                          : (answers[key] === oi ? 'primary' : 'secondary')
+                      }
+                      onPress={() => select(key, oi)}
+                      disabled={checked}
+                    />
+                  ))
+                )}
                 {renderFeedback(active, key, 'grammar')}
                 {isWrong && (
                   <Button
@@ -416,5 +480,26 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     justifyContent: 'center',
     marginTop: spacing.md
-  }
+  },
+  inputContainer: {
+    marginVertical: spacing.sm,
+  },
+  textInput: {
+    borderWidth: 2,
+    borderColor: colors.secondary,
+    borderRadius: 12,
+    padding: spacing.md,
+    fontSize: typography.body,
+    color: colors.text,
+    backgroundColor: colors.surface,
+    fontFamily: typography.fontBody,
+  },
+  inputCorrect: {
+    borderColor: '#1F8B4C',
+    backgroundColor: '#E8F5E9',
+  },
+  inputIncorrect: {
+    borderColor: '#B42318',
+    backgroundColor: '#FEF3F2',
+  },
 });

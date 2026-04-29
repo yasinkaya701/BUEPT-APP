@@ -7,153 +7,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -165,153 +120,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -323,153 +233,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -481,153 +346,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -639,153 +459,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -797,153 +572,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -955,153 +685,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -1113,153 +798,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -1271,153 +911,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -1429,153 +1024,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -1587,153 +1137,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -1745,153 +1250,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -1903,153 +1363,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -2061,153 +1476,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -2219,153 +1589,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -2377,153 +1702,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -2535,153 +1815,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -2693,153 +1928,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -2851,153 +2041,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -3009,153 +2154,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -3167,153 +2267,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -3325,153 +2380,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -3483,153 +2493,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -3641,153 +2606,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -3799,153 +2719,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -3957,153 +2832,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -4115,153 +2945,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -4273,153 +3058,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -4431,153 +3171,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -4589,153 +3284,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -4747,153 +3397,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -4905,153 +3510,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -5063,153 +3623,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -5221,153 +3736,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -5379,153 +3849,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -5537,153 +3962,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -5695,153 +4075,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -5853,153 +4188,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -6011,153 +4301,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   },
@@ -6169,153 +4414,108 @@
     "questions": [
       {
         "q": "He ran ___ of money.",
-        "options": [
-          "out",
-          "away",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "I'll look ___ the matter.",
-        "options": [
-          "into",
-          "onto",
-          "at",
-          "to"
+        "answer": [
+          "into"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct: 'I have seen him yesterday.'",
-        "options": [
-          "Correct",
-          "Incorrect ('saw' instead)",
-          "Incorrect ('see' instead)",
-          "Incorrect ('seen' instead)"
+        "answer": [
+          "Incorrect ('saw' instead)"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "The plan was put ___ until next year.",
-        "options": [
-          "off",
-          "out",
-          "away",
-          "on"
+        "answer": [
+          "off"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "He takes ___ his father.",
-        "options": [
-          "after",
-          "off",
-          "up",
-          "on"
+        "answer": [
+          "after"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "A 'heavy smoker' is an example of a ___.",
-        "options": [
-          "collocation",
-          "phrasal verb",
-          "idiom",
-          "metaphor"
+        "answer": [
+          "collocation"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Break ___ means to start suddenly.",
-        "options": [
-          "out",
-          "in",
-          "off",
-          "up"
+        "answer": [
+          "out"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Carry ___ means to continue.",
-        "options": [
-          "on",
-          "out",
-          "away",
-          "off"
+        "answer": [
+          "on"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Get ___ with someone means to have a good relationship.",
-        "options": [
-          "along",
-          "away",
-          "off",
-          "out"
+        "answer": [
+          "along"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Let ___ someone means to disappoint them.",
-        "options": [
-          "down",
-          "off",
-          "out",
-          "up"
+        "answer": [
+          "down"
         ],
-        "answer": 0
+        "type": "short_answer"
       },
       {
         "q": "Analyze the following: 'Given the circumstances, he ___ have acted differently.'",
-        "options": [
-          "must",
-          "should",
-          "ought",
+        "answer": [
           "could"
         ],
-        "answer": 3
+        "type": "short_answer"
       },
       {
         "q": "Identify the error: 'The research, documenting by several experts, was comprehensive.'",
-        "options": [
-          "research",
-          "documenting",
-          "several",
-          "comprehensive"
+        "answer": [
+          "documenting"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Select the most academic form: 'The results ___ the hypothesis.'",
-        "options": [
-          "backed up",
-          "corroborate",
-          "showed",
-          "agreed with"
+        "answer": [
+          "corroborate"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Choose the correct transition: '___ the initial setbacks, the project was a success.'",
-        "options": [
-          "However",
-          "Despite",
-          "Although",
-          "Whereas"
+        "answer": [
+          "Despite"
         ],
-        "answer": 1
+        "type": "short_answer"
       },
       {
         "q": "Which sentence uses a passive voice correctly?",
-        "options": [
-          "The data analyzed by them.",
-          "The data were analyzed.",
-          "They analyze data.",
-          "Analyzing the data."
+        "answer": [
+          "The data were analyzed."
         ],
-        "answer": 1
+        "type": "short_answer"
       }
     ]
   }

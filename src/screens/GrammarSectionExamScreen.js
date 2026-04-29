@@ -199,7 +199,7 @@ export default function GrammarSectionExamScreen({ route, navigation }) {
         <Card key={`q-${qi}`} style={styles.card}>
           <Text style={styles.h3}>Q{qi + 1}. {q.q}</Text>
           <Text style={styles.note}>Source: {q.sourceTaskTitle}</Text>
-          {q.options.map((opt, oi) => (
+          {(q.options || []).map((opt, oi) => (
             <Button
               key={`o-${oi}`}
               label={opt}

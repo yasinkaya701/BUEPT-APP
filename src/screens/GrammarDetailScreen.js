@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
-import { Text, StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
+import { Text, StyleSheet, View, TouchableOpacity, Alert, TextInput } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
@@ -591,25 +591,54 @@ export default function GrammarDetailScreen({ route, navigation }) {
               />
             </View>
           ) : null}
-          {q.options.map((opt, oi) => (
-            <Button
-              key={oi}
-              label={opt}
-              variant={
-                checked
-                  ? (oi === q.answer ? 'primary' : (answers[qi] === oi ? 'ghost' : 'secondary'))
-                  : (answers[qi] === oi ? 'primary' : 'secondary')
-              }
-              onPress={() => select(qi, oi)}
-              disabled={checked}
-            />
-          ))}
+          {q.type === 'short_answer' ? (
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={[
+                  styles.textInput,
+                  checked && (
+                    (Array.isArray(q.answer) 
+                      ? q.answer.some(a => (answers[qi] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                      : (answers[qi] || '').trim().toLowerCase() === q.answer.trim().toLowerCase())
+                    ? styles.inputCorrect : styles.inputIncorrect
+                  )
+                ]}
+                value={answers[qi] || ''}
+                onChangeText={(text) => !checked && setAnswers(p => ({ ...p, [qi]: text }))}
+                placeholder="Type your short answer..."
+                placeholderTextColor={colors.muted}
+                editable={!checked}
+              />
+            </View>
+          ) : (
+            (q.options || []).map((opt, oi) => (
+              <Button
+                key={oi}
+                label={opt}
+                variant={
+                  checked
+                    ? (oi === q.answer ? 'primary' : (answers[qi] === oi ? 'ghost' : 'secondary'))
+                    : (answers[qi] === oi ? 'primary' : 'secondary')
+                }
+                onPress={() => select(qi, oi)}
+                disabled={checked}
+              />
+            ))
+          )}
           {checked && (
             <>
-              <Text style={answers[qi] === q.answer ? styles.correct : styles.incorrect}>
-                {answers[qi] === q.answer ? 'Correct' : `Incorrect (Your answer: ${q.options[answers[qi]] || '—'})`}
+              <Text style={
+                (Array.isArray(q.answer) 
+                  ? q.answer.some(a => (answers[qi] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                  : (answers[qi] || '').trim().toLowerCase() === q.answer.trim().toLowerCase())
+                ? styles.correct : styles.incorrect
+              }>
+                {(Array.isArray(q.answer) 
+                  ? q.answer.some(a => (answers[qi] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                  : (answers[qi] || '').trim().toLowerCase() === q.answer.trim().toLowerCase())
+                  ? 'Correct' : `Incorrect (Your answer: ${answers[qi] || '—'})`}
               </Text>
-              <Text style={styles.answer}>Correct: {q.options[q.answer]}</Text>
+              <Text style={styles.answer}>Correct: {Array.isArray(q.answer) ? q.answer[0] : q.answer}</Text>
               <Text style={styles.explain}>{getQuestionExplain(q)}</Text>
               {answers[qi] !== q.answer && (
                 <>
@@ -644,7 +673,7 @@ export default function GrammarDetailScreen({ route, navigation }) {
             <View style={styles.similarBlock}>
               <Text style={styles.h3}>Similar Question</Text>
               <Text style={styles.body}>{similarQuestions[qi].q}</Text>
-              {similarQuestions[qi].options.map((opt, oi) => (
+              {(similarQuestions[qi].options || []).map((opt, oi) => (
                 <Button
                   key={oi}
                   label={opt}
@@ -664,8 +693,16 @@ export default function GrammarDetailScreen({ route, navigation }) {
                 />
               )}
               {similarChecked[qi] && (
-                <Text style={similarAnswers[qi] === similarQuestions[qi].answer ? styles.correct : styles.incorrect}>
-                  {similarAnswers[qi] === similarQuestions[qi].answer ? 'Correct!' : `Incorrect. Answer: ${similarQuestions[qi].options[similarQuestions[qi].answer]}`}
+                <Text style={
+                  (Array.isArray(similarQuestions[qi].answer) 
+                    ? similarQuestions[qi].answer.some(a => (similarAnswers[qi] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                    : (similarAnswers[qi] || '').trim().toLowerCase() === similarQuestions[qi].answer.trim().toLowerCase())
+                  ? styles.correct : styles.incorrect
+                }>
+                  {(Array.isArray(similarQuestions[qi].answer) 
+                    ? similarQuestions[qi].answer.some(a => (similarAnswers[qi] || '').trim().toLowerCase() === a.trim().toLowerCase())
+                    : (similarAnswers[qi] || '').trim().toLowerCase() === similarQuestions[qi].answer.trim().toLowerCase())
+                    ? 'Correct!' : `Incorrect. Answer: ${Array.isArray(similarQuestions[qi].answer) ? similarQuestions[qi].answer[0] : similarQuestions[qi].answer}`}
                 </Text>
               )}
             </View>
@@ -928,5 +965,26 @@ const styles = StyleSheet.create({
     paddingTop: spacing.md,
     borderTopWidth: 1,
     borderTopColor: colors.secondary,
+  },
+  inputContainer: {
+    marginVertical: spacing.sm,
+  },
+  textInput: {
+    borderWidth: 2,
+    borderColor: colors.secondary,
+    borderRadius: 12,
+    padding: spacing.md,
+    fontSize: typography.body,
+    color: colors.text,
+    backgroundColor: colors.surface,
+    fontFamily: typography.fontBody,
+  },
+  inputCorrect: {
+    borderColor: '#1F8B4C',
+    backgroundColor: '#E8F5E9',
+  },
+  inputIncorrect: {
+    borderColor: '#B42318',
+    backgroundColor: '#FEF3F2',
   },
 });

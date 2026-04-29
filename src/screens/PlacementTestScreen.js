@@ -752,7 +752,7 @@ export default function PlacementTestScreen({ navigation }) {
             </Card>
 
             <View style={styles.optWrap}>
-              {currentQ.options.map((opt, idx) => (
+              {(currentQ.options || []).map((opt, idx) => (
                 <TouchableOpacity key={idx} style={styles.optBtn} onPress={() => handleAnswer(idx)}>
                   <View style={styles.optRadio} />
                   <Text style={styles.optText}>{opt}</Text>
