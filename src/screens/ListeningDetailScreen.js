@@ -254,7 +254,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
 
   // ── TTS hook ──────────────────────────────────────────────────────────────
   const { 
-    isPlaying, voices, voiceId, rate, 
+    isPlaying, voices, activeVoiceId = '', rate, 
     useExperimental, setUseExperimental,
     speakWord: rawSpeakWord, speakWordAsync: rawSpeakWordAsync, 
     stopAll, setRate, setVoiceId 
@@ -332,7 +332,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const highlightAnim = useRef(new Animated.Value(0)).current;
   const { addListeningResult, addUnknownWord } = useAppState();
-  const selectedWebVoice = useMemo(() => (isWeb ? pickWebVoice(voices, voiceId) : null), [voices, voiceId]);
+  const selectedWebVoice = useMemo(() => (isWeb ? pickWebVoice(voices, activeVoiceId) : null), [voices, activeVoiceId]);
 
   const getExplanation = useCallback((q, selected) => {
     if (q.explain) return q.explain;
@@ -584,10 +584,10 @@ export default function ListeningDetailScreen({ route, navigation }) {
       const voiceLabel = selectedWebVoice?.name ? ` Voice: ${selectedWebVoice.name}.` : '';
       return `This task uses browser speech in a clearer study mode. Start with Ultra Clear or Clear for full transcript playback.${voiceLabel}`;
     }
-    const activeVoice = voices.find((item) => item.id === voiceId)?.name;
+    const activeVoice = voices.find((item) => item.id === activeVoiceId)?.name;
     const voiceLine = activeVoice ? ` Active voice: ${activeVoice}.` : '';
     return `This task uses the phone English voice. For the clearest sound, keep it on Ultra Clear or Clear and install an English premium voice in device settings.${voiceLine}`;
-  }, [task?.audioUrl, selectedWebVoice?.name, voices, voiceId]);
+  }, [task?.audioUrl, selectedWebVoice?.name, voices, activeVoiceId]);
 
   useEffect(() => {
     if (!followTranscript || activeSentence < 0) return;
@@ -871,7 +871,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
               onPress={() => setUseExperimental((v) => !v)}
             >
               <Text style={[styles.modeSwitchText, useExperimental && styles.modeSwitchTextActive]}>
-                {useExperimental ? 'Human-like Voice On' : 'Human-like Voice Off'}
+                {useExperimental ? 'Human-like Voice On (v1.1.2)' : 'Human-like Voice Off'}
               </Text>
             </TouchableOpacity>
           </View>
@@ -903,10 +903,10 @@ export default function ListeningDetailScreen({ route, navigation }) {
                   {voices.map(v => (
                     <TouchableOpacity
                       key={v.id}
-                      style={[styles.voiceBtn, voiceId === v.id && styles.voiceBtnActive]}
+                      style={[styles.voiceBtn, activeVoiceId === v.id && styles.voiceBtnActive]}
                       onPress={() => setVoiceId(v.id)}
                     >
-                      <Text style={[styles.voiceTxt, voiceId === v.id && styles.voiceTxtActive]}>
+                      <Text style={[styles.voiceTxt, activeVoiceId === v.id && styles.voiceTxtActive]}>
                         {(v.name || v.id).replace('com.apple.ttsbundle.', '').replace(/-compact/i, '').split('.').pop()}
                       </Text>
                     </TouchableOpacity>

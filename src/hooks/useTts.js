@@ -226,7 +226,7 @@ export async function speakText(text, customOptions = {}) {
 export function useTts() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [voices, setVoices] = useState([]);
-    const [voiceId, setVoiceIdState] = useState('');
+    const [activeVoiceId, setActiveVoiceIdState] = useState('');
     const [rate, setRateState] = useState(0.55);
     const [useExperimental, setUseExperimental] = useState(isWeb); // On by default for Web for "Real Person" feel
     const [apiEndpoint, setApiEndpoint] = useState('https://translate.google.com/translate_tts?ie=UTF-8&q={{TEXT}}&tl=en&client=tw-ob'); 
@@ -256,7 +256,7 @@ export function useTts() {
                 en[0];
 
             if (best?.id) {
-                setVoiceIdState(best.id);
+                setActiveVoiceIdState(best.id);
                 try { 
                     if (!isWeb) Tts.setDefaultVoice(best.id); 
                     if (!isWeb) Tts.setDefaultLanguage('en-US');
@@ -354,7 +354,7 @@ export function useTts() {
             try { if (!isWeb) await Tts.setDefaultRate(effectiveRate); } catch (_) { }
             try { if (!isWeb) await Tts.setDefaultPitch(pitch); } catch (_) { }
 
-            let bestId = voiceId;
+            let bestId = activeVoiceId;
             if (!bestId) {
                 bestId = await findBestEnglishVoiceId();
             }
@@ -365,7 +365,7 @@ export function useTts() {
 
             ttsEngine.speak(text.trim(), speakOptions);
         } catch (_) { }
-    }, [rate, voiceId, useExperimental, apiEndpoint]);
+    }, [rate, activeVoiceId, useExperimental, apiEndpoint]);
 
     const speakWordAsync = useCallback(async (text, options = {}) => {
         if (!text?.trim()) return;
@@ -420,7 +420,7 @@ export function useTts() {
     }, []);
 
     const setVoiceId = useCallback((id) => {
-        setVoiceIdState(id);
+        setActiveVoiceIdState(id);
         try {
             if (!isWeb) Tts.setDefaultVoice(id);
             if (!isWeb) Tts.setDefaultLanguage('en-US');
@@ -428,7 +428,7 @@ export function useTts() {
     }, []);
 
     return { 
-        isPlaying, voices, voiceId, rate, 
+        isPlaying, voices, activeVoiceId, rate, 
         useExperimental, setUseExperimental, apiEndpoint, setApiEndpoint,
         speakWord, speakWordAsync, stopAll, setRate, setVoiceId 
     };
