@@ -2874,6 +2874,44 @@ async function requestHandler(req, res) {
       return;
     }
 
+    // ── /api/search — DuckDuckGo proxy (bypasses CORS for web platform) ──────
+    if (pathname === '/api/search' && req.method === 'GET') {
+      const query = parsedUrl.query.q || '';
+      if (!query.trim()) {
+        sendJson(res, 400, { ok: false, error: 'Missing search query (q).' });
+        return;
+      }
+      try {
+        const searchUrl = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
+        const searchRes = await fetch(searchUrl);
+        const data = await searchRes.json();
+        
+        let context = '';
+        if (data.AbstractText) {
+          context += `Abstract: ${data.AbstractText}\n`;
+        }
+        if (data.Answer) {
+          context += `Answer: ${data.Answer}\n`;
+        }
+        if (Array.isArray(data.RelatedTopics) && data.RelatedTopics.length > 0) {
+          context += 'Related:\n';
+          data.RelatedTopics.slice(0, 5).forEach(topic => {
+            if (topic.Text) context += `- ${topic.Text}\n`;
+          });
+        }
+
+        sendJson(res, 200, {
+          ok: true,
+          context: context.trim() || 'No direct results found.',
+          query,
+        });
+      } catch (err) {
+        sendJson(res, 502, { ok: false, error: 'Search proxy failed.', detail: err.message });
+      }
+      return;
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     if (pathname === '/api/summary') {
       sendJson(res, 200, { ok: true, summary: getSummary() });
       return;
