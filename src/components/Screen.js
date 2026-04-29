@@ -92,6 +92,10 @@ export default function Screen({
     );
   }
 
+  if (!styles || !styles.container) {
+    return <View style={{ flex: 1, backgroundColor: colors?.bg || '#fff' }}>{scrollNode}</View>;
+  }
+
   return (
     <View style={styles.container} pointerEvents="box-none">
       <Image source={BG_IMAGE} style={styles.bgImageFull} resizeMode="cover" pointerEvents="none" />

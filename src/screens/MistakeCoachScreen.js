@@ -281,11 +281,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.08)',
     marginBottom: spacing.sm,
-    backgroundColor: colors.card,
+    backgroundColor: colors.surface,
   },
   mistakeRowActive: {
     borderColor: colors.primary,
-    backgroundColor: colors.tintBlue,
+    backgroundColor: colors.primarySoft,
   },
   mistakeIndex: {
     fontSize: typography.h3,
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: radius.full,
-    backgroundColor: colors.tintBlue,
+    backgroundColor: colors.primarySoft,
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.08)',
   },
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.08)',
     borderRadius: radius.md,
     padding: spacing.sm,
-    backgroundColor: colors.card,
+    backgroundColor: colors.surface,
   },
   chatContent: {
     paddingBottom: spacing.sm,
@@ -385,6 +385,6 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     fontSize: typography.small,
     color: colors.text,
-    backgroundColor: colors.card,
+    backgroundColor: colors.surface,
   },
 });

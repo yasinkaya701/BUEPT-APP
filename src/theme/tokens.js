@@ -53,6 +53,8 @@ export const colors = {
 
   // Focus & UI
   focusRing: '#93C5FD',
+  tintBlue: '#F0F7FF',
+  card: '#FFFFFF',
 
   // BUEPT Score Bands
   bands: {

@@ -1,10 +1,284 @@
 import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import { Text, StyleSheet, View, TouchableOpacity, Alert, TextInput } from 'react-native';
-import Screen from '../components/Screen';
+import { colors, typography, spacing, radius, shadow } from '../theme/tokens';
 import Card from '../components/Card';
 import Button from '../components/Button';
+import Screen from '../components/Screen';
+
+const styles = StyleSheet.create({
+  container: {
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.textOnDark,
+    marginBottom: spacing.xs,
+  },
+  h3: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.sm,
+  },
+  sub: {
+    fontSize: typography.small,
+    color: colors.textOnDarkMuted,
+    marginBottom: spacing.md,
+  },
+  body: {
+    fontSize: typography.body,
+    color: colors.text,
+    marginBottom: spacing.xs,
+  },
+  note: {
+    fontSize: typography.small,
+    color: colors.textOnDarkMuted,
+    marginBottom: spacing.sm,
+    lineHeight: 20,
+  },
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginTop: spacing.sm,
+  },
+  card: {
+    marginBottom: spacing.md,
+  },
+  scoreCard: {
+    marginBottom: spacing.md,
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  perfectScoreCard: {
+    backgroundColor: '#1F8B4C',
+    borderColor: '#1F8B4C',
+    shadowColor: '#1F8B4C',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 8,
+  },
+  perfectText: {
+    fontSize: typography.body,
+    fontFamily: typography.fontHeadline,
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: spacing.xs,
+  },
+  scoreText: {
+    fontSize: typography.h2,
+    fontFamily: typography.fontHeadline,
+    color: '#fff',
+    textAlign: 'center',
+  },
+  // Lesson notes
+  lessonCard: {
+    backgroundColor: colors.surface,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    marginBottom: spacing.md,
+    padding: spacing.md,
+  },
+  lessonHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  lessonHeaderText: {
+    fontSize: typography.body,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+  },
+  lessonToggle: {
+    fontSize: typography.small,
+    color: colors.primary,
+    fontFamily: typography.fontHeadline,
+  },
+  lessonBody: {
+    marginTop: spacing.md,
+  },
+  flashCard: {
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    borderRadius: 10,
+    padding: spacing.sm,
+    marginBottom: spacing.xs,
+    backgroundColor: colors.surface,
+  },
+  flashLabel: {
+    fontSize: typography.xsmall,
+    color: colors.primary,
+    fontFamily: typography.fontHeadline,
+    marginBottom: 2,
+    textTransform: 'uppercase',
+  },
+  lessonText: {
+    fontSize: typography.small,
+    color: colors.text,
+    marginBottom: spacing.xs,
+    lineHeight: 20,
+  },
+  lessonVideoBox: {
+    marginTop: spacing.md,
+    paddingTop: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(30, 64, 175, 0.12)',
+  },
+  lessonBullet: {
+    fontSize: typography.small,
+    color: colors.text,
+    marginBottom: 4,
+    marginLeft: spacing.sm,
+    lineHeight: 20,
+  },
+  lessonSectionHead: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: colors.primary,
+    marginTop: spacing.sm,
+    marginBottom: 4,
+  },
+  // Examples
+  examplesCard: {
+    backgroundColor: '#FFF8E1',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#FFD54F',
+    marginBottom: spacing.md,
+    padding: spacing.md,
+  },
+  examplesTitle: {
+    fontSize: typography.body,
+    fontFamily: typography.fontHeadline,
+    color: '#5D4037',
+  },
+  exampleItem: {
+    marginTop: spacing.md,
+    paddingTop: spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: '#FFD54F',
+  },
+  exWrongBox: {
+    backgroundColor: '#FFEBEE',
+    borderRadius: 8,
+    padding: spacing.sm,
+    marginBottom: 4,
+    borderLeftWidth: 3,
+    borderLeftColor: '#F44336',
+  },
+  exLabel: {
+    fontSize: 10,
+    fontFamily: typography.fontHeadline,
+    color: colors.muted,
+    marginBottom: 2,
+  },
+  exWrongText: {
+    fontSize: typography.small,
+    color: '#B71C1C',
+    fontFamily: typography.fontBody,
+  },
+  arrowText: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginLeft: spacing.sm,
+    marginVertical: 2,
+  },
+  exCorrectBox: {
+    backgroundColor: '#E8F5E9',
+    borderRadius: 8,
+    padding: spacing.sm,
+    marginBottom: 4,
+    borderLeftWidth: 3,
+    borderLeftColor: '#4CAF50',
+  },
+  exCorrectText: {
+    fontSize: typography.small,
+    color: '#1B5E20',
+    fontFamily: typography.fontBody,
+  },
+  exNote: {
+    fontSize: 11,
+    color: '#795548',
+    fontStyle: 'italic',
+    marginTop: 2,
+  },
+  // Answer feedback
+  answer: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.xs,
+  },
+  explain: {
+    fontSize: typography.small,
+    color: colors.text,
+    marginBottom: spacing.sm,
+    lineHeight: 20,
+  },
+  hintText: {
+    fontSize: typography.small,
+    color: colors.primary,
+    marginBottom: spacing.sm,
+    fontStyle: 'italic',
+  },
+  progressTrack: {
+    height: 8,
+    borderRadius: 999,
+    backgroundColor: '#E2E8F0',
+    overflow: 'hidden',
+    marginBottom: spacing.sm,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: colors.primary,
+  },
+  correct: {
+    fontSize: typography.small,
+    color: '#1F8B4C',
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.xs,
+  },
+  incorrect: {
+    fontSize: typography.small,
+    color: '#B42318',
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.xs,
+  },
+  mistakeBtn: {
+    marginBottom: spacing.xs,
+    alignSelf: 'flex-start',
+  },
+  similarBlock: {
+    marginTop: spacing.md,
+    paddingTop: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: colors.secondary,
+  },
+  inputContainer: {
+    marginVertical: spacing.sm,
+  },
+  textInput: {
+    borderWidth: 2,
+    borderColor: colors.secondary,
+    borderRadius: 12,
+    padding: spacing.md,
+    fontSize: typography.body,
+    color: colors.text,
+    backgroundColor: colors.surface,
+    fontFamily: typography.fontBody,
+  },
+  inputCorrect: {
+    borderColor: '#1F8B4C',
+    backgroundColor: '#E8F5E9',
+  },
+  inputIncorrect: {
+    borderColor: '#B42318',
+    backgroundColor: '#FEF3F2',
+  },
+});
+
 import OpenEndedPracticeCard from '../components/OpenEndedPracticeCard';
-import { colors, spacing, typography } from '../theme/tokens';
 import baseTasks from '../../data/grammar_tasks.json';
 import hardTasks from '../../data/grammar_tasks_hard.json';
 import testEnglishTasks from '../../data/test_english_grammar_tasks.json';
@@ -775,275 +1049,3 @@ export default function GrammarDetailScreen({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.textOnDark,
-    marginBottom: spacing.xs,
-  },
-  h3: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.sm,
-  },
-  sub: {
-    fontSize: typography.small,
-    color: colors.textOnDarkMuted,
-    marginBottom: spacing.md,
-  },
-  body: {
-    fontSize: typography.body,
-    color: colors.text,
-    marginBottom: spacing.xs,
-  },
-  note: {
-    fontSize: typography.small,
-    color: colors.textOnDarkMuted,
-    marginBottom: spacing.sm,
-    lineHeight: 20,
-  },
-  row: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-    marginTop: spacing.sm,
-  },
-  card: {
-    marginBottom: spacing.md,
-  },
-  scoreCard: {
-    marginBottom: spacing.md,
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  perfectScoreCard: {
-    backgroundColor: '#1F8B4C',
-    borderColor: '#1F8B4C',
-    shadowColor: '#1F8B4C',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 10,
-    elevation: 8,
-  },
-  perfectText: {
-    fontSize: typography.body,
-    fontFamily: typography.fontHeadline,
-    color: '#fff',
-    textAlign: 'center',
-    marginBottom: spacing.xs,
-  },
-  scoreText: {
-    fontSize: typography.h2,
-    fontFamily: typography.fontHeadline,
-    color: '#fff',
-    textAlign: 'center',
-  },
-  // Lesson notes
-  lessonCard: {
-    backgroundColor: colors.surface,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: colors.secondary,
-    marginBottom: spacing.md,
-    padding: spacing.md,
-  },
-  lessonHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  lessonHeaderText: {
-    fontSize: typography.body,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-  },
-  lessonToggle: {
-    fontSize: typography.small,
-    color: colors.primary,
-    fontFamily: typography.fontHeadline,
-  },
-  lessonBody: {
-    marginTop: spacing.md,
-  },
-  flashCard: {
-    borderWidth: 1,
-    borderColor: colors.secondary,
-    borderRadius: 10,
-    padding: spacing.sm,
-    marginBottom: spacing.xs,
-    backgroundColor: colors.surface,
-  },
-  flashLabel: {
-    fontSize: typography.xsmall,
-    color: colors.primary,
-    fontFamily: typography.fontHeadline,
-    marginBottom: 2,
-    textTransform: 'uppercase',
-  },
-  lessonText: {
-    fontSize: typography.small,
-    color: colors.text,
-    marginBottom: spacing.xs,
-    lineHeight: 20,
-  },
-  lessonVideoBox: {
-    marginTop: spacing.md,
-    paddingTop: spacing.md,
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(30, 64, 175, 0.12)',
-  },
-  lessonBullet: {
-    fontSize: typography.small,
-    color: colors.text,
-    marginBottom: 4,
-    marginLeft: spacing.sm,
-    lineHeight: 20,
-  },
-  lessonSectionHead: {
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-    color: colors.primary,
-    marginTop: spacing.sm,
-    marginBottom: 4,
-  },
-  // Examples
-  examplesCard: {
-    backgroundColor: '#FFF8E1',
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: '#FFD54F',
-    marginBottom: spacing.md,
-    padding: spacing.md,
-  },
-  examplesTitle: {
-    fontSize: typography.body,
-    fontFamily: typography.fontHeadline,
-    color: '#5D4037',
-  },
-  exampleItem: {
-    marginTop: spacing.md,
-    paddingTop: spacing.sm,
-    borderTopWidth: 1,
-    borderTopColor: '#FFD54F',
-  },
-  exWrongBox: {
-    backgroundColor: '#FFEBEE',
-    borderRadius: 8,
-    padding: spacing.sm,
-    marginBottom: 4,
-    borderLeftWidth: 3,
-    borderLeftColor: '#F44336',
-  },
-  exLabel: {
-    fontSize: 10,
-    fontFamily: typography.fontHeadline,
-    color: colors.muted,
-    marginBottom: 2,
-  },
-  exWrongText: {
-    fontSize: typography.small,
-    color: '#B71C1C',
-    fontFamily: typography.fontBody,
-  },
-  arrowText: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginLeft: spacing.sm,
-    marginVertical: 2,
-  },
-  exCorrectBox: {
-    backgroundColor: '#E8F5E9',
-    borderRadius: 8,
-    padding: spacing.sm,
-    marginBottom: 4,
-    borderLeftWidth: 3,
-    borderLeftColor: '#4CAF50',
-  },
-  exCorrectText: {
-    fontSize: typography.small,
-    color: '#1B5E20',
-    fontFamily: typography.fontBody,
-  },
-  exNote: {
-    fontSize: 11,
-    color: '#795548',
-    fontStyle: 'italic',
-    marginTop: 2,
-  },
-  // Answer feedback
-  answer: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.xs,
-  },
-  explain: {
-    fontSize: typography.small,
-    color: colors.text,
-    marginBottom: spacing.sm,
-    lineHeight: 20,
-  },
-  hintText: {
-    fontSize: typography.small,
-    color: colors.primary,
-    marginBottom: spacing.sm,
-    fontStyle: 'italic',
-  },
-  progressTrack: {
-    height: 8,
-    borderRadius: 999,
-    backgroundColor: '#E2E8F0',
-    overflow: 'hidden',
-    marginBottom: spacing.sm,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: colors.primary,
-  },
-  correct: {
-    fontSize: typography.small,
-    color: '#1F8B4C',
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.xs,
-  },
-  incorrect: {
-    fontSize: typography.small,
-    color: '#B42318',
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.xs,
-  },
-  mistakeBtn: {
-    marginBottom: spacing.xs,
-    alignSelf: 'flex-start',
-  },
-  similarBlock: {
-    marginTop: spacing.md,
-    paddingTop: spacing.md,
-    borderTopWidth: 1,
-    borderTopColor: colors.secondary,
-  },
-  inputContainer: {
-    marginVertical: spacing.sm,
-  },
-  textInput: {
-    borderWidth: 2,
-    borderColor: colors.secondary,
-    borderRadius: 12,
-    padding: spacing.md,
-    fontSize: typography.body,
-    color: colors.text,
-    backgroundColor: colors.surface,
-    fontFamily: typography.fontBody,
-  },
-  inputCorrect: {
-    borderColor: '#1F8B4C',
-    backgroundColor: '#E8F5E9',
-  },
-  inputIncorrect: {
-    borderColor: '#B42318',
-    backgroundColor: '#FEF3F2',
-  },
-});
