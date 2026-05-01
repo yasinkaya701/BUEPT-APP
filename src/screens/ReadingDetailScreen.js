@@ -591,9 +591,8 @@ export default function ReadingDetailScreen({ route, navigation }) {
 
   const passageCards = (
     <>
-      <Card style={styles.card}>
-        <Text style={styles.h3}>Reading Passage</Text>
-        <Text style={styles.body}>
+      {isFocusMode ? (
+        <Text style={styles.focusBody}>
           {task.text.split(' ').map((w, i) => {
             const clean = w.replace(/[^A-Za-z'-]/g, '').toLowerCase();
             const entry = clean ? getWordEntry(clean) : null;
@@ -609,12 +608,32 @@ export default function ReadingDetailScreen({ route, navigation }) {
             );
           })}
         </Text>
-        <Text style={styles.passageHint}>
-          Underlined words are advanced - tap to see meaning
-        </Text>
-      </Card>
+      ) : (
+        <Card style={styles.card}>
+          <Text style={styles.h3}>Reading Passage</Text>
+          <Text style={styles.body}>
+            {task.text.split(' ').map((w, i) => {
+              const clean = w.replace(/[^A-Za-z'-]/g, '').toLowerCase();
+              const entry = clean ? getWordEntry(clean) : null;
+              const hard = entry?.level && ['B2', 'C1', 'C2'].includes(entry.level);
+              return (
+                <Text
+                  key={i}
+                  style={hard ? styles.underWord : null}
+                  onPress={hard ? (e) => handleWordPress(entry, e) : undefined}
+                >
+                  {` ${w}`}
+                </Text>
+              );
+            })}
+          </Text>
+          <Text style={styles.passageHint}>
+            Underlined words are advanced - tap to see meaning
+          </Text>
+        </Card>
+      )}
 
-      {paragraphs.length > 1 && (
+      {!isFocusMode && paragraphs.length > 1 && (
         <Card style={styles.card}>
           <Text style={styles.h3}>Paragraph Map</Text>
           <Text style={styles.sub}>Mark each paragraph after you identify its main idea.</Text>
@@ -646,7 +665,7 @@ export default function ReadingDetailScreen({ route, navigation }) {
         </Card>
       )}
 
-      {scanTarget && paragraphs.length > 1 && (
+      {!isFocusMode && scanTarget && paragraphs.length > 1 && (
         <Card style={styles.card}>
           <Text style={styles.h3}>Scanning Drill</Text>
           <Text style={styles.sub}>Find the paragraph containing this keyword quickly.</Text>
@@ -687,7 +706,8 @@ export default function ReadingDetailScreen({ route, navigation }) {
         </Card>
       )}
 
-      <Card style={styles.card}>
+      {!isFocusMode && (
+        <Card style={styles.card}>
         <Text style={styles.h3}>Evidence Notes</Text>
         <TextInput
           style={styles.evidenceInput}
@@ -703,12 +723,14 @@ export default function ReadingDetailScreen({ route, navigation }) {
 
   const questionCards = (
     <>
-      <OpenEndedPracticeCard
-        title="Open-Ended Reading Questions"
-        prompts={openEndedPrompts}
-        idealClusters={task?.ideal_clusters || null}
-        placeholder="Write your reading response..."
-      />
+      {!isFocusMode && (
+        <OpenEndedPracticeCard
+          title="Open-Ended Reading Questions"
+          prompts={openEndedPrompts}
+          idealClusters={task?.ideal_clusters || null}
+          placeholder="Write your reading response..."
+        />
+      )}
 
       {visibleQuestionIndexes.length === 0 && checked ? (
         <Card style={styles.card}>
@@ -882,24 +904,35 @@ export default function ReadingDetailScreen({ route, navigation }) {
         </Card>
       ) : (
         <>
-          <View style={styles.header}>
-            <View>
-              <Text style={styles.h1}>{task.title || 'Reading'}</Text>
-              <Text style={styles.headerSub}>{task.level} • {task.time}</Text>
+          {!isFocusMode && (
+            <View style={styles.header}>
+              <View>
+                <Text style={styles.h1}>{task.title || 'Reading'}</Text>
+                <Text style={styles.headerSub}>{task.level} • {task.time}</Text>
+              </View>
+              <View style={styles.headerActionRow}>
+                <TouchableOpacity 
+                  style={[styles.focusToggle, isFocusMode && styles.focusToggleActive]} 
+                  onPress={() => setIsFocusMode(!isFocusMode)}
+                  activeOpacity={0.7}
+                >
+                  <Text style={[styles.focusToggleText, isFocusMode && styles.focusToggleTextActive]}>
+                    {isFocusMode ? '✨ Focus: ON' : '✨ Focus Mode'}
+                  </Text>
+                </TouchableOpacity>
+                <Button label="Back" variant="ghost" onPress={() => navigation.goBack()} />
+              </View>
             </View>
-            <View style={styles.headerActionRow}>
-              <TouchableOpacity 
-                style={[styles.focusToggle, isFocusMode && styles.focusToggleActive]} 
-                onPress={() => setIsFocusMode(!isFocusMode)}
-                activeOpacity={0.7}
-              >
-                <Text style={[styles.focusToggleText, isFocusMode && styles.focusToggleTextActive]}>
-                  {isFocusMode ? '✨ Focus: ON' : '✨ Focus Mode'}
-                </Text>
-              </TouchableOpacity>
-              <Button label="Back" variant="ghost" onPress={() => navigation.goBack()} />
-            </View>
-          </View>
+          )}
+
+          {isFocusMode && (
+            <TouchableOpacity 
+              style={styles.focusExitBtn} 
+              onPress={() => setIsFocusMode(false)}
+            >
+              <Text style={styles.focusExitText}>✕ Exit Focus Mode</Text>
+            </TouchableOpacity>
+          )}
 
           {isFocusMode ? (
             <View style={styles.focusContainer}>
@@ -1396,8 +1429,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   paneContent: {
-    padding: spacing.md,
-    paddingBottom: 100,
+    padding: spacing.xs,
+    paddingBottom: 40,
   },
   resizeHandle: {
     width: 24,
@@ -1408,9 +1441,30 @@ const styles = StyleSheet.create({
     cursor: Platform.OS === 'web' ? 'col-resize' : 'default',
   },
   resizeLine: {
-    width: 4,
-    height: 40,
-    borderRadius: 2,
-    backgroundColor: '#CBD5E1',
+    width: 1,
+    height: '100%',
+    backgroundColor: '#E2E8F0',
+  },
+  focusBody: {
+    fontSize: 18,
+    fontFamily: typography.fontBody,
+    color: colors.text,
+    lineHeight: 30,
+    paddingHorizontal: spacing.sm,
+  },
+  focusExitBtn: {
+    position: 'absolute',
+    top: 10,
+    right: 20,
+    zIndex: 100,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+  focusExitText: {
+    color: '#FFF',
+    fontSize: 11,
+    fontWeight: '700',
   },
 });
