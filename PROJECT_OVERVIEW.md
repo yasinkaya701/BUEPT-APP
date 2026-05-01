@@ -65,6 +65,40 @@ The platform leverages "Unified Intelligence" to provide personalized feedback:
 
 ---
 
+---
+
+## 🔍 Module Deep Dive
+
+### 📚 Reading & Listening
+- **Shadowing Mode**: A specialized feature in `ListeningDetailScreen.js` that allows users to practice pronunciation by following the transcript in real-time.
+- **Dynamic Questions**: Uses `buildSimilarQuestion.js` to generate variations of existing questions to prevent memorization.
+
+### ✍️ Writing & Grammar
+- **AI Grader**: `aiGrader.js` sends student essays to the backend with specific prompts to ensure grading consistency with Boğaziçi standards.
+- **Grammar Section Exam**: Simulates the specific "Section 1" of BUEPT, focusing on sentence transformation and error identification.
+
+### 🗣 AI Speaking Lab
+- **Speaking Mock Interview**: A full simulation of the BUEPT speaking component, including prep time and recorded responses.
+
+---
+
+## ⚙️ Technical Gotchas & Maintenance
+
+- **Xcode Script Sandboxing**: Must be disabled (`ENABLE_USER_SCRIPT_SANDBOXING = NO`) in Build Settings to allow React Native's bundling scripts to run correctly.
+- **Large Data Files**: `dictionary_core.json` and `dictionary_subset.json` are critical for the app's offline features but should be handled carefully during Git operations to avoid bloat.
+- **Web Build Path**: Always use `publicPath=/` for Vercel/Netlify root deployments, but `publicPath=/BUEPT-APP/` for subdirectory hosting.
+
+---
+
+## 🛠 Content Generation Pipeline
+
+The project includes a robust Python-based pipeline for content creation:
+1. **Raw Ingestion**: `scripts/cleanup_dictionary.py` cleans up external data.
+2. **Expansion**: `BUEPTApp/data/expand_reading.py` uses LLMs to generate C1/C2 level academic passages.
+3. **Normalization**: `scripts/sanitize_dictionary.py` ensures all generated content follows the app's schema.
+
+---
+
 ## 🚀 Deployment & Build Pipeline
 
 ### Web Deployment
