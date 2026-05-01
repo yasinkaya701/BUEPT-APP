@@ -25,7 +25,7 @@ Industrializing the BUEPT (Boğaziçi University English Proficiency Test) prepa
 - **Mobile**: Manual builds for Android (APK) and iOS (IPA).
 
 ## 📝 Recent Changes & Context
-- **2026-05-01**: Addressing deployment crashes. Created `PROJECT_OVERVIEW.md` and pushed to GitHub to trigger a fresh build. Investigated iOS build logs which showed Xcode script permission issues.
+- **2026-05-01**: Addressing deployment crashes. Identified and fixed a critical syntax error in `src/screens/ListeningDetailScreen.js` (unclosed function in `parsePredictionKeywords`). Verified with a local build and pushed to GitHub to trigger a successful production deploy. Created `PROJECT_OVERVIEW.md` for session persistence.
 - **Current Objective**: Ensuring stable web deployment via GitHub push and maintaining this overview for cross-session context.
 
 ---
