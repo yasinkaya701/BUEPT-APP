@@ -340,6 +340,11 @@ export function AppStateProvider({ children }) {
   const [listeningHistory, setListeningHistory] = useState([]);
   const [grammarHistory, setGrammarHistory] = useState([]);
   const [isFocusMode, setIsFocusMode] = useState(false);
+  const [ttsConfig, setTtsConfig] = useState({
+    useExperimental: Platform.OS === 'web',
+    rate: 0.55,
+    voiceId: '',
+  });
   const [screenTime, setScreenTime] = useState({ date: null, seconds: 0 });
   const screenTimeRef = useRef({ date: null, seconds: 0 });
   const lastScreenTimePersistRef = useRef(0);
@@ -1249,6 +1254,8 @@ export function AppStateProvider({ children }) {
     grammarHistory,
     isFocusMode,
     setIsFocusMode,
+    ttsConfig,
+    setTtsConfig,
     screenTime,
     userWords,
     unknownWords,
@@ -1289,7 +1296,7 @@ export function AppStateProvider({ children }) {
   }), [
     userToken, authReady, userProfile, postAuthRoute, academicFocus,
     level, writingEngine, aiReady, aiAccessConfig, essayText, report, history, mockHistory,
-    readingHistory, listeningHistory, grammarHistory, isFocusMode, screenTime,
+    readingHistory, listeningHistory, grammarHistory, isFocusMode, ttsConfig, screenTime,
     userWords, unknownWords, vocabStats, favoritePrompts, reviews,
     errorWords, grammarErrors, xp, customDecks,
     generateReport, setActiveReportById, addMockResult, addReadingResult,
@@ -1298,6 +1305,7 @@ export function AppStateProvider({ children }) {
     recordQuizError, recordGrammarError, clearErrorWords, clearGrammarErrors,
     addCustomDeck, deleteCustomDeck, restoreCustomDeck,
     addXp, applyDemoData, login, register, logout, consumePostAuthRoute,
+    setTtsConfig,
     updateAiAccessConfig, resetAiAccessConfig,
   ]);
 

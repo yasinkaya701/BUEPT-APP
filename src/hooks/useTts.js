@@ -8,6 +8,7 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { Platform } from 'react-native';
 import Tts from 'react-native-tts';
+import { useAppState } from '../context/AppState';
 
 let _initialized = false;
 let _initPromise = null;
@@ -224,12 +225,11 @@ export async function speakText(text, customOptions = {}) {
  * Also returns a stopAll() and a setRate() helper.
  */
 export function useTts() {
+    const { ttsConfig, setTtsConfig } = useAppState();
+    const { rate, voiceId: activeVoiceId, useExperimental, apiEndpoint } = ttsConfig;
+    
     const [isPlaying, setIsPlaying] = useState(false);
     const [voices, setVoices] = useState([]);
-    const [activeVoiceId, setActiveVoiceIdState] = useState('');
-    const [rate, setRateState] = useState(0.55);
-    const [useExperimental, setUseExperimental] = useState(isWeb); // On by default for Web for "Real Person" feel
-    const [apiEndpoint, setApiEndpoint] = useState('https://translate.google.com/translate_tts?ie=UTF-8&q={{TEXT}}&tl=en&client=tw-ob'); 
     const cleanupRef = useRef([]);
     const _speakId = useRef(0);
     const audioRef = useRef(null);
@@ -255,8 +255,8 @@ export function useTts() {
                 en.find(v => (v.language || '').toLowerCase().includes('us')) ||
                 en[0];
 
-            if (best?.id) {
-                setActiveVoiceIdState(best.id);
+            if (best?.id && !activeVoiceId) {
+                setTtsConfig(prev => ({ ...prev, voiceId: best.id }));
                 try { 
                     if (!isWeb) Tts.setDefaultVoice(best.id); 
                     if (!isWeb) Tts.setDefaultLanguage('en-US');
@@ -329,7 +329,7 @@ export function useTts() {
                 };
                 audio.onerror = () => {
                     console.warn('Natural TTS failed, falling back to system.');
-                    setUseExperimental(false);
+                    setTtsConfig(prev => ({ ...prev, useExperimental: false }));
                 };
                 await audio.play();
                 return;
@@ -429,7 +429,9 @@ export function useTts() {
 
     return { 
         isPlaying, voices, activeVoiceId, rate, 
-        useExperimental, setUseExperimental, apiEndpoint, setApiEndpoint,
-        speakWord, speakWordAsync, stopAll, setRate, setVoiceId 
+        useExperimental, apiEndpoint,
+        speakWord, speakWordAsync, stopAll, 
+        setRate: (r) => setTtsConfig(prev => ({ ...prev, rate: r })), 
+        setVoiceId: (id) => setTtsConfig(prev => ({ ...prev, voiceId: id }))
     };
 }

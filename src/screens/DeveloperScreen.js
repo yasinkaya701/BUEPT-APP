@@ -7,6 +7,7 @@ import LogoMark from '../components/LogoMark';
 import { colors, spacing, typography, radius } from '../theme/tokens';
 import { runDiagnostics } from '../utils/diagnostics';
 import { useAppState } from '../context/AppState';
+import { useTts } from '../hooks/useTts';
 
 const PROVIDERS = [
   { key: 'openai',  label: 'OpenAI',           emoji: '🔑', color: '#10a37f' },
@@ -47,7 +48,8 @@ const PROVIDER_INFO = {
 const OLLAMA_MODELS = ['llama3.2:1b', 'llama3.2:3b', 'llama3.1:8b', 'qwen2.5:14b', 'mistral-nemo', 'dolphin-llama3:8b', 'qwen2.5:32b', 'qwen3-coder:30b', 'mistral:7b', 'phi3:mini'];
 
 export default function DeveloperScreen() {
-  const { aiAccessConfig, updateAiAccessConfig } = useAppState();
+  const { aiAccessConfig, updateAiAccessConfig, ttsConfig, setTtsConfig } = useAppState();
+  const { voices, speakWord } = useTts();
 
   const [provider, setProvider]       = useState(aiAccessConfig?.provider || 'openai');
   const [apiKey, setApiKey]           = useState(aiAccessConfig?.apiKey || '');
@@ -298,6 +300,65 @@ export default function DeveloperScreen() {
           </View>
         )}
       </Card>
+      
+      {/* ── VOICE CONFIG ────────────────────────────────────────── */}
+      <Card style={styles.voiceCard}>
+        <View style={styles.byokHeader}>
+          <Text style={styles.byokIcon}>🔊</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.byokTitle}>Voice & Pronunciation</Text>
+            <Text style={styles.byokSub}>Select your preferred TTS engine and voice</Text>
+          </View>
+        </View>
+
+        <View style={styles.settingRow}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.settingLabel}>Google Natural Voice</Text>
+            <Text style={styles.settingSub}>Higher quality, uses Google's experimental neural engine (Web only)</Text>
+          </View>
+          <TouchableOpacity 
+            style={[styles.toggleBtn, ttsConfig.useExperimental && styles.toggleBtnActive]}
+            onPress={() => setTtsConfig(prev => ({ ...prev, useExperimental: !prev.useExperimental }))}
+          >
+            <Text style={styles.toggleText}>{ttsConfig.useExperimental ? 'ON' : 'OFF'}</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.inputLabel}>Speech Rate ({ttsConfig.rate.toFixed(2)})</Text>
+        <View style={styles.rateRow}>
+          {[0.4, 0.45, 0.5, 0.55, 0.6, 0.7].map(r => (
+            <TouchableOpacity 
+              key={r}
+              style={[styles.rateChip, ttsConfig.rate === r && styles.rateChipActive]}
+              onPress={() => setTtsConfig(prev => ({ ...prev, rate: r }))}
+            >
+              <Text style={[styles.rateChipText, ttsConfig.rate === r && styles.rateChipTextActive]}>{r}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <Text style={styles.inputLabel}>Available Voices</Text>
+        <View style={styles.voiceList}>
+          {voices.length > 0 ? voices.map(v => (
+            <TouchableOpacity 
+              key={v.id}
+              style={[styles.voiceItem, ttsConfig.voiceId === v.id && styles.voiceItemActive]}
+              onPress={() => {
+                setTtsConfig(prev => ({ ...prev, voiceId: v.id }));
+                speakWord("This is a preview of the selected voice.", { iosVoiceId: v.id });
+              }}
+            >
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.voiceName, ttsConfig.voiceId === v.id && styles.voiceNameActive]}>{v.name}</Text>
+                <Text style={styles.voiceLang}>{v.language}</Text>
+              </View>
+              <Text style={styles.voicePreviewIcon}>▶️</Text>
+            </TouchableOpacity>
+          )) : (
+            <Text style={styles.emptyText}>Loading voices...</Text>
+          )}
+        </View>
+      </Card>
 
       {/* ── GUIDE CARDS ─────────────────────────────────────────── */}
       <Card style={styles.guideCard}>
@@ -403,6 +464,7 @@ const styles = StyleSheet.create({
 
   // BYOK Card
   byokCard: { marginBottom: spacing.lg, backgroundColor: '#08152E', borderColor: '#2563EB', borderWidth: 1.5 },
+  voiceCard: { marginBottom: spacing.lg, backgroundColor: '#0F172A', borderColor: '#6366F1', borderWidth: 1.5 },
   byokHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginBottom: spacing.md },
   byokIcon: { fontSize: 34 },
   byokTitle: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: '#FFFFFF', fontWeight: '800' },
@@ -523,4 +585,29 @@ const styles = StyleSheet.create({
   diagBadgeText: { fontSize: 11, fontWeight: '900', color: '#374151' },
   diagLabel: { fontSize: typography.small, fontWeight: '700', color: colors.text, marginBottom: 2 },
   diagDetail: { fontSize: typography.xsmall, color: colors.muted, lineHeight: 17 },
+
+  // Settings & Toggles
+  settingRow: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.lg, gap: spacing.md },
+  settingLabel: { fontSize: typography.body, color: '#FFFFFF', fontWeight: '700' },
+  settingSub: { fontSize: typography.xsmall, color: 'rgba(148,163,184,0.7)', marginTop: 2 },
+  toggleBtn: { backgroundColor: 'rgba(255,255,255,0.1)', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8, minWidth: 60, alignItems: 'center' },
+  toggleBtnActive: { backgroundColor: '#22C55E' },
+  toggleText: { color: '#FFFFFF', fontWeight: '900', fontSize: 12 },
+
+  // Rate chips
+  rateRow: { flexDirection: 'row', gap: 8, marginBottom: spacing.lg },
+  rateChip: { backgroundColor: 'rgba(255,255,255,0.05)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
+  rateChipActive: { backgroundColor: 'rgba(99,102,241,0.2)', borderColor: '#6366F1' },
+  rateChipText: { color: 'rgba(255,255,255,0.6)', fontSize: 12 },
+  rateChipTextActive: { color: '#818CF8', fontWeight: 'bold' },
+
+  // Voice list
+  voiceList: { gap: 8 },
+  voiceItem: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.04)', padding: 12, borderRadius: 10, borderWidth: 1, borderColor: 'rgba(255,255,255,0.08)' },
+  voiceItemActive: { borderColor: '#6366F1', backgroundColor: 'rgba(99,102,241,0.1)' },
+  voiceName: { fontSize: 13, color: '#FFFFFF', fontWeight: '600' },
+  voiceNameActive: { color: '#818CF8' },
+  voiceLang: { fontSize: 10, color: 'rgba(148,163,184,0.6)', marginTop: 2 },
+  voicePreviewIcon: { fontSize: 14, opacity: 0.8 },
+  emptyText: { color: 'rgba(255,255,255,0.4)', fontStyle: 'italic', fontSize: 12 },
 });
