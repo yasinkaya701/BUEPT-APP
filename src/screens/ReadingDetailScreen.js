@@ -1426,10 +1426,11 @@ const styles = StyleSheet.create({
   focusContainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: colors.bg,
+    backgroundColor: '#FFFFFF', // Solid white background
   },
   focusPane: {
     height: '100%',
+    backgroundColor: '#FFFFFF',
   },
   paneScroll: {
     flex: 1,
@@ -1439,12 +1440,15 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   resizeHandle: {
-    width: 24,
+    width: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: '#F1F5F9',
     zIndex: 10,
     cursor: Platform.OS === 'web' ? 'col-resize' : 'default',
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: '#E2E8F0',
   },
   resizeLine: {
     width: 1,
@@ -1452,11 +1456,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#E2E8F0',
   },
   focusBody: {
-    fontSize: 18,
+    fontSize: 19,
     fontFamily: typography.fontBody,
-    color: colors.text,
-    lineHeight: 30,
-    paddingHorizontal: spacing.sm,
+    color: '#1E293B', // Dark slate for better readability
+    lineHeight: 32,
+    paddingHorizontal: 24,
+    paddingVertical: 20,
   },
   focusExitBtn: {
     position: 'absolute',
