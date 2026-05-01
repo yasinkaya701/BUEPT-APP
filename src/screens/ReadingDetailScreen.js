@@ -718,6 +718,7 @@ export default function ReadingDetailScreen({ route, navigation }) {
           textAlignVertical="top"
         />
       </Card>
+      )}
     </>
   );
 
