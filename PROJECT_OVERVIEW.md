@@ -25,9 +25,8 @@ Industrializing the BUEPT (Boğaziçi University English Proficiency Test) prepa
 - **Mobile**: Manual builds for Android (APK) and iOS (IPA).
 
 ## 📝 Recent Changes & Context
-- **2026-05-01**: Addressing deployment crashes. Previous builds failed due to Xcode lock issues and sandbox restrictions.
-- **Project Structure**: The main React Native project is in the `BUEPTApp/` subdirectory. The root folder contains various auxiliary scripts and generated assets (APKs, IPAs).
-- **Current Objective**: Ensuring stable web deployment and keeping project documentation updated via this file.
+- **2026-05-01**: Addressing deployment crashes. Created `PROJECT_OVERVIEW.md` and pushed to GitHub to trigger a fresh build. Investigated iOS build logs which showed Xcode script permission issues.
+- **Current Objective**: Ensuring stable web deployment via GitHub push and maintaining this overview for cross-session context.
 
 ---
 *This file is updated periodically to assist the AI assistant in maintaining project context.*
