@@ -339,6 +339,7 @@ export function AppStateProvider({ children }) {
   const [readingHistory, setReadingHistory] = useState([]);
   const [listeningHistory, setListeningHistory] = useState([]);
   const [grammarHistory, setGrammarHistory] = useState([]);
+  const [isFocusMode, setIsFocusMode] = useState(false);
   const [screenTime, setScreenTime] = useState({ date: null, seconds: 0 });
   const screenTimeRef = useRef({ date: null, seconds: 0 });
   const lastScreenTimePersistRef = useRef(0);
@@ -1246,6 +1247,8 @@ export function AppStateProvider({ children }) {
     readingHistory,
     listeningHistory,
     grammarHistory,
+    isFocusMode,
+    setIsFocusMode,
     screenTime,
     userWords,
     unknownWords,
@@ -1286,7 +1289,7 @@ export function AppStateProvider({ children }) {
   }), [
     userToken, authReady, userProfile, postAuthRoute, academicFocus,
     level, writingEngine, aiReady, aiAccessConfig, essayText, report, history, mockHistory,
-    readingHistory, listeningHistory, grammarHistory, screenTime,
+    readingHistory, listeningHistory, grammarHistory, isFocusMode, screenTime,
     userWords, unknownWords, vocabStats, favoritePrompts, reviews,
     errorWords, grammarErrors, xp, customDecks,
     generateReport, setActiveReportById, addMockResult, addReadingResult,

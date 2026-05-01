@@ -319,7 +319,12 @@ export default function ReadingDetailScreen({ route, navigation }) {
     })
   ).current;
 
-  const { addReadingResult } = useAppState();
+  const { addReadingResult, setIsFocusMode: setGlobalFocusMode } = useAppState();
+
+  useEffect(() => {
+    setGlobalFocusMode(isFocusMode);
+    return () => setGlobalFocusMode(false); // Reset on unmount
+  }, [isFocusMode, setGlobalFocusMode]);
   const answeredCount = useMemo(() => Object.keys(answers).length, [answers]);
   const smokePendingRef = useRef(false);
   const smokeDoneRef = useRef(false);

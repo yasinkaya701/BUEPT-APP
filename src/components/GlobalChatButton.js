@@ -2,11 +2,13 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, shadow } from '../theme/tokens';
+import { useAppState } from '../context/AppState';
 
 export default function BueptChatButton({ navigationRef, currentRouteName }) {
+  const { isFocusMode } = useAppState();
   // Don't show on certain screens like Splash, Login, Signup or Chatbot itself
   const hideOn = ['Splash', 'Onboarding', 'Login', 'Signup', 'Chatbot', 'SplashAnimation'];
-  if (hideOn.includes(currentRouteName)) return null;
+  if (hideOn.includes(currentRouteName) || isFocusMode) return null;
 
   const handlePress = () => {
     if (navigationRef.isReady()) {
