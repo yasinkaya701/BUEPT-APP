@@ -582,6 +582,11 @@ function parsePredictionKeywords(text = '') {
         .toLowerCase()
         .split(/[,;\n]/)
         .map((item) => item.trim())
+        .filter(Boolean)
+    )
+  );
+}
+
 function extractListeningTokens(text = '') {
   return String(text || '')
     .toLowerCase()
