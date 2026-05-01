@@ -10,7 +10,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Tts from 'react-native-tts';
 import SimulatorSmokeRunner from './dev/SimulatorSmokeRunner';
-import GlobalChatButton from './components/GlobalChatButton';
+import BueptChatButton from './components/GlobalChatButton';
 
 // Only touch react-native-screens on iOS.
 // Calling enableScreens on Web crashes the browser bundle because
@@ -127,7 +127,7 @@ export default function App() {
               }}
             >
               <RootNavigator />
-              <GlobalChatButton 
+              <BueptChatButton 
                 navigationRef={navigationRef} 
                 currentRouteName={currentRouteName} 
               />

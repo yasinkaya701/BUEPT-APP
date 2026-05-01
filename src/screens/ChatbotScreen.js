@@ -16,7 +16,7 @@ import { performWebSearch } from '../utils/webSearch';
 
 const CHAT_STATE_KEY = '@chatbot_state_v1';
 const DEFAULT_CHIPS = ["📝 Essay Help", "📖 Reading Skills", "🎧 Listening", "📚 Grammar", "Find Synonyms", "🧠 Vocab Quiz"];
-const WELCOME_MESSAGE = "👋 Merhaba! Ben senin **BUEPT Global AI** asistanınım.\n\nSadece sınav için değil, aklına gelen her konuda benimle özgürce konuşabilirsin. Ödevlerin, günlük soruların, İngilizce pratiği veya sadece sohbet etmek için buradayım.\n\nSana bugün nasıl yardımcı olabilirim?";
+const WELCOME_MESSAGE = "👋 Hello! I am your **BUEPT AI** coach.\n\nI am specifically designed to assist you with your BUEPT preparation. I communicate exclusively in **English** to help you practice and improve your academic language skills.\n\nHow can I help you today?";
 const CHAT_MODES = [
   { id: 'coach', label: 'Coach' },
   { id: 'examiner', label: 'Examiner' },
@@ -267,7 +267,7 @@ const INTENT_PATTERNS = [
     intent: 'greeting',
     patterns: ['hello', 'hi', 'hey', 'merhaba', 'start', 'begin', 'good morning', 'good afternoon'],
     handler: () => ({
-      text: "👋 Welcome to the BUEPT AI Coach! I can help you with:\n\n• 📝 Essay writing & structure\n• 📖 Reading strategies\n• 🎧 Listening skills\n• 📚 Grammar explanations\n• 🧠 Vocabulary & word families\n• 📊 Study techniques\n\nWhat shall we work on today?",
+      text: "👋 Welcome to the BUEPT AI Coach! I am here to help you exclusively in **English** to boost your academic proficiency. I can assist with:\n\n• 📝 Essay writing & structure\n• 📖 Reading strategies\n• 🎧 Listening skills\n• 📚 Grammar explanations\n• 🧠 Vocabulary & word families\n• 📊 Study techniques\n\nWhat shall we work on today?",
       chips: ["📝 Essay Help", "📖 Reading Skills", "🎧 Listening", "📚 Grammar", "🧠 Vocab Quiz", "📊 Study Tips"],
     }),
   },

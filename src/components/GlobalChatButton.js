@@ -3,7 +3,7 @@ import { TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, shadow } from '../theme/tokens';
 
-export default function GlobalChatButton({ navigationRef, currentRouteName }) {
+export default function BueptChatButton({ navigationRef, currentRouteName }) {
   // Don't show on certain screens like Splash, Login, Signup or Chatbot itself
   const hideOn = ['Splash', 'Onboarding', 'Login', 'Signup', 'Chatbot', 'SplashAnimation'];
   if (hideOn.includes(currentRouteName)) return null;

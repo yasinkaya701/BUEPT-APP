@@ -6,7 +6,7 @@
 import React, { useMemo, useState, useCallback, useEffect, useRef, memo } from 'react';
 import {
   Text, StyleSheet, View, TouchableOpacity,
-  ScrollView, Animated, TextInput, Platform, useWindowDimensions, Modal, Pressable
+  ScrollView, Animated, TextInput, Platform, useWindowDimensions, Modal, Pressable, PanResponder
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
@@ -303,6 +303,21 @@ export default function ReadingDetailScreen({ route, navigation }) {
   const [scanChecked, setScanChecked] = useState(false);
   const [showOnlyMissed, setShowOnlyMissed] = useState(false);
   const [readingModel, setReadingModel] = useState(null);
+  const [isFocusMode, setIsFocusMode] = useState(false);
+  const [splitRatio, setSplitRatio] = useState(0.5); // 0.2 to 0.8 range
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderMove: (_, gestureState) => {
+        const newRatio = gestureState.moveX / width;
+        if (newRatio > 0.2 && newRatio < 0.8) {
+          setSplitRatio(newRatio);
+        }
+      },
+    })
+  ).current;
 
   const { addReadingResult } = useAppState();
   const answeredCount = useMemo(() => Object.keys(answers).length, [answers]);
@@ -859,87 +874,115 @@ export default function ReadingDetailScreen({ route, navigation }) {
   );
 
   return (
-    <Screen scroll={!useSplitLayout} contentStyle={styles.container}>
+    <Screen>
       {!hasValidTask ? (
         <Card style={styles.card}>
           <Text style={styles.h3}>Reading task is unavailable.</Text>
           <Button label="Back" variant="secondary" onPress={() => navigation.goBack()} />
         </Card>
-      ) : null}
-      {hasValidTask ? (
-        <>
-      <Text style={styles.h1}>{task.title}</Text>
-      <Text style={styles.sub}>Level {task.level} • {task.time}</Text>
-      <Card style={styles.readingDeskCard}>
-        <View style={styles.readingDeskHeader}>
-          <Text style={styles.readingDeskTitle}>Reading Desk</Text>
-          <Text style={styles.readingDeskMode}>{useSplitLayout ? 'Split Mode' : 'Classic Mode'}</Text>
-        </View>
-        <Text style={styles.readingDeskSub}>
-          {useSplitLayout
-            ? 'Passage is fixed on the left. Questions and feedback stay on the right.'
-            : 'Portrait/classic layout is active. Rotate to landscape for split reading.'}
-        </Text>
-        <View style={styles.readingDeskMetaRow}>
-          <Text style={styles.readingDeskMeta}>Questions: {task.questions.length}</Text>
-          <Text style={styles.readingDeskMeta}>Answered: {answeredCount}</Text>
-          <Text style={styles.readingDeskMeta}>Skim: {formatTime(skimSec)}</Text>
-        </View>
-      </Card>
-      {useSplitLayout ? (
-        <Card style={styles.cardCompact}>
-          <Text style={styles.subCompact}>
-            Landscape Split Mode: 50% Passage / 50% Questions
-          </Text>
-        </Card>
-      ) : null}
-
-      {!useSplitLayout ? progressAndTimerCards : null}
-      {!useSplitLayout ? analysisCards : null}
-
-      {useSplitLayout ? (
-        <View style={[styles.landscapeOuter, Platform.OS === 'web' && { flex: 1, minHeight: 0 }]}>
-          <View style={styles.landscapeSplit}>
-            <ScrollView
-              style={[styles.landscapePaneLeft, Platform.OS === 'web' && styles.paneScrollWeb]}
-              contentContainerStyle={styles.landscapePaneContent}
-              nestedScrollEnabled
-              showsVerticalScrollIndicator={false}
-            >
-              {passageCards}
-            </ScrollView>
-            <ScrollView
-              style={[styles.landscapePaneRight, Platform.OS === 'web' && styles.paneScrollWeb]}
-              contentContainerStyle={styles.landscapePaneContent}
-              nestedScrollEnabled
-              showsVerticalScrollIndicator={false}
-            >
-              {progressAndTimerCards}
-              {analysisCards}
-              {questionCards}
-            </ScrollView>
-          </View>
-        </View>
       ) : (
         <>
-          {passageCards}
-          {questionCards}
+          <View style={styles.header}>
+            <View>
+              <Text style={styles.h1}>{task.title || 'Reading'}</Text>
+              <Text style={styles.headerSub}>{task.level} • {task.time}</Text>
+            </View>
+            <View style={styles.headerActionRow}>
+              <TouchableOpacity 
+                style={[styles.focusToggle, isFocusMode && styles.focusToggleActive]} 
+                onPress={() => setIsFocusMode(!isFocusMode)}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.focusToggleText, isFocusMode && styles.focusToggleTextActive]}>
+                  {isFocusMode ? '✨ Focus: ON' : '✨ Focus Mode'}
+                </Text>
+              </TouchableOpacity>
+              <Button label="Back" variant="ghost" onPress={() => navigation.goBack()} />
+            </View>
+          </View>
+
+          {isFocusMode ? (
+            <View style={styles.focusContainer}>
+              <View style={[styles.focusPane, { width: width * splitRatio }]}>
+                <ScrollView 
+                  style={styles.paneScroll} 
+                  contentContainerStyle={styles.paneContent}
+                  showsVerticalScrollIndicator={false}
+                >
+                  {passageCards}
+                </ScrollView>
+              </View>
+              
+              <View 
+                {...panResponder.panHandlers} 
+                style={styles.resizeHandle}
+              >
+                <View style={styles.resizeLine} />
+              </View>
+
+              <View style={[styles.focusPane, { flex: 1 }]}>
+                <ScrollView 
+                  style={styles.paneScroll} 
+                  contentContainerStyle={styles.paneContent}
+                  showsVerticalScrollIndicator={false}
+                >
+                  {analysisCards}
+                  {questionCards}
+                </ScrollView>
+              </View>
+            </View>
+          ) : (
+            <ScrollView
+              style={styles.mainScroll}
+              contentContainerStyle={styles.mainContent}
+              showsVerticalScrollIndicator={false}
+            >
+              {useSplitLayout ? (
+                <View style={styles.splitRow}>
+                  <View style={styles.leftCol}>
+                    {progressAndTimerCards}
+                    {analysisCards}
+                    {passageCards}
+                  </View>
+                  <View style={styles.rightCol}>
+                    {questionCards}
+                  </View>
+                </View>
+              ) : (
+                <View style={styles.stackCol}>
+                  {progressAndTimerCards}
+                  {analysisCards}
+                  {passageCards}
+                  {questionCards}
+                </View>
+              )}
+            </ScrollView>
+          )}
+
+          <WordTooltip entry={tooltip?.entry} onClose={() => setTooltip(null)} />
         </>
       )}
-
-      {/* Kelime popup kartı */}
-      <WordTooltip
-        entry={tooltip?.entry}
-        onClose={() => setTooltip(null)}
-      />
-      </>
-      ) : null}
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { },
+  container: { flex: 1, backgroundColor: colors.bg },
+  header: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+    padding: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.secondary,
+  },
+  headerSub: { fontSize: typography.small, color: colors.muted },
+  mainScroll: { flex: 1 },
+  mainContent: { padding: spacing.md, paddingBottom: 60 },
+  splitRow: { flexDirection: 'row', gap: spacing.lg },
+  leftCol: { flex: 1.2 },
+  rightCol: { flex: 1 },
+  stackCol: { gap: spacing.md },
   h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
   h3: { fontSize: typography.h3, fontFamily: typography.fontHeadline, marginBottom: spacing.sm },
   sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.lg },
@@ -1315,5 +1358,59 @@ const styles = StyleSheet.create({
     color: colors.muted,
     fontStyle: 'italic',
     lineHeight: 20,
+  },
+  headerActionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  focusToggle: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: '#F1F5F9',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  focusToggleActive: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  focusToggleText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: colors.text,
+  },
+  focusToggleTextActive: {
+    color: '#FFF',
+  },
+  focusContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: colors.bg,
+  },
+  focusPane: {
+    height: '100%',
+  },
+  paneScroll: {
+    flex: 1,
+  },
+  paneContent: {
+    padding: spacing.md,
+    paddingBottom: 100,
+  },
+  resizeHandle: {
+    width: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    zIndex: 10,
+    cursor: Platform.OS === 'web' ? 'col-resize' : 'default',
+  },
+  resizeLine: {
+    width: 4,
+    height: 40,
+    borderRadius: 2,
+    backgroundColor: '#CBD5E1',
   },
 });

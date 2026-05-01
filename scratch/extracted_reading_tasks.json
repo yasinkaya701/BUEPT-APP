@@ -1,7 +1,7 @@
 [
     {
         "id": "READ_R1_01",
-        "title": "BUEPT Sample: THE PSYCHOLOGY OF PROCRASTINATION",
+        "title": "THE PSYCHOLOGY OF PROCRASTINATION",
         "level": "B2",
         "sub_type": "careful_reading",
         "is_pro_book_style": true,
@@ -84,7 +84,7 @@
     },
     {
         "id": "READ_R1_02",
-        "title": "BUEPT Sample: URBAN HEAT ISLANDS",
+        "title": "URBAN HEAT ISLANDS",
         "level": "B2",
         "sub_type": "careful_reading",
         "is_pro_book_style": true,
@@ -167,7 +167,7 @@
     },
     {
         "id": "READ_R1_03",
-        "title": "BUEPT Sample: SLEEP DEPRIVATION AND COGNITIVE PERFORMANCE",
+        "title": "SLEEP DEPRIVATION AND COGNITIVE PERFORMANCE",
         "level": "B2",
         "sub_type": "careful_reading",
         "is_pro_book_style": true,
@@ -250,7 +250,7 @@
     },
     {
         "id": "READ_R1_04",
-        "title": "BUEPT Sample: THE ECONOMICS OF HAPPINESS",
+        "title": "THE ECONOMICS OF HAPPINESS",
         "level": "B2",
         "sub_type": "careful_reading",
         "is_pro_book_style": true,
@@ -331,7 +331,7 @@
     },
     {
         "id": "READ_R1_05",
-        "title": "BUEPT Sample: THE MICROBIOME AND HUMAN HEALTH",
+        "title": "THE MICROBIOME AND HUMAN HEALTH",
         "level": "B2",
         "sub_type": "careful_reading",
         "is_pro_book_style": true,
@@ -414,7 +414,7 @@
     },
     {
         "id": "READ_R1_06",
-        "title": "BUEPT Sample: DARK TOURISM: VISITING SITES OF TRAGEDY",
+        "title": "DARK TOURISM: VISITING SITES OF TRAGEDY",
         "level": "B2",
         "sub_type": "careful_reading",
         "is_pro_book_style": true,
@@ -497,7 +497,7 @@
     },
     {
         "id": "READ_R1_07",
-        "title": "BUEPT Sample: THE GLOBAL WATER CRISIS",
+        "title": "THE GLOBAL WATER CRISIS",
         "level": "B2",
         "sub_type": "careful_reading",
         "is_pro_book_style": true,
@@ -580,7 +580,7 @@
     },
     {
         "id": "READ_R1_08",
-        "title": "BUEPT Sample: ARTIFICIAL INTELLIGENCE AND THE FUTURE OF WORK",
+        "title": "ARTIFICIAL INTELLIGENCE AND THE FUTURE OF WORK",
         "level": "B2",
         "sub_type": "careful_reading",
         "is_pro_book_style": true,
@@ -655,7 +655,7 @@
     },
     {
         "id": "READ_R1_09",
-        "title": "BUEPT Sample: FOOD SECURITY AND CLIMATE CHANGE",
+        "title": "FOOD SECURITY AND CLIMATE CHANGE",
         "level": "B2",
         "sub_type": "careful_reading",
         "is_pro_book_style": true,
@@ -730,7 +730,7 @@
     },
     {
         "id": "READ_R1_10",
-        "title": "BUEPT Sample: THE NEUROSCIENCE OF ADDICTION",
+        "title": "THE NEUROSCIENCE OF ADDICTION",
         "level": "B2",
         "sub_type": "careful_reading",
         "is_pro_book_style": true,
@@ -805,7 +805,7 @@
     },
     {
         "id": "READ_R2_01",
-        "title": "BUEPT Sample: THE SCIENCE OF BOREDOM",
+        "title": "THE SCIENCE OF BOREDOM",
         "level": "C1",
         "sub_type": "careful_reading",
         "is_pro_book_style": true,
@@ -888,492 +888,12 @@
     },
     {
         "id": "READ_R2_02",
-        "title": "BUEPT Sample: THE SOCIAL CONSTRUCTION OF BEAUTY",
+        "title": "THE SOCIAL CONSTRUCTION OF BEAUTY",
         "level": "C1",
         "sub_type": "careful_reading",
         "is_pro_book_style": true,
         "time": "55 min",
         "text": "[Paragraph 1] Beauty, most people feel, is immediately and personally recognizable \u2014 'I know it when I see it.' Yet decades of research across psychology, anthropology, and cultural studies have increasingly challenged this intuition. While certain features \u2014 facial symmetry, clear skin, youthful appearance \u2014 appear to be preferred across cultures and may reflect evolutionary adaptations signaling health and reproductive fitness, the overwhelming evidence suggests that much of what any given society considers beautiful is not universal, not innate, and certainly not fixed. Beauty standards are socially constructed: they are produced, maintained, and contested through culture, power, and history.",
         "questions": []
-    },
-    {
-        "id": "r_p1_03",
-        "level": "P1",
-        "title": "BUEPT Sample: The Importance of Sleep for Students",
-        "time": "20 min",
-        "text": "Sleep is very important for university students. During sleep, the brain processes information from the day. It organizes memories and helps you remember what you studied. Without enough sleep, students feel tired and have a hard time paying attention in class. Furthermore, lack of sleep can make people feel stressed or sad.\n\nExperts say that young adults need about 7 to 9 hours of sleep each night. However, many students get only 5 or 6 hours. They stay up late to finish homework or talk with friends. To improve sleep habits, students should try to go to bed at the same time every night. They should also avoid drinking coffee late in the afternoon. Keeping the bedroom dark and quiet can also help the body relax and prepare for a good night of rest.",
-        "questions": [
-            {
-                "q": "What is the main idea of the passage?",
-                "options": [
-                    "Coffee is bad for students",
-                    "Sleep is essential for students' memory and health",
-                    "University students sleep 9 hours a day",
-                    "Homework causes stress"
-                ],
-                "answer": 1,
-                "skill": "main_idea",
-                "explain": "The text focuses on why sleep is important and how students can get better sleep."
-            },
-            {
-                "q": "According to the text, what does the brain do during sleep?",
-                "options": [
-                    "It forgets old memories",
-                    "It processes and organizes information",
-                    "It produces coffee",
-                    "It stops working"
-                ],
-                "answer": 1,
-                "skill": "detail",
-                "explain": "The text states: 'During sleep, the brain processes information from the day. It organizes memories...'"
-            },
-            {
-                "q": "How many hours of sleep do experts recommend for young adults?",
-                "options": [
-                    "5 or 6 hours",
-                    "Less than 7 hours",
-                    "7 to 9 hours",
-                    "10 to 12 hours"
-                ],
-                "answer": 2,
-                "skill": "detail",
-                "explain": "The text says 'Experts say that young adults need about 7 to 9 hours of sleep'."
-            },
-            {
-                "q": "What is one way to improve sleep habits mentioned in the passage?",
-                "options": [
-                    "Going to bed at the same time every night",
-                    "Drinking coffee before bed",
-                    "Studying late at night",
-                    "Listening to loud music"
-                ],
-                "answer": 0,
-                "skill": "detail",
-                "explain": "The text suggests students 'should try to go to bed at the same time every night.'"
-            },
-            {
-                "q": "What can lack of sleep do to a student's mood?",
-                "options": [
-                    "Make them feel happy",
-                    "Make them feel energetic",
-                    "Make them feel stressed or sad",
-                    "Improve their focus"
-                ],
-                "answer": 2,
-                "skill": "detail",
-                "explain": "The text states 'lack of sleep can make people feel stressed or sad.'"
-            }
-        ]
-    },
-    {
-        "id": "r_p2_03",
-        "level": "P2",
-        "title": "BUEPT Sample: The Impact of Fast Fashion",
-        "time": "24 min",
-        "text": "Fast fashion refers to the mass production of cheap, trendy clothing. This industry relies on rapidly turning runway trends into affordable garments for consumers. While fast fashion allows people to buy stylish clothes at low prices, it has significant negative effects on the environment and society.\n\nEnvironmentally, the fast fashion industry is a major polluter. The production of cheap textiles requires massive amounts of water and toxic chemicals, which pollute rivers and oceans. Additionally, because fast fashion items are cheap, they are often discarded quickly, contributing to a massive global waste problem. Millions of tons of clothing end up in landfills every year.\n\nSocially, fast fashion relies on cheap labor, predominantly in developing countries. Garment workers often face poor working conditions, long hours, and low wages. Safety standards in these factories are frequently inadequate. In response to these issues, a growing movement promotes 'sustainable fashion,' encouraging consumers to buy higher-quality garments, repair old clothes, or shop at second-hand stores to reduce their environmental footprint.",
-        "questions": [
-            {
-                "q": "What defines 'fast fashion' according to the passage?",
-                "options": [
-                    "High-quality, expensive clothing made slowly",
-                    "The mass production of cheap, trendy clothing",
-                    "Clothing made exclusively in developed countries",
-                    "A movement to protect the environment"
-                ],
-                "answer": 1,
-                "skill": "main_idea",
-                "explain": "The first sentence defines fast fashion as the mass production of cheap, trendy clothing."
-            },
-            {
-                "q": "How does fast fashion impact water resources?",
-                "options": [
-                    "It conserves water",
-                    "It purifies rivers",
-                    "It uses massive amounts of water and pollutes rivers with chemicals",
-                    "It has no impact on water"
-                ],
-                "answer": 2,
-                "skill": "detail",
-                "explain": "The text notes that textile production 'requires massive amounts of water and toxic chemicals, which pollute rivers...'"
-            },
-            {
-                "q": "Why do millions of tons of clothing end up in landfills?",
-                "options": [
-                    "Because they are too expensive",
-                    "Because they are discarded quickly due to being cheap",
-                    "Because sustainable fashion is popular",
-                    "Because garment workers throw them away"
-                ],
-                "answer": 1,
-                "skill": "inference",
-                "explain": "The text explains that because items are cheap, they are discarded quickly, leading to waste."
-            },
-            {
-                "q": "What are the common working conditions in fast fashion factories?",
-                "options": [
-                    "High wages and short hours",
-                    "Excellent safety standards",
-                    "Poor working conditions, long hours, and low wages",
-                    "Flexible and comfortable environments"
-                ],
-                "answer": 2,
-                "skill": "detail",
-                "explain": "The text explicitly states: 'Garment workers often face poor working conditions, long hours, and low wages.'"
-            },
-            {
-                "q": "What is the goal of the 'sustainable fashion' movement?",
-                "options": [
-                    "To produce clothes faster",
-                    "To encourage buying high-quality, long-lasting clothes",
-                    "To decrease the minimum wage of workers",
-                    "To promote trendy, cheap garments"
-                ],
-                "answer": 1,
-                "skill": "detail",
-                "explain": "The movement encourages buying higher-quality garments, repairing clothes, and second-hand shopping."
-            }
-        ]
-    },
-    {
-        "id": "r_p3_03",
-        "level": "P3",
-        "title": "BUEPT Sample: The Psychology of Procrastination",
-        "time": "26 min",
-        "text": "Almost everyone procrastinates occasionally, but chronic procrastination can severely impact academic and professional success. Procrastination is often misunderstood as simple laziness or a failure of time management. However, psychologists define it primarily as an emotional regulation problem. When individuals encounter a task that provokes anxiety, boredom, or feelings of incompetence, they defer the task to avoid those negative emotions in the short term.\n\nThis avoidance yields immediate relief but inevitably generates long-term stress. The 'procrastination cycle' begins with apprehension regarding a task, leading to delay. As the deadline approaches, anxiety intensifies, reducing the quality of work when the individual finally begins. Consequently, the individual associates the task with stress, reinforcing the desire to avoid similar tasks in the future.\n\nTo combat procrastination, psychologists recommend strategies that address underlying emotions. Breaking a daunting project into manageable micro-tasks can reduce feelings of being overwhelmed. Furthermore, practicing self-compassion rather than harsh self-criticism after procrastinating has been shown to decrease future delays. Recognizing that procrastination is an emotional response rather than an intellectual failure is the first step toward developing healthier productivity habits.",
-        "questions": [
-            {
-                "q": "How do psychologists primarily define procrastination?",
-                "options": [
-                    "As a strict time management failure",
-                    "As an emotional regulation problem",
-                    "As simple laziness",
-                    "As a lack of intellectual capability"
-                ],
-                "answer": 1,
-                "skill": "detail",
-                "explain": "The text states: 'psychologists define it primarily as an emotional regulation problem.'"
-            },
-            {
-                "q": "Why do individuals initially delay a task according to the passage?",
-                "options": [
-                    "To carefully plan their approach",
-                    "Because they have too much time",
-                    "To avoid negative emotions associated with the task",
-                    "Because they lack the resources necessary"
-                ],
-                "answer": 2,
-                "skill": "detail",
-                "explain": "They defer tasks 'to avoid those negative emotions in the short term.'"
-            },
-            {
-                "q": "What happens as the deadline approaches in the 'procrastination cycle'?",
-                "options": [
-                    "Anxiety decreases",
-                    "The work quality improves",
-                    "Anxiety intensifies, and work quality may decrease",
-                    "The individual feels confident"
-                ],
-                "answer": 2,
-                "skill": "inference",
-                "explain": "The text notes that 'anxiety intensifies, reducing the quality of work...'"
-            },
-            {
-                "q": "Which strategy is recommended to reduce the feeling of being overwhelmed?",
-                "options": [
-                    "Harsh self-criticism",
-                    "Ignoring the deadline completely",
-                    "Breaking the project into manageable micro-tasks",
-                    "Delaying until the last minute"
-                ],
-                "answer": 2,
-                "skill": "detail",
-                "explain": "The text mentions 'Breaking a daunting project into manageable micro-tasks' as a strategy."
-            },
-            {
-                "q": "What role does self-compassion play in combating procrastination?",
-                "options": [
-                    "It encourages laziness",
-                    "It decreases the likelihood of future delays",
-                    "It has no effect on productivity",
-                    "It increases anxiety levels"
-                ],
-                "answer": 1,
-                "skill": "detail",
-                "explain": "The passage states that self-compassion 'has been shown to decrease future delays.'"
-            }
-        ]
-    },
-    {
-        "id": "r_p4_03",
-        "level": "P4",
-        "title": "BUEPT Sample: The Economic Implications of Automation",
-        "time": "30 min",
-        "text": "The advent of advanced robotics and artificial intelligence has precipitated a seismic shift in global labor markets, an epoch frequently termed the Fourth Industrial Revolution. While automation historically relegated routine manual tasks to machines, contemporary AI algorithms are increasingly capable of executing complex cognitive functions. Proponents argue that automation catalyzes unprecedented economic productivity, reducing operational costs and lowering commodity prices for consumers. This paradigm, they contend, will engender new economic sectors requiring highly skilled labor to design and maintain these autonomous systems.\n\nConversely, skeptics warn of structural unemployment and the exacerbation of socioeconomic disparities. Unlike preceding industrial shifts, which created as many jobs as they rendered obsolete, the current trajectory may disproportionately displace cognitive labor faster than workforce retraining can occur. This rapid displacement threatens to hollow out middle-class occupations, polarizing the workforce into low-paying service roles and high-paying technological positions. Consequently, the share of wealth accruing to capital owners continues to rise relative to labor, precipitating intense debates surrounding wealth redistribution mechanisms such as Universal Basic Income (UBI).\n\nAddressing this transition requires robust policy interventions. Educational institutions must pivot from rote memorization paradigms to fostering adaptability, critical thinking, and advanced digital literacy. Additionally, robust social safety nets and lifelong learning initiatives are imperative to support displaced workers. Ultimately, navigating the automation epoch demands a delicate equilibrium between harnessing technological innovation and mitigating its disruptive socio-economic externalities.",
-        "questions": [
-            {
-                "q": "What distinguishes the current wave of automation from historical examples?",
-                "options": [
-                    "It focuses entirely on agricultural labor.",
-                    "It creates more jobs than it renders obsolete.",
-                    "It replaces routine manual tasks exclusively.",
-                    "It is capable of executing complex cognitive functions."
-                ],
-                "answer": 3,
-                "skill": "main_idea",
-                "explain": "The text states that 'contemporary AI algorithms are increasingly capable of executing complex cognitive functions.'"
-            },
-            {
-                "q": "What is a primary argument made by proponents of automation?",
-                "options": [
-                    "It guarantees job security for middle-class workers.",
-                    "It catalyzes economic productivity and lowers prices for consumers.",
-                    "It eliminates the need for any human labor.",
-                    "It immediately solves wealth redistribution problems."
-                ],
-                "answer": 1,
-                "skill": "detail",
-                "explain": "Proponents argue it 'catalyzes unprecedented economic productivity, reducing operational costs and lowering commodity prices...'"
-            },
-            {
-                "q": "According to skeptics, how might the workforce become polarized?",
-                "options": [
-                    "Between agricultural and industrial sectors.",
-                    "Between low-paying service roles and high-paying technological positions.",
-                    "Between government employees and private sector workers.",
-                    "Between domestic and international laborers."
-                ],
-                "answer": 1,
-                "skill": "detail",
-                "explain": "The text notes a concern about 'polarizing the workforce into low-paying service roles and high-paying technological positions.'"
-            },
-            {
-                "q": "What is posited as a necessary response from educational institutions?",
-                "options": [
-                    "Increasing focus on rote memorization.",
-                    "Reducing the length of degree programs.",
-                    "Fostering adaptability, critical thinking, and digital literacy.",
-                    "Eliminating technical vocational training."
-                ],
-                "answer": 2,
-                "skill": "inference",
-                "explain": "Educational institutions must pivot to 'fostering adaptability, critical thinking, and advanced digital literacy.'"
-            },
-            {
-                "q": "What is the author's overall stance regarding the automation epoch?",
-                "options": [
-                    "It should be halted entirely to protect jobs.",
-                    "It is an unmitigated disaster for global economies.",
-                    "It requires a balance between technological innovation and mitigating socio-economic disruption.",
-                    "It is a utopian shift that requires no government intervention."
-                ],
-                "answer": 2,
-                "skill": "tone",
-                "explain": "The concluding sentence emphasizes demanding 'a delicate equilibrium between harnessing technological innovation and mitigating its disruptive socio-economic externalities.'"
-            }
-        ]
-    },
-    {
-        "id": "READ_R2_03",
-        "level": "C1",
-        "title": "BUEPT Sample: The Impact of Urbanization on Mental Health",
-        "sub_type": "careful_reading",
-        "is_pro_book_style": true,
-        "time": "55 min",
-        "text": "[Paragraph 1] Urbanization is one of the most defining trends of the 21st century, with more than half of the world's population now living in cities. While urban living offers numerous economic and social opportunities, it also presents significant challenges for mental health. Research consistently shows that urban dwellers are at a higher risk for mental health disorders, such as anxiety and depression, compared to those living in rural areas. This 'urban penalty' is often attributed to a combination of environmental stressors, social isolation, and the fast-paced nature of city life.\n\n[Paragraph 2] One of the primary environmental stressors in cities is noise pollution. Constant exposure to traffic, construction, and high population density can lead to chronic stress and sleep disruption, both of which are major risk factors for mental illness. Additionally, the lack of green spaces and natural light in many urban environments can negatively impact mood and cognitive function. 'Biophilia,' the innate human tendency to seek connections with nature, is often stifled in modern cities, leading to a sense of disconnection and increased psychological distress.\n\n[Paragraph 3] Socially, cities can be paradoxically isolating. Despite the high density of people, urban environments often lack the close-knit social support systems found in rural communities. The transient nature of urban populations and the prevalence of single-person households can lead to feelings of loneliness and social fragmentation. Furthermore, the high level of social competition and the pressure to succeed in a competitive urban environment can exacerbate stress and feelings of inadequacy.\n\n[Paragraph 4] The fast-paced nature of city life also contributes to 'urban stress.' The constant demand for attention and the rapid influx of information can lead to cognitive overload and mental fatigue. This state of perpetual 'fight-or-flight' can drain mental resources and reduce an individual's resilience to stress. Psychologists argue that the 'always-on' culture of modern cities prevents individuals from having the necessary downtime for mental recovery and reflection.\n\n[Paragraph 5] To address these challenges, urban planners and policymakers must prioritize mental health in city design. This includes increasing the amount of green and blue spaces, reducing noise pollution, and creating environments that foster social connection and community. 'Healthy urbanism' advocates for cities that are designed with human needs in mind, promoting physical activity, social interaction, and access to nature. Ultimately, creating mentally healthy cities requires a holistic approach that recognizes the deep connection between our environment and our psychological well-being.",
-        "questions": [
-            {
-                "type": "short_answer",
-                "q": "What is the 'urban penalty' referred to in paragraph 1?",
-                "answer": [
-                    "The 'urban penalty' refers to the higher risk of mental health disorders, such as anxiety and depression, experienced by urban dwellers compared to rural populations."
-                ],
-                "skill": "detail"
-            },
-            {
-                "type": "short_answer",
-                "q": "How does noise pollution in cities affect mental health?",
-                "answer": [
-                    "Constant noise from traffic and construction leads to chronic stress and sleep disruption, which are significant risk factors for mental illness."
-                ],
-                "skill": "detail"
-            },
-            {
-                "type": "short_answer",
-                "q": "Explain the concept of 'biophilia' and its importance in urban design.",
-                "answer": [
-                    "Biophilia is the innate human need to connect with nature. Its stifling in cities due to lack of green space leads to disconnection and psychological distress."
-                ],
-                "skill": "inference"
-            },
-            {
-                "type": "short_answer",
-                "q": "Why is city living described as 'paradoxically isolating'?",
-                "answer": [
-                    "It is paradoxical because despite being surrounded by many people, urban environments lack close-knit support systems, leading to loneliness and fragmentation."
-                ],
-                "skill": "inference"
-            },
-            {
-                "type": "short_answer",
-                "q": "What are some recommendations for urban planners to improve mental health?",
-                "answer": [
-                    "Recommendations include increasing green/blue spaces, reducing noise, and designing environments that foster social connection and community."
-                ],
-                "skill": "detail"
-            }
-        ]
-    },
-    {
-        "id": "READ_R2_04",
-        "level": "C1",
-        "title": "BUEPT Sample: The Ethical Implications of Genetic Engineering",
-        "sub_type": "careful_reading",
-        "is_pro_book_style": true,
-        "time": "55 min",
-        "text": "[Paragraph 1] The rapid advancement of genetic engineering technologies, particularly CRISPR-Cas9, has opened up unprecedented possibilities for modifying the human genome. While these technologies hold the promise of curing genetic diseases and improving human health, they also raise profound ethical questions. The ability to edit DNA at the embryonic stage, known as germline editing, is particularly controversial because these changes are heritable and could permanently alter the human gene pool.\n\n[Paragraph 2] One of the primary ethical concerns is the potential for 'designer babies.' Proponents of genetic engineering argue that parents should have the right to choose certain traits for their children, such as increased intelligence or physical prowess. However, critics warn that this could lead to a new form of eugenics, where social and economic inequalities are reinforced through genetic enhancement. The fear is that only the wealthy will have access to these technologies, creating a genetically 'enhanced' upper class and further marginalizing those who cannot afford it.\n\n[Paragraph 3] Furthermore, the long-term consequences of germline editing are unknown. Genetic engineering is a complex process, and unintended 'off-target' effects could lead to unforeseen health problems in future generations. The lack of consensus on the safety and efficacy of these technologies has led many scientists and ethicists to call for a global moratorium on germline editing until its implications are fully understood. The irreversibility of such changes means that we must proceed with extreme caution.\n\n[Paragraph 4] There are also concerns about the impact of genetic engineering on human diversity and our understanding of what it means to be human. By choosing certain traits and eliminating others, we risk narrowing the range of human variation. This could lead to a loss of the very diversity that has allowed our species to thrive and adapt. Additionally, the move toward genetic perfection could increase social pressure to conform to specific norms, further stigmatizing those with disabilities or 'non-ideal' traits.\n\n[Paragraph 5] In conclusion, while genetic engineering offers immense potential for medical advancement, it also presents significant ethical and social challenges. Navigating this new frontier requires careful consideration of the potential risks and benefits, as well as a robust public dialogue on the values we want to uphold. Ultimately, the future of genetic engineering should be guided by a commitment to justice, equity, and the preservation of human dignity for all.",
-        "questions": [
-            {
-                "type": "short_answer",
-                "q": "Why is germline editing particularly controversial?",
-                "answer": [
-                    "It is controversial because the changes are heritable and could permanently alter the human gene pool."
-                ],
-                "skill": "detail"
-            },
-            {
-                "type": "short_answer",
-                "q": "What is the 'designer baby' concern mentioned in paragraph 2?",
-                "answer": [
-                    "The concern is that parents might choose specific traits for their children, potentially leading to a new form of eugenics and reinforcing socioeconomic inequalities."
-                ],
-                "skill": "inference"
-            },
-            {
-                "type": "short_answer",
-                "q": "What are 'off-target' effects in genetic engineering?",
-                "answer": [
-                    "Off-target effects are unintended genetic changes that could lead to unforeseen health problems in future generations."
-                ],
-                "skill": "detail"
-            },
-            {
-                "type": "short_answer",
-                "q": "How might genetic engineering impact human diversity?",
-                "answer": [
-                    "It might narrow the range of human variation by selecting only 'ideal' traits, potentially reducing our species' ability to adapt."
-                ],
-                "skill": "inference"
-            },
-            {
-                "type": "short_answer",
-                "q": "What values should guide the future of genetic engineering according to the author?",
-                "answer": [
-                    "The author argues that it should be guided by commitment to justice, equity, and the preservation of human dignity."
-                ],
-                "skill": "main_idea"
-            }
-        ]
-    },
-    {
-        "id": "READ_R2_05",
-        "level": "C1",
-        "title": "BUEPT Sample: Climate Change and Global Food Security",
-        "sub_type": "careful_reading",
-        "is_pro_book_style": true,
-        "time": "55 min",
-        "text": "[Paragraph 1] Climate change is no longer a distant threat; it is a current reality with profound implications for global food security. As global temperatures rise, the frequency and intensity of extreme weather events, such as droughts, floods, and heatwaves, are increasing. These events disrupt agricultural production, leading to crop failures and reduced yields in many parts of the world. For regions already struggling with food insecurity, the impact of climate change can be catastrophic, pushing millions more people into hunger and malnutrition.\n\n[Paragraph 2] One of the primary ways climate change affects food security is through the alteration of precipitation patterns. Many agricultural regions rely on predictable rainfall for crop growth. However, shifting weather patterns are leading to prolonged dry spells in some areas and excessive rainfall in others. These changes not only affect the quantity of food produced but also its quality. For example, increased atmospheric CO2 levels can reduce the nutritional value of certain crops, such as wheat and rice, by lowering their protein and mineral content.\n\n[Paragraph 3] Furthermore, rising sea levels and ocean acidification are threatening marine food sources. Coastal agricultural land is being lost to saltwater intrusion, while warming oceans are affecting fish populations and coral reefs. For many coastal communities, particularly in developing nations, fish is a primary source of protein and livelihood. The loss of these resources can lead to economic instability and increased vulnerability to food shortages.\n\n[Paragraph 4] The economic impact of climate change on food security is also significant. Reduced yields and disrupted supply chains lead to increased food prices, making nutritious food less affordable for low-income populations. This can result in 'hidden hunger,' where individuals have access to enough calories but lack essential micronutrients. Additionally, the instability caused by food shortages can lead to social unrest and migration, further complicating global efforts to achieve food security.\n\n[Paragraph 5] Addressing the link between climate change and food security requires a multi-faceted approach. This includes investing in 'climate-smart' agriculture, which promotes resilient crop varieties and sustainable farming practices. Additionally, improving food storage and distribution systems can reduce waste and ensure that food reaches those who need it most. Ultimately, mitigating the effects of climate change through global carbon reduction efforts is essential to ensuring a stable and secure food future for all.",
-        "questions": [
-            {
-                "type": "short_answer",
-                "q": "How do extreme weather events impact agricultural production?",
-                "answer": [
-                    "Extreme weather events like droughts and floods disrupt production, leading to crop failures and reduced yields."
-                ],
-                "skill": "detail"
-            },
-            {
-                "type": "short_answer",
-                "q": "What is 'hidden hunger' and how is it related to climate change?",
-                "answer": [
-                    "Hidden hunger is when people have enough calories but lack micronutrients. It's related to climate change because rising food prices make nutritious food less affordable."
-                ],
-                "skill": "inference"
-            },
-            {
-                "type": "short_answer",
-                "q": "What is one way CO2 levels affect the quality of crops?",
-                "answer": [
-                    "Increased CO2 levels can reduce the nutritional value of crops like wheat and rice by lowering protein and mineral content."
-                ],
-                "skill": "detail"
-            },
-            {
-                "type": "short_answer",
-                "q": "Why are marine food sources threatened by climate change?",
-                "answer": [
-                    "They are threatened by rising sea levels (saltwater intrusion) and ocean acidification/warming affecting fish populations."
-                ],
-                "skill": "detail"
-            },
-            {
-                "type": "short_answer",
-                "q": "What is 'climate-smart' agriculture?",
-                "answer": [
-                    "Climate-smart agriculture refers to investing in resilient crop varieties and sustainable farming practices to adapt to climate change."
-                ],
-                "skill": "detail"
-            }
-        ]
-    },
-    {
-        "id": "READ_R2_06",
-        "level": "C1",
-        "title": "BUEPT Sample: The Ethics of AI in Healthcare",
-        "sub_type": "careful_reading",
-        "is_pro_book_style": true,
-        "time": "55 min",
-        "text": "[Paragraph 1] The integration of Artificial Intelligence (AI) into healthcare promises to revolutionize medicine, from improving diagnostic accuracy to personalizing treatment plans. AI algorithms can analyze vast amounts of medical data far more quickly and accurately than human doctors, identifying patterns that might otherwise go unnoticed. However, the use of AI in clinical settings also raises significant ethical concerns, particularly regarding transparency, bias, and the potential for reduced human agency in medical decision-making.\n\n[Paragraph 2] Transparency, or the 'black box' problem, is a major ethical challenge. Many AI algorithms, particularly deep learning models, are highly complex, making it difficult for even their creators to understand how they arrive at a particular diagnosis or recommendation. This lack of transparency can undermine trust between patients and doctors, as patients may be hesitant to follow a treatment plan generated by a system they do not understand. Furthermore, if an AI system makes a mistake, it can be difficult to determine where the error occurred and who should be held accountable.\n\n[Paragraph 3] Bias in AI algorithms is another critical concern. AI systems are trained on historical medical data, which may contain biases reflecting existing inequalities in healthcare. If these biases are not identified and corrected, AI systems can perpetuate or even exacerbate health disparities. For example, an algorithm trained primarily on data from one demographic group may be less accurate when applied to individuals from other backgrounds. Ensuring that AI systems are trained on diverse and representative datasets is essential for achieving equitable healthcare outcomes.\n\n[Paragraph 4] Furthermore, the use of AI in medical decision-making raises questions about the role of human agency. While AI can provide valuable insights, it should not replace the clinical judgment and empathy of human doctors. There is a risk that doctors may become over-reliant on AI recommendations, leading to a 'deskilling' of the medical profession. Maintaining the 'human in the loop' is crucial to ensure that medical decisions are not only based on data but also consider the unique values, preferences, and circumstances of each patient.\n\n[Paragraph 5] In conclusion, the ethical integration of AI in healthcare requires a careful balance between innovation and responsibility. This involves developing 'explainable AI' that provides clear justifications for its recommendations, as well as establishing robust regulatory frameworks to ensure safety and accountability. Ultimately, AI should be seen as a tool to augment, rather than replace, human expertise, with the goal of improving health outcomes while upholding the core ethical principles of medicine: beneficence, non-maleficence, and respect for patient autonomy.",
-        "questions": [
-            {
-                "type": "short_answer",
-                "q": "What is the 'black box' problem in healthcare AI?",
-                "answer": [
-                    "The 'black box' problem refers to the complexity of AI algorithms that makes it difficult to understand how they arrive at specific diagnoses or recommendations."
-                ],
-                "skill": "inference"
-            },
-            {
-                "type": "short_answer",
-                "q": "How can AI perpetuate health disparities?",
-                "answer": [
-                    "AI can perpetuate disparities if it's trained on biased historical data that reflects existing inequalities, leading to less accurate results for marginalized groups."
-                ],
-                "skill": "detail"
-            },
-            {
-                "type": "short_answer",
-                "q": "What is the risk of 'deskilling' in the medical profession?",
-                "answer": [
-                    "Deskilling is the risk that doctors may become over-reliant on AI, losing their own clinical judgment and expertise over time."
-                ],
-                "skill": "inference"
-            },
-            {
-                "type": "short_answer",
-                "q": "What does 'human in the loop' mean in this context?",
-                "answer": [
-                    "It means ensuring that human doctors remain central to the decision-making process, combining AI insights with their own empathy and patient-specific values."
-                ],
-                "skill": "detail"
-            },
-            {
-                "type": "short_answer",
-                "q": "What is 'explainable AI' and why is it important?",
-                "answer": [
-                    "Explainable AI provides clear justifications for its results. It's important for building trust and ensuring accountability in medical decisions."
-                ],
-                "skill": "detail"
-            }
-        ]
     }
 ]

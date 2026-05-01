@@ -11,34 +11,34 @@ import { useAppState } from '../context/AppState';
 const PROVIDERS = [
   { key: 'openai',  label: 'OpenAI',           emoji: '🔑', color: '#10a37f' },
   { key: 'gemini',  label: '🆓 Gemini',         emoji: '🟣', color: '#4285F4' },
-  { key: 'ollama',  label: '🏠 Ollama (Yerel)',  emoji: '🦙', color: '#FF6B35' },
+  { key: 'ollama',  label: '🏠 Ollama (Local)',  emoji: '🦙', color: '#FF6B35' },
 ];
 
 const PROVIDER_INFO = {
   openai: {
-    note: 'GPT-4o ile en detaylı WASC geri bildirimi. OpenAI hesabı ve kredi gerektirir.',
-    keyLabel: 'OpenAI API Anahtarı',
+    note: 'Detailed WASC feedback with GPT-4o. Requires OpenAI account and credits.',
+    keyLabel: 'OpenAI API Key',
     keyPlaceholder: 'sk-proj-...',
     keyUrl: 'https://platform.openai.com/api-keys',
-    keyUrlLabel: '🔑 API Anahtarı Al (Ücretli)',
+    keyUrlLabel: '🔑 Get API Key (Paid)',
     needsKey: true,
     needsUrl: false,
   },
   gemini: {
-    note: 'Gemini 1.5 Flash ÜCRETSIZ — günde 1M token, 15 istek/dk. Mobil için ideal.',
-    keyLabel: 'Google Gemini API Anahtarı',
+    note: 'Gemini 1.5 Flash FREE — 1M tokens/day, 15 RPM. Ideal for mobile.',
+    keyLabel: 'Google Gemini API Key',
     keyPlaceholder: 'AIza...',
     keyUrl: 'https://aistudio.google.com/apikey',
-    keyUrlLabel: '🆓 Ücretsiz Gemini Anahtarı Al',
+    keyUrlLabel: '🆓 Get Free Gemini Key',
     needsKey: true,
     needsUrl: false,
   },
   ollama: {
-    note: 'Yerel Ollama — internet yok, 100% gizlilik. Bilgisayarında Ollama kurulu olmalı.',
+    note: 'Local Ollama — No internet, 100% privacy. Requires Ollama installed on your PC.',
     keyLabel: null,
     keyPlaceholder: null,
     keyUrl: 'https://ollama.com/download',
-    keyUrlLabel: '📥 Ollama İndir (Mac/Win/Linux)',
+    keyUrlLabel: '📥 Download Ollama (Mac/Win/Linux)',
     needsKey: false,
     needsUrl: true,
   },
@@ -80,7 +80,7 @@ export default function DeveloperScreen() {
     const trimmedModel = String(ollamaModel || '').trim() || 'llama3.2:1b';
 
     if (provider !== 'ollama' && !trimmedKey) {
-      setSavedMsg('⚠️  Lütfen bir API anahtarı girin.');
+      setSavedMsg('⚠️ Please enter an API key.');
       setTimeout(() => setSavedMsg(''), 3000);
       return;
     }
@@ -93,14 +93,14 @@ export default function DeveloperScreen() {
     });
 
     const label = provider === 'gemini' ? 'Gemini' : provider === 'ollama' ? 'Ollama' : 'OpenAI';
-    setSavedMsg(`✓ ${label} yapılandırması kaydedildi`);
+    setSavedMsg(`✓ ${label} configuration saved`);
     setTimeout(() => setSavedMsg(''), 3500);
   };
 
   const handleClear = () => {
     setApiKey('');
     updateAiAccessConfig({ apiKey: '', provider: 'openai', ollamaUrl: '', ollamaModel: '' });
-    setSavedMsg('✓ Yapılandırma temizlendi — sunucu AI kullanılıyor');
+    setSavedMsg('✓ Configuration cleared — using server AI');
     setTimeout(() => setSavedMsg(''), 3000);
   };
 
@@ -138,9 +138,9 @@ export default function DeveloperScreen() {
   };
 
   const activeLabel =
-    currentProvider === 'gemini' ? '🟢 Gemini aktif'
-    : currentProvider === 'ollama' ? '🟢 Ollama (Yerel) aktif'
-    : '🟢 OpenAI aktif';
+    currentProvider === 'gemini' ? '🟢 Gemini active'
+    : currentProvider === 'ollama' ? '🟢 Ollama (Local) active'
+    : '🟢 OpenAI active';
 
   // ── Render ───────────────────────────────────────────────────────────────────
 
@@ -160,12 +160,12 @@ export default function DeveloperScreen() {
         <View style={styles.byokHeader}>
           <Text style={styles.byokIcon}>🤖</Text>
           <View style={{ flex: 1 }}>
-            <Text style={styles.byokTitle}>AI Yapılandırması</Text>
-            <Text style={styles.byokSub}>Writing feedback için AI sağlayıcısını seç</Text>
+            <Text style={styles.byokTitle}>AI Configuration</Text>
+            <Text style={styles.byokSub}>Select an AI provider for writing feedback</Text>
           </View>
           {(currentKeySet || currentProvider === 'ollama') && (
             <View style={styles.activeBadge}>
-              <Text style={styles.activeBadgeText}>AKTİF</Text>
+              <Text style={styles.activeBadgeText}>ACTIVE</Text>
             </View>
           )}
         </View>
@@ -258,14 +258,14 @@ export default function DeveloperScreen() {
 
             <View style={styles.ollamaTestRow}>
               <Button
-                label={ollamaTest === 'testing' ? 'Test ediliyor...' : 'Ollama Bağlantısını Test Et'}
+                label={ollamaTest === 'testing' ? 'Testing...' : 'Test Ollama Connection'}
                 variant="ghost"
                 onPress={handleTestOllama}
                 disabled={ollamaTest === 'testing'}
                 style={{ flex: 1 }}
               />
-              {ollamaTest === 'ok' && <Text style={styles.testOk}>✓ Bağlantı başarılı</Text>}
-              {ollamaTest === 'fail' && <Text style={styles.testFail}>✗ Bağlanamadı</Text>}
+              {ollamaTest === 'ok' && <Text style={styles.testOk}>✓ Connection successful</Text>}
+              {ollamaTest === 'fail' && <Text style={styles.testFail}>✗ Connection failed</Text>}
             </View>
           </>
         )}
@@ -273,7 +273,7 @@ export default function DeveloperScreen() {
         {/* Actions */}
         <View style={styles.actions}>
           <Button
-            label="Kaydet"
+            label="Save Settings"
             onPress={handleSave}
             variant="primary"
             style={{ flex: 1 }}
@@ -291,9 +291,9 @@ export default function DeveloperScreen() {
 
         {(currentKeySet || currentProvider === 'ollama') && (
           <View style={styles.activeRow}>
-            <Text style={styles.activeLabel}>{activeLabel} · Writing feedback bu yapılandırmayı kullanıyor</Text>
+            <Text style={styles.activeLabel}>{activeLabel} · Writing feedback is using this configuration</Text>
             <TouchableOpacity onPress={handleClear} style={styles.clearBtn} activeOpacity={0.7}>
-              <Text style={styles.clearBtnText}>Temizle</Text>
+              <Text style={styles.clearBtnText}>Clear</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -344,9 +344,8 @@ export default function DeveloperScreen() {
         </View>
         <View style={styles.quoteBox}>
           <Text style={styles.quoteText}>
-            "BUEPT hazırlık serüveni, kelimelerle boğuştuğunuz ve essay'ler arasında kaybolduğunuz uzun bir maraton.
-            Bu süreci biraz daha katlanılır, belki de keyifli bir hale getirmek için bu kodları yazdım.
-            Boğaziçi'nin tadını çıkarmanız dileğiyle!"
+            "Built for Boğaziçi students. 
+            May your preparation lead to success."
           </Text>
         </View>
       </Card>
@@ -364,10 +363,10 @@ export default function DeveloperScreen() {
 
       {/* ── DIAGNOSTICS ─────────────────────────────────────────── */}
       <Card style={styles.contactCard}>
-        <Text style={styles.cardTitle}>Sistem Tanılaması</Text>
-        <Text style={styles.bodyText}>API, sözlük ve TTS bağlantılarını test et.</Text>
+        <Text style={styles.cardTitle}>System Diagnostics</Text>
+        <Text style={styles.bodyText}>Test API, dictionary, and TTS connections.</Text>
         <Button
-          label={diagRunning ? 'Çalışıyor...' : 'Tanılamayı Çalıştır'}
+          label={diagRunning ? 'Running...' : 'Run Diagnostics'}
           onPress={handleDiagnostics}
           disabled={diagRunning}
         />

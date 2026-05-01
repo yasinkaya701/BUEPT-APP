@@ -104,6 +104,46 @@ const SECTION_META = {
 
 const VOCAB_TOOLS = [
   {
+    key: 'general-quiz',
+    title: 'General Vocab Quiz',
+    body: 'Test your overall academic vocabulary knowledge across all levels.',
+    icon: 'trophy-outline',
+    route: 'VocabQuiz',
+    tone: 'amber',
+  },
+  {
+    key: 'word-formation',
+    title: 'Word Formation',
+    body: 'Practice converting words into different parts of speech (noun, verb, adj).',
+    icon: 'construct-outline',
+    route: 'VocabPractice',
+    tone: 'blue',
+  },
+  {
+    key: 'synonym-quiz',
+    title: 'Synonym Match',
+    body: 'Challenge yourself to find the best academic synonyms for target words.',
+    icon: 'git-compare-outline',
+    route: 'VocabSynonymQuiz',
+    tone: 'teal',
+  },
+  {
+    key: 'cloze-quiz',
+    title: 'Sentence Completion',
+    body: 'Fill in the blanks with the correct academic vocabulary in context.',
+    icon: 'pencil-outline',
+    route: 'VocabClozeQuiz',
+    tone: 'amber',
+  },
+  {
+    key: 'collocation-quiz',
+    title: 'Collocation Power',
+    body: 'Master word pairings and common academic collocations used in BUEPT.',
+    icon: 'link-outline',
+    route: 'VocabCollocationQuiz',
+    tone: 'purple',
+  },
+  {
     key: 'vocab-flashcards',
     title: 'Flashcards',
     body: 'Study specialized BUEPT sets or create your own custom study decks.',
