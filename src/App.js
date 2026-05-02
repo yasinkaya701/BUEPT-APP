@@ -1,6 +1,6 @@
 import React from 'react';
 import { LogBox, Platform } from 'react-native';
-import { NavigationContainer, DefaultTheme, useNavigationContainerRef } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, useNavigationContainerRef, getStateFromPath, getPathFromState } from '@react-navigation/native';
 import { enableScreens } from 'react-native-screens';
 import { AppStateProvider } from './context/AppState';
 import RootNavigator from './navigation/RootNavigator';
@@ -20,7 +20,7 @@ if (Platform.OS === 'ios') {
 }
 
 const LINKING_CONFIG = Platform.OS === 'web' ? {
-  prefixes: [],
+  prefixes: [window.location.origin],
   config: {
     screens: {
       Splash: 'splash',
@@ -56,6 +56,29 @@ const LINKING_CONFIG = Platform.OS === 'web' ? {
       ClassScheduleCalendar: 'calendar',
       BogaziciHub: 'hub',
     },
+  },
+  // Force hash routing for GitHub Pages compatibility with subfolder support
+  getStateFromPath: (path, config) => {
+    // 1. Handle the GitHub Pages subfolder (BUEPT-APP)
+    // path might be "/BUEPT-APP/reading" or "/BUEPT-APP/#/reading"
+    let cleanPath = path;
+    if (path.startsWith('/BUEPT-APP')) {
+      cleanPath = path.replace('/BUEPT-APP', '');
+    }
+    
+    // 2. Handle the hash
+    const hashPath = cleanPath.includes('#') ? cleanPath.split('#')[1] : cleanPath;
+    
+    // 3. Ensure we have at least a "/"
+    const finalPath = hashPath || '/';
+    return getStateFromPath(finalPath, config);
+  },
+  getPathFromState: (state, config) => {
+    const path = getPathFromState(state, config);
+    // On GitHub Pages, we must keep the subfolder in the URL 
+    // but put the app state after the hash.
+    // Example: /BUEPT-APP/#/reading
+    return `/BUEPT-APP/#${path}`;
   },
 } : undefined;
 

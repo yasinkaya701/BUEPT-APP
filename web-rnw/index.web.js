@@ -1,5 +1,14 @@
+/**
+ * BUEPT Web Entry Point
+ * Defensive: Inject Platform into global scope to prevent intermittent "Can't find variable: Platform" errors 
+ * during Webpack hydration.
+ */
+import { Platform, AppRegistry } from 'react-native';
+if (typeof window !== 'undefined') {
+  window.Platform = Platform;
+}
+
 import 'react-native-gesture-handler';
-import { AppRegistry } from 'react-native';
 import App from '../src/App';
 import { name as appName } from '../app.json';
 
