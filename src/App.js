@@ -59,26 +59,31 @@ const LINKING_CONFIG = Platform.OS === 'web' ? {
   },
   // Force hash routing for GitHub Pages compatibility with subfolder support
   getStateFromPath: (path, config) => {
-    // 1. Handle the GitHub Pages subfolder (BUEPT-APP)
-    // path might be "/BUEPT-APP/reading" or "/BUEPT-APP/#/reading"
     let cleanPath = path;
-    if (path.startsWith('/BUEPT-APP')) {
-      cleanPath = path.replace('/BUEPT-APP', '');
+    
+    // Remove origin if present
+    if (typeof window !== 'undefined' && path.startsWith(window.location.origin)) {
+      cleanPath = path.replace(window.location.origin, '');
     }
     
-    // 2. Handle the hash
-    const hashPath = cleanPath.includes('#') ? cleanPath.split('#')[1] : cleanPath;
+    // Remove /BUEPT-APP prefix if present
+    if (cleanPath.startsWith('/BUEPT-APP')) {
+      cleanPath = cleanPath.replace('/BUEPT-APP', '');
+    }
     
-    // 3. Ensure we have at least a "/"
-    const finalPath = hashPath || '/';
+    // Extract everything after the first #
+    const parts = cleanPath.split('#');
+    const hashPart = parts.length > 1 ? parts[1] : parts[0];
+    
+    // Ensure we have a leading slash for React Navigation matching
+    const finalPath = hashPart.startsWith('/') ? hashPart : `/${hashPart}`;
     return getStateFromPath(finalPath, config);
   },
   getPathFromState: (state, config) => {
     const path = getPathFromState(state, config);
-    // On GitHub Pages, we must keep the subfolder in the URL 
-    // but put the app state after the hash.
-    // Example: /BUEPT-APP/#/reading
-    return `/BUEPT-APP/#${path}`;
+    // Use a relative hash. This keeps the URL within the current subfolder 
+    // (e.g., /BUEPT-APP/#/reading) without needing absolute paths.
+    return `./#/${path.replace(/^\//, '')}`;
   },
 } : undefined;
 
