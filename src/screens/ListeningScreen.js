@@ -118,9 +118,14 @@ function CompactPracticeRow({ task, badges, onPress }) {
         </View>
         <Text style={styles.libraryMeta}>{task.level} · {task.time} · {(task.questions || []).length} questions</Text>
         <View style={styles.badgeRow}>
-          {task.category === 'Real BUEPT Level' && (
+          {(task.category === 'Real BUEPT Level' || task.category === 'Real Lecture Lab') && (
             <View style={[styles.badge, styles.badgeGold]}>
-              <Text style={[styles.badgeText, styles.badgeGoldText]}>Real BUEPT Level</Text>
+              <Text style={[styles.badgeText, styles.badgeGoldText]}>{task.category}</Text>
+            </View>
+          )}
+          {task.category === 'TEDx' && (
+            <View style={[styles.badge, styles.badgeRed]}>
+              <Text style={[styles.badgeText, styles.badgeRedText]}>TEDx Talk</Text>
             </View>
           )}
           {badges.map((badge) => (
@@ -349,6 +354,14 @@ export default function ListeningScreen({ navigation }) {
   };
 
   const handleOpenPodcast = useCallback((podcast) => {
+    if (podcast?.audioUrl) {
+      // If embedded audio is available, use the in-app player
+      navigation.navigate('ListeningDetail', { 
+        taskId: podcast.id,
+        isPodcast: true 
+      });
+      return;
+    }
     if (!podcast?.url) return;
     openExternalResource({
       url: podcast.url,
@@ -1084,6 +1097,15 @@ const styles = StyleSheet.create({
   },
   badgeGoldText: {
     color: '#D4AF37', // Academic Gold
+    fontWeight: 'bold',
+  },
+  badgeRed: {
+    backgroundColor: '#FEE2E2',
+    borderWidth: 1,
+    borderColor: '#EF4444',
+  },
+  badgeRedText: {
+    color: '#B91C1C',
     fontWeight: 'bold',
   },
   emptyCard: {

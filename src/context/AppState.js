@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { AppState as RNAppState } from 'react-native';
+import { AppState as RNAppState, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { buildYS9Report } from '../utils/ys9Mock';
 import { getWordEntry } from '../utils/dictionary';

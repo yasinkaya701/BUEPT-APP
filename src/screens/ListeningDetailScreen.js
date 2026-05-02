@@ -54,12 +54,6 @@ const styles = StyleSheet.create({
   },
   playIcon: { fontSize: 22, color: '#fff' },
   playLabel: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: '#fff' },
-  modeSwitchRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.xs,
-    marginBottom: spacing.md,
-  },
   modeSwitch: {
     borderWidth: 1,
     borderColor: '#2A3D5F',
@@ -69,7 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0F213D',
   },
   modeSwitchActive: {
-    backgroundColor: '#1E3A66',
+    backgroundColor: colors.primary,
     borderColor: colors.primary,
   },
   modeSwitchText: {
@@ -79,6 +73,51 @@ const styles = StyleSheet.create({
   },
   modeSwitchTextActive: {
     color: '#FFFFFF',
+  },
+  // Mode Badges
+  typeBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 6,
+    marginBottom: spacing.sm,
+    alignSelf: 'flex-start',
+  },
+  carefulBadge: {
+    backgroundColor: '#E0F2FE',
+  },
+  selectiveBadge: {
+    backgroundColor: '#F0F9FF',
+    borderWidth: 1,
+    borderColor: '#BAE6FD',
+  },
+  typeBadgeText: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: '#0369A1',
+    textTransform: 'uppercase',
+  },
+  lockOverlay: {
+    backgroundColor: 'rgba(255, 255, 255, 0.98)',
+    borderRadius: 12,
+    padding: spacing.xl,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    marginTop: spacing.md,
+  },
+  lockTitle: { fontSize: 18, fontWeight: 'bold', color: colors.text, marginBottom: 8 },
+  lockSub: { fontSize: 14, color: colors.muted, textAlign: 'center', marginBottom: 20 },
+  youtubeContainer: {
+    width: '100%',
+    aspectRatio: 16 / 9,
+    borderRadius: 12,
+    overflow: 'hidden',
+    backgroundColor: '#000',
+    marginBottom: spacing.md,
+  },
+  youtubeWebView: {
+    flex: 1,
   },
 
   controlLabel: { fontSize: typography.small, color: '#A8C0FF', fontFamily: typography.fontHeadline, marginBottom: spacing.xs },
@@ -369,13 +408,14 @@ import OpenEndedPracticeCard from '../components/OpenEndedPracticeCard';
 import baseTasks from '../../data/listening_tasks.json';
 import hardTasks from '../../data/listening_tasks_hard.json';
 import cslTasks from '../../data/careful_selective_tasks.json';
+import podcasts from '../../data/listening_podcasts.json';
 import { useAppState } from '../context/AppState';
 import { buildSimilarQuestion } from '../utils/similarQuestion';
 import { buildListeningOpenEndedPrompts } from '../utils/openEndedPrompts';
 import { deriveListeningKeywords, evaluateListeningModel } from '../utils/listeningModel';
 import { gradeResponse } from '../utils/aiGrader';
 
-const tasks = [...baseTasks, ...hardTasks, ...cslTasks];
+const tasks = [...baseTasks, ...hardTasks, ...cslTasks, ...podcasts];
 const RATE_PRESETS = [
   { label: '0.75x · Slow', value: 0.38 },  // → getWebSpeechRate → 0.62
   { label: '1.0x · Normal', value: 0.52 },  // → getWebSpeechRate → 0.82
@@ -980,6 +1020,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
     setAnswers({});
     setChecked(false);
     setScore(null);
+    setPlaybackFinished(false);
   }, [task?.id, stopShadowingAuto]);
 
   useEffect(() => {
@@ -1193,91 +1234,131 @@ export default function ListeningDetailScreen({ route, navigation }) {
           {[task.level ? `Level ${task.level}` : '', task.skill || ''].filter(Boolean).join(' • ')}
         </Text>
 
-        {/* ── Player Card ── */}
-        <Card style={styles.playerCard}>
-          {/* Play / Pause */}
-          <TouchableOpacity style={styles.playBtn} onPress={handlePlayPause} activeOpacity={0.85}>
-            <Text style={styles.playIcon}>
-              {shadowingMode ? (shadowingAuto ? '⏹' : '🎙') : webviewPlaying || isPlaying ? '⏸' : '▶'}
-            </Text>
-            <Text style={styles.playLabel}>
-              {shadowingMode
-                ? shadowingAuto ? 'Stop Shadowing' : 'Start Shadowing'
-                : webviewPlaying || isPlaying ? 'Pause' : 'Play Audio'}
-            </Text>
-          </TouchableOpacity>
-
-          <View style={styles.modeSwitchRow}>
-            <TouchableOpacity
-              style={[styles.modeSwitch, !shadowingMode && styles.modeSwitchActive]}
-              onPress={() => setShadowingMode(false)}
-            >
-              <Text style={[styles.modeSwitchText, !shadowingMode && styles.modeSwitchTextActive]}>Audio Track</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.modeSwitch, shadowingMode && styles.modeSwitchActive]}
-              onPress={() => setShadowingMode(true)}
-            >
-              <Text style={[styles.modeSwitchText, shadowingMode && styles.modeSwitchTextActive]}>Shadowing Mode</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.modeSwitch, followTranscript && styles.modeSwitchActive]}
-              onPress={() => setFollowTranscript((value) => !value)}
-            >
-              <Text style={[styles.modeSwitchText, followTranscript && styles.modeSwitchTextActive]}>
-                Follow Transcript {followTranscript ? 'On' : 'Off'}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.modeSwitch, useExperimental && styles.modeSwitchActive]}
-              onPress={() => setUseExperimental((v) => !v)}
-            >
-              <Text style={[styles.modeSwitchText, useExperimental && styles.modeSwitchTextActive]}>
-                {useExperimental ? 'Human-like Voice On (v1.1.2)' : 'Human-like Voice Off'}
-              </Text>
-            </TouchableOpacity>
+        {/* ── External Audio (YouTube / Direct MP3) ── */}
+        {task.audioUrl && (
+          <View style={styles.youtubeContainer}>
+            <WebView
+              style={styles.youtubeWebView}
+              javaScriptEnabled={true}
+              domStorageEnabled={true}
+              allowsFullscreenVideo={true}
+              originWhitelist={['*']}
+              source={
+                (task.audioUrl.includes('youtube.com') || task.audioUrl.includes('youtu.be'))
+                  ? { uri: `https://www.youtube.com/embed/${task.audioUrl.split('v=')[1] || task.audioUrl.split('/').pop()}?autoplay=0&rel=0` }
+                  : (task.audioUrl.endsWith('.mp3') || task.audioUrl.includes('mp3'))
+                    ? { html: `
+                        <html>
+                          <head>
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <style>
+                              body { margin: 0; display: flex; align-items: center; justify-content: center; background: #000; height: 100vh; font-family: sans-serif; }
+                              audio { width: 90%; }
+                            </style>
+                          </head>
+                          <body>
+                            <audio controls autoplay onended="window.ReactNativeWebView.postMessage('ended')">
+                              <source src="${task.audioUrl}" type="audio/mpeg">
+                            </audio>
+                          </body>
+                        </html>
+                      ` }
+                    : { uri: task.audioUrl }
+              }
+              onMessage={(event) => {
+                if (event.nativeEvent.data === 'ended') setPlaybackFinished(true);
+              }}
+            />
           </View>
+        )}
 
-          {/* Speed selector */}
-          <Text style={styles.controlLabel}>Speed</Text>
-          <View style={styles.rateRow}>
-            {RATE_PRESETS.map((preset) => (
+        {/* ── Player Card ── */}
+        {!task.audioUrl && (
+          <Card style={styles.playerCard}>
+            {/* Play / Pause */}
+            <TouchableOpacity style={styles.playBtn} onPress={handlePlayPause} activeOpacity={0.85}>
+              <Text style={styles.playIcon}>
+                {shadowingMode ? (shadowingAuto ? '⏹' : '🎙') : webviewPlaying || isPlaying ? '⏸' : '▶'}
+              </Text>
+              <Text style={styles.playLabel}>
+                {shadowingMode
+                  ? shadowingAuto ? 'Stop Shadowing' : 'Start Shadowing'
+                  : webviewPlaying || isPlaying ? 'Pause' : 'Play Audio'}
+              </Text>
+            </TouchableOpacity>
+
+            <View style={styles.modeSwitchRow}>
               <TouchableOpacity
-                key={preset.value}
-                style={[styles.rateBtn, rate === preset.value && styles.rateBtnActive]}
-                onPress={() => { setRate(preset.value); if (isPlaying || webviewPlaying) { stopAll(); stopWebSpeechPlayback(); stopNativeSpeechPlayback(); clearProgress(); setWebviewPlaying(false); } }}
+                style={[styles.modeSwitch, !shadowingMode && styles.modeSwitchActive]}
+                onPress={() => setShadowingMode(false)}
               >
-                <Text style={[styles.rateTxt, rate === preset.value && styles.rateTxtActive]}>
-                  {preset.label}
+                <Text style={[styles.modeSwitchText, !shadowingMode && styles.modeSwitchTextActive]}>Audio Track</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modeSwitch, shadowingMode && styles.modeSwitchActive]}
+                onPress={() => setShadowingMode(true)}
+              >
+                <Text style={[styles.modeSwitchText, shadowingMode && styles.modeSwitchTextActive]}>Shadowing Mode</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modeSwitch, followTranscript && styles.modeSwitchActive]}
+                onPress={() => setFollowTranscript((value) => !value)}
+              >
+                <Text style={[styles.modeSwitchText, followTranscript && styles.modeSwitchTextActive]}>
+                  Follow Transcript {followTranscript ? 'On' : 'Off'}
                 </Text>
               </TouchableOpacity>
-            ))}
-          </View>
+              <TouchableOpacity
+                style={[styles.modeSwitch, useExperimental && styles.modeSwitchActive]}
+                onPress={() => setUseExperimental((v) => !v)}
+              >
+                <Text style={[styles.modeSwitchText, useExperimental && styles.modeSwitchTextActive]}>
+                  {useExperimental ? 'Neural Voice' : 'System Voice'}
+                </Text>
+              </TouchableOpacity>
+            </View>
 
-          <Text style={styles.playerHint}>{playerHint}</Text>
+            {/* Speed selector */}
+            <Text style={styles.controlLabel}>Playback Speed</Text>
+            <View style={styles.rateRow}>
+              {RATE_PRESETS.map((preset) => (
+                <TouchableOpacity
+                  key={preset.value}
+                  style={[styles.rateBtn, rate === preset.value && styles.rateBtnActive]}
+                  onPress={() => { setRate(preset.value); if (isPlaying || webviewPlaying) { stopAll(); stopWebSpeechPlayback(); stopNativeSpeechPlayback(); clearProgress(); setWebviewPlaying(false); } }}
+                >
+                  <Text style={[styles.rateTxt, rate === preset.value && styles.rateTxtActive]}>
+                    {preset.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
 
-          {/* Voice selector */}
-          {voices.length > 1 && (
-            <>
-              <Text style={styles.controlLabel}>Voice</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View style={styles.voiceRow}>
-                  {voices.map(v => (
-                    <TouchableOpacity
-                      key={v.id}
-                      style={[styles.voiceBtn, activeVoiceId === v.id && styles.voiceBtnActive]}
-                      onPress={() => setVoiceId(v.id)}
-                    >
-                      <Text style={[styles.voiceTxt, activeVoiceId === v.id && styles.voiceTxtActive]}>
-                        {(v.name || v.id).replace('com.apple.ttsbundle.', '').replace(/-compact/i, '').split('.').pop()}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </ScrollView>
-            </>
-          )}
-        </Card>
+            <Text style={styles.playerHint}>{playerHint}</Text>
+
+            {/* Voice selector */}
+            {voices.length > 1 && (
+              <>
+                <Text style={styles.controlLabel}>Tutor Voice</Text>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <View style={styles.voiceRow}>
+                    {voices.map(v => (
+                      <TouchableOpacity
+                        key={v.id}
+                        style={[styles.voiceBtn, activeVoiceId === v.id && styles.voiceBtnActive]}
+                        onPress={() => setVoiceId(v.id)}
+                      >
+                        <Text style={[styles.voiceTxt, activeVoiceId === v.id && styles.voiceTxtActive]}>
+                          {(v.name || v.id).replace('com.apple.ttsbundle.', '').replace(/-compact/i, '').split('.').pop()}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </ScrollView>
+              </>
+            )}
+          </Card>
+        )}
 
         {/* ── Transcript ── */}
         <Card style={styles.card}>
@@ -1290,47 +1371,53 @@ export default function ListeningDetailScreen({ route, navigation }) {
           </TouchableOpacity>
 
           {showTranscript ? (
-            <ScrollView
-              ref={transcriptScrollRef}
-              style={styles.transcriptScroll}
-              contentContainerStyle={styles.transcriptScrollContent}
-              showsVerticalScrollIndicator={false}
-            >
-              {sentences.map((sentence, si) => {
-                const isActive = activeSentence === si;
-                return (
-                  <View
-                    key={si}
-                    style={[styles.sentenceRow, isActive && styles.sentenceRowActive]}
-                    onLayout={(event) => {
-                      sentenceOffsetsRef.current[si] = event.nativeEvent.layout.y;
-                    }}
-                  >
-                    {/* Left bar */}
-                    <Animated.View style={[
-                      styles.sentenceBar,
-                      isActive && styles.sentenceBarActive,
-                    ]} />
-                    <View style={styles.sentenceWords}>
-                      {sentence.split(' ').map((word, wi) => {
-                        const clean = word.replace(/[^A-Za-z'-]/g, '');
-                        return (
-                          <TouchableOpacity
-                            key={wi}
-                            onPress={() => clean && speakWord(clean)}
-                            activeOpacity={0.7}
-                          >
-                            <Text style={[styles.wordText, isActive && styles.wordTextActive]}>
-                              {word}{' '}
-                            </Text>
-                          </TouchableOpacity>
-                        );
-                      })}
+            sentences.length > 0 ? (
+              <ScrollView
+                ref={transcriptScrollRef}
+                style={styles.transcriptScroll}
+                contentContainerStyle={styles.transcriptScrollContent}
+                showsVerticalScrollIndicator={false}
+              >
+                {sentences.map((sentence, si) => {
+                  const isActive = activeSentence === si;
+                  return (
+                    <View
+                      key={si}
+                      style={[styles.sentenceRow, isActive && styles.sentenceRowActive]}
+                      onLayout={(event) => {
+                        sentenceOffsetsRef.current[si] = event.nativeEvent.layout.y;
+                      }}
+                    >
+                      {/* Left bar */}
+                      <Animated.View style={[
+                        styles.sentenceBar,
+                        isActive && styles.sentenceBarActive,
+                      ]} />
+                      <View style={styles.sentenceWords}>
+                        {sentence.split(' ').map((word, wi) => {
+                          const clean = word.replace(/[^A-Za-z'-]/g, '');
+                          return (
+                            <TouchableOpacity
+                              key={wi}
+                              onPress={() => clean && speakWord(clean)}
+                              activeOpacity={0.7}
+                            >
+                              <Text style={[styles.wordText, isActive && styles.wordTextActive]}>
+                                {word}{' '}
+                              </Text>
+                            </TouchableOpacity>
+                          );
+                        })}
+                      </View>
                     </View>
-                  </View>
-                );
-              })}
-            </ScrollView>
+                  );
+                })}
+              </ScrollView>
+            ) : (
+              <View style={{ padding: spacing.md, alignItems: 'center' }}>
+                <Text style={styles.sub}>Transcript not available for this audio. Focus on note-taking below.</Text>
+              </View>
+            )
           ) : null}
         </Card>
 
@@ -1431,11 +1518,11 @@ export default function ListeningDetailScreen({ route, navigation }) {
         <Card style={styles.card}>
           <Text style={styles.h3}>Questions</Text>
           <Text style={styles.sub}>Answered: {answeredCount}/{task.questions?.length}</Text>
-          {task.type === 'careful' && !playbackFinished && (
+          {task.type === 'selective' && !playbackFinished && (
             <View style={styles.lockOverlay}>
-              <Text style={styles.lockTitle}>🔒 Careful Listening Mode</Text>
-              <Text style={styles.lockSub}>Questions are hidden until you finish listening and taking notes once.</Text>
-              <Button label="Force Unlock (Not Recommended)" variant="secondary" onPress={() => setPlaybackFinished(true)} />
+              <Text style={styles.lockTitle}>🔒 Selective Listening Mode</Text>
+              <Text style={styles.lockSub}>In BUEPT, questions are hidden during the note-taking phase. Finish the audio or press unlock to proceed to assessment.</Text>
+              <Button label="Unlock Questions" variant="secondary" onPress={() => setPlaybackFinished(true)} />
             </View>
           )}
           <View style={styles.row}>
@@ -1590,7 +1677,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
         )}
 
         {/* ── Selective Listening Gap-Fill Questions ── */}
-        {task.selective_questions?.length > 0 && (
+        {(task.type !== 'selective' || playbackFinished) && task.selective_questions?.length > 0 && (
           <Card style={styles.card}>
             <Text style={styles.h3}>Selective Listening (Gap-Fill)</Text>
             <Text style={styles.sub}>Listen carefully and type the exact words mentioned in the transcript.</Text>
@@ -1636,7 +1723,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
         )}
 
         {/* ── Questions ── */}
-        {task.questions?.map((q, qi) => {
+        {(task.type !== 'selective' || playbackFinished) && task.questions?.map((q, qi) => {
           if (q.type === 'short_answer') {
             const userAnswer = answers[qi] || '';
             const isCorrect = checked && (
@@ -1767,7 +1854,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
         })}
 
         {/* ── Open Ended Questions with AI Check ── */}
-        {task.open_ended_questions?.map((oq, oqi) => {
+        {(task.type !== 'selective' || playbackFinished) && task.open_ended_questions?.map((oq, oqi) => {
           const grade = openEndedGrades[oqi];
           return (
             <Card key={`oq-${oqi}`} style={styles.card}>
