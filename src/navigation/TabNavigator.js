@@ -77,17 +77,20 @@ function TabIcon({ icon, focused, dense = false }) {
   );
 }
 
-function CustomTabBarButton(props) {
+function CustomTabBarButton({ children, onPress, onLongPress, style }) {
   return (
     <Pressable
-      {...props}
+      onPress={onPress}
+      onLongPress={onLongPress}
       hitSlop={{ top: 10, bottom: 10, left: 6, right: 6 }}
       style={({ pressed }) => [
         styles.tabButton,
-        props.style,
+        style,
         pressed && styles.tabButtonPressed,
       ]}
-    />
+    >
+      {children}
+    </Pressable>
   );
 }
 
