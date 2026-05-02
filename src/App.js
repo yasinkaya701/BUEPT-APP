@@ -127,17 +127,17 @@ export default function App() {
       border: colors.secondary
     }
   };
-  return (
+    const isMobileWeb = Platform.OS === 'web' && (typeof window !== 'undefined' && window.innerWidth < 768);
+    
+    return (
     <AppErrorBoundary>
-      {/* On Web, flex containers must have minHeight: 0 to contain scrolling children. 
-          We also enforce height: '100%' to prevent the container from expanding infinitely. */}
-      <GestureHandlerRootView style={{ flex: 1, minHeight: 0, height: Platform.OS === 'web' ? '100%' : undefined }}>
-        <SafeAreaProvider style={{ flex: 1, minHeight: 0, height: Platform.OS === 'web' ? '100%' : undefined }}>
+      <GestureHandlerRootView style={{ flex: 1, height: Platform.OS === 'web' ? '100%' : undefined }}>
+        <SafeAreaProvider style={{ flex: 1, height: Platform.OS === 'web' ? '100%' : undefined }}>
           <AppStateProvider>
             <NavigationContainer
               ref={navigationRef}
               theme={navTheme}
-              linking={LINKING_CONFIG}
+              linking={isMobileWeb ? undefined : LINKING_CONFIG}
               onReady={() => {
                 const routeName = navigationRef.getCurrentRoute()?.name || null;
                 setCurrentRouteName(routeName);
