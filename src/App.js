@@ -61,29 +61,25 @@ const LINKING_CONFIG = Platform.OS === 'web' ? {
   getStateFromPath: (path, config) => {
     let cleanPath = path;
     
-    // Remove origin if present
-    if (typeof window !== 'undefined' && path.startsWith(window.location.origin)) {
-      cleanPath = path.replace(window.location.origin, '');
+    // Extract everything after the first #
+    if (path.includes('#')) {
+      cleanPath = path.split('#')[1];
     }
     
-    // Remove /BUEPT-APP prefix if present
+    // Remove /BUEPT-APP prefix if it accidentally got in the hash part
     if (cleanPath.startsWith('/BUEPT-APP')) {
       cleanPath = cleanPath.replace('/BUEPT-APP', '');
     }
     
-    // Extract everything after the first #
-    const parts = cleanPath.split('#');
-    const hashPart = parts.length > 1 ? parts[1] : parts[0];
-    
     // Ensure we have a leading slash for React Navigation matching
-    const finalPath = hashPart.startsWith('/') ? hashPart : `/${hashPart}`;
+    const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
     return getStateFromPath(finalPath, config);
   },
   getPathFromState: (state, config) => {
     const path = getPathFromState(state, config);
-    // Use a relative hash. This keeps the URL within the current subfolder 
-    // (e.g., /BUEPT-APP/#/reading) without needing absolute paths.
-    return `./#/${path.replace(/^\//, '')}`;
+    // Simple hash-based relative path. Browser will append this to the current folder.
+    // Example: Reading -> #/reading
+    return `#/` + path.replace(/^\//, '');
   },
 } : undefined;
 
