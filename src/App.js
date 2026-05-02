@@ -1,6 +1,6 @@
 import React from 'react';
 import { LogBox, Platform } from 'react-native';
-import { NavigationContainer, DefaultTheme, useNavigationContainerRef, getStateFromPath, getPathFromState } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, useNavigationContainerRef } from '@react-navigation/native';
 import { enableScreens } from 'react-native-screens';
 import { AppStateProvider } from './context/AppState';
 import RootNavigator from './navigation/RootNavigator';
@@ -13,75 +13,12 @@ import SimulatorSmokeRunner from './dev/SimulatorSmokeRunner';
 import BueptChatButton from './components/GlobalChatButton';
 
 // Only touch react-native-screens on iOS.
-// Calling enableScreens on Web crashes the browser bundle because
-// react-native-screens has no web implementation.
 if (Platform.OS === 'ios') {
   enableScreens(false);
 }
 
-const LINKING_CONFIG = Platform.OS === 'web' ? {
-  prefixes: [window.location.origin],
-  config: {
-    screens: {
-      Splash: 'splash',
-      Onboarding: 'onboarding',
-      Login: 'login',
-      Signup: 'signup',
-      MainTabs: {
-        screens: {
-          Home: '',
-          Reading: 'reading',
-          Grammar: 'grammar',
-          Writing: 'writing',
-          Vocab: 'vocab',
-          Listening: 'listening',
-          Speaking: 'speaking',
-        },
-      },
-      ReadingDetail: 'reading/:taskId',
-      ListeningDetail: 'listening/:taskId',
-      GrammarDetail: 'grammar/:taskId',
-      WritingEditor: 'writing-editor',
-      Feedback: 'writing-feedback',
-      VocabFlashcard: 'flashcard/:deckId',
-      FlashcardHome: 'flashcards',
-      Exams: 'exams',
-      ExamDetail: 'exam/:examId',
-      MockResult: 'mock-result',
-      Chatbot: 'chat',
-      StudyPlan: 'study-plan',
-      Analytics: 'analytics',
-      Progress: 'progress',
-      Developer: 'developer',
-      ClassScheduleCalendar: 'calendar',
-      BogaziciHub: 'hub',
-    },
-  },
-  // Force hash routing for GitHub Pages compatibility with subfolder support
-  getStateFromPath: (path, config) => {
-    let cleanPath = path;
-    
-    // Extract everything after the first #
-    if (path.includes('#')) {
-      cleanPath = path.split('#')[1];
-    }
-    
-    // Remove /BUEPT-APP prefix if it accidentally got in the hash part
-    if (cleanPath.startsWith('/BUEPT-APP')) {
-      cleanPath = cleanPath.replace('/BUEPT-APP', '');
-    }
-    
-    // Ensure we have a leading slash for React Navigation matching
-    const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
-    return getStateFromPath(finalPath, config);
-  },
-  getPathFromState: (state, config) => {
-    const path = getPathFromState(state, config);
-    // Simple hash-based relative path. Browser will append this to the current folder.
-    // Example: Reading -> #/reading
-    return `#/` + path.replace(/^\//, '');
-  },
-} : undefined;
+// Web: linking is disabled to prevent 404s on GitHub Pages
+const LINKING_CONFIG = undefined;
 
 export default function App() {
   const navigationRef = useNavigationContainerRef();
@@ -137,7 +74,6 @@ export default function App() {
             <NavigationContainer
               ref={navigationRef}
               theme={navTheme}
-              linking={isMobileWeb ? undefined : LINKING_CONFIG}
               onReady={() => {
                 const routeName = navigationRef.getCurrentRoute()?.name || null;
                 setCurrentRouteName(routeName);
