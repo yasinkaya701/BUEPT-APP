@@ -129,7 +129,7 @@ export default function MistakeCoachScreen({ route, navigation }) {
     pushMessage(userMsg);
     setLoading(true);
 
-    const history = messagesRef.current.slice(-8).map((m) => ({ role: m.role, text: m.text }));
+    const history = (messagesRef.current || []).slice(-8).map((m) => ({ role: m?.role || 'user', text: m?.text || '' }));
     const reply = await requestMistakeCoachReply({
       mistake: { ...activeMistake, moduleLabel, taskTitle },
       question: trimmed,
@@ -171,7 +171,7 @@ export default function MistakeCoachScreen({ route, navigation }) {
 
       <Card style={styles.card}>
         <Text style={styles.h3}>Mistake List</Text>
-        {mistakes.map((m, idx) => (
+        {(mistakes || []).map((m, idx) => (
           <TouchableOpacity
             key={m.id || `${m.module || 'mistake'}-${idx}`}
             style={[styles.mistakeRow, idx === activeIndex && styles.mistakeRowActive]}

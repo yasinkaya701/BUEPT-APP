@@ -69,4 +69,27 @@ And finally, sometimes in a delusional state, but sometimes in a perfectly funct
 
 --- SAMPLE 8: SCORE INS (35) ---
 "I think social media is important for people. Because we can talk with friends. But privacy is a problem. Many people share information although they are afraid."
+
+--- SAMPLE 9: SCORE VG (85) ---
+"The transition to renewable energy is not merely a technical challenge, but a profound societal shift. For decades, the global economy has been tethered to fossil fuels, creating a dependency that is difficult to break. However, the escalating climate crisis necessitates a rapid and decisive move towards sustainable alternatives. This essay will discuss the economic and environmental imperatives of this transition.
+Firstly, the economic benefits of renewable energy are becoming increasingly clear. While the initial investment in solar and wind infrastructure can be substantial, the long-term operational costs are significantly lower than those of traditional power plants. Moreover, the renewable sector is a major engine of job creation, offering opportunities in manufacturing, installation, and maintenance.
+Secondly, the environmental cost of fossil fuel combustion is no longer sustainable. The release of greenhouse gases has led to unprecedented warming, resulting in extreme weather events and ecological degradation. By transitioning to renewables, we can significantly reduce our carbon footprint and mitigate the worst effects of climate change.
+In conclusion, the shift to renewable energy is both an economic necessity and a moral obligation. By investing in sustainable technologies, we can build a more resilient and equitable future for all."
+
+--- SAMPLE 10: SCORE A (60) ---
+"Many people move to big cities for better life. There are many opportunities in cities like Istanbul or London. You can find better jobs and good schools for children. However, life in a big city is also very hard and expensive. This essay will look at why people move and what are the problems.
+One reason is the job market. Big companies have offices in big cities. So, if you want a good career, you must live there. Also, universities are better in cities. Students can learn many things and meet new people from different countries.
+But there are also disadvantages. The most big problem is the cost of living. Rent is very high and food is expensive. Also, traffic is a big problem. People spend many hours in their cars or on the bus. This is very stressful for them.
+To sum up, moving to a big city has pros and cons. You can have a better career, but you must pay more money and deal with traffic. I think it is a good choice for young people."
+--- SAMPLE 11: SCORE MA (75) ---
+"The transition to remote work has been a major trend in the professional world. While it offers flexibility, it also presents challenges for social interaction and team cohesion. This essay will examine the causes and effects of this shift.
+Firstly, the primary cause of the move to remote work is the advancement of digital infrastructure. High-speed internet and collaborative software have made it possible for employees to perform their tasks from anywhere. This allows companies to reduce overhead costs such as office rent and electricity.
+Secondly, the effects of remote work are significant for employee well-being. Many workers report higher satisfaction because they can avoid long commutes and spend more time with their families. However, there is a risk of professional isolation. Without face-to-face interaction, team members may feel less connected to their company's culture.
+In conclusion, remote work is a complex development that requires a balance between technological efficiency and human connection. Companies must implement strategies to maintain team morale in a digital environment."
+
+--- SAMPLE 12: SCORE VG (85) ---
+"The integration of Artificial Intelligence (AI) into educational settings has sparked a profound debate regarding the future of learning. While some fear the displacement of teachers, I argue that AI serves as a powerful catalyst for personalized education and administrative efficiency.
+One significant advantage of AI is its ability to tailor educational content to the individual needs of students. Traditional classrooms often follow a one-size-fits-all approach, which can leave struggling students behind or fail to challenge high achievers. In contrast, AI-driven platforms can analyze a student's performance in real-time and provide customized exercises that target their specific weaknesses. This ensures a more equitable learning experience where every student can progress at their own pace.
+Furthermore, AI can significantly reduce the administrative burden on educators. Grading repetitive assignments and managing schedules consumes a substantial portion of a teacher's time. By automating these tasks, AI allows teachers to focus on what they do best: mentoring students and fostering critical thinking. Thus, the role of the teacher evolves from a mere transmitter of information to a facilitator of deep learning.
+To conclude, the rise of AI in education is not a threat to the teaching profession but an opportunity to enhance the quality of instruction. By embracing these technologies, we can create a more responsive and effective educational system."
 `;

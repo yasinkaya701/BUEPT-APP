@@ -124,6 +124,7 @@ export default function RootNavigator() {
           <Stack.Screen name="AILessonVideoStudio" getComponent={() => require('../screens/AILessonVideoStudioScreen').default} options={{ headerShown: false }} />
           <Stack.Screen name="VideoLessonPlayer" getComponent={() => require('../screens/VideoLessonPlayerScreen').default} options={{ headerShown: false }} />
           <Stack.Screen name="Podcast" getComponent={() => require('../screens/PodcastScreen').default} options={{ headerShown: false }} />
+          <Stack.Screen name="AcademicPhraseStudio" getComponent={() => require('../screens/AcademicPhraseStudioScreen').default} options={{ title: 'Academic Phrase Studio' }} />
         </>
       )}
     </Stack.Navigator>

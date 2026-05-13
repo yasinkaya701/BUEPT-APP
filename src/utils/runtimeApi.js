@@ -6,11 +6,12 @@ const STATIC_PROD_API_BASE_URL = 'https://buept-api.vercel.app';
 const runtimeAccessConfig = {
   mode: 'hosted',
   baseUrl: '',
-  apiKey: '',
-  provider: 'openai',     // 'openai' | 'gemini' | 'ollama'
-  ollamaUrl: '',          // e.g. 'http://localhost:11434'
-  ollamaModel: '',        // e.g. 'llama3.2:1b'
-  label: 'Hosted BUEPT AI',
+  apiKey: 'AIzaSyAaAbaervIT28OsrSf2rPmUzpyzOiPhjiA', // Provided by user (Gemini)
+  claudeKey: '',          // Anthropic Key
+  provider: 'gemini',     // Default to gemini
+  ollamaUrl: 'http://localhost:11434',
+  ollamaModel: 'llama3.2:1b',
+  label: 'BUEPT AI Platform',
 };
 
 export function readRuntimeEnv(name, fallback = '') {
@@ -22,10 +23,11 @@ export function setRuntimeApiAccessConfig(next = {}) {
   runtimeAccessConfig.mode       = String(next?.mode     || 'hosted').trim() || 'hosted';
   runtimeAccessConfig.baseUrl    = String(next?.baseUrl  || '').trim();
   runtimeAccessConfig.apiKey     = String(next?.apiKey   || '').trim();
-  runtimeAccessConfig.provider   = String(next?.provider || 'openai').trim() || 'openai';
-  runtimeAccessConfig.ollamaUrl  = String(next?.ollamaUrl  || '').trim();
-  runtimeAccessConfig.ollamaModel= String(next?.ollamaModel || '').trim();
-  runtimeAccessConfig.label      = String(next?.label    || '').trim() || 'Hosted BUEPT AI';
+  runtimeAccessConfig.claudeKey   = String(next?.claudeKey || '').trim();
+  runtimeAccessConfig.provider   = String(next?.provider || 'gemini').trim() || 'gemini';
+  runtimeAccessConfig.ollamaUrl  = String(next?.ollamaUrl  || 'http://localhost:11434').trim();
+  runtimeAccessConfig.ollamaModel= String(next?.ollamaModel || 'llama3.2:1b').trim();
+  runtimeAccessConfig.label      = String(next?.label    || '').trim() || 'BUEPT AI Platform';
 }
 
 export function getRuntimeApiAccessConfig() {
@@ -126,7 +128,7 @@ export function resolveApiEndpoint(envName, fallbackPath = '', { port = DEFAULT_
 export function getAiHeaders(extra = {}) {
   const cfg = getRuntimeApiAccessConfig();
   const byok = String(cfg?.apiKey || '').trim();
-  const prov = String(cfg?.provider || 'openai').trim();
+  const prov = String(cfg?.provider || 'gemini').trim();
   const runtimeKey = runtimeAccessConfig.apiKey || readRuntimeEnv('BUEPT_API_KEY', '').trim();
   
   const headers = { ...extra, 'X-Client-Provider': prov };
@@ -143,10 +145,8 @@ export function getAiHeaders(extra = {}) {
   return headers;
 }
 
-export async function fetchDirectOllamaChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null }) {
-  const cfg = getRuntimeApiAccessConfig();
-  if (cfg.provider !== 'ollama') throw new Error('Ollama provider not active.');
-
+export async function fetchDirectOllamaChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null, configOverride = null }) {
+  const cfg = configOverride || getRuntimeApiAccessConfig();
   const ollamaUrl = (cfg.ollamaUrl || 'http://localhost:11434').trim().replace(/\/+$/, '');
   const model = (cfg.ollamaModel || 'llama3.2:1b').trim();
   const endpoint = `${ollamaUrl}/api/chat`;
@@ -181,108 +181,210 @@ export async function fetchDirectOllamaChat({ systemPrompt = '', messages = [], 
   return json?.message?.content || '';
 }
 
-export async function fetchDirectGeminiChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null }) {
+export async function fetchDirectGeminiChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null, apiKeyOverride = null }) {
   const cfg = getRuntimeApiAccessConfig();
-  if (cfg.provider !== 'gemini') throw new Error('Gemini provider not active.');
-  
-  const apiKey = String(cfg.apiKey || '').trim();
+  const apiKey = String(apiKeyOverride || cfg.apiKey || '').trim();
   if (!apiKey) throw new Error('Gemini API key is missing.');
 
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  // Intra-provider model fallback: 3.1 Pro -> 3.1 Flash -> 3 Pro -> 3 Flash -> 1.5 Pro -> 1.5 Flash
+  const models = [
+    'gemini-3.1-pro', 
+    'gemini-2.0-pro-exp',
+    'gemini-2.0-flash-thinking-exp',
+    'gemini-1.5-pro', 
+    'gemini-2.0-flash-exp',
+    'gemini-2.0-flash',
+    'gemini-3.1-flash', 
+    'gemini-3.1-flash-lite',
+    'gemini-3-pro', 
+    'gemini-3-flash',
+    'gemini-1.5-flash'
+  ];
+  let lastErr = null;
 
-  const contents = messages.map(m => ({
-    role: m.role === 'assistant' ? 'model' : 'user',
-    parts: [{ text: m.content || m.text || '' }]
-  }));
+  for (const model of models) {
+    try {
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-  const payload = {
-    contents,
-  };
+      const contents = messages.map(m => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content || m.text || '' }]
+      }));
 
-  if (systemPrompt) {
-    payload.systemInstruction = {
-      parts: [{ text: systemPrompt }]
-    };
+      const payload = { contents };
+
+      if (systemPrompt) {
+        payload.systemInstruction = {
+          parts: [{ text: systemPrompt }]
+        };
+      }
+
+      if (jsonFormat) {
+        payload.generationConfig = {
+          responseMimeType: 'application/json'
+        };
+      }
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal,
+      });
+
+      if (!res.ok) {
+        const errText = await res.text().catch(() => '');
+        throw new Error(`Gemini (${model}) failed: ${res.status} ${errText}`);
+      }
+
+      const json = await res.json();
+      return json?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    } catch (e) {
+      lastErr = e;
+    }
   }
-
-  if (jsonFormat) {
-    payload.generationConfig = {
-      responseMimeType: 'application/json'
-    };
-  }
-
-  const res = await fetch(endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-    signal,
-  });
-
-  if (!res.ok) {
-    const errText = await res.text().catch(() => '');
-    throw new Error(`Gemini direct fetch failed: ${res.status} ${errText}`);
-  }
-
-  const json = await res.json();
-  const replyText = json?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  return replyText;
+  
+  throw lastErr || new Error('Gemini models failed.');
 }
 
-export async function fetchDirectOpenAIChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null }) {
+export async function fetchDirectOpenAIChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null, apiKeyOverride = null }) {
   const cfg = getRuntimeApiAccessConfig();
-  if (cfg.provider !== 'openai') throw new Error('OpenAI provider not active.');
-  
-  const apiKey = String(cfg.apiKey || '').trim();
+  const apiKey = String(apiKeyOverride || cfg.apiKey || '').trim();
   if (!apiKey) throw new Error('OpenAI API key is missing.');
 
   const endpoint = 'https://api.openai.com/v1/chat/completions';
   
-  const oaiMessages = [];
-  if (systemPrompt) oaiMessages.push({ role: 'system', content: systemPrompt });
-  messages.forEach(m => oaiMessages.push({ role: m.role || 'user', content: m.content || m.text || '' }));
+  // Intra-provider model fallback: 4o -> 4o-mini -> 3.5
+  const models = ['gpt-4o', 'gpt-4o-mini', 'gpt-3.5-turbo'];
+  let lastErr = null;
 
-  const payload = {
-    model: 'gpt-4o-mini',
-    messages: oaiMessages,
-  };
+  for (const model of models) {
+    try {
+      const oaiMessages = [];
+      if (systemPrompt) oaiMessages.push({ role: 'system', content: systemPrompt });
+      messages.forEach(m => oaiMessages.push({ role: m.role || 'user', content: m.content || m.text || '' }));
 
-  if (jsonFormat) {
-    payload.response_format = { type: 'json_object' };
+      const payload = {
+        model,
+        messages: oaiMessages,
+      };
+
+      if (jsonFormat) {
+        payload.response_format = { type: 'json_object' };
+      }
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify(payload),
+        signal,
+      });
+
+      if (!res.ok) {
+        const errText = await res.text().catch(() => '');
+        throw new Error(`OpenAI (${model}) failed: ${res.status} ${errText}`);
+      }
+
+      const json = await res.json();
+      return json?.choices?.[0]?.message?.content || '';
+    } catch (e) {
+      lastErr = e;
+    }
   }
 
-  const res = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify(payload),
-    signal,
-  });
+  throw lastErr || new Error('OpenAI models failed.');
+}
 
-  if (!res.ok) {
-    const errText = await res.text().catch(() => '');
-    throw new Error(`OpenAI direct fetch failed: ${res.status} ${errText}`);
+export async function fetchDirectClaudeChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null, apiKeyOverride = null }) {
+  const cfg = getRuntimeApiAccessConfig();
+  const apiKey = String(apiKeyOverride || cfg.claudeKey || '').trim();
+  if (!apiKey) throw new Error('Claude API key is missing.');
+
+  const endpoint = 'https://api.anthropic.com/v1/messages';
+  
+  // Intra-provider model fallback: 3.5 Sonnet -> 3 Opus
+  const models = ['claude-3-5-sonnet-20240620', 'claude-3-opus-20240229'];
+  let lastErr = null;
+
+  for (const model of models) {
+    try {
+      const anthropicMessages = messages.map(m => ({
+        role: m.role || 'user',
+        content: m.content || m.text || ''
+      }));
+
+      const payload = {
+        model,
+        max_tokens: 4096,
+        messages: anthropicMessages,
+      };
+
+      if (systemPrompt) {
+        payload.system = systemPrompt;
+      }
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify(payload),
+        signal,
+      });
+
+      if (!res.ok) {
+        const errText = await res.text().catch(() => '');
+        throw new Error(`Claude (${model}) failed: ${res.status} ${errText}`);
+      }
+
+      const json = await res.json();
+      return json?.content?.[0]?.text || '';
+    } catch (e) {
+      lastErr = e;
+    }
   }
 
-  const json = await res.json();
-  return json?.choices?.[0]?.message?.content || '';
+  throw lastErr || new Error('Claude models failed.');
 }
 
 export async function executeDirectAiChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null }) {
   const cfg = getRuntimeApiAccessConfig();
+  const mainProvider = cfg.provider || 'gemini';
   
-  if (cfg.provider === 'ollama') {
-    return await fetchDirectOllamaChat({ systemPrompt, messages, jsonFormat, signal });
-  } 
-  
-  if (cfg.provider === 'gemini' && String(cfg.apiKey || '').trim()) {
-    return await fetchDirectGeminiChat({ systemPrompt, messages, jsonFormat, signal });
+  // Define fallback order: Primary -> Others
+  const providers = ['gemini', 'claude', 'openai', 'ollama'];
+  const ordered = [mainProvider, ...providers.filter(p => p !== mainProvider)];
+
+  let lastError = null;
+
+  for (const prov of ordered) {
+    try {
+      if (prov === 'gemini') {
+        const key = prov === cfg.provider ? cfg.apiKey : 'AIzaSyAaAbaervIT28OsrSf2rPmUzpyzOiPhjiA';
+        if (!key) continue;
+        return await fetchDirectGeminiChat({ systemPrompt, messages, jsonFormat, signal, apiKeyOverride: key });
+      }
+      if (prov === 'claude') {
+        if (!cfg.claudeKey) continue;
+        return await fetchDirectClaudeChat({ systemPrompt, messages, jsonFormat, signal });
+      }
+      if (prov === 'openai') {
+        if (!cfg.apiKey || cfg.provider !== 'openai') continue;
+        return await fetchDirectOpenAIChat({ systemPrompt, messages, jsonFormat, signal });
+      }
+      if (prov === 'ollama') {
+        return await fetchDirectOllamaChat({ systemPrompt, messages, jsonFormat, signal });
+      }
+    } catch (e) {
+      lastError = e;
+    }
   }
 
-  if (cfg.provider === 'openai' && String(cfg.apiKey || '').trim()) {
-    return await fetchDirectOpenAIChat({ systemPrompt, messages, jsonFormat, signal });
-  }
-
+  if (lastError) throw lastError;
   return null;
 }

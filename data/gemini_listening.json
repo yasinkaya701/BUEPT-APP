@@ -1,0 +1,478 @@
+[
+  {
+    "id": "LIST_GEMINI_01",
+    "title": "Gemini BUEPT Mock: Cognitive Linguistics & Thought",
+    "type": "careful",
+    "level": "C1",
+    "time": "12 min",
+    "category": "Linguistics",
+    "transcript": "[Introduction: The Sapir-Whorf Hypothesis]\nIn today's lecture, I would like to talk about the profound connection between the words we speak and the way we perceive reality. For centuries, philosophers assumed that language was merely a tool used to express pre-existing thoughts. In other words, they believed that thought comes first, and language simply translates it. However, in the 1930s, two linguists named Edward Sapir and Benjamin Lee Whorf proposed a revolutionary idea. They argued that language does not just express thought; it actively creates and restricts it.\n\nThis idea is known as the Sapir-Whorf Hypothesis. In modern linguistics, there are two versions of this theory. The \"Strong Version\", also known as Linguistic Determinism, claims that language completely controls thought, meaning you cannot think of a concept if you do not have a word for it. Today, cognitive scientists largely reject the Strong Version. Instead, they accept the \"Weak Version\", known as Linguistic Relativity. Linguistic Relativity suggests that language does not strictly control thought, but it significantly influences what we pay attention to. So, in this lecture, I would like to focus on three distinct aspects where language alters human cognition. These aspects are:\n\n1. Color Perception\n2. Spatial Orientation\n3. The Memory of Accidents and Blame\n\n[Aspect 1: Color Perception]\nLet us start with the first aspect, which is color perception. How does your native language affect your biological vision? To answer this, researchers compared English speakers with Russian speakers. In English, there is only one basic word for the color blue. You can say \"light blue\" or \"dark blue\", but linguistically, they belong to the same category.\n\nIn contrast, the Russian language does not have a single word for blue. Russian forces its speakers to divide the color into two distinct categories: \"goluboy\" for light blue, and \"siniy\" for dark blue. You might think this is just a matter of vocabulary, but the biological consequence is fascinating. When scientists tested the visual reflexes of these two groups, they found that Russian speakers were physically much faster at distinguishing shades of blue than English speakers. Because the Russian brain is constantly forced to categorize these colors in daily speech, their visual cortex has developed a heightened sensitivity to color boundaries.\n\n[Aspect 2: Spatial Orientation]\nHaving talked about color, let us now move on to the second aspect: spatial orientation. Think about how you give directions. In English, we use \"egocentric coordinates\". We say things like, \"The cup is on my right,\" or \"Take a step forward.\" The direction is completely dependent on the position of the speaker's body.\n\nHowever, there is an Aboriginal tribe in Australia that speaks a language called Guugu Yimithirr. This language completely lacks egocentric words like \"left\" or \"right\". Instead, they exclusively use \"geocentric coordinates\"—meaning they rely purely on the cardinal directions: North, South, East, and West. A speaker of this language wouldn't say, \"There is a bug on your left leg\"; they would say, \"There is a bug on your southwest leg.\"\n\nWhat is the cognitive outcome of this linguistic rule? In order to speak Guugu Yimithirr fluently, a person must constantly track their exact position on earth, every second of the day. Consequently, speakers of geocentric languages develop a flawless internal compass. Their brains possess an extraordinary level of spatial memory, allowing them to navigate complex jungles without ever getting lost.\n\n[Aspect 3: The Memory of Accidents and Blame]\nWe may now move on to the third and perhaps most socially impactful aspect: how language affects our memory of events and our assignment of blame. Let us compare English with languages like Spanish and Japanese.\n\nIn English, grammar requires the speaker to emphasize the \"agent\"—the person who did the action. If a man accidentally breaks a vase, an English speaker will naturally say, \"John broke the vase.\" The language forces you to identify the actor, even if it was a total accident. In contrast, Spanish and Japanese grammar allow speakers to easily drop the agent if the action was accidental. A Spanish speaker witnessing the same event would naturally say, \"The vase broke itself,\" or \"The vase was broken.\"\n\nBecause of this grammatical difference, a massive shift in memory occurs. In psychological experiments, when shown a video of accidental events, English speakers were highly accurate at remembering *who* caused the accident. Because their language focuses on agency, they naturally assign blame. On the other hand, Spanish and Japanese speakers struggled to remember the face of the person who caused the accident, but they perfectly remembered the details of the environment.\n\n[Conclusion: The Extinction of Cognition]\nBefore I end my lecture, I would like to highlight the tragic reality of globalization. Today, a language dies every 14 days. When people hear this, they usually think we are just losing a dictionary of words. But as cognitive linguistics proves, a language is not just a vocabulary list; it is a unique operating system for the human mind. When a language goes extinct, we do not just lose words; we lose a fundamentally different way of seeing the world.",
+    "questions": [
+      {
+        "type": "Contrast",
+        "q": "What is the fundamental difference between the \"Strong Version\" and the \"Weak Version\" of the Sapir-Whorf Hypothesis?",
+        "answer": ["The Strong Version claims language completely controls thought, while the Weak Version claims it only influences what we pay attention to."],
+        "skill": "detail",
+        "explain": "BUEPT frequently tests contrasts between two related theories."
+      },
+      {
+        "type": "Detail",
+        "q": "According to the lecture, what is the biological consequence of having two distinct words for \"blue\" in the Russian language?",
+        "answer": ["Russian speakers are physically much faster at distinguishing shades of blue", "Their visual cortex has developed a heightened sensitivity to color boundaries"],
+        "skill": "detail",
+        "explain": "Focuses on the consequence (biological result) rather than just vocabulary."
+      },
+      {
+        "type": "Detail",
+        "q": "What kind of spatial coordinates do English speakers use when giving directions?",
+        "answer": ["egocentric coordinates"],
+        "skill": "vocabulary",
+        "explain": "Terminology question regarding the body-relative system."
+      },
+      {
+        "type": "Detail",
+        "q": "What specific cognitive ability do speakers of \"geocentric\" languages develop in order to speak their language fluently?",
+        "answer": ["a flawless internal compass", "extraordinary level of spatial memory"],
+        "skill": "detail",
+        "explain": "Cause-effect: tracking cardinal directions leads to enhanced spatial navigation."
+      },
+      {
+        "type": "Inference",
+        "q": "In a hypothetical case where an English and Japanese tourist witness a museum guard accidentally break a statue, what will the English tourist remember more clearly?",
+        "answer": ["The face of the person who caused the accident", "who caused the accident"],
+        "skill": "inference",
+        "explain": "English grammar focuses on agency, leading to better memory of the actor."
+      },
+      {
+        "type": "Inference",
+        "q": "Why might a Japanese tourist struggle to remember the person who caused an accident in the scenario mentioned above?",
+        "answer": ["Because Japanese grammar allows speakers to drop the agent if the action was accidental"],
+        "skill": "inference",
+        "explain": "Refers to the grammatical feature of hiding the agent."
+      },
+      {
+        "type": "Detail",
+        "q": "According to the conclusion, what does humanity actually lose when a language goes extinct?",
+        "answer": ["A fundamentally different way of seeing the world", "a unique operating system for the human mind"],
+        "skill": "detail",
+        "explain": "Emphasizes that language extinction is more than just losing words."
+      },
+      {
+        "type": "Synthesis",
+        "q": "Which of the following actions is the best example of Linguistic Determinism (The Strong Version)?",
+        "answer": ["A person being completely unable to understand the concept of \"freedom\" because their language has no word for it"],
+        "skill": "synthesis",
+        "explain": "Tests the core definition: no word = no concept."
+      }
+    ]
+  },
+  {
+    "id": "LIST_GEMINI_02",
+    "title": "Gemini BUEPT Mock: Media Sociology & Echo Chambers",
+    "type": "careful",
+    "level": "C1",
+    "time": "13 min",
+    "category": "Sociology",
+    "transcript": "[Introduction: The Utopian Myth vs. Reality]\nIn today's lecture, I would like to talk about how modern technology shapes our perception of reality and truth. In the early days of the internet, sociologists held a very utopian belief. They assumed that the internet would serve as an open marketplace of ideas. The expectation was that because people would have access to unlimited information, society would become more tolerant and open-minded. However, modern media sociology proves that the exact opposite has happened. Instead of becoming open-minded, modern society has become deeply polarized. To understand why this utopian dream failed, we must analyze how digital platforms actually operate. So, in this lecture, I would like to focus on three distinct mechanisms of the digital information age. These mechanisms are:\n\n1. Algorithmic Curation and The Filter Bubble\n2. The Echo Chamber and Confirmation Bias\n3. The Outrage Metric and Radicalization\n\n[Aspect 1: Algorithmic Curation and The Filter Bubble]\nLet us start with the first mechanism, which is algorithmic curation. When you open a social media platform, you do not see the entire internet. You only see a very small fraction of it. The content you see is carefully selected by artificial intelligence. This selection process is called algorithmic curation. But what is the primary goal of this algorithm? The algorithm does not care about truth, education, or mental health. Its only metric of success is \"engagement\"—meaning how much time you spend on the screen.\n\nTo maximize engagement, the algorithm monitors your clicks and likes, and then exclusively shows you content that you already agree with. Internet activist Eli Pariser coined a specific term for this phenomenon: the \"Filter Bubble\". A filter bubble is a state of intellectual isolation. Because the algorithm systematically hides opposing views and uncomfortable facts, the user falsely believes that the entire world shares their exact political and social opinions. The major consequence of living inside a filter bubble is a complete loss of objective reality.\n\n[Aspect 2: The Echo Chamber and Confirmation Bias]\nHaving talked about the technological side, let us now move on to the second mechanism, which deals with the psychological side: The Echo Chamber. While the filter bubble is created by the machine, the echo chamber is created by the human brain.\n\nEven if an algorithm accidentally shows a user an opposing viewpoint, the user usually rejects it. This brings us to a psychological concept known as \"Confirmation Bias\". Confirmation bias is the human tendency to embrace information that supports our pre-existing beliefs, while completely ignoring or rejecting any factual evidence that contradicts them. When confirmation bias is amplified by digital platforms, it creates an Echo Chamber. Inside an echo chamber, users only talk to people who share their exact ideology. Any outsider who brings different data is immediately attacked and labeled as an enemy. Consequently, this psychological dynamic destroys healthy democratic debate and replaces it with hostile tribalism.\n\n[Aspect 3: The Outrage Metric and Radicalization]\nWe may now move on to the third and perhaps most dangerous aspect: The Outrage Metric. As I mentioned earlier, the sole purpose of the algorithm is to maximize engagement. But social scientists asked a critical question: What human emotion drives the highest level of engagement?\n\nYou might expect it to be joy, inspiration, or curiosity. However, data analysis reveals a dark biological truth. The emotion that keeps human beings glued to their screens the longest is anger. Studies indicate that posts containing moral outrage, anger, and fear spread six times faster than positive or neutral posts. Because the algorithm recognizes that anger equals more screen time, it actively promotes highly controversial and extreme content.\n\nThis leads to a dangerous process known as \"algorithmic radicalization\". Let me explain how this works. If a user watches a mildly conservative video, the algorithm will next recommend a highly extreme conservative video. If a user watches a mildly liberal video, the algorithm pushes them towards extreme radical left videos. The system systematically pushes ordinary people towards the extreme ends of the political spectrum simply to keep them outraged and engaged.\n\n[Conclusion: Information Diets and Digital Serendipity]\nBefore I end my lecture, I would like to offer a sociological solution to this crisis. Just as we monitor the food we put into our bodies, sociologists suggest we must monitor our \"information diets\". If an individual only consumes content that makes them feel angry or validated, their intellectual health will decline. To combat the filter bubble, researchers advocate for the practice of \"digital serendipity\". Digital serendipity means intentionally seeking out random, opposing ideas and reading authors you completely disagree with. Without this intentional effort, we will remain trapped in our algorithmic cages.",
+    "questions": [
+      {
+        "type": "Detail",
+        "q": "What was the initial \"utopian belief\" that early sociologists held regarding the internet?",
+        "answer": ["That it would serve as an open marketplace of ideas", "That society would become more tolerant and open-minded"],
+        "skill": "detail",
+        "explain": "Refers to the failed expectation of early internet theorists."
+      },
+      {
+        "type": "Detail",
+        "q": "What is the sole metric of success for social media algorithms when they curate content?",
+        "answer": ["engagement", "how much time you spend on the screen"],
+        "skill": "detail",
+        "explain": "The model ignores truth or education in favor of screen time."
+      },
+      {
+        "type": "Detail",
+        "q": "According to Eli Pariser, what is the major consequence of living inside a \"Filter Bubble\"?",
+        "answer": ["a complete loss of objective reality"],
+        "skill": "detail",
+        "explain": "Distinguishes the definition (isolation) from the consequence (loss of reality)."
+      },
+      {
+        "type": "Inference",
+        "q": "If David ignores 50 pages of evidence that coffee is safe and uses one paragraph of doubt to justify his fear, what psychological concept is he exhibiting?",
+        "answer": ["Confirmation Bias"],
+        "skill": "inference",
+        "explain": "Application of the concept: embracing confirming info, ignoring contradictory data."
+      },
+      {
+        "type": "Contrast",
+        "q": "In the context of the lecture, what is the fundamental difference between a \"Filter Bubble\" and an \"Echo Chamber\"?",
+        "answer": ["The filter bubble is created by the machine/algorithm, while the echo chamber is created by the human brain"],
+        "skill": "detail",
+        "explain": "A common BUEPT contrast question between similar concepts."
+      },
+      {
+        "type": "Detail",
+        "q": "According to data analysis, why do algorithms actively promote content that triggers moral outrage and fear?",
+        "answer": ["Because anger is the emotion that keeps human beings glued to their screens the longest", "anger equals more screen time"],
+        "skill": "detail",
+        "explain": "Root cause: anger maximizes engagement metrics."
+      },
+      {
+        "type": "Definition",
+        "q": "What is the specific term used to describe the process where a recommendation system pushes an ordinary user towards extreme political views?",
+        "answer": ["algorithmic radicalization"],
+        "skill": "vocabulary",
+        "explain": "Terminology for the shift toward political extremes via algorithms."
+      },
+      {
+        "type": "Synthesis",
+        "q": "Which of the following actions is the best example of \"digital serendipity\"?",
+        "answer": ["A user actively reading a newspaper column written by an author they strongly disagree with"],
+        "skill": "synthesis",
+        "explain": "Tests the definition: intentionally seeking opposing viewpoints."
+      }
+    ]
+  },
+  {
+    "id": "LIST_GEMINI_03",
+    "title": "Gemini BUEPT Mock: Cultural Anthropology & Perception of Time",
+    "type": "careful",
+    "level": "C1",
+    "time": "14 min",
+    "category": "Anthropology",
+    "transcript": "[Introduction: The Cultural Construct of Time]\nIn today's lecture, I would like to talk about a concept that dictates our daily lives but is rarely questioned. The point in question is our perception of time. Most people believe that time is a universal constant. We assume that one hour in Tokyo feels the same and means the same as one hour in Mexico City. However, the famous anthropologist Edward T. Hall argued that time is not a universal constant; rather, it is a strict cultural construct. According to Hall, different societies have evolved completely different neurological and sociological ways of processing time.\n\nTo understand these differences, Hall categorized the world into two distinct time systems. So, in this lecture, I would like to focus on the comparison between these two systems and the conflicts they create. These two systems are:\n\n1. Monochronic Time (M-Time)\n2. Polychronic Time (P-Time)\n\n[Aspect 1: Monochronic Time (M-Time)]\nLet us start with the first system, which is Monochronic Time, often abbreviated as M-Time. M-Time is predominantly found in North America, Northern Europe, and Germany. In monochronic cultures, people conceptualize time as something tangible and linear. They talk about time as if it were money. You can \"spend\" time, \"waste\" time, or \"save\" time. Because time is viewed as a limited physical resource, the ultimate goal in these cultures is strict scheduling.\n\nIn an M-Time society, people do one thing at a time. The schedule is treated as a sacred text. If a meeting is set from 9:00 to 10:00, it must end exactly at 10:00, regardless of whether the topic has been fully discussed. Furthermore, because M-Time individuals focus intensely on the specific task at hand, they view interruptions as highly disrespectful. If you interrupt a monochronic manager while they are writing an email, they will perceive it as a violation of their privacy and a disruption of their linear flow.\n\n[Aspect 2: Polychronic Time (P-Time)]\nHaving discussed M-Time, let us now move on to the second system: Polychronic Time, or P-Time. P-Time is generally found in Latin America, the Middle East, and Mediterranean countries. In contrast to M-Time cultures, people in polychronic cultures view time as fluid and circular. Time is not a tangible resource that runs out; it is an infinite cycle.\n\nBecause of this fluid perception, P-Time individuals naturally multi-task. It is completely normal for a person to hold three different conversations while eating and answering a phone call. The most crucial difference, however, lies in their priorities. In P-Time cultures, human relationships are always prioritized over strict adherence to the clock. For instance, if a polychronic person meets an old friend on the way to a business meeting, they will stop and talk, even if it makes them 30 minutes late. In this culture, leaving a friend abruptly just to be on time for a meeting is considered incredibly rude. Consequently, in P-Time societies, interruptions are not seen as disrespectful; they are expected and welcomed as a natural part of human interaction.\n\n[Aspect 3: Cross-Cultural Conflicts]\nWe may now move on to the third aspect, which is what happens when these two systems collide in the global business world. When an M-Time person works with a P-Time person, massive misunderstandings occur.\n\nImagine an M-Time manager from Germany trying to conduct a performance review with a P-Time employee from Brazil. The M-Time manager wants to get straight to the point, discuss the statistics, and finish in 15 minutes. However, the P-Time employee expects to spend the first 10 minutes discussing family, health, and social matters before talking about business. Because the German manager refuses to socialize and strictly looks at the clock, the Brazilian employee feels deeply alienated. The P-Time employee concludes that the manager is cold, uncaring, and values paper schedules more than human beings. Conversely, the M-Time manager concludes that the P-Time employee is undisciplined and unprofessional because they constantly go off-topic.\n\n[Aspect 4: The Impact of the Digital Era]\nBefore I end my lecture, I must address how modern technology is disrupting these ancient cultural systems. Today, smartphones and constant internet connectivity are forcing Monochronic cultures to adopt Polychronic behaviors. Even in highly M-Time societies, workers are now expected to answer emails while in meetings, effectively multi-tasking.\n\nThis technological shift has created a modern psychological crisis. Sociologists use a specific term to describe the fragmented periods of our modern digital life; they call it \"time-confetti\". Our time is torn into tiny, scattered pieces by constant notifications. While P-Time individuals can handle this reasonably well, this digital environment causes severe burnout specifically for individuals from M-Time cultures. The reason for this burnout is neurological: M-Time brains are strictly wired for linear task completion. When technology prevents them from finishing one task before starting another, they experience chronic cognitive stress.",
+    "questions": [
+      {
+        "type": "Detail",
+        "q": "According to Edward T. Hall, what is a common misconception that most people hold about time?",
+        "answer": ["That time is a universal constant"],
+        "skill": "detail",
+        "explain": "Hall argues it's a cultural construct instead."
+      },
+      {
+        "type": "Detail",
+        "q": "In Monochronic cultures, why is the schedule treated as a \"sacred text\"?",
+        "answer": ["Because time is viewed as a limited physical resource", "time is tangible and linear"],
+        "skill": "detail",
+        "explain": "The view of time as a physical asset drives the strict scheduling."
+      },
+      {
+        "type": "Detail",
+        "q": "According to the lecture, what do individuals from P-Time cultures naturally do because they perceive time as fluid and circular?",
+        "answer": ["multi-task"],
+        "skill": "detail",
+        "explain": "Fluid perception leads directly to the behavior of multi-tasking."
+      },
+      {
+        "type": "Detail",
+        "q": "Why are interruptions NOT considered disrespectful in Polychronic (P-Time) societies?",
+        "answer": ["Because they are expected and welcomed as a natural part of human interaction", "human relationships are prioritized over the clock"],
+        "skill": "detail",
+        "explain": "Social priority overrules the linear task flow."
+      },
+      {
+        "type": "Inference",
+        "q": "If a manager from an M-Time culture heavily punishes a P-Time construction team for being late and chatting, what will the team most likely think of him?",
+        "answer": ["They will conclude that he is cold, uncaring, and values paper schedules more than human beings"],
+        "skill": "inference",
+        "explain": "The mismatch in values leads to specific negative social perceptions."
+      },
+      {
+        "type": "Definition",
+        "q": "What specific sociological term is used to describe the tiny, scattered pieces of time caused by constant smartphone notifications?",
+        "answer": ["time-confetti"],
+        "skill": "vocabulary",
+        "explain": "Technical term for fragmented digital time."
+      },
+      {
+        "type": "Detail",
+        "q": "Why does the modern digital environment cause \"severe burnout\" specifically for people from M-Time cultures?",
+        "answer": ["Because their brains are strictly wired for linear task completion"],
+        "skill": "detail",
+        "explain": "Neurological wiring for one task at a time clashes with digital multi-tasking."
+      },
+      {
+        "type": "Synthesis",
+        "q": "Which of the following scenarios is MOST likely to occur in a deeply Polychronic (P-Time) culture?",
+        "answer": ["A doctor consults with a patient while simultaneously chatting with a nurse and answering a text message"],
+        "skill": "synthesis",
+        "explain": "Tests the multi-tasking and human-centric nature of P-Time."
+      }
+    ]
+  },
+  {
+    "id": "LIST_GEMINI_04",
+    "title": "Gemini BUEPT Mock: Evolutionary Anthropology & Dunbar Number",
+    "type": "careful",
+    "level": "C1",
+    "time": "15 min",
+    "category": "Anthropology",
+    "transcript": "[Introduction: The Mystery of the Human Brain]\nIn today's lecture, I would like to talk about the evolution of human social networks and the biological limits of our communication. For many decades, anthropologists tried to answer one fundamental question: Why is the human brain so incredibly large compared to other mammals? The human brain consumes about 20% of the body's energy, which is a massive biological cost. To explain this, scientists proposed two main theories. The first was the Ecological Hypothesis, which suggested that humans needed large brains to invent tools and hunt effectively. However, modern anthropology largely rejects this. Today, the widely accepted theory is the Social Brain Hypothesis. According to the Social Brain Hypothesis, the primary reason for the massive size of the human brain is to manage complex social relationships. So, in this lecture, I would like to focus on three factual aspects of this hypothesis. These aspects are:\n\n1. The Neocortex Ratio\n2. The Dunbar Number\n3. The Mechanism of Vocal Grooming\n\n[Aspect 1: The Neocortex Ratio]\nLet us start with the first aspect, which is the neocortex ratio. The neocortex is the outermost layer of the brain, responsible for conscious thought, language, and spatial reasoning. In the 1990s, an anthropologist named Robin Dunbar began measuring the brains of various primate species, such as monkeys and chimpanzees. He was looking for a pattern.\n\nDunbar discovered something fascinating. He found that the overall size of a primate's body or the environment they lived in did not predict their brain size. Instead, he found that the size of the neocortex strictly correlates with the size of the social group the primate lives in. If a monkey species naturally lives in a group of twenty, their neocortex is relatively small. If another species lives in a group of fifty, their neocortex is much larger. The implication here is clear: keeping track of who is friends with whom, who is an enemy, and who owes a favor requires massive computing power. The larger the group, the more neurological hardware is needed to prevent social chaos.\n\n[Aspect 2: The Dunbar Number]\nHaving talked about the neocortex ratio in primates, let us now move on to the second aspect: applying this data to humans. Robin Dunbar took the mathematical ratio he found in primates and applied it to the size of the human brain. He wanted to calculate the natural group size for our species. The mathematical result he reached was exactly 150.\n\nThis figure, 150, is now famously known as the \"Dunbar Number\". But what exactly does this number represent? The Dunbar Number is the absolute cognitive limit to the number of individuals with whom any one person can maintain stable, meaningful social relationships. A meaningful relationship is defined as knowing who the person is and how they relate to every other person in the group.\n\nHistorically, this number appears everywhere. Ancient hunter-gatherer tribes typically consisted of about 150 people. The basic unit of the modern professional military, the company, is strictly limited to 150 soldiers. But what happens if a group exceeds this number? According to Dunbar, going beyond 150 individuals naturally leads to a breakdown in social cohesion. If a community grows to 200 or 300 people, peer pressure and personal relationships are no longer enough to maintain order. Therefore, to prevent a collapse, larger groups are forced to implement artificial structures, such as formal rules, written laws, and strict hierarchies.\n\n[Aspect 3: Physical vs. Vocal Grooming]\nWe may now move on to the third aspect, which explains how these groups stay together. How do primates build trust? They use a mechanism called physical grooming, which involves picking insects and dirt out of each other's fur. Physical grooming is not just about hygiene. Whenever primates groom each other, their brains release specific chemicals called endorphins. These endorphins create a feeling of intense pleasure and biological bonding.\n\nHowever, physical grooming comes with a severe time constraint. A primate can only groom one individual at a time. Studies indicate that to maintain a group of 50, a chimpanzee must spend 20% of its day just grooming others. Now, let us apply this to the human group size of 150. If humans used physical grooming to maintain their relationships, it would take up 40% of their day. Because they also need to hunt and sleep, this is considered a biological impossibility.\n\nTo solve this time crisis, human beings had to evolve a new, more efficient mechanism. Evolutionary anthropologists believe this is the original function of human language. Language acts as \"vocal grooming\". In contrast to physical grooming, which is strictly one-to-one, vocal grooming allows a single person to bond with three or four people simultaneously by telling a story or sharing gossip. Language allowed early humans to trigger the release of endorphins in multiple people at the same time, making groups of 150 possible.\n\n[Conclusion: The Digital Illusion]\nBefore I end my lecture, I would like to address a modern question. Do digital networks like Facebook and Twitter allow us to break the Dunbar Number? Many users today boast about having thousands of online friends. However, recent data analysis of social media platforms reveals an interesting truth. While a user might have 2,000 connections, the number of people they actually interact with regularly—by sending direct messages or leaving meaningful comments—remains strictly around 150. Despite all our advanced digital tools, our social networks are still fundamentally limited by our biology.",
+    "questions": [
+      {
+        "type": "Detail",
+        "q": "According to the Social Brain Hypothesis, what is the primary reason human beings evolved such massive brains?",
+        "answer": ["to manage complex social relationships"],
+        "skill": "detail",
+        "explain": "The Ecological Hypothesis (tools/hunting) is the distractor."
+      },
+      {
+        "type": "Detail",
+        "q": "According to Robin Dunbar's research on primates, what specific part of the brain strictly correlates with the size of a social group?",
+        "answer": ["the neocortex"],
+        "skill": "detail",
+        "explain": "Focuses on the specific neurological hardware required for social tracking."
+      },
+      {
+        "type": "Definition",
+        "q": "What does the \"Dunbar Number\" (150) represent in terms of human psychology?",
+        "answer": ["The absolute cognitive limit to the number of individuals with whom a person can maintain stable/meaningful relationships"],
+        "skill": "vocabulary",
+        "explain": "A core definition in evolutionary anthropology."
+      },
+      {
+        "type": "Inference",
+        "q": "If a technology start-up grows from 60 to 210 employees and experiences a breakdown in communication, what must the company implement to prevent a total collapse?",
+        "answer": ["formal rules", "written laws", "strict hierarchies"],
+        "skill": "inference",
+        "explain": "Applying the theory: groups over 150 require artificial structures for order."
+      },
+      {
+        "type": "Detail",
+        "q": "During physical grooming, what specific chemical is released in the brain to create a feeling of pleasure and biological bonding?",
+        "answer": ["endorphins"],
+        "skill": "detail",
+        "explain": "Specific biological detail often tested in Careful Listening."
+      },
+      {
+        "type": "Detail",
+        "q": "Why is it considered a \"biological impossibility\" for humans to use physical grooming to maintain a group of 150 people?",
+        "answer": ["Because it would take up 40% of their day", "It takes too much time"],
+        "skill": "detail",
+        "explain": "Refers to the time constraint of one-to-one physical interaction."
+      },
+      {
+        "type": "Contrast",
+        "q": "What is the primary advantage of \"vocal grooming\" (language) over physical grooming?",
+        "answer": ["It allows a single person to bond with multiple people simultaneously"],
+        "skill": "detail",
+        "explain": "Contrasts the one-to-one nature of physical grooming with the one-to-many efficiency of language."
+      },
+      {
+        "type": "Synthesis",
+        "q": "Which of the following statements is true regarding modern social media users?",
+        "answer": ["The number of people they maintain meaningful interactions with is still limited by biology"],
+        "skill": "synthesis",
+        "explain": "Synthesizes the conclusion: technology hasn't broken the biological limit."
+      }
+    ]
+  },
+  {
+    "id": "LIST_GEMINI_05",
+    "title": "Gemini BUEPT Mock: Cognitive Science & Neuroplasticity",
+    "type": "careful",
+    "level": "C1",
+    "time": "12 min",
+    "category": "Cognitive Science",
+    "transcript": "[Introduction: The Concept of Neuroplasticity]\nIn today's lecture, I would like to talk about the physical architecture of the human brain and how modern technology is reshaping it. For many decades, traditional neuroscience held a rigid belief about the brain. Scientists believed that the brain's physical structure was entirely fixed and unchangeable after early childhood. However, modern cognitive science has completely disproved this. Today, we know that the brain is highly malleable. This ability of the brain to continuously reorganize its neural pathways throughout a person's life is called \"neuroplasticity\". Every time we learn a new skill or change a habit, the brain physically rewires itself. So, in this lecture, I would like to focus on three factual aspects of how digital technology is rewiring our neural pathways. These aspects are:\n\n1. Cognitive Offloading\n2. The Myth of Multitasking\n3. Spatial Memory Disruption\n\n[Aspect 1: Cognitive Offloading]\nLet us start with the first aspect, which is cognitive offloading. Cognitive offloading is the psychological process of using external devices to store information, rather than using our internal biological memory. Think about phone numbers. Thirty years ago, an average adult memorized dozens of phone numbers. Today, our smartphones do this for us. We have \"offloaded\" this cognitive task to a machine.\n\nWhile this seems efficient, it has a serious consequence, which researchers call the \"Google Effect\" or \"Digital Amnesia\". According to a study by Columbia University, when people know that information is easily accessible online, their brains automatically stop trying to store the actual facts. Instead, the brain only remembers *where* to find the information. For example, if you read a historical fact on a website, your brain doesn't remember the fact itself; it only remembers the name of the website. Because the brain is a highly efficient organ, it deletes what it considers unnecessary data, leading to a significant drop in our capacity for long-term factual recall.\n\n[Aspect 2: The Myth of Multitasking]\nHaving talked about cognitive offloading, let us now move on to the second aspect: the myth of multitasking. Many digital users, especially young professionals, claim they can text, watch a video, and write an essay at the same time. However, neuroscientists have proven that human multitasking is a biological impossibility. The cerebral cortex can only focus on one complex task at a time.\n\nWhat we are actually doing is not multitasking, but \"rapid task-switching\". The brain is rapidly shifting its attention from the phone, to the video, to the essay in fractions of a second. This constant shifting comes with a severe biological cost known as the \"cognitive switching penalty\". Every time you switch tasks, your brain consumes extra glucose, which is its primary fuel. The major consequence of this glucose depletion is rapid mental exhaustion. Furthermore, studies indicate that chronic task-switchers completely lose their ability to filter out irrelevant information, making it physically impossible for them to engage in deep, uninterrupted learning.\n\n[Aspect 3: Spatial Memory Disruption]\nWe may now move on to the third aspect, which is spatial memory disruption. This aspect explains the difference between reading physical books and reading digital screens. In human evolution, our memory was strictly tied to physical geography. We remembered where a river was, or where a fruit tree grew. This is called spatial memory.\n\nWhen you read a physical book, your brain uses spatial memory to map the information. You remember that a specific quote was located at the bottom left of the right-hand page. This physical map helps the brain consolidate the information into long-term memory. In contrast to physical books, digital screens require constant scrolling. When you scroll down a web page or a PDF document, the text continuously moves, so there is no fixed physical location for the brain to map. Because scrolling destroys spatial anchors, digital readers suffer from significantly lower reading comprehension compared to print readers.\n\n[Conclusion: Digital Hygiene]\nBefore I end my lecture, I must emphasize that technology itself is not neurologically toxic. The brain adapts to whatever environment we provide. If we provide a chaotic digital environment, the brain adapts by becoming easily distracted. To maintain a healthy neural architecture, cognitive scientists propose a concept called \"digital hygiene\". Digital hygiene involves taking intentional, offline breaks and focusing on single, prolonged tasks to force the brain to strengthen its deep-focus neural pathways.",
+    "questions": [
+      {
+        "type": "Detail",
+        "q": "What was the mistaken belief held by traditional neuroscience regarding the human brain?",
+        "answer": ["That its physical structure was entirely fixed", "un)changeable after early childhood"],
+        "skill": "detail",
+        "explain": "Traditional vs. Modern view contrast."
+      },
+      {
+        "type": "Detail",
+        "q": "According to the \"Google Effect\", what does the human brain specifically remember when exposed to easily accessible online data?",
+        "answer": ["It only remembers where to find the information"],
+        "skill": "detail",
+        "explain": "The brain prioritizes location over the factual content itself."
+      },
+      {
+        "type": "Inference",
+        "q": "If Michael remembers the names of the files containing math formulas but not the formulas themselves, what specific phenomenon is he experiencing?",
+        "answer": ["Cognitive Offloading", "The Google Effect", "Digital Amnesia"],
+        "skill": "inference",
+        "explain": "Application of the cognitive offloading concept to a test scenario."
+      },
+      {
+        "type": "Detail",
+        "q": "Why is human multitasking considered a \"biological impossibility\" by neuroscientists?",
+        "answer": ["Because the cerebral cortex can only focus on one complex task at a time"],
+        "skill": "detail",
+        "explain": "Focuses on the limitation of the cerebral cortex."
+      },
+      {
+        "type": "Detail",
+        "q": "What is the primary biological cause of the rapid mental exhaustion experienced during \"task-switching\"?",
+        "answer": ["The consumption of extra glucose", "glucose depletion"],
+        "skill": "detail",
+        "explain": "Specific biological root cause for exhaustion."
+      },
+      {
+        "type": "Detail",
+        "q": "What ability do chronic task-switchers completely lose, making deep learning impossible?",
+        "answer": ["The ability to filter out irrelevant information"],
+        "skill": "detail",
+        "explain": "A key cognitive loss for those who switch tasks frequently."
+      },
+      {
+        "type": "Detail",
+        "q": "Unlike digital screens, what does reading a physical book provide that helps the brain consolidate information?",
+        "answer": ["spatial memory", "spatial anchors", "a fixed physical location"],
+        "skill": "detail",
+        "explain": "Refers to the physical mapping of info in books."
+      },
+      {
+        "type": "Synthesis",
+        "q": "Which of the following best represents the practice of \"digital hygiene\"?",
+        "answer": ["Turning off all digital notifications to read a physical textbook for two hours without interruption"],
+        "skill": "synthesis",
+        "explain": "Tests the concept: intentional breaks and prolonged focus."
+      }
+    ]
+  },
+  {
+    "id": "LIST_GEMINI_06",
+    "title": "Gemini BUEPT Mock: Behavioral Economics & Pricing Strategies",
+    "type": "careful",
+    "level": "C1",
+    "time": "11 min",
+    "category": "Economics",
+    "transcript": "[Introduction: The Myth of Rationality]\nIn today's lecture, I would like to talk about the psychological strategies companies use to manipulate our purchasing decisions. Traditional economics assumes that human beings are completely rational. It claims that before buying a product, a person carefully calculates its true value. However, modern behavioral economics views this very differently. According to behavioral economists, our purchasing decisions are rarely rational; they are highly emotional and easily manipulated by context. A good way to analyze this manipulation is to study the specific pricing strategies used by retail companies. So, in this lecture, I would like to focus on three distinct cognitive traps used in pricing. These traps are:\n\n1. The Anchoring Effect\n2. The Decoy Effect\n3. Artificial Scarcity\n\n[Trap 1: The Anchoring Effect]\nLet us start with the first strategy, which is the anchoring effect. Anchoring is a cognitive bias where a person relies too heavily on the first piece of information they receive. In retail, this initial information is usually a very high original price. Imagine walking into a store and seeing a jacket. The price tag says $500, but there is a red line drawn through it, and the new price is written as $200. The message here is explicitly designed to manipulate your perception. Because your brain was first \"anchored\" to the high number of $500, the $200 seems like a massive bargain.\n\nOne major consequence of the anchoring effect is an increased willingness to pay. If the jacket was originally just listed as $200 without the crossed-out $500, you might think it is too expensive. But the anchor changes your reference point, making you feel like you are saving $300 rather than spending $200.\n\n[Trap 2: The Decoy Effect]\nHaving talked about anchoring, let us now move on to the second strategy, which is the decoy effect. This is also known in psychology as \"asymmetric dominance\". The decoy effect occurs when a company forces you to choose between two options by introducing a third, completely unattractive option.\n\nLet me clarify this with a classic example. Imagine a cinema selling popcorn. They offer a Small size for $3 and a Large size for $7. Most people choose the Small because $7 seems too expensive. However, to manipulate the buyers, the cinema introduces a Medium size for $6.50. This Medium size is the \"decoy\". Nobody wants to buy a Medium for $6.50 when they can get a Large for just 50 cents more. The primary function of this decoy is not to be sold. Its sole purpose is to make the more expensive option look like a highly logical and profitable choice. By simply adding the Medium size, the cinema successfully shifts the majority of its customers from buying the Small to buying the Large.\n\n[Trap 3: Artificial Scarcity]\nWe may now move on to the third aspect, which is artificial scarcity. Unlike anchoring or decoys, which rely on price comparisons, artificial scarcity relies on time or availability. E-commerce websites frequently use this strategy. They display messages like \"Only 2 rooms left at this price!\" or they put a countdown timer on the screen showing that a discount ends in 15 minutes.\n\nThe mechanism behind artificial scarcity is deeply biological. It triggers a psychological response known as FOMO, which stands for Fear Of Missing Out. When a consumer experiences this intense fear of missing a good opportunity, a significant change happens in their brain. Because of the induced panic, consumers completely skip the logical evaluation phase. They do not stop to ask themselves, \"Do I actually need this product?\" Instead, they make impulsive, immediate purchases just to relieve the anxiety of missing out.\n\n[Conclusion: Shifting Behaviors]\nBefore I end my lecture, I would like to note what happens when consumers become aware of these traps. Studies indicate that awareness is the best defense against behavioral manipulation. As consumers become educated about concepts like decoys and anchoring, they undergo a behavioral shift. Educated consumers shift from emotional purchasing to rational purchasing. They learn to ignore original price tags and evaluate a product based on its actual utility to their lives.",
+    "questions": [
+      {
+        "type": "Detail",
+        "q": "According to traditional economics, what does a person do before buying a product?",
+        "answer": ["carefully calculates its true value"],
+        "skill": "detail",
+        "explain": "Contrasts the rational actor model with the emotional behavioral model."
+      },
+      {
+        "type": "Detail",
+        "q": "What is the main consequence of exposing a consumer to a very high \"anchor\" price?",
+        "answer": ["an increased willingness to pay"],
+        "skill": "detail",
+        "explain": "The anchor changes the reference point, making the final price look better."
+      },
+      {
+        "type": "Detail",
+        "q": "In a pricing model, what is the sole purpose of a \"decoy\" product?",
+        "answer": ["to make the more expensive option look like a highly logical choice"],
+        "skill": "detail",
+        "explain": "Decoys are not meant to be sold, but to push buyers to the premium option."
+      },
+      {
+        "type": "Inference",
+        "q": "If a software company adds a \"Plus\" subscription ($28) that has fewer features than the \"Pro\" ($30), what will be the most likely outcome?",
+        "answer": ["Most people will buy the Pro subscription", "Customers will shift from Basic to Pro"],
+        "skill": "inference",
+        "explain": "Classic application of the Decoy Effect."
+      },
+      {
+        "type": "Definition",
+        "q": "What specific psychological response is triggered when websites use countdown timers or \"limited stock\" messages?",
+        "answer": ["FOMO", "Fear Of Missing Out"],
+        "skill": "vocabulary",
+        "explain": "Technical term for the anxiety of missing an opportunity."
+      },
+      {
+        "type": "Detail",
+        "q": "Because of the panic caused by artificial scarcity, what specific phase do consumers completely skip?",
+        "answer": ["the logical evaluation phase"],
+        "skill": "detail",
+        "explain": "Panic triggers impulsive buying over rational thought."
+      },
+      {
+        "type": "Synthesis",
+        "q": "Which of the following best demonstrates the Anchoring Effect?",
+        "answer": ["Buying a $1500 television mostly because its original tag said $3500"],
+        "skill": "synthesis",
+        "explain": "Tests the core definition: first high price influences value perception."
+      },
+      {
+        "type": "Detail",
+        "q": "What behavioral shift occurs when consumers become fully educated about pricing traps?",
+        "answer": ["They shift from emotional purchasing to rational purchasing"],
+        "skill": "detail",
+        "explain": "Awareness allows users to return to logical evaluation."
+      }
+    ]
+  },
+  {
+    "id": "LIST_GEMINI_07",
+    "title": "Gemini BUEPT Mock: Game Design & Player Motivation",
+    "type": "careful",
+    "level": "C1",
+    "time": "13 min",
+    "category": "Game Design",
+    "transcript": "[Introduction: The Core of Motivation]\nIn today's lecture, I would like to talk about the psychological mechanisms that keep players engaged in digital environments. Have you ever wondered why a player might abandon a beautifully designed game after ten minutes, while spending thousands of hours in a graphically simple one? If you were to make a careful analysis of player behavior, you would see that graphics do not determine long-term engagement. The true determinant is psychological motivation. A good way to analyze this is to study the different design strategies used by developers. So, in this lecture, I would like to focus on three distinct psychological aspects of game design. These aspects are:\n\n1. Reward Scheduling\n2. Player Autonomy\n3. Social Dynamics\n\n[Aspect 1: Reward Scheduling]\nLet us start with the first aspect, which is reward scheduling, and see how different reward mechanisms affect player behavior. In traditional, linear games, developers use what we call a \"fixed-ratio schedule\". This means players know exactly what they have to do to get a reward. For example, if you kill ten monsters, you get one gold coin. The message here is predictable and explicit. One major problem with fixed-ratio schedules is that they eventually lead to boredom. Because the player can perfectly calculate the outcome, the brain stops releasing dopamine, and the player loses interest.\n\nIn contrast to linear games, modern developers prefer to use a \"variable-ratio schedule\". In this system, the rewards are randomized and unpredictable. A player might defeat a monster and get nothing, or they might defeat a monster and get a rare, legendary item. Because players never know when the big reward will drop, they display continuous engagement. This unpredictability creates a highly addictive loop, very similar to how slot machines operate.\n\n[Aspect 2: Player Autonomy]\nHaving talked about reward scheduling, let us now move on to the second aspect, which is player autonomy. Autonomy refers to the level of freedom a player has within the game world. In heavily scripted environments, autonomy is low. The game tells the player exactly where to go and what to do. However, in modern \"sandbox\" environments, autonomy is extremely high. In a sandbox game, players are not forced into a specific storyline. Instead, they are allowed to manipulate the core rules of the game engine and shape the world around them.\n\nThis high level of autonomy usually triggers a psychological phenomenon known as the \"flow state\". The flow state is a condition of deep focus and enjoyment. However, there is a catch. In order to achieve this flow state, the player must be provided with clear, self-generated sub-goals. Because if players are given absolute freedom without any underlying objectives to guide them, they suffer from decision paralysis. Decision paralysis occurs when a person is overwhelmed by too many options and, as a result, ends up doing nothing and quitting the simulation.\n\n[Aspect 3: Social Dynamics]\nWe may now move on to the third aspect, which is social dynamics. When developers add a multiplayer component, they usually choose between two environments: PvP, which stands for Player versus Player, and PvE, which stands for Player versus Environment.\n\nIn PvP environments, the communication is highly competitive. Players fight against each other to climb ranking boards. A major consequence of this intense competition is status anxiety. Players become overly stressed about losing their rank, which often results in toxic behavior and verbal abuse. Because there is a strong link between winning and social status, players in PvP games rarely show empathy towards beginners.\n\nIn contrast to PvP, PvE environments focus on players teaming up to defeat artificial intelligence or environmental challenges. Naturally, PvE fosters a completely different psychological outcome. Instead of status anxiety, PvE develops collaborative problem-solving skills. Players in PvE environments socialize mostly through teaching and supporting one another. Studies indicate that as players become older and more mature, they shift from competitive PvP environments to collaborative PvE environments. For example, veteran gamers usually avoid ranking systems and prefer to engage in complex team quests.\n\nBefore I end my lecture, I would like to note that the future of game design relies heavily on artificial intelligence. Modern AI functions as the core logic controller, constantly adjusting the difficulty based on the player's emotional state. By doing this, AI prevents both boredom and frustration.",
+    "questions": [
+      {
+        "type": "Detail",
+        "q": "According to the lecture, what is the true determinant of a player's long-term engagement in a game?",
+        "answer": ["psychological motivation"],
+        "skill": "detail",
+        "explain": "Graphics are not the determinant; motivation is."
+      },
+      {
+        "type": "Detail",
+        "q": "What negative consequence does a \"fixed-ratio schedule\" ultimately lead to?",
+        "answer": ["boredom"],
+        "skill": "detail",
+        "explain": "Predictability causes the brain to stop releasing dopamine."
+      },
+      {
+        "type": "Detail",
+        "q": "In order to create a highly addictive loop and continuous engagement, what kind of reward system do modern developers use?",
+        "answer": ["a variable-ratio schedule", "randomized/unpredictable rewards"],
+        "skill": "detail",
+        "explain": "Unpredictability keeps players engaged longer."
+      },
+      {
+        "type": "Detail",
+        "q": "What does \"autonomy\" allow players to do in a sandbox environment?",
+        "answer": ["manipulate the core rules", "shape the world"],
+        "skill": "detail",
+        "explain": "High autonomy means freedom to alter the game world."
+      },
+      {
+        "type": "Inference",
+        "q": "If a player in an open-world sandbox game feels overwhelmed by options and quits because there are no objectives, what problem did they suffer from?",
+        "answer": ["decision paralysis"],
+        "skill": "inference",
+        "explain": "Absolute freedom without sub-goals leads to being overwhelmed."
+      },
+      {
+        "type": "Detail",
+        "q": "What is the primary cause of \"toxic behavior and verbal abuse\" in PvP environments?",
+        "answer": ["status anxiety"],
+        "skill": "detail",
+        "explain": "Stress over rank loss leads to toxicity."
+      },
+      {
+        "type": "Detail",
+        "q": "What specific skill do PvE (Player versus Environment) environments develop in players?",
+        "answer": ["collaborative problem-solving skills"],
+        "skill": "detail",
+        "explain": "PvE fosters teamwork over competition."
+      },
+      {
+        "type": "Synthesis",
+        "q": "Which of the following individuals is most likely to suffer from \"status anxiety\"?",
+        "answer": ["A 16-year-old player trying to climb the ranking boards in a competitive PvP game"],
+        "skill": "synthesis",
+        "explain": "Status anxiety is tied to ranking and PvP competition."
+      },
+      {
+        "type": "Detail",
+        "q": "According to the conclusion, what does modern Artificial Intelligence adjust in real-time to prevent player frustration?",
+        "answer": ["the difficulty"],
+        "skill": "detail",
+        "explain": "AI manages difficulty to maintain emotional balance."
+      }
+    ]
+  }
+]

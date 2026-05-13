@@ -13,9 +13,10 @@ import { openExternalResource } from '../utils/externalLinks';
 import baseTasks from '../../data/listening_tasks.json';
 import hardTasks from '../../data/listening_tasks_hard.json';
 import cslTasks from '../../data/careful_selective_tasks.json';
+import geminiTasks from '../../data/gemini_listening.json';
 import podcasts from '../../data/listening_podcasts.json';
 
-const tasks = [...baseTasks, ...hardTasks, ...cslTasks];
+const tasks = [...geminiTasks, ...baseTasks, ...hardTasks, ...cslTasks];
 const LEVEL_OPTIONS = ['ALL', 'P1', 'P2', 'P3', 'P4'];
 const TYPE_OPTIONS = [
   { key: 'ALL', label: 'All types' },
@@ -128,11 +129,14 @@ function CompactPracticeRow({ task, badges, onPress }) {
               <Text style={[styles.badgeText, styles.badgeRedText]}>TEDx Talk</Text>
             </View>
           )}
-          {badges.map((badge) => (
-            <View key={`${task.id}-${badge}`} style={[styles.badge, styles.badgeBlue]}>
-              <Text style={[styles.badgeText, styles.badgeBlueText]}>{badge}</Text>
-            </View>
-          ))}
+          {badges.map((badge) => {
+            const isAI = badge.includes('Gemini') || badge.includes('Claude') || badge === 'AI Mock' || badge === 'Premium';
+            return (
+              <View key={`${task.id}-${badge}`} style={[styles.badge, isAI ? styles.badgeGold : styles.badgeBlue]}>
+                <Text style={[styles.badgeText, isAI ? styles.badgeGoldText : styles.badgeBlueText]}>{badge}</Text>
+              </View>
+            );
+          })}
           {focus.map((item) => (
             <View key={`${task.id}-${item}`} style={[styles.badge, styles.badgeSoft]}>
               <Text style={styles.badgeText}>{item}</Text>
@@ -272,8 +276,24 @@ export default function ListeningScreen({ navigation }) {
   }, [filteredTasks, typeStats.weak]);
 
   const suggestedTasks = useMemo(
-    () => dedupeTasks([rec?.task, weakTypeTask, lastTask, ...smartQueue].filter(Boolean)).slice(0, 4),
-    [rec?.task, weakTypeTask, lastTask, smartQueue]
+    () => {
+      // Prioritize AI Mocks and TEDx for the top of the queue
+      const geminis = tasks.filter(t => t.id.startsWith('LIST_GEMINI')).reverse().slice(0, 6);
+      const claudes = tasks.filter(t => t.id.startsWith('LIST_CLAUDE')).reverse().slice(0, 2);
+      const tedx = tasks.filter(t => t.category === 'TEDx').reverse().slice(0, 2);
+      
+      const premiumPicks = [...geminis, ...claudes, ...tedx];
+      
+      // Merge with personalization: recommended, weak focus, last task, and smart queue
+      return dedupeTasks([
+        ...premiumPicks, 
+        rec?.task, 
+        weakTypeTask, 
+        lastTask, 
+        ...smartQueue
+      ].filter(Boolean)).slice(0, 8);
+    },
+    [rec?.task, weakTypeTask, lastTask, smartQueue, tasks]
   );
 
   const groupedTasks = useMemo(() => ({
@@ -573,6 +593,9 @@ export default function ListeningScreen({ navigation }) {
                   if (rec?.task?.id === task.id) badges.push('Recommended');
                   if (weakTypeTask?.id === task.id) badges.push('Weak focus');
                   if (lastTask?.id === task.id) badges.push('Resume');
+                  if (task.id.startsWith('LIST_GEMINI')) badges.push('Gemini Mock');
+                  if (task.id.startsWith('LIST_CLAUDE')) badges.push('Claude Mock');
+                  if (task.category === 'TEDx') badges.push('Premium');
                   if (!badges.length && task.type === typeStats.weak) badges.push('Queue');
                   return (
                     <CompactPracticeRow

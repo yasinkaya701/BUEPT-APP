@@ -30,24 +30,62 @@ function formatLabel(value = '') {
 
 const templates = {
   opinion: {
-    intro: ['I firmly believe that', 'From my perspective,', 'It is my conviction that', 'The evidence strongly suggests that', 'One cannot ignore the fact that'],
-    body: ['A primary reason for this is', 'Furthermore,', 'Moreover,', 'In addition to this,', 'This is evidenced by'],
-    conclusion: ['To summarize,', 'All things considered,', 'Ultimately,', 'Drawing these points together,', 'It is clear that'],
+    intro: [
+      'I firmly believe that', 'From my perspective,', 'It is my conviction that', 
+      'The evidence strongly suggests that', 'One cannot ignore the fact that',
+      'It is widely contended that', 'A growing body of evidence indicates that'
+    ],
+    body: [
+      'A primary reason for this is', 'Furthermore,', 'Moreover,', 'In addition to this,', 
+      'This is evidenced by', 'Of particular significance is', 'From a sociological standpoint,'
+    ],
+    conclusion: [
+      'To summarize,', 'All things considered,', 'Ultimately,', 'Drawing these points together,', 
+      'It is clear that', 'In the final analysis,', 'Taking everything into account,'
+    ],
   },
   compare_contrast: {
-    intro: ['This essay will explore the similarities and differences between', 'While some argue that... others suggest...', 'There is a stark contrast between', 'Both concepts share several key features, yet'],
-    body: ['Conversely,', 'In stark contrast,', 'On the other hand,', 'Similarly,', 'In a similar vein,', 'While... on one hand, ... on the other'],
-    conclusion: ['Weighing both sides,', 'In conclusion,', 'Despite these differences,', 'In light of these comparisons,'],
+    intro: [
+      'This essay will explore the similarities and differences between', 
+      'While some argue that... others suggest...', 'There is a stark contrast between', 
+      'Both concepts share several key features, yet', 'A comparative analysis reveals that'
+    ],
+    body: [
+      'Conversely,', 'In stark contrast,', 'On the other hand,', 'Similarly,', 
+      'In a similar vein,', 'While... on one hand, ... on the other', 'Parallels can be drawn between'
+    ],
+    conclusion: [
+      'Weighing both sides,', 'In conclusion,', 'Despite these differences,', 
+      'In light of these comparisons,', 'The distinction between the two remains'
+    ],
   },
   cause_effect: {
-    intro: ['This essay examines the root causes of...', 'Several factors contribute to...', 'The primary reason for this phenomenon is'],
-    body: ['As a result,', 'Consequently,', 'For this reason,', 'This leads to', 'One immediate effect is'],
-    conclusion: ['To conclude, the effects of... are far-reaching.', 'In summary, addressing the causes is crucial.'],
+    intro: [
+      'This essay examines the root causes of...', 'Several factors contribute to...', 
+      'The primary reason for this phenomenon is', 'The repercussions of... are manifold.'
+    ],
+    body: [
+      'As a result,', 'Consequently,', 'For this reason,', 'This leads to', 
+      'One immediate effect is', 'This has a profound impact on', 'The cascading effects of...'
+    ],
+    conclusion: [
+      'To conclude, the effects of... are far-reaching.', 
+      'In summary, addressing the causes is crucial.', 'The long-term implications are'
+    ],
   },
   general: {
-    intro: ['The issue of... has become increasingly relevant.', 'This essay discusses', 'It is widely acknowledged that'],
-    body: ['Firstly,', 'Secondly,', 'Additionally,', 'Specifically,', 'Notably,', 'From an academic standpoint,'],
-    conclusion: ['In summary,', 'To conclude,', 'As a final point,', 'Given these points,'],
+    intro: [
+      'The issue of... has become increasingly relevant.', 'This essay discusses', 
+      'It is widely acknowledged that', 'One of the most pressing issues today is'
+    ],
+    body: [
+      'Firstly,', 'Secondly,', 'Additionally,', 'Specifically,', 'Notably,', 
+      'From an academic standpoint,', 'It is also worth noting that'
+    ],
+    conclusion: [
+      'In summary,', 'To conclude,', 'As a final point,', 'Given these points,', 
+      'By way of conclusion,'
+    ],
   }
 };
 
@@ -308,13 +346,13 @@ export default function WritingEditorScreen({ navigation, route }) {
             <Ionicons name="list-outline" size={20} color={colors.primary} />
             <Text style={styles.toolBtnText}>Outline</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.toolBtn} onPress={() => callAssistant('refine')}>
-            <Ionicons name="sparkles-outline" size={20} color={colors.primary} />
-            <Text style={styles.toolBtnText}>Refine</Text>
+          <TouchableOpacity style={styles.toolBtn} onPress={() => navigation.navigate('AcademicPhraseStudio')}>
+            <Ionicons name="book-outline" size={20} color={colors.accent} />
+            <Text style={styles.toolBtnText}>Phrases</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.toolBtn} onPress={findSynonyms}>
-            <Ionicons name="search-outline" size={20} color={colors.accent} />
-            <Text style={styles.toolBtnText}>Synonyms</Text>
+          <TouchableOpacity style={styles.toolBtn} onPress={onSubmit}>
+            <Ionicons name="analytics-outline" size={20} color={colors.success} />
+            <Text style={styles.toolBtnText}>Review</Text>
           </TouchableOpacity>
         </View>
 

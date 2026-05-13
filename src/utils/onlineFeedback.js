@@ -23,6 +23,7 @@ const DEFAULT_RETRIES = 2;
 const CACHE_TTL_MS = 3 * 60 * 1000;
 
 import { BUEPT_FULL_RUBRIC, BUEPT_FULL_SAMPLES } from './bueptRubric';
+import { IELTS_WRITING_RUBRIC, IELTS_WRITING_SAMPLES } from './ieltsRubric';
 
 const requestHistory = [];
 const feedbackCache = new Map();
@@ -435,6 +436,12 @@ function normalizeWritingRevisionResponse(payload = {}, fallback = {}) {
     model: normalizeText(payload.model || fallback.model || ''),
     diagnostic: normalizeText(payload.diagnostic || payload.warning || fallback.diagnostic || ''),
     prompt: normalizeText(payload.prompt || fallback.prompt || ''),
+    // Add new Dual Evaluation fields
+    bueptScore: payload.bueptScore || payload.buept_score || null,
+    bueptBand: payload.bueptBand || payload.buept_band || null,
+    ieltsScore: payload.ieltsScore || payload.ielts_score || null,
+    ieltsBand: payload.ieltsBand || payload.ielts_band || null,
+    detailedMistakes: Array.isArray(payload.detailedMistakes) ? payload.detailedMistakes : (Array.isArray(payload.detailed_mistakes) ? payload.detailed_mistakes : []),
   };
 }
 
@@ -639,18 +646,38 @@ export async function requestWritingRevision({ text = '', prompt = '', level = '
 
   try {
     const directReply = await executeDirectAiChat({
-      systemPrompt: `You are an official Boğaziçi University BUEPT Writing Examiner.
+      systemPrompt: `You are an expert dual-certified Academic Writing Examiner for Boğaziçi University (BUEPT) and IELTS.
+      
+--- BUEPT CRITERIA ---
 ${BUEPT_FULL_RUBRIC}
 ${BUEPT_FULL_SAMPLES}
 
-Evaluate the student essay strictly according to the BUEPT standards.
+--- IELTS CRITERIA ---
+${IELTS_WRITING_RUBRIC}
+${IELTS_WRITING_SAMPLES}
+
+--- TASK ---
+Evaluate the student essay strictly according to BOTH BUEPT and IELTS standards.
+Identify every single mistake (grammar, lexical, structural) one by one.
+
 Return your feedback as a JSON object with strictly these keys:
 {
-  "revisedText": "A fully corrected academic version of the essay maintaining the student's original intent but fixing all errors and improving formal register.",
-  "grammarScore": (number 0-100),
-  "vocabularyScore": (number 0-100),
+  "revisedText": "A fully corrected academic version of the essay maintaining original intent but fixing all errors and improving formal register.",
+  "bueptScore": (number 0-100),
   "bueptBand": "E, VG, MA, A, D, NA, or FBA",
-  "feedback": "Detailed, professional feedback in English explaining why this specific score/band was given based on BUEPT criteria."
+  "ieltsScore": (number 0-9.0),
+  "ieltsBand": "Band 5, 6, 7, 8, 9",
+  "feedback": "Detailed, professional feedback in English explaining the logic behind both scores.",
+  "detailedMistakes": [
+    {
+      "original": "segment of original text with error",
+      "correction": "corrected version",
+      "rule": "grammar/vocab/style category",
+      "explanation": "why it was wrong and how to fix it"
+    }
+  ],
+  "strengths": ["list of 3 key strengths"],
+  "fixes": ["list of 3 priority areas for improvement"]
 }`,
       messages: [{ role: 'user', content: `Task: ${task}\nPrompt: ${prompt}\nStudent Essay:\n${source}` }],
       jsonFormat: true
@@ -696,6 +723,45 @@ Return your feedback as a JSON object with strictly these keys:
     writeCache(revisionCache, cacheKey, fallback);
     return fallback;
   }
+}
+
+export async function requestSentenceBySentenceFeedback({ text = '', prompt = '' } = {}) {
+  const source = String(text || '').trim();
+  if (!source) throw new Error('Please paste your text.');
+
+  try {
+    const directReply = await executeDirectAiChat({
+      systemPrompt: `You are a BUEPT/IELTS Writing Coach. 
+Analyze the provided essay SENTENCE BY SENTENCE.
+For EVERY SINGLE sentence, provide:
+1. The original sentence.
+2. A corrected/improved version (Advanced Academic English).
+3. A very brief reason for the change.
+
+Return as JSON:
+{
+  "analysis": [
+    {
+      "original": "...",
+      "improved": "...",
+      "reason": "..."
+    }
+  ]
+}`,
+      messages: [{ role: 'user', content: `Prompt: ${prompt}\n\nEssay:\n${source}` }],
+      jsonFormat: true
+    });
+
+    if (directReply) {
+      const parsed = JSON.parse(directReply);
+      return parsed.analysis || [];
+    }
+  } catch (err) {
+    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      console.warn('Sentence analysis failed:', err);
+    }
+  }
+  return [];
 }
 export async function requestWritingAssistant({ task = '', prompt = '', currentText = '', selectedText = '', mode = 'thesis' } = {}) {
   const context = `Task: ${task}\nPrompt: ${prompt}\nFull Draft: ${currentText}\n${selectedText ? `STUDENT SELECTED TEXT FOR FOCUS: "${selectedText}"` : ''}`;
