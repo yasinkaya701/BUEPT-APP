@@ -313,8 +313,8 @@ export default function DeveloperScreen() {
 
         <View style={styles.settingRow}>
           <View style={{ flex: 1 }}>
-            <Text style={styles.settingLabel}>Google Natural Voice</Text>
-            <Text style={styles.settingSub}>Higher quality, uses Google's experimental neural engine (Web only)</Text>
+            <Text style={styles.settingLabel}>AI Fluid Engine (Cloud)</Text>
+            <Text style={styles.settingSub}>Superior natural flow. Always active for Fluid AI voices. Requires internet.</Text>
           </View>
           <TouchableOpacity 
             style={[styles.toggleBtn, ttsConfig.useExperimental && styles.toggleBtnActive]}
@@ -326,13 +326,39 @@ export default function DeveloperScreen() {
 
         <Text style={styles.inputLabel}>Speech Rate ({ttsConfig.rate.toFixed(2)})</Text>
         <View style={styles.rateRow}>
-          {[0.4, 0.45, 0.5, 0.55, 0.6, 0.7].map(r => (
+          {[0.3, 0.4, 0.45, 0.5, 0.52, 0.55, 0.6, 0.7, 0.8, 1.0].map(r => (
             <TouchableOpacity 
               key={r}
               style={[styles.rateChip, ttsConfig.rate === r && styles.rateChipActive]}
               onPress={() => setTtsConfig(prev => ({ ...prev, rate: r }))}
             >
               <Text style={[styles.rateChipText, ttsConfig.rate === r && styles.rateChipTextActive]}>{r}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <Text style={styles.inputLabel}>Voice Pitch ({ttsConfig.pitch.toFixed(2)})</Text>
+        <View style={styles.rateRow}>
+          {[0.8, 0.9, 1.0, 1.1, 1.2].map(p => (
+            <TouchableOpacity 
+              key={p}
+              style={[styles.rateChip, ttsConfig.pitch === p && styles.rateChipActive]}
+              onPress={() => setTtsConfig(prev => ({ ...prev, pitch: p }))}
+            >
+              <Text style={[styles.rateChipText, ttsConfig.pitch === p && styles.rateChipTextActive]}>{p}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <Text style={styles.inputLabel}>Audio Volume ({ttsConfig.volume.toFixed(2)})</Text>
+        <View style={styles.rateRow}>
+          {[0.5, 0.75, 1.0].map(v => (
+            <TouchableOpacity 
+              key={v}
+              style={[styles.rateChip, ttsConfig.volume === v && styles.rateChipActive]}
+              onPress={() => setTtsConfig(prev => ({ ...prev, volume: v }))}
+            >
+              <Text style={[styles.rateChipText, ttsConfig.volume === v && styles.rateChipTextActive]}>{v}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -349,7 +375,14 @@ export default function DeveloperScreen() {
               }}
             >
               <View style={{ flex: 1 }}>
-                <Text style={[styles.voiceName, ttsConfig.voiceId === v.id && styles.voiceNameActive]}>{v.name}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                  <Text style={[styles.voiceName, ttsConfig.voiceId === v.id && styles.voiceNameActive]}>{v.name}</Text>
+                  {(v.isVirtual || v.name.toLowerCase().includes('premium') || v.name.toLowerCase().includes('siri') || v.name.toLowerCase().includes('neural')) && (
+                    <View style={styles.hqBadge}>
+                      <Text style={styles.hqBadgeText}>HQ</Text>
+                    </View>
+                  )}
+                </View>
                 <Text style={styles.voiceLang}>{v.language}</Text>
               </View>
               <Text style={styles.voicePreviewIcon}>▶️</Text>
@@ -610,4 +643,6 @@ const styles = StyleSheet.create({
   voiceLang: { fontSize: 10, color: 'rgba(148,163,184,0.6)', marginTop: 2 },
   voicePreviewIcon: { fontSize: 14, opacity: 0.8 },
   emptyText: { color: 'rgba(255,255,255,0.4)', fontStyle: 'italic', fontSize: 12 },
+  hqBadge: { backgroundColor: '#10B981', borderRadius: 4, paddingHorizontal: 4, paddingVertical: 1 },
+  hqBadgeText: { color: '#FFFFFF', fontSize: 8, fontWeight: '900' },
 });

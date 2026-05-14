@@ -34,13 +34,13 @@ function scoreVoiceCandidate(voice = {}) {
     const lang = String(voice?.language || voice?.lang || '').toLowerCase();
     const name = String(voice?.name || '').toLowerCase();
     let total = 0;
-    if (lang.startsWith('en-us')) total += 34;
-    else if (lang.startsWith('en-gb')) total += 28;
+    if (lang.startsWith('en-gb')) total += 36;
+    else if (lang.startsWith('en-us')) total += 32;
     else if (lang.startsWith('en-au') || lang.startsWith('en-ca')) total += 24;
     else if (lang.startsWith('en')) total += 18;
-    if (/premium|enhanced|neural|natural/.test(name)) total += 18;
-    if (/samantha|ava|allison|daniel|alex|karen|moira|google/.test(name)) total += 12;
-    if (/compact/.test(name)) total -= 4;
+    if (/premium|enhanced|neural|natural|studio|wavenet|journey|v3|siri/.test(name)) total += 22;
+    if (/samantha|ava|allison|daniel|alex|karen|moira|google|nicky/.test(name)) total += 12;
+    if (/compact|lowquality/.test(name)) total -= 10;
     return total;
 }
 
@@ -226,7 +226,7 @@ export async function speakText(text, customOptions = {}) {
  */
 export function useTts() {
     const { ttsConfig, setTtsConfig } = useAppState();
-    const { rate, voiceId: activeVoiceId, useExperimental, apiEndpoint } = ttsConfig;
+    const { rate, pitch, volume, voiceId: activeVoiceId, useExperimental, apiEndpoint } = ttsConfig;
     
     const [isPlaying, setIsPlaying] = useState(false);
     const [voices, setVoices] = useState([]);
@@ -247,7 +247,16 @@ export function useTts() {
             );
             en.sort((a, b) => scoreVoiceCandidate(b) - scoreVoiceCandidate(a));
             _englishVoiceAvailable = en.length > 0;
-            setVoices(en.slice(0, 6));
+            const virtualVoices = [
+                { id: 'fluid-ai-jenny',    name: '✨ Fluid US (Jenny)', language: 'en-US', isVirtual: true },
+                { id: 'fluid-ai-guy',      name: '✨ Fluid US (Guy)', language: 'en-US', isVirtual: true },
+                { id: 'fluid-ai-aria',     name: '✨ Fluid US (Aria)', language: 'en-US', isVirtual: true },
+                { id: 'fluid-ai-sonia',    name: '✨ Fluid British (Sonia)', language: 'en-GB', isVirtual: true },
+                { id: 'fluid-ai-ryan',     name: '✨ Fluid British (Ryan)', language: 'en-GB', isVirtual: true },
+                { id: 'fluid-ai-female-us', name: '✨ Fluid AI (US Female)', language: 'en-US', isVirtual: true },
+                { id: 'fluid-ai-female-gb', name: '✨ Fluid AI (British Female)', language: 'en-GB', isVirtual: true },
+            ];
+            setVoices([...virtualVoices, ...en.slice(0, 8)]);
             
             const pref = ['daniel', 'google us english', 'samantha', 'ava', 'allison', 'nicky', 'alex', 'karen', 'moira'];
             const best =
@@ -310,16 +319,23 @@ export function useTts() {
         _speakId.current += 1;
         const currentId = _speakId.current;
 
+        const targetVoiceId = options.iosVoiceId || activeVoiceId || '';
+        const isVirtual = String(targetVoiceId).includes('fluid-ai');
+        const virtualLang = String(targetVoiceId).includes('male') ? 'en-GB' : 'en-US';
+
         // "Real Human" Model (GitHub/Web Neural Fallback)
-        if (useExperimental && isWeb) {
+        if ((useExperimental || isVirtual) && isWeb) {
             setIsPlaying(true);
             try {
                 if (audioRef.current) {
                     audioRef.current.pause();
                     audioRef.current.src = "";
                 }
-                const encoded = encodeURIComponent(text.trim().slice(0, 200)); // Google limits to 200 chars per request
-                const url = apiEndpoint.replace('{{TEXT}}', encoded);
+                const encoded = encodeURIComponent(text.trim().slice(0, 240)); 
+                let url = apiEndpoint.replace('{{TEXT}}', encoded);
+                if (isVirtual) {
+                    url = url.replace('tl=en', `tl=${virtualLang.split('-')[0]}`);
+                }
                 
                 const audio = new Audio(url);
                 audioRef.current = audio;
@@ -352,14 +368,18 @@ export function useTts() {
             const pitch = isLecture ? (1.0 + (Math.random() * 0.08 - 0.04)) : 1.0;
 
             try { if (!isWeb) await Tts.setDefaultRate(effectiveRate); } catch (_) { }
-            try { if (!isWeb) await Tts.setDefaultPitch(pitch); } catch (_) { }
+            try { if (!isWeb) await Tts.setDefaultPitch(pitch * (options.pitch || 1.0)); } catch (_) { }
 
             let bestId = activeVoiceId;
             if (!bestId) {
                 bestId = await findBestEnglishVoiceId();
             }
 
-            const speakOptions = { rate: isWeb ? normalizeWebSpeechRate(rate + variation) : effectiveRate };
+            const speakOptions = { 
+                rate: isWeb ? normalizeWebSpeechRate(rate + variation) : effectiveRate,
+                pitch: pitch * (options.pitch || 1.0),
+                volume: volume * (options.volume || 1.0),
+            };
             speakOptions.iosVoiceId = bestId || 'com.apple.ttsbundle.Samantha-compact';
             speakOptions.isLecture = isLecture;
 

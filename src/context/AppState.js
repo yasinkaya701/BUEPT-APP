@@ -341,9 +341,12 @@ export function AppStateProvider({ children }) {
   const [grammarHistory, setGrammarHistory] = useState([]);
   const [isFocusMode, setIsFocusMode] = useState(false);
   const [ttsConfig, setTtsConfig] = useState({
-    useExperimental: Platform.OS === 'web',
-    rate: 0.55,
-    voiceId: '',
+    useExperimental: true, // Always true to ensure Neural voices work on GitHub
+    rate: 0.52,
+    pitch: 1.0,
+    volume: 1.0,
+    voiceId: 'fluid-ai-jenny', // Default to the best US voice
+    apiEndpoint: 'https://translate.google.com/translate_tts?ie=UTF-8&q={{TEXT}}&tl=en&client=tw-ob',
   });
   const [screenTime, setScreenTime] = useState({ date: null, seconds: 0 });
   const screenTimeRef = useRef({ date: null, seconds: 0 });

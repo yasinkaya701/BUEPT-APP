@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-13T22:22:21.360Z",
+  "updatedAt": "2026-05-14T21:43:44.309Z",
   "clients": {
     "extension": {
       "updatedAt": "2026-03-30T17:21:25.896Z",
@@ -9,7 +9,7 @@
       ]
     },
     "app": {
-      "updatedAt": "2026-05-13T22:22:21.360Z",
+      "updatedAt": "2026-05-14T21:43:44.309Z",
       "fields": [
         "myWords",
         "unknownWords",
@@ -51,7 +51,7 @@
   },
   "state": {
     "myWords": {
-      "updatedAt": "2026-05-13T22:22:21.357Z",
+      "updatedAt": "2026-05-14T21:43:44.306Z",
       "value": [
         {
           "word": "corroborate",
@@ -185,7 +185,7 @@
       ]
     },
     "unknownWords": {
-      "updatedAt": "2026-05-13T22:22:21.357Z",
+      "updatedAt": "2026-05-14T21:43:44.306Z",
       "value": [
         {
           "word": "subtlehovertest",
@@ -298,7 +298,7 @@
       ]
     },
     "vocabStats": {
-      "updatedAt": "2026-05-13T22:22:21.357Z",
+      "updatedAt": "2026-05-14T21:43:44.306Z",
       "value": {
         "subtlehovertest": {
           "known": 0,
@@ -343,11 +343,11 @@
       }
     },
     "customDecks": {
-      "updatedAt": "2026-05-13T22:22:21.357Z",
+      "updatedAt": "2026-05-14T21:43:44.306Z",
       "value": []
     },
     "weeklyProgress": {
-      "updatedAt": "2026-05-13T22:22:21.357Z",
+      "updatedAt": "2026-05-14T21:43:44.306Z",
       "value": {
         "version": 1,
         "selectedWeek": 1,

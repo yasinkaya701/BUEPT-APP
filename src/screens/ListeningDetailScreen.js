@@ -417,10 +417,14 @@ import { gradeResponse } from '../utils/aiGrader';
 
 const tasks = [...baseTasks, ...hardTasks, ...cslTasks, ...podcasts];
 const RATE_PRESETS = [
-  { label: '0.75x · Slow', value: 0.38 },  // → getWebSpeechRate → 0.62
-  { label: '1.0x · Normal', value: 0.52 },  // → getWebSpeechRate → 0.82
-  { label: '1.25x · Fast', value: 0.62 },  // → getWebSpeechRate → 0.92
-  { label: '1.5x · Exam', value: 0.72 },  // → getWebSpeechRate → 1.0
+  { label: '0.5x', value: 0.25 },
+  { label: '0.75x', value: 0.38 },
+  { label: '0.85x', value: 0.45 },
+  { label: '1.0x', value: 0.52 },
+  { label: '1.15x', value: 0.58 },
+  { label: '1.25x', value: 0.62 },
+  { label: '1.5x', value: 0.72 },
+  { label: '2.0x', value: 0.95 },
 ];
 const isWeb = Platform.OS === 'web';
 const WEB_SPEECH_MAX_CHARS = 110;
@@ -562,12 +566,14 @@ function pickWebVoice(voices = [], activeVoiceId = '') {
         const lang = String(voice?.language || '').toLowerCase();
         const name = String(voice?.name || voice?.id || '').toLowerCase();
         let total = 0;
-        if (lang.startsWith('en-us')) total += 30;
-        else if (lang.startsWith('en-gb')) total += 24;
-        else if (lang.startsWith('en')) total += 18;
-        if (/natural|premium|enhanced|neural/.test(name)) total += 18;
-        if (/google|samantha|ava|allison|daniel|microsoft/.test(name)) total += 12;
-        if (/compact/.test(name)) total -= 4;
+        if (lang.startsWith('en-gb')) total += 40;
+        else if (lang.startsWith('en-us')) total += 34;
+        else if (lang.startsWith('en')) total += 20;
+        
+        if (name.includes('✨') || name.includes('fluid-ai')) total += 50;
+        if (/natural|premium|enhanced|neural|studio|wavenet/.test(name)) total += 25;
+        if (/google|samantha|ava|allison|daniel|alex|microsoft|siri/.test(name)) total += 15;
+        if (/compact|lowquality/.test(name)) total -= 10;
         return total;
       };
       return score(b) - score(a);
