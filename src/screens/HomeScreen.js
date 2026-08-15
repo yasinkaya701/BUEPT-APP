@@ -57,6 +57,8 @@ export default function HomeScreen({ navigation }) {
     isDemoUser,
     logout,
     consumePostAuthRoute,
+    streakDays,
+    badges,
   } = useAppState();
   const todayLabel = React.useMemo(() => {
     const now = new Date();
@@ -380,6 +382,24 @@ export default function HomeScreen({ navigation }) {
         </View>
       </Card>
 
+      {streakDays > 0 || (Array.isArray(badges) && badges.length > 0) ? (
+        <Card style={[styles.card, styles.streakCard]}>
+          <View style={styles.streakRow}>
+            <View style={styles.streakCell}>
+              <Text style={styles.streakValue}>{streakDays || 0} 🔥</Text>
+              <Text style={styles.streakLabel}>day streak</Text>
+            </View>
+            <View style={styles.streakCell}>
+              <Text style={styles.streakValue}>{Array.isArray(badges) ? badges.length : 0} 🏆</Text>
+              <Text style={styles.streakLabel}>badges</Text>
+            </View>
+            <View style={[styles.streakCell, { alignSelf: 'flex-end' }]}>
+              <Text style={styles.streakNote}>Keep solving daily to grow the streak and unlock BUSEPT badges.</Text>
+            </View>
+          </View>
+        </Card>
+      ) : null}
+
       <Card style={styles.card}>
         <Text style={styles.sectionTitle}>Control Center</Text>
         <Text style={styles.bouBody}>The post-login home screen now groups high-use tools by task instead of stacking unrelated buttons.</Text>
@@ -533,6 +553,37 @@ const styles = StyleSheet.create({
   bouTitle: { fontSize: 17, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: 5, fontWeight: '900' },
   bouBody: { fontSize: 12, color: colors.muted, marginBottom: spacing.sm, lineHeight: 18, fontWeight: '500' },
   bouRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 6 },
+  streakCard: {
+    backgroundColor: '#0F172A',
+    borderColor: '#1E293B',
+  },
+  streakRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  streakCell: {
+    alignItems: 'center',
+  },
+  streakValue: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: '#FDE68A',
+  },
+  streakLabel: {
+    fontSize: typography.xsmall,
+    color: '#94A3B8',
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+  },
+  streakNote: {
+    fontSize: typography.xsmall,
+    color: '#64748B',
+    fontStyle: 'italic',
+    maxWidth: 220,
+  },
   controlGrid: { gap: 8, marginTop: 8 },
   controlGridWide: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
   controlPanel: { borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surfaceAlt, borderRadius: 16, padding: spacing.md },

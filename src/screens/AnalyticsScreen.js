@@ -5,6 +5,7 @@
  */
 
 import React, { useMemo } from 'react';
+import Svg, { Polygon, Circle, Line as SvgLine, Text as SvgText } from 'react-native-svg';
 import { View, Text, StyleSheet, ScrollView, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Card from '../components/Card';
@@ -158,6 +159,13 @@ export default function AnalyticsScreen() {
   const bestSkill = skills.sort((a, b) => (b.avg ?? 0) - (a.avg ?? 0))[0];
   const weakSkill = [...skills].sort((a, b) => (a.avg ?? 100) - (b.avg ?? 100))[0];
 
+  const skillPoints = useMemo(() => [
+    { key: 'Reading', avg: readingAvg },
+    { key: 'Listening', avg: listeningAvg },
+    { key: 'Grammar', avg: grammarAvg },
+    { key: 'Writing', avg: writingAvg },
+  ], [readingAvg, listeningAvg, grammarAvg, writingAvg]);
+
   const gradeColor = (pct) => {
     if (pct === null || pct === undefined) return colors.muted;
     if (pct >= 80) return '#10B981';
@@ -206,6 +214,8 @@ export default function AnalyticsScreen() {
 
       {/* Skill Breakdown */}
       <Text style={styles.sectionHeader}>Skill Performance</Text>
+
+      {skillPoints.length >= 3 ? <SkillRadar points={skillPoints} /> : null}
 
       <SkillCard name="Reading" avg={readingAvg ?? 0} sessions={readingHistory.length} color="#3B82F6" icon="📖" />
       <SkillCard name="Listening" avg={listeningAvg ?? 0} sessions={listeningHistory.length} color="#8B5CF6" icon="🎧" />
@@ -263,6 +273,71 @@ export default function AnalyticsScreen() {
   );
 }
 
+function SkillRadar({ points }) {
+  const size = 260;
+  const cx = size / 2;
+  const cy = size / 2;
+  const maxR = 105;
+  const levels = [0.25, 0.5, 0.75, 1];
+  const n = points.length;
+  const angleFor = (i) => (Math.PI * 2 * i) / n - Math.PI / 2;
+  const pcoord = (value, i) => {
+    const a = angleFor(i);
+    const r = (Math.min(100, Math.max(0, value || 0)) / 100) * maxR;
+    return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+  };
+  const dataPoints = points.map((p, i) => pcoord(p.avg, i));
+  return (
+    <Card style={styles.card}>
+      <Text style={styles.sectionTitle}>🕸️ Skill Radar</Text>
+      <Text style={styles.sectionSub}>4-module balance — an even shape means a balanced BUSEPT profile</Text>
+      <View style={{ alignItems: 'center' }}>
+        <Svg width={size} height={size}>
+          {levels.map((lv, li) => (
+            <Polygon key={`lv-${li}`}
+              points={Array.from({ length: n }).map((_, i) => {
+                const a = angleFor(i);
+                return `${cx + maxR * lv * Math.cos(a)},${cy + maxR * lv * Math.sin(a)}`;
+              }).join(' ')}
+              fill="none" stroke="rgba(148,163,184,0.28)" strokeWidth={1}
+            />
+          ))}
+          {points.map((_, i) => (
+            <SvgLine key={`sp-${i}`}
+              x1={cx} y1={cy}
+              x2={cx + maxR * Math.cos(angleFor(i))} y2={cy + maxR * Math.sin(angleFor(i))}
+              stroke="rgba(148,163,184,0.28)" strokeWidth={1}
+            />
+          ))}
+          <Polygon
+            points={dataPoints.map((p) => `${p.x},${p.y}`).join(' ')}
+            fill="rgba(59,130,246,0.32)" stroke="#3B82F6" strokeWidth={2}
+          />
+          {points.map((p, i) => {
+            const a = angleFor(i);
+            const lr = maxR + 20;
+            return (
+              <SvgText key={`lb-${i}`}
+                x={cx + lr * Math.cos(a)} y={cy + lr * Math.sin(a) + 4}
+                fontSize={11} fill="#94A3B8" textAnchor="middle" fontFamily={typography.fontHeadline}
+              >{p.key}
+              </SvgText>
+            );
+          })}
+          {dataPoints.map((p, i) => (
+            <Circle key={`dot-${i}`} cx={p.x} cy={p.y} r={4} fill="#3B82F6" />
+          ))}
+        </Svg>
+        <View style={styles.radarLegend}>
+          {points.map((p) => (
+            <Text key={p.key} style={styles.radarLegendItem}>{p.key}: {p.avg ?? 0}%</Text>
+          ))}
+        </View>
+      </View>
+    </Card>
+  );
+}
+
 const styles = StyleSheet.create({
   container: { paddingHorizontal: spacing.md, paddingBottom: spacing.xl },
   header: { paddingVertical: spacing.lg, alignItems: 'center' },
@@ -308,4 +383,6 @@ const styles = StyleSheet.create({
   miniBarFill: { height: '100%', borderRadius: 4 },
   miniBarValue: { width: 32, fontSize: 11, fontWeight: '700', textAlign: 'right' },
   emptyText: { fontSize: typography.body || 14, color: colors.muted, textAlign: 'center', padding: spacing.md },
+  radarLegend: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: spacing.sm, justifyContent: 'center' },
+  radarLegendItem: { fontSize: typography.xsmall, color: colors.muted, fontFamily: typography.fontHeadline },
 });

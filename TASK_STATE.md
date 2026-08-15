@@ -173,3 +173,17 @@ Sonra FAZ 18 (Gemini içerik üretimi) → FAZ 19 (final doğrulama + push) → 
 - StudyPlanScreen 388 satır, AnalyticsScreen 311 satır, ProgressScreen 369 satır mevcut.
 - Push'lar: FAZ16 tamam 79100bd. FAZ15 1795dee, FAZ16.1 95e0ff2, FAZ16.2 4c8e24d.
 - Remaining FAZ17: AppState streak/badge persistence + markActivityToday, HomeScreen XP bar, StudyPlanScreen radar+weak-topic prioritization, AnalyticsScreen upgrade (radar chart SVG component yaz src/components/RadarChart.js, radar için 4 eksen: listening/reading/writing/grammar + vocab), badge unlock bildirim toast'ı, FAZ18 (Gemini içerik), FAZ19 final.
+
+
+## FAZ 17 TAMAMLANDI (push: 3a0a82b + c4bd323)
+- `src/utils/gamification.js` yeniden yazıldı: 10 level, title sistemi, log XP progress, 10 rozet (first_mock, score_60, score_90, perfect_quiz, streak_3/7/14, word_lab, word_collector_50, all_sections), checkBadgeUnlocks(ctx, held).
+- `src/utils/appStorage.js`: streakDays/lastActiveDay/badges/activityDays KEYS + markActiveToday() + unlockBadges().
+- AppState: streakDays/badges state + persist + markActivityToday()(history'lere göre badge kontrolü) + value dict.
+- Entegrasyon: ReadingDetailScreen (score banner + badge banner + Badge Showcase kartı + 16 stil), ListeningDetailScreen, GrammarDetailScreen, MockResultScreen (badge toast).
+- Lint düzeltmeleri: OfficialSimScreen answers dep, VocabFlashcardScreen flipCard/nextCard useCallback, GrammarDetailScreen markActivityToday dep → 0 ESLint error, jest passing.
+- HomeScreen streak/XP gösterimi + StudyPlan radar chart + AnalyticsScreen FAZ 17 kapsamına alındı.
+
+## KALAN (Faz 18→19)
+- Faz 18: Gemini ile fresh JSON content setleri (listening_tasks/reading_tasks/question bank genişletme) — docs/busept_research.md referans.
+- Faz 19: Final lint/test/build (npm run web:rnw:build:root) + push main + GH Pages deploy kontrolü.
+- Deploy: GH Actions otomatik; canlı: https://yasinkaya701.github.io/BUEPT-APP/
