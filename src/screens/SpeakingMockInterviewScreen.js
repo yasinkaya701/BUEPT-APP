@@ -1,13 +1,15 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { Text, StyleSheet, View, TextInput } from 'react-native';
+import { Text, StyleSheet, View, TextInput, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import voiceEngine from '../utils/speechRecognition';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
-import { colors, spacing, typography } from '../theme/tokens';
+import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import prompts from '../../data/speaking_prompts.json';
 import { useAppState } from '../context/AppState';
 import { scoreSpeakingRubric } from '../utils/rubricScoring';
+import { TimelineStep, ScoreRing } from '../components/ui';
 
 function normalizeSpeechText(text = '') {
   return String(text || '').replace(/\s+/g, ' ').trim();
@@ -150,6 +152,10 @@ export default function SpeakingMockInterviewScreen({ navigation }) {
     return `${m}:${String(s).padStart(2, '0')}`;
   };
 
+  const liveWordCount = useMemo(() => {
+    return String(currentAnswer).trim().split(/\s+/).filter(Boolean).length;
+  }, [currentAnswer]);
+
   const toggleRecording = async () => {
     if (isTimeUp || done) return;
     if (isRecording) {
@@ -173,6 +179,11 @@ export default function SpeakingMockInterviewScreen({ navigation }) {
     <Screen scroll contentStyle={styles.container}>
       <Text style={styles.h1}>Mock Interview</Text>
       <Text style={styles.sub}>4 speaking questions • level {level}</Text>
+
+      <Card style={[styles.card, shadow.elev1]}>
+        <Text style={styles.cardTitle}>Interview stages</Text>
+        <TimelineStep steps={questions.map((q, i) => ({ key: `q${i}`, label: q?.category || q?.title || `Q${i + 1}`, duration: '90s', icon: 'mic-outline' }))} activeIndex={done ? -1 : index} style={styles.timeline} />
+      </Card>
 
       {!done ? (
         <Card style={styles.card}>
@@ -214,6 +225,12 @@ export default function SpeakingMockInterviewScreen({ navigation }) {
             textAlignVertical="top"
             editable={!isTimeUp}
           />
+          {liveWordCount > 0 ? (
+            <View style={styles.liveBox}>
+              <Ionicons name="mic-outline" size={14} color={colors.primary} />
+              <Text style={styles.liveText}>{liveWordCount} words captured • keep adding concrete examples to raise your score.</Text>
+            </View>
+          ) : null}
           <Text style={styles.followUpTitle}>Follow-up</Text>
           <Text style={styles.followUpQuestion}>{currentFollowUp}</Text>
           <TextInput
@@ -233,13 +250,26 @@ export default function SpeakingMockInterviewScreen({ navigation }) {
       ) : (
         <Card style={styles.card}>
           <Text style={styles.h3}>Interview Result</Text>
-          <Text style={styles.result}>{result?.total}/{result?.max} • {result?.pct}% • {result?.band}</Text>
-          {result?.rows.map((row, i) => (
-            <View key={`row-${i}`} style={styles.resultRow}>
-              <Text style={styles.rowTitle}>Q{i + 1}: {row.q?.title || row.q?.topic || row.q?.category || 'Task'}</Text>
-              <Text style={styles.rowMeta}>{row.rubric.total}/{row.rubric.max} • {row.rubric.band}</Text>
+          <View style={styles.resultHeader}>
+            <ScoreRing value={result?.pct || 0} size={76} stroke={7} />
+            <View style={styles.resultMeta}>
+              <Text style={styles.result}>{result?.total}/{result?.max} • {result?.pct}% • {result?.band}</Text>
+              <Text style={styles.resultSub}>Stage averages are shown below for each question.</Text>
             </View>
-          ))}
+          </View>
+          {result?.rows.map((row, i) => {
+            const stagePct = row.rubric.max ? Math.round((row.rubric.total / row.rubric.max) * 100) : 0;
+            const barColor = stagePct >= 70 ? colors.success : stagePct >= 50 ? colors.accentBright : colors.error;
+            return (
+              <View key={`row-${i}`} style={styles.resultRow}>
+                <Text style={styles.rowTitle}>Q{i + 1}: {row.q?.title || row.q?.topic || row.q?.category || 'Task'}</Text>
+                <View style={styles.stageBarTrack}>
+                  <View style={[styles.stageBarFill, { width: `${stagePct}%`, backgroundColor: barColor }]} />
+                </View>
+                <Text style={styles.rowMeta}>{stagePct}% • {row.rubric.band}</Text>
+              </View>
+            );
+          })}
           <View style={styles.row}>
             <Button
               label="Retry Interview"
@@ -276,6 +306,15 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   card: { marginBottom: spacing.md },
+  cardTitle: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    marginBottom: spacing.sm,
+  },
+  timeline: {
+    marginBottom: 0,
+  },
   h3: {
     fontSize: typography.h3,
     fontFamily: typography.fontHeadline,
@@ -309,6 +348,48 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     color: colors.text,
     marginBottom: spacing.sm,
+  },
+  liveBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    backgroundColor: colors.tintBlue,
+    borderRadius: radius.sm,
+    padding: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  liveText: {
+    flex: 1,
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+    lineHeight: 16,
+  },
+  resultHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    marginBottom: spacing.md,
+  },
+  resultMeta: {
+    flex: 1,
+  },
+  resultSub: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    marginTop: 2,
+    lineHeight: 16,
+  },
+  stageBarTrack: {
+    flex: 1,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.borderLight,
+    overflow: 'hidden',
+    marginVertical: spacing.xs,
+  },
+  stageBarFill: {
+    height: 8,
+    borderRadius: 4,
   },
   followUpTitle: {
     fontSize: typography.small,
