@@ -40,3 +40,6 @@ Kod aslında düzgün render ediliyor. Asıl düzeltmeler kozmetik:
 - Speaking: aynı şey.
 - Vocab: aynı şey.
 - MetricRail/MetricTile: accentBar görünür; iyileştirme opsiyonel — değer rengini accent rengiyle vurgulamak daha premium durur (value rengi accentColor olsun, label muted).
+
+## Son canlı doğrulama (2026-08-15, push 6872f71)
+Speaking ekranı canlıda: SkillHeader (SPEAKING STUDIO eyebrow + Speaking başlığı + 88 Topics kutusu) + hero CTA kartı + Live Speaking Score (SectionHeader) + MetricRail (3 renkli metrik) + AI Speaking Partner (ScoreRing + son oturum pilli) + Prompt Library (FilterBar: Level/Type). Tüm sekmeler artık ortak tasarım diliyle çalışıyor; hero kartlarda mükerrer başlıklar kaldırıldı, metrik değerleri accent renkli. ESLint 0 error, 36/36 test, prod build OK, canlı deploy 200.

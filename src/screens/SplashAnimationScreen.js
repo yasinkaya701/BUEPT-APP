@@ -6,7 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 
 export default function SplashAnimationScreen({ navigation }) {
-    const { userToken, authReady } = useAppState();
+    const { userToken, authReady, onboarded } = useAppState();
     const isWeb = Platform.OS === 'web';
     
     // Animation Values
@@ -26,8 +26,10 @@ export default function SplashAnimationScreen({ navigation }) {
     const mountedRef = useRef(true);
     const authReadyRef = useRef(authReady);
     const userTokenRef = useRef(userToken);
+    const onboardedRef = useRef(onboarded);
 
     useEffect(() => { userTokenRef.current = userToken; }, [userToken]);
+    useEffect(() => { onboardedRef.current = onboarded; }, [onboarded]);
     useEffect(() => { authReadyRef.current = authReady; }, [authReady]);
 
     useEffect(() => {
@@ -41,7 +43,11 @@ export default function SplashAnimationScreen({ navigation }) {
                 timeoutRef.current = setTimeout(finishNavigation, isWeb ? 90 : 200);
                 return;
             }
-            const dest = userTokenRef.current ? 'MainTabs' : 'Login';
+            const dest = userTokenRef.current
+                ? 'MainTabs'
+                : onboardedRef.current
+                    ? 'Login'
+                    : 'Onboarding';
             navigation.reset({
                 index: 0,
                 routes: [{ name: dest }],

@@ -324,6 +324,7 @@ export function useAppState() {
 
 
 const STORAGE_AUTH_TOKEN = '@buept_auth_token';
+const STORAGE_ONBOARDED = '@buept_onboarded_v1';
 async function loadAuthToken() { try { return await AsyncStorage.getItem(STORAGE_AUTH_TOKEN); } catch { return null; } }
 async function saveAuthToken(t) { try { if (t) await AsyncStorage.setItem(STORAGE_AUTH_TOKEN, t); else await AsyncStorage.removeItem(STORAGE_AUTH_TOKEN); } catch { } }
 
@@ -336,6 +337,8 @@ export function AppStateProvider({ children }) {
   const postAuthRouteRef = useRef(null);
 
   const [level, setLevel] = useState('P2');
+  const [onboarded, setOnboardedRaw] = useState(false);
+  const onboardedRef = useRef(false);
   const [writingEngine, setWritingEngine] = useState('online');
   const [aiReady, setAiReady] = useState(false);
   const [aiAccessConfig, setAiAccessConfig] = useState(() => normalizeAiConfig());
@@ -382,6 +385,26 @@ export function AppStateProvider({ children }) {
   const localSyncDirtyRef = useRef(false);
   const remoteSyncStampRef = useRef('');
   const syncEnabled = useMemo(() => isVocabCloudSyncEnabled(), []);
+
+  useEffect(() => {
+    AsyncStorage.getItem(STORAGE_ONBOARDED)
+      .then((v) => {
+        const next = v === '1';
+        onboardedRef.current = next;
+        setOnboardedRaw(next);
+      })
+      .catch(() => {});
+  }, []);
+
+  const setOnboarded = useCallback((next) => {
+    const value = Boolean(next);
+    onboardedRef.current = value;
+    setOnboardedRaw(value);
+    try {
+      if (value) AsyncStorage.setItem(STORAGE_ONBOARDED, '1');
+      else AsyncStorage.removeItem(STORAGE_ONBOARDED);
+    } catch {}
+  }, []);
 
   const applyDemoData = useCallback(async () => {
     const now = Date.now();
@@ -787,6 +810,7 @@ export function AppStateProvider({ children }) {
         setUserProfile(demoProfile);
         setAcademicFocus('General');
         setUserToken('demo_student');
+        setOnboarded(true);
         setPostAuthRoute(nextRoute);
         return { ok: true, mode: 'demo' };
       }
@@ -820,7 +844,7 @@ export function AppStateProvider({ children }) {
 
     setUserToken(payload || 'student_token');
     return { ok: true };
-  }, [applyDemoData, userProfile]);
+  }, [applyDemoData, userProfile, setOnboarded]);
 
   const register = useCallback(async ({
     name = '',
@@ -1305,6 +1329,8 @@ export function AppStateProvider({ children }) {
     logout,
     level,
     setLevel,
+    onboarded,
+    setOnboarded,
     writingEngine,
     setWritingEngine,
     aiReady,
@@ -1368,13 +1394,13 @@ export function AppStateProvider({ children }) {
     level, writingEngine, aiReady, aiAccessConfig, essayText, report, history, mockHistory,
     readingHistory, listeningHistory, grammarHistory, isFocusMode, ttsConfig, screenTime,
     userWords, unknownWords, vocabStats, favoritePrompts, reviews,
-    errorWords, grammarErrors, xp, xpLog, streakDays, badges, customDecks,
+    errorWords, grammarErrors, xp, xpLog, streakDays, badges, customDecks, onboarded,
     generateReport, setActiveReportById, addMockResult, addReadingResult,
     addListeningResult, addGrammarResult, addUserWord, addUserWordObject, removeUserWord, addUnknownWord,
     clearUnknownWords, recordKnown, recordUnknown, rollbackVocabRecord, toggleFavoritePrompt,
     recordQuizError, recordGrammarError, clearErrorWords, clearGrammarErrors,
     addCustomDeck, deleteCustomDeck, restoreCustomDeck,
-    addXp, appendXpEntry, markActivityToday, applyDemoData, login, register, logout, consumePostAuthRoute,
+    addXp, appendXpEntry, markActivityToday, applyDemoData, login, register, logout, consumePostAuthRoute, setOnboarded,
     setTtsConfig,
     updateAiAccessConfig, resetAiAccessConfig,
   ]);
