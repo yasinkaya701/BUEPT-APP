@@ -224,6 +224,12 @@ export default function GrammarScreen({ navigation, route }) {
             disabled={!startTask}
           />
           <Button
+            label="Adaptive Drill"
+            icon="flask-outline"
+            variant="secondary"
+            onPress={() => navigation.navigate('GrammarDrill', { weakTopics })}
+          />
+          <Button
             label="Use of English"
             icon="book-outline"
             variant="secondary"
@@ -294,6 +300,15 @@ export default function GrammarScreen({ navigation, route }) {
                             <Text style={styles.weakNodeText}>{item.title}</Text>
                         </TouchableOpacity>
                     ))}
+                </View>
+                <View style={styles.actionRow}>
+                    <Button
+                        label={`Adaptive Drill (${weakTopics.length} topics)`}
+                        icon="flask-outline"
+                        variant="primary"
+                        onPress={() => navigation.navigate('GrammarDrill', { weakTopics })}
+                        style={styles.actionFlexBtn}
+                    />
                 </View>
             </View>
         )}

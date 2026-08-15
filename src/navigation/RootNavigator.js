@@ -57,6 +57,7 @@ export default function RootNavigator() {
           <Stack.Screen name="ListeningDetail" getComponent={() => require('../screens/ListeningDetailScreen').default} options={{ title: 'Listening Practice' }} />
           <Stack.Screen name="Grammar" getComponent={() => require('../screens/GrammarScreen').default} options={{ title: 'Grammar' }} />
           <Stack.Screen name="GrammarDetail" getComponent={() => require('../screens/GrammarDetailScreen').default} options={{ title: 'Grammar Practice' }} />
+          <Stack.Screen name="GrammarDrill" getComponent={() => require('../screens/GrammarDrillScreen').default} options={{ title: 'Adaptive Drill' }} />
           <Stack.Screen name="GrammarSectionExam" getComponent={() => require('../screens/GrammarSectionExamScreen').default} options={{ title: 'Grammar Section Exam' }} />
           <Stack.Screen name="VocabQuiz" getComponent={() => require('../screens/VocabQuizScreen').default} options={{ title: 'Vocab Quiz' }} />
           <Stack.Screen name="VocabPractice" getComponent={() => require('../screens/VocabPracticeScreen').default} options={{ title: 'Vocab Practice' }} />

@@ -111,3 +111,14 @@ Kullanıcı: "planı büyüt eldeki tüm özelliklere upgrade çak 40 k satır c
 - Button: label/variant(primary|secondary|ghost|errorGhost)/onPress/icon
 - Styles: colors.surface (#fff), colors.background, typography.h1..small, spacing, radius, shadow
 - AdvancedReadingScreen YENİ: styles'ta h1/h3/sub/card/row/passageRow/passageChip*/passageHead/passageTitle/levelBadge/passageBody/interactiveWord/controlsRow/wpmText/wordCard/wordTitle/wordDef/quizQuestion/quizScoreText var (write ile oluşturuldu, h1 olarak typography.h1 kullanıyor — kontrol et! screen component'i Screen scroll + contentStyle kullanıyor)
+
+
+---
+## BÜYÜK UPGRADE İLERLEMESİ (2026-08-15)
+- Faz 14 TAMAMLANDI (push 571faf5): AdvancedReadingScreen yeniden yazıldı (8 passage, quiz bank, wpm timer, AI word explain, TTS speed, modal) + ListeningDetailScreen'e notes persistence (AsyncStorage listen_notes_${task.id}), coverage/progress bar'lar, saveNotes fonksiyonu.
+- FAZ 15 ŞİMDİ: Grammar + Writing upgrade. WritingEditorScreen'de: writingInsights (flow/variety/complexity/formality/AWL density metrikleri, tasks next-steps), Writing Assistant (thesis/outline/phrases/review tool butonları, ollama/openai toggle), timerCard var. Upgrade fikirleri: EssayBankScreen (örnek BUSEPT band essay'ler + annotation), grammar adaptive drill ekranı (GrammarDrillScreen: error pattern'e göre adaptive quiz), WritingEditor'a kelime sayacı hedef progress (250 target), paraphrase tool.
+- FAZ 16: Vocab (word family/collocation modülü), Speaking (AI pronunciation comparison), Chatbot (BUSEPT score predictor tool)
+- FAZ 17: StudyPlan/Analytics/Gamification (streak, XP, radar chart)
+- FAZ 18: Gemini ile içerik üretimi (listening_tasks.json + reading_tasks.json genişletme, vocab setleri)
+- FAZ 19: doğrulama + push + deploy; FAZ 20: özet
+- NOT: deploy GH Actions ile otomatik; credential store ~/.git-credentials

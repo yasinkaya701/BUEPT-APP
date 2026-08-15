@@ -301,6 +301,12 @@ export default function WritingEditorScreen({ navigation, route }) {
         
         <View style={styles.statsGrid}>
           <InsightStat icon="document-text-outline" label="Words" value={`${insights.metrics.words}/${targetWords}`} />
+          <View style={styles.wordTrack}>
+            <View style={[styles.wordFill, { width: `${Math.min(100, Math.round((insights.metrics.words / Math.max(1, targetWords)) * 100))}%` }]} />
+          </View>
+          <Text style={styles.wordHint}>
+            {insights.metrics.words >= targetWords ? '✓ Word target reached — review accuracy and flow next.' : `${Math.max(0, targetWords - insights.metrics.words)} words to target.`}
+          </Text>
           <InsightStat icon="checkmark-circle-outline" label="Accuracy" value={`${insights.metrics.accuracy}%`} color={colors.success} />
           <InsightStat icon="git-branch-outline" label="Flow" value={`${insights.metrics.flow}%`} color={colors.primary} />
           <InsightStat icon="flask-outline" label="Variety" value={`${insights.metrics.variety}%`} color={colors.accent} />
@@ -792,6 +798,25 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: colors.muted,
     textTransform: 'uppercase',
+  },
+  wordTrack: {
+    height: 6,
+    backgroundColor: '#E5E7EB',
+    borderRadius: 999,
+    marginTop: 6,
+    marginBottom: 4,
+    overflow: 'hidden',
+  },
+  wordFill: {
+    height: 6,
+    backgroundColor: colors.primary,
+    borderRadius: 999,
+  },
+  wordHint: {
+    fontSize: 11,
+    color: colors.muted,
+    fontWeight: '700',
+    marginBottom: spacing.xs,
   },
   statsGrid: {
     flexDirection: 'row',
