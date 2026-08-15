@@ -444,7 +444,8 @@ export const BUEPT_BANDS_META = {
   INS: { label: 'Insufficient', min: 0, color: '#991B1B', descriptor: 'Too short to evaluate.' },
 };
 
-export function calculateLiveInsights({ text = '', prompt = '', targetWords = 180 } = {}) {
+export function calculateLiveInsights({ text = '', prompt = '', targetWords = 180, targetWordsMin = null } = {}) {
+  const effectiveMin = typeof targetWordsMin === 'number' && targetWordsMin > 0 ? targetWordsMin : Math.round(targetWords * 0.6);
   const score = scoreWritingRubric({ text, prompt, targetWords });
   const { metrics, wascBand, readiness, total } = score;
 
@@ -461,7 +462,11 @@ export function calculateLiveInsights({ text = '', prompt = '', targetWords = 18
 
   const tasks = [];
   if (metrics.wordCount < targetWords) {
-    tasks.push({ id: 'len', text: `Add ~${targetWords - metrics.wordCount} more words`, type: 'warn' });
+    if (metrics.wordCount < effectiveMin) {
+      tasks.push({ id: 'len', text: `Add ~${Math.max(10, effectiveMin - metrics.wordCount)} more words to reach the minimum (${effectiveMin})`, type: 'error' });
+    } else {
+      tasks.push({ id: 'len', text: `Add ~${targetWords - metrics.wordCount} more words to hit the ideal target (${targetWords})`, type: 'warn' });
+    }
   }
   if (metrics.errors > 3) {
     tasks.push({ id: 'err', text: `Fix ${metrics.errors} grammar issues`, type: 'error' });

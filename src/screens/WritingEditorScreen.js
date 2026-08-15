@@ -196,19 +196,24 @@ export default function WritingEditorScreen({ navigation, route }) {
     return text.substring(selection.start, selection.end);
   }, [text, selection]);
 
-  const promptItem = useMemo(() => ({
-    prompt: route.params?.prompt || 'Should university education be free for everyone? Discuss with examples.',
-    task: route.params?.initialTask || route.params?.promptMeta?.task || 'paragraph',
-    type: route.params?.initialType || route.params?.promptMeta?.type || 'opinion',
-  }), [route.params]);
+  const promptItem = useMemo(() => {
+    const prefill = route.params?.prefillPrompt || route.params?.prompt;
+    return {
+      prompt: prefill || 'Should university education be free for everyone? Discuss with examples.',
+      task: route.params?.initialTask || route.params?.promptMeta?.task || (prefill ? 'essay' : 'paragraph'),
+      type: route.params?.initialType || route.params?.promptMeta?.type || 'opinion',
+    };
+  }, [route.params]);
 
-  const targetWords = promptItem.task === 'essay' ? 250 : 120;
+  const targetWords = route.params?.wordTargetMax || (promptItem.task === 'essay' ? 250 : 120);
+  const targetWordsMin = route.params?.wordTargetMin || (promptItem.task === 'essay' ? 150 : 80);
 
   const insights = useMemo(() => calculateLiveInsights({ 
     text, 
     prompt: promptItem.prompt, 
-    targetWords 
-  }), [text, promptItem, targetWords]);
+    targetWords,
+    targetWordsMin,
+  }), [text, promptItem, targetWords, targetWordsMin]);
 
   useEffect(() => {
     loadDraft().then(d => { if (d && !text) setText(d); });
