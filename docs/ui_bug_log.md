@@ -132,6 +132,21 @@ EmailTemplateDesigner, RealLifeModules, Developer, Resources, WebViewer.
 - KALAN: commit+push+deploy, sonra canlıda Mock Exam 1'e tıklayıp çözme akışını test et. Ayrıca ExamDetailScreen'de mock'lar çözülürken '_source_task' iç sorulara zarar vermemeli (sadece ek alan).
 - AI Speaking partner crash: 'Cannot read properties of undefined (reading 'prompt')' — AISpeakingPartnerScreen.js 621 satırda targetSentences useMemo, activePrompt henüz hesaplanmadan (643-644) kullanılıyor olabilir; veya web'de speechRecognition importu. Lokal analiz: activePrompt 644'te computed, 621'de useMemo 624'te dependency. İlk render'da activePrompt henüz tanımlı DEĞİL (var hoisting yok). FIX: 620-623 satırındaki useMemo'yu activePrompt tanımından SONRAYA taşı. AYNI DOSYADA 767, 856, 941 de activePrompt'a erişiyor.
 
+### CANLI DOĞRULAMA (yeni bundle 0e2e7fc0)
+- BUG-1/2 doğrulandı: Home'dan 'Open Board' Today Board ekranını açıyor (eski bundle'da DemoFeatures'a gidiyordu). FIX ÇALIŞIYOR. Kalan küçük: hero başlığı + page h1 aynı metin tekrarlanıyor ('Today's Board' iki kez) — düzeltilebilir polish.
+- Today Board: 5 mission, progress, weak words watchlist hepsi render ediliyor.
+
+- BUG-2 doğrulandı: Review weak words → Daily Review (SRS) ekranı açıldı, 8 kelime kuyrukta. FIX ÇALIŞIYOR.
+- POLISH incelemesi sonuçlandı: sayfa başlıkları (h1) content area açık zemininde koyu renkte DOĞRU kontrastla render ediliyor; overlay içerik arkasında. Sorun yok, polish'a gerek kalmadı.
+
+- BUG-18 canlı doğrulandı: AI Speaking Partner ekranı crash etmeden açılıyor — active prompt, mod filtreleri (Opinion/Compare/Campus/Academic), Live Coverage, kayıt ve Hear Prompt butonları hepsi çalışır durumda. FIX ÇALIŞIYOR.
+- KALAN: BUG-19 canlı doğrulaması (Exams > Mock Exam kartlarında 63-69 Questions görünecek) — JS tıklamasıyla yapılacak (/Exams URL stack'te açılmadı).
+
+### BUG-20 (KAPANDI — test artifactı): 'URL /Exams iken Grammar ekranı' gözlemi yanlış teşhis
+- Kesin teşhis: window.__BUEPT_NAV__.getState() her iki tıklamadan sonra state=[MainTabs, Exams] olarak doğruydü; before=Exams gösterdi (ilk navigate zaten gerçekleşmiş). Görüntüdeki 'Grammar' ekranı, browser görüntüleme anındaki stale render / cache'li snapshot'tı — aynı JS tıklamasıyla URL /Exams kalırken aktif route zaten Exams'ti.
+- Doğrulama: Exams ekranı canlıda (screenshot) tüm kartlarla render edildi: Mock 1: 69 Questions, Mock 2: 67, Mock 3: 63, Mock 4: 65, Mock 5: 65 — BUG-19 FIX'i CANLIDA DOĞRULANDI.
+- Kalan test: Mock Exam 1'i başlatıp çözme akışı (ExamDetail screen'i — 69 soru sıralı akış, timer, sonuç ekranı).
+
 ### BUG-18 (KRITIK — runtime crash): AI Speaking ekranı
 - Hata: "Cannot read properties of undefined (reading 'prompt')" — App Error Boundary yakaladı. runtimeApi.prompt'a erişiyor olabilir ama obje tanımlı değil. AI ekranlarında (AI Speaking) crash. Lokal kodda runtimeApi ve AI ekranlarındaki .prompt kullanımları kontrol edilecek.
 - Temiz demo state'te test edilirken: Home'da XP 0 (yeni state), Reading 1/5 + 20% skor kaydı, streak 1 gün, Writing Logs 1, 27 XP önceki oturumdan — temiz oturumda sıfırdan test.
@@ -150,3 +165,30 @@ EmailTemplateDesigner, RealLifeModules, Developer, Resources, WebViewer.
 - Writing sekmesi açıldı, 130 topic, Prompt Library filtreleri çalışıyor.
 - Start Writing → Writing Studio açıldı, otomatik ilk prompt yüklendi.
 - Metin girildi → Real-time Feedback güncellendi: 42/120 words, Readiness 45%, flow 70%, variety 95%, complexity 25%, formality 100%, AWL 0%. Next Steps güncellendi. Feedback motoru çalışıyor.
+
+### BUG-20 (CANLI — navigation tutarsızlığı): URL /BUEPT-APP/Exams iken içerik Grammar ekranı gösteriyor
+- Tespit: Canlı deployed sitede alt nav'da 'Exams' butonuna basınca Title 'Grammar' oldu, sayfa içeriği Grammar (160 modül listesi) gösteriyor; URL hâlâ /BUEPT-APP/Exams. Route ile aktif screen uyuşmuyor.
+- Kök analiz (lokal): App.js'de LINKING_CONFIG=undefined — web linking KAPALI, yani URL (window.location) navigasyonla senkron değil; URL'deki /Exams eski kalmış olabilir. Ayrıca RootNavigator'da tab içindeki 'Grammar' route'unun AYNI isimde ayrı bir stack screen'i var (satır 58): tab.navigate('Grammar') stack'e push yaparsa Title 'Grammar' görünür ama URL değişmez. Ancak JS ile yapılan Exams tıklaması sidebar'daki Exams öğesine denk gelmemiş olabilir (duplicate 'Start' butonları nedeniyle yanlış element). Önce sidebar'dan kesin Exams tıklamasıyla tekrar doğrula.
+- Durum: canlıda sidebar Exams öğesine coordinate tıklamasıyla tekrar denenecek; tekrarlamazsa BUG-20 kapatılacak (test artifactı).
+
+### BUG-21 (KRİTİK — Mock Exam çözme akışı): Mock Exam 1 açılıyor ama sorular BOZUK render ediliyor
+- Tespit: '⏱ Start Timed Exam' çalışıyor, ExamDetail açıldı (timer 2:30:00, Reading/Listening/Grammar sekmeleri). ANCAK:
+  a) Reading bölümünde 'Reading Passage' altında passage metni YOK — sadece 'BUSEPT reading sets combined' cümlesi var.
+  b) Q1-Q10 kısa cevap (short answer) inputları ile render ediliyor — oysa mock exam reading soruları MCQ olmalı (reading_tasks.json'da mcqOptions var).
+  c) Reading bölümü 3 farklı passage konusunu tek listede birleştirmiş (Urban Heat → Easterlin Paradox → Procrastination) — passage başına bölüm ayrımı yok, kullanıcı hangi sorunun hangi metne ait olduğunu göremiyor.
+  d) Listening/Grammar sekmelerinin de aynı bozuklukla render olabileceği şüphesi.
+- Muhtemel kök: scripts/fix_mock_exam_refs.py ile üretilen inline sections'da soru format bilgisi (mcq vs short-answer vs other) doğru taşınmamış VE ExamDetailScreen'de inline/mock section render path'i soru tipini kontrol etmeden tek tip input render ediyor; ayrıca section başlıkları (Passage 1/2 ayrımı) düşmüş.
+- Durum: lokalde ExamDetailScreen.js + inline section üretimini incele → fix et → push + canlı doğrula.
+
+### BUG-21 KÖK TEŞHİS (net): scripts/fix_mock_exam_refs.py üç bozukluk üretti
+- Dosya durumu: mock_1 reading 44 soru, listening 25, grammar 0. Tüm sorular `type: short_answer`.
+- Bozukluk 1: Sorular 5 ayrı task'tan tek düz `questions` listesine düzleştirilmiş → passage başlıkları/ayrımları yok; `text` alanları (passage metinleri) düşürülmüş.
+- Bozukluk 2: reading_tasks.json soruları zaten MCQ formatında ("q" alanında A)B)C)D) seçenekleri var) ama script `type: short_answer` set ediyor ve seçenekler `options` alanına ayrışmamış.
+- Bozukluk 3: Grammar section boş (grammar section mock'larda yok — gerçek BUSEPT formatı Language Use ~30-40 soru MCQ).
+- Data yapısı: reading_tasks.json task keys: id, title, level, sub_type, time, text, questions. Soru: {type, q, answer[], skill}. reading_sets.json resources listesi (tasks değil).
+- FIX PLANI (fix_mock_exam_refs.py yeniden yaz):
+  1. Her task için passage'lı bölüm tut (reading_sections: [{title, passage:text, questions:[mcq]}]).
+  2. MCQ soruları options olarak ayrıştır: "q" metninden A)... parçalarını ayıkla; options:['A)...','B)...'], answer:'A'.
+  3. Listening'de transcript'ı section'a ekle.
+  4. Grammar: reading task'larından yerine gerçek grammar sorusu yok — mock'larda grammar={questions:[MCQ Language Use]} olarak okuma MCQ'larından değil; boş bırakılırsa UI 'Grammar' sekmesi boş olur. (Not: listening_tasks.json grammar sorusu içeriyor olabilir — kontrol et: mock_1 listening 25 soru.)
+  5. ExamsScreen getQuestionCount ve ExamDetailScreen inline section render'ı buna göre çalışmalı (section listesi okuyacak).

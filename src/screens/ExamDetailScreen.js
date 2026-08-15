@@ -10,6 +10,11 @@ import { buildExamSectionOpenEndedPrompts } from '../utils/openEndedPrompts';
 
 const EXAM_DURATION = 150 * 60; // 150 minutes
 
+function keyIndex(items, key) {
+  const idx = items.findIndex((a) => a.key === key);
+  return idx >= 0 ? idx + 1 : '';
+}
+
 function buildExamMistakeItem({ examTitle, section, question, selectedIndex, context }) {
   const options = Array.isArray(question.options) ? question.options : [];
   const correctIdx = Number.isFinite(question.answer) ? question.answer : null;
@@ -42,23 +47,56 @@ export default function ExamDetailScreen({ route, navigation }) {
   const [timeLeft, setTimeLeft] = useState(EXAM_DURATION);
   const timerRef = useRef(null);
 
+  const allQuestions = useMemo(() => {
+    const sec = exam.sections;
+    const all = [];
+    const reading = sec.reading || {};
+    if (Array.isArray(reading.passages)) {
+      reading.passages.forEach((passage, pi) =>
+        (passage.questions || []).forEach((q, qi) => {
+          all.push({ key: `r${pi}_${qi}`, q, passage: passage.passage || '' });
+        }),
+      );
+    } else if (Array.isArray(reading.questions)) {
+      reading.questions.forEach((q, i) => {
+        all.push({ key: `r${i}`, q, passage: reading.passage || '' });
+      });
+    }
+    const listening = sec.listening || {};
+    if (Array.isArray(listening.groups)) {
+      listening.groups.forEach((group, gi) =>
+        (group.questions || []).forEach((q, qi) => {
+          all.push({ key: `l${gi}_${qi}`, q, passage: group.transcript || '' });
+        }),
+      );
+    } else if (Array.isArray(listening.questions)) {
+      listening.questions.forEach((q, i) => {
+        all.push({ key: `l${i}`, q, passage: listening.passage || '' });
+      });
+    }
+    const grammar = sec.grammar || {};
+    (grammar.questions || []).forEach((q, i) => {
+      all.push({ key: `g${i}`, q, passage: '' });
+    });
+    return all;
+  }, [exam.sections]);
+
+  const readingQuestions = useMemo(() => allQuestions.filter((a) => a.key.startsWith('r')),
+    [allQuestions]);
+  const listeningQuestions = useMemo(() => allQuestions.filter((a) => a.key.startsWith('l')),
+    [allQuestions]);
+
   const check = useCallback(() => {
     let correct = 0;
     let total = 0;
-    const sec = exam.sections;
-    const all = [
-      ...sec.reading.questions.map((q, i) => ({ key: `r${i}`, q })),
-      ...sec.listening.questions.map((q, i) => ({ key: `l${i}`, q })),
-      ...sec.grammar.questions.map((q, i) => ({ key: `g${i}`, q }))
-    ];
-    all.forEach(({ key, q }) => {
+    allQuestions.forEach(({ key, q }) => {
       const active = similar[key] || q;
       total += 1;
       if (answers[key] === active.answer) correct += 1;
     });
     setScore(`${correct} / ${total}`);
     setChecked(true);
-  }, [answers, exam.sections, similar]);
+  }, [answers, allQuestions, similar]);
 
   useEffect(() => {
     if (checked) {
@@ -100,8 +138,14 @@ export default function ExamDetailScreen({ route, navigation }) {
 
   const sec = exam.sections;
   const openEndedPrompts = useMemo(() => {
-    if (activeSection === 'reading') return buildExamSectionOpenEndedPrompts(sec.reading, 'reading');
-    if (activeSection === 'listening') return buildExamSectionOpenEndedPrompts(sec.listening, 'listening');
+    if (activeSection === 'reading') {
+      const passage0 = Array.isArray(sec.reading?.passages) ? sec.reading.passages[0] : undefined;
+      return buildExamSectionOpenEndedPrompts(passage0 || sec.reading, 'reading');
+    }
+    if (activeSection === 'listening') {
+      const group0 = Array.isArray(sec.listening?.groups) ? sec.listening.groups[0] : undefined;
+      return buildExamSectionOpenEndedPrompts(group0 || sec.listening, 'listening');
+    }
     return buildExamSectionOpenEndedPrompts(sec.grammar, 'grammar');
   }, [activeSection, sec.grammar, sec.listening, sec.reading]);
   const renderFeedback = (active, key, contextLabel) => {
@@ -144,18 +188,18 @@ export default function ExamDetailScreen({ route, navigation }) {
 
       {activeSection === 'reading' && (
         <>
-          <Card style={styles.card}>
-            <Text style={styles.h3}>Reading Passage</Text>
-            <Text style={styles.body}>{sec.reading.passage}</Text>
-          </Card>
-          {sec.reading.questions.map((q, i) => {
-            const key = `r${i}`;
-            const active = similar[key] || q;
-            const selected = answers[key];
-            const isWrong = checked && selected !== undefined && selected !== active.answer;
-            return (
-              <Card key={key} style={styles.card}>
-                <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
+          {sec.reading?.passages ? sec.reading.passages.map((passage, pi) => (
+            <Card key={`passage_${pi}`} style={styles.card}>
+              <Text style={styles.h3}>Passage {pi + 1}: {passage.title || ''}</Text>
+              <Text style={styles.body}>{passage.passage}</Text>
+              {passage.questions.map((q, qi) => {
+                const key = `r${pi}_${qi}`;
+                const active = similar[key] || q;
+                const selected = answers[key];
+                const isWrong = checked && selected !== undefined && selected !== active.answer;
+                return (
+                  <View key={key} style={styles.qWrap}>
+                    <Text style={styles.h3}>Q{keyIndex(readingQuestions, key)}. {active.q}</Text>
                 {active.type === 'short_answer' ? (
                   <View style={styles.inputContainer}>
                     <TextInput
@@ -190,53 +234,98 @@ export default function ExamDetailScreen({ route, navigation }) {
                     />
                   ))
                 )}
-                {renderFeedback(active, key, 'passage')}
-                {isWrong && (
-                  <Button
-                    label="Open Mistake Coach"
-                    variant="secondary"
-                    onPress={() =>
-                      navigation.navigate('MistakeCoach', {
-                        mistakes: [
-                          buildExamMistakeItem({
-                            examTitle: exam.title,
-                            section: 'reading',
-                            question: active,
-                            selectedIndex: selected,
-                            context: sec.reading.passage,
-                          }),
-                        ],
-                      })
-                    }
-                    style={styles.mistakeBtn}
-                  />
-                )}
-                {active.similar && (
-                  <View style={styles.row}>
-                    <Button label="Generate Similar" variant="secondary" onPress={() => applySimilar(key, active)} />
-                    <Button label="I don't know" variant="secondary" onPress={() => applySimilar(key, active)} />
+                    {renderFeedback(active, key, 'passage')}
+                    {isWrong && (
+                      <Button
+                        label="Open Mistake Coach"
+                        variant="secondary"
+                        onPress={() =>
+                          navigation.navigate('MistakeCoach', {
+                            mistakes: [
+                              buildExamMistakeItem({
+                                examTitle: exam.title,
+                                section: 'reading',
+                                question: active,
+                                selectedIndex: selected,
+                                context: passage.passage || '',
+                              }),
+                            ],
+                          })
+                        }
+                        style={styles.mistakeBtn}
+                      />
+                    )}
+                    {active.similar && (
+                      <View style={styles.row}>
+                        <Button label="Generate Similar" variant="secondary" onPress={() => applySimilar(key, active)} />
+                        <Button label="I don't know" variant="secondary" onPress={() => applySimilar(key, active)} />
+                      </View>
+                    )}
                   </View>
-                )}
-              </Card>
-            );
-          })}
+                );
+              })}
+            </Card>
+          )) : sec.reading?.questions ? (
+            <Card style={styles.card}>
+              <Text style={styles.h3}>Reading Passage</Text>
+              <Text style={styles.body}>{sec.reading.passage}</Text>
+              {sec.reading.questions.map((q, i) => {
+                const key = `r${i}`;
+                const active = similar[key] || q;
+                const selected = answers[key];
+                const isWrong = checked && selected !== undefined && selected !== active.answer;
+                return (
+                  <View key={key} style={styles.qWrap}>
+                    <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
+                    {renderFeedback(active, key, 'passage')}
+                    {isWrong && (
+                      <Button
+                        label="Open Mistake Coach"
+                        variant="secondary"
+                        onPress={() =>
+                          navigation.navigate('MistakeCoach', {
+                            mistakes: [
+                              buildExamMistakeItem({
+                                examTitle: exam.title,
+                                section: 'reading',
+                                question: active,
+                                selectedIndex: selected,
+                                context: sec.reading.passage || '',
+                              }),
+                            ],
+                          })
+                        }
+                        style={styles.mistakeBtn}
+                      />
+                    )}
+                    {active.similar && (
+                      <View style={styles.row}>
+                        <Button label="Generate Similar" variant="secondary" onPress={() => applySimilar(key, active)} />
+                        <Button label="I don't know" variant="secondary" onPress={() => applySimilar(key, active)} />
+                      </View>
+                    )}
+                  </View>
+                );
+              })}
+            </Card>
+          ) : null}
         </>
       )}
 
       {activeSection === 'listening' && (
         <>
-          <Card style={styles.card}>
-            <Text style={styles.h3}>Listening Context</Text>
-            <Text style={styles.body}>{sec.listening.passage || "Listen to the audio track and answer the following questions."}</Text>
-          </Card>
-          {sec.listening.questions.map((q, i) => {
-            const key = `l${i}`;
-            const active = similar[key] || q;
-            const selected = answers[key];
-            const isWrong = checked && selected !== undefined && selected !== active.answer;
-            return (
-              <Card key={key} style={styles.card}>
-                <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
+          {sec.listening?.groups ? sec.listening.groups.map((group, gi) => (
+            <Card key={`group_${gi}`} style={styles.card}>
+              <Text style={styles.h3}>Listening {gi + 1}: {group.title || ''}</Text>
+              <Text style={styles.body}>{group.transcript || 'Listen to the audio track and answer the following questions.'}</Text>
+              {group.questions.map((q, qi) => {
+                const key = `l${gi}_${qi}`;
+                const active = similar[key] || q;
+                const selected = answers[key];
+                const isWrong = checked && selected !== undefined && selected !== active.answer;
+                return (
+                  <View key={key} style={styles.qWrap}>
+                    <Text style={styles.h3}>Q{keyIndex(listeningQuestions, key)}. {active.q}</Text>
                 {active.type === 'short_answer' ? (
                   <View style={styles.inputContainer}>
                     <TextInput
@@ -271,43 +360,93 @@ export default function ExamDetailScreen({ route, navigation }) {
                     />
                   ))
                 )}
-                {renderFeedback(active, key, 'transcript')}
-                {isWrong && (
-                  <Button
-                    label="Open Mistake Coach"
-                    variant="secondary"
-                    onPress={() =>
-                      navigation.navigate('MistakeCoach', {
-                        mistakes: [
-                          buildExamMistakeItem({
-                            examTitle: exam.title,
-                            section: 'listening',
-                            question: active,
-                            selectedIndex: selected,
-                            context: sec.listening.passage || '',
-                          }),
-                        ],
-                      })
-                    }
-                    style={styles.mistakeBtn}
-                  />
-                )}
-                {active.similar && (
-                  <View style={styles.row}>
-                    <Button label="Generate Similar" variant="secondary" onPress={() => applySimilar(key, active)} />
-                    <Button label="I don't know" variant="secondary" onPress={() => applySimilar(key, active)} />
+                    {renderFeedback(active, key, 'transcript')}
+                    {isWrong && (
+                      <Button
+                        label="Open Mistake Coach"
+                        variant="secondary"
+                        onPress={() =>
+                          navigation.navigate('MistakeCoach', {
+                            mistakes: [
+                              buildExamMistakeItem({
+                                examTitle: exam.title,
+                                section: 'listening',
+                                question: active,
+                                selectedIndex: selected,
+                                context: group.transcript || '',
+                              }),
+                            ],
+                          })
+                        }
+                        style={styles.mistakeBtn}
+                      />
+                    )}
+                    {active.similar && (
+                      <View style={styles.row}>
+                        <Button label="Generate Similar" variant="secondary" onPress={() => applySimilar(key, active)} />
+                        <Button label="I don't know" variant="secondary" onPress={() => applySimilar(key, active)} />
+                      </View>
+                    )}
                   </View>
-                )}
-              </Card>
-            );
-          })}
+                );
+              })}
+            </Card>
+          )) : sec.listening?.questions ? (
+            <Card style={styles.card}>
+              <Text style={styles.h3}>Listening Context</Text>
+              <Text style={styles.body}>{sec.listening.passage || "Listen to the audio track and answer the following questions."}</Text>
+              {sec.listening.questions.map((q, i) => {
+                const key = `l${i}`;
+                const active = similar[key] || q;
+                const selected = answers[key];
+                const isWrong = checked && selected !== undefined && selected !== active.answer;
+                return (
+                  <View key={key} style={styles.qWrap}>
+                    <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
+                    {renderFeedback(active, key, 'transcript')}
+                    {isWrong && (
+                      <Button
+                        label="Open Mistake Coach"
+                        variant="secondary"
+                        onPress={() =>
+                          navigation.navigate('MistakeCoach', {
+                            mistakes: [
+                              buildExamMistakeItem({
+                                examTitle: exam.title,
+                                section: 'listening',
+                                question: active,
+                                selectedIndex: selected,
+                                context: sec.listening.passage || '',
+                              }),
+                            ],
+                          })
+                        }
+                        style={styles.mistakeBtn}
+                      />
+                    )}
+                    {active.similar && (
+                      <View style={styles.row}>
+                        <Button label="Generate Similar" variant="secondary" onPress={() => applySimilar(key, active)} />
+                        <Button label="I don't know" variant="secondary" onPress={() => applySimilar(key, active)} />
+                      </View>
+                    )}
+                  </View>
+                );
+              })}
+            </Card>
+          ) : null}
         </>
       )}
 
       {activeSection === 'grammar' && (
         <>
           <Text style={styles.h2}>Grammar Section</Text>
-          {sec.grammar.questions.map((q, i) => {
+          {(sec.grammar?.questions || []).length === 0 && (
+            <Card style={styles.card}>
+              <Text style={styles.body}>This exam focuses on Reading and Listening practice. Use the Grammar Studio for targeted grammar drills.</Text>
+            </Card>
+          )}
+          {(sec.grammar?.questions || []).map((q, i) => {
             const key = `g${i}`;
             const active = similar[key] || q;
             const selected = answers[key];
@@ -450,6 +589,12 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: spacing.sm,
     marginBottom: spacing.md
+  },
+  qWrap: {
+    marginTop: spacing.md,
+    paddingTop: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: colors.border || '#E5E7EB',
   },
   row: {
     flexDirection: 'row',

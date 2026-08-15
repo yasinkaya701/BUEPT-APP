@@ -71,7 +71,13 @@ export default function ExamsScreen({ navigation }) {
 
   const getQuestionCount = (exam) => {
     const sec = exam?.sections || {};
-    let total = ['reading', 'listening', 'grammar', 'writing']
+    const passageCount = Array.isArray(sec.reading?.passages)
+      ? sec.reading.passages.reduce((sum, p) => sum + (Array.isArray(p?.questions) ? p.questions.length : 0), 0)
+      : 0;
+    const groupCount = Array.isArray(sec.listening?.groups)
+      ? sec.listening.groups.reduce((sum, g) => sum + (Array.isArray(g?.questions) ? g.questions.length : 0), 0)
+      : 0;
+    let total = passageCount + groupCount + ['grammar', 'writing']
       .reduce((sum, key) => sum + (Array.isArray(sec[key]?.questions) ? sec[key].questions.length : 0), 0);
     if (total > 0) return total;
     // Mock exams store reference lists (reading_section / listening_section) instead of inline sections
