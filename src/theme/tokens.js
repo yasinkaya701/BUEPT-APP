@@ -56,6 +56,20 @@ export const colors = {
   tintBlue: '#F0F7FF',
   card: '#FFFFFF',
 
+  // Skill identity colors (one per core tab — used by headers, rails, badges)
+  skill: {
+    vocab: '#0D9488',        // teal
+    listening: '#4F46E5',    // indigo
+    writing: '#B45309',      // amber
+    speaking: '#7C3AED',     // violet
+  },
+  skillSoft: {
+    vocab: '#F0FDFA',
+    listening: '#EEF2FF',
+    writing: '#FFF7ED',
+    speaking: '#F5F3FF',
+  },
+
   // BUEPT Score Bands
   bands: {
     E: '#10B981',   // Excellent

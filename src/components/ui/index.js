@@ -7,3 +7,8 @@ export { default as Sparkline } from './Sparkline';
 export { default as TimelineStep } from './TimelineStep';
 export { default as KeywordDensityBar } from './KeywordDensityBar';
 export { default as ConfidenceStrip } from './ConfidenceStrip';
+export { default as SkillHeader } from './SkillHeader';
+export { default as MetricRail, MetricTile } from './MetricRail';
+export { default as FilterBar, FilterChip } from './FilterBar';
+export { default as SectionHeader } from './SectionHeader';
+export { default as PracticeTaskRow } from './PracticeTaskRow';

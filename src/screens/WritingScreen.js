@@ -8,6 +8,10 @@ import { colors, spacing, typography, shadow, radius } from '../theme/tokens';
 import prompts from '../../data/writing_prompts.json';
 import { useAppState } from '../context/AppState';
 import { loadDraft } from '../utils/essayStorage';
+import SkillHeader from '../components/ui/SkillHeader';
+import MetricRail, { MetricTile } from '../components/ui/MetricRail';
+import SectionHeader from '../components/ui/SectionHeader';
+import FilterBar, { FilterChip } from '../components/ui/FilterBar';
 
 const TYPES = ['opinion', 'definition', 'cause_effect', 'problem_solution', 'compare_contrast', 'argumentative', 'reaction'];
 const TASKS = ['paragraph', 'essay'];
@@ -19,31 +23,6 @@ const START_PATHS = [
 
 function formatLabel(value = '') {
   return String(value || '').replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase()).trim();
-}
-
-// UI Modules matching ReadingScreen & GrammarScreen
-function MetricTile({ value, label, accent = 'blue' }) {
-    return (
-      <View style={styles.metricTile}>
-        <View style={[styles.metricAccent, accent === 'teal' ? styles.metricAccentTeal : accent === 'amber' ? styles.metricAccentAmber : styles.metricAccentBlue]} />
-        <Text style={styles.metricValue}>{value}</Text>
-        <Text style={styles.metricLabel}>{label}</Text>
-      </View>
-    );
-}
-
-function FilterChip({ label, active, onPress, helper }) {
-    return (
-      <TouchableOpacity
-        accessibilityRole="button"
-        activeOpacity={0.88}
-        onPress={onPress}
-        style={[styles.filterChip, active && styles.filterChipActive]}
-      >
-        <Text style={[styles.filterChipText, active && styles.filterChipTextActive]}>{label}</Text>
-        {helper ? <Text style={[styles.filterChipHelper, active && styles.filterChipHelperActive]}>{helper}</Text> : null}
-      </TouchableOpacity>
-    );
 }
 
 // Mocking static data if the file isn't created yet
@@ -67,6 +46,8 @@ export default function WritingScreen({ navigation }) {
   const [savedDraft, setSavedDraft] = useState('');
   
   const [showTemplates, setShowTemplates] = useState(false);
+
+  const resumeWordCount = resumeDraft ? resumeDraft.split(/\s+/).filter(Boolean).length : 0;
 
   useEffect(() => {
     let mounted = true;
@@ -130,8 +111,15 @@ export default function WritingScreen({ navigation }) {
     <>
     <Screen scroll contentStyle={styles.container}>
         <View style={styles.headerSpacer}>
-            <Text style={styles.h1}>Writing</Text>
-            <Text style={styles.sub}>Topic selection, quick templates, and a clean prompt library in one place.</Text>
+            <SkillHeader
+              skill="writing"
+              icon="create-outline"
+              eyebrow="Writing Studio"
+              title="Writing"
+              description="Topic selection, quick templates, and a clean prompt library in one place."
+              rightValue={resumeDraft ? `${resumeWordCount}` : '—'}
+              rightLabel={resumeDraft ? 'Draft words' : 'No draft'}
+            />
             <Card style={styles.heroCard} glow>
                 <View style={styles.heroTopRow}>
                     <View style={styles.heroIconWrap}>
@@ -159,11 +147,11 @@ export default function WritingScreen({ navigation }) {
                 </View>
             </Card>
 
-        <View style={styles.metricGrid}>
-            <MetricTile value={resumeDraft ? 'Ready' : 'None'} label="Saved Draft" accent="amber" />
+        <MetricRail>
+            <MetricTile value={resumeDraft ? 'Ready' : 'None'} label="Saved draft" accent="amber" />
             <MetricTile value={String(favoritePrompts.length)} label="Favorites" accent="teal" />
-            <MetricTile value={promptLibrary.length} label="Visible" accent="blue" />
-        </View>
+            <MetricTile value={String(promptLibrary.length)} label="Visible" accent="blue" />
+        </MetricRail>
 
         {resumeDraft ? (
             <Card style={styles.resumeCard}>
@@ -182,10 +170,15 @@ export default function WritingScreen({ navigation }) {
         ) : null}
 
         <View style={[styles.grid, isWide && styles.gridWide]}>
-            <Card style={styles.card}>
-                <View style={styles.sectionHead}>
-                    <Text style={styles.sectionTitle}>Custom Topic</Text>
-                </View>
+        <Card style={styles.card}>
+            <SectionHeader
+              icon="pencil-outline"
+              title="Custom Topic"
+              description="Type your own essay topic and jump straight into the editor."
+              accent={colors.skill.writing}
+              style={styles.cardInner}
+            />
+            <View style={styles.cardInner}>
                 <TextInput
                     style={styles.input}
                     placeholder="Enter your own essay topic..."
@@ -197,12 +190,18 @@ export default function WritingScreen({ navigation }) {
                     <Button label="Start Custom" onPress={startWithCustomPrompt} disabled={!customPrompt.trim()} />
                     <Button label="Blank Page" variant="secondary" onPress={() => navigation.navigate('WritingEditor')} />
                 </View>
-            </Card>
+            </View>
+        </Card>
 
             <Card style={styles.card}>
-                <View style={styles.sectionHead}>
-                    <Text style={styles.sectionTitle}>Quick Starts</Text>
-                </View>
+                <SectionHeader
+                  icon="flash-outline"
+                  title="Quick Starts"
+                  description="Fast paragraph or timed exam-style essay."
+                  accent={colors.skill.writing}
+                  style={styles.cardInner}
+                />
+                <View style={styles.cardInner}>
                 {START_PATHS.map((item) => (
                     <TouchableOpacity
                         key={item.key}
@@ -217,15 +216,20 @@ export default function WritingScreen({ navigation }) {
                             <Text style={styles.pathDesc}>{item.desc}</Text>
                         </View>
                     </TouchableOpacity>
-                ))}
-            </Card>
+                                ))}
+            </View>
+        </Card>
         </View>
 
         <Card style={styles.card}>
-            <View style={styles.sectionHead}>
-                <Text style={styles.sectionTitle}>Prompt Library</Text>
-            </View>
-            
+            <SectionHeader
+              icon="menu-outline"
+              title="Prompt Library"
+              description="Filter the full topic bank by essay type and task length."
+              accent={colors.skill.writing}
+              style={styles.cardInner}
+            />
+            <View style={styles.cardInner}>
             <View style={styles.searchBox}>
                 <Ionicons name="search" size={18} color={colors.muted} />
                 <TextInput
@@ -238,18 +242,19 @@ export default function WritingScreen({ navigation }) {
                 />
             </View>
 
-            <View style={styles.chipScroll}>
+            <FilterBar label="Type" scroll>
                 <FilterChip label="All Types" active={!type} onPress={() => setType(null)} />
                 {TYPES.map(t => (
                     <FilterChip key={t} label={formatLabel(t)} active={type === t} onPress={() => setType(t)} />
                 ))}
-            </View>
+            </FilterBar>
 
-            <View style={[styles.chipScroll, styles.chipScrollTop]}>
+            <FilterBar label="Task">
                 <FilterChip label="All Tasks" active={!task} onPress={() => setTask(null)} />
                 {TASKS.map(t => (
                     <FilterChip key={t} label={formatLabel(t)} active={task === t} onPress={() => setTask(t)} />
                 ))}
+            </FilterBar>
             </View>
         </Card>
         
@@ -302,6 +307,10 @@ export default function WritingScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  cardInner: {
+    paddingHorizontal: spacing.sm,
+    paddingBottom: spacing.sm,
+  },
   container: {},
   headerSpacer: { paddingTop: spacing.md },
   h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },

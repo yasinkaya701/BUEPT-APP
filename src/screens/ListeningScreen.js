@@ -6,6 +6,11 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import Screen from '../components/Screen';
 import { useAppState } from '../context/AppState';
+import SkillHeader from '../components/ui/SkillHeader';
+import MetricRail, { MetricTile } from '../components/ui/MetricRail';
+import SectionHeader from '../components/ui/SectionHeader';
+import PracticeTaskRow from '../components/ui/PracticeTaskRow';
+import FilterBar from '../components/ui/FilterBar';
 import { colors, spacing, typography, radius } from '../theme/tokens';
 import { buildRecommendedTask } from '../utils/studyPlan';
 import { openExternalResource } from '../utils/externalLinks';
@@ -86,16 +91,6 @@ function dedupeTasks(list) {
   });
 }
 
-function MetricTile({ value, label, accent = 'blue' }) {
-  return (
-    <View style={styles.metricTile}>
-      <View style={[styles.metricAccent, accent === 'teal' ? styles.metricAccentTeal : accent === 'amber' ? styles.metricAccentAmber : styles.metricAccentBlue]} />
-      <Text style={styles.metricValue}>{value}</Text>
-      <Text style={styles.metricLabel}>{label}</Text>
-    </View>
-  );
-}
-
 function FilterChip({ label, helper, active, onPress }) {
   return (
     <TouchableOpacity
@@ -113,75 +108,39 @@ function FilterChip({ label, helper, active, onPress }) {
 
 function CompactPracticeRow({ task, badges, onPress }) {
   const focus = getListeningFocus(task);
+  const rowBadges = [];
+  if (task.category === 'Real BUEPT Level' || task.category === 'Real Lecture Lab') rowBadges.push({ label: task.category, tone: 'gold' });
+  if (task.category === 'TEDx') rowBadges.push({ label: 'TEDx Talk', tone: 'red' });
+  badges.forEach((badge) => {
+    const isAI = badge.includes('Gemini') || badge.includes('Claude') || badge === 'AI Mock' || badge === 'Premium';
+    rowBadges.push({ label: badge, tone: isAI ? 'gold' : 'blue' });
+  });
+  focus.forEach((item) => rowBadges.push({ label: item, tone: 'soft' }));
   return (
-    <TouchableOpacity 
-      accessibilityRole="button" 
-      activeOpacity={0.9} 
-      onPress={onPress} 
-      style={styles.libraryRow}
-      hitSlop={{ top: 15, bottom: 15, left: 10, right: 10 }}
-    >
-      <View style={styles.libraryRowBody}>
-        <View style={styles.libraryHeaderRow}>
-          <Text style={styles.libraryTitle}>{task.title}</Text>
-          <Text style={styles.libraryOpen}>Open</Text>
-        </View>
-        <Text style={styles.libraryMeta}>{task.level} · {task.time} · {(task.questions || []).length} questions</Text>
-        <View style={styles.badgeRow}>
-          {(task.category === 'Real BUEPT Level' || task.category === 'Real Lecture Lab') && (
-            <View style={[styles.badge, styles.badgeGold]}>
-              <Text style={[styles.badgeText, styles.badgeGoldText]}>{task.category}</Text>
-            </View>
-          )}
-          {task.category === 'TEDx' && (
-            <View style={[styles.badge, styles.badgeRed]}>
-              <Text style={[styles.badgeText, styles.badgeRedText]}>TEDx Talk</Text>
-            </View>
-          )}
-          {badges.map((badge) => {
-            const isAI = badge.includes('Gemini') || badge.includes('Claude') || badge === 'AI Mock' || badge === 'Premium';
-            return (
-              <View key={`${task.id}-${badge}`} style={[styles.badge, isAI ? styles.badgeGold : styles.badgeBlue]}>
-                <Text style={[styles.badgeText, isAI ? styles.badgeGoldText : styles.badgeBlueText]}>{badge}</Text>
-              </View>
-            );
-          })}
-          {focus.map((item) => (
-            <View key={`${task.id}-${item}`} style={[styles.badge, styles.badgeSoft]}>
-              <Text style={styles.badgeText}>{item}</Text>
-            </View>
-          ))}
-        </View>
-      </View>
-    </TouchableOpacity>
+    <PracticeTaskRow
+      title={task.title}
+      meta={`${task.level} · ${task.time} · ${(task.questions || []).length} questions`}
+      badges={rowBadges}
+      levelIcon="headset-outline"
+      tone="listening"
+      onPress={onPress}
+    />
   );
 }
 
 function PodcastRow({ podcast, onPress }) {
   return (
-    <TouchableOpacity 
-      accessibilityRole="button" 
-      activeOpacity={0.9} 
-      onPress={onPress} 
-      style={styles.libraryRow}
-      hitSlop={{ top: 15, bottom: 15, left: 10, right: 10 }}
-    >
-      <View style={styles.libraryRowBody}>
-        <View style={styles.libraryHeaderRow}>
-          <Text style={styles.libraryTitle}>{podcast.title}</Text>
-          <Text style={styles.libraryOpen}>Open</Text>
-        </View>
-        <Text style={styles.libraryMeta}>{podcast.source} · {podcast.duration} · {podcast.level}</Text>
-        <View style={styles.badgeRow}>
-          <View style={[styles.badge, styles.badgeBlue]}>
-            <Text style={[styles.badgeText, styles.badgeBlueText]}>{podcast.category}</Text>
-          </View>
-          <View style={[styles.badge, styles.badgeSoft]}>
-            <Text style={styles.badgeText}>{podcast.focus}</Text>
-          </View>
-        </View>
-      </View>
-    </TouchableOpacity>
+    <PracticeTaskRow
+      title={podcast.title}
+      meta={`${podcast.source} · ${podcast.duration} · ${podcast.level}`}
+      badges={[
+        { label: podcast.category, tone: 'blue' },
+        { label: podcast.focus, tone: 'soft' },
+      ]}
+      levelIcon="radio-outline"
+      tone="listening"
+      onPress={onPress}
+    />
   );
 }
 
@@ -444,8 +403,15 @@ export default function ListeningScreen({ navigation }) {
 
   return (
     <Screen scroll contentStyle={styles.container}>
-      <Text style={styles.h1}>Listening</Text>
-      <Text style={styles.sub}>Lecture-style practice and real podcast input, organized to reduce scanning and shorten the path to action.</Text>
+      <SkillHeader
+        skill="listening"
+        icon="headset-outline"
+        eyebrow="Listening Studio"
+        title="Listening"
+        description="Lecture-style practice and real podcast input, organized to reduce scanning and shorten the path to action."
+        rightValue={stats.accuracy != null ? `${stats.accuracy}%` : '--'}
+        rightLabel="Accuracy"
+      />
 
       <Card style={mode === 'practice' ? styles.heroCard : styles.heroCardDark} glow>
         <View style={styles.heroHeader}>
@@ -498,23 +464,24 @@ export default function ListeningScreen({ navigation }) {
         </View>
       </Card>
 
-      <View style={styles.metricRail}>
-        <MetricTile value={latest ? `${latest.score}/${latest.total}` : '--'} label="Latest score" />
+      <MetricRail>
+        <MetricTile value={latest ? `${latest.score}/${latest.total}` : '--'} label="Latest" />
         <MetricTile value={stats.accuracy != null ? `${stats.accuracy}%` : '--'} label="Accuracy" accent="teal" />
-        <MetricTile value={`${weeklyProgress.done}/${weeklyProgress.target}`} label="7-day mission" accent="amber" />
-        <MetricTile value={typeStats.weak === 'selective' ? 'Selective' : 'Careful'} label="Weak zone" />
-      </View>
+        <MetricTile value={`${weeklyProgress.done}/${weeklyProgress.target}`} label="7-day" accent="amber" />
+        <MetricTile value={typeStats.weak === 'selective' ? 'Selective' : 'Careful'} label="Weak zone" accent="red" />
+      </MetricRail>
 
       {mode === 'practice' ? (
         <>
           <Card style={styles.snapshotCard}>
-            <View style={styles.snapshotHeader}>
-              <View>
-                <Text style={styles.h3}>Listening Snapshot</Text>
-                <Text style={styles.snapshotSub}>Model score {listeningModel.overall}% · {listeningModel.band}</Text>
-              </View>
-              <Text style={styles.snapshotAttempts}>{stats.attempts} attempt{stats.attempts === 1 ? '' : 's'}</Text>
-            </View>
+            <SectionHeader
+              icon="stats-chart-outline"
+              title="Listening Snapshot"
+              description={`Model score ${listeningModel.overall}% · ${listeningModel.band}`}
+              count={`${stats.attempts} attempt${stats.attempts === 1 ? '' : 's'}`}
+              accent={colors.skill.listening}
+            />
+            <View style={{ paddingHorizontal: spacing.sm, paddingBottom: spacing.md }}>
             <View style={styles.letterRail}>
               <View style={styles.letterTile}>
                 <Text style={[styles.letterValue, styles[`letter${typeLetters.selective.tone}`]]}>{typeLetters.selective.letter}</Text>
@@ -541,15 +508,17 @@ export default function ListeningScreen({ navigation }) {
               <Text style={styles.modelFocusTitle}>{modelFocus.title}</Text>
               <Text style={styles.modelFocusBody}>{modelFocus.body}</Text>
             </View>
+            </View>
           </Card>
 
           <Card style={styles.examFormatCard}>
-            <View style={styles.sectionHeader}>
-              <View>
-                <Text style={styles.h3}>Official BUSEPT Listening Format</Text>
-                <Text style={styles.subtleBody}>How the real Boğaziçi exam runs, so practice mirrors exam day.</Text>
-              </View>
-            </View>
+            <SectionHeader
+              icon="clipboard-outline"
+              title="Official BUSEPT Listening Format"
+              description="How the real Boğaziçi exam runs, so practice mirrors exam day."
+              accent={colors.skill.listening}
+            />
+            <View style={{ paddingHorizontal: spacing.sm, paddingBottom: spacing.md }}>
             <View style={styles.formatRow}>
               <View style={styles.formatBlock}>
                 <View style={styles.formatHead}>
@@ -567,15 +536,17 @@ export default function ListeningScreen({ navigation }) {
               </View>
             </View>
             <Text style={styles.formatFoot}>YADYOK source: questions are scored out of the full bank; letter grades map to percentage bands on the official rubric.</Text>
+            </View>
           </Card>
 
           <Card style={styles.quickStartCard}>
-            <View style={styles.sectionHeader}>
-              <View>
-                <Text style={styles.h3}>Quick Start</Text>
-                <Text style={styles.subtleBody}>Resume, follow the recommendation, or jump straight to the weak listening type.</Text>
-              </View>
-            </View>
+            <SectionHeader
+              icon="flash-outline"
+              title="Quick Start"
+              description="Resume, follow the recommendation, or jump straight to the weak listening type."
+              accent={colors.skill.listening}
+            />
+            <View style={{ paddingHorizontal: spacing.sm }}>
             <View style={styles.actionRow}>
               {lastTask ? (
                 <Button label="Resume last" icon="refresh" onPress={() => navigation.navigate('ListeningDetail', { taskId: lastTask.id })} />
@@ -594,6 +565,7 @@ export default function ListeningScreen({ navigation }) {
               <Button label="History" icon="time-outline" variant="ghost" onPress={() => navigation.navigate('ListeningHistory')} />
             </View>
             {rec?.reason ? <Text style={styles.meta}>Recommendation logic: {rec.reason}</Text> : null}
+            </View>
           </Card>
 
           <Card style={styles.controlsCard}>
@@ -612,36 +584,42 @@ export default function ListeningScreen({ navigation }) {
               placeholderTextColor={colors.muted}
               autoCapitalize="none"
             />
-            <Text style={styles.filterLabel}>Level</Text>
-            <View style={styles.filterRow}>
-              {LEVEL_OPTIONS.map((option) => (
-                <FilterChip key={option} label={option} active={levelFilter === option} onPress={() => setLevelFilter(option)} />
-              ))}
-            </View>
-            <Text style={styles.filterLabel}>Type</Text>
-            <View style={styles.filterRow}>
-              {TYPE_OPTIONS.map((option) => {
-                const helper = option.key === 'ALL'
-                  ? `${typeCounts.all}`
-                  : option.key === 'selective'
-                    ? `${typeCounts.selective}`
-                    : `${typeCounts.careful}`;
-                return (
-                  <FilterChip
-                    key={option.key}
-                    label={option.label}
-                    helper={helper}
-                    active={typeFilter === option.key}
-                    onPress={() => setTypeFilter(option.key)}
-                  />
-                );
-              })}
+            <View style={{ paddingBottom: spacing.sm }}>
+              <FilterBar label="Level" scroll>
+                {LEVEL_OPTIONS.map((option) => (
+                  <FilterChip key={option} label={option} active={levelFilter === option} onPress={() => setLevelFilter(option)} />
+                ))}
+              </FilterBar>
+              <FilterBar label="Type">
+                {TYPE_OPTIONS.map((option) => {
+                  const helper = option.key === 'ALL'
+                    ? `${typeCounts.all}`
+                    : option.key === 'selective'
+                      ? `${typeCounts.selective}`
+                      : `${typeCounts.careful}`;
+                  return (
+                    <FilterChip
+                      key={option.key}
+                      label={option.label}
+                      helper={helper}
+                      active={typeFilter === option.key}
+                      onPress={() => setTypeFilter(option.key)}
+                    />
+                  );
+                })}
+              </FilterBar>
             </View>
           </Card>
 
           <Card style={styles.suggestedCard}>
-            <Text style={styles.h3}>Suggested Queue</Text>
-            <Text style={styles.subtleBody}>High-value tasks ordered to cover the weak area first and keep the rest balanced.</Text>
+            <SectionHeader
+              icon="list-outline"
+              title="Suggested Queue"
+              description="High-value tasks ordered to cover the weak area first and keep the rest balanced."
+              accent={colors.skill.listening}
+              style={styles.suggestedHeader}
+            />
+            <View style={{ paddingHorizontal: spacing.sm, paddingBottom: spacing.md }}>
             {suggestedTasks.length ? (
               <View style={styles.bankList}>
                 {suggestedTasks.map((task) => {
@@ -666,9 +644,15 @@ export default function ListeningScreen({ navigation }) {
             ) : (
               <Text style={styles.emptyText}>No tasks match the current practice filter.</Text>
             )}
+            </View>
           </Card>
 
-          <Text style={styles.section}>Practice Library</Text>
+          <SectionHeader
+            icon="library-outline"
+            title="Practice Library"
+            description="Full task bank split into the two official BUSEPT listening tracks."
+            accent={colors.skill.listening}
+          />
           {filteredTasks.length === 0 ? (
             <Card style={styles.emptyCard}>
               <Text style={styles.h3}>No listening tasks found</Text>
@@ -687,12 +671,13 @@ export default function ListeningScreen({ navigation }) {
       ) : (
         <>
           <Card style={styles.podcastFeaturedCard}>
-            <View style={styles.sectionHeader}>
-              <View>
-                <Text style={styles.h3}>Featured Podcast Picks</Text>
-                <Text style={styles.subtleBody}>Start with short, reliable sources before moving into longer academic audio.</Text>
-              </View>
-            </View>
+            <SectionHeader
+              icon="star-outline"
+              title="Featured Podcast Picks"
+              description="Start with short, reliable sources before moving into longer academic audio."
+              accent={colors.skill.listening}
+            />
+            <View style={{ paddingHorizontal: spacing.sm, paddingBottom: spacing.md }}>
             <View style={styles.bankList}>
               {featuredPodcasts.map((podcast) => (
                 <PodcastRow
@@ -701,6 +686,7 @@ export default function ListeningScreen({ navigation }) {
                   onPress={() => handleOpenPodcast(podcast)}
                 />
               ))}
+            </View>
             </View>
           </Card>
 
@@ -720,16 +706,17 @@ export default function ListeningScreen({ navigation }) {
               placeholderTextColor={colors.muted}
               autoCapitalize="none"
             />
-            <Text style={styles.filterLabel}>Category</Text>
-            <View style={styles.filterRow}>
-              {podcastCategories.map((category) => (
-                <FilterChip
-                  key={category}
-                  label={category === 'all' ? 'All' : category}
-                  active={podcastFilter === category}
-                  onPress={() => setPodcastFilter(category)}
-                />
-              ))}
+            <View style={{ paddingBottom: spacing.sm }}>
+              <FilterBar label="Category" scroll>
+                {podcastCategories.map((category) => (
+                  <FilterChip
+                    key={category}
+                    label={category === 'all' ? 'All' : category}
+                    active={podcastFilter === category}
+                    onPress={() => setPodcastFilter(category)}
+                  />
+                ))}
+              </FilterBar>
             </View>
           </Card>
 
@@ -886,64 +873,12 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     marginBottom: spacing.lg,
   },
-  metricTile: {
-    flexGrow: 1,
-    flexBasis: 148,
-    minHeight: 94,
-    backgroundColor: colors.surface,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: '#D7E4FA',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    overflow: 'hidden',
-  },
-  metricAccent: {
-    width: 34,
-    height: 4,
-    borderRadius: 999,
-    marginBottom: spacing.sm,
-  },
-  metricAccentBlue: {
-    backgroundColor: colors.primary,
-  },
-  metricAccentTeal: {
-    backgroundColor: colors.accent,
-  },
-  metricAccentAmber: {
-    backgroundColor: '#F59E0B',
-  },
-  metricValue: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-    marginBottom: spacing.xs,
-  },
-  metricLabel: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    textTransform: 'uppercase',
-    letterSpacing: 0.4,
+  suggestedHeader: {
+    marginTop: spacing.lg,
+    marginBottom: spacing.md,
   },
   snapshotCard: {
     marginBottom: spacing.lg,
-  },
-  snapshotHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: spacing.md,
-    marginBottom: spacing.sm,
-  },
-  snapshotSub: {
-    fontSize: typography.small,
-    color: colors.muted,
-  },
-  snapshotAttempts: {
-    fontSize: typography.xsmall,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-    textTransform: 'uppercase',
   },
   progressTrack: {
     height: 8,
@@ -1199,80 +1134,6 @@ const styles = StyleSheet.create({
   },
   bankList: {
     gap: spacing.sm,
-  },
-  libraryRow: {
-    borderWidth: 1,
-    borderColor: '#D8E4F8',
-    borderRadius: 16,
-    padding: spacing.md,
-    backgroundColor: '#FBFDFF',
-  },
-  libraryRowBody: {
-    gap: spacing.xs,
-  },
-  libraryHeaderRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-    alignItems: 'flex-start',
-  },
-  libraryTitle: {
-    flex: 1,
-    fontSize: typography.body,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-  },
-  libraryMeta: {
-    fontSize: typography.small,
-    color: colors.muted,
-  },
-  libraryOpen: {
-    fontSize: typography.small,
-    color: colors.primary,
-    fontFamily: typography.fontHeadline,
-  },
-  badgeRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.xs,
-    marginTop: spacing.xs,
-  },
-  badge: {
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 5,
-    borderRadius: 999,
-  },
-  badgeSoft: {
-    backgroundColor: '#EEF4FF',
-  },
-  badgeBlue: {
-    backgroundColor: '#E0ECFF',
-  },
-  badgeText: {
-    fontSize: typography.xsmall,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-  },
-  badgeBlueText: {
-    color: '#1D4ED8',
-  },
-  badgeGold: {
-    backgroundColor: 'rgba(255, 193, 7, 0.15)',
-    borderWidth: 1,
-    borderColor: '#FFC107',
-  },
-  badgeGoldText: {
-    color: '#D4AF37', // Academic Gold
-    fontWeight: 'bold',
-  },
-  badgeRed: {
-    backgroundColor: '#FEE2E2',
-    borderWidth: 1,
-    borderColor: '#EF4444',
-  },
-  badgeRedText: {
-    color: '#B91C1C',
-    fontWeight: 'bold',
   },
   emptyCard: {
     marginBottom: spacing.lg,

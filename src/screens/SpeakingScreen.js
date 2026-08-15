@@ -13,34 +13,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { buildSpeakingSnapshot, evaluateSpeakingModel } from '../utils/speakingModel';
 import { useSpeechRecognition, scoreTranscriptCoverage, estimateFluency } from '../hooks/useSpeechRecognition';
 import { loadSpeakingPartnerSessions } from '../utils/appStorage';
+import SkillHeader from '../components/ui/SkillHeader';
+import MetricRail, { MetricTile } from '../components/ui/MetricRail';
+import SectionHeader from '../components/ui/SectionHeader';
+import FilterBar, { FilterChip } from '../components/ui/FilterBar';
+import ScoreRing from '../components/ui/ScoreRing';
 
 const LEVELS = ['ALL', 'P1', 'P2', 'P3', 'P4'];
 const LEVEL_LABELS = { ALL: 'All Levels', P1: 'P1 (A1)', P2: 'P2 (A2)', P3: 'P3 (B1)', P4: 'P4 (B2)' };
 
-// UI Modules matching ReadingScreen & GrammarScreen
-function MetricTile({ value, label, accent = 'blue' }) {
-    return (
-      <View style={styles.metricTile}>
-        <View style={[styles.metricAccent, accent === 'teal' ? styles.metricAccentTeal : accent === 'amber' ? styles.metricAccentAmber : styles.metricAccentBlue]} />
-        <Text style={styles.metricValue}>{value}</Text>
-        <Text style={styles.metricLabel}>{label}</Text>
-      </View>
-    );
-}
-
-function FilterChip({ label, active, onPress, helper }) {
-    return (
-      <TouchableOpacity
-        accessibilityRole="button"
-        activeOpacity={0.88}
-        onPress={onPress}
-        style={[styles.filterChip, active && styles.filterChipActive]}
-      >
-        <Text style={[styles.filterChipText, active && styles.filterChipTextActive]}>{label}</Text>
-        {helper ? <Text style={[styles.filterChipHelper, active && styles.filterChipHelperActive]}>{helper}</Text> : null}
-      </TouchableOpacity>
-    );
-}
+// (MetricTile / FilterChip now shared from src/components/ui)
 
 export default function SpeakingScreen({ navigation }) {
     const { width } = useWindowDimensions();
@@ -58,11 +40,10 @@ export default function SpeakingScreen({ navigation }) {
 
     const micRecognition = useSpeechRecognition({
       onTranscript: (text, interimText) => {
-        setMicTranscript(text);
         setMicInterim(interimText);
+        if (!text) return;
       },
     });
-    const [micTranscript, setMicTranscript] = useState('');
     const [micInterim, setMicInterim] = useState('');
 
     const micListeningSecRef = useRef(0);
@@ -71,7 +52,6 @@ export default function SpeakingScreen({ navigation }) {
     const micStart = useCallback(() => {
       const started = micRecognition.start();
       if (started) {
-        setMicTranscript('');
         setMicInterim('');
         setMicScore(null);
         micListeningSecRef.current = 0;
@@ -179,9 +159,7 @@ export default function SpeakingScreen({ navigation }) {
                         <Text style={styles.taskRowMeta}>{item.level || 'All'} · {item.time || '2 min'} · {item.category || 'General'}</Text>
                         
                         <View style={styles.taskBadgeRow}>
-                            <View style={[styles.badge, styles.badgeBlue]}>
-                                <Text style={[styles.badgeText, styles.badgeBlueText]}>{item.type || 'discussion'}</Text>
-                            </View>
+                            <FilterChip label={item.type || 'discussion'} active={false} onPress={() => navigation.navigate('SpeakingDetail', { prompt: item })} />
                         </View>
                         <Text style={styles.taskExplainLine} numberOfLines={2}>
                             {item.prompt || (Array.isArray(item.prompts) ? item.prompts[0] : 'No prompt text available')}
@@ -203,8 +181,15 @@ export default function SpeakingScreen({ navigation }) {
     return (
         <Screen scroll contentStyle={styles.container}>
             <View style={styles.headerSpacer}>
-            <Text style={styles.h1}>Speaking</Text>
-            <Text style={styles.sub}>Prompt-driven speaking practice with AI feedback and quick mode filters.</Text>
+            <SkillHeader
+              skill="speaking"
+              icon="mic-outline"
+              eyebrow="Speaking Studio"
+              title="Speaking"
+              description="Prompt-driven speaking practice with AI feedback and quick mode filters."
+              rightValue={`${prompts.length}`}
+              rightLabel="Topics"
+            />
             <Card style={styles.heroCard} glow>
                 <View style={styles.heroTopRow}>
                     <View style={styles.heroIconWrap}>
@@ -238,15 +223,16 @@ export default function SpeakingScreen({ navigation }) {
 
             {/* Live microphone scoring — real speech recognition on the web */}
             <Card style={styles.card}>
-                <View style={styles.partnerHeader}>
-                    <Ionicons name="mic" size={20} color={micRecognition.isListening ? '#DC2626' : colors.primaryDark} />
-                    <Text style={styles.partnerTitle}>Live Speaking Score</Text>
-                </View>
-                <Text style={styles.partnerBody}>
-                    {micRecognition.isAvailable
-                        ? 'Tap the microphone, read the target sentences out loud, and stop when done to get a real fluency and coverage score.'
-                        : 'Microphone scoring works in web browsers. Open the app in a desktop browser (or use "Start Speaking" below).'}
-                </Text>
+                <SectionHeader
+                  icon="mic"
+                  title="Live Speaking Score"
+                  description={micRecognition.isAvailable
+                    ? 'Tap the microphone, read the target sentences out loud, and stop when done to get a real fluency and coverage score.'
+                    : 'Microphone scoring works in web browsers. Open the app in a desktop browser (or use "Start Speaking" below).'}
+                  accent={micRecognition.isListening ? colors.error : colors.skill.speaking}
+                  style={styles.cardInner}
+                />
+                <View style={styles.cardInner}>
                 <View style={styles.targetBox}>
                     <Text style={styles.targetLabel}>Target sentences</Text>
                     {micTargets.map((t) => (
@@ -280,27 +266,32 @@ export default function SpeakingScreen({ navigation }) {
                         ))}
                     </View>
                 ) : null}
+                </View>
             </Card>
 
-            <View style={styles.metricGrid}>
+            <MetricRail>
                 <MetricTile value={speakingSnapshot.overall != null ? `${speakingSnapshot.overall}%` : '--'} label="Accuracy" accent="blue" />
                 <MetricTile value={String(speakingAttemptCount)} label="Attempts" accent="teal" />
-                <MetricTile value={String(aiSessions.length)} label="AI Sessions" accent="amber" />
-            </View>
+                <MetricTile value={String(aiSessions.length)} label="AI sessions" accent="amber" />
+            </MetricRail>
 
             <Card style={styles.partnerCard}>
-                <View style={styles.partnerHeader}>
-                    <Ionicons name="chatbubbles-outline" size={20} color={colors.primaryDark} />
-                    <Text style={styles.partnerTitle}>AI Speaking Partner</Text>
-                </View>
-                <Text style={styles.partnerBody}>
-                    Start a guided speaking round and get evaluated.
-                </Text>
+                <SectionHeader
+                  icon="chatbubbles-outline"
+                  title="AI Speaking Partner"
+                  description="Start a guided speaking round and get evaluated."
+                  accent={colors.skill.speaking}
+                  style={styles.cardInner}
+                />
+                <View style={styles.cardInner}>
 
                 <View style={styles.partnerMetaRow}>
+                    {latestAiSession ? (
+                        <ScoreRing value={latestAiSession.overall} size={56} stroke={6} />
+                    ) : null}
                     <View style={styles.partnerMetaPill}>
                         <Text style={styles.partnerMetaLabel}>Latest AI Score</Text>
-                        <Text style={styles.partnerMetaValue}>{latestAiSession ? `${latestAiSession.overall}%` : '--'}</Text>
+                        <Text style={styles.partnerMetaValue}>{latestAiSession ? `${latestAiSession.overall}% · ${latestAiSession.band || ''}`.trim() : 'No AI session yet'}</Text>
                     </View>
                 </View>
 
@@ -308,6 +299,7 @@ export default function SpeakingScreen({ navigation }) {
                     <Button label="Opinion" variant="secondary" onPress={() => navigation.navigate('AISpeakingPartner', { initialMode: 'opinion' })} />
                     <Button label="Comparison" variant="secondary" onPress={() => navigation.navigate('AISpeakingPartner', { initialMode: 'comparison' })} />
                     <Button label="Academic" onPress={() => navigation.navigate('AISpeakingPartner', { initialMode: 'academic' })} />
+                </View>
                 </View>
             </Card>
 
@@ -325,10 +317,14 @@ export default function SpeakingScreen({ navigation }) {
             </TouchableOpacity>
 
             <Card style={styles.card}>
-                <View style={styles.sectionHead}>
-                    <Text style={styles.sectionTitle}>Prompt Library</Text>
-                </View>
-
+                <SectionHeader
+                  icon="menu-outline"
+                  title="Prompt Library"
+                  description="Filter the speaking prompt bank by level and response type."
+                  accent={colors.skill.speaking}
+                  style={styles.cardInner}
+                />
+                <View style={styles.cardInner}>
                 <View style={styles.searchBox}>
                     <Ionicons name="search" size={18} color={colors.muted} />
                     <TextInput
@@ -346,17 +342,17 @@ export default function SpeakingScreen({ navigation }) {
                     ) : null}
                 </View>
 
-                <View style={styles.chipScroll}>
+                <FilterBar label="Level" scroll>
                     {LEVELS.map(lv => (
                         <FilterChip key={lv} label={LEVEL_LABELS[lv]} active={levelFilter === lv} onPress={() => setLevelFilter(lv)} />
                     ))}
-                </View>
+                </FilterBar>
 
-                <View style={[styles.chipScroll, styles.chipScrollTop]}>
+                <FilterBar label="Type">
                     {typeOptions.map(t => (
                         <FilterChip key={t} label={t === 'ALL' ? 'All Types' : String(t).replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} active={typeFilter === t} onPress={() => setTypeFilter(t)} />
                     ))}
-                </View>
+                </FilterBar>
 
                 {featuredPrompt && (
                     <View style={styles.featuredContainer}>
@@ -366,6 +362,7 @@ export default function SpeakingScreen({ navigation }) {
                         </TouchableOpacity>
                     </View>
                 )}
+                </View>
             </Card>
 
             <View style={styles.listHeaderRow}>
@@ -395,18 +392,7 @@ const styles = StyleSheet.create({
     headerSpacer: {
         paddingTop: spacing.md,
     },
-    h1: {
-        fontSize: typography.h1,
-        fontFamily: typography.fontHeadline,
-        color: colors.textOnDark,
-        marginBottom: spacing.xs,
-    },
-    sub: {
-        fontSize: typography.body,
-        color: colors.textOnDarkMuted,
-        marginBottom: spacing.md,
-        lineHeight: 20,
-    },
+
     listContent: {
         paddingBottom: spacing.xxl + 84,
         paddingHorizontal: spacing.lg,
@@ -505,48 +491,18 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     
-    metricGrid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: spacing.sm,
-        marginBottom: spacing.md,
-    },
-    metricTile: {
-        flexGrow: 1,
-        flexBasis: 150,
-        backgroundColor: colors.surface,
-        borderRadius: 12,
-        paddingVertical: spacing.md,
+
+    cardInner: {
         paddingHorizontal: spacing.sm,
-        borderWidth: 1,
-        borderColor: '#D7E4FA',
-        position: 'relative',
-        overflow: 'hidden',
+        paddingBottom: spacing.sm,
     },
-    metricAccent: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 4,
-    },
-    metricAccentBlue: { backgroundColor: '#1D4ED8' },
-    metricAccentTeal: { backgroundColor: '#14B8A6' },
-    metricAccentAmber: { backgroundColor: '#F59E0B' },
-    metricValue: {
-        fontSize: 20,
-        fontFamily: typography.fontHeadline,
-        fontWeight: '800',
-        color: colors.primaryDark,
-        marginBottom: 2,
-    },
-    metricLabel: {
-        fontSize: 11,
-        fontWeight: '700',
-        color: '#64748B',
-        textTransform: 'uppercase',
-        letterSpacing: 0.5,
-    },
+
+
+
+
+
+
+
 
     // AI Partner Card
     partnerCard: {
@@ -558,23 +514,9 @@ const styles = StyleSheet.create({
         padding: spacing.lg,
         ...shadow.sm,
     },
-    partnerHeader: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
-        marginBottom: 4,
-    },
-    partnerTitle: {
-        fontSize: 18,
-        fontFamily: typography.fontHeadline,
-        fontWeight: '800',
-        color: '#0F172A',
-    },
-    partnerBody: {
-        fontSize: 14,
-        color: '#475569',
-        marginBottom: spacing.md,
-    },
+
+
+
     partnerMetaRow: {
         flexDirection: 'row',
         flexWrap: 'wrap',
@@ -652,15 +594,8 @@ const styles = StyleSheet.create({
         padding: spacing.lg,
         ...shadow.sm,
     },
-    sectionHead: {
-        marginBottom: spacing.md,
-    },
-    sectionTitle: {
-        fontSize: 18,
-        fontFamily: typography.fontHeadline,
-        fontWeight: '800',
-        color: '#0F172A',
-    },
+
+
     searchBox: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -689,43 +624,12 @@ const styles = StyleSheet.create({
     chipScrollTop: {
         marginTop: 8,
     },
-    filterChip: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: colors.surfaceAlt,
-        paddingHorizontal: 12,
-        paddingVertical: 8,
-        borderRadius: radius.pill,
-        borderWidth: 1,
-        borderColor: '#D8E4F8',
-    },
-    filterChipActive: {
-        backgroundColor: colors.primaryDark,
-        borderColor: colors.primaryDark,
-    },
-    filterChipText: {
-        fontSize: 13,
-        fontWeight: '600',
-        color: colors.text,
-    },
-    filterChipTextActive: {
-        color: '#FFFFFF',
-        fontWeight: '700',
-    },
-    filterChipHelper: {
-        marginLeft: 6,
-        fontSize: 12,
-        color: colors.muted,
-        backgroundColor: '#E2E8F0',
-        paddingHorizontal: 6,
-        paddingVertical: 2,
-        borderRadius: 10,
-        overflow: 'hidden',
-    },
-    filterChipHelperActive: {
-        backgroundColor: 'rgba(255,255,255,0.2)',
-        color: '#FFFFFF',
-    },
+
+
+
+
+
+
 
     featuredContainer: {
         marginTop: spacing.md,
