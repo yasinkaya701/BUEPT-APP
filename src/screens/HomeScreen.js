@@ -204,7 +204,6 @@ export default function HomeScreen({ navigation }) {
     { key: 'lesson-video', label: 'Lesson Video', route: 'AILessonVideoStudio' },
   ];
   const planningTools = [
-    { key: 'hisar-rota', label: 'Hisar Rotası', route: 'HisarRota' },
     { key: 'placement', label: 'Placement', route: 'PlacementTest' },
     { key: 'study-plan', label: 'Study Plan', route: 'StudyPlan' },
     { key: 'analytics', label: 'Analytics', route: 'Analytics' },
