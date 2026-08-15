@@ -14,6 +14,7 @@ import { detectBasicErrors } from '../utils/basicErrorDetect';
 import { scoreWritingRubric } from '../utils/rubricScoring';
 import { executeDirectAiChat } from '../utils/runtimeApi';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
+import bueptScoredEssays from '../../data/buept_scored_essays.json';
 
 const TABS = ['overview', 'rewrite', 'line-by-line', 'tools', 'deep review', 'full report'];
 
@@ -336,6 +337,20 @@ export default function FeedbackScreen({ navigation, route }) {
   );
   const wascBand = compactRubric?.wascBand || null;
   const wascBandDisplay = wascBand ? `${wascBand.code} (${wascBand.label})` : compactRubric.band;
+
+  const benchmarkEssay = useMemo(() => {
+    const code = String(wascBand?.code || '').toUpperCase();
+    const all = bueptScoredEssays.sets.flatMap((set) => set.essays);
+    const same = all.find((essay) => String(essay.band).toUpperCase() === code);
+    const ladder = ['A', 'D', 'NA', 'FBA', 'MA', 'VG', 'E'];
+    const idx = ladder.indexOf(code);
+    let above = null;
+    for (let i = idx + 1; i < ladder.length; i += 1) {
+      const found = all.find((essay) => String(essay.band).toUpperCase() === ladder[i]);
+      if (found) { above = found; break; }
+    }
+    return { same, above, target: code === 'E' ? null : ladder[ladder.length - 1] };
+  }, [wascBand?.code]);
   const promptCoverage = useMemo(
     () => buildPromptCoverage(sourceText, promptText, report?.keywords || []),
     [sourceText, promptText, report?.keywords]
@@ -697,6 +712,34 @@ export default function FeedbackScreen({ navigation, route }) {
                 </View>
               ))}
             </View>
+          </Card>
+        )}
+
+        {/* ── OFFICIAL SCORED BENCHMARK ─────────────── */}
+        {(benchmarkEssay.same || benchmarkEssay.above) && (
+          <Card style={styles.card}>
+            <Text style={styles.h3}>Compare With Official Scored Essays</Text>
+            <Text style={styles.sub}>Real BUSEPT student essays graded by Boğaziçi's WASC. See exactly what your band looks like and what the next band adds.</Text>
+            {benchmarkEssay.same ? (
+              <View style={styles.benchBlock}>
+                <View style={styles.benchHead}>
+                  <Text style={styles.benchBadgeText}>Your band: {benchmarkEssay.same.band} ({benchmarkEssay.same.title})</Text>
+                  <Text style={styles.benchWords}>{benchmarkEssay.same.text.split(/\s+/).length} words</Text>
+                </View>
+                <Text style={styles.benchText}>{benchmarkEssay.same.text}</Text>
+              </View>
+            ) : null}
+            {benchmarkEssay.above ? (
+              <View style={[styles.benchBlock, styles.benchBlockAbove]}>
+                <View style={styles.benchHead}>
+                  <Text style={styles.benchBadgeTextAbove}>Aim for: {benchmarkEssay.above.band} ({benchmarkEssay.above.title})</Text>
+                  <Text style={styles.benchWords}>{benchmarkEssay.above.text.split(/\s+/).length} words</Text>
+                </View>
+                <Text style={styles.benchText}>{benchmarkEssay.above.text}</Text>
+              </View>
+            ) : (
+              <Text style={[styles.sub, styles.benchTopNote]}>Your draft scores at the top band — study it as a model for lower-band peers.</Text>
+            )}
           </Card>
         )}
 
@@ -1806,5 +1849,48 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  benchBlock: {
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    padding: spacing.sm,
+    marginTop: spacing.sm,
+  },
+  benchBlockAbove: {
+    backgroundColor: '#F0FDF4',
+    borderColor: '#86EFAC',
+  },
+  benchHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: spacing.xs,
+  },
+  benchBadgeText: {
+    fontSize: 12,
+    fontFamily: typography.fontHeadline,
+    color: '#B91C1C',
+    flex: 1,
+  },
+  benchBadgeTextAbove: {
+    fontSize: 12,
+    fontFamily: typography.fontHeadline,
+    color: '#15803D',
+    flex: 1,
+  },
+  benchWords: {
+    fontSize: 11,
+    color: colors.muted,
+  },
+  benchText: {
+    fontSize: 13,
+    lineHeight: 19,
+    color: colors.textSecondary,
+    fontStyle: 'italic',
+  },
+  benchTopNote: {
+    marginTop: spacing.sm,
+    fontStyle: 'italic',
   },
 });

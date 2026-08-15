@@ -24,6 +24,15 @@ const TYPE_OPTIONS = [
   { key: 'careful', label: 'Careful' },
 ];
 
+function gradeLetterFromPct(pct) {
+  const p = Number(pct || 0);
+  if (!Number.isFinite(p)) return { letter: '—', tone: 'muted' };
+  if (p >= 80) return { letter: 'A', tone: 'green' };
+  if (p >= 70) return { letter: 'B', tone: 'blue' };
+  if (p >= 60) return { letter: 'C', tone: 'amber' };
+  return { letter: 'F', tone: 'red' };
+}
+
 function pickWeakListeningType(listeningHistory = []) {
   const stats = { selective: { c: 0, t: 0 }, careful: { c: 0, t: 0 } };
   listeningHistory.forEach((item) => {
@@ -240,6 +249,13 @@ export default function ListeningScreen({ navigation }) {
   }, [listeningHistory]);
 
   const typeStats = useMemo(() => pickWeakListeningType(listeningHistory), [listeningHistory]);
+  const typeLetters = useMemo(
+    () => ({
+      selective: gradeLetterFromPct(typeStats.selective),
+      careful: gradeLetterFromPct(typeStats.careful),
+    }),
+    [typeStats.selective, typeStats.careful]
+  );
 
   const searchableTasks = useMemo(() => {
     const lowerQuery = query.trim().toLowerCase();
@@ -499,6 +515,20 @@ export default function ListeningScreen({ navigation }) {
               </View>
               <Text style={styles.snapshotAttempts}>{stats.attempts} attempt{stats.attempts === 1 ? '' : 's'}</Text>
             </View>
+            <View style={styles.letterRail}>
+              <View style={styles.letterTile}>
+                <Text style={[styles.letterValue, styles[`letter${typeLetters.selective.tone}`]]}>{typeLetters.selective.letter}</Text>
+                <Text style={styles.letterLabel}>Selective</Text>
+              </View>
+              <View style={styles.letterTile}>
+                <Text style={[styles.letterValue, styles[`letter${typeLetters.careful.tone}`]]}>{typeLetters.careful.letter}</Text>
+                <Text style={styles.letterLabel}>Careful</Text>
+              </View>
+              <View style={styles.letterTile}>
+                <Text style={[styles.letterValue, styles.letterOverall]}>{listeningModel.overall}%</Text>
+                <Text style={styles.letterLabel}>Model</Text>
+              </View>
+            </View>
             <View style={styles.progressTrack}>
               <View style={[styles.progressFill, { width: `${weeklyProgress.pct}%` }]} />
             </View>
@@ -511,6 +541,32 @@ export default function ListeningScreen({ navigation }) {
               <Text style={styles.modelFocusTitle}>{modelFocus.title}</Text>
               <Text style={styles.modelFocusBody}>{modelFocus.body}</Text>
             </View>
+          </Card>
+
+          <Card style={styles.examFormatCard}>
+            <View style={styles.sectionHeader}>
+              <View>
+                <Text style={styles.h3}>Official BUSEPT Listening Format</Text>
+                <Text style={styles.subtleBody}>How the real Boğaziçi exam runs, so practice mirrors exam day.</Text>
+              </View>
+            </View>
+            <View style={styles.formatRow}>
+              <View style={styles.formatBlock}>
+                <View style={styles.formatHead}>
+                  <Text style={styles.formatTitle}>Selective</Text>
+                  <Text style={styles.formatNote}>One play only</Text>
+                </View>
+                <Text style={styles.formatBody}>You see the questions 3 minutes before the audio starts. Read them fast, predict the answers, then listen once — no second chances, no pause button in the real exam.</Text>
+              </View>
+              <View style={styles.formatBlock}>
+                <View style={styles.formatHead}>
+                  <Text style={styles.formatTitle}>Careful</Text>
+                  <Text style={styles.formatNote}>Note-taking counts</Text>
+                </View>
+                <Text style={styles.formatBody}>Answer while you listen, then re-check against the recording with full time. Detail, qualifiers, and evidence are graded — 2 points per correct answer in the official scheme.</Text>
+              </View>
+            </View>
+            <Text style={styles.formatFoot}>YADYOK source: questions are scored out of the full bank; letter grades map to percentage bands on the official rubric.</Text>
           </Card>
 
           <Card style={styles.quickStartCard}>
@@ -923,6 +979,93 @@ const styles = StyleSheet.create({
     fontSize: typography.small,
     color: colors.text,
     lineHeight: 20,
+  },
+  letterRail: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  letterTile: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: spacing.sm,
+    borderRadius: radius.md,
+    backgroundColor: '#F8FBFF',
+    borderWidth: 1,
+    borderColor: '#D7E4FA',
+  },
+  letterValue: {
+    fontSize: 26,
+    lineHeight: 30,
+    fontFamily: typography.fontHeadline,
+    marginBottom: 2,
+  },
+  letterGreen: {
+    color: '#15803D',
+  },
+  letterBlue: {
+    color: colors.primary,
+  },
+  letterAmber: {
+    color: '#B45309',
+  },
+  letterRed: {
+    color: '#B91C1C',
+  },
+  letterMuted: {
+    color: colors.muted,
+  },
+  letterOverall: {
+    color: colors.text,
+  },
+  letterLabel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+  },
+  examFormatCard: {
+    marginBottom: spacing.lg,
+  },
+  formatRow: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    marginBottom: spacing.sm,
+  },
+  formatBlock: {
+    flex: 1,
+    borderRadius: radius.md,
+    backgroundColor: '#F0F9FF',
+    borderWidth: 1,
+    borderColor: '#BAE6FD',
+    padding: spacing.md,
+  },
+  formatHead: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.xs,
+  },
+  formatTitle: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: '#0C4A6E',
+  },
+  formatNote: {
+    fontSize: typography.xsmall,
+    color: '#0369A1',
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+  },
+  formatBody: {
+    fontSize: typography.xsmall,
+    color: '#334155',
+    lineHeight: 18,
+  },
+  formatFoot: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    fontStyle: 'italic',
   },
   quickStartCard: {
     marginBottom: spacing.lg,
