@@ -9,12 +9,13 @@
  *     initialParams={{ type: 'reading' }} />
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
-import { colors, spacing, typography, radius } from '../theme/tokens';
+import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
+import { Sparkline } from '../components/ui';
 import { useAppState } from '../context/AppState';
 
 const HISTORY_CONFIG = {
@@ -112,18 +113,48 @@ export default function GenericHistoryScreen({ navigation, route }) {
   const config = HISTORY_CONFIG[type] || HISTORY_CONFIG.reading;
   const state = useAppState();
   const rawHistory = config.getHistory(state);
+  const [filter, setFilter] = useState('all');
+  const [sort, setSort] = useState('recent');
 
   const items = useMemo(() => {
-    return [...rawHistory]
-      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
-      .map((item) => ({ raw: item, rendered: config.renderItem(item) }));
-  }, [rawHistory, config]);
+    const result = [...rawHistory].map((item) => ({ raw: item, rendered: config.renderItem(item) }));
+    if (filter === 'pass') {
+      result.filter_ = result.filter((i) => (i.rendered.pct ?? 0) >= 60);
+    } else if (filter === 'below') {
+      result.filter_ = result.filter((i) => i.rendered.pct !== null && (i.rendered.pct ?? 0) < 60);
+    } else {
+      result.filter_ = result;
+    }
+    const ordered = [...result.filter_];
+    if (sort === 'best') ordered.sort((a, b) => (b.rendered.pct ?? 0) - (a.rendered.pct ?? 0));
+    else if (sort === 'worst') ordered.sort((a, b) => (a.rendered.pct ?? 0) - (b.rendered.pct ?? 0));
+    else ordered.sort((a, b) => new Date(b.raw.createdAt || 0) - new Date(a.raw.createdAt || 0));
+    return ordered.slice(0, 50);
+  }, [rawHistory, config, filter, sort]);
 
   // Build simple bar chart data from last 7 sessions
   const chartValues = useMemo(() => {
-    return items.slice(0, 7).reverse().map((i) => i.rendered.pct ?? 0);
-  }, [items]);
+    const recent = [...rawHistory]
+      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+      .slice(0, 7)
+      .reverse();
+    return recent.map((item) => config.renderItem(item).pct ?? 0);
+  }, [rawHistory, config]);
   const chartMax = Math.max(1, ...chartValues);
+
+  const sparkSeries = useMemo(() => {
+    const recent = [...rawHistory]
+      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+      .slice(0, 20)
+      .reverse();
+    return recent.map((item) => config.renderItem(item).pct ?? 0).filter((v) => v > 0);
+  }, [rawHistory, config]);
+
+  const average = useMemo(() => {
+    const series = sparkSeries.filter((v) => v > 0);
+    if (!series.length) return null;
+    return Math.round(series.reduce((s, v) => s + v, 0) / series.length);
+  }, [sparkSeries]);
 
   return (
     <Screen scroll contentStyle={styles.container}>
@@ -140,13 +171,51 @@ export default function GenericHistoryScreen({ navigation, route }) {
       {chartValues.length > 1 && (
         <Card style={styles.chartCard}>
           <Text style={styles.chartLabel}>Last {chartValues.length} Sessions</Text>
+          {average !== null ? (
+            <Text style={styles.chartAverage}>Average {average}% — recent {sparkSeries.slice(-1)[0] ?? '—'}%</Text>
+          ) : null}
           <BarChart values={chartValues} max={chartMax} color={config.color} />
           <View style={styles.chartFooter}>
             <Text style={styles.chartFooterText}>Oldest</Text>
             <Text style={styles.chartFooterText}>Recent</Text>
           </View>
+          {sparkSeries.length > 2 ? (
+            <View style={styles.sparklineWrap}>
+              <Sparkline data={sparkSeries} width={320} height={48} color={config.color} filled />
+            </View>
+          ) : null}
         </Card>
       )}
+
+      {/* Filter & Sort */}
+      <Card style={[styles.filterCard, shadow.elev1]}>
+        <Text style={styles.filterLabel}>Filter</Text>
+        <View style={styles.pillRow}>
+          {['all', 'pass', 'below'].map((key) => (
+            <TouchableOpacity
+              key={key}
+              activeOpacity={0.75}
+              onPress={() => setFilter(key)}
+              style={[styles.pill, filter === key ? { backgroundColor: config.color, shadowColor: config.color, shadowOpacity: 0.25, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 3 } : { backgroundColor: colors.surface, borderColor: colors.border }]}
+            >
+              <Text style={[styles.pillText, filter === key ? { color: '#FFFFFF' } : { color: colors.muted }]}>{key === 'all' ? 'All' : key === 'pass' ? '60+ only' : 'Below 60'}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <Text style={styles.filterLabel}>Sort</Text>
+        <View style={styles.pillRow}>
+          {['recent', 'best', 'worst'].map((key) => (
+            <TouchableOpacity
+              key={key}
+              activeOpacity={0.75}
+              onPress={() => setSort(key)}
+              style={[styles.pill, sort === key ? { backgroundColor: config.color } : { backgroundColor: colors.surface, borderColor: colors.border }]}
+            >
+              <Text style={[styles.pillText, sort === key ? { color: '#FFFFFF' } : { color: colors.muted }]}>{key === 'recent' ? 'Recent' : key === 'best' ? 'Best first' : 'Needs work'}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </Card>
 
       {/* Empty State */}
       {items.length === 0 && (
@@ -223,6 +292,48 @@ const styles = StyleSheet.create({
   chartCard: {
     marginBottom: spacing.lg,
     padding: spacing.md,
+  },
+  chartAverage: {
+    fontSize: typography.small,
+    color: colors.textSecondary,
+    marginBottom: spacing.sm,
+    fontFamily: typography.fontHeadline,
+  },
+  sparklineWrap: {
+    alignItems: 'center',
+    marginTop: spacing.sm,
+  },
+  filterCard: {
+    marginBottom: spacing.lg,
+    padding: spacing.md,
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderWidth: 1,
+    borderRadius: radius.lg,
+  },
+  filterLabel: {
+    fontSize: typography.small,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.xs,
+  },
+  pillRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  pill: {
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 6,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  pillText: {
+    fontSize: typography.xsmall,
+    fontFamily: typography.fontHeadline,
   },
   chartLabel: {
     fontSize: typography.small || 12,
