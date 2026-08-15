@@ -442,7 +442,8 @@ export default function HomeScreen({ navigation }) {
             <View style={styles.bouRow}>
               <Button label="Boğaziçi Hub" onPress={() => navigation.navigate('BogaziciHub')} />
               <Button label="Academic Calendar" variant="secondary" onPress={() => navigation.navigate('ClassScheduleCalendar')} />
-              <Button label="AI Mock Generator" onPress={() => navigation.navigate('AIMockGenerator')} />
+              <Button label="Official Simulation" onPress={() => navigation.navigate('OfficialSim')} />
+              <Button label="AI Mock Generator" variant="secondary" onPress={() => navigation.navigate('AIMockGenerator')} />
               <Button label="Proficiency Mock" variant="secondary" onPress={() => navigation.navigate('ProficiencyMock')} />
               <Button label="Weak Analysis" variant="secondary" onPress={() => navigation.navigate('WeakPointAnalysis')} />
             </View>
