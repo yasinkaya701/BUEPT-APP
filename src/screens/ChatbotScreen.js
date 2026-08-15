@@ -471,6 +471,15 @@ const INTENT_PATTERNS = [
     }),
   },
   {
+    intent: 'score_predictor',
+    patterns: ['score predictor', 'busept score', 'busept predictor', 'tahmin', 'predict score', 'geçer miyim', 'gecer miyim'],
+    handler: () => ({
+      text: "Opening the BUSEPT Score Predictor. Enter your estimated correct counts for Listening and Reading, plus a self-assessed Writing band, and it computes your projected total and pass verdict against the official 60/100 threshold.",
+      chips: ["Open Predictor", "Mock Exam", "Study Plan"],
+      navigate: 'BUSEPTScorePredictor',
+    }),
+  },
+  {
     intent: 'demo_hub',
     patterns: ['demo', 'feature hub', 'modules', 'modüller', 'özellikler'],
     handler: () => ({

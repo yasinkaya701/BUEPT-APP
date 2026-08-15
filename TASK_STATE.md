@@ -141,3 +141,12 @@ KALAN FAZ 16: VocabScreen'e yeni bölüm kartı (Context Builder — kelimeyi c�
 - FAZ 18: Gemini içerik üretimi (listening_tasks.json 79 item → genişlet, reading tasks)
 - Push komutu: git add -A && git commit -m "..." && git push origin main
 - AI API: runtimeApi fetchDirectGeminiChat; loadAiAccessConfig → cfg.apiBase/geminiApiBase + cfg.apiKey/geminiKey → `x-goog-api-key` header, endpoint `${base.replace(/\/$/,'')}/v1beta/models/gemini-2.0-flash:generateContent`
+
+
+## FAZ 16 İLERLEME 2 (push 4c8e24d)
+VocabScreen'e Word Lab bölümü eklendi: SECTIONS/SECTION_META/sectionCounts/getSectionData + renderSectionHeader case 'Word Lab' (WorkspaceIntroCard + Sentence Builder + AI Context Check via runtimeApi fetchDirectGeminiChat dynamic import + Quick Check local fallback + Lab Log 80+ graduates). 16 yeni stil (aiResult*). State'ler: wordLabWords/aiContextLoading/aiContextFeedback/aiContextResult. Lint 0 error, jest 36/36.
+
+KALAN FAZ 16: ChatbotScreen'e score predictor intent + BUSEPTScorePredictorScreen (tahmin ekranı: girdiler = listening correct, reading I/II correct, writing band; 25/25/40 weighting + harf notu S/F). Sonra Faz 17 (StudyPlan/Analytics/Gamification).
+
+Push kalıbı: git add -A && git commit -m "..." && git push origin main. Doğrulama: npx eslint src/screens/X.js (grep error), npx jest --silent.
+Not: jest çıktısı "tests passed" satırında "36 tests, 36 passed" gibi görünüyor; tail -1'de sadece Time satırı kalıyor.
