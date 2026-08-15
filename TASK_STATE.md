@@ -79,3 +79,35 @@ Kullanıcı ders çalışmaya geçti; 2 saat boyunca:
 - Faz 15 Simülasyon: tüm bölümler sırayla (Listening Selective→Careful→Writing→Reading Search→Careful), zamanlamalı, puan raporu (60 eşiği, S/F, parçalı geçme takibi)
 - Faz 16: hepsini test/lint/build → commit → push → deploy kontrolü
 - Faz 17: özet rapor + demo talimatları
+
+
+---
+# FAZ 13+ BÜYÜK UPGRADE OTURUMU (2026-08-15 devam — kullanıcı derste, sorma, ~40K satıra doğru git)
+
+Kullanıcı: "planı büyüt eldeki tüm özelliklere upgrade çak 40 k satır civarı yap bana soru sorma dersteyim"
+
+## Mevcut ölçüm
+- data/*.json: ~1.35M satır. src kod: ~66.7K (js) / screens 88, ~47K satır.
+- 40K hedefi: kod tabanını büyüt + tüm özellikleri derinleştir.
+- Upgrade planı: docs/big_upgrade_plan.md
+
+## Faz akışı
+- Faz 14: Reading + Listening upgrade (AdvancedReadingScreen YENİDEN YAZILDI: 8 passage focus bazlı, quiz bank, wpm timer, AI word explain, TTS speed picker) → ŞİMDİ: ListeningDetailScreen upgrade + listening_tasks.json genişletme + lint/build
+- Faz 15: Grammar + Writing upgrade
+- Faz 16: Vocab + Speaking + Chatbot upgrade
+- Faz 17: Study Plan + Analytics + Gamification
+- Faz 18: İçerik üretim (Gemini ile reading/speaking/vocab JSON setleri)
+- Faz 19: Full doğrulama + push + deploy
+- Faz 20: Özet mesaj
+
+## Kritik teknik bilgi (upgrade için)
+- Token: ~/.git-credentials store. PR izni yok → direkt main push.
+- Doğrulama: `npx eslint src` (0 error), `npx jest --silent`, `npm run web:rnw:build:root`
+- AI API kalıbı: runtimeApi fetchDirectGeminiChat({systemPrompt, messages, jsonFormat:true}); loadAiAccessConfig → cfg.apiBase + cfg.apiKey → `x-goog-api-key` header
+- speakEnglish(text, bps): utils/ttsEnglish.js (60/90/120)
+- RootNavigator: lazy require kalıbı `getComponent={() => require('../screens/XScreen').default}`
+- HomeScreen: Prep Control Center bouRow (~satır 442), primaryLaunches dizisi
+- Renkler: colors.primary/secondary/muted/error, errorLight '#FEF2F2', successLight '#ECFDF5', primarySoft '#DBEAFE'
+- Button: label/variant(primary|secondary|ghost|errorGhost)/onPress/icon
+- Styles: colors.surface (#fff), colors.background, typography.h1..small, spacing, radius, shadow
+- AdvancedReadingScreen YENİ: styles'ta h1/h3/sub/card/row/passageRow/passageChip*/passageHead/passageTitle/levelBadge/passageBody/interactiveWord/controlsRow/wpmText/wordCard/wordTitle/wordDef/quizQuestion/quizScoreText var (write ile oluşturuldu, h1 olarak typography.h1 kullanıyor — kontrol et! screen component'i Screen scroll + contentStyle kullanıyor)

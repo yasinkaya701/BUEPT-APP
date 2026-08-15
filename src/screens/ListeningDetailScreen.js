@@ -307,6 +307,8 @@ const styles = StyleSheet.create({
   },
 
   row: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: spacing.sm },
+  coverageTrack: { height: 6, backgroundColor: '#E5E7EB', borderRadius: 999, marginTop: spacing.xs, overflow: 'hidden' },
+  coverageFill: { height: 6, backgroundColor: colors.primary, borderRadius: 999 },
   modelTrack: {
     height: 8,
     borderRadius: 999,
@@ -697,6 +699,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
   const [similarSeed, setSimilarSeed] = useState(1);
   const [shadowIndex, setShadowIndex] = useState(0);
   const [noteText, setNoteText] = useState('');
+  const [notesSaved, setNotesSaved] = useState(false);
   const [dictationSeed, setDictationSeed] = useState(0);
   const [dictationInput, setDictationInput] = useState('');
   const [dictationResult, setDictationResult] = useState(null);
@@ -709,6 +712,33 @@ export default function ListeningDetailScreen({ route, navigation }) {
   const [gradingInProgress, setGradingInProgress] = useState(false);
   const [selectiveAnswers, setSelectiveAnswers] = useState({});
   const [selectiveChecked, setSelectiveChecked] = useState(false);
+
+  const saveNotes = useCallback(async () => {
+    try {
+      const AsyncStorage = await import('@react-native-async-storage/async-storage');
+      const key = `listening_notes_${task?.id || 'general'}`;
+      await AsyncStorage.default.setItem(key, JSON.stringify({ text: noteText, savedAt: Date.now() }));
+      setNotesSaved(true);
+    } catch (e) {
+      // storage failure must not block the user
+    }
+  }, [noteText, task?.id]);
+
+  // Restore saved notes on mount
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const AsyncStorage = await import('@react-native-async-storage/async-storage');
+        const raw = await AsyncStorage.default.getItem(`listening_notes_${task?.id || 'general'}`);
+        if (!cancelled && raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed?.text) setNoteText(parsed.text);
+        }
+      } catch (e) { /* ignore */ }
+    })();
+    return () => { cancelled = true; };
+  }, [task?.id]);
   const listeningFeedback = useMemo(() => (checked ? buildListeningFeedback(task, answers) : null), [checked, task, answers]);
   const derivedKeywords = useMemo(() => deriveListeningKeywords(task), [task]);
   const keywordScore = useMemo(() => {
@@ -1478,6 +1508,18 @@ export default function ListeningDetailScreen({ route, navigation }) {
             textAlignVertical="top"
           />
           <Text style={styles.sub}>Keyword coverage: {keywordScore.used}/{keywordScore.total}</Text>
+          {keywordScore.total > 0 ? (
+            <View style={styles.coverageTrack}>
+              <View style={[styles.coverageFill, { width: `${Math.min(100, Math.round((keywordScore.used / keywordScore.total) * 100))}%` }]} />
+            </View>
+          ) : null}
+          <View style={styles.row}>
+            <Button
+              label={notesSaved ? '✓ Notes saved locally' : 'Save Notes'}
+              variant={notesSaved ? 'ghost' : 'secondary'}
+              onPress={saveNotes}
+            />
+          </View>
         </Card>
 
         <Card style={styles.card}>
@@ -1524,6 +1566,11 @@ export default function ListeningDetailScreen({ route, navigation }) {
         <Card style={styles.card}>
           <Text style={styles.h3}>Questions</Text>
           <Text style={styles.sub}>Answered: {answeredCount}/{task.questions?.length}</Text>
+          {task.questions?.length > 0 ? (
+            <View style={styles.coverageTrack}>
+              <View style={[styles.coverageFill, { width: `${Math.min(100, Math.round((answeredCount / task.questions.length) * 100))}%` }]} />
+            </View>
+          ) : null}
           {task.type === 'selective' && !playbackFinished && (
             <View style={styles.lockOverlay}>
               <Text style={styles.lockTitle}>🔒 Selective Listening Mode</Text>
