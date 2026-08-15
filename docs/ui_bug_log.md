@@ -21,6 +21,25 @@ EmailTemplateDesigner, RealLifeModules, Developer, Resources, WebViewer.
 
 ## Findings
 
+### BUG-21 (CRITICAL, LIVE): Mock Exam çözme akışı kırık — tek 'Reading Passage' kartı, passage'lar yok, MCQ seçenekleri short_answer input, Grammar boş
+- Kök: fix_mock_exam_refs.py eski sürümü tüm reading/listening sorularını tek düz liste olarak gömmüş (passage/transcript metinleri düşmüş, MCQ formatı kaybolmuş, grammar boş).
+- Fix: script yeniden yazıldı — her task kendi passage/transcript kartında (sections.reading.passages[], sections.listening.groups[], sections.grammar.questions), MCQ option ayrıştırma (A/B/C/D → idx 0-3), cloze sorularından Language Use havuzu (8 soru). ExamsScreen getQuestionCount ve ExamDetailScreen (allQuestions memo, passages/groups render) yeni şemayla uyumlu hale getirildi.
+- Canlıda doğrulandı (?n=refresh20260815c, bundle app.7c12aa43.js): Mock Exam 1 kartları 63-69 soru gösteriyor; sınav oturumu açılıyor; Passage kartları (Passage 1: Urban Heat...), Listening transcript kartları (Listening 1: Sociology...), Grammar Language Use havuzu (8 soru MCQ) hepsi render oluyor; MCQ seçimleri kaydediliyor; 'Finish Exam & Check' → Final Score: 1 / 77 (tüm şıklar A seçildi, 1 doğru — skorlama doğru çalışıyor).
+
+### Test progress (Mock Exam doğrulaması — 2026-08-15 akşam)
+- [OK] Mock Exam 1-5 kartları gerçek soru sayıları (63-79)
+- [OK] Start Timed Exam → 150dk timer, Reading/Listening/Grammar sekmeleri
+- [OK] Passage kartları metinlerle, MCQ butonları (52 adet), seçim kalıcı
+- [OK] Listening transcript kartları, Grammar Language Use havuzu
+- [OK] Finish Exam & Check → Final Score 1/77 (skorlama OK), Close Exam → Exams'a dönüş OK
+
+- [OK] Chat Coach (Chatbot): soru gönderme (Enter) çalışıyor, AI yanıtı görünüyor (hybrid mode, local fallback dolphin-llama3:8b veya AI yanıtı)
+- [OK] Placement Test: Q1 GRAMMAR P2 cevabı seçildi (had started), Q2 READING P3'e ilerledi — adaptif akış çalışıyor
+- [OK] Study Plan, Analytics, Calendar, BogaziciHub, Resources, WeakPointAnalysis, OfficialSim, ProficiencyMock, History — hepsi hata vermeden açılıyor
+- [OK] Progress ekranı: 'undefined' alarmı yanlış (kalan sayfa metniymiş); görsel + text doğrulaması temiz
+
+### FIX log: BUG-20 yanlış teşhisti (state zaten Exams'teymiş, görüntü artefaktı) — kapandı. BUG-19 (soru sayısı 63-69) canlıda doğrulandı.
+
 ### BUG-1 (CRITICAL): Live site ESKİ bundle çalıştırıyor — cache sorunu
 - Canlı sayfa `app.8f2beab0.js` yüklüyor; yerel build ve index.html `app.59606c83.js` referans veriyor.
 - HTML'de `src="/BUEPT-APP/app.59606c83.js"` var ama sayfa eski hash'li script'i cache'ten servis ediyor.
@@ -192,3 +211,19 @@ EmailTemplateDesigner, RealLifeModules, Developer, Resources, WebViewer.
   3. Listening'de transcript'ı section'a ekle.
   4. Grammar: reading task'larından yerine gerçek grammar sorusu yok — mock'larda grammar={questions:[MCQ Language Use]} olarak okuma MCQ'larından değil; boş bırakılırsa UI 'Grammar' sekmesi boş olur. (Not: listening_tasks.json grammar sorusu içeriyor olabilir — kontrol et: mock_1 listening 25 soru.)
   5. ExamsScreen getQuestionCount ve ExamDetailScreen inline section render'ı buna göre çalışmalı (section listesi okuyacak).
+- FIX UYGULANDI: script yeniden yazıldı (passages/groups/grammar şeması + MCQ parse + Language Use havuzu), ExamDetailScreen allQuestions memo + render, push edildi (3bc6a27), canlıda tam akış doğrulandı (Final Score 1/77). BUG-21 KAPANDI.
+
+### CANLI DOĞRULAMA 2 (yeni bundle 7c12aa43, 21:58)
+- [OK] Mock Exam 1-5 kartları 63-79 soru, oturum başlatma/timer/sekme geçişleri/MCQ/seçim/skorlama (1/77)/kapatma hepsi çalıştı.
+- [OK] Chat Coach soru-yanıt akışı, Placement adaptif akış, Study Plan, Analytics, Calendar, BogaziciHub, Resources, WeakPointAnalysis, OfficialSim, ProficiencyMock, Progress, History — hepsi hata vermeden açıldı.
+- POLISH: BogaziciHub 'BUEPT 2026 EXAM 0 GÜN' geri sayımı — sınav tarihi (2 Haziran 2026) geçmişte, sayaç 0 gösteriyor; mantık: sınav geçmişse 'TAMAMLANDI' gösterilmeli (küçük polish, BUG-23 adayı, öncelik düşük).
+
+### BUG-23 araştırması (Calendar '0 GÜN' geri sayımı)
+- src/ altında 'GÜN' string'i YOK — countdown verisi muhtemelen data/*.json (calendar_events veya buept info) dosyasında. Arama devam ediyor; gerekirse BogaziciHubScreen'de tarih kontrolü ekle (sınav tarihi geçmişse 'SINAV TAMAMLANDI').
+- NOT: Bug düşük öncelikli polish; ana walkthrough tamamlandı. Kalan: son push/lint kontrolü + kullanıcıya final rapor.
+
+### FINAL DURUM (21:58)
+- BUG-21 KAPANDI (Mock Exam tam akış canlıda doğrulandı), 3bc6a27 push edildi.
+- Kalan tüm ana ekranlar canlıda test edildi ve OK.
+- ESLint 0 hata, jest 36/36.
+- FİNAL RAPOR hazırlanacak: 72K+ satır, ~21 bug fix, yeni Mock Exam veri altyapısı.

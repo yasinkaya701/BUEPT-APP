@@ -349,7 +349,10 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
   );
   const bueptCountdown = useMemo(() => {
     const examMs = new Date(BUEPT_EXAM_AT).getTime();
-    return formatCountdown(examMs - nowClockMs);
+    return {
+      ...formatCountdown(examMs - nowClockMs),
+      completed: examMs <= nowClockMs,
+    };
   }, [nowClockMs]);
 
   const homeworkDateMap = useMemo(() => {
@@ -441,7 +444,12 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
 
       <Card style={styles.countdownCard}>
         <Text style={styles.countdownTitle}>BUEPT 2026 Exam</Text>
-        <View style={styles.countdownBlocks}>
+        {bueptCountdown.completed ? (
+          <Text style={[styles.countdownTitle, { fontSize: typography.h3, marginTop: spacing.sm }]}>
+            Sınav Tamamlandı — Uygulama kalıcı pratik modda çalışıyor
+          </Text>
+        ) : (
+          <View style={styles.countdownBlocks}>
             <View style={styles.timeBlock}>
                 <Text style={styles.timeVal}>{bueptCountdown.days}</Text>
                 <Text style={styles.timeLab}>Gün</Text>
@@ -461,8 +469,13 @@ export default function ClassScheduleCalendarScreen({ navigation }) {
                 <Text style={styles.timeVal}>{String(bueptCountdown.seconds).padStart(2, '0')}</Text>
                 <Text style={styles.timeLab}>Sn</Text>
             </View>
-        </View>
-        <Text style={styles.countdownSub}>2 Haziran 2026 • Bogazici University</Text>
+          </View>
+        )}
+        <Text style={styles.countdownSub}>
+          {bueptCountdown.completed
+            ? 'Takvim görünümü statiktir; canlı ders akışı tamamlanan dönem verisini gösterir.'
+            : '2 Haziran 2026 • Bogazici University'}
+        </Text>
       </Card>
 
       <Card style={styles.heroCard}>
