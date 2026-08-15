@@ -222,6 +222,18 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
     fontStyle: 'italic',
   },
+  advancedCard: {
+    borderColor: '#C4B5FD',
+    backgroundColor: '#F5F3FF',
+  },
+  advancedLabel: {
+    fontSize: typography.xsmall,
+    fontFamily: typography.fontHeadline,
+    color: '#6D28D9',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 4,
+  },
   progressTrack: {
     height: 8,
     borderRadius: 999,
@@ -394,12 +406,21 @@ export default function GrammarDetailScreen({ route, navigation }) {
   );
   const lessonPack = useMemo(() => buildGrammarLessonPack(task), [task]);
   const rawExplanation = lessonPack.rawExplanation || '';
+  // Strip markdown markers so the lesson overview never shows raw glyphs.
+  const stripMd = (text) => String(text || '')
+    .replace(/#{1,6}\s+/g, '')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/^\s*-\s+/gm, '')
+    .replace(/\n/g, ' ')
+    .trim();
+  const cleanedExplanation = stripMd(rawExplanation);
 
   // Parse explain text into structured segments
   const lessonSegments = useMemo(() => {
     if (Array.isArray(lessonPack.segments) && lessonPack.segments.length) return lessonPack.segments;
-    return rawExplanation.split('\n').map(line => line.trim()).filter(Boolean);
-  }, [lessonPack.segments, rawExplanation]);
+    return cleanedExplanation.split('. ').map(line => line.trim()).filter(Boolean);
+  }, [lessonPack.segments, cleanedExplanation]);
   const lessonFlashcards = useMemo(
     () => lessonPack.flashcards?.length ? lessonPack.flashcards : lessonSegments.filter((line) => line.length > 20).slice(0, 6),
     [lessonPack.flashcards, lessonSegments]
@@ -410,10 +431,10 @@ export default function GrammarDetailScreen({ route, navigation }) {
   );
 
   const getQuestionExplain = useCallback((q) => {
-    if (q.explain) return q.explain;
-    const taskIntro = rawExplanation.split('\n')[0] || '';
-    return `Correct answer: "${q.options[q.answer]}". ${taskIntro}`;
-  }, [rawExplanation]);
+    if (q.explain) return `${stripMd(q.explain).split('.')[0]}.`;
+    const taskIntro = cleanedExplanation.split('.')[0] || '';
+    return `Correct answer: "${q.options[q.answer]}". ${taskIntro}.`;
+  }, [cleanedExplanation]);
 
   const mistakeItems = useMemo(() => {
     if (!checked || !taskQuestions.length) return [];
@@ -450,11 +471,11 @@ export default function GrammarDetailScreen({ route, navigation }) {
         selectedIndex: q.type === 'short_answer' ? null : (Number.isFinite(selected) ? selected : null),
         selectedText: q.type === 'short_answer' ? selected : null,
         explanation: getQuestionExplain(q),
-        context: rawExplanation,
+        context: cleanedExplanation,
         skill: q.skill || q.topic || 'grammar',
       };
     }).filter(Boolean);
-  }, [checked, taskQuestions, answers, task, getQuestionExplain, rawExplanation]);
+  }, [checked, taskQuestions, answers, task, getQuestionExplain, cleanedExplanation]);
 
   const select = (qi, oi) => {
     if (checked) return;
@@ -897,11 +918,17 @@ export default function GrammarDetailScreen({ route, navigation }) {
       ) : null}
       {visibleQuestionIndexes.map((qi) => {
         const q = taskQuestions[qi];
+        // Q11+ in 20-question starter modules are advanced mixed-review items.
+        const isAdvanced = taskQuestions.length > 10 && qi >= 10;
+        const questionText = String(q.q || q.sentence || '').replace(/#{1,6}\s+/g, '').replace(/\*\*(.+?)\*\*/g, '$1').trim();
         return (
-        <Card key={qi} style={styles.card}>
-          <Text style={styles.h3}>Q{qi + 1}. {q.q}</Text>
+        <Card key={qi} style={[styles.card, isAdvanced && styles.advancedCard]}>
+          {qi === 10 ? (
+            <Text style={styles.advancedLabel}>Mixed Review — B2+ Advanced Structures</Text>
+          ) : null}
+          <Text style={styles.h3}>Q{qi + 1}. {questionText}</Text>
           {!checked && showHints && q.explain ? (
-            <Text style={styles.hintText}>Hint: {String(q.explain).split('.')[0]}.</Text>
+            <Text style={styles.hintText}>Hint: {String(q.explain).replace(/\*\*(.+?)\*\*/g, '$1').split('.')[0]}.</Text>
           ) : null}
           {!checked ? (
             <View style={styles.row}>

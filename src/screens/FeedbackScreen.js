@@ -341,7 +341,16 @@ export default function FeedbackScreen({ navigation, route }) {
     [sourceText, promptText, report?.keywords]
   );
 
-  const strengths = uniqueStrings([...(compactRubric.strengths || []), ...(report?.strengths || [])]).slice(0, 5);
+  const strengths = useMemo(() => {
+    const raw = uniqueStrings([...(compactRubric.strengths || []), ...(report?.strengths || [])]);
+    const readiness = compactRubric?.readiness ?? 100;
+    let pool = raw;
+    if (readiness < 45) {
+      // Low bands must not claim near-perfect sub-scores
+      pool = raw.filter((s) => !/(specific support and exemplification|word choice is mostly controlled|lexical variety is above|organization and flow are excellent|almost error[- ]free|excellent vocabulary)/i.test(s));
+    }
+    return pool.slice(0, readiness < 45 ? 2 : 5);
+  }, [compactRubric.strengths, compactRubric.readiness, report?.strengths]);
   const fixes = uniqueStrings([
     ...(report?.priority_fixes || []),
     ...(compactRubric.improvements || []),
@@ -611,19 +620,26 @@ export default function FeedbackScreen({ navigation, route }) {
 
         {/* ── PER-CATEGORY SCORED CARDS ─────────────── */}
         <Text style={styles.sectionHeading}>WASC Rubric Breakdown</Text>
-        {((compactRubric?.categories) || []).map((cat) => {
+        {((compactRubric?.categories) || []).map(((rubricCatFixSet) => (cat) => {
           const pct = Math.round((cat.score / cat.max) * 100);
           const theme = CATEGORY_COLORS[cat.name] || CATEGORY_COLORS.Grammar;
           const catLabel = CATEGORY_LABELS[cat.name] || cat.name;
-          const catFix = fixes.find((f) => {
-            const lower = f.toLowerCase();
-            if (cat.name === 'Grammar') return /(grammar|tense|agreement|article|sentence)/.test(lower);
-            if (cat.name === 'Vocabulary') return /(vocab|word|synonym|repetition|lexical)/.test(lower);
-            if (cat.name === 'Organization') return /(paragraph|flow|transition|coherence|structure)/.test(lower);
-            if (cat.name === 'Content') return /(task|example|argument|coverage|prompt)/.test(lower);
-            if (cat.name === 'Mechanics') return /(punctuation|spelling|capital|mechanic)/.test(lower);
-            return false;
-          });
+          // Each category picks its own fix from its underlying metric; a fix already claimed by an earlier category is not reused
+          const m = compactRubric?.metrics || {};
+          const find = (regexes) => fixes.find((f) => regexes.some((r) => r.test(f.toLowerCase())) && !rubricCatFixSet.has(f));
+          let catFix = null;
+          if (cat.name === 'Grammar' && m.errors > 0) {
+            catFix = find([/(fix .*grammar|tense|agreement|article|subject-verb)/i]) || (m.errors > 2 ? find([/^(fix|reduce|run a grammar)/i]) : null);
+          } else if (cat.name === 'Vocabulary') {
+            catFix = m.repetition >= 3 || (m.ttr && m.ttr < 0.45) ? find([/(repetition|overused|synonym|lexical|vocab)/i]) : null;
+          } else if (cat.name === 'Organization') {
+            catFix = m.connectors < 3 ? find([/(paragraph|flow|transition|coherence|topic sentence)/i]) : null;
+          } else if (cat.name === 'Content') {
+            catFix = m.wordCount < 120 ? find([/(length|words)/i]) || `Increase length toward 120 words` : find([/(task|example|argument|coverage|prompt)/i]);
+          } else if (cat.name === 'Mechanics') {
+            catFix = m.mechanicsIssues > 1 ? find([/(punctuation|spelling|capital|mechanic)/i]) : null;
+          }
+          if (catFix) rubricCatFixSet.add(catFix);
           return (
             <View key={cat.name} style={[styles.rubricCard, { backgroundColor: theme.bg, borderColor: theme.border }]}>
               <View style={styles.rubricCardHead}>
@@ -641,7 +657,7 @@ export default function FeedbackScreen({ navigation, route }) {
               ) : null}
             </View>
           );
-        })}
+        })(new Set()))}
 
         {/* ── STRENGTHS & FIXES ─────────────────────── */}
         <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>

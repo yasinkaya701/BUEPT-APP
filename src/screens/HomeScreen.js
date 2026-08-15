@@ -97,9 +97,11 @@ export default function HomeScreen({ navigation }) {
     { key: 'Listening', route: 'Listening', value: listeningAcc },
     { key: 'Grammar', route: 'Grammar', value: grammarAcc },
   ];
+  // Treat unattempted modules as unknown (not zero), so a single bad reading
+  // score does not get masked by untouched listening/grammar modules.
   const weakSkill = skillScores
-    .map((item) => ({ ...item, safe: item.value == null ? 0 : item.value }))
-    .sort((a, b) => a.safe - b.safe)[0];
+    .filter((item) => item.value != null)
+    .sort((a, b) => a.value - b.value)[0] || { key: 'Reading', route: 'Reading', value: null };
   const skillComposite = React.useMemo(() => {
     const vals = [readingAcc, listeningAcc, grammarAcc].filter((v) => v != null);
     if (!vals.length) return null;

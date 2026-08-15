@@ -261,3 +261,15 @@ Yeni yazılı, henüz commit edilmemiş: PassageReaderScreen (src/screens/Passag
 Kalan paketler: P6 Reading UI (PassageReader kaydedilince tamam), P8 Dashboard zenginleştirme (Home — kısmen yapıldı: streak kartı navigate). Sonra: tam doğrulama (lint+jest+web build + GH Actions + canlı site kontrol) + kullanıcıya sonuç mesajı.
 Not: SpeakingMockInterviewScreen'de TouchableOpacity import'u eklendi ama kullanılmıyor olabilir — lint kontrol edildi 0 error çıktı zaten.
 Plan dosyası: docs/ui_feature_upgrade_plan.md. Deploy otomatik. Canlı: https://yasinkaya701.github.io/BUEPT-APP
+
+
+## FAZ 21 TAMAMLANDI (3. kayıt)
+Tüm 8 paket uygulandı ve push edildi (951ef3f).
+Doğrulama: 0 ESLint hatası, Jest 36/36, webpack compiled successfully, canlı deploy GH Actions ile otomatik: https://yasinkaya701.github.io/BUEPT-APP
+Son ölçüm: src toplam 72.425 satır.
+Önemli teknik not: @expo/vector-icons web webpack'te çözülmüyor — tüm yeni ekranlarda react-native-vector-icons/Ionicons default import kalıbı kullanıldı (13 dosya sed ile düzeltildi).
+Tamamlanan paketler: P1 UI lib (ScoreRing, StatCard, ScoreBandChip, EmptyState, TabPill, Sparkline, TimelineStep, KeywordDensityBar, ConfidenceStrip), P2 MockScreen Exam Hub, P3 GenericHistoryScreen filter/sort/sparkline, P4 ParaphraseStudio + EssayBank + WritingEditor prefillPrompt/wordTargetMin-Max, P5 SpeakingMockInterview visual upgrade, P6 PassageReaderScreen (Reading II matching), P7 BadgeCase/LevelCard/XPTimeline + xpLog/appendXpEntry, P8 TodayBoardScreen + DAILY_MISSION XP.
+Kullanıcıya Faz 21 sonuç mesajı gönderilecek (result type).
+
+## CANLI DOĞRULAMA NOTU
+Live site render oluyor (200 OK). Home'daki Today Board bölümünde başlık sağ tarafı "Open Demo" olarak gösteriliyor — benim edit "Open Board" (TodayBoard navigate) olmalıydı ama sayfa metninde hâlâ "Open Demo" görünüyor. Olası neden: GH Pages deploy henüz tamamlanmadı (commit push sonrası Actions birkaç dk sürer) VEYA deploy eski cache. Kontrol: Actions çalışıyor mu, sonradan tekrar kontrol edilecek. Tüm paketler push edildi: 951ef3f.

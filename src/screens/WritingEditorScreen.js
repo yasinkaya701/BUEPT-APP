@@ -312,11 +312,11 @@ export default function WritingEditorScreen({ navigation, route }) {
           <Text style={styles.wordHint}>
             {insights.metrics.words >= targetWords ? '✓ Word target reached — review accuracy and flow next.' : `${Math.max(0, targetWords - insights.metrics.words)} words to target.`}
           </Text>
-          <InsightStat icon="checkmark-circle-outline" label="Accuracy" value={`${insights.metrics.accuracy}%`} color={colors.success} />
-          <InsightStat icon="git-branch-outline" label="Flow" value={`${insights.metrics.flow}%`} color={colors.primary} />
-          <InsightStat icon="flask-outline" label="Variety" value={`${insights.metrics.variety}%`} color={colors.accent} />
+          <InsightStat icon="checkmark-circle-outline" label="Accuracy" value={insights.metrics.accuracy == null ? '--' : `${insights.metrics.accuracy}%`} color={colors.success} />
+          <InsightStat icon="git-branch-outline" label="Flow" value={insights.metrics.flow == null ? '--' : `${insights.metrics.flow}%`} color={colors.primary} />
+          <InsightStat icon="flask-outline" label="Variety" value={insights.metrics.variety == null ? '--' : `${insights.metrics.variety}%`} color={colors.accent} />
           <InsightStat icon="flash-outline" label="Complexity" value={`${insights.metrics.complexity}%`} color={colors.warning} />
-          <InsightStat icon="ribbon-outline" label="Formality" value={`${insights.metrics.formality}%`} color={colors.primaryDark} />
+          <InsightStat icon="ribbon-outline" label="Formality" value={insights.metrics.formality == null ? '--' : `${insights.metrics.formality}%`} color={colors.primaryDark} />
           <InsightStat icon="school-outline" label="AWL Density" value={`${insights.metrics.academicDensity}%`} color={colors.success} />
         </View>
 

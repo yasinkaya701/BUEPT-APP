@@ -2880,6 +2880,8 @@ export default function VocabScreen({ navigation, route }) {
               <Button label="Search Dictionary" icon="search-outline" onPress={() => setActiveSection('Dictionary')} />
               <Button label="Word Formation Quiz" icon="create-outline" variant="secondary" onPress={() => openPlannerDay(1)} />
               <Button label="Collocation Quiz" icon="link-outline" variant="secondary" onPress={() => openPlannerDay(6)} />
+            </View>
+            <View style={[styles.heroActionRow, { marginTop: spacing.sm }]}>
               <Button label="Listening Queue" icon="headset-outline" variant="secondary" onPress={() => setActiveSection('Listening Queue')} />
               <Button label="Subtle Hover" icon="logo-chrome" variant="secondary" onPress={() => setActiveSection('Subtle Hover')} />
               <Button label="Unknown Queue" icon="alert-circle-outline" variant="ghost" onPress={() => setActiveSection('Unknown')} />
@@ -3119,6 +3121,7 @@ const styles = StyleSheet.create({
   },
   hubMetricCard: {
     flexGrow: 1,
+    flexShrink: 1,
     flexBasis: 148,
     minHeight: 92,
     backgroundColor: colors.surface,
@@ -3162,6 +3165,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
     backgroundColor: '#F7FAFF',
     borderColor: '#D8E4F8',
+    overflow: 'hidden',
   },
   bannerTitle: {
     color: colors.primaryDark,

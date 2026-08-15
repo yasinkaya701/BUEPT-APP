@@ -13,7 +13,15 @@ import { useAppState } from '../context/AppState';
 const tasks = [...baseTasks, ...hardTasks, ...testEnglishTasks].map((item) => {
   const id = String(item?.id || '');
   const title = String(item?.title || '');
-  const explain = String(item?.explanation || item?.explain || '');
+  // Strip markdown markers so task cards never show raw '###' or '**' glyphs.
+  const explain = String(item?.explanation || item?.explain || '')
+    .replace(/#{1,6}\s+/g, '')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/^\s*-\s+/gm, '')
+    .replace(/\n{2,}/g, '. ')
+    .replace(/\n/g, ' ')
+    .trim();
   const isTestEnglish = id.startsWith('g_te_') || id.startsWith('te_');
   const isUoe = id.includes('_uoe_') || /use of english/i.test(title);
   return {

@@ -490,11 +490,11 @@ export function calculateLiveInsights({ text = '', prompt = '', targetWords = 18
     total,
     metrics: {
       words: metrics.wordCount,
-      accuracy: Math.round(Math.max(0, 100 - (metrics.errors * 8))),
-      flow: Math.round(Math.min(100, (metrics.connectors * 20) + (metrics.supportHits * 10))),
-      variety: Math.round(metrics.ttr * 100),
+      accuracy: metrics.wordCount === 0 ? null : Math.round(Math.max(0, 100 - (metrics.errors * 8))),
+      flow: metrics.wordCount === 0 ? null : Math.round(Math.min(100, (metrics.connectors * 20) + (metrics.supportHits * 10))),
+      variety: metrics.wordCount === 0 ? null : Math.round(metrics.ttr * 100),
       complexity: Math.round(Math.min(100, (density * 5) + (metrics.academics * 10) + (metrics.sentenceCount * 5))),
-      formality: Math.round(Math.min(100, 100 - (metrics.repetition * 5) + (density * 3))),
+      formality: metrics.wordCount === 0 ? null : Math.round(Math.min(100, 100 - (metrics.repetition * 5) + (density * 3))),
       academicDensity: Math.round(density * 2), // Normalized for display
     },
     tasks: tasks.slice(0, 3),

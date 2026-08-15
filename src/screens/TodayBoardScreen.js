@@ -182,7 +182,7 @@ export default function TodayBoardScreen({ navigation }) {
         ) : (
           <Text style={styles.emptyNote}>No weak words collected yet — keep practicing SRS reviews.</Text>
         )}
-        <Button label="Review weak words" variant="secondary" onPress={() => navigation.navigate('Vocabulary')} />
+        <Button label="Review weak words" variant="secondary" onPress={() => navigation.navigate('Review')} />
       </Card>
     </Screen>
   );
@@ -195,12 +195,12 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: typography.h1,
     fontFamily: typography.fontHeadline,
-    color: colors.text,
+    color: colors.surface,
     marginBottom: spacing.xs,
   },
   headerSub: {
     fontSize: typography.small,
-    color: colors.muted,
+    color: 'rgba(255,255,255,0.85)',
     marginBottom: spacing.md,
     lineHeight: 18,
   },

@@ -506,7 +506,6 @@ export default function ReadingDetailScreen({ route, navigation }) {
         ) : null}
         <View style={styles.row}>
           <Button label={checked ? '✓ Checked' : 'Check Answers'} onPress={check} disabled={checked || answeredCount === 0} />
-          <Button label="Back" variant="secondary" onPress={() => navigation.goBack()} />
         </View>
       </Card>
 
@@ -605,13 +604,13 @@ export default function ReadingDetailScreen({ route, navigation }) {
       {readingModel && (
         <Card style={styles.card}>
           <Text style={styles.h3}>Reading Model</Text>
-          <Text style={styles.sub}>Overall: {readingModel.overall}% • {readingModel.band}</Text>
+          <Text style={styles.sub}>Composite (attempted drills only): {readingModel.overall}% • {readingModel.band}</Text>
           <View style={styles.modelTrack}>
             <View style={[styles.modelFill, { width: `${readingModel.overall}%` }]} />
           </View>
           <Text style={styles.feedbackTitle}>Dimension Scores</Text>
           {Object.entries(readingModel.dimensions).map(([name, val]) => (
-            <Text key={name} style={styles.answer}>• {name}: {val}%</Text>
+            <Text key={name} style={styles.answer}>• {name}: {val === null ? '-- (not attempted)' : `${val}%`}</Text>
           ))}
           {readingModel.weaknesses.length > 0 ? (
             <>
@@ -929,7 +928,6 @@ export default function ReadingDetailScreen({ route, navigation }) {
 
       <View style={styles.row}>
         <Button label={checked ? 'Checked' : 'Check Answers'} onPress={check} />
-        <Button label="Back" variant="secondary" onPress={() => navigation.goBack()} />
       </View>
       {score && <Text style={styles.score}>Score: {score}</Text>}
     </>

@@ -38,39 +38,50 @@ export function evaluateReadingModel({
   });
 
   const comprehension = total ? Math.round((correct / total) * 100) : 0;
-  const cloze = clozeTotal ? Math.round((clozeCorrect / clozeTotal) * 100) : comprehension;
+  // Only count cloze accuracy when the task actually contained cloze items.
+  const cloze = clozeTotal ? Math.round((clozeCorrect / clozeTotal) * 100) : null;
   const evidence = (() => {
     const words = toWords(evidenceNote);
-    if (!words.length) return 0;
+    if (!words.length) return null;
     const keyHints = ['because', 'therefore', 'evidence', 'line', 'paragraph', 'according', 'shows', 'indicates'];
     const hits = keyHints.filter((k) => words.includes(k)).length;
     return clamp(Math.round((hits / keyHints.length) * 100) + Math.min(30, words.length), 0, 100);
   })();
+  // Only count paragraph mapping if the learner actually attempted it (avoids
+  // a phantom 50% propping up the composite score for untouched drills).
   const paragraphMap = (() => {
     const values = Object.values(paragraphStatus || {});
-    if (!values.length) return 50;
+    if (!values.length) return null;
     const clear = values.filter((v) => v === 'clear').length;
     return Math.round((clear / values.length) * 100);
   })();
+  // Only count scanning if the drill was checked (unattempted = not counted).
   const scanning = scanChecked
     ? (scanTarget && scanPick === scanTarget.paragraphIndex ? 100 : 35)
-    : 50;
+    : null;
 
   const dimensions = {
     comprehension,
     clozeAccuracy: cloze,
     evidenceUse: evidence,
-    paragraphMapping: paragraphMap,
-    scanningSpeed: scanning,
+    paragraphMapping: paragraphMap === null ? null : paragraphMap,
+    scanningSpeed: scanning === null ? null : scanning,
   };
 
-  const overall = clamp(Math.round(
-    (dimensions.comprehension * 0.4) +
-    (dimensions.clozeAccuracy * 0.2) +
-    (dimensions.evidenceUse * 0.2) +
-    (dimensions.paragraphMapping * 0.1) +
-    (dimensions.scanningSpeed * 0.1)
-  ), 0, 100);
+  // Composite: weight attempted dimensions by their fixed quotas. Unattempted
+  // dimensions are excluded so a fresh learner never sees an inflated score.
+  const quota = {
+    comprehension: 0.4,
+    clozeAccuracy: 0.25,
+    evidenceUse: 0.15,
+    paragraphMapping: 0.1,
+    scanningSpeed: 0.1,
+  };
+  const attempted = Object.entries(quota).filter(([key]) => dimensions[key] !== null);
+  const totalQuota = attempted.reduce((sum, [, q]) => sum + q, 0);
+  const overall = totalQuota > 0
+    ? clamp(Math.round(attempted.reduce((sum, [key, q]) => sum + dimensions[key] * q, 0) / totalQuota), 0, 100)
+    : 0;
 
   const band = overall >= 85 ? 'Strong B2' : overall >= 70 ? 'Developing B2' : overall >= 55 ? 'Strong B1' : 'Developing B1';
 

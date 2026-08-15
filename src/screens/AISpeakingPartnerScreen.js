@@ -617,6 +617,9 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
   const webEngineArmedRef = useRef(false);
   const webStartAtRef = useRef(0);
 
+  const promptPool = useMemo(() => PROMPT_LIBRARY[mode] || PROMPT_LIBRARY.opinion, [mode]);
+  const activePrompt = promptPool[promptCursor % promptPool.length] || PROMPT_LIBRARY.opinion[0];
+
   const targetSentences = useMemo(
     () => [activePrompt.prompt, ...(Array.isArray(activePrompt.vocab) ? activePrompt.vocab : [])],
     [activePrompt]
@@ -639,9 +642,6 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
   const lastSubmittedRef = useRef('');
   const conversationRef = useRef(conversation);
   const scrollRef = useRef(null);
-
-  const promptPool = useMemo(() => PROMPT_LIBRARY[mode] || PROMPT_LIBRARY.opinion, [mode]);
-  const activePrompt = promptPool[promptCursor % promptPool.length] || PROMPT_LIBRARY.opinion[0];
 
   const turnAnalyses = useMemo(
     () => conversation.filter((item) => item.role === 'ai' && item.analysis).map((item) => item.analysis),
