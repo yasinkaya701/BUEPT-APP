@@ -253,3 +253,11 @@ Sonra: P5 Speaking UI (SpeakingMockInterview timeline), P6 Reading UI (PassageRe
 Plan dosyası: docs/ui_feature_upgrade_plan.md. Deploy: GH Actions otomatik; canlı https://yasinkaya701.github.io/BUEPT-APP
 Doğrulama komutu: npx eslint src/ (0 error hedefi, no-undef kuralı, exhaustive-deps object ister); npx jest (36 test); npm run web:rnw:build:root.
 Kritik teknik: react-native-svg web build'de çalıştı (npm kurulumla). pnpm YASAK.
+
+
+## FAZ 21 GÜNCEL DURUM (2. kayıt)
+Push edilenler: P1 (ui lib, xpLog, BadgeCase/LevelCard/XPTimeline), P2 (MockScreen Exam Hub), P3 (GenericHistoryScreen filter/sort/sparkline), P4 (ParaphraseStudioScreen + EssayBankScreen, WritingEditor prefillPrompt/wordTargetMin/Max, rubricScoring targetWordsMin desteği), P5 (SpeakingMockInterviewScreen visual upgrade: TimelineStep+ScoreRing+stageBar+liveBox; mevcut voiceEngine yapısını KORUYUP ekledim — ezme).
+Yeni yazılı, henüz commit edilmemiş: PassageReaderScreen (src/screens/PassageReaderScreen.js ~350 satır, Reading II matching pratiği, PASSAGES dizisi inline). YAPILACAK: RootNavigator'a "PassageReader" kaydı (lazy require), npx eslint (0 error), npx jest (36 test), commit/push.
+Kalan paketler: P6 Reading UI (PassageReader kaydedilince tamam), P8 Dashboard zenginleştirme (Home — kısmen yapıldı: streak kartı navigate). Sonra: tam doğrulama (lint+jest+web build + GH Actions + canlı site kontrol) + kullanıcıya sonuç mesajı.
+Not: SpeakingMockInterviewScreen'de TouchableOpacity import'u eklendi ama kullanılmıyor olabilir — lint kontrol edildi 0 error çıktı zaten.
+Plan dosyası: docs/ui_feature_upgrade_plan.md. Deploy otomatik. Canlı: https://yasinkaya701.github.io/BUEPT-APP
