@@ -1,13 +1,31 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Animated, Platform } from 'react-native';
 import { spacing, shadow, colors, radius } from '../theme/tokens';
 
 function Card({ children, style, glow = false, compact = false }) {
+  const hover = React.useRef(new Animated.Value(0)).current;
+  const lift = hover.interpolate({ inputRange: [0, 1], outputRange: [0, -3] });
+  const scale = hover.interpolate({ inputRange: [0, 1], outputRange: [1, 1.008] });
+
+  const handleHoverIn = React.useCallback(() => {
+    Animated.timing(hover, { toValue: 1, duration: 180, useNativeDriver: true }).start();
+  }, [hover]);
+
+  const handleHoverOut = React.useCallback(() => {
+    Animated.timing(hover, { toValue: 0, duration: 180, useNativeDriver: true }).start();
+  }, [hover]);
+
   return (
-    <View style={[styles.card, compact && styles.compact, glow && styles.glow, style]}>
-      <View pointerEvents="none" style={styles.topTint} />
-      {children}
-    </View>
+    <Animated.View
+      onHoverIn={Platform.OS === 'web' ? handleHoverIn : undefined}
+      onHoverOut={Platform.OS === 'web' ? handleHoverOut : undefined}
+      style={{ transform: [{ translateY: lift }, { scale }] }}
+    >
+      <View style={[styles.card, compact && styles.compact, glow && styles.glow, style]}>
+        <View pointerEvents="none" style={styles.topTint} />
+        {children}
+      </View>
+    </Animated.View>
   );
 }
 

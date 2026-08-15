@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Screen from '../components/Screen';
+import PageTransition from '../components/ui/PageTransition';
 import LogoMark from '../components/LogoMark';
 import { colors, spacing, typography, shadow, radius } from '../theme/tokens';
 
@@ -259,7 +260,8 @@ export default function HomeScreen({ navigation }) {
   ];
 
   return (
-    <Screen scroll contentStyle={styles.container}>
+    <PageTransition>
+      <Screen scroll contentStyle={styles.container}>
       {/* ── Glass hero card (background comes from Screen component) ── */}
       <ImageBackground source={require('../assets/images/real_north_campus.jpg')} style={[styles.heroBgImg, isCompact && styles.heroBgImgCompact]} resizeMode="cover">
         <View style={[styles.header, isCompact && styles.headerCompact]}>
@@ -550,7 +552,8 @@ export default function HomeScreen({ navigation }) {
         </>
       ) : null}
 
-    </Screen>
+      </Screen>
+    </PageTransition>
   );
 }
 

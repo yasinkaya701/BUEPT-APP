@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Screen from '../components/Screen';
+import PageTransition from '../components/ui/PageTransition';
 import { useAppState } from '../context/AppState';
 import SkillHeader from '../components/ui/SkillHeader';
 import MetricRail, { MetricTile } from '../components/ui/MetricRail';
@@ -402,7 +403,8 @@ export default function ListeningScreen({ navigation }) {
   };
 
   return (
-    <Screen scroll contentStyle={styles.container}>
+    <PageTransition>
+      <Screen scroll contentStyle={styles.container}>
       <SkillHeader
         skill="listening"
         icon="headset-outline"
@@ -741,6 +743,7 @@ export default function ListeningScreen({ navigation }) {
         </>
       )}
     </Screen>
+    </PageTransition>
   );
 }
 

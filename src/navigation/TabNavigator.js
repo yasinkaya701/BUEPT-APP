@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet, Pressable, useWindowDimensions, Platform, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Pressable, useWindowDimensions, Platform, ScrollView, Animated } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import WritingScreen from '../screens/WritingScreen';
 import VocabScreen from '../screens/VocabScreen';
@@ -95,6 +95,16 @@ function CustomTabBarButton({ children, onPress, onLongPress, style }) {
 }
 
 function WebSidebarTabBar({ state, descriptors, navigation, tabLabels }) {
+  const sidebarIndicator = React.useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    Animated.timing(sidebarIndicator, {
+      toValue: state.index,
+      duration: 220,
+      useNativeDriver: true,
+    }).start();
+  }, [state.index, sidebarIndicator]);
+
   return (
     <View style={styles.webSidebar}>
       <View style={styles.webSidebarHero}>
@@ -134,31 +144,16 @@ function WebSidebarTabBar({ state, descriptors, navigation, tabLabels }) {
           };
 
           return (
-            <Pressable
+            <WebSidebarTabItem
               key={route.key}
+              routeName={route.name}
+              index={index}
+              focused={focused}
+              label={label}
+              descriptor={descriptor}
               onPress={onPress}
-              testID={TAB_TEST_IDS[route.name]}
-              accessibilityRole="button"
-              style={({ pressed }) => [
-                styles.webSidebarItem,
-                focused && styles.webSidebarItemActive,
-                pressed && styles.webSidebarItemPressed,
-              ]}
-            >
-              <View style={[styles.webSidebarItemIcon, focused && styles.webSidebarItemIconActive]}>
-                <Text style={[styles.webSidebarItemEmoji, focused && styles.webSidebarItemEmojiActive]}>
-                  {TAB_ICONS[route.name]}
-                </Text>
-              </View>
-              <View style={styles.webSidebarItemTextWrap}>
-                <Text style={[styles.webSidebarItemLabel, focused && styles.webSidebarItemLabelActive]}>
-                  {label}
-                </Text>
-                <Text style={[styles.webSidebarItemHint, focused && styles.webSidebarItemHintActive]}>
-                  {descriptor?.options?.title || `${label} workspace`}
-                </Text>
-              </View>
-            </Pressable>
+              sidebarIndicator={sidebarIndicator}
+            />
           );
         })}
       </ScrollView>
@@ -170,6 +165,54 @@ function WebSidebarTabBar({ state, descriptors, navigation, tabLabels }) {
         </Text>
       </View>
     </View>
+  );
+}
+
+function WebSidebarTabItem({ routeName, index, focused, label, descriptor, onPress, sidebarIndicator }) {
+  const hover = React.useRef(new Animated.Value(0)).current;
+  const iconScale = hover.interpolate({ inputRange: [0, 1], outputRange: [1, 1.12] });
+  const activeIndicatorOpacity = sidebarIndicator.interpolate({
+    inputRange: [index - 1, index, index + 1],
+    outputRange: [0, 1, 0],
+    extrapolate: 'clamp',
+  });
+
+  const handleHoverIn = React.useCallback(() => {
+    Animated.timing(hover, { toValue: 1, duration: 180, useNativeDriver: true }).start();
+  }, [hover]);
+
+  const handleHoverOut = React.useCallback(() => {
+    Animated.timing(hover, { toValue: 0, duration: 180, useNativeDriver: true }).start();
+  }, [hover]);
+
+  return (
+    <Pressable
+      onPress={onPress}
+      onHoverIn={handleHoverIn}
+      onHoverOut={handleHoverOut}
+      testID={TAB_TEST_IDS[routeName]}
+      accessibilityRole="button"
+      style={({ pressed }) => [
+        styles.webSidebarItem,
+        focused && styles.webSidebarItemActive,
+        pressed && styles.webSidebarItemPressed,
+      ]}
+    >
+      <Animated.View style={[styles.webSidebarItemIcon, focused && styles.webSidebarItemIconActive, { transform: [{ scale: iconScale }] }]}>
+        <Text style={[styles.webSidebarItemEmoji, focused && styles.webSidebarItemEmojiActive]}>
+          {TAB_ICONS[routeName]}
+        </Text>
+      </Animated.View>
+      <View style={styles.webSidebarItemTextWrap}>
+        <Text style={[styles.webSidebarItemLabel, focused && styles.webSidebarItemLabelActive]}>
+          {label}
+        </Text>
+        <Text style={[styles.webSidebarItemHint, focused && styles.webSidebarItemHintActive]}>
+          {descriptor?.options?.title || `${label} workspace`}
+        </Text>
+      </View>
+      <Animated.View style={[styles.webSidebarItemTick, { opacity: activeIndicatorOpacity }]} />
+    </Pressable>
   );
 }
 
@@ -455,6 +498,16 @@ const styles = StyleSheet.create({
   },
   webSidebarItemIconActive: {
     backgroundColor: 'rgba(255,255,255,0.16)',
+  },
+  webSidebarItemTick: {
+    position: 'absolute',
+    right: spacing.sm,
+    top: '50%',
+    marginTop: -11,
+    width: 3,
+    height: 22,
+    borderRadius: 1.5,
+    backgroundColor: colors.primary,
   },
   webSidebarItemEmoji: {
     fontSize: 18,

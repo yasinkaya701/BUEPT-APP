@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text, StyleSheet, View, Platform } from 'react-native';
+import { Pressable, Text, StyleSheet, View, Platform, Animated } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { typography, shadow, colors, radius } from '../theme/tokens';
 
@@ -20,9 +20,24 @@ function Button({
   const fallbackIconColor = disabled ? '#94A3B8' : (iconColor || tone.iconColor);
   const resolvedLeftIcon = iconLeft || (icon ? <Ionicons name={icon} size={14} color={fallbackIconColor} /> : null);
 
+  const hoverRef = React.useRef(new Animated.Value(0)).current;
+  const hoverScale = hoverRef.interpolate({ inputRange: [0, 1], outputRange: [1, 1.03] });
+  const webHoverEnabled = Platform.OS === 'web';
+
+  const handleHoverIn = React.useCallback(() => {
+    Animated.timing(hoverRef, { toValue: 1, duration: 180, useNativeDriver: true }).start();
+  }, [hoverRef]);
+
+  const handleHoverOut = React.useCallback(() => {
+    Animated.timing(hoverRef, { toValue: 0, duration: 180, useNativeDriver: true }).start();
+  }, [hoverRef]);
+
   return (
+    <Animated.View style={{ transform: [{ scale: hoverScale }] }}>
     <Pressable
       onPress={onPress}
+      onHoverIn={webHoverEnabled ? handleHoverIn : undefined}
+      onHoverOut={webHoverEnabled ? handleHoverOut : undefined}
       disabled={disabled}
       hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
       pressRetentionOffset={{ top: 10, left: 10, right: 10, bottom: 10 }}
@@ -47,6 +62,7 @@ function Button({
         {iconRight ? <View style={styles.iconSlotRight}>{iconRight}</View> : null}
       </View>
     </Pressable>
+    </Animated.View>
   );
 }
 

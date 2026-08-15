@@ -12,3 +12,7 @@ export { default as MetricRail, MetricTile } from './MetricRail';
 export { default as FilterBar, FilterChip } from './FilterBar';
 export { default as SectionHeader } from './SectionHeader';
 export { default as PracticeTaskRow } from './PracticeTaskRow';
+export { default as PageTransition } from './PageTransition';
+export { default as MotionGroup } from './MotionGroup';
+export { default as MotionCard } from './MotionCard';
+export { default as CountUp } from './CountUp';

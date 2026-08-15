@@ -186,4 +186,9 @@ export const motion = {
   quick: 140,
   normal: 220,
   slow: 320,
+  // Premium motion layer tokens
+  ultra: 90, // micro-feedback (press, hover)
+  pageIn: 340, // page entrance (fade + rise)
+  stagger: 55, // per-child entrance delay in MotionGroup
+  overshoot: 5, // overshoot target (1.x) for spring-like entrances
 };

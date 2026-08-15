@@ -6,6 +6,7 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import Chip from '../components/Chip';
 import Screen from '../components/Screen';
+import PageTransition from '../components/ui/PageTransition';
 import SkillHeader from '../components/ui/SkillHeader';
 import { colors, spacing, typography, radius } from '../theme/tokens';
 import { buildFallbackEntry, getDictionaryCount, getDictionarySample, getDictionarySlice, getVerbForms, getWordEntry, getWordFamily, searchDictionary, startDictionaryBuild, subscribeDictionaryBuild } from '../utils/dictionary';
@@ -18,7 +19,7 @@ import {
   safeDictionaryCount, safeDictionarySample, safeDictionarySlice,
   safeWordEntry, safeWordFamily, safeVerbForms,
   formatTopicLabel, normalizeWordKey, getLevelWeight,
-  buildVocabChallenge, buildSentenceStarters, normalizeSentence,
+  buildVocabChallenge, buildSentenceStarters,
   hasConnector, buildVerbDrillSentence, buildSentenceUpgrade, speakWord,
 } from '../utils/vocabHelpers';
 
@@ -1177,7 +1178,6 @@ export default function VocabScreen({ navigation, route }) {
     () => (Array.isArray(academicData) ? academicData : []).slice(0, academicRenderLimit),
     [academicData, academicRenderLimit]
   );
-  const verbList = useMemo(() => normalizedAcademicVerbs.slice(0, verbRenderLimit), [normalizedAcademicVerbs, verbRenderLimit]);
   const deptVisibleWords = useMemo(() => deptWords.slice(0, deptRenderLimit), [deptWords, deptRenderLimit]);
   const testEnglishVisibleWords = useMemo(
     () => testEnglishWords.slice(0, testEnglishRenderLimit),
@@ -3020,6 +3020,7 @@ export default function VocabScreen({ navigation, route }) {
   }, [activeSection, dictionaryHasMore, dictionaryResults.length, dictionaryRenderLimit, deptRenderLimit, deptWords.length, academicRenderLimit, academicData.length, wascRenderLimit, wascWords.length]);
 
   return (
+    <PageTransition>
     <Screen scroll animate contentStyle={styles.container}>
       {renderListHeader()}
       <View style={[styles.listContent, isWide && styles.listContentWide]}>
@@ -3033,6 +3034,7 @@ export default function VocabScreen({ navigation, route }) {
       </View>
       {renderListFooter()}
     </Screen>
+    </PageTransition>
   );
 }
 

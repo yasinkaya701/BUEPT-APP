@@ -67,3 +67,12 @@ Splash dest mantığı: userToken ? 'MainTabs' : (onboarded ? 'Login' : 'Onboard
 
 ## Faz 4 teşhis devam
 Yeni bundle app.44edb4df.js canlıda; bootstrap doğru çalışıyor (token=demo_student, onboarded=0). Ama hâlâ Dashboard görünüyor → SplashScreen routing'i kontrol altında. Kaynak: src/screens/SplashAnimationScreen.js.
+
+## LAUNCH DOĞRULANDI (2026-08-15 23:21)
+app.a375530f.js canlıda. Tam temiz localStorage ile ilk açılışta YENİ ONBOARDING EKRANI geldi: Boğaziçi kampüs arka planı, Bosphorus-Ready rozeti, "Boğaziçi Prep" hero, 3 showcase kartı (Official BUSEPT Format / WASC-Scored Essay Bank / Adaptive Daily Plan), seviye seçimi (P1-P4), Take Placement Test + Skip CTA'ları. Kalan test: Skip → Dashboard, sonraki açılışta onboarding gelmemeli.
+
+## LAUNCH AKIŞI UÇTAN UCA DOĞRULANDI (23:21)
+1. Tam temiz localStorage → ilk açılış: Onboarding (Boğaziçi hero + 3 showcase + seviye + placement CTA) ✔
+2. Skip → Dashboard ✔ (onboarded=1 kaydedildi)
+3. Yeniden açılış → doğrudan Dashboard, onboarding gelmedi ✔
+Demo token akışı (Guest Student friction-free) korundu. ESLint 0 error, 36/36 test, prod build OK, push ebb6271 main'e, canlıda app.a375530f.js.

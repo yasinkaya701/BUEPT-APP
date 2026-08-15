@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors, typography, spacing, radius, shadow } from '../../theme/tokens';
+import CountUp from './CountUp';
 
 const ACCENT_COLORS = {
   blue: colors.primary,
@@ -21,7 +22,9 @@ export function MetricTile({ value = '—', label = 'Metric', accent = 'blue', s
   return (
     <View style={[styles.tile, { borderColor: `${accentColor}33` }, style]}>
       <View style={[styles.accentBar, { backgroundColor: accentColor }]} />
-      <Text style={[styles.value, { color: accentColor }]} numberOfLines={1}>{value}</Text>
+      <View style={styles.valueWrap}>
+        <CountUp value={value} textStyle={[styles.value, { color: accentColor }]} />
+      </View>
       <Text style={styles.label} numberOfLines={1}>{label}</Text>
     </View>
   );
@@ -51,6 +54,9 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     paddingLeft: spacing.sm + 4,
     ...shadow.slight,
+  },
+  valueWrap: {
+    minHeight: 24,
   },
   accentBar: {
     width: 4,

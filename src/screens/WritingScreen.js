@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Screen from '../components/Screen';
+import PageTransition from '../components/ui/PageTransition';
 import { colors, spacing, typography, shadow, radius } from '../theme/tokens';
 import prompts from '../../data/writing_prompts.json';
 import { useAppState } from '../context/AppState';
@@ -109,6 +110,7 @@ export default function WritingScreen({ navigation }) {
 
   return (
     <>
+    <PageTransition>
     <Screen scroll contentStyle={styles.container}>
         <View style={styles.headerSpacer}>
             <SkillHeader
@@ -273,6 +275,7 @@ export default function WritingScreen({ navigation }) {
         )}
       </View>
     </Screen>
+    </PageTransition>
 
     {/* Academic Expressions Modal */}
     <Modal visible={showTemplates} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setShowTemplates(false)}>

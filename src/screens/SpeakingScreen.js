@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import Screen from '../components/Screen';
+import PageTransition from '../components/ui/PageTransition';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import { colors, spacing, typography, shadow, radius } from '../theme/tokens';
@@ -179,6 +180,7 @@ export default function SpeakingScreen({ navigation }) {
     );
 
     return (
+        <PageTransition>
         <Screen scroll contentStyle={styles.container}>
             <View style={styles.headerSpacer}>
             <SkillHeader
@@ -380,6 +382,7 @@ export default function SpeakingScreen({ navigation }) {
             )}
             </View>
         </Screen>
+        </PageTransition>
     );
 }
 
