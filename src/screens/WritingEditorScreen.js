@@ -17,7 +17,6 @@ import Chip from '../components/Chip';
 import Screen from '../components/Screen';
 import { colors, shadow, spacing, typography, radius } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
-import { countWords } from '../utils/ys9Mock';
 import { requestWritingAssistant } from '../utils/onlineFeedback';
 import { loadDraft, saveDraft } from '../utils/essayStorage';
 import { calculateLiveInsights } from '../utils/rubricScoring';
@@ -593,13 +592,13 @@ export default function WritingEditorScreen({ navigation, route }) {
                   <View>
                     {rote.map((phrase) => (
                       <View key={`rote-${phrase}`} style={styles.sprintRow}>
-                        <View style={[styles.dot, { backgroundColor: '#d97706' }]} />
+                        <View style={[styles.dot, styles.dotWarn]} />
                         <Text style={styles.bodyStrong}>Rote cliché found: "{phrase}" — the scheme caps such phrasing at Not Adequate. Rewrite it in your own words.</Text>
                       </View>
                     ))}
                     {risks.map((r, i) => (
                       <View key={`risk-${i}`} style={styles.sprintRow}>
-                        <View style={[styles.dot, { backgroundColor: '#d97706' }]} />
+                        <View style={[styles.dot, styles.dotWarn]} />
                         <Text style={styles.bodyStrong}>{r.why}</Text>
                       </View>
                     ))}
