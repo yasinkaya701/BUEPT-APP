@@ -150,3 +150,26 @@ KALAN FAZ 16: ChatbotScreen'e score predictor intent + BUSEPTScorePredictorScree
 
 Push kalıbı: git add -A && git commit -m "..." && git push origin main. Doğrulama: npx eslint src/screens/X.js (grep error), npx jest --silent.
 Not: jest çıktısı "tests passed" satırında "36 tests, 36 passed" gibi görünüyor; tail -1'de sadece Time satırı kalıyor.
+
+
+## FAZ 16 TAMAMLANDI (push 79100bd)
+BUSEPTScorePredictor (utility + screen, resmi ağırlıklar L25/R25/W40, 60 eşiği, S/F, section gaps + weakest advice), Chatbot intent (score_predictor + TR tahmin/geçer miyim), RootNavigator kaydı. Lint 0 error, jest geçti.
+
+## FAZ 17 ŞİMDİ: Study Plan + Analytics + Gamification
+Plan:
+1. HomeScreen'e streak/XP gösterimi (AppState addXp/streak mevcut mu kontrol et)
+2. StudyPlanScreen: AI ile güncelleme (mevcut plan varsa), radar chart (fluent chart yok; SVG radar yaz — src/components/RadarChart.js), weekly progress
+3. AnalyticsScreen: module accuracy, section radar, mistake heatmap, trend
+4. Gamification: streak tracker (AppState), XP levels (XP→level), badge system (3+ badge kazanma olayı: perfect quiz, 7-day streak, first mock 60+, etc.)
+5. MistakeCoach ile bağlantı: zayıf konu → study plan önceliği
+Sonra FAZ 18 (Gemini içerik üretimi) → FAZ 19 (final doğrulama + push) → FAZ 20 (özet).
+
+
+## FAZ 17 KRİTİK BİLGİ
+- gamification.js YENİDEN YAZILDI (src/utils/gamification.js): calculateXpForAction (MOCK_EXAM 100, READING/LISTENING/GRAMMAR 20, ESSAY 50, SPEAKING 40, VOCAB_REVIEW 10, DAILY_LOGIN 5, WORD_LAB_CHECK 8, PREDICTOR_USED 3), levelFromXP (1:0-99,2:100+,3:300+,4:600+,5:1000+,6:1500+,7:2100+,8:2800+, sonra sqrt(xp/50)+1), titleForLevel, xpToNextLevel, levelProgressPct, BADGE_DEFS (first_mock, mock_sixty, mock_ninety, perfect_quiz, streak_3, streak_7, streak_14, word_lab, vocab_50, all_sections), checkBadgeUnlocks(ctx, heldIds), computeStreak(lastActiveDateISO, now)
+- AppState: xp state satır 363, addXp satır 895 (setXp prev+amount). AppState.return dict'i ~satır 1200 civarında xp, userWords, readingHistory vb. döner. saveXP(xp) satır 611, loadXP import satır 20, saveXP satır 32.
+- appStorage.js'te streak/badge key'i YOK → yeni key'ler eklenecek (streak_v1, badges_v1, activityDays_v1).
+- HomeScreen: XP/streak gösterimi yok henüz (421 civarı expansionCard var); HomeScreen'de useAppState {xp} alınıp gösterilecek.
+- StudyPlanScreen 388 satır, AnalyticsScreen 311 satır, ProgressScreen 369 satır mevcut.
+- Push'lar: FAZ16 tamam 79100bd. FAZ15 1795dee, FAZ16.1 95e0ff2, FAZ16.2 4c8e24d.
+- Remaining FAZ17: AppState streak/badge persistence + markActivityToday, HomeScreen XP bar, StudyPlanScreen radar+weak-topic prioritization, AnalyticsScreen upgrade (radar chart SVG component yaz src/components/RadarChart.js, radar için 4 eksen: listening/reading/writing/grammar + vocab), badge unlock bildirim toast'ı, FAZ18 (Gemini içerik), FAZ19 final.

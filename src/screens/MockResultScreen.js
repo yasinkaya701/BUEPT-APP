@@ -5,7 +5,7 @@
  * and AI-driven personalized advice.
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Card from '../components/Card';
 import Screen from '../components/Screen';
@@ -100,7 +100,8 @@ function CefrStrip({ current }) {
 
 // ── Main Screen ───────────────────────────────────────────────────────────────
 export default function MockResultScreen({ route, navigation }) {
-  const { addMockResult } = useAppState();
+  const { addMockResult, markActivityToday } = useAppState();
+  const [earnedBadges, setEarnedBadges] = useState([]);
   const passed = route?.params?.result;
 
   const result = useMemo(() => (
@@ -115,7 +116,12 @@ export default function MockResultScreen({ route, navigation }) {
 
   useEffect(() => {
     if (!passed) addMockResult(result);
-  }, [passed, addMockResult, result]);
+    markActivityToday().then((res) => {
+      if (Array.isArray(res?.newBadgeIds) && res.newBadgeIds.length) {
+        setEarnedBadges(res.newBadgeIds);
+      }
+    });
+  }, [passed, addMockResult, result, markActivityToday]);
 
   const advice = buildMockAdvice(result);
   const cefr = result.cefr || getBand(result.overall);

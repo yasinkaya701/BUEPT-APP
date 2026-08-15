@@ -21,7 +21,7 @@ import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import OpenEndedPracticeCard from '../components/OpenEndedPracticeCard';
-import { colors, spacing, typography } from '../theme/tokens';
+import { colors, spacing, typography, radius } from '../theme/tokens';
 import { speakText } from '../hooks/useTts';
 import baseTasks from '../../data/reading_tasks.json';
 import hardTasks from '../../data/reading_tasks_hard.json';
@@ -319,7 +319,8 @@ export default function ReadingDetailScreen({ route, navigation }) {
     })
   ).current;
 
-  const { addReadingResult, setIsFocusMode: setGlobalFocusMode } = useAppState();
+  const { addReadingResult, setIsFocusMode: setGlobalFocusMode, markActivityToday, badges } = useAppState();
+  const [earnedBadgeIds, setEarnedBadgeIds] = useState([]);
 
   useEffect(() => {
     setGlobalFocusMode(isFocusMode);
@@ -405,6 +406,11 @@ export default function ReadingDetailScreen({ route, navigation }) {
     });
     setScore(`${correct} / ${task.questions.length}`);
     addReadingResult({ taskId: task.id, score: correct, total: task.questions.length });
+    markActivityToday().then((res) => {
+      if (Array.isArray(res?.newBadgeIds) && res.newBadgeIds.length) {
+        setEarnedBadgeIds((prev) => [...prev, ...res.newBadgeIds]);
+      }
+    });
     setReadingModel(evaluateReadingModel({
       task,
       answers,
@@ -415,7 +421,7 @@ export default function ReadingDetailScreen({ route, navigation }) {
       scanTarget,
     }));
     setChecked(true);
-  }, [checked, task, answers, addReadingResult, evidenceNote, paragraphStatus, scanChecked, scanPick, scanTarget]);
+  }, [checked, task, answers, addReadingResult, evidenceNote, paragraphStatus, scanChecked, scanPick, scanTarget, markActivityToday]);
 
   const createSimilar = (qi) => {
     const gen = buildSimilarQuestion(task.questions[qi], similarSeed + qi);
@@ -483,11 +489,39 @@ export default function ReadingDetailScreen({ route, navigation }) {
       <Card style={styles.card}>
         <Text style={styles.h3}>Progress</Text>
         <Text style={styles.body}>Answered: {answeredCount}/{task.questions.length}</Text>
+        {score && checked ? (
+          <View style={styles.scoreBanner}>
+            <Text style={styles.scoreBannerText}>Score: {score}  •  +20 XP earned</Text>
+          </View>
+        ) : null}
+        {earnedBadgeIds.length > 0 ? (
+          <View style={styles.badgeBanner}>
+            <Text style={styles.badgeBannerLabel}>🏆 New badge{earnedBadgeIds.length > 1 ? 's' : ''} unlocked!</Text>
+            <View style={styles.badgeBannerRow}>
+              {earnedBadgeIds.slice(0, 3).map((id) => (
+                <Text key={id} style={styles.badgeBannerItem}>• {id.replace(/_/g, ' ')}</Text>
+              ))}
+            </View>
+          </View>
+        ) : null}
         <View style={styles.row}>
           <Button label={checked ? '✓ Checked' : 'Check Answers'} onPress={check} disabled={checked || answeredCount === 0} />
           <Button label="Back" variant="secondary" onPress={() => navigation.goBack()} />
         </View>
       </Card>
+
+      {earnedBadgeIds.length > 0 ? (
+        <Card style={[styles.card, styles.badgeCard]}>
+          <Text style={styles.h3}>Badge Showcase</Text>
+          <View style={styles.badgeGrid}>
+            {(badges || []).map((id) => (
+              <View key={id} style={styles.badgeCell}>
+                <Text style={styles.badgeCellText}>{id.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}</Text>
+              </View>
+            ))}
+          </View>
+        </Card>
+      ) : null}
 
       <Card style={styles.card}>
         <Text style={styles.h3}>Skim Timer</Text>
@@ -1067,6 +1101,67 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontHeadline,
   },
   row: { flexDirection: 'row', gap: spacing.sm, flexWrap: 'wrap' },
+  scoreBanner: {
+    marginTop: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: radius.md,
+    backgroundColor: '#EFF6FF',
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
+    alignItems: 'center',
+  },
+  scoreBannerText: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    fontWeight: '700',
+  },
+  badgeBanner: {
+    marginTop: spacing.sm,
+    padding: spacing.sm,
+    borderRadius: radius.md,
+    backgroundColor: '#FFFBEB',
+    borderWidth: 1,
+    borderColor: '#FDE68A',
+  },
+  badgeBannerLabel: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: '#92400E',
+    fontWeight: '800',
+    marginBottom: 4,
+  },
+  badgeBannerRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  badgeBannerItem: {
+    fontSize: typography.xsmall,
+    color: '#B45309',
+    marginRight: spacing.sm,
+  },
+  badgeCard: {
+    backgroundColor: '#0F172A',
+    borderColor: '#172554',
+  },
+  badgeGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.xs,
+  },
+  badgeCell: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: radius.md,
+    backgroundColor: '#1E293B',
+    borderWidth: 1,
+    borderColor: '#334155',
+  },
+  badgeCellText: {
+    fontSize: typography.xsmall,
+    color: '#FDE68A',
+    fontFamily: typography.fontHeadline,
+  },
   modelTrack: {
     height: 8,
     borderRadius: 999,

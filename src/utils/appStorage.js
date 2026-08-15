@@ -12,6 +12,10 @@ const KEYS = {
   speakingPartnerSessions: 'speaking_partner_sessions_v1',
   screenTime: 'screen_time_v1',
   xp: 'user_xp_v1',
+  streakDays: 'streak_days_v1',
+  lastActiveDay: 'last_active_day_v1',
+  badges: 'badges_v1',
+  activityDays: 'activity_days_v1',
   weeklyVocabProgress: 'weekly_vocab_progress_v1',
   aiAccessConfig: 'ai_access_config_v1',
 };
@@ -81,6 +85,48 @@ export const loadScreenTime = () => loadJson(KEYS.screenTime, { date: null, seco
 export const saveScreenTime = (v) => saveJson(KEYS.screenTime, v);
 export const loadXP = () => loadJson(KEYS.xp, 0);
 export const saveXP = (v) => saveJson(KEYS.xp, v);
+
+/** Study streak helpers: consecutive days with at least one recorded activity. */
+export const loadStreakDays = () => loadJson(KEYS.streakDays, 0);
+export const saveStreakDays = (v) => saveJson(KEYS.streakDays, Number(v || 0));
+export const loadLastActiveDay = () => loadJson(KEYS.lastActiveDay, null);
+export const saveLastActiveDay = (v) => saveJson(KEYS.lastActiveDay, v);
+export const loadActivityDays = () => loadJson(KEYS.activityDays, {});
+export const saveActivityDays = (v) => saveJson(KEYS.activityDays, v || {});
+
+/** Mark today as active; returns the new streak length. */
+export async function markActiveToday() {
+  const today = new Date().toISOString().slice(0, 10);
+  const last = await loadLastActiveDay();
+  if (last === today) return loadStreakDays();
+  const days = await loadActivityDays();
+  days[today] = true;
+  const keep = Object.keys(days).filter((k) => k > today.slice(0, 8)).reduce((acc, k) => { acc[k] = true; return acc; }, {});
+  await saveActivityDays(keep);
+  if (last === today.slice(0, 8) + '0' + today.slice(9, 10)) {
+    const next = Number(await loadStreakDays()) + 1;
+    await saveStreakDays(next);
+    await saveLastActiveDay(today);
+    return next;
+  }
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  const next = last === yesterday ? Number(await loadStreakDays()) + 1 : 1;
+  await saveStreakDays(next);
+  await saveLastActiveDay(today);
+  return next;
+}
+
+export const loadBadges = () => loadJson(KEYS.badges, []);
+export const saveBadges = (v) => saveJson(KEYS.badges, Array.isArray(v) ? v : []);
+
+/** Append newly unlocked badge ids; returns the full list after unlocking. */
+export async function unlockBadges(ids = []) {
+  if (!Array.isArray(ids) || ids.length === 0) return loadBadges();
+  const held = await loadBadges();
+  const next = [...held, ...ids.filter((id) => !held.includes(id))];
+  await saveBadges(next);
+  return next;
+}
 
 export async function loadWeeklyVocabProgress() {
   const stored = await loadJson(KEYS.weeklyVocabProgress, DEFAULT_WEEKLY_VOCAB_PROGRESS);

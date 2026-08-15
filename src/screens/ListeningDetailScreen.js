@@ -763,7 +763,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
   const [webviewPlaying, setWebviewPlaying] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const highlightAnim = useRef(new Animated.Value(0)).current;
-  const { addListeningResult, addUnknownWord } = useAppState();
+  const { addListeningResult, addUnknownWord, markActivityToday } = useAppState();
   const selectedWebVoice = useMemo(() => (isWeb ? pickWebVoice(voices, activeVoiceId) : null), [voices, activeVoiceId]);
 
   const getExplanation = useCallback((q, selected) => {
@@ -1173,6 +1173,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
     task.questions?.forEach((q, i) => { if (answers[i] === q.answer) correct++; });
     setScore(`${correct} / ${task.questions?.length}`);
     addListeningResult({ taskId: task.id, score: correct, total: task.questions?.length });
+    markActivityToday();
 
     const listeningWordPool = [];
     (task.questions || []).forEach((question, index) => {

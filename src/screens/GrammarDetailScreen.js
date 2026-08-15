@@ -386,7 +386,7 @@ export default function GrammarDetailScreen({ route, navigation }) {
   const [grammarModel, setGrammarModel] = useState(null);
   const smokePendingRef = useRef(false);
   const smokeDoneRef = useRef(false);
-  const { addGrammarResult, recordGrammarError } = useAppState();
+  const { addGrammarResult, recordGrammarError, markActivityToday } = useAppState();
   const grammarFeedback = useMemo(() => (checked ? buildGrammarFeedback(activeTask, answers) : null), [checked, activeTask, answers]);
   const missedIndexes = useMemo(
     () => (grammarFeedback ? grammarFeedback.missed.map((m) => m.index - 1) : []),
@@ -487,6 +487,7 @@ export default function GrammarDetailScreen({ route, navigation }) {
     const result = { taskId: task.id, score: correct, total: taskQuestions.length };
     setScore(`${correct} / ${taskQuestions.length}`);
     addGrammarResult(result);
+    markActivityToday();
     if (correct < taskQuestions.length) {
       recordGrammarError(task.id, task.title);
     }

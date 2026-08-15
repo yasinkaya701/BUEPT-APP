@@ -19,6 +19,12 @@ import {
   loadScreenTime,
   loadXP,
   loadWeeklyVocabProgress,
+  loadStreakDays,
+  saveStreakDays,
+  loadBadges,
+  saveBadges,
+  markActiveToday,
+  unlockBadges,
   saveFavorites,
   saveHistory,
   saveAiAccessConfig,
@@ -32,6 +38,7 @@ import {
   saveXP,
   saveWeeklyVocabProgress,
 } from '../utils/appStorage';
+import { checkBadgeUnlocks } from '../utils/gamification';
 import { createReviewItem } from '../utils/srs';
 import { calculateXpForAction } from '../utils/gamification';
 import { isVocabCloudSyncEnabled, pingVocabCloudSync, pullVocabCloudSync, pushVocabCloudSync } from '../utils/vocabCloudSync';
@@ -361,6 +368,8 @@ export function AppStateProvider({ children }) {
   const [errorWords, setErrorWords] = useState({});
   const [grammarErrors, setGrammarErrors] = useState({});
   const [xp, setXp] = useState(0);
+  const [streakDays, setStreakDays] = useState(0);
+  const [badges, setBadges] = useState([]);
   const [customDecks, setCustomDecks] = useState([]);
   const userWordsRef = useRef([]);
   const unknownWordsRef = useRef([]);
@@ -454,6 +463,8 @@ export function AppStateProvider({ children }) {
             loadGrammarErrors(),
             loadXP(),
             loadCustomDecks(),
+            loadStreakDays(),
+            loadBadges(),
           ]);
 
           if (!mounted) return;
@@ -476,8 +487,9 @@ export function AppStateProvider({ children }) {
             loadedGrammarErrors,
             loadedXp,
             loadedCustomDecks,
+            loadedStreakDays,
+            loadedBadges,
           ] = results;
-
           setUserWords(Array.isArray(loadedUserWords) ? loadedUserWords : []);
           setUnknownWords(Array.isArray(loadedUnknownWords) ? loadedUnknownWords : []);
           setVocabStats(loadedVocabStats && typeof loadedVocabStats === 'object' ? loadedVocabStats : {});
@@ -495,6 +507,8 @@ export function AppStateProvider({ children }) {
           setGrammarErrors(loadedGrammarErrors || {});
           setXp(Number(loadedXp) || 0);
           setCustomDecks(Array.isArray(loadedCustomDecks) ? loadedCustomDecks : []);
+          setStreakDays(Number(loadedStreakDays) || 0);
+          setBadges(Array.isArray(loadedBadges) ? loadedBadges : []);
         } catch (e) {
           console.error('[AppState] Hydration failed:', e);
           if (mounted) setAuthReady(true);
@@ -610,6 +624,14 @@ export function AppStateProvider({ children }) {
   useEffect(() => {
     saveXP(xp);
   }, [xp]);
+
+  useEffect(() => {
+    saveStreakDays(streakDays);
+  }, [streakDays]);
+
+  useEffect(() => {
+    saveBadges(badges);
+  }, [badges]);
 
   useEffect(() => {
     saveAuthToken(userToken);
@@ -895,6 +917,30 @@ export function AppStateProvider({ children }) {
   const addXp = useCallback((amount) => {
     setXp(prev => prev + amount);
   }, []);
+
+  const markActivityToday = useCallback(async () => {
+    try {
+      const next = await markActiveToday();
+      setStreakDays(next);
+      const held = await loadBadges();
+      const mockScores = (mockHistory || []).map((r) => Number(r?.score || 0)).filter((s) => Number.isFinite(s));
+      const ctx = {
+        mockCount: (mockHistory || []).length,
+        mockMaxScore: mockScores.length ? Math.max(...mockScores) : 0,
+        streakDays: next,
+        savedWords: (userWords || []).length,
+        readingDone: (readingHistory || []).length > 0,
+        listeningDone: (listeningHistory || []).length > 0,
+        grammarDone: (grammarHistory || []).length > 0,
+        writingDone: (history || []).length > 0,
+      };
+      const newIds = checkBadgeUnlocks(ctx, held);
+      if (newIds.length) setBadges(await unlockBadges(newIds));
+      return { streak: next, newBadgeIds: newIds };
+    } catch (e) {
+      return { streak: streakDays, newBadgeIds: [] };
+    }
+  }, [mockHistory, readingHistory, listeningHistory, grammarHistory, history, userWords, streakDays]);
 
   const addReadingResult = useCallback((result) => {
     setReadingHistory((prev) => [
@@ -1268,6 +1314,8 @@ export function AppStateProvider({ children }) {
     errorWords,
     grammarErrors,
     xp,
+    streakDays,
+    badges,
     customDecks,
     setReviews,
     addCustomDeck,
@@ -1292,6 +1340,7 @@ export function AppStateProvider({ children }) {
     clearErrorWords,
     clearGrammarErrors,
     addXp,
+    markActivityToday,
     applyDemoData,
     restoreCustomDeck,
     updateAiAccessConfig,
@@ -1301,13 +1350,13 @@ export function AppStateProvider({ children }) {
     level, writingEngine, aiReady, aiAccessConfig, essayText, report, history, mockHistory,
     readingHistory, listeningHistory, grammarHistory, isFocusMode, ttsConfig, screenTime,
     userWords, unknownWords, vocabStats, favoritePrompts, reviews,
-    errorWords, grammarErrors, xp, customDecks,
+    errorWords, grammarErrors, xp, streakDays, badges, customDecks,
     generateReport, setActiveReportById, addMockResult, addReadingResult,
     addListeningResult, addGrammarResult, addUserWord, addUserWordObject, removeUserWord, addUnknownWord,
     clearUnknownWords, recordKnown, recordUnknown, rollbackVocabRecord, toggleFavoritePrompt,
     recordQuizError, recordGrammarError, clearErrorWords, clearGrammarErrors,
     addCustomDeck, deleteCustomDeck, restoreCustomDeck,
-    addXp, applyDemoData, login, register, logout, consumePostAuthRoute,
+    addXp, markActivityToday, applyDemoData, login, register, logout, consumePostAuthRoute,
     setTtsConfig,
     updateAiAccessConfig, resetAiAccessConfig,
   ]);
