@@ -1,2 +1,4 @@
 web-rnw/shims/
 web-rnw/dist/
+web-rnw/index.web.js
+web-rnw/polyfills/
