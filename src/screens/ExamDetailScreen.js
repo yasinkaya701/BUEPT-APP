@@ -121,7 +121,7 @@ export default function ExamDetailScreen({ route, navigation }) {
           {isCorrect ? 'Correct' : `Incorrect (Your answer: ${selected || '—'})`}
         </Text>
         <Text style={styles.meta}>Correct: {active.options ? active.options[active.answer] : correctValue}</Text>
-        <Text style={styles.meta}>{active.explain || genericExplain}</Text>
+        <Text style={styles.meta}>{active.explain || ''}</Text>
       </>
     );
   };
