@@ -218,9 +218,11 @@ EmailTemplateDesigner, RealLifeModules, Developer, Resources, WebViewer.
 - [OK] Chat Coach soru-yanıt akışı, Placement adaptif akış, Study Plan, Analytics, Calendar, BogaziciHub, Resources, WeakPointAnalysis, OfficialSim, ProficiencyMock, Progress, History — hepsi hata vermeden açıldı.
 - POLISH: BogaziciHub 'BUEPT 2026 EXAM 0 GÜN' geri sayımı — sınav tarihi (2 Haziran 2026) geçmişte, sayaç 0 gösteriyor; mantık: sınav geçmişse 'TAMAMLANDI' gösterilmeli (küçük polish, BUG-23 adayı, öncelik düşük).
 
-### BUG-23 araştırması (Calendar '0 GÜN' geri sayımı)
-- src/ altında 'GÜN' string'i YOK — countdown verisi muhtemelen data/*.json (calendar_events veya buept info) dosyasında. Arama devam ediyor; gerekirse BogaziciHubScreen'de tarih kontrolü ekle (sınav tarihi geçmişse 'SINAV TAMAMLANDI').
-- NOT: Bug düşük öncelikli polish; ana walkthrough tamamlandı. Kalan: son push/lint kontrolü + kullanıcıya final rapor.
+### BUG-23 (FIX DONE, LIVE): Calendar '0 GÜN' geri sayımı sınav tarihi geçmişken anlamsız
+- Kök: ClassScheduleCalendarScreen'de BUEPT_EXAM_AT='2026-06-02T09:00:00+03:00' geçmişte; formatCountdown Math.max(0, ...) ile 0 gösteriyordu.
+- Fix: bueptCountdown'a 'completed' flag eklendi; sınav geçtikten sonra 'Sınav Tamamlandı — Uygulama kalıcı pratik modda çalışıyor' başlığı + statik takvim açıklaması gösteriliyor.
+- Canlıda doğrulandı (bundle ea678afe, 251b25b push): 'SINAV TAMAMLANDI — UYGULAMA KALICI PRATIK MODDA ÇALIŞIYOR' görünüyor, 0:00:00 sayaç kaldırıldı.
+- ESLint 0 error, jest 36/36.
 
 ### FINAL DURUM (21:58)
 - BUG-21 KAPANDI (Mock Exam tam akış canlıda doğrulandı), 3bc6a27 push edildi.
