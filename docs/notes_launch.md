@@ -52,3 +52,18 @@ Web entry point, localStorage'da token yoksa otomatik demo_student profili seed'
 
 ## E2E canlı test (fresh state)
 Yeni onboarding akışı ve SEO katmanı canlıda çalışıyor. Ancak temiz localStorage ile bile uygulamanın otomatik demo oturumu açtığı tespit edildi; fresh kullanıcı doğrudan Dashboard görüyor, onboarding ekranına uğramıyor. Bu davranışın kaynağı bulunup ilk girişte onboarding'e yönlendirme sağlanmalı. Bundle sürümü: app.73810aa7.js.
+
+## Durum özeti (faz 4 başı, 2026-08-15 ~23:15)
+- Pushlandı: a25c810 — web-rnw/index.web.js bootstrap'a ONBOARDED_KEY='0' ekledi; Splash onboarded=false ise 'Onboarding' gösteriyor.
+- Yeni bundle deploy olacak (~2-3 dk). Yeni bundle hash'i app.*.js — kontrol: index.html'de yeni js dosya adı.
+- Doğrulama planı: tarayıcıda localStorage.clear() → sayfayı aç → Onboarding ekranı görülmeli (hero + 3 showcase kart + level chips + placement CTA). Skip → Dashboard; sonra tekrar açılışta Onboarding gelmemeli (onboarded=1).
+- OnboardingScreen'de footerNote onboarded'a göre değişiyor; setOnboarded(true) skip'te.
+- ESLint 0 error, 36/36 test, build OK.
+- Sonraki faz 5: kullanıcıya sonuç mesajı (launch hazır: onboarding, SEO/AEO, 4 sekme UI, WASC essay bank, marketing dokümanları).
+- Site: https://yasinkaya701.github.io/BUEPT-APP/ — login: demo otomatik, Sign Out ile çıkış.
+
+## Faz 4 teşhis KÖK NEDEN
+Splash dest mantığı: userToken ? 'MainTabs' : (onboarded ? 'Login' : 'Onboarding'). Bootstrap token=demo_student yazdığı için dest her zaman MainTabs → onboarded=0 hiç kontrol edilmiyor. DÜZELTME: onboarded=false ise token olsa bile Onboarding göster (onboarded false → ilk giriş). Onboarding'de Skip setOnboarded(true) → bir sonraki açılışta dest token'a göre MainTabs.
+
+## Faz 4 teşhis devam
+Yeni bundle app.44edb4df.js canlıda; bootstrap doğru çalışıyor (token=demo_student, onboarded=0). Ama hâlâ Dashboard görünüyor → SplashScreen routing'i kontrol altında. Kaynak: src/screens/SplashAnimationScreen.js.

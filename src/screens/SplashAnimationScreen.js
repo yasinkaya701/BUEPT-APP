@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Animated, StyleSheet, Easing, ImageBackground, Dimensions, Platform } from 'react-native';
+import { View, Animated, StyleSheet, Easing, ImageBackground, Platform } from 'react-native';
 import { colors, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import LinearGradient from 'react-native-linear-gradient';
@@ -43,11 +43,14 @@ export default function SplashAnimationScreen({ navigation }) {
                 timeoutRef.current = setTimeout(finishNavigation, isWeb ? 90 : 200);
                 return;
             }
-            const dest = userTokenRef.current
-                ? 'MainTabs'
-                : onboardedRef.current
-                    ? 'Login'
-                    : 'Onboarding';
+            // First-run visitors always see the branded Onboarding experience,
+            // even when a friction-free demo token was already seeded.
+            let dest = 'Login';
+            if (!onboardedRef.current) {
+                dest = 'Onboarding';
+            } else if (userTokenRef.current) {
+                dest = 'MainTabs';
+            }
             navigation.reset({
                 index: 0,
                 routes: [{ name: dest }],

@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import Chip from '../components/Chip';
 import Card from '../components/Card';
 import LogoMark from '../components/LogoMark';
-import { colors, spacing, typography, shadow } from '../theme/tokens';
+import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
 const BG_IMAGE = require('../assets/images/real_south_gate.jpg');
@@ -76,7 +76,7 @@ export default function OnboardingScreen({ navigation }) {
         {/* ── Showcase ── */}
         <View style={styles.showcase}>
           {showcase.map((item) => (
-            <View key={item.title} style={[styles.showcaseCard, { backgroundColor: '#FFFFFF' }]}>
+            <View key={item.title} style={styles.showcaseCard}>
               <View style={[styles.showcaseIconWrap, { backgroundColor: item.accentSoft }]}>
                 <Ionicons name={item.icon} size={22} color={item.accent} />
               </View>
@@ -181,6 +181,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg,
   },
   showcaseCard: {
+    backgroundColor: '#FFFFFF',
     borderRadius: 16,
     borderWidth: 1,
     borderColor: 'rgba(215, 222, 255, 0.35)',
