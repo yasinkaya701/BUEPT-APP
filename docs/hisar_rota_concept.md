@@ -29,3 +29,12 @@
 - Storage API: loadReadingHistory/loadListeningHistory/loadGrammarHistory/loadMockHistory (src/utils/appStorage.js); calculateXpForAction (gamification.js).
 - AppState: {level, ...} — useAppState hook.
 - Mevcut ekran kodu: src/screens/HisarRotaScreen.js (rev1 — rev2'de yeniden yazılacak).
+
+## Canlı test durumu (16 Agu 2026)
+- Commit 4fdb6ac (rev2 konsept) → bundle app.bff1426f.js yayında. Hisar Rotası açılınca crash: "(n || []).forEach is not a function" (BUG-22).
+- Fix commit 2d7d1ae → yeni bundle app.35ec8694.js yayında.
+- HisarRotaScreen.js: safeLists array-guard'ı eklendi (histories obje değerleri olabilir). ESLint temiz, jest 36/36.
+- HomeScreen.js planningTools'a 'Hisar Rotası'→'HisarRota' girişi eklendi (buton hint "Hisar Rotası", element index ~29).
+- Şimdi: yeni bundle ile Hisar Rotası butonuna tıklayıp ekranın render olup olmadığını görsel kontrol et (screenshot path: /home/ubuntu/screenshots/).
+- Eğer ekran açılırsa: görsel doğrulama tamam; kullanıcıya teslim et. Konsept detayı: kağıt bej #FAF6EE, kiremit #B3541E, servi #2E5943, Boğaz turkuaz #1B8FA8, amber #E8A33D; 6 durak (Bebek İskelesi, Deniz Kampüsü, Martı Çay Bahçesi, Güney Kampüs, Hisar Merdivenleri, Hisar Sınav Salonu); patika SVG + mühürlü kart + Martı'dan Notlar + Boğaz footer.
+- Not: Metro dev server çalışıyor ama bundle 500 veriyor (react-devtools modül hatası, proje sorunu değil) — canlı GitHub Pages ile test et.

@@ -108,29 +108,52 @@ function StopMarker({ stop, index, state, onPress, isActive }) {
   const isDone = state[stop.id] === 'done';
   const ringColor = isDone ? cypress : isActive ? terracotta : inkSoft;
   const fill = isDone ? cypress : isActive ? terracotta : paper;
+  // Patika boyunca dikey dağılım: bebeğ (sahil) en altta, Hisar en üstte
+  const topPct = ['10%', '25%', '38%', '51%', '64%', '78%'][index] || '50%';
+  const alignLeft = index % 2 === 0;
   return (
     <TouchableOpacity
-      style={[styles.markerWrap, index % 2 === 0 ? styles.markerLeft : styles.markerRight]}
+      style={[styles.markerWrap, { top: topPct, left: 0, right: 0 }, alignLeft ? styles.markerRowLeft : styles.markerRowRight]}
       onPress={onPress}
       activeOpacity={0.75}
     >
-      <View style={styles.markerInner}>
-        <View style={[styles.markerRing, { borderColor: ringColor }]}>
-          <View style={[styles.markerDot, { backgroundColor: fill }]}>
-            <MaterialCommunityIcons
-              name={stop.icon}
-              size={16}
-              color={isDone || isActive ? '#FFFFFF' : inkSoft}
-            />
+      {alignLeft ? (
+        <View style={styles.markerInnerLeft}>
+          <View style={[styles.markerRing, { borderColor: ringColor }]}>
+            <View style={[styles.markerDot, { backgroundColor: fill }]}>
+              <MaterialCommunityIcons
+                name={stop.icon}
+                size={15}
+                color={isDone || isActive ? '#FFFFFF' : inkSoft}
+              />
+            </View>
+          </View>
+          <View style={[styles.markerLabelWrap, styles.markerLabelLeft]}>
+            <Text style={[styles.markerName, isDone && styles.markerNameDone, isActive && styles.markerNameActive]}>
+              {stop.name}
+            </Text>
+            <Text style={styles.markerDetail}>{stop.detail}</Text>
           </View>
         </View>
-        <View style={[styles.markerLabelWrap, index % 2 === 0 ? styles.markerLabelLeft : styles.markerLabelRight]}>
-          <Text style={[styles.markerName, isDone && styles.markerNameDone, isActive && styles.markerNameActive]}>
-            {stop.name}
-          </Text>
-          <Text style={styles.markerDetail}>{stop.detail}</Text>
+      ) : (
+        <View style={styles.markerInnerRight}>
+          <View style={[styles.markerLabelWrap, styles.markerLabelRight]}>
+            <Text style={[styles.markerName, isDone && styles.markerNameDone, isActive && styles.markerNameActive]}>
+              {stop.name}
+            </Text>
+            <Text style={styles.markerDetail}>{stop.detail}</Text>
+          </View>
+          <View style={[styles.markerRing, { borderColor: ringColor }]}>
+            <View style={[styles.markerDot, { backgroundColor: fill }]}>
+              <MaterialCommunityIcons
+                name={stop.icon}
+                size={15}
+                color={isDone || isActive ? '#FFFFFF' : inkSoft}
+              />
+            </View>
+          </View>
         </View>
-      </View>
+      )}
     </TouchableOpacity>
   );
 }
@@ -390,7 +413,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(42,30,18,0.35)',
   },
-  heroInner: { flex: 1, padding: spacing.lg, paddingTop: Platform.OS === 'web' ? 44 : spacing.lg },
+  heroInner: { flex: 1, padding: spacing.lg, paddingTop: spacing.md, justifyContent: 'flex-end' },
   heroHeadRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -467,9 +490,13 @@ const styles = StyleSheet.create({
   },
   markerWrap: {
     position: 'absolute',
-    top: '50%',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  markerInner: { flexDirection: 'row', alignItems: 'center' },
+  markerRowLeft: { justifyContent: 'flex-start', paddingLeft: 8 },
+  markerRowRight: { justifyContent: 'flex-end', paddingRight: 8 },
+  markerInnerLeft: { flexDirection: 'row', alignItems: 'center' },
+  markerInnerRight: { flexDirection: 'row', alignItems: 'center' },
   markerRing: {
     width: 38,
     height: 38,
