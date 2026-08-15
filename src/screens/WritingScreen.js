@@ -126,8 +126,6 @@ export default function WritingScreen({ navigation }) {
                         <Ionicons name="document-text-outline" size={24} color="#BFDBFE" />
                     </View>
                     <View style={styles.heroCopy}>
-                        <Text style={styles.heroEyebrow}>Writing Studio</Text>
-                        <Text style={styles.heroTitle}>Draft, review, and perfect your essays.</Text>
                         <Text style={styles.heroBody}>Start with a template or jump to a filtered prompt set.</Text>
                     </View>
                     <View style={styles.heroCounter}>

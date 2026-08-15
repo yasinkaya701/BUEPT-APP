@@ -21,7 +21,7 @@ export function MetricTile({ value = '—', label = 'Metric', accent = 'blue', s
   return (
     <View style={[styles.tile, { borderColor: `${accentColor}33` }, style]}>
       <View style={[styles.accentBar, { backgroundColor: accentColor }]} />
-      <Text style={[styles.value, { color: colors.primaryDark }]} numberOfLines={1}>{value}</Text>
+      <Text style={[styles.value, { color: accentColor }]} numberOfLines={1}>{value}</Text>
       <Text style={styles.label} numberOfLines={1}>{label}</Text>
     </View>
   );

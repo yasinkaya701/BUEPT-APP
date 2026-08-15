@@ -196,8 +196,6 @@ export default function SpeakingScreen({ navigation }) {
                         <Ionicons name="mic-outline" size={24} color="#BFDBFE" />
                     </View>
                     <View style={styles.heroCopy}>
-                        <Text style={styles.heroEyebrow}>Speaking Studio</Text>
-                        <Text style={styles.heroTitle}>Choose a prompt, speak, and get AI reviews.</Text>
                         <Text style={styles.heroBody}>One tap to start practice, then return to targeted prompts.</Text>
                     </View>
                     <View style={styles.heroCounter}>

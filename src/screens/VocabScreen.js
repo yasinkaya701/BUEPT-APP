@@ -6,6 +6,7 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import Chip from '../components/Chip';
 import Screen from '../components/Screen';
+import SkillHeader from '../components/ui/SkillHeader';
 import { colors, spacing, typography, radius } from '../theme/tokens';
 import { buildFallbackEntry, getDictionaryCount, getDictionarySample, getDictionarySlice, getVerbForms, getWordEntry, getWordFamily, searchDictionary, startDictionaryBuild, subscribeDictionaryBuild } from '../utils/dictionary';
 import { fetchLiveEntry } from '../utils/liveDictionary';
@@ -2825,34 +2826,40 @@ export default function VocabScreen({ navigation, route }) {
     if (!screenReady) {
       return (
         <View style={styles.headerContent}>
-          <Text style={styles.h1}>Vocabulary</Text>
-          <Text style={styles.headerSub}>Preparing the vocab workspace...</Text>
+          <SkillHeader
+            skill="vocab"
+            icon="book-outline"
+            eyebrow="Vocab Workspace"
+            title="Vocabulary"
+            description="Preparing the vocab workspace..."
+          />
         </View>
       );
     }
     return (
       <View style={styles.headerContent}>
-      <Text style={styles.h1}>Vocabulary</Text>
-      <Text style={styles.headerSub}>Dictionary-first vocab workspace with a 24-week daily quiz system: days 1-5 word formation, days 6-7 collocation.</Text>
+      <SkillHeader
+        skill="vocab"
+        icon="book-outline"
+        eyebrow="Vocab Workspace"
+        title="Vocabulary"
+        description="Dictionary-first vocab workspace with a 24-week daily quiz system: days 1-5 word formation, days 6-7 collocation."
+        rightValue={String(total)}
+        rightLabel="Entries"
+      />
 
       <Card style={styles.heroCard} glow>
         <View style={styles.heroHeader}>
           <View style={styles.heroCopy}>
-            <Text style={styles.heroEyebrow}>Dictionary + Study Workspace</Text>
-            <Text style={styles.heroTitle}>Search, save, and recycle words in a cleaner exam-focused flow.</Text>
             <Text style={styles.heroBody}>
               The dictionary is the main entry point. The 24-week plan now runs as daily 20-question sets: five word formation days and two collocation days every week.
             </Text>
           </View>
-          <View style={styles.heroCounter}>
-            <Text style={styles.heroCounterValue}>{total}</Text>
-            <Text style={styles.heroCounterLabel}>Entries</Text>
-          </View>
-        </View>
-        <View style={styles.heroActionRow}>
+          <View style={styles.heroActionRow}>
           <Button label="Dictionary" icon="book-outline" onPress={() => setActiveSection('Dictionary')} />
           <Button label="24-week plan" icon="calendar-outline" variant="secondary" onPress={() => setActiveSection('24-Week Plan')} />
           <Button label="My words" icon="bookmark-outline" variant="ghost" onPress={() => setActiveSection('My Words')} />
+          </View>
         </View>
       </Card>
 
@@ -2880,11 +2887,6 @@ export default function VocabScreen({ navigation, route }) {
               <Button label="Search Dictionary" icon="search-outline" onPress={() => setActiveSection('Dictionary')} />
               <Button label="Word Formation Quiz" icon="create-outline" variant="secondary" onPress={() => openPlannerDay(1)} />
               <Button label="Collocation Quiz" icon="link-outline" variant="secondary" onPress={() => openPlannerDay(6)} />
-            </View>
-            <View style={[styles.heroActionRow, { marginTop: spacing.sm }]}>
-              <Button label="Listening Queue" icon="headset-outline" variant="secondary" onPress={() => setActiveSection('Listening Queue')} />
-              <Button label="Subtle Hover" icon="logo-chrome" variant="secondary" onPress={() => setActiveSection('Subtle Hover')} />
-              <Button label="Unknown Queue" icon="alert-circle-outline" variant="ghost" onPress={() => setActiveSection('Unknown')} />
             </View>
           </Card>
 

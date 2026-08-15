@@ -416,10 +416,6 @@ export default function ListeningScreen({ navigation }) {
       <Card style={mode === 'practice' ? styles.heroCard : styles.heroCardDark} glow>
         <View style={styles.heroHeader}>
           <View style={styles.heroCopy}>
-            <Text style={styles.heroEyebrow}>{mode === 'practice' ? 'Listening Studio' : 'Podcast Lab'}</Text>
-            <Text style={styles.heroTitle}>
-              {mode === 'practice' ? 'Open the right task without hunting through the full bank.' : 'Use real podcasts for daily listening volume.'}
-            </Text>
             <Text style={styles.heroBody}>
               {mode === 'practice'
                 ? 'Recommended tasks, weak-skill targeting, and a compact library are all on one screen.'
