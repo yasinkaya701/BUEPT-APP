@@ -212,7 +212,7 @@ export default function WritingEditorScreen({ navigation, route }) {
 
   useEffect(() => {
     loadDraft().then(d => { if (d && !text) setText(d); });
-  }, []);
+  }, [text]);
 
   useEffect(() => {
     const t = setTimeout(() => {

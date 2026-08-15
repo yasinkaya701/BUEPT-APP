@@ -293,7 +293,7 @@ export default function ListeningScreen({ navigation }) {
         ...smartQueue
       ].filter(Boolean)).slice(0, 8);
     },
-    [rec?.task, weakTypeTask, lastTask, smartQueue, tasks]
+    [rec?.task, weakTypeTask, lastTask, smartQueue]
   );
 
   const groupedTasks = useMemo(() => ({
