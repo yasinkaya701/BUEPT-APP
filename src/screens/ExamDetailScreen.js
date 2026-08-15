@@ -140,6 +140,7 @@ export default function ExamDetailScreen({ route, navigation }) {
         <Button label="Listening" variant={activeSection === 'listening' ? 'primary' : 'secondary'} onPress={() => setActiveSection('listening')} />
         <Button label="Grammar" variant={activeSection === 'grammar' ? 'primary' : 'secondary'} onPress={() => setActiveSection('grammar')} />
       </View>
+      <Text style={styles.formatHint}>In the official BUSEPT exam, Listening runs in two tasks — Selective (main ideas, signposts) and Careful (details, qualifiers) — with each recording played once only. Reading covers two full texts with roughly ten questions each.</Text>
 
       {activeSection === 'reading' && (
         <>
@@ -501,5 +502,14 @@ const styles = StyleSheet.create({
   inputIncorrect: {
     borderColor: '#B42318',
     backgroundColor: '#FEF3F2',
+  },
+  formatHint: {
+    marginTop: spacing.xs,
+    marginHorizontal: spacing.lg,
+    marginBottom: spacing.md,
+    fontSize: 13,
+    color: colors.muted,
+    lineHeight: 18,
+    fontFamily: typography.fontBody,
   },
 });

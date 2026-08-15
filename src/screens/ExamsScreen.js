@@ -36,7 +36,16 @@ export default function ExamsScreen({ navigation }) {
   const [selectedExam, setSelectedExam] = useState(null);
   const { mockResults = [] } = useAppState() || {};
   const fadeAnim = useRef(new Animated.Value(1)).current;
-  const officialSections = prepProfile.examFramework?.sections || [];
+  const officialSections = (prepProfile.examFramework?.sections || []).map((s) => ({
+    ...s,
+    // Official BUSEPT sub-task breakdown used in the real exam
+    subTasks:
+      s.key === 'listening'
+        ? ['Selective Listening (main ideas, signposts)', 'Careful Listening (details, qualifiers) — each recording played once']
+        : s.key === 'reading'
+          ? ['Reading Text 1 (~10 questions)', 'Reading Text 2 (~10 questions)']
+          : ['Task 1 — 40 min', 'Task 2 — 40 min'],
+  }));
   const policyNotes = prepProfile.examFramework?.coreRules || [];
 
   const bestScore = (examId) => {
@@ -122,16 +131,22 @@ export default function ExamsScreen({ navigation }) {
       <Card style={styles.tipsCard}>
         <Text style={styles.tipsTitle}>💡 Official BUEPT Structure (YADYOK)</Text>
         {officialSections.map((section) => (
-          <View key={section.key} style={styles.structRow}>
-            <Text style={styles.structIcon}>{SECTION_ICONS[section.key] || '•'}</Text>
-            <Text style={styles.structSkill}>{section.label}</Text>
-            <Text style={styles.structTime}>{section.weightPercent}%</Text>
-            <Text style={styles.structQs}>{section.format}</Text>
+          <View key={section.key}>
+            <View style={styles.structRow}>
+              <Text style={styles.structIcon}>{SECTION_ICONS[section.key] || '•'}</Text>
+              <Text style={styles.structSkill}>{section.label}</Text>
+              <Text style={styles.structTime}>{section.weightPercent}%</Text>
+              <Text style={styles.structQs}>{section.format}</Text>
+            </View>
+            {(section.subTasks || []).map((sub) => (
+              <Text key={sub} style={styles.subTaskHint}> ◦ {sub}</Text>
+            ))}
           </View>
         ))}
         {policyNotes.map((note) => (
           <Text key={note} style={styles.policyHint}>• {note}</Text>
         ))}
+        <Text style={styles.policyHint}>• Passing mark: 60 (S/F grade); part-passing (parçalı geçme) is applied under YADYOK policy.</Text>
         <Text style={styles.policyHintMuted}>
           In-app mock papers currently focus on Reading + Listening + Language Use practice. Use Writing module for full essay simulation.
         </Text>
@@ -248,6 +263,7 @@ const styles = StyleSheet.create({
   structSkill: { flex: 1, fontSize: typography.small, color: colors.text, fontFamily: typography.fontHeadline },
   structTime: { fontSize: typography.small, color: colors.primary, width: 52, fontFamily: typography.fontHeadline },
   structQs: { flex: 2, fontSize: typography.small, color: colors.muted, lineHeight: 18 },
+  subTaskHint: { marginTop: spacing.xs, marginLeft: spacing.xl, fontSize: typography.small, color: colors.muted, lineHeight: 17 },
   policyHint: { marginTop: spacing.xs, fontSize: typography.small, color: colors.text, lineHeight: 18 },
   policyHintMuted: { marginTop: spacing.sm, fontSize: typography.small, color: colors.muted, lineHeight: 18 },
 
