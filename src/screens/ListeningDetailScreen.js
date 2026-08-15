@@ -298,6 +298,17 @@ const styles = StyleSheet.create({
     color: '#1D4ED8',
     fontFamily: typography.fontHeadline,
   },
+  signpostChipSmall: {
+    paddingHorizontal: spacing.xs,
+    paddingVertical: 4,
+  },
+  signpostCategoryLabel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    marginBottom: 4,
+  },
   missedRow: {
     borderWidth: 1,
     borderColor: colors.secondary,
@@ -700,6 +711,7 @@ export default function ListeningDetailScreen({ route, navigation }) {
   const [shadowIndex, setShadowIndex] = useState(0);
   const [noteText, setNoteText] = useState('');
   const [notesSaved, setNotesSaved] = useState(false);
+  const [signpostCategories, setSignpostCategories] = useState([]);
   const [dictationSeed, setDictationSeed] = useState(0);
   const [dictationInput, setDictationInput] = useState('');
   const [dictationResult, setDictationResult] = useState(null);
@@ -723,6 +735,17 @@ export default function ListeningDetailScreen({ route, navigation }) {
       // storage failure must not block the user
     }
   }, [noteText, task?.id]);
+
+  React.useEffect(() => {
+    if (signpostCategories.length) return undefined;
+    try {
+      const data = require('../../data/listening_signpost_vocabulary.json');
+      setSignpostCategories(Array.isArray(data) ? data : []);
+    } catch (_) {
+      setSignpostCategories([]);
+    }
+    return undefined;
+  }, [signpostCategories.length]);
 
   // Restore saved notes on mount
   useEffect(() => {
@@ -1533,6 +1556,23 @@ export default function ListeningDetailScreen({ route, navigation }) {
               </TouchableOpacity>
             )) : <Text style={styles.sub}>No signposts detected in this transcript.</Text>}
           </View>
+          {signpostCategories.length > 0 ? (
+            <>
+              <Text style={[styles.sub, { marginTop: spacing.sm, marginBottom: spacing.xs }]}>Lecture signpost vocabulary from the BUSEPT guide:</Text>
+              {signpostCategories.slice(0, 4).map((group) => (
+                <View key={group.category} style={{ marginBottom: spacing.xs }}>
+                  <Text style={styles.signpostCategoryLabel}>{group.category}</Text>
+                  <View style={styles.signpostRow}>
+                    {group.words.slice(0, 5).map((w) => (
+                      <TouchableOpacity key={w.word} style={[styles.signpostChip, styles.signpostChipSmall]} onPress={() => speakWord(w.word)}>
+                        <Text style={styles.signpostText}>{w.word}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </View>
+              ))}
+            </>
+          ) : null}
         </Card>
 
         <Card style={styles.card}>
