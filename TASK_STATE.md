@@ -244,3 +244,12 @@ Plan dosyası: docs/ui_feature_upgrade_plan.md (8 paket, ~10K hedef)
 - Lint: no-undef kuralı var (performance kullanma, Date.now); exhaustive-deps object istiyor; pnpm YASAK (npm install).
 - Doğrulama komutu: npx eslint src/ → 0 error; npx jest → 36/36; npm run web:rnw:build:root; canlı: yasinkaya701.github.io/BUEPT-APP
 - commit sonra: git add -A && git commit -m "..." && git push origin main
+
+
+## FAZ 21 İLERLEME GÜNCELLEMESİ (kontekst kompaksiyonu öncesi)
+Yapılan ve push edilen: P1 (ui lib, xpLog/appendXpEntry, BadgeCase/LevelCard/XPTimeline ekranları, Home navigasyon) ✅ push; P2 (MockScreen Exam Hub yeniden yazım, TimelineStep/Sepakine/TabPill kullanımı, OfficialSim+AIMockGenerator köprüsü) ✅ push; P3 (GenericHistoryScreen filter/sort/sparkline/ortalama) ✅ push.
+Sıradaki: ParaphraseStudioScreen yazıldı (src/screens/), runtimeApi fetchDirectGeminiChat({messages:[{role:'user',content:[{text}]}], signal?}) imzası kullanılıyor, reply?.text okunuyor. KALAN: RootNavigator'a ParaphraseStudio kaydı + aiAccessConfig.allowAiParaphrase kontrolü yazıldı (varsa) — EssayScreen/StudyPlan'dan açılış linki, lint, commit/push.
+Sonra: P5 Speaking UI (SpeakingMockInterview timeline), P6 Reading UI (PassageReader), P4 devam (EssayBank ekranı — ParaphraseStudio tamamlandı, EssayBank ayrıca yazılacak ~400 satır), P8 (Home viz tamamlandı kısmen).
+Plan dosyası: docs/ui_feature_upgrade_plan.md. Deploy: GH Actions otomatik; canlı https://yasinkaya701.github.io/BUEPT-APP
+Doğrulama komutu: npx eslint src/ (0 error hedefi, no-undef kuralı, exhaustive-deps object ister); npx jest (36 test); npm run web:rnw:build:root.
+Kritik teknik: react-native-svg web build'de çalıştı (npm kurulumla). pnpm YASAK.
