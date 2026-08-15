@@ -1,6 +1,7 @@
 import { detectBasicErrors } from './basicErrorDetect';
 import bueptMarkingScheme from '../../data/buept_writing_marking_scheme.json';
 import { countWords, RULES } from './ys9Mock';
+import { WASC_CRITERIA, buildRubricEvidence, nextBandRequirements } from './wascRubricCriteria';
 import academicList from '../../data/academic_wordlist.json';
 
 const AWL = new Set(academicList.map(w => String(w).toLowerCase()));
@@ -279,6 +280,46 @@ export function scoreWritingRubric({ text = '', prompt = '', targetWords = 180 }
   const rotePatternRisk = repeatedStems >= 2 && supportHits === 0 && connectors <= 2;
   const weakTaskCoverage = coverage.total > 0 && coverage.ratio < 0.25;
 
+  const criteriaRaw = WASC_CRITERIA.map((criterion) => {
+    const key = criterion.key;
+    let criterionScore = 0;
+    if (key === 'taskDevelopment') {
+      if (wc >= targetWords && (example || supportHits >= 2) && (!coverageReady || coverage.ratio >= 0.45)) criterionScore = 4;
+      else if (wc >= Math.max(110, Math.round(targetWords * 0.85)) && (!coverageReady || coverage.ratio >= 0.3) && (example || supportHits >= 1)) criterionScore = 3;
+      else if (wc >= Math.max(80, Math.round(targetWords * 0.65)) && (!coverageReady || coverage.ratio >= 0.15)) criterionScore = 2;
+    } else if (key === 'organization') {
+      if (paragraphs >= 3 && thesis && conclusion && connectors >= 4 && repeatedStems === 0) criterionScore = 4;
+      else if (paragraphs >= 3 && connectors >= 2 && (thesis || conclusion)) criterionScore = 3;
+      else if (paragraphs >= 2 && sentenceCount >= 4) criterionScore = 2;
+    } else if (key === 'grammar') {
+      if (errors <= 1 && sentenceCount >= 5 && avgSentence >= 10 && avgSentence <= 24) criterionScore = 4;
+      else if (errors <= 3 && sentenceCount >= 4 && avgSentence >= 9 && avgSentence <= 27) criterionScore = 3;
+      else if (errors <= 6 && sentenceCount >= 3 && avgSentence <= 30) criterionScore = 2;
+    } else if (key === 'vocabulary') {
+      if (ttr >= 0.54 && academics >= 4 && repetition <= 1) criterionScore = 4;
+      else if (ttr >= 0.46 && academics >= 2 && repetition <= 2) criterionScore = 3;
+      else if (ttr >= 0.38 && academics >= 1) criterionScore = 2;
+      if (repetition >= 3) criterionScore = Math.max(1, criterionScore - 1);
+    } else if (key === 'authenticity') {
+      if (rotePatternRisk) criterionScore = 1;
+      else if (supportHits >= 2 && connectors >= 3 && repeatedStems === 0) criterionScore = 4;
+      else if (supportHits >= 1 && connectors >= 2) criterionScore = 3;
+      else if (supportHits >= 1 || connectors >= 1) criterionScore = 2;
+    }
+    if (weakTaskCoverage && key === 'taskDevelopment') criterionScore = Math.min(criterionScore, 2);
+    if (rotePatternRisk && (key === 'taskDevelopment' || key === 'organization' || key === 'authenticity')) criterionScore = Math.min(criterionScore, 2);
+    return { key, label: criterion.label, score: criterionScore, max: 4, rubricNote: criterion.rubricNote };
+  });
+
+  const criteria = criteriaRaw.map((item) => {
+    const expectations = (WASC_CRITERIA.find((c) => c.key === item.key) || {}).bandExpectations || {};
+    return { ...item, descriptor: expectations[String(wascBand?.code || 'A').toUpperCase()] || '' };
+  });
+  const criteriaFinal = criteria;
+
+  const evidence = buildRubricEvidence({ text, prompt, metrics: { wordCount: wc, connectors, supportHits, paragraphs, repeatedStems, ttr, repetition, coverage } });
+  const nextBand = nextBandRequirements(wascBand?.code || '');
+
   let grammar = 1;
   if (errors <= 1 && sentenceCount >= 5 && avgSentence >= 10 && avgSentence <= 24) grammar = 4;
   else if (errors <= 3 && sentenceCount >= 4 && avgSentence >= 9 && avgSentence <= 27) grammar = 3;
@@ -350,7 +391,8 @@ export function scoreWritingRubric({ text = '', prompt = '', targetWords = 180 }
     targetWords,
     coverage
   );
-  const feedbackSummary = `${wascBand.code} (${wascBand.label}) · ${readiness}% readiness. ${wascBand.descriptor || (readiness >= 80 ? 'Strong draft. Keep examples specific and polish sentence control.' : readiness >= 60 ? 'Developing draft. Improve task coverage, support, and accuracy for a higher band.' : 'Early draft. Build clearer task response, fuller support, and safer grammar first.')} The official WASC focus stays on addressing the whole task, supporting ideas with clear examples, and avoiding repeated sentence patterns.`;
+  const nextBandNote = (nextBand?.note) || '';
+  const feedbackSummary = `${wascBand.code} (${wascBand.label}) · ${readiness}% readiness. ${wascBand.descriptor || (readiness >= 80 ? 'Strong draft. Keep examples specific and polish sentence control.' : readiness >= 60 ? 'Developing draft. Improve task coverage, support, and accuracy for a higher band.' : 'Early draft. Build clearer task response, fuller support, and safer grammar first.')} The official WASC focus stays on addressing the whole task, supporting ideas with clear examples, and avoiding repeated sentence patterns. ${nextBandNote}`;
 
   return {
     total,
@@ -359,6 +401,9 @@ export function scoreWritingRubric({ text = '', prompt = '', targetWords = 180 }
     band: bandFrom20(total),
     wascBand,
     metrics: { wordCount: wc, sentenceCount, connectors, academics, ttr, errors, repetition, mechanicsIssues, repeatedStems, supportHits },
+    criteria: criteriaFinal,
+    evidence,
+    nextBand: nextBandNote,
     categories,
     strengths,
     improvements,

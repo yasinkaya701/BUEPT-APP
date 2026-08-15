@@ -21,6 +21,7 @@ import { countWords } from '../utils/ys9Mock';
 import { requestWritingAssistant } from '../utils/onlineFeedback';
 import { loadDraft, saveDraft } from '../utils/essayStorage';
 import { calculateLiveInsights } from '../utils/rubricScoring';
+import { detectRotePhrases, detectStructureRisks } from '../utils/wascRubricCriteria';
 
 const VIEWS = ['draft', 'guide', 'assistant', 'coach', 'resources'];
 
@@ -579,6 +580,33 @@ export default function WritingEditorScreen({ navigation, route }) {
               ))}
               {insights.tasks.length === 0 && <Text style={styles.body}>Your draft is looking strong! Continue developing your points.</Text>}
             </Card>
+            <Card style={styles.card}>
+              <Text style={styles.h3}>WASC Red-Flag Scan</Text>
+              <Text style={styles.sub}>The official marking scheme caps rote-learned clichés at Not Adequate and treats run-on sentences as NA-level evidence. Scanning your draft now:</Text>
+              {(() => {
+                const rote = detectRotePhrases(text);
+                const risks = detectStructureRisks(text);
+                if (rote.length === 0 && risks.length === 0) {
+                  return <Text style={styles.body}>✓ No official red flags detected — your draft avoids the capped phrases and long-sentence risks.</Text>;
+                }
+                return (
+                  <View>
+                    {rote.map((phrase) => (
+                      <View key={`rote-${phrase}`} style={styles.sprintRow}>
+                        <View style={[styles.dot, { backgroundColor: '#d97706' }]} />
+                        <Text style={styles.bodyStrong}>Rote cliché found: "{phrase}" — the scheme caps such phrasing at Not Adequate. Rewrite it in your own words.</Text>
+                      </View>
+                    ))}
+                    {risks.map((r, i) => (
+                      <View key={`risk-${i}`} style={styles.sprintRow}>
+                        <View style={[styles.dot, { backgroundColor: '#d97706' }]} />
+                        <Text style={styles.bodyStrong}>{r.why}</Text>
+                      </View>
+                    ))}
+                  </View>
+                );
+              })()}
+            </Card>
           </ScrollView>
         )}
 
@@ -983,6 +1011,9 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
+  },
+  dotWarn: {
+    backgroundColor: '#d97706',
   },
   alertRow: {
     flexDirection: 'row',

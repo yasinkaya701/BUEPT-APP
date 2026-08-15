@@ -588,6 +588,11 @@ export default function FeedbackScreen({ navigation, route }) {
       Organization: { bar: '#f59e0b', bg: '#fffbeb', border: '#fde68a' },
       Content: { bar: '#10b981', bg: '#f0fdf4', border: '#a7f3d0' },
       Mechanics: { bar: '#8b5cf6', bg: '#f5f3ff', border: '#ddd6fe' },
+      taskDevelopment: { bar: '#10b981', bg: '#f0fdf4', border: '#a7f3d0' },
+      organization: { bar: '#f59e0b', bg: '#fffbeb', border: '#fde68a' },
+      grammar: { bar: '#6366f1', bg: '#eef2ff', border: '#c7d2fe' },
+      vocabulary: { bar: '#0ea5e9', bg: '#f0f9ff', border: '#bae6fd' },
+      authenticity: { bar: '#ec4899', bg: '#fdf2f8', border: '#fbcfe8' },
     };
 
     const CATEGORY_LABELS = {
@@ -673,6 +678,65 @@ export default function FeedbackScreen({ navigation, route }) {
             </View>
           );
         })(new Set()))}
+
+        {/* ── WASC OFFICIAL CRITERION AREAS ─────────── */}
+        {((compactRubric?.criteria) || []).length > 0 && (
+          <Card style={styles.card}>
+            <Text style={styles.h3}>Official WASC Criteria — What the Raters Score</Text>
+            <Text style={styles.sub}>The five areas raters use on the BUEPT marking scheme, each with your measured score and the official expectation for your band.</Text>
+            {((compactRubric?.criteria) || []).map((criterion) => {
+              const pct = Math.round((criterion.score / criterion.max) * 100);
+              const theme = CATEGORY_COLORS[criterion.key] || CATEGORY_COLORS.Grammar;
+              return (
+                <View key={criterion.key} style={[styles.rubricCard, { backgroundColor: theme.bg, borderColor: theme.border }]}>
+                  <View style={styles.rubricCardHead}>
+                    <Text style={[styles.rubricCardName, { color: theme.bar }]}>{criterion.label}</Text>
+                    <Text style={[styles.rubricCardScore, { color: theme.bar }]}>{criterion.score}/{criterion.max}</Text>
+                  </View>
+                  <View style={styles.rubricBarTrack}>
+                    <View style={[styles.rubricBarFill, { width: `${pct}%`, backgroundColor: theme.bar }]} />
+                  </View>
+                  {criterion.descriptor ? (
+                    <Text style={styles.wascExpectation} numberOfLines={3}>{criterion.descriptor}</Text>
+                  ) : null}
+                </View>
+              );
+            })}
+            <Text style={styles.wascRubricNote}>{(compactRubric?.criteria || [])[0]?.rubricNote ? 'Rater guidance: task coverage, paragraph-level flow, sentence control, vocabulary beyond the prompt, and an authentic voice decide the band.' : ''}</Text>
+          </Card>
+        )}
+
+        {/* ── RUBRIC EVIDENCE (OFFICIAL SCHEME SIGNALS) ── */}
+        {((compactRubric?.evidence) || []).length > 0 && (
+          <Card style={styles.card}>
+            <Text style={styles.h3}>Rubric Evidence — Official Scheme Signals</Text>
+            <Text style={styles.sub}>Signals the WASC marking scheme explicitly uses to set or cap bands.</Text>
+            {(compactRubric?.evidence || []).map((item, i) => {
+              const isFail = item.kind === 'fail';
+              const isWarn = item.kind === 'warn';
+              const tone = isFail ? '#dc2626' : isWarn ? '#d97706' : '#16a34a';
+              const bg = isFail ? '#fef2f2' : isWarn ? '#fffbeb' : '#f0fdf4';
+              const border = isFail ? '#fca5a5' : isWarn ? '#fde68a' : '#a7f3d0';
+              return (
+                <View key={`${item.id}-${i}`} style={[styles.evidenceItem, { backgroundColor: bg, borderColor: border }]}>
+                  <Text style={[styles.evidenceBand, { color: tone }]}>{item.band || ''}</Text>
+                  <View style={styles.evidenceBody}>
+                    <Text style={styles.evidenceText}>{item.text}</Text>
+                    <Text style={styles.evidenceCriterion}>Criterion: {item.criterion}</Text>
+                  </View>
+                </View>
+              );
+            })}
+          </Card>
+        )}
+
+        {/* ── NEXT BAND GUIDANCE ────────────────────── */}
+        {compactRubric?.nextBand ? (
+          <View style={[styles.nextBandBanner, styles.nextBandBannerTone]}>
+            <Text style={styles.nextBandTitle}>Path to the Next Band</Text>
+            <Text style={styles.nextBandText}>{compactRubric.nextBand}</Text>
+          </View>
+        ) : null}
 
         {/* ── STRENGTHS & FIXES ─────────────────────── */}
         <View style={[styles.panelGrid, isWide && styles.panelGridWide]}>
@@ -1892,5 +1956,71 @@ const styles = StyleSheet.create({
   benchTopNote: {
     marginTop: spacing.sm,
     fontStyle: 'italic',
+  },
+  wascExpectation: {
+    fontSize: 12,
+    lineHeight: 17,
+    color: colors.muted,
+    marginTop: 6,
+    fontStyle: 'italic',
+  },
+  wascRubricNote: {
+    fontSize: 11,
+    lineHeight: 16,
+    color: colors.muted,
+    marginTop: 8,
+    fontStyle: 'italic',
+  },
+  evidenceItem: {
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: spacing.sm,
+    marginBottom: 8,
+    alignItems: 'flex-start',
+  },
+  evidenceBand: {
+    fontSize: 12,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+    width: 44,
+    paddingTop: 1,
+  },
+  evidenceBody: {
+    flex: 1,
+    minWidth: 0,
+  },
+  evidenceText: {
+    fontSize: 13,
+    lineHeight: 19,
+    color: colors.text,
+  },
+  evidenceCriterion: {
+    fontSize: 11,
+    lineHeight: 15,
+    color: colors.muted,
+    marginTop: 3,
+  },
+  nextBandBanner: {
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+  },
+  nextBandTitle: {
+    fontSize: typography.h3 || 16,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+    color: '#1d4ed8',
+    marginBottom: 4,
+  },
+  nextBandText: {
+    fontSize: 14,
+    lineHeight: 21,
+    color: colors.text,
+  },
+  nextBandBannerTone: {
+    backgroundColor: '#eff6ff',
+    borderColor: '#bfdbfe',
   },
 });
