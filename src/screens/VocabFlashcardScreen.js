@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, Animated, SafeAreaView, Modal, Switch, PanResponder, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, spacing, typography, shadow } from '../theme/tokens';
@@ -140,17 +140,17 @@ export default function VocabFlashcardScreen({ navigation, route }) {
       }
   }, [currentCard, autoPlayAudio, flipTermDef, index, deck.length]);
 
-  const flipCard = () => {
+  const flipCard = useCallback(() => {
     const toValue = isFlipped ? 0 : 1;
     Animated.spring(flipAnim, {
       toValue,
       friction: 8,
       tension: 10,
       useNativeDriver: true,
-    }).start(() => setIsFlipped(!isFlipped));
-  };
+    }).start(() => setIsFlipped((f) => !f));
+  }, [isFlipped, flipAnim]);
 
-  const nextCard = (status, skipAnimation = false) => {
+  const nextCard = useCallback((status, skipAnimation = false) => {
     if (!currentCard) return;
     const normalizedWord = String(currentCard.word || '').trim().toLowerCase();
     const hadUserWordBefore = status === 'unknown'
@@ -198,7 +198,7 @@ export default function VocabFlashcardScreen({ navigation, route }) {
         useNativeDriver: true,
       }).start(proceed);
     }
-  };
+  }, [currentCard, index, deck.length, userWords, width, flipAnim, slideAnim, recordKnown, recordUnknown, addUserWord]);
 
   const undoLastAction = () => {
     if (actionHistory.length === 0) return;

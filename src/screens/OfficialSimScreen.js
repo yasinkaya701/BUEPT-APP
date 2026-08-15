@@ -232,7 +232,7 @@ export default function OfficialSimScreen({ route, navigation }) {
     } catch (e) {
       // storage failure must not break the report
     }
-  }, [exam, answers, essays, level, mockHistory, setMockHistory]);
+  }, [exam, essays, level, mockHistory, setMockHistory]);
   finishAllRef.current = finishAll;
   const formatTime = (seconds) => {
     const h = Math.floor(seconds / 3600);

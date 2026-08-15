@@ -499,7 +499,7 @@ export default function GrammarDetailScreen({ route, navigation }) {
       grammarFeedback: feedbackPreview,
     }));
     setChecked(true);
-  }, [checked, task, taskQuestions, answers, addGrammarResult, recordGrammarError, activeTask, confidence]);
+  }, [checked, task, taskQuestions, answers, addGrammarResult, recordGrammarError, activeTask, confidence, markActivityToday]);
 
   const createSimilarQuestion = (questionIndex) => {
     const base = taskQuestions[questionIndex];
