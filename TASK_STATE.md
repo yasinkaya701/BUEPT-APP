@@ -122,3 +122,18 @@ Kullanıcı: "planı büyüt eldeki tüm özelliklere upgrade çak 40 k satır c
 - FAZ 18: Gemini ile içerik üretimi (listening_tasks.json + reading_tasks.json genişletme, vocab setleri)
 - FAZ 19: doğrulama + push + deploy; FAZ 20: özet
 - NOT: deploy GH Actions ile otomatik; credential store ~/.git-credentials
+
+
+---
+## FAZ 15 TAMAMLANDI (push 1795dee)
+GrammarDrillScreen yeni (10 soru, weak-topics bias %60/%40, rising difficulty, Mistake Coach), GrammarScreen'e Adaptive Drill butonları (hero + weak banner), WritingEditorScreen'e word target progress bar + wordHint. Lint 0 error, jest 36/36.
+
+## FAZ 16 ŞİMDİ: Vocab + Speaking + Chatbot upgrade planı
+- VocabScreen (2600 satır, çok kartlı): yeni kart = "Word Family" (root + derivative quiz), "Context Builder" (kelimeyi cümlede kullan, AI doğrulama)
+- AISpeakingPartnerScreen (1627 satır): useSpeechRecognition entegre et (var: src/hooks/useSpeechRecognition.js, exported: useSpeechRecognition hook — check export), transcript coverage göster
+- ChatbotScreen: BUSEPT score predictor intent/tool ekle (mevcut intent pattern kalıbı src/screens/ChatbotScreen.js ~430-470)
+- Yapılan: VocabFlashcard klavye, collocationQuiz pool fix, quiz option duplicate fix (Faz 12'de push edildi)
+- FAZ 17 sonra: StudyPlanScreen/AnalyticsScreen/ProgressScreen + gamification (streak/XP)
+- FAZ 18: Gemini içerik üretimi (listening_tasks.json 79 item → genişlet, reading tasks)
+- Push komutu: git add -A && git commit -m "..." && git push origin main
+- AI API: runtimeApi fetchDirectGeminiChat; loadAiAccessConfig → cfg.apiBase/geminiApiBase + cfg.apiKey/geminiKey → `x-goog-api-key` header, endpoint `${base.replace(/\/$/,'')}/v1beta/models/gemini-2.0-flash:generateContent`

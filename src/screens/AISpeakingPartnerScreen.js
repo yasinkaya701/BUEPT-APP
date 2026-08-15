@@ -22,6 +22,7 @@ import { evaluateSpeakingModel } from '../utils/speakingModel';
 import { loadSpeakingPartnerSessions, saveSpeakingPartnerSessions } from '../utils/appStorage';
 import { speakEnglish, stopEnglishTts } from '../utils/ttsEnglish';
 import voiceEngine from '../utils/speechRecognition';
+import { useSpeechRecognition, scoreTranscriptCoverage, estimateFluency } from '../hooks/useSpeechRecognition';
 
 const isWeb = Platform.OS === 'web';
 
@@ -602,6 +603,30 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
   const [replySource, setReplySource] = useState(isDemoAiConfigured('speaking') ? 'online-ready' : 'local');
   const [savedSessions, setSavedSessions] = useState([]);
 
+  const { isListening: webListening, error: webError, isAvailable: webAvailable, start: webStart, stop: webStop } = useSpeechRecognition({
+    onTranscript: (full) => {
+      if (!webEngineArmedRef.current) return;
+      setTranscript(full);
+      transcriptRef.current = full;
+    },
+    onEnd: () => {
+      setIsListening(false);
+      webEngineArmedRef.current = false;
+    },
+  });
+  const webEngineArmedRef = useRef(false);
+  const webStartAtRef = useRef(0);
+
+  const targetSentences = useMemo(
+    () => [activePrompt.prompt, ...(Array.isArray(activePrompt.vocab) ? activePrompt.vocab : [])],
+    [activePrompt]
+  );
+  const liveCoverage = useMemo(() => scoreTranscriptCoverage(transcript, targetSentences), [transcript, targetSentences]);
+  const liveFluency = useMemo(() => {
+    const elapsedMs = webEngineArmedRef.current && webStartAtRef.current ? Date.now() - webStartAtRef.current : 0;
+    return estimateFluency(transcript, elapsedMs / 1000);
+  }, [transcript]);
+
   const { addXp } = useAppState();
   const waveAnims = useRef([
     new Animated.Value(1),
@@ -755,20 +780,42 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
     transcriptRef.current = '';
     try {
       await stopEnglishTts();
+      if (webAvailable && !webListening) {
+        webEngineArmedRef.current = true;
+        webStartAtRef.current = Date.now();
+        const started = webStart ? webStart() : false;
+        if (started) {
+          setIsListening(true);
+          startAtRef.current = Date.now();
+          return;
+        }
+      }
+      if (webError) {
+        Alert.alert('Microphone Error', webError);
+        webEngineArmedRef.current = false;
+        return;
+      }
       await voiceEngine.start('en-US');
     } catch (error) {
       console.log(error);
       Alert.alert('Microphone Error', 'Speech recognition could not start. Is your microphone enabled? Browsers like Safari/Firefox might have limited support.');
     }
-  }, [aiTyping]);
+  }, [aiTyping, webAvailable, webListening, webError, webStart]);
 
   const stopListening = useCallback(async () => {
     try {
+      if (webEngineArmedRef.current) {
+        webEngineArmedRef.current = false;
+        webStop ? webStop() : null;
+        setIsListening(false);
+        startAtRef.current = 0;
+        return;
+      }
       await voiceEngine.stop();
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [webStop]);
 
   const resetSession = useCallback(() => {
     setConversation([{ id: 'intro', role: 'ai', text: INTRO_MESSAGE }]);
@@ -954,11 +1001,30 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
           ) : null}
         </View>
 
+        {webAvailable ? (
+          <Card style={styles.coverageCard}>
+            <View style={styles.coverageHeader}>
+              <Text style={styles.coverageTitle}>Live Coverage</Text>
+              <Text style={styles.coverageBadge}>{liveCoverage}%</Text>
+            </View>
+            <View style={styles.coverageTrack}>
+              <View style={[styles.coverageFill, liveCoverage >= 70 ? styles.coverageFillStrong : liveCoverage >= 45 ? styles.coverageFillMid : styles.coverageFillLow, { width: `${liveCoverage}%` }]} />
+            </View>
+            <View style={styles.coverageMetaRow}>
+              <Text style={styles.coverageMeta}>{liveFluency.wordCount} words · {liveFluency.wpm} wpm</Text>
+              <Text style={styles.coverageMeta}>Fillers: {liveFluency.fillerCount} · Sentences: {liveFluency.sentenceCount}</Text>
+            </View>
+            <Text style={styles.coverageHint}>Coverage shows how many of the prompt's required words and key vocabulary you have actually said out loud. Aim for 70% or higher before evaluating.</Text>
+          </Card>
+        ) : null}
+
+        {webAvailable && webError ? <Text style={styles.webErrorText}>{webError}</Text> : null}
+
         {transcript ? (
           <Card style={styles.transcriptCard}>
             <View style={styles.transcriptTopRow}>
               <Text style={styles.transcriptTitle}>Current turn draft</Text>
-              <Text style={styles.transcriptMeta}>{getWordCount(transcript)} words</Text>
+              <Text style={styles.transcriptMeta}>{getWordCount(transcript)} words{webAvailable ? ` · ${liveCoverage}% coverage` : ''}</Text>
             </View>
             <Text style={styles.transcriptText}>{transcript}</Text>
             <View style={styles.transcriptActions}>
@@ -1027,6 +1093,67 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  coverageCard: {
+    marginTop: spacing.sm,
+    backgroundColor: '#F0F4FA',
+    borderColor: '#D6E0F2',
+  },
+  coverageHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: spacing.xs,
+  },
+  coverageTitle: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    fontWeight: '800',
+  },
+  coverageBadge: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: '#0F172A',
+    fontWeight: '800',
+  },
+  coverageTrack: {
+    height: 8,
+    borderRadius: radius.round,
+    backgroundColor: '#D6E0F2',
+    marginBottom: spacing.xs,
+  },
+  coverageFill: {
+    height: 8,
+    borderRadius: radius.round,
+  },
+  coverageFillStrong: {
+    backgroundColor: '#16A34A',
+  },
+  coverageFillMid: {
+    backgroundColor: '#D97706',
+  },
+  coverageFillLow: {
+    backgroundColor: '#DC2626',
+  },
+  coverageMetaRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: spacing.xs,
+  },
+  coverageMeta: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+  },
+  coverageHint: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    lineHeight: 16,
+  },
+  webErrorText: {
+    fontSize: typography.xsmall,
+    color: '#DC2626',
+    marginTop: spacing.xs,
   },
   header: {
     flexDirection: 'row',
