@@ -191,11 +191,11 @@ export async function speakText(text, customOptions = {}) {
         const variation = isLecture ? (Math.random() * 0.04 - 0.02) : 0;
         const semanticRate = baseRate + variation;
         const nativeRate = normalizeNativeSpeechRate(semanticRate);
-        const pitch = isLecture ? (1.0 + (Math.random() * 0.1 - 0.05)) : 1.0;
+        const lecturePitch = isLecture ? (1.0 + (Math.random() * 0.1 - 0.05)) : 1.0;
 
         if (!isWeb) await Tts.setDefaultLanguage('en-US');
         try { if (!isWeb) await Tts.setDefaultRate(nativeRate); } catch (_) { }
-        try { if (!isWeb) await Tts.setDefaultPitch(pitch); } catch (_) { }
+        try { if (!isWeb) await Tts.setDefaultPitch(lecturePitch); } catch (_) { }
 
         let voiceId = customOptions.iosVoiceId;
         if (!voiceId) {
@@ -312,7 +312,7 @@ export function useTts() {
             if (subCancel) subCancel.remove();
             if (removeVoicesChanged) removeVoicesChanged();
         };
-    }, []);
+    }, [activeVoiceId, setTtsConfig]);
 
     const speakWord = useCallback(async (text, options = {}) => {
         if (!text?.trim()) return;
@@ -337,7 +337,9 @@ export function useTts() {
                     url = url.replace('tl=en', `tl=${virtualLang.split('-')[0]}`);
                 }
                 
-                const audio = new Audio(url);
+                const WebAudio = typeof window !== 'undefined' ? window.Audio || window.HTMLAudioElement : undefined;
+                if (!WebAudio) throw new Error('Web Audio API is not available in this environment.');
+                const audio = new WebAudio(url);
                 audioRef.current = audio;
                 audio.playbackRate = rate * 2; // Normalize to human speed
                 audio.onended = () => {
@@ -365,10 +367,10 @@ export function useTts() {
             const isLecture = options?.isLecture;
             const variation = isLecture ? (Math.random() * 0.04 - 0.02) : 0;
             const effectiveRate = isWeb ? Number(rate + variation) : normalizeNativeSpeechRate(rate + variation);
-            const pitch = isLecture ? (1.0 + (Math.random() * 0.08 - 0.04)) : 1.0;
+            const speechPitch = isLecture ? (1.0 + (Math.random() * 0.08 - 0.04)) : 1.0;
 
             try { if (!isWeb) await Tts.setDefaultRate(effectiveRate); } catch (_) { }
-            try { if (!isWeb) await Tts.setDefaultPitch(pitch * (options.pitch || 1.0)); } catch (_) { }
+            try { if (!isWeb) await Tts.setDefaultPitch(speechPitch * (options.pitch || 1.0)); } catch (_) { }
 
             let bestId = activeVoiceId;
             if (!bestId) {
@@ -385,7 +387,7 @@ export function useTts() {
 
             ttsEngine.speak(text.trim(), speakOptions);
         } catch (_) { }
-    }, [rate, activeVoiceId, useExperimental, apiEndpoint]);
+    }, [rate, pitch, volume, activeVoiceId, useExperimental, apiEndpoint, setTtsConfig]);
 
     const speakWordAsync = useCallback(async (text, options = {}) => {
         if (!text?.trim()) return;
@@ -435,17 +437,17 @@ export function useTts() {
     }, []);
 
     const setRate = useCallback((r) => {
-        setRateState(r);
+        setTtsConfig(prev => ({ ...prev, rate: r }));
         try { if (!isWeb) Tts.setDefaultRate(normalizeNativeSpeechRate(r)); } catch (_) { }
-    }, []);
+    }, [isWeb, setTtsConfig]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const setVoiceId = useCallback((id) => {
-        setActiveVoiceIdState(id);
+        setTtsConfig(prev => ({ ...prev, voiceId: id }));
         try {
             if (!isWeb) Tts.setDefaultVoice(id);
             if (!isWeb) Tts.setDefaultLanguage('en-US');
         } catch (_) { }
-    }, []);
+    }, [isWeb, setTtsConfig]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return { 
         isPlaying, voices, activeVoiceId, rate, 

@@ -505,6 +505,13 @@ export default function FeedbackScreen({ navigation, route }) {
     repetition.forEach((item) => addUserWord(item.word));
   };
 
+  const saveParaphraseWords = () => {
+    (paraphraseBank || []).forEach((entry) => {
+      const word = typeof entry === 'string' ? entry : entry?.word || entry?.original || '';
+      if (word) addUserWord(word);
+    });
+  };
+
   const sendChatMessage = async () => {
     if (!chatInput.trim() || chatLoading) return;
     const userMsg = chatInput.trim();
