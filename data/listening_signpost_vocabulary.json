@@ -1,0 +1,68 @@
+[
+  {
+    "category": "Signposting — Main Ideas (Selective Listening)",
+    "level": "B1-B2",
+    "words": [
+      { "word": "primarily", "definition": "Mainly, most importantly.", "lectureRole": "Signals the main idea of a section." },
+      { "word": "fundamental", "definition": "Basic and essential.", "lectureRole": "Marks core concepts examiners test." },
+      { "word": "key point", "definition": "The most important idea.", "lectureRole": "Direct main-idea marker." },
+      { "word": "overall", "definition": "Considering everything.", "lectureRole": "Summarizes the main message." },
+      { "word": "in essence", "definition": "Basically, at the core.", "lectureRole": "Restates the main idea formally." }
+    ]
+  },
+  {
+    "category": "Signposting — Structure & Sequence",
+    "level": "B1-B2",
+    "words": [
+      { "word": "firstly", "definition": "As the first point.", "lectureRole": "Beginning of a list — exam answer often lives here." },
+      { "word": "subsequently", "definition": "After that, later.", "lectureRole": "Chronological sequence marker." },
+      { "word": "meanwhile", "definition": "At the same time.", "lectureRole": "Parallel development marker." },
+      { "word": "to conclude", "definition": "To finish the argument.", "lectureRole": "Signals the wrap-up; answers concentrate near it." },
+      { "word": "moving on", "definition": "Transitioning to a new topic.", "lectureRole": "Section boundary — note new topic." }
+    ]
+  },
+  {
+    "category": "Signposting — Contrast & Correction",
+    "level": "B2",
+    "words": [
+      { "word": "however", "definition": "Introduces an opposing idea.", "lectureRole": "Classic trap — the real answer often follows it." },
+      { "word": "on the contrary", "definition": "The opposite is true.", "lectureRole": "Strong correction of a previous claim." },
+      { "word": "despite", "definition": "In spite of.", "lectureRole": "Concession before the main point." },
+      { "word": "rather", "definition": "Instead; more precisely.", "lectureRole": "Precision correction of earlier wording." },
+      { "word": "nevertheless", "definition": "Even so, still true.", "lectureRole": "Returns to the central claim after concession." }
+    ]
+  },
+  {
+    "category": "Signposting — Examples & Details (Careful Listening)",
+    "level": "B1-B2",
+    "words": [
+      { "word": "for instance", "definition": "As an example.", "lectureRole": "Detail evidence; Careful Listening tests these." },
+      { "word": "specifically", "definition": "In particular detail.", "lectureRole": "Narrows to testable specifics." },
+      { "word": "in particular", "definition": "Especially this one.", "lectureRole": "Highlights the exact detail asked." },
+      { "word": "notably", "definition": "Worth noting.", "lectureRole": "Flags an important fact or figure." },
+      { "word": "such as", "definition": "Introducing examples.", "lectureRole": "Enumerates testable items." }
+    ]
+  },
+  {
+    "category": "Numbers, Quantifiers & Qualifiers",
+    "level": "B2",
+    "words": [
+      { "word": "approximately", "definition": "Roughly, about.", "lectureRole": "Softens a figure — exact number still testable." },
+      { "word": "nearly", "definition": "Almost, just under.", "lectureRole": "Distinguishes 48 from 50 in options." },
+      { "word": "majority", "definition": "More than half.", "lectureRole": "Contrasted with minority in trap options." },
+      { "word": "significant", "definition": "Important, large enough to matter.", "lectureRole": "Marks effect size worth noting." },
+      { "word": "slightly", "definition": "By a small degree.", "lectureRole": "Degree qualifier — changes meaning of claims." }
+    ]
+  },
+  {
+    "category": "Attitude & Speaker Stance",
+    "level": "B2",
+    "words": [
+      { "word": "admittedly", "definition": "It is true that (concession).", "lectureRole": "Speaker concedes before arguing." },
+      { "word": "frankly", "definition": "Honestly speaking.", "lectureRole": "Marks a candid, often critical view." },
+      { "word": "ironically", "definition": "In an unexpected way.", "lectureRole": "Signals an unexpected outcome." },
+      { "word": "arguably", "definition": "It can be argued that.", "lectureRole": "Hedged opinion — not absolute fact." },
+      { "word": "undoubtedly", "definition": "Without doubt.", "lectureRole": "Strong certainty marker." }
+    ]
+  }
+]

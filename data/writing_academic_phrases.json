@@ -1,0 +1,57 @@
+[
+  {
+    "category": "Thesis Statements",
+    "purpose": "Clear position in paragraph one, required by BUSEPT Writing Task 1/2.",
+    "phrases": [
+      { "text": "This essay will argue that __ because __.", "usage": "Opinion essays" },
+      { "text": "Although __ has some benefits, I believe that __ is more important.", "usage": "Balanced opinion" },
+      { "text": "There are several reasons why __ should be considered __.", "usage": "Multi-reason thesis" },
+      { "text": "In my view, the advantages of __ outweigh the disadvantages.", "usage": "Advantage/disadvantage essays" },
+      { "text": "This essay discusses the causes of __ and proposes possible solutions.", "usage": "Problem/solution thesis" }
+    ]
+  },
+  {
+    "category": "Introducing Examples",
+    "purpose": "Support each body paragraph with a concrete example, as BUSEPT graders reward specificity.",
+    "phrases": [
+      { "text": "For instance, a recent study showed that __.", "usage": "Research-style support" },
+      { "text": "A clear example of this is __.", "usage": "General illustration" },
+      { "text": "This can be illustrated by the case of __.", "usage": "Case example" },
+      { "text": "To give a concrete example, __.", "usage": "Personal/societal example" },
+      { "text": "Statistics indicate that __, which supports this point.", "usage": "Data-based support" }
+    ]
+  },
+  {
+    "category": "Contrasting Ideas",
+    "purpose": "Develop the counter-argument in Task 2 contrast structures.",
+    "phrases": [
+      { "text": "On the one hand, __; on the other hand, __.", "usage": "Balanced contrast" },
+      { "text": "Despite this, many people still believe that __.", "usage": "Concession then rebuttal" },
+      { "text": "In contrast to __, __ tends to __.", "usage": "Direct comparison" },
+      { "text": "While some argue that __, others maintain that __.", "usage": "Two-sided discussion" },
+      { "text": "Nevertheless, the evidence suggests that __.", "usage": "Returning to your view" }
+    ]
+  },
+  {
+    "category": "Cause and Effect",
+    "purpose": "Required structures for cause/effect essays and Reading II matching passages.",
+    "phrases": [
+      { "text": "One major cause of this is __.", "usage": "Introducing causes" },
+      { "text": "As a result, __ leads to significant changes in __.", "usage": "Consequence" },
+      { "text": "Consequently, governments have started to __.", "usage": "Policy-level effect" },
+      { "text": "This phenomenon can be attributed to __.", "usage": "Formal attribution" },
+      { "text": "The immediate effect of __ is that __.", "usage": "Short-term outcome" }
+    ]
+  },
+  {
+    "category": "Concluding",
+    "purpose": "Finish with a clear summary and final position, expected in both writing tasks.",
+    "phrases": [
+      { "text": "In conclusion, the evidence clearly supports the view that __.", "usage": "Strong conclusion" },
+      { "text": "To sum up, although __, it is clear that __.", "usage": "Balanced conclusion" },
+      { "text": "Overall, it seems that __ will continue to grow in importance.", "usage": "Forward-looking end" },
+      { "text": "Given these points, I firmly believe that __.", "usage": "Opinion restatement" },
+      { "text": "Therefore, a balanced approach combining __ and __ would be most effective.", "usage": "Solution-oriented end" }
+    ]
+  }
+]

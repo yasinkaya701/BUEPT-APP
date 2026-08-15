@@ -39,6 +39,8 @@ const SECTIONS = [
   { key: 'Test-English', label: 'Test-English' },
   { key: 'Bogazici Dept', label: 'BUEPT Dept' },
   { key: 'Word Lab', label: 'Word Lab' },
+  { key: 'Subtle Pairs', label: 'Subtle Pairs' },
+  { key: 'Writing Phrases', label: 'Writing Phrases' },
 ];
 const SECTION_META = {
   '24-Week Plan': {
@@ -105,6 +107,16 @@ const SECTION_META = {
     icon: 'flask-outline',
     title: 'Word Lab',
     description: 'Active-use training: build your own sentences with target words, run a quick AI check on meaning, grammar, and academic register, and turn passive knowledge into exam-ready usage.',
+  },
+  'Subtle Pairs': {
+    icon: 'git-compare-outline',
+    title: 'Subtle Word Pairs',
+    description: 'Easily confused academic pairs (affect/effect, imply/infer) that appear in BUSEPT Reading II synonym and matching questions.',
+  },
+  'Writing Phrases': {
+    icon: 'document-text-outline',
+    title: 'BUSEPT Writing Phrases',
+    description: 'Official-format phrase bank for the two 250-word essays: thesis openers, example introducers, contrasts, cause-effect, and conclusions.',
   },
 };
 
@@ -628,6 +640,8 @@ export default function VocabScreen({ navigation, route }) {
   const [verbSentence, setVerbSentence] = useState('');
   const [verbFeedback, setVerbFeedback] = useState(null);
   const [wordLabWords, setWordLabWords] = useState([]);
+  const [subtlePairsData, setSubtlePairsData] = useState([]);
+  const [writingPhrasesData, setWritingPhrasesData] = useState([]);
   const [aiContextLoading, setAiContextLoading] = useState(false);
   const [aiContextFeedback, setAiContextFeedback] = useState(null);
   const [aiContextResult, setAiContextResult] = useState(null);
@@ -749,17 +763,43 @@ export default function VocabScreen({ navigation, route }) {
     });
   }, [wascDecksData.length]);
 
+  const loadSubtlePairs = useCallback(() => {
+    if (subtlePairsData.length) return;
+    InteractionManager.runAfterInteractions(() => {
+      try {
+        const data = require('../../data/subtle_word_pairs.json');
+        setSubtlePairsData(Array.isArray(data) ? data : []);
+      } catch (_) {
+        setSubtlePairsData([]);
+      }
+    });
+  }, [subtlePairsData.length]);
+
+  const loadWritingPhrases = useCallback(() => {
+    if (writingPhrasesData.length) return;
+    InteractionManager.runAfterInteractions(() => {
+      try {
+        const data = require('../../data/writing_academic_phrases.json');
+        setWritingPhrasesData(Array.isArray(data) ? data : []);
+      } catch (_) {
+        setWritingPhrasesData([]);
+      }
+    });
+  }, [writingPhrasesData.length]);
+
   useEffect(() => {
     if (activeSection === 'Academic') loadAcademic();
     if (activeSection === 'Academic Verbs') loadAcademicVerbs();
     if (activeSection === 'Test-English') loadTestEnglish();
     if (activeSection === 'Confusing') loadConfusing();
     if (activeSection === 'Bogazici Dept') loadDepartments();
+    if (activeSection === 'Subtle Pairs') loadSubtlePairs();
+    if (activeSection === 'Writing Phrases') loadWritingPhrases();
     if (activeSection === 'WASC Lists') {
       loadWascLists();
       loadWascDecks();
     }
-  }, [activeSection, loadAcademic, loadAcademicVerbs, loadConfusing, loadDepartments, loadTestEnglish, loadWascDecks, loadWascLists]);
+  }, [activeSection, loadAcademic, loadAcademicVerbs, loadConfusing, loadDepartments, loadSubtlePairs, loadTestEnglish, loadWritingPhrases, loadWascDecks, loadWascLists]);
 
   useEffect(() => {
     if (!dept && deptData.length) {
@@ -1297,6 +1337,8 @@ export default function VocabScreen({ navigation, route }) {
     Unknown: unknownWords.length,
     'Bogazici Dept': deptWordCount,
     'Word Lab': wordLabWords.length,
+    'Subtle Pairs': subtlePairsData.length * 2,
+    'Writing Phrases': writingPhrasesData.reduce((sum, group) => sum + (Array.isArray(group?.phrases) ? group.phrases.length : 0), 0),
   }), [
     academicData.length,
     confusingCount,
@@ -1312,6 +1354,8 @@ export default function VocabScreen({ navigation, route }) {
     unknownWords.length,
     userWords.length,
     wordLabWords.length,
+    subtlePairsData.length,
+    writingPhrasesData,
   ]);
   const activeWorkspaceCount = sectionCounts[activeSection] || 0;
   const workspaceQuickActions = useMemo(() => {
@@ -1379,9 +1423,19 @@ export default function VocabScreen({ navigation, route }) {
       case 'Unknown': return unknownWords;
       case 'Bogazici Dept': return deptVisibleWords;
       case 'Word Lab': return wordLabWords;
+      case 'Subtle Pairs': return subtlePairsData.reduce((list, group) => {
+        const pairWords = (Array.isArray(group?.pair) ? group.pair : [group?.pair?.[0], group?.pair?.[1]])
+          .filter(Boolean)
+          .map((word) => ({ word: String(word).trim(), definition: group?.distinction || '', example: group?.example || '' }));
+        return [...list, ...pairWords];
+      }, []);
+      case 'Writing Phrases': return writingPhrasesData.reduce((list, group) => {
+        const groupPhrases = Array.isArray(group?.phrases) ? group.phrases : [];
+        return [...list, ...groupPhrases.map((p) => ({ word: String(p?.text || '').trim(), definition: group?.purpose || p?.usage || '', example: `${group?.category || ''} • ${p?.usage || ''}` }))];
+      }, []);
       default: return [];
     }
-  }, [activeSection, vocab, userWords, wascVisibleWords, academicList, normalizedAcademicVerbs, testEnglishWords, confusingList, listeningUnknownWords, subtleHoverWords, unknownWords, deptVisibleWords, wordLabWords]);
+  }, [activeSection, vocab, userWords, wascVisibleWords, academicList, normalizedAcademicVerbs, testEnglishWords, confusingList, listeningUnknownWords, subtleHoverWords, unknownWords, deptVisibleWords, wordLabWords, subtlePairsData, writingPhrasesData]);
 
   const renderVocabItem = useCallback(({ item, index }) => {
     const keyPrefix = activeSection.toLowerCase().replace(' ', '-') + '-';
@@ -2696,6 +2750,75 @@ export default function VocabScreen({ navigation, route }) {
             </Card>
           </>
         );
+      case 'Subtle Pairs':
+        return (
+          <>
+            <WorkspaceIntroCard
+              title="Subtle Word Pairs"
+              body="Academic pairs that look or sound alike but carry different meanings. These contrasts appear in BUSEPT Reading II synonym and matching questions, so precise distinction matters."
+              metricValue={subtlePairsData.length}
+              metricLabel="pairs"
+              actions={[]}
+            />
+            {subtlePairsData.map((group, gIdx) => (
+              <Card key={`sp-${gIdx}`} style={styles.card}>
+                <View style={styles.pairHeader}>
+                  <Text style={styles.pairTitle}>{Array.isArray(group?.pair) ? group.pair.join('  vs  ') : (group?.pair || '—')}</Text>
+                  {group?.distinction ? <Text style={styles.pairDistinction}>{group.distinction}</Text> : null}
+                </View>
+                {group?.example ? <Text style={styles.pairExample}>Example: {group.example}</Text> : null}
+                {Array.isArray(group?.pair) && group.pair.length >= 2 ? (
+                  <View style={styles.pairActions}>
+                    <Button label="Save Both" icon="bookmark-outline" variant="secondary" onPress={() => group.pair.slice(0, 2).forEach((w) => addUserWord(w))} />
+                    <Button label="Quiz Me" icon="bulb-outline" variant="ghost" onPress={() => navigation.navigate('VocabFlashcard', { initialWords: group.pair })} />
+                  </View>
+                ) : null}
+              </Card>
+            ))}
+            {subtlePairsData.length === 0 ? <Card style={styles.card}><Text style={styles.sub}>Loading pair set…</Text></Card> : null}
+          </>
+        );
+      case 'Writing Phrases':
+        return (
+          <>
+            <WorkspaceIntroCard
+              title="BUSEPT Writing Phrases"
+              body="Official-format phrase bank for the two 250-word essays. Each category carries a purpose so you can place the phrase in the right part of your paragraph."
+              metricValue={writingPhrasesData.reduce((sum, group) => sum + (Array.isArray(group?.phrases) ? group.phrases.length : 0), 0)}
+              metricLabel="phrases"
+              actions={[]}
+            />
+            {writingPhrasesData.map((group, gIdx) => (
+              <Card key={`wp-${gIdx}`} style={styles.card}>
+                <Text style={styles.h3}>{group?.category || 'Phrases'}</Text>
+                {group?.purpose ? <Text style={styles.sub}>{group.purpose}</Text> : null}
+                {Array.isArray(group?.phrases) ? group.phrases.map((phrase, pIdx) => (
+                  <View key={`wpp-${pIdx}`} style={styles.phraseRow}>
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.phraseText} numberOfLines={2}>{phrase?.text || '—'}</Text>
+                      {phrase?.usage ? <Text style={styles.phraseUsage}>{phrase.usage}</Text> : null}
+                    </View>
+                    <TouchableOpacity
+                      style={styles.phraseCopyBtn}
+                      activeOpacity={0.7}
+                      onPress={() => {
+                        if (typeof navigator !== 'undefined' && navigator?.clipboard?.writeText) {
+                          navigator.clipboard.writeText(phrase?.text || '');
+                          setListFeedback(`Copied: ${String(phrase?.text || '').slice(0, 40)}`);
+                        }
+                        setListFeedback(`Saved: ${String(phrase?.text || '').slice(0, 40)}`);
+                        addUserWord(phrase?.text || '');
+                      }}
+                    >
+                      <Ionicons name="copy-outline" size={16} color={colors.muted} />
+                    </TouchableOpacity>
+                  </View>
+                )) : null}
+              </Card>
+            ))}
+            {writingPhrasesData.length === 0 ? <Card style={styles.card}><Text style={styles.sub}>Loading phrase bank…</Text></Card> : null}
+          </>
+        );
     }
   };
   const renderListHeader = () => {
@@ -3049,6 +3172,54 @@ const styles = StyleSheet.create({
     color: colors.muted,
     marginTop: spacing.xs,
     fontSize: typography.small,
+  },
+  pairHeader: {
+    marginBottom: spacing.xs,
+  },
+  pairTitle: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    marginBottom: spacing.xs,
+  },
+  pairDistinction: {
+    fontSize: typography.body,
+    color: colors.text,
+    lineHeight: 20,
+  },
+  pairExample: {
+    fontSize: typography.small,
+    color: colors.muted,
+    fontStyle: 'italic',
+    marginBottom: spacing.sm,
+  },
+  pairActions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.xs,
+    marginTop: spacing.xs,
+  },
+  phraseRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.border,
+  },
+  phraseText: {
+    fontSize: typography.body,
+    color: colors.text,
+    lineHeight: 20,
+    fontFamily: typography.fontBody,
+  },
+  phraseUsage: {
+    fontSize: typography.xsmall,
+    color: colors.accent,
+    marginTop: 2,
+  },
+  phraseCopyBtn: {
+    padding: spacing.xs,
   },
   sectionHeader: {
     flexDirection: 'row',

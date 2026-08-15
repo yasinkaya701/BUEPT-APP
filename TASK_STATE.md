@@ -187,3 +187,18 @@ Sonra FAZ 18 (Gemini içerik üretimi) → FAZ 19 (final doğrulama + push) → 
 - Faz 18: Gemini ile fresh JSON content setleri (listening_tasks/reading_tasks/question bank genişletme) — docs/busept_research.md referans.
 - Faz 19: Final lint/test/build (npm run web:rnw:build:root) + push main + GH Pages deploy kontrolü.
 - Deploy: GH Actions otomatik; canlı: https://yasinkaya701.github.io/BUEPT-APP/
+
+
+## FAZ 17 TAMAM (push d97e5d8)
+HomeScreen streak/badge kartı + AnalyticsScreen SVG SkillRadar (react-native-svg ^15.15.5 eklendi). DİKKAT: pnpm add node_modules nested store yapıp web build'i bozdu → rm -rf node_modules + npm install ile çözüldü. Web build: `npm run web:rnw:build:root` → compiled successfully. NOT: pnpm-lock.yaml/pnpm-workspace.yaml OLUŞTURMA — silindi, commit edildi.
+
+## FAZ 18 ŞİMDİ: İçerik üretimi
+YAZILDI (data/):
+- writing_academic_phrases.json (5 kategori: Thesis/Examples/Contrast/CauseEffect/Concluding, BUSEPT 2 essay formatına özel)
+- subtle_word_pairs.json (24 çift: affect/effect vb., Reading II synonym/matching için)
+- listening_signpost_vocabulary.json (6 kategori, Selective/Careful dinleme için lecture role açıklamalı)
+YAPILACAK:
+- VocabScreen'e bu setleri entegre et (YENİ SECTIONS: 'Writing Phrases', 'Subtle Pairs' gibi) — loader kalıbı: InteractionManager.runAfterInteractions(() => { try { const data = require('../../data/X.json'); setState(...); } }) → satır 700-750 bölgesi (loadConfusing/loadDepartments/loadWascLists kalıbı)
+- ListeningDetailScreen'e signpost vocab setini öneri/bilgi kartı olarak ekle (opsiyonel)
+- Sonra lint+jest+build → commit → push
+FAZ 19: npm run web:rnw:build:root + GH Pages deploy kontrolü (https://yasinkaya701.github.io/BUEPT-APP/), FAZ 20: özet mesaj.
