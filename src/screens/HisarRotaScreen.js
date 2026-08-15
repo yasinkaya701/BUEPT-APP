@@ -109,11 +109,13 @@ function StopMarker({ stop, index, state, onPress, isActive }) {
   const ringColor = isDone ? cypress : isActive ? terracotta : inkSoft;
   const fill = isDone ? cypress : isActive ? terracotta : paper;
   // Patika boyunca dikey dağılım: bebeğ (sahil) en altta, Hisar en üstte
+  // Patika üzerindeki noktalar (viewBox 320x900 içindeki kıvrım x salınımı): Hisar üstte başlar
+  const xOffsetPct = ['50%', '58%', '42%', '56%', '46%', '50%'][index] || '50%';
   const topPct = ['10%', '25%', '38%', '51%', '64%', '78%'][index] || '50%';
   const alignLeft = index % 2 === 0;
   return (
     <TouchableOpacity
-      style={[styles.markerWrap, { top: topPct }, alignLeft ? styles.markerRowLeft : styles.markerRowRight]}
+      style={[styles.markerWrap, { top: topPct, left: xOffsetPct }, alignLeft ? styles.markerRowLeft : styles.markerRowRight]}
       onPress={onPress}
       activeOpacity={0.75}
     >
@@ -170,7 +172,7 @@ function PathSvg() {
           </linearGradient>
         </defs>
         <path
-          d="M 160 880 C 80 780, 260 660, 160 560 C 60 460, 260 340, 160 240 C 90 170, 160 100, 160 40"
+          d="M 160 870 C 240 790, 80 640, 160 560 C 240 480, 80 330, 160 250 C 220 190, 140 90, 160 30"
           fill="none"
           stroke="url(#pathGrad)"
           strokeWidth="3"
@@ -273,7 +275,8 @@ export default function HisarRotaScreen({ navigation }) {
         {/* ── Hero: günbatımı kampüs + hedef bant ── */}
         <ImageBackground source={HERO_IMG} style={styles.hero} resizeMode="cover">
           <View style={styles.heroOverlay} />
-          <View style={styles.heroInner}>
+          <View style={styles.heroGradient}>
+            <View style={styles.heroInner}>
             <View style={styles.heroHeadRow}>
               <View style={styles.heroTitleWrap}>
                 <Text style={styles.heroEyebrow}>KAMPÜS PATİKASI</Text>
@@ -287,6 +290,7 @@ export default function HisarRotaScreen({ navigation }) {
             <Text style={styles.heroSub}>
               {level || 'P2'} seviyesinden Hisar'ın tepesine — vapurdan sınav salonuna.
             </Text>
+          </View>
           </View>
         </ImageBackground>
 
@@ -411,9 +415,18 @@ const styles = StyleSheet.create({
   hero: { height: 250 },
   heroOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(42,30,18,0.35)',
+    backgroundColor: 'rgba(42,30,18,0.25)',
   },
-  heroInner: { flex: 1, padding: spacing.lg, paddingTop: spacing.md, justifyContent: 'flex-end' },
+  heroGradient: {
+    ...StyleSheet.absoluteFillObject,
+    top: undefined,
+    height: '62%',
+    paddingTop: 120,
+    justifyContent: 'flex-end',
+    paddingBottom: spacing.lg,
+    paddingHorizontal: spacing.lg,
+  },
+  heroInner: { justifyContent: 'flex-end' },
   heroHeadRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',

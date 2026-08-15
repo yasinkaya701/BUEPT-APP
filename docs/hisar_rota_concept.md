@@ -38,3 +38,8 @@
 - Şimdi: yeni bundle ile Hisar Rotası butonuna tıklayıp ekranın render olup olmadığını görsel kontrol et (screenshot path: /home/ubuntu/screenshots/).
 - Eğer ekran açılırsa: görsel doğrulama tamam; kullanıcıya teslim et. Konsept detayı: kağıt bej #FAF6EE, kiremit #B3541E, servi #2E5943, Boğaz turkuaz #1B8FA8, amber #E8A33D; 6 durak (Bebek İskelesi, Deniz Kampüsü, Martı Çay Bahçesi, Güney Kampüs, Hisar Merdivenleri, Hisar Sınav Salonu); patika SVG + mühürlü kart + Martı'dan Notlar + Boğaz footer.
 - Not: Metro dev server çalışıyor ama bundle 500 veriyor (react-devtools modül hatası, proje sorunu değil) — canlı GitHub Pages ile test et.
+
+## Son durum (16 Agu 2026, devam)
+Canlı bundle: app.e27e0eda.js (commit ae57786 + f2d3fff + 3b3b426). Yapılan işler: BUG-22 crash fix (safeLists array-guard), MaterialCommunityIcons emoji shim (web-rnw/shims/react-native-vector-icons-mci.js + webpack alias), marker dağılımı rev2.1 (topPct ['10%','25%','38%','51%','64%','78%']), .eslintignore eklendi (web-rnw/shims, web-rnw/index.web.js, web-rnw/polyfills/), heroInner justifyContent:flex-end. ESLint src temiz, jest 36/36.
+Sonraki adım: Home'daki Hisar Rotası butonu (index 28) → ekranı görsel doğrula (marker'lar patika boyunca dağıldı mı, ikonlar emoji mi, hero hizalama düzgün mü). Sonra kullanıcıya teslim.
+Not: Hisar Rotası butonu Home'da planningTools kategorisinde, hint "Hisar Rotası".

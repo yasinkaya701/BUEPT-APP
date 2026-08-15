@@ -1,8 +1,9 @@
-# Hisar Rotası canlı görsel sorunları (düzeltilecek)
+# Hisar Rota canlı test v3 — kalan sorunlar
 
-Canlı test (bundle 35ec8694) ekran açıldı, crash yok. Görsel sorunlar:
-1. Tüm durak işaretçileri aynı noktada (sol, %50 hizasında) yığılmış — index'e göre vertical dağılım yok. markerWrap `top: '50%'` sabit; her durak için farklı top %'si olmalı (6 durak: ~%90 (bebek), %74, %58, %42, %26, %10 (hisar)).
-2. Patika SVG sağ tarafa kaymış — preserveAspectRatio none + path M160 koordinatları viewBox uyumsuz olabilir; ayrıca duraklar patikaya hizalı olmalı.
-3. Hero'da üstte karanlık bant (ImageBackground hero padding üstte 44px web'de) — hero iç başlık üstte sıkışmış, back butonla çakışma var (heroHeadRow paddingTop düzeltilmeli).
-4. mapHead'de harita ikonu görünmüyor (Ionicons name="map" render ediliyor ama küçük olabilir — kontrol et).
-5. Görev kartı başlık ikonu "?" gösteriyor — MaterialCommunityIcons 'cafe' web font'unda eksik olabilir (font dosyası yüklü mü kontrol).
+1. **Hero metin çakışması**: Hero alt bandında başlık + açıklama fotoğrafın koyu olmayan bölgesinde kalıyor. HeroOverlay'in alt kısmına gradient eklemek gerekiyor (bottom'dan koyu degrade).
+2. **Marker hizalama patika ile uyuşmuyor**: Marker'lar sabit sol sütunda, patika sağa doğru kıvrılıyor. Patikanın x konumunu her y seviyesinde bilmek gerekiyor ya da daha basit: patikayı daralt (merkezde tut) ve marker'ları iki tarafa; veya marker'ları patikanın kendi koordinatlarına oturt.
+   - Basit çözüm: PathSvg viewBox 200x400 kıvrımlı bir yol; marker y seviyeleri path'in M koordinatlarına uydurulmalı. Patika x'i her y'de ~%50 civarında salınım yapıyor; markerWrap'ları left:'50%' yapıp translateX(-50%) ile merkeze, etiketler dışa.
+3. **Sağdaki marker'ların etiketleri taşma/kesilme**: markerRowRight kullanıyor ama ekran daralınca kesiliyor; label'a max-width ve ellipsis yok. Aşağı kaydırınca görünüyor olabilir ama güvenliği max-width.
+4. **Patikanın sağa kayması**: preserveAspectRatio="none" + viewBox uyumsuz — Patika'nın başı sol-üst, sonu sol-alt olmalı.
+
+Plan: Patika'yı dikey merkezli yap (viewBox 320x560, path M 160 540 kıvrımlı yukarı), marker'ları centerX='50%' ile hizala, etiketler index'e göre sola/sağa 8px + max-width 130px. Hero'ya alt gradient + metin altına padding-bottom.
