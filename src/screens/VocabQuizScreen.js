@@ -145,7 +145,17 @@ export default function VocabQuizScreen({ navigation, route }) {
   const options = useMemo(() => {
     if (!current) return [];
     const distractorBase = resolvePool();
-    const distractors = shuffle(distractorBase.filter((w) => w.word !== current.word)).slice(0, 3);
+    const currentLower = String(current.word || '').toLowerCase();
+    const distractors = [];
+    const seen = new Set([currentLower]);
+    for (const w of shuffle(distractorBase.filter((x) => x.word !== current.word && String(x.word || '').trim()))) {
+      const key = String(w.word).trim().toLowerCase();
+      if (!seen.has(key)) {
+        seen.add(key);
+        distractors.push(w);
+      }
+      if (distractors.length >= 3) break;
+    }
     return shuffle([current, ...distractors]);
   }, [current, resolvePool]);
 

@@ -38,7 +38,7 @@ export default function VocabPracticeScreen({ navigation }) {
         <Text style={styles.h3}>Quiz Size</Text>
         <View style={styles.row}>
           {[5, 10, 20, 30].map((n) => (
-            <Button key={n} label={`${n}`} variant={size === n ? 'primary' : 'secondary'} onPress={() => setSize(n)} />
+            <Button key={n} label={`${n}`} variant={size === n ? 'primary' : 'secondary'} onPress={() => { setSize(n); setSizeInput(String(n)); }} />
           ))}
         </View>
         <Text style={styles.hint}>Custom (1–200)</Text>

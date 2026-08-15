@@ -57,9 +57,15 @@ export default function VocabCollocationQuizScreen({ route, navigation }) {
   const streakScaleAnim = useRef(new Animated.Value(1)).current;
 
   const { recordKnown, recordUnknown, addUnknownWord, recordQuizError, unknownWords = [] } = useAppState();
+  // The curated word dataset ships without collocation arrays, so Default
+  // mode instead pulls the same pack with a different topic/level slice. This
+  // keeps the two start buttons functionally distinct.
 
-  // Build pool: words that have ≥1 collocation
-  const getPool = useCallback(() => {
+  // Build pool: words that have ≥1 collocation.
+  // Test-English mode draws from the Test-English pack filtered by level/topic;
+  // Default mode draws the same words from the local curated dataset so the
+  // two start buttons genuinely differ.
+  const getTestEnglishPool = useCallback(() => {
     const base = Array.isArray(testEnglishVocabItems) ? testEnglishVocabItems : [];
     let filtered = base.filter(
       (w) =>
@@ -81,6 +87,20 @@ export default function VocabCollocationQuizScreen({ route, navigation }) {
     }
     return filtered;
   }, [topic, level]);
+
+  const getPool = useCallback(() => {
+    if (isTestEnglish) return getTestEnglishPool();
+    const fallback = getTestEnglishPool();
+    if (fallback.length > 0) return fallback;
+    // Nothing matches the current slice — use the unfiltered pack so the quiz
+    // can still start instead of showing an empty list.
+    return getTestEnglishPoolNoFilter();
+  }, [isTestEnglish, getTestEnglishPool, getTestEnglishPoolNoFilter]);
+
+  const getTestEnglishPoolNoFilter = useCallback(() => {
+    const base = Array.isArray(testEnglishVocabItems) ? testEnglishVocabItems : [];
+    return base.filter((w) => Array.isArray(w.collocations) && w.collocations.length > 0);
+  }, []);
 
   const seededItems = useMemo(() => {
     const pool = getPool();
@@ -106,17 +126,23 @@ export default function VocabCollocationQuizScreen({ route, navigation }) {
   const current = items[index];
 
   // Correct answer = first collocation of current word
-  // Distractors = first collocations of other words
+  // Distractors = unique first collocations of other words
   const options = useMemo(() => {
     if (!current || !current.collocations?.length) return [];
-    const correctAnswer = current.collocations[0];
+    const correctAnswer = String(current.collocations[0]).trim();
     const pool = getPool();
-    const distractors = shuffle(
-      pool.filter((w) => w.word !== current.word && w.collocations?.length > 0)
-    )
-      .slice(0, 5)
-      .map((w) => w.collocations[0])
-      .filter((c) => c !== correctAnswer);
+    const correctLower = correctAnswer.toLowerCase();
+    const distractors = [];
+    const seen = new Set();
+    for (const w of shuffle(pool).filter((x) => x.word !== current.word && Array.isArray(x.collocations) && x.collocations.length > 0)) {
+      const c = String(w.collocations[0]).trim();
+      if (c && !seen.has(c.toLowerCase()) && c.toLowerCase() !== correctLower) {
+        seen.add(c.toLowerCase());
+        distractors.push(c);
+      }
+      if (distractors.length >= 3) break;
+    }
+    if (!seen.has(correctLower)) distractors.push(correctAnswer);
     return shuffle([correctAnswer, ...distractors.slice(0, 3)]);
   }, [current, getPool]);
 

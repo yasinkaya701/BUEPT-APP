@@ -110,6 +110,28 @@ export default function VocabFlashcardScreen({ navigation, route }) {
 
   const currentCard = deck[index] || null;
 
+  // Keyboard shortcuts for web study sessions
+  useEffect(() => {
+    const onKey = (e) => {
+      if (showSettings || index >= deck.length || !currentCard) return;
+      const key = String(e.key || '').toLowerCase();
+      if (key === 'arrowleft' || key === 'u') {
+        e.preventDefault();
+        nextCard('unknown', true);
+      } else if (key === 'arrowright' || key === 'k') {
+        e.preventDefault();
+        nextCard('known', true);
+      } else if (key === ' ' || key === 'arrowup' || key === 'enter') {
+        e.preventDefault();
+        flipCard();
+      } else if (key === 'escape') {
+        setShowSettings(false);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [showSettings, index, deck.length, currentCard, flipCard, nextCard]);
+
   useEffect(() => {
       if (currentCard && autoPlayAudio && index < deck.length) {
           if (!flipTermDef) {

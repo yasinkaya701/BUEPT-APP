@@ -119,9 +119,17 @@ export default function VocabSynonymQuizScreen({ route, navigation }) {
     if (!current) return [];
     const synonym = current.synonyms[0];
     const distractorPool = getPool();
-    const distractors = shuffle(
-      (distractorPool.length ? distractorPool : getDictionarySample(400)).filter(w => w.word !== synonym && w.word !== current.word)
-    ).slice(0, 3).map(w => w.word);
+    const base = distractorPool.length ? distractorPool : getDictionarySample(400);
+    const seen = new Set([String(synonym || '').toLowerCase(), String(current.word || '').toLowerCase()]);
+    const distractors = [];
+    for (const w of shuffle(base).filter((x) => x.word !== synonym && x.word !== current.word && String(x.word || '').trim())) {
+      const key = String(w.word).trim().toLowerCase();
+      if (!seen.has(key)) {
+        seen.add(key);
+        distractors.push(String(w.word));
+      }
+      if (distractors.length >= 3) break;
+    }
     return shuffle([synonym, ...distractors]);
   }, [current, getPool]);
 

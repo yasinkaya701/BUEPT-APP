@@ -32,14 +32,19 @@ Kullanıcı ders çalışmaya geçti; 2 saat boyunca:
 - YAZILDI: docs/buept_official_sample_2026.md (resmi 2026 sample analizi: Selective = yalnızca wh- short answer sentence completion, Careful = tanım/neden/faktör + nadir A-F MC, Reading I = 13 paragraf akademik makale + vokab/context, paragraf amacı, main idea, NOT-mentioned, inserted-sentence A/B/C/D, paragraf ilişkisi, cross-text, inference; Reading II = matching paragraf numarası + study bazlı kısa cevap; Writing = 2 essay, helper guidelines)
 - aiMockGenerator.js prompt'ları resmi şablona göre güncellendi
 - YAZILDI: src/screens/AIMockGeneratorScreen.js (seviye P1-P4, bölüm seçimi, üretim, bank, preview). Renk tokenları düzeltildi (errorLight, successLight)
-- KALAN (faz 11 devamında):
-  a) src/screens/AIMockExamScreen.js yaz (çözme akışı: Selective → Careful → Reading I → Reading II → Writing; short answer kabulü: case-insensitive, fuzzy 60% kelime örtüşmesi veya model-answer dizisinde eşleşme; MC matching); result: bölüm puanları + pass (60) + S/F
-  b) RootNavigator satır 127'den önce: AIMockGenerator + AIMockExam ekranları (lazy require)
-  c) HomeScreen satır 445 civarı: 'AI Mock' butonu ekle (Proficiency Mock yanına)
-  d) App.js'ye gerek yok, RootNavigator otomatik
-  e) npx jest --silent && npx eslint src (0 error) && npm run web:rnw:build:root → commit → push (main, token store helper ~/.git-credentials)
-- Reference ekranlar: MockResultScreen.js (CEFR bantları, PASSING_THRESHOLD=60, ScoreCircle, SectionBar) — yeni result ekranı buna benzer yap
-- MockResultScreen'de PASSING_THRESHOLD=60, getBand: >=90 C1, >=80 B2+, >=68 B2, >=58 B1+, >=48 B1, else A2
+- TAMAMLANDI: AIMockExamScreen.js + RootNavigator'a 2 ekran + HomeScreen'e 'AI Mock Generator' butonu eklendi
+- TAMAMLANDI: commit + push main (18be75e), canlı site 200 OK, lint 0 error / 135 warning, jest 36/36
+- FAZ 12: Vocab fixleri — YAPILANLAR:
+  1) VocabPracticeScreen: preset size butonları (5/10/20/30) sizeInput'u da günceller (desenkron düzeltmesi)
+  2) VocabCollocationQuizScreen: getPool artık Test-English/Default modu ayırıyor; options builder duplicate seçenekleri önler (seen Set) ve doğru cevabın seçeneklerde varlığını garanti eder; boş pool yerine fallback unfiltered
+  TAMAMLANDI: VocabQuiz/VocabSynonym/VocabCloze option builder duplicate-fix; VocabFlashcardScreen web klavye desteği (K/U/Space/Enter/Arrow/Esc); lint 0 error
+  KALAN: commit + push, sonra FAZ 13'e geç
+- FAZ 13: BUSEPT orijinal sınavına göre arayüz/mantık düzenleme (resmi bölüm adları: Selective/Careful Listening, Reading I/II; süre/bilgilendirme metinleri)
+- FAZ 14: Gerçek Konuşma Puanlama — src/hooks/useTts.js + src/utils/speakingModel.js (yapısını incele) — Web Speech API recognition ile telaffuz okuma, transcript karşılaştırma + AI puanlama
+- FAZ 15: SRS Kelime Hafızası — weak words listesine SM-2 benzeri spaced repetition bağla + dueCount mevcut (AppState reviews). ReviewScreen mevcut
+- FAZ 16: Resmi BUSEPT Simülasyon Modu — mevcut section ekranlarını art arda dizen, toplam zamanlayıcılı simülasyon + puan raporu (MockHistory tipi 'official'?)
+- Push işi: git commit + git push origin main (credential store ~/.git-credentials sayesinde token gereksiz); canlı: https://yasinkaya701.github.io/BUEPT-APP/ (GH Actions deploy otomatik)
+- Doğrulama zinciri: npx eslint src (0 error) && npx jest --silent (36/36) && npm run web:rnw:build:root
 - Button component: iconLeft/iconRight/icon prop'ları var ✔
 - Tema: colors.errorLight '#FEF2F2', successLight '#ECFDF5', primarySoft '#DBEAFE', accentGlow var
 - YAZILDI: src/utils/aiMockGenerator.js (Gemini ile JSON mock üretimi, seviyeler P1-P4, bölümler listening/reading/writing/full, validation + sanitize + normalizeExam, AsyncStorage MOCK_KEY=ai_mock_bank_v1, isAiAccessAvailable)

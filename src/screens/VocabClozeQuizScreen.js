@@ -121,9 +121,17 @@ export default function VocabClozeQuizScreen({ navigation, route }) {
   const options = useMemo(() => {
     if (!current) return [];
     const distractorBase = resolveBase();
-    const distractors = shuffle(
-      (distractorBase.length ? distractorBase : getDictionarySample(400)).filter((w) => w.word !== current.word)
-    ).slice(0, 3).map((w) => w.word);
+    const base = distractorBase.length ? distractorBase : getDictionarySample(400);
+    const seen = new Set([String(current.word || '').toLowerCase()]);
+    const distractors = [];
+    for (const w of shuffle(base).filter((x) => x.word !== current.word && String(x.word || '').trim())) {
+      const key = String(w.word).trim().toLowerCase();
+      if (!seen.has(key)) {
+        seen.add(key);
+        distractors.push(String(w.word));
+      }
+      if (distractors.length >= 3) break;
+    }
     return shuffle([current.word, ...distractors]);
   }, [current, resolveBase]);
 
