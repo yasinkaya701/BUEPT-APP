@@ -190,17 +190,29 @@ export default function HisarRotaScreen({ navigation }) {
     []
   );
 
+  // Her liste array olmalı — storage'dan bozuk/async değerler gelirse güvenli düşür
+  const safeLists = useMemo(() => {
+    const out = {};
+    for (const key of Object.keys(histories)) {
+      const v = histories[key];
+      out[key] = Array.isArray(v) ? v : [];
+    }
+    return out;
+  }, [histories]);
+
   const stats = useMemo(() => {
     let total = 0;
     let correct = 0;
-    for (const list of Object.values(histories)) {
-      (list || []).forEach((h) => {
-        total += h.total || 0;
-        correct += h.correct || 0;
+    for (const list of Object.values(safeLists)) {
+      list.forEach((h) => {
+        const t = h && typeof h === 'object' ? h.total || 0 : 0;
+        const c = h && typeof h === 'object' ? h.correct || 0 : 0;
+        total += t;
+        correct += c;
       });
     }
     return { total, accuracy: total > 0 ? correct / total : 0 };
-  }, [histories]);
+  }, [safeLists]);
 
   const progress = useMemo(
     () => Math.min(92, Math.round(stats.accuracy * 100 * 0.75 + Math.min(25, stats.total * 0.7))),
