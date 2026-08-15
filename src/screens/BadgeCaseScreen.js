@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Screen from '../components/Screen';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import { BADGE_DEFS } from '../utils/gamification';

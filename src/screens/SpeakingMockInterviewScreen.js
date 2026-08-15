@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { Text, StyleSheet, View, TextInput, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import voiceEngine from '../utils/speechRecognition';
 import Screen from '../components/Screen';
 import Card from '../components/Card';

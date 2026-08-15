@@ -1,7 +1,7 @@
 import React, { Fragment, useMemo } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import Svg, { Polyline, Circle, Line } from 'react-native-svg';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
