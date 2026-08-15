@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import {
     View, Text, StyleSheet, TouchableOpacity, TextInput, useWindowDimensions
 } from 'react-native';
@@ -10,7 +10,8 @@ import { colors, spacing, typography, shadow, radius } from '../theme/tokens';
 import prompts from '../../data/speaking_prompts.json';
 import { useAppState } from '../context/AppState';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { buildSpeakingSnapshot } from '../utils/speakingModel';
+import { buildSpeakingSnapshot, evaluateSpeakingModel } from '../utils/speakingModel';
+import { useSpeechRecognition, scoreTranscriptCoverage, estimateFluency } from '../hooks/useSpeechRecognition';
 import { loadSpeakingPartnerSessions } from '../utils/appStorage';
 
 const LEVELS = ['ALL', 'P1', 'P2', 'P3', 'P4'];
@@ -51,7 +52,45 @@ export default function SpeakingScreen({ navigation }) {
     const [typeFilter, setTypeFilter] = useState('ALL');
     
     const [aiSessions, setAiSessions] = useState([]);
+    const [micTargets, setMicTargets] = useState(['Describe your hometown and why you like living there.', 'Explain one benefit of studying abroad.']);
+    const [micScore, setMicScore] = useState(null);
     const { mockHistory } = useAppState();
+
+    const micRecognition = useSpeechRecognition({
+      onTranscript: (text, interimText) => {
+        setMicTranscript(text);
+        setMicInterim(interimText);
+      },
+    });
+    const [micTranscript, setMicTranscript] = useState('');
+    const [micInterim, setMicInterim] = useState('');
+
+    const micListeningSecRef = useRef(0);
+    const micTimerRef = useRef(null);
+
+    const micStart = useCallback(() => {
+      const started = micRecognition.start();
+      if (started) {
+        setMicTranscript('');
+        setMicInterim('');
+        setMicScore(null);
+        micListeningSecRef.current = 0;
+        micTimerRef.current = setInterval(() => {
+          micListeningSecRef.current += 1;
+        }, 1000);
+      }
+    }, [micRecognition]);
+
+    const micStop = useCallback(() => {
+      micRecognition.stop();
+      if (micTimerRef.current) clearInterval(micTimerRef.current);
+      if (micRecognition.transcript) {
+        const coverage = scoreTranscriptCoverage(micRecognition.transcript, micTargets);
+        const fluency = estimateFluency(micRecognition.transcript, micListeningSecRef.current);
+        const scoring = evaluateSpeakingModel({ fluency, accuracy: coverage, elapsedSec: micListeningSecRef.current });
+        setMicScore({ coverage, fluency, ...scoring });
+      }
+    }, [micRecognition, micTargets]);
 
     useFocusEffect(
       React.useCallback(() => {
@@ -195,6 +234,52 @@ export default function SpeakingScreen({ navigation }) {
                         onPress={() => navigation.navigate('SpeakingMockInterview')} 
                     />
                 </View>
+            </Card>
+
+            {/* Live microphone scoring — real speech recognition on the web */}
+            <Card style={styles.card}>
+                <View style={styles.partnerHeader}>
+                    <Ionicons name="mic" size={20} color={micRecognition.isListening ? '#DC2626' : colors.primaryDark} />
+                    <Text style={styles.partnerTitle}>Live Speaking Score</Text>
+                </View>
+                <Text style={styles.partnerBody}>
+                    {micRecognition.isAvailable
+                        ? 'Tap the microphone, read the target sentences out loud, and stop when done to get a real fluency and coverage score.'
+                        : 'Microphone scoring works in web browsers. Open the app in a desktop browser (or use "Start Speaking" below).'}
+                </Text>
+                <View style={styles.targetBox}>
+                    <Text style={styles.targetLabel}>Target sentences</Text>
+                    {micTargets.map((t) => (
+                        <Text key={t} style={styles.targetLine}>◦ {t}</Text>
+                    ))}
+                    <Button label="Shuffle Targets" variant="ghost" onPress={() => {
+                        const pool = prompts.slice().sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+                        const idx = Math.floor(Math.random() * Math.max(1, pool.length - 2));
+                        setMicTargets([pool[idx]?.prompt || micTargets[0], pool[(idx + 1) % pool.length]?.prompt || micTargets[1]]);
+                    }} />
+                </View>
+                {micRecognition.error ? <Text style={styles.micError}>{micRecognition.error}</Text> : null}
+                <View style={styles.micButtonRow}>
+                    {micRecognition.isListening ? (
+                        <Button label="Stop & Score" variant="errorGhost" icon="stop-outline" onPress={micStop} />
+                    ) : (
+                        <Button label="Start Recording" variant="primary" icon="mic-outline" onPress={micStart} />
+                    )}
+                </View>
+                {(micRecognition.transcript || micInterim) ? (
+                    <View style={styles.micTranscriptBox}>
+                        <Text style={styles.micTranscriptText}>{micRecognition.transcript}{micInterim ? ` ${micInterim}` : ''}</Text>
+                    </View>
+                ) : null}
+                {micScore ? (
+                    <View style={styles.micResultBox}>
+                        <Text style={styles.micResultTitle}>Score: {micScore.overall}% · {micScore.band}</Text>
+                        <Text style={styles.micResultSub}>Target coverage {micScore.coverage}% · {micScore.fluency.wpm} wpm · {micScore.fluency.fillerCount} fillers · {Math.floor(micScore.fluency.sentenceCount || 0)} sentences</Text>
+                        {micScore.actions.slice(0, 2).map((a) => (
+                            <Text key={a} style={styles.micActionLine}>→ {a}</Text>
+                        ))}
+                    </View>
+                ) : null}
             </Card>
 
             <View style={styles.metricGrid}>
@@ -764,5 +849,70 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#64748B',
         marginBottom: 16,
+    },
+    targetBox: {
+        marginTop: 12,
+        padding: 12,
+        borderRadius: 10,
+        backgroundColor: '#F1F5F9',
+    },
+    targetLabel: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#334155',
+        marginBottom: 6,
+    },
+    targetLine: {
+        fontSize: 14,
+        color: '#0F172A',
+        lineHeight: 20,
+        marginBottom: 4,
+    },
+    micError: {
+        marginTop: 8,
+        fontSize: 13,
+        color: '#DC2626',
+        lineHeight: 18,
+    },
+    micButtonRow: {
+        marginTop: 12,
+        alignItems: 'flex-start',
+    },
+    micTranscriptBox: {
+        marginTop: 12,
+        padding: 12,
+        borderRadius: 10,
+        backgroundColor: '#F8FAFC',
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+        maxHeight: 160,
+    },
+    micTranscriptText: {
+        fontSize: 14,
+        color: '#334155',
+        lineHeight: 20,
+    },
+    micResultBox: {
+        marginTop: 12,
+        padding: 14,
+        borderRadius: 12,
+        backgroundColor: colors.primarySoft || '#EFF6FF',
+    },
+    micResultTitle: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: '#1D4ED8',
+        marginBottom: 4,
+    },
+    micResultSub: {
+        fontSize: 13,
+        color: '#334155',
+        lineHeight: 19,
+        marginBottom: 6,
+    },
+    micActionLine: {
+        fontSize: 13,
+        color: '#1E293B',
+        lineHeight: 19,
     }
 });

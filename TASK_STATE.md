@@ -40,10 +40,16 @@ Kullanıcı ders çalışmaya geçti; 2 saat boyunca:
   TAMAMLANDI: VocabQuiz/VocabSynonym/VocabCloze option builder duplicate-fix; VocabFlashcardScreen web klavye desteği (K/U/Space/Enter/Arrow/Esc); lint 0 error
   KALAN: commit + push, sonra FAZ 13'e geç
 - FAZ 13: BUSEPT orijinal sınavına göre arayüz/mantık düzenleme (resmi bölüm adları: Selective/Careful Listening, Reading I/II; süre/bilgilendirme metinleri)
-- FAZ 14: Gerçek Konuşma Puanlama — src/hooks/useTts.js + src/utils/speakingModel.js (yapısını incele) — Web Speech API recognition ile telaffuz okuma, transcript karşılaştırma + AI puanlama
+- FAZ 13 TAMAMLANDI: ExamDetailScreen formatHint (resmi sıralama bilgisi), ExamsScreen subTasks listesi (Selective/Careful, Reading I/II, Task 1/2) + S/F policy notu; commit f22c144 push edildi
+- FAZ 14: Gerçek Konuşma Puanlama — YAZILDI: src/hooks/useSpeechRecognition.js (Web Speech API recognition hook; scoreTranscriptCoverage, estimateFluency exported; web-only, Platform.OS check; FILLERS seti; interim/final sonuç; start/stop/reset; mic izni hata mesajları)
+  KALAN FAZ 14: SpeakingScreen.js'e (768 satır; state'ler: levelFilter, queryInput, query, typeFilter, aiSessions) mikrofon butonu + skor paneli entegre et; evaluateSpeakingModel'a accuracy paramını geçir; sonra lint/build + commit + push
+- FAZ 15: SRS Kelime Hafızası — weak words listesine SM-2 benzeri spaced repetition bağla + dueCount mevcut (AppState reviews). ReviewScreen mevcut
 - FAZ 15: SRS Kelime Hafızası — weak words listesine SM-2 benzeri spaced repetition bağla + dueCount mevcut (AppState reviews). ReviewScreen mevcut
 - FAZ 16: Resmi BUSEPT Simülasyon Modu — mevcut section ekranlarını art arda dizen, toplam zamanlayıcılı simülasyon + puan raporu (MockHistory tipi 'official'?)
 - Push işi: git commit + git push origin main (credential store ~/.git-credentials sayesinde token gereksiz); canlı: https://yasinkaya701.github.io/BUEPT-APP/ (GH Actions deploy otomatik)
+- NOT: HomeScreen'de modül butonları bölümü; RootNavigator lazy require kalıbı; Screen/Card/Button componenti kalıbı; renk tokenları: colors.primary/secondary/muted/error, errorLight/successLight var; spacing.md/lg/xl; typography.h1/h2/h3/body/small; radius.md; button: label/variant/onPress/iconLeft/iconRight
+- AIMockExamScreen'de sınav çözme akışı referansı: gradeShortAnswer utility, PASS_MARK=60, bandFor fonksiyonu, exam.results benzeri state yapısı (FAZ 16 simülasyon bundan türetilecek)
+- AI Mock Generator API: src/utils/aiMockGenerator.js — generateAiMock({section:'listening'|'reading'|'writing'|'full', level:'P1'-'P4'}), saveMockBank/loadMockBank, isAiAccessAvailable; ekranlar: AIMockGeneratorScreen, AIMockExamScreen (RootNavigator'a kayıtlı)
 - Doğrulama zinciri: npx eslint src (0 error) && npx jest --silent (36/36) && npm run web:rnw:build:root
 - Button component: iconLeft/iconRight/icon prop'ları var ✔
 - Tema: colors.errorLight '#FEF2F2', successLight '#ECFDF5', primarySoft '#DBEAFE', accentGlow var
