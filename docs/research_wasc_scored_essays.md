@@ -1,0 +1,63 @@
+# WASC / YADYOK — Puanlı BUSEPT Essay Kaynakları & Rubric (Ana Kayıt Dosyası)
+
+Kaynak URL'ler:
+- WASC BUEPT Sample Essays sayfası: https://wasc.bogazici.edu.tr/kaynak/konu/buept-sample-essays
+- YADYOK Sınav İçeriği ve Notlandırma: https://yadyok.bogazici.edu.tr/tr/pages/sinav-icerigi-ve-notlandirma/2342
+- Resmi örnek sınav: https://mediastore.cc.bogazici.edu.tr/web/userfiles/files/sample_buept%202026.docx (indirildi: /home/ubuntu/yadyok_samples/sample_buept_2026.docx)
+
+İndirilen dosyalar (tümü /home/ubuntu/yadyok_samples/ altında):
+1. wasc_marking_criteria.pdf — Resmi "Boğaziçi University Writing Marking Scheme (BUEPT) — OFFICIAL DOCUMENT" (4 sayfa)
+2. wasc_cause_essays_1.pdf — Real BUEPT Sample Essays (Cause Analysis) With Scores (1), 8 sayfa
+3. wasc_cause_essays_2.pdf — Real BUEPT Sample Essays (Cause Analysis) With Scores (2), 7 sayfa
+4. wasc_arg_essays_1.pdf — Actual BUEPT Sample Essays (Argumentative) With Scores (1), 7 sayfa
+5. wasc_arg_essays_2.pdf — Actual BUEPT Sample Essays (Argumentative) With Scores (2), 6 sayfa
+
+Tam metin çıkartımı: /home/ubuntu/yadyok_samples/wasc_all_texts.txt (1631 satır)
+
+## Resmi Rubric (wasc_marking_criteria.pdf tam metin özet — sayfa 1-4)
+E = EXCELLENT: topic fully developed, systematic discussion, sophisticated argumentation, personal stance with effective style; sound logical structure; fluency + accuracy, firm control of complex structures + wide vocabulary; free of errors except negligible slips.
+VG = VERY GOOD ACADEMIC ENGLISH: extended argumentation and support; fluent; effectively organised; complex structures used effectively, only occasional word-choice/collocation errors and typical lapses (articles).
+MA = CLEARLY MORE THAN ADEQUATE: addresses task, support with additional ideas/examples; clear structure, inner paragraph coherence; blend of simple/complex sentences, few lapses; task-specific vocab adequate, some collocation errors; meaning never obscured.
+A = ADEQUATE FOR UNIVERSITY STUDY: adequate elaboration + examples; clear logical organization, separate paragraphs; slight coherence problems OK; language mostly simple but almost fully correct OR complex with some errors; frequent error-free sentences; limited vocab range but adequate; almost no interference with meaning. → "Assign this score if you think this essay should pass."
+D = DOUBTS ABOUT ADEQUACY: relevant content but simple/inadequately developed support; adequately developed structure with occasional lack of clarity; handles only simple sentences with ease, errors at complex ones; limited task-related vocab, some wrong word choice; errors don't impede meaning; "falls just short of competence"; → "Assign if you cannot decide whether pass or not."
+NA = NOT ADEQUATE: doesn't address all task or replicates prompts; surface organisation, paragraphing problems; ideas not logically following; major sentence structure problems (run-ons, word order, S-V agreement, fragments); frequent word choice errors; errors impede meaning; parts incomprehensible. Rote-learned intros/conclusions + clichés (e.g., "Government has to take necessary precautions") with no genuine argumentation can only get NA.
+FBA = FAR BELOW ADEQUACY: fails task or very limited; simple messages/unintelligible; no identifiable organisation; coherence seriously disrupted; frequently unintelligible. Off-topic/rote-learned only FBA.
+INS = INSUFFICIENT: only a few lines, not enough output to evaluate.
+WN = WROTE NOTHING: no text. ABS = ABSENT.
+
+## Puan cetveli (YADYOK): E=100, VG=85, MA=75, A=60, D=55, NA=50, FBA=30, INS=20, WN=1, ABS=0
+## Geçme: 4 yazılı not ortalaması ≥56 (en az bir A olmalı). İki rater arası max 1 aralık fark.
+
+## Cause Analysis Set 1 (Privacy Paradox promptu) — tam metinler wasc_all_texts.txt içinde:
+Prompt: "Although many people claim to be concerned about what their information is used for, they use the services of online companies or social media platforms and share personal information with them. This inconsistency is called the Privacy Paradox. Write an essay discussing the causes of the above phenomenon." Guidelines: limited access otherwise, fear of social isolation, convenience, free service.
+- Essay 1: Adequate (A) – 60
+- Essay 2: Not Adequate (NA) – 50
+- Essay 3: Not Adequate (NA) – 50
+- Essay 4: Doubtful (D) – 55
+- Essay 5: More than Adequate (MA) – 75
+- Essay 6: Very Good (VG) – 85 (metni satır 451+ devamı dosyada)
+(Not: E=100 örneği var mı set 1'in sonu ve set 2'de kontrol et.)
+
+## Resmi örnek sınavdan (sample_buept_2026.docx) TWE formatı:
+- Test lasts 1 hr 20 min; 40 min per essay; write about ONE page (~250 words)
+- TASK 1: "write an essay discussing the negative effects of globalization" (guidelines: inequality within/between nations, unemployment and low living standards, disappearance of cultural diversity, effects on nature)
+- TASK 2: "Turkey should become a member of the European Union. Write an essay arguing for or against" (For: increase in exports, new investments from Europe, increase in quality due to competition; Against: some industries unable to compete, increase in prices, increase in inflation)
+- Dinleme formatı: Selective = sorular 3 dk önce verilir, while-listening cevaplanır, sonra 3 dk kontrol; Careful = note-taking, metin bitince 15 dk; 10'ar soru.
+- Okuma: Search Reading (45 dk Reading I) + Careful Reading; 10'ar soru; cevap anahtarı her bölüm sonunda.
+
+## Tam puanlı essay katalogu (wasc_all_texts.txt satır aralıkları)
+Cause Analysis Set 1 — Privacy Paradox prompt (177-586): E1=A60, E2=NA50, E3=NA50, E4=D55, E5=MA75, E6=VG85(451-478), E7=D55(503-529), E8=A60(554-581). E=100 bu sette yok.
+Cause Analysis Set 2 — Unreported Crimes prompt (587-918, ~60% crimes not reported, guidelines: lack of confidence in legal system, fear of revenge, closeness to offender, perceived importance): E5=FBA45(613-631), E2=D55(655-676), E3=A60(700-722), E1=MA75(745-768), E7=MA75(792-813), E6=VG85(837-857), E4=E95(881-913) ← EXCELLENT örnek!
+Argumentative Set 1 — Teacher–student social media prompt (919-1288): E3=INS35(952-961), E1=FBA45(992-1007), E5=NA50(1038-1060), E6=D55(1091-1109), E4=A60(1140-1168), E2=MA75(1199-1226), E7=VG85(1257-1283)
+Argumentative Set 2 — High-rise residential buildings prompt (1289-1631, "High-rise residential buildings are undesirable places to live in"): E3=FBA45(1325-1340), E1=NA50(1374-1395), E2=NA50(1429-1452), E6=D55(1486-1510), E5=A60(1544-1567), E4=VG85(1601-1626)
+
+Not: Uygulama içi veri dosyası için 10 bandın hepsinin gerçek örnekleri var: INS35, FBA45, NA50, D55, A60, MA75, VG85, E95 (E100 tam örnek yok; E95 kullanılır).
+
+## Durum (güncel)
+- Veri dosyası TAMAMLANDI: data/buept_scored_essays.json (4 set, 28 essay, rubric_cetveli dahil).
+- EssayBankScreen TAMAMLANDI: Practice Prompts + Official Scored Essays tab yapısı, band chip'leri, kaynak açıklamaları eklendi. ESLint 0 error, jest 36/36 geçti. Prod webpack build OK.
+- rubricScoring.js İYİ DURUMDA: scoreWritingRubric 20/20 → 9 WASC band (E/VG/MA/A/D/NA/FBA/INS/WN) eşikleri doğru; BUEPT_BANDS_META (min 95/85/75/60/55/50/45/0) yazılı cetveliyle uyumlu; calculateLiveInsights var; FeedbackScreen + WritingEditorScreen entegre. KALAN: feedback'e 'compare with official scored essay' bölümü ekle (data/buept_scored_essays.json'dan eşleşen band essay göster).
+- ListeningScreen DURUM: 1141 satır, zengin halde (Practice/Podcast lab modları, hero kart, snapshot, quick start, filtreler, suggested queue, 2 bank). KALAN UPGRADE (YADYOK'a hizalama): (a) snapshot'a resmi harf notları ekle — selectıve/careful doğru sayısı → 2 puanlık soru sistemi → L harf notu (S%100-60/F1-F4); (b) typeStats'ı % olarak göster (score/total zaten var); (c) YADYOK format açıklaması kartı: Selective (sorular önce 3 dk incele, tek çalma) / Careful (note-taking, sonra 15 dk cevap) açıklaması ekleyen bir 'Exam Format' kartı. Not: listening_tasks*.json soruları her taskta var; ListeningDetailScreen 2007 satır tek başına yeterince işlevsel.
+- VocabScreen 4419 satır, 10 quiz ekranı var — büyük ve stabil, ufak iyileştirmeler: BUSEPT akademik kelime ağırlığı vurgusu + weak-words SRS bağlantısı banner'ı.
+- Sıradaki adım planı: 1) EssayBankScreen resmi puanlı essay galerisini commit+push; 2) FeedbackScreen'e 'Official scored essay comparison' bölümü; 3) ListeningScreen'e Exam Format kartı + harf notu metrikleri; 4) ESLint/jest/build doğrula; 5) deploy bekle; canlıda görsel doğrula (bueptapp.yasinkaya701.github.io/BUEPT-APP veya repo pages); 6) commit mesajı anlamlı, main'e direkt push (gh repo yasin-kaya701/BUEPT-APP, PAT credential'da).
+- Kaynak: /home/ubuntu/yadyok_samples/wasc_all_texts.txt — silme.
