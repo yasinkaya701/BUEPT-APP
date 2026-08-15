@@ -12,11 +12,14 @@ import 'react-native-gesture-handler';
 import App from '../src/App';
 import { name as appName } from '../app.json';
 
-// Web: auto-login with demo profile so users skip the login wall
-// and see the full app immediately.
+// Web: seed a friction-free demo profile so visitors never hit a dead login wall,
+// but FIRST-TIME visitors (onboarded flag missing) are routed through Onboarding
+// by SplashAnimationScreen before the dashboard. The demo profile is prepared here
+// so the onboarding skip/placement flow lands on a live, working app state.
 try {
   const TOKEN_KEY = '@buept_auth_token';
   const PROFILE_KEY = '@buept_user_profile_v1';
+  const ONBOARDED_KEY = '@buept_onboarded_v1';
   if (!localStorage.getItem(TOKEN_KEY)) {
     localStorage.setItem(TOKEN_KEY, 'demo_student');
     localStorage.setItem(PROFILE_KEY, JSON.stringify({
@@ -28,6 +31,10 @@ try {
       createdAt: new Date().toISOString(),
       lastLoginAt: new Date().toISOString(),
     }));
+  }
+  // Mark first-run so Splash shows the branded Onboarding experience.
+  if (!localStorage.getItem(ONBOARDED_KEY)) {
+    localStorage.setItem(ONBOARDED_KEY, '0');
   }
 } catch (_) {}
 
