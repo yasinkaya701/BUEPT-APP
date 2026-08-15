@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
@@ -95,9 +96,10 @@ const ESSAY_TOPICS = [
 
 export default function EssayBankScreen({ navigation }) {
   const { writingEngine } = useAppState();
+  const route = useRoute();
   const [typeFilter, setTypeFilter] = useState('all');
   const [expanded, setExpanded] = useState(null);
-  const [tab, setTab] = useState('practice');
+  const [tab, setTab] = useState(route.params?.tab === 'scored' ? 'scored' : 'practice');
   const [openEssay, setOpenEssay] = useState(null);
 
   const filtered = useMemo(() => {
@@ -221,44 +223,6 @@ export default function EssayBankScreen({ navigation }) {
         </View>
         <Text style={styles.typeNote}>BUSEPT Writing tests both a preference question and an opinion/argument essay. Practice each type.</Text>
       </Card>
-
-      {filtered.map((topic) => {
-        const isOpen = expanded === topic.id;
-        return (
-          <Card key={topic.id} style={[styles.card, shadow.elev1]}>
-            <TouchableOpacity activeOpacity={0.8} onPress={() => setExpanded(isOpen ? null : topic.id)} style={styles.topicHeader}>
-              <View style={[styles.topicBadge, { backgroundColor: topic.type === 'Preference' ? colors.primaryLight : topic.type === 'Opinion' ? colors.tealLight : colors.accentLight }]}>
-                <Text style={styles.topicBadgeText}>{topic.type}</Text>
-              </View>
-              <View style={styles.topicMeta}>
-                <Text style={styles.topicTitle}>{topic.title}</Text>
-                <Text style={styles.topicSub}>{topic.level} • target {topic.wordTarget[0]}–{topic.wordTarget[1]} words</Text>
-              </View>
-              <Ionicons name={isOpen ? 'chevron-up' : 'chevron-down'} size={18} color={colors.muted} />
-            </TouchableOpacity>
-            {isOpen ? (
-              <View style={styles.topicBody}>
-                <Text style={styles.promptLabel}>Prompt</Text>
-                <Text style={styles.promptText}>"{topic.prompt}"</Text>
-                <Text style={styles.modelLabel}>Model opening</Text>
-                <View style={styles.modelBox}>
-                  <Ionicons name="bulb-outline" size={14} color={colors.accent} />
-                  <Text style={styles.modelText}>{topic.modelSnippet}</Text>
-                </View>
-                <Text style={styles.vocabLabel}>Target vocabulary</Text>
-                <View style={styles.vocabRow}>
-                  {topic.keyVocab.map((w) => (
-                    <View key={w} style={styles.vocabChip}>
-                      <Text style={styles.vocabChipText}>{w}</Text>
-                    </View>
-                  ))}
-                </View>
-                <Button label="Write this essay" variant="primary" onPress={() => openWithTopic(topic)} />
-              </View>
-            ) : null}
-          </Card>
-        );
-      })}
 
       <Card style={[styles.card, shadow.elev1]}>
         <Text style={styles.cardTitle}>Writing success tips</Text>

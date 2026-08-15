@@ -155,6 +155,7 @@ export default function WritingScreen({ navigation }) {
                         onPress={() => navigation.navigate('WritingEditor')}
                     />
                     <Button label="Academic Expressions" icon="library-outline" variant="secondary" onPress={() => setShowTemplates(true)} />
+                    <Button label="Essay Bank" icon="albums-outline" variant="ghost" onPress={() => navigation.navigate('EssayBank', { tab: 'scored' })} />
                 </View>
             </Card>
 
