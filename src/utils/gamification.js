@@ -20,6 +20,7 @@ export function calculateXpForAction(actionType, scoreMultiplier = 1) {
     DAILY_LOGIN: 5,
     WORD_LAB_CHECK: 8,
     PREDICTOR_USED: 3,
+    DAILY_MISSION: 15,
   };
   return Math.round((baseXP[actionType] || 10) * scoreMultiplier);
 }

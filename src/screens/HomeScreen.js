@@ -321,7 +321,10 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.sectionTitle}>Today Board</Text>
             <Text style={styles.sectionCaption}>Current numbers and the fastest way back into active work.</Text>
           </View>
-          <Button label="Open Demo" variant="secondary" icon="sparkles-outline" onPress={() => navigation.navigate('DemoFeatures')} />
+          <TouchableOpacity style={styles.todayBoardOpen} onPress={() => navigation.navigate('TodayBoard')}>
+            <Text style={styles.todayBoardOpenText}>Open Board</Text>
+            <Ionicons name="arrow-forward-outline" size={14} color={colors.primary} />
+          </TouchableOpacity>
         </View>
         <View style={styles.todayGrid}>
           {todayBoard.map((item) => (
@@ -529,6 +532,8 @@ const styles = StyleSheet.create({
   // ── Premium white cards below hero ──
   card: { marginBottom: spacing.sm },
   sectionHeadRow: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: spacing.sm },
+  todayBoardOpen: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingVertical: 2, marginRight: spacing.sm },
+  todayBoardOpenText: { fontSize: typography.small, fontFamily: typography.fontHeadline, color: colors.primary },
   sectionTitle: { fontSize: 18, fontFamily: typography.fontHeadline, fontWeight: '900', color: colors.text, letterSpacing: -0.3 },
   sectionCaption: { fontSize: 12, color: colors.muted, lineHeight: 18, fontWeight: '500', marginTop: 2 },
   miniSectionTitle: { marginTop: spacing.sm, marginBottom: 6, fontSize: 14, fontFamily: typography.fontHeadline, color: colors.text, fontWeight: '900' },
