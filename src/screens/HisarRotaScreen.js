@@ -13,7 +13,7 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
-  Platform,
+  
   ScrollView,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -113,7 +113,7 @@ function StopMarker({ stop, index, state, onPress, isActive }) {
   const alignLeft = index % 2 === 0;
   return (
     <TouchableOpacity
-      style={[styles.markerWrap, { top: topPct, left: 0, right: 0 }, alignLeft ? styles.markerRowLeft : styles.markerRowRight]}
+      style={[styles.markerWrap, { top: topPct }, alignLeft ? styles.markerRowLeft : styles.markerRowRight]}
       onPress={onPress}
       activeOpacity={0.75}
     >
