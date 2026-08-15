@@ -38,6 +38,7 @@ const SECTIONS = [
   { key: 'Unknown', label: 'Unknown' },
   { key: 'Test-English', label: 'Test-English' },
   { key: 'Bogazici Dept', label: 'BUEPT Dept' },
+  { key: 'Word Lab', label: 'Word Lab' },
 ];
 const SECTION_META = {
   '24-Week Plan': {
@@ -99,6 +100,11 @@ const SECTION_META = {
     icon: 'library',
     title: 'Department Packs',
     description: 'Boğaziçi department-specific vocabulary packs and challenge mode.',
+  },
+  'Word Lab': {
+    icon: 'flask-outline',
+    title: 'Word Lab',
+    description: 'Active-use training: build your own sentences with target words, run a quick AI check on meaning, grammar, and academic register, and turn passive knowledge into exam-ready usage.',
   },
 };
 
@@ -621,6 +627,10 @@ export default function VocabScreen({ navigation, route }) {
   const [verbSeed, setVerbSeed] = useState(1);
   const [verbSentence, setVerbSentence] = useState('');
   const [verbFeedback, setVerbFeedback] = useState(null);
+  const [wordLabWords, setWordLabWords] = useState([]);
+  const [aiContextLoading, setAiContextLoading] = useState(false);
+  const [aiContextFeedback, setAiContextFeedback] = useState(null);
+  const [aiContextResult, setAiContextResult] = useState(null);
   const { userWords, unknownWords, addUserWord, addUserWordObject, clearUnknownWords, vocabStats } = useAppState();
   const [screenReady, setScreenReady] = useState(false);
 
@@ -1286,6 +1296,7 @@ export default function VocabScreen({ navigation, route }) {
     Dictionary: total,
     Unknown: unknownWords.length,
     'Bogazici Dept': deptWordCount,
+    'Word Lab': wordLabWords.length,
   }), [
     academicData.length,
     confusingCount,
@@ -1300,6 +1311,7 @@ export default function VocabScreen({ navigation, route }) {
     subtleHoverWords.length,
     unknownWords.length,
     userWords.length,
+    wordLabWords.length,
   ]);
   const activeWorkspaceCount = sectionCounts[activeSection] || 0;
   const workspaceQuickActions = useMemo(() => {
@@ -1337,6 +1349,15 @@ export default function VocabScreen({ navigation, route }) {
         onPress: () => setActiveSection('My Words'),
       });
     }
+    if (activeSection !== 'Word Lab') {
+      actions.push({
+        key: 'goto-wordlab',
+        label: 'Word Lab',
+        variant: 'ghost',
+        icon: 'flask-outline',
+        onPress: () => setActiveSection('Word Lab'),
+      });
+    }
     return actions.slice(0, 3);
   }, [activeSection, navigation]);
   const verbDrill = useMemo(() => {
@@ -1357,9 +1378,10 @@ export default function VocabScreen({ navigation, route }) {
       case 'Subtle Hover': return subtleHoverWords;
       case 'Unknown': return unknownWords;
       case 'Bogazici Dept': return deptVisibleWords;
+      case 'Word Lab': return wordLabWords;
       default: return [];
     }
-  }, [activeSection, vocab, userWords, wascVisibleWords, academicList, normalizedAcademicVerbs, testEnglishWords, confusingList, listeningUnknownWords, subtleHoverWords, unknownWords, deptVisibleWords]);
+  }, [activeSection, vocab, userWords, wascVisibleWords, academicList, normalizedAcademicVerbs, testEnglishWords, confusingList, listeningUnknownWords, subtleHoverWords, unknownWords, deptVisibleWords, wordLabWords]);
 
   const renderVocabItem = useCallback(({ item, index }) => {
     const keyPrefix = activeSection.toLowerCase().replace(' ', '-') + '-';
@@ -1393,6 +1415,48 @@ export default function VocabScreen({ navigation, route }) {
     setChallengeSelected(null);
     setChallengeChecked(false);
   };
+
+  const runAiContextCheck = useCallback(async () => {
+    const sentence = String(sentenceInput || '').trim();
+    if (!sentence || !targetWord) {
+      setAiContextFeedback({ tone: 'warn', text: 'Write a sentence with the target word first, then run the AI check.' });
+      return;
+    }
+    const escaped = escapeRegExp(targetWord.toLowerCase());
+    if (!new RegExp(`\\b${escaped}\\b`).test(sentence.toLowerCase())) {
+      setAiContextFeedback({ tone: 'warn', text: `Use the target word "${targetWord}" in your sentence first.` });
+      return;
+    }
+    setAiContextLoading(true);
+    setAiContextFeedback(null);
+    setAiContextResult(null);
+    try {
+      const api = await import('../utils/runtimeApi');
+      const result = await api.fetchDirectGeminiChat({
+        systemPrompt: 'You are a strict academic English coach for the BUSEPT exam. Evaluate the learner sentence only: check (1) that the target word is used with its correct dictionary meaning, (2) grammar, (3) register (should be academic, not casual), (4) naturalness. Give a 0-100 usage score, a one-line verdict, at most two fixes, and one stronger academic alternative of the same sentence. Respond as JSON: {"usageScore":0-100,"verdict":"...","fixes":["..."],"strongerSentence":"..."}',
+        messages: [{ role: 'user', content: `Target word: ${targetWord}\nDefinition: ${targetEntry?.simple_definition || 'see dictionary'}\nLearner sentence: ${sentence}` }],
+        jsonFormat: true,
+      });
+      const parsed = result?.content || result || {};
+      const score = Number(parsed?.usageScore || 0);
+      const fixes = Array.isArray(parsed?.fixes) ? parsed.fixes : [];
+      setAiContextResult({
+        score: Number.isFinite(score) ? Math.max(0, Math.min(100, Math.round(score))) : 0,
+        verdict: String(parsed?.verdict || '').slice(0, 220),
+        fixes: fixes.slice(0, 2).map((f) => String(f || '').slice(0, 180)),
+        strongerSentence: String(parsed?.strongerSentence || '').slice(0, 240),
+      });
+      setAiContextFeedback({ tone: score >= 80 ? 'good' : score >= 60 ? 'warn' : 'bad', text: score >= 80 ? 'Strong academic usage.' : 'See the feedback below.' });
+      if (score >= 80 && Array.isArray(wordLabWords)) {
+        const next = [...wordLabWords, { word: targetWord, sentence: sentence.slice(0, 160), checkedAt: Date.now() }].slice(-40);
+        setWordLabWords(next);
+      }
+    } catch (_) {
+      setAiContextFeedback({ tone: 'bad', text: 'The AI check could not run. The local sentence check still works below the card.' });
+    } finally {
+      setAiContextLoading(false);
+    }
+  }, [sentenceInput, targetWord, targetEntry, wordLabWords]);
 
   const checkSentence = () => {
     const sentence = String(sentenceInput || '').trim();
@@ -2543,12 +2607,97 @@ export default function VocabScreen({ navigation, route }) {
                   </View>
                 </>
               )}
+                        </Card>
+          </>
+        );
+      case 'Word Lab':
+        return (
+          <>
+            <WorkspaceIntroCard
+              title="Word Lab"
+              body="Turn saved vocabulary into active usage. Pick a target word, write your own sentence, run a quick AI check on meaning, grammar, and academic register, then graduate strong sentences into your lab log."
+              metricValue={wordLabWords.length}
+              metricLabel="checked"
+              actions={[
+                { key: 'lab-my', label: 'My Words', variant: 'secondary', icon: 'bookmark-outline', onPress: () => setActiveSection('My Words') },
+                { key: 'lab-dict', label: 'Dictionary', variant: 'ghost', icon: 'book-outline', onPress: () => setActiveSection('Dictionary') },
+                { key: 'lab-flash', label: 'Flashcards', variant: 'ghost', icon: 'albums-outline', onPress: () => navigation.navigate('VocabFlashcard', { initialWords: userWords }) },
+              ]}
+            />
+            <Card style={styles.card}>
+              <Text style={styles.h3}>Sentence Builder</Text>
+              <Text style={styles.sub}>Target word: <Text style={styles.challengeWord}>{targetWord || '—'}</Text>{targetEntry?.simple_definition ? ` — ${targetEntry.simple_definition.slice(0, 120)}` : ''}</Text>
+              <TextInput
+                style={[styles.input, styles.listInput]}
+                placeholder="Write one academic sentence using the target word..."
+                value={sentenceInput}
+                onChangeText={setSentenceInput}
+                multiline
+                autoCapitalize="sentences"
+                placeholderTextColor={colors.muted}
+              />
+              <View style={styles.quizRow}>
+                <Button
+                  label={aiContextLoading ? 'Checking...' : 'AI Context Check'}
+                  icon={aiContextLoading ? 'hourglass-outline' : 'sparkles-outline'}
+                  onPress={runAiContextCheck}
+                  disabled={aiContextLoading || !sentenceInput.trim()}
+                />
+                <Button label="Quick Check" variant="secondary" icon="checkmark-outline" onPress={checkSentence} disabled={!sentenceInput.trim()} />
+              </View>
+              {aiContextFeedback ? (
+                <View style={[styles.sentenceFeedbackBox, aiContextFeedback.tone === 'good' ? styles.sentenceFeedbackGood : styles.sentenceFeedbackWarn]}>
+                  <Text style={styles.sentenceFeedbackText}>{aiContextFeedback.text}</Text>
+                </View>
+              ) : null}
+              {aiContextResult ? (
+                <View style={styles.aiResultBox}>
+                  <View style={styles.aiResultHeader}>
+                    <Text style={styles.aiResultLabel}>AI Usage Score</Text>
+                    <Text style={[styles.aiResultScore, aiContextResult.score >= 80 ? styles.aiResultScoreStrong : aiContextResult.score >= 60 ? styles.aiResultScoreMid : styles.aiResultScoreLow]}>{aiContextResult.score}</Text>
+                  </View>
+                  <Text style={styles.aiResultText}>{aiContextResult.verdict}</Text>
+                  {aiContextResult.fixes.map((fix, idx) => (
+                    <Text key={`lab-fix-${idx}`} style={styles.aiResultFix}>• {fix}</Text>
+                  ))}
+                  {aiContextResult.strongerSentence ? (
+                    <View style={styles.aiResultStronger}>
+                      <Text style={styles.aiResultStrongerLabel}>Stronger academic version</Text>
+                      <Text style={styles.aiResultStrongerText}>{aiContextResult.strongerSentence}</Text>
+                    </View>
+                  ) : null}
+                </View>
+              ) : null}
+              {sentenceFeedback ? (
+                <View style={[styles.sentenceFeedbackBox, sentenceFeedback.tone === 'good' ? styles.sentenceFeedbackGood : styles.sentenceFeedbackWarn]}>
+                  <Text style={styles.sentenceFeedbackText}>{sentenceFeedback.text}</Text>
+                  {sentenceFeedback.improved ? (
+                    <TouchableOpacity style={styles.upgradeBox} onPress={() => setSentenceInput(sentenceFeedback.improved)}>
+                      <Text style={styles.upgradeLabel}>Upgrade suggestion:</Text>
+                      <Text style={styles.upgradeText}>{sentenceFeedback.improved}</Text>
+                    </TouchableOpacity>
+                  ) : null}
+                </View>
+              ) : null}
+            </Card>
+            <Card style={styles.card}>
+              <Text style={styles.h3}>Lab Log</Text>
+              <Text style={styles.sub}>Sentences that scored 80+ on the AI check are saved here. Sentences under 80 are kept offline.</Text>
+              {wordLabWords.length === 0 ? (
+                <Text style={styles.sub}>No checked sentences yet. Build one above to start.</Text>
+              ) : (
+                wordLabWords.slice().reverse().map((entry, idx) => (
+                  <View key={`lablog-${idx}-${entry.word}-${entry.checkedAt}`} style={styles.labLogRow}>
+                    <Text style={styles.labLogWord}>{entry.word}</Text>
+                    <Text style={styles.labLogSentence} numberOfLines={2}>{entry.sentence}</Text>
+                  </View>
+                ))
+              )}
             </Card>
           </>
         );
     }
   };
-
   const renderListHeader = () => {
     if (!screenReady) {
       return (
@@ -3905,6 +4054,81 @@ const styles = StyleSheet.create({
     fontSize: typography.body,
     color: colors.text,
     marginBottom: spacing.sm,
+  },
+  aiResultBox: {
+    marginTop: spacing.sm,
+    padding: spacing.sm,
+    borderRadius: radius.md,
+    backgroundColor: colors.primarySoft,
+  },
+  aiResultHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: spacing.xs,
+  },
+  aiResultLabel: {
+    fontSize: typography.xsmall,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    fontWeight: '800',
+  },
+  aiResultScore: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+  },
+  aiResultScoreStrong: { color: '#16A34A' },
+  aiResultScoreMid: { color: '#D97706' },
+  aiResultScoreLow: { color: '#DC2626' },
+  aiResultText: {
+    fontSize: typography.small,
+    color: colors.primaryDark,
+    lineHeight: 18,
+    marginBottom: spacing.xs,
+  },
+  aiResultFix: {
+    fontSize: typography.small,
+    color: colors.muted,
+    lineHeight: 17,
+    marginBottom: 2,
+  },
+  aiResultStronger: {
+    marginTop: spacing.xs,
+    padding: spacing.sm,
+    borderRadius: radius.md,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#D6E0F2',
+  },
+  aiResultStrongerLabel: {
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+    marginBottom: 4,
+  },
+  aiResultStrongerText: {
+    fontSize: typography.small,
+    color: colors.primaryDark,
+    lineHeight: 17,
+  },
+  labLogRow: {
+    paddingVertical: spacing.sm,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#E2E8F0',
+  },
+  labLogWord: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    fontWeight: '800',
+    marginBottom: 2,
+  },
+  labLogSentence: {
+    fontSize: typography.small,
+    color: colors.muted,
+    lineHeight: 17,
   },
   challengeWord: {
     color: colors.primaryDark,
