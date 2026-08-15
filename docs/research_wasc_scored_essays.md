@@ -81,7 +81,22 @@ Plan (rubricScoring.js'i resmi WASC rubric kategorilerine hizala):
 4) FeedbackScreen/AI paneli: kategori bazlı progress + band kanıt kartları + hedef band'a bir üst band örneği karşılaştırması (bench zaten var, güçlendir).
 5) WritingEditorScreen live insights güçlendirme (calculateLiveInsights'e rote-cliche ve run-on tespiti ekle).
 6) data/buept_scored_essays.json'a wasc.rubric alanı eklenebilir (zaten rubric_cetveli var) — buept_marking_scheme JSON'ı src/data/buept_marking_scheme.json olarak var mı kontrol et.
-Durum GÜNCEL (2026-08-16):
+Durum GÜNCEL 3 — SEO/AEO GÖREVİ (2026-08-16):
+- KULLANICI İSTEĞİ: SEO + AEO + reklam hazırlığı.
+- PLAN faz 1: TAMAMLANDI — web-rnw/index.html'de webpack template: web-rnw/dist/index.html + 404.html üretiyor. Deploy workflow: .github/workflows/pages.yml, artifacts path web-rnw/dist, pages.yml paths: src/** data/** web-rnw/** ...
+- YAPILDI: web-rnw/index.html'e eklendi: title/meta desc/kw/robots/canonical, OG 8 tag, Twitter card, AEO meta (description:product, keywords:faq-topics), 2 JSON-LD (WebApplication + FAQPage 4 soru), noscript SEO landing block (h1+p+features).
+- OG görsel: assets/og-cover.png (1200x630) PILLOW ile PROGRAMATİK üretildi (generate_image 20/20 free limit dolmuştu) ve assets/ içine kaydedildi.
+- YAPILDI (faz2 tamamlanıyor): scripts/postbuild-seo.js yazıldı (sitemap.xml + robots.txt + og-cover.png'yı web-rnw/dist'e kopyalar); package.json'a postweb:rnw:build hook eklendi. Prod build başarılı (EXIT=0): dist'te index.html (BUSEPT meta'lar), sitemap.xml, robots.txt, assets/og-cover.png mevcut. Bundle 16MB ama gzip 3.4MB — normal.
+- YAPILDI (faz3): docs/marketing_reklam.md yazıldı (brand positioning, hedef kitle, 3 sosyal medya kampanya metni EN+TR, Google Ads başlık/açıklama tablosu, uygulama içi share mekanizması önerisi).
+- KALAN: git add+commit+push main, deploy bekle, canlıda curl ile index.html meta + og-cover.png + sitemap.xml + robots.txt doğrula, rapor gönder. — generate_image ile yap, web-rnw/dist/assets'ına build sonrası otomatik girmez; webpack assets klasörünü kopyalıyor mu kontrol et: web-rnw/dist/assets var → webpack asset management'ı assets/ dosyalarını dist'e kopyalıyor (boun_campus png dist/assets'te mevcut). og-cover.png'yi assets/ içine koy, sonra build tekrar çalıştır (npm run web:rnw:build) — dikkat: webpack filename hash'li, og-cover hash almayacak ama ok.
+- KALAN: sitemap.xml + robots.txt üretimi (web-rnw/dist içine build sonrası statik dosya olarak koy veya webpack CopyWebpackPlugin yoksa dist'e doğrudan kopyala + commit et; deploy workflow dist klasörünü upload ediyor → sitemap/robots dist'te olmalı. Build sonrası dist'e kopyalama script'ini package.json'a ekle (postbuild) veya dist'teki dosyaları da src ağacında tut (web-rnw/public). Commit et, build doğrula (ESLint 0, jest 36/36), push, deploy bekle, canlıda og-cover + meta + sitemap doğrula. Sonra faz 3: reklam landing (HomeScreen'e pazarlama metni yok; ayrı /promo sayfa veya README/marketing dosyası docs/marketing_reklam.md yaz: 3 adet sosyal medya reklam metni EN+TR, Google Ads başlıkları, hedef kitle).
+
+Durum GÜNCEL 2 (2026-08-16 22:40):
+- Commit edildi+push edildi: 7afa8be (WASC rubric AI eval) + 20f6086 (countWords import + dotWarn fix). ESLint 0 error, 36/36 jest. Deploy GitHub Actions: IKI COMMIT DE BAŞARILI (20f6086 completed success).
+- Canlı doğrulama (https://yasinkaya701.github.io/BUEPT-APP/?v=wasc20260816): WASC Red-Flag Scan kartı coach view'de çalışıyor (✓ No official red flags detected, draft: 'University education should not be free...').
+- CANLI DOĞRULAMA TAMAMLANDI (22:40): Feedback ekranında (Submit for Evaluation sonrası) dört bölümün tamamı render edildi: Official WASC Criteria, Rubric Evidence, Path to the Next Band, Compare With Official Scored Essays. WASC Red-Flag Scan da coach view'de doğrulandı. KALAN: rapor gönder.
+
+Durum GÜNCEL 1 (2026-08-16):
 - TAMAMLANDI: src/utils/wascRubricCriteria.js yazıldı (WASC_CRITERIA 5 alan + bandExpectations, ROTE_PHRASES 18 resmi cliche, detectRotePhrases, detectStructureRisks comma-splice/run-on tespiti, buildRubricEvidence, nextBandRequirements).
 - TAMAMLANDI: rubricScoring.js scoreWritingRubric'e criteria (5 WASC alanı, /4 puanlı), evidence, nextBand çıktısı eklendi; feedbackSummary'ye nextBandNote eklendi. ESLint 0 error, jest 36/36.
 - TAMAMLANDI: FeedbackScreen'e 3 yeni bölüm eklendi: (a) Official WASC Criteria kartı (5 kriter, band expectation), (b) Rubric Evidence kartı (fail/warn/info renk kodlu), (c) Path to the Next Band banner. CATEGORY_COLORS'a criterion key'leri eklendi.

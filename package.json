@@ -8,6 +8,7 @@
     "web:local:ai": "./scripts/start-web-local-ai.sh",
     "web:rnw:start": "webpack serve --config web-rnw/webpack.config.js --mode development --env publicPath=/",
     "web:rnw:build": "webpack --config web-rnw/webpack.config.js --mode production --env publicPath=/BUEPT-APP/",
+    "postweb:rnw:build": "node scripts/postbuild-seo.js",
     "web:rnw:build:root": "webpack --config web-rnw/webpack.config.js --mode production --env publicPath=/",
     "vercel-build": "npm run web:rnw:build:root",
     "netlify-build": "npm run web:rnw:build:root",
