@@ -59,6 +59,7 @@ export default function HomeScreen({ navigation }) {
     consumePostAuthRoute,
     streakDays,
     badges,
+    xp,
   } = useAppState();
   const todayLabel = React.useMemo(() => {
     const now = new Date();
@@ -385,14 +386,18 @@ export default function HomeScreen({ navigation }) {
       {streakDays > 0 || (Array.isArray(badges) && badges.length > 0) ? (
         <Card style={[styles.card, styles.streakCard]}>
           <View style={styles.streakRow}>
-            <View style={styles.streakCell}>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('XPTimeline')} style={styles.streakCell}>
               <Text style={styles.streakValue}>{streakDays || 0} 🔥</Text>
               <Text style={styles.streakLabel}>day streak</Text>
-            </View>
-            <View style={styles.streakCell}>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('BadgeCase')} style={styles.streakCell}>
               <Text style={styles.streakValue}>{Array.isArray(badges) ? badges.length : 0} 🏆</Text>
               <Text style={styles.streakLabel}>badges</Text>
-            </View>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('LevelCard')} style={[styles.streakCell, { alignSelf: 'flex-end' }]}>
+              <Text style={styles.streakValue}>{xp || 0} ✦</Text>
+              <Text style={styles.streakLabel}>XP — view ladder</Text>
+            </TouchableOpacity>
             <View style={[styles.streakCell, { alignSelf: 'flex-end' }]}>
               <Text style={styles.streakNote}>Keep solving daily to grow the streak and unlock BUSEPT badges.</Text>
             </View>

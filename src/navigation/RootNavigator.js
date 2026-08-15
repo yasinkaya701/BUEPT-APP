@@ -130,6 +130,9 @@ export default function RootNavigator() {
           <Stack.Screen name="AIMockExam" getComponent={() => require('../screens/AIMockExamScreen').default} options={{ headerShown: false }} />
           <Stack.Screen name="OfficialSim" getComponent={() => require('../screens/OfficialSimScreen').default} options={{ headerShown: false }} />
           <Stack.Screen name="BUSEPTScorePredictor" getComponent={() => require('../screens/BUSEPTScorePredictorScreen').default} options={{ headerShown: false }} />
+          <Stack.Screen name="BadgeCase" getComponent={() => require('../screens/BadgeCaseScreen').default} options={{ title: 'Badge Case' }} />
+          <Stack.Screen name="LevelCard" getComponent={() => require('../screens/LevelCardScreen').default} options={{ title: 'XP Ladder' }} />
+          <Stack.Screen name="XPTimeline" getComponent={() => require('../screens/XPTimelineScreen').default} options={{ title: 'XP Timeline' }} />
         </>
       )}
     </Stack.Navigator>

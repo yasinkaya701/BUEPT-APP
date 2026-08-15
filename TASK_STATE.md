@@ -202,3 +202,45 @@ YAPILACAK:
 - ListeningDetailScreen'e signpost vocab setini öneri/bilgi kartı olarak ekle (opsiyonel)
 - Sonra lint+jest+build → commit → push
 FAZ 19: npm run web:rnw:build:root + GH Pages deploy kontrolü (https://yasinkaya701.github.io/BUEPT-APP/), FAZ 20: özet mesaj.
+
+
+## FAZ 18 TAMAMLANDI (push faad9d0)
+Yeni içerik: data/subtle_word_pairs.json (24 çift), data/writing_academic_phrases.json (5 kategori, 25 ifade), data/listening_signpost_vocabulary.json (6 kategori, 30 kelime). VocabScreen'e 'Subtle Pairs' + 'Writing Phrases' section'ları (loader + counts + getSectionData + switch case'ler + 9 stil). ListeningDetailScreen Signpost Detector'a signpost category chips + TTS. DİKKAT: VocabScreen'de exhaustive-deps kuralı object'in kendisini ister (writingPhrasesData değil .length). pnpm kullanma → npm; pnpm-lock sil.
+
+## FAZ 19 DOĞRULAMA (tamamlandı)
+- npx eslint src: 0 error
+- npx jest: 36/36 passed (3 suite)
+- npm run web:rnw:build:root: webpack compiled successfully
+- Canlı site: https://yasinkaya701.github.io/BUEPT-APP/ → 200 OK, dashboard render OK (tarayıcıda doğrulandı)
+- Satır sayıları: src/screens 49,026; tüm src 68,870 satır (40K hedefi AŞILDI)
+- Son commit'ler: faad9d0, d2b5f98, d97e5d8, 9ec52c9, c4bd323, 3a0a82b (Faz 17'den itibaren)
+- FAZ 20 KALDI: özet mesajı kullanıcıya (Türkçe, feature listesi + demo talimatları + canlı URL)
+
+
+## YENİ OTURUM: UI + Özellik 10K Satır Upgrade Planı (2026-08-15, Faz 21)
+Kullanıcı: "arayüz ve özellik upgradi planla 10k satırlık"
+
+### Faz 1 bulguları (analiz)
+Mevcut kod: src/screens 49.026 satır, 90 ekran, 12 component. En büyük ekranlar: VocabScreen (4415), ListeningDetail (2007), Feedback (1794), AISpeakingPartner (1754), Calendar (1722), ReadingDetail (1576).
+ZAYIF EKRANLAR (40-60 satır placeholder): MockScreen (47), ReadingHistoryScreen (47), ListeningHistoryScreen (47), GrammarHistoryScreen (47), ReadingHistoryScreen, MockHistoryScreen (58), HistoryScreen (59), DraftsScreen (61) — GenericHistoryScreen ile paylaşılan basit liste; gerçek filter/sort/visual yok.
+Tema: src/theme/tokens.js (175 satır), animations.js. Components: Button (127), Card, Screen (140), Chip (54), ProgressBar, OpenEndedPracticeCard (276), ErrorBoundary.
+RootNavigator: 100+ Stack.Screen kaydı, lazy require kalıbı: getComponent={() => require('../screens/XScreen').default}
+
+### Planlanan 10K hedef dağılımı (taslak)
+1. Placeholder ekranların gerçek UI'ı (MockScreen, 4 History ekranı, Drafts) — filter/sort/visual + ~1.5K
+2. Yeni ekranlar: ExamDetailScreen UI revizyon + resmi sınav görsel şablonu ~1.2K; GrammarDrillScreen UI genişletme ~0.8K
+3. Yeni UI componenti kütüphanesi (src/components/ui/): StatCard, ScoreRing, TimelineStep, TabPill, EmptyState, ProgressBar2, Tooltip — ~1.5K
+4. Yeni ekranlar: ProgressScreen radar/trend yeniden tasarımı ~1K; StudyPlanScreen AI plan kartları ~1K
+5. Writing Studio UI: EssayBank + Paraphrase Studio ~1.2K
+6. Speaking UI: Interview flow + pronunciation viz ~0.8K
+
+
+## FAZ 21 İLERLEME (UI+özellik 10K plan uygulaması — kullanıcı onayladı "uygula")
+Plan dosyası: docs/ui_feature_upgrade_plan.md (8 paket, ~10K hedef)
+- P1 UI lib TAMAMLANDI: src/components/ui/ — ScoreRing (animated SVG), StatCard, ScoreBandChip (BANDS/EXCELLENT..BELOW), EmptyState, TabPill, Sparkline, TimelineStep, KeywordDensityBar, ConfidenceStrip, index.js
+- P1 AppState eklentileri: xpLog state + appendXpEntry(action/xp/createdAt) + addXp(amount,actionLabel) signature güncellendi. Value dict'e xpLog, appendXpEntry eklendi.
+- P7 yeni ekranlar: BadgeCaseScreen.js (BADGE_DEFS'ten held set, context check), LevelCardScreen.js (10 tier ladder), XPTimelineScreen.js (React.Fragment svg import dikkat, week chart)
+- KALAN: RootNavigator'a BadgeCase/LevelCard/XPTimeline kaydı (lazy require kalıbı: getComponent={() => require('../screens/X').default}); Home'a Case/Ladder shortcut; P2 MockScreen redesign; P3 History ekranları; P4 Writing Studio (EssayBank/ParaphraseStudio/OutlineBuilder); P5 Speaking UI; P6 Reading UI; P8 Home viz.
+- Lint: no-undef kuralı var (performance kullanma, Date.now); exhaustive-deps object istiyor; pnpm YASAK (npm install).
+- Doğrulama komutu: npx eslint src/ → 0 error; npx jest → 36/36; npm run web:rnw:build:root; canlı: yasinkaya701.github.io/BUEPT-APP
+- commit sonra: git add -A && git commit -m "..." && git push origin main

@@ -368,6 +368,8 @@ export function AppStateProvider({ children }) {
   const [errorWords, setErrorWords] = useState({});
   const [grammarErrors, setGrammarErrors] = useState({});
   const [xp, setXp] = useState(0);
+  const [xpLog, setXpLog] = useState([]);
+  const xpLogRef = useRef([]);
   const [streakDays, setStreakDays] = useState(0);
   const [badges, setBadges] = useState([]);
   const [customDecks, setCustomDecks] = useState([]);
@@ -914,8 +916,22 @@ export function AppStateProvider({ children }) {
     };
   }, []);
 
-  const addXp = useCallback((amount) => {
-    setXp(prev => prev + amount);
+  const addXp = useCallback((amount, action = 'Practice') => {
+    setXp((prev) => prev + amount);
+    setXpLog((prev) => {
+      const entry = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, action, xp: Number(amount) || 0, createdAt: new Date().toISOString(), date: new Date().toISOString() };
+      xpLogRef.current = [...prev.slice(-199), entry];
+      return xpLogRef.current;
+    });
+  }, []);
+
+  const appendXpEntry = useCallback((entry) => {
+    setXpLog((prev) => {
+      const normalized = { ...(entry || {}), id: (entry && entry.id) || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, createdAt: (entry && entry.createdAt) || new Date().toISOString(), xp: Number(entry && entry.xp) || 0, action: (entry && entry.action) || 'Practice' };
+      const next = [...prev.slice(-199), normalized];
+      xpLogRef.current = next;
+      return next;
+    });
   }, []);
 
   const markActivityToday = useCallback(async () => {
@@ -948,7 +964,7 @@ export function AppStateProvider({ children }) {
       ...prev
     ]);
     const scorePct = result.score / Math.max(1, result.total);
-    addXp(calculateXpForAction('READING_PRACTICE', scorePct));
+    addXp(calculateXpForAction('READING_PRACTICE', scorePct), 'Reading Practice');
   }, [addXp]);
 
   const addListeningResult = useCallback((result) => {
@@ -957,7 +973,7 @@ export function AppStateProvider({ children }) {
       ...prev
     ]);
     const scorePct = result.score / Math.max(1, result.total);
-    addXp(calculateXpForAction('LISTENING_PRACTICE', scorePct));
+    addXp(calculateXpForAction('LISTENING_PRACTICE', scorePct), 'Listening Practice');
   }, [addXp]);
 
   const addGrammarResult = useCallback((result) => {
@@ -1314,6 +1330,7 @@ export function AppStateProvider({ children }) {
     errorWords,
     grammarErrors,
     xp,
+    xpLog,
     streakDays,
     badges,
     customDecks,
@@ -1340,6 +1357,7 @@ export function AppStateProvider({ children }) {
     clearErrorWords,
     clearGrammarErrors,
     addXp,
+    appendXpEntry,
     markActivityToday,
     applyDemoData,
     restoreCustomDeck,
@@ -1350,13 +1368,13 @@ export function AppStateProvider({ children }) {
     level, writingEngine, aiReady, aiAccessConfig, essayText, report, history, mockHistory,
     readingHistory, listeningHistory, grammarHistory, isFocusMode, ttsConfig, screenTime,
     userWords, unknownWords, vocabStats, favoritePrompts, reviews,
-    errorWords, grammarErrors, xp, streakDays, badges, customDecks,
+    errorWords, grammarErrors, xp, xpLog, streakDays, badges, customDecks,
     generateReport, setActiveReportById, addMockResult, addReadingResult,
     addListeningResult, addGrammarResult, addUserWord, addUserWordObject, removeUserWord, addUnknownWord,
     clearUnknownWords, recordKnown, recordUnknown, rollbackVocabRecord, toggleFavoritePrompt,
     recordQuizError, recordGrammarError, clearErrorWords, clearGrammarErrors,
     addCustomDeck, deleteCustomDeck, restoreCustomDeck,
-    addXp, markActivityToday, applyDemoData, login, register, logout, consumePostAuthRoute,
+    addXp, appendXpEntry, markActivityToday, applyDemoData, login, register, logout, consumePostAuthRoute,
     setTtsConfig,
     updateAiAccessConfig, resetAiAccessConfig,
   ]);
