@@ -117,7 +117,7 @@ export default function GenericHistoryScreen({ navigation, route }) {
     return [...rawHistory]
       .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
       .map((item) => ({ raw: item, rendered: config.renderItem(item) }));
-  }, [rawHistory]);
+  }, [rawHistory, config]);
 
   // Build simple bar chart data from last 7 sessions
   const chartValues = useMemo(() => {

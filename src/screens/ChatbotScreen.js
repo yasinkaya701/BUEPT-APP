@@ -728,7 +728,7 @@ export default function ChatbotScreen({ navigation }) {
 
   const closeArtifact = useCallback(() => {
     Animated.timing(artifactAnim, { toValue: width, duration: 280, useNativeDriver: true }).start(() => setActiveArtifact(null));
-  }, [artifactAnim]);
+  }, [artifactAnim, width]);
 
   const openTool = useCallback((tool) => {
     if (!tool?.route) return;
@@ -866,7 +866,7 @@ export default function ChatbotScreen({ navigation }) {
       })();
     }, delay);
     timersRef.current.push(t1);
-  }, [inputText, artifactAnim, quizState, navigation, assistantMode, messages]);
+  }, [inputText, artifactAnim, quizState, navigation, assistantMode, messages, webAccess]);
 
   const handleTts = useCallback(async (msg) => {
     if (ttsReadingId === msg.id) {

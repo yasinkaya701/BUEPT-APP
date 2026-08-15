@@ -110,7 +110,10 @@ export default function DeveloperScreen() {
     setOllamaTest('testing');
     const url = String(ollamaUrl || '').trim() || 'http://localhost:11434';
     try {
-      const res = await fetch(`${url}/api/tags`, { signal: AbortSignal.timeout ? AbortSignal.timeout(4000) : undefined });
+      const timeoutSignal = typeof AbortController !== 'undefined' && typeof AbortController?.timeout === 'function'
+        ? AbortController.timeout(4000)
+        : undefined;
+      const res = await fetch(`${url}/api/tags`, { signal: timeoutSignal });
       if (res.ok) {
         const data = await res.json();
         // Extract installed model names

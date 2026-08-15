@@ -1000,7 +1000,7 @@ export function AppStateProvider({ children }) {
     ]);
     const scorePct = Number(r?.rubric?.Total || 0) / 20;
     addXp(calculateXpForAction('ESSAY_WRITTEN', scorePct));
-  }, [essayText, addXp, userProfile]);
+  }, [essayText, addXp, userProfile, level]);
 
   const addUserWord = useCallback((word) => {
     if (!word || typeof word !== 'string') return;
