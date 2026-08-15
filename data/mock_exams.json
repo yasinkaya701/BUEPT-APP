@@ -5,17 +5,17 @@
     "duration": "120 mins",
     "description": "A full-length BUEPT simulation covering Academic Reading and Listening Note-taking.",
     "reading_section": [
-      "r_1",
-      "r_2",
-      "r_3",
-      "r_81",
-      "r_100"
+      "READ_R2_05",
+      "READ_R1_02",
+      "reading_wasc_resources",
+      "r_p4_h02_hard",
+      "READ_R1_07"
     ],
     "listening_section": [
-      "l_1",
-      "l_2",
-      "l_41",
-      "l_60"
+      "l_32",
+      "l_29",
+      "l_18",
+      "LIST_BUEPT_17"
     ]
   },
   {
@@ -24,17 +24,17 @@
     "duration": "120 mins",
     "description": "Focuses on higher-level C1/C2 topics for ambitious students.",
     "reading_section": [
-      "r_62",
-      "r_67",
-      "r_77",
-      "r_85",
-      "r_96"
+      "READ_R2_06",
+      "r_p4_h02_hard",
+      "r_p5_h07_hard",
+      "r_p4_03",
+      "READ_R1_01"
     ],
     "listening_section": [
-      "l_46",
-      "l_52",
-      "l_58",
-      "l_60"
+      "LIST_GEMINI_05",
+      "l_55",
+      "l_p3_h01",
+      "l_acad_p2"
     ]
   },
   {
@@ -43,17 +43,17 @@
     "duration": "120 mins",
     "description": "Themed exam focusing on Psychology, Sociology, and Economics.",
     "reading_section": [
-      "r_61",
-      "r_64",
-      "r_69",
-      "r_70",
-      "r_93"
+      "READ_R1_01",
+      "READ_R1_05",
+      "READ_R1_06",
+      "r_p3_03",
+      "READ_R2_04"
     ],
     "listening_section": [
-      "l_43",
-      "l_44",
-      "l_50",
-      "l_56"
+      "l_acad_p2",
+      "LIST_GEMINI_01",
+      "l_26",
+      "LIST_PRO_SPACE_01"
     ]
   },
   {
@@ -62,17 +62,17 @@
     "duration": "120 mins",
     "description": "Themed exam focusing on Physics, Biology, and Astronomy.",
     "reading_section": [
-      "r_62",
-      "r_63",
-      "r_72",
-      "r_75",
-      "r_90"
+      "READ_R2_02",
+      "READ_R1_06",
+      "r_p1_03",
+      "READ_R2_03",
+      "READ_R1_07"
     ],
     "listening_section": [
-      "l_42",
-      "l_46",
-      "l_47",
-      "l_57"
+      "LIST_BUEPT_01",
+      "l_21",
+      "l_55",
+      "l_44"
     ]
   },
   {
@@ -81,16 +81,17 @@
     "duration": "120 mins",
     "description": "The ultimate challenge combining the most complex units from all sections.",
     "reading_section": [
-      "r_67",
-      "r_85",
-      "r_86",
-      "r_91",
-      "r_96"
+      "READ_R1_07",
+      "READ_R1_03",
+      "READ_R1_05",
+      "r_p3_mtr2_03_hard",
+      "READ_R1_09"
     ],
     "listening_section": [
-      "l_52",
-      "l_58",
-      "l_60"
+      "LIST_BUEPT_17",
+      "LIST_BUEPT_15",
+      "l_49",
+      "LIST_BUEPT_16"
     ]
   }
 ]

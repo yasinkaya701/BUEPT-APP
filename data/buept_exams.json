@@ -2205,18 +2205,652 @@
     "duration": "120 mins",
     "description": "A full-length BUEPT simulation covering Academic Reading and Listening Note-taking.",
     "reading_section": [
-      "r_1",
-      "r_2",
-      "r_3",
-      "r_81",
-      "r_100"
+      "r_p3_h01_hard",
+      "READ_R1_04",
+      "READ_R1_01",
+      "r_p4_mtr2_04_hard",
+      "READ_R1_09"
     ],
     "listening_section": [
-      "l_1",
-      "l_2",
-      "l_41",
-      "l_60"
-    ]
+      "l_32",
+      "l_29",
+      "l_18",
+      "LIST_BUEPT_17"
+    ],
+    "sections": {
+      "reading": {
+        "passage": "BUSEPT reading sets combined. Answer each question below the related passage.",
+        "questions": [
+          {
+            "q": "What is the primary cause of higher nighttime temperatures in cities?",
+            "answer": [
+              "Construction materials store heat and release it slowly"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_h01_hard"
+          },
+          {
+            "q": "Which neighborhoods experience the greatest heat burden?",
+            "answer": [
+              "Those with less tree cover and more asphalt"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_h01_hard"
+          },
+          {
+            "q": "Why do some critics oppose current heat‑reduction policies?",
+            "answer": [
+              "They argue policies favor commercial districts"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_h01_hard"
+          },
+          {
+            "q": "What does the author suggest about short‑term temperature reductions?",
+            "answer": [
+              "They should be combined with long‑term resilience planning"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_h01_hard"
+          },
+          {
+            "q": "Which strategy is mentioned as a mitigation measure?",
+            "answer": [
+              "Reflective roofing"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_h01_hard"
+          },
+          {
+            "q": "The phrase \"the debate therefore centers on\" signals: ",
+            "answer": [
+              "a shift to the key controversy"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_h01_hard"
+          },
+          {
+            "q": "What is implied about funding constraints?",
+            "answer": [
+              "They can restrict how widely solutions are applied"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_h01_hard"
+          },
+          {
+            "q": "Which option best summarizes the passage?",
+            "answer": [
+              "Heat islands have technical and social dimensions requiring layered responses"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_h01_hard"
+          },
+          {
+            "q": "What role do early projects play, according to supporters?",
+            "answer": [
+              "They demonstrate value and attract investment"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_h01_hard"
+          },
+          {
+            "q": "Which statement is true based on the passage?",
+            "answer": [
+              "Older adults face higher health risks in heat islands"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_h01_hard"
+          },
+          {
+            "q": "According to paragraph 1, what did most people historically assume about wealth and happiness, and why was this assumption only 'partly correct'?",
+            "answer": [
+              "Most people assumed more money always produced a better, happier life because wealth provides material advantages (food, safety, healthcare). It was only partly correct because the relationship is far more complex — factors such as social comparison and adaptation mean that money alone does not reliably increase happiness."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_04"
+          },
+          {
+            "q": "Which best describes the 'Easterlin Paradox'?\nA) The observation that income always improves happiness in developing nations\nB) The finding that increasing national wealth does not reliably increase national happiness\nC) The argument that poorer individuals are happier than wealthier ones in all societies\nD) The paradox that people who earn more tend to work longer hours",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_04"
+          },
+          {
+            "q": "What does 'hedonic adaptation' mean as explained in paragraph 2?",
+            "answer": [
+              "Hedonic adaptation refers to the tendency of people to quickly return to a baseline level of happiness after an improvement in their circumstances. For example, the positive emotional effect of a pay raise fades within months as the new income level becomes the new 'normal.'"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_04"
+          },
+          {
+            "q": "Based on paragraphs 2 and 3, fill in the table.",
+            "answer": [],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_04"
+          },
+          {
+            "q": "According to paragraph 4, what did the Harvard study reveal about relationships and happiness?",
+            "answer": [
+              "The Harvard study found that the warmth and quality of close relationships were among the strongest predictors of happiness — and also of good physical health in old age — outperforming income and professional success as predictors of wellbeing."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_04"
+          },
+          {
+            "q": "Which of the following is NOT mentioned as a predictor of happiness?\nA) Strong social connections with family and community\nB) High levels of professional prestige and social status\nC) Meaningful work that provides autonomy and a sense of purpose\nD) Activities that produce states of deep engagement and flow",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_04"
+          },
+          {
+            "q": "What is the purpose of paragraph 5?\nA) To argue that economic growth should be abandoned as a national goal\nB) To present the policy relevance of happiness research and the debate around it\nC) To show that Bhutan's model has been adopted successfully worldwide\nD) To demonstrate that GDP is an unreliable measure in all contexts",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_04"
+          },
+          {
+            "q": "What CANNOT be inferred from the text?\nA) Social relationships may be more important to long-term happiness than professional achievement.\nB) Passive leisure activities such as watching TV produce less lasting happiness than engaging ones.\nC) Countries that have adopted alternative happiness metrics have achieved better outcomes than GDP-focused nations.\nD) Adaptation to improved circumstances may explain why lottery winners often return to earlier happiness levels.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_04"
+          },
+          {
+            "q": "One sentence below does NOT belong in a paragraph about the Easterlin Paradox. Which disrupts the logical flow?\nA) Wealthier nations did not consistently report higher levels of happiness than poorer ones.\nB) National income growth over time did not produce equivalent growth in average wellbeing.\nC) Bhutan has been measuring national happiness since the 1970s using the Gross National Happiness index.\nD) Social comparison means that relative wealth matters more than absolute wealth for perceived happiness.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_04"
+          },
+          {
+            "q": "What is the primary purpose of paragraph 1?\nA) To argue that procrastination is caused by a lack of discipline\nB) To distinguish between occasional and chronic procrastination\nC) To present procrastination as an emotional rather than a time management issue\nD) To persuade readers to seek professional help for procrastination",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "Which of the following is NOT supported by paragraph 2?\nA) Procrastinators may be neurologically predisposed to avoid difficult tasks.\nB) The amygdala plays a role in how threatening a task feels to a procrastinator.\nC) People with smaller amygdalae are more likely to be habitual procrastinators.\nD) A weaker brain connection in procrastinators makes rational goal-setting harder.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "Based on paragraph 3, what is the relationship between self-criticism and procrastination?",
+            "answer": [
+              "Self-criticism worsens procrastination. It increases guilt and shame, which raises emotional discomfort around the task, making the person even more likely to avoid it in the future. Self-compassion, by contrast, reduces future procrastination."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "Where does the following sentence best fit in paragraph 4? Write the letter (A, B, C, or D). 'Rather than reflecting disorganization, this behavior paradoxically stems from caring too much.'",
+            "answer": [
+              "B — The sentence logically follows the definition of self-handicapping and explains why it occurs (caring too much), before the paragraph concludes with the self-esteem protection idea."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "What does 'self-handicapping' mean as used in paragraph 4?\nA) Deliberately limiting one's own performance to have an excuse for failure\nB) Avoiding competition by refusing to participate in challenging tasks\nC) Setting unrealistically high standards that can never be reached\nD) Damaging one's physical health through excessive stress and worry",
+            "answer": [
+              "A"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "Which paragraph from 1–5 best supports the following case? 'A student delays submitting her essay for weeks, finishes it in one rushed night, receives a poor grade, and then feels terrible about herself — yet repeats the same pattern the following semester.'",
+            "answer": [
+              "Paragraph 3 — The student's cycle of guilt after procrastinating and then repeating the behavior matches the paragraph's argument that self-criticism increases avoidance and perpetuates the pattern."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "According to paragraph 5, what makes willpower an insufficient solution to procrastination?",
+            "answer": [
+              "Willpower alone is rarely effective because it does not address the emotional and environmental factors that trigger avoidance. Restructuring the environment and reframing one's emotional relationship with tasks produces more lasting change."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "What is 'temptation bundling,' and how does it help overcome procrastination?",
+            "answer": [
+              "Temptation bundling means pairing an unpleasant task with something enjoyable (e.g., only listening to a favorite podcast while exercising). It makes the aversive task more tolerable by associating it with a reward, reducing the emotional barrier to starting."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "What CANNOT be inferred from the text as a whole?\nA) Procrastination is partly linked to brain structure.\nB) Being forgiving toward oneself can reduce future procrastination.\nC) People who procrastinate due to perfectionism care more about results than average people.\nD) Procrastinators who use implementation intentions never relapse into old patterns.",
+            "answer": [
+              "D"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "According to the passage, what primarily determines the characteristics of living organisms?",
+            "answer": [
+              "Inherited DNA information"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "How does the text describe certainty in DNA fingerprinting?",
+            "answer": [
+              "Probabilistic, not absolute"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "Why is high match probability especially important in criminal cases?",
+            "answer": [
+              "Because outcomes affect guilt or innocence"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "Which statement about DNA fingerprints is correct?",
+            "answer": [
+              "They are found across cells, tissues, and organs"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "What sample type can now be used for DNA profiling?",
+            "answer": [
+              "Tiny samples such as hair, including degraded matter"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "What is one practical effect of expanded DNA databases?",
+            "answer": [
+              "They make matching evidence faster"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "Which concern is presented as a counterpoint to broader DNA collection?",
+            "answer": [
+              "Privacy concerns"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "Which title best summarizes this passage?",
+            "answer": [
+              "DNA Fingerprinting: Power, Limits, and Legal Impact"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "According to paragraph 1, what factors make certain regions more vulnerable to food insecurity caused by climate change?",
+            "answer": [
+              "The most vulnerable regions are those that are already food insecure and least equipped to adapt — which often overlap with regions where climate-driven disruptions to food production are projected to be most severe."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "Which of the following is NOT mentioned as an effect of higher atmospheric CO2 on crops?\nA) Stimulating plant growth under controlled conditions\nB) Reducing the protein content of some staple crops\nC) Increasing the rate at which insects damage crops\nD) Producing smaller growth benefits in real fields than in laboratory experiments",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "How does paragraph 3 relate to paragraph 2?\nA) It challenges the argument in paragraph 2 by providing contradictory evidence.\nB) It shifts from describing gradual climate effects on crops to the immediate risks of extreme weather.\nC) It provides data that proves the warming projections in paragraph 2 are underestimated.\nD) It introduces the role of global food trade as an additional cause of food insecurity.",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "According to paragraph 3, how has global supply chain integration worsened the impact of regional crop failures?",
+            "answer": [
+              "Because supply chains are now globally integrated, a harvest failure in one major exporting country can rapidly transmit to global food prices, affecting food affordability in countries thousands of miles away from the original disruption."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "There is a missing sentence in paragraph 4. Where does the following sentence best fit? 'In some cases, governments have responded to domestic price pressures by banning food exports, which can further destabilize global food markets.' Write A, B, C, or D.",
+            "answer": [
+              "C — The sentence about export bans logically follows the point about countries dependent on food imports, adding another dimension of risk: they not only face import vulnerability but also destabilizing policy responses from exporting nations."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "According to paragraph 4, why are urban populations in developing countries particularly affected by food supply disruptions?",
+            "answer": [
+              "Urban populations in developing countries may spend 50 to 80 percent of their income on food, meaning that even small price spikes caused by supply disruptions represent a disproportionately large share of their budget and can quickly make food unaffordable."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "What does the phrase 'progressively overwhelmed' mean as used in paragraph 5?\nA) Gradually replaced by more effective technologies\nB) Increasingly unable to cope with the scale of the problem they face\nC) Entirely eliminated by large-scale political reform\nD) Forcefully rejected by international organizations",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "What CANNOT be inferred from the text as a whole?\nA) Reducing food loss and waste could meaningfully reduce pressure on the global food supply.\nB) Climate change affects food security both through slow temperature increases and sudden extreme events.\nC) Drought-resistant crop varieties are already being widely distributed to smallholder farmers in tropical regions.\nD) Addressing climate change itself is ultimately necessary for ensuring long-term food security.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          }
+        ]
+      },
+      "listening": {
+        "passage": "BUSEPT listening sets combined. Listen carefully; each recording is played once.",
+        "questions": [
+          {
+            "q": "What was the original Panopticon?",
+            "answer": [
+              "A prison design where one guard watches many."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_32"
+          },
+          {
+            "q": "Who used the Panopticon as a metaphor for social power?",
+            "answer": [
+              "Michel Foucault."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_32"
+          },
+          {
+            "q": "What is 'self-surveillance'?",
+            "answer": [
+              "Policing one's own behavior because of potential monitoring."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_32"
+          },
+          {
+            "q": "Why is this system considered efficient?",
+            "answer": [
+              "It doesn't require constant physical force."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_32"
+          },
+          {
+            "q": "What is the 'digital panopticon'?",
+            "answer": [
+              "A world of constant data tracking and logging."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_32"
+          },
+          {
+            "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
+            "answer": [
+              "The primary mechanism"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_32"
+          },
+          {
+            "q": "What reduced listener confusion in the comparison run?",
+            "answer": [
+              "explicit signposting"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_32"
+          },
+          {
+            "q": "Who is considered the 'father of modern economics'?",
+            "answer": [
+              "Adam Smith."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_29"
+          },
+          {
+            "q": "What is the core idea of the 'invisible hand'?",
+            "answer": [
+              "Self-interest can unintentionally promote public good."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_29"
+          },
+          {
+            "q": "In which book did Smith introduce this concept?",
+            "answer": [
+              "The Wealth of Nations."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_29"
+          },
+          {
+            "q": "What keeps prices low in a free market?",
+            "answer": [
+              "Competition."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_29"
+          },
+          {
+            "q": "Under what condition might the 'invisible hand' fail?",
+            "answer": [
+              "In the presence of market failures or monopolies."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_29"
+          },
+          {
+            "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
+            "answer": [
+              "The primary mechanism"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_29"
+          },
+          {
+            "q": "What reduced listener confusion in the comparison run?",
+            "answer": [
+              "explicit signposting"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_29"
+          },
+          {
+            "q": "What is 'social stratification'?",
+            "answer": [
+              "Hierarchical layering of society."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_18"
+          },
+          {
+            "q": "What does the functionalist perspective argue?",
+            "answer": [
+              "High rewards motivate individuals for key roles."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_18"
+          },
+          {
+            "q": "Who influenced the conflict theory?",
+            "answer": [
+              "Karl Marx."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_18"
+          },
+          {
+            "q": "How does conflict theory view the ruling class?",
+            "answer": [
+              "As exploiters of the working class."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_18"
+          },
+          {
+            "q": "What core question does the speaker pose at the end?",
+            "answer": [
+              "Is society a meritocracy or a power struggle?"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_18"
+          },
+          {
+            "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
+            "answer": [
+              "The primary mechanism"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_18"
+          },
+          {
+            "q": "At what pace did accuracy drop sharply?",
+            "answer": [
+              "Above 170 words per minute"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_18"
+          },
+          {
+            "q": "What is a 'smart contract' in the context of DeFi?",
+            "answer": [
+              "A self-executing agreement with terms written directly into code."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_17"
+          },
+          {
+            "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
+            "answer": [
+              "The primary mechanism"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_17"
+          },
+          {
+            "q": "What reduced listener confusion in the comparison run?",
+            "answer": [
+              "explicit signposting"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_17"
+          },
+          {
+            "q": "What is the speaker's main purpose in the added segment?",
+            "answer": [
+              "To give evidence-based practical advice"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_17"
+          }
+        ]
+      },
+      "grammar": {
+        "questions": []
+      }
+    }
   },
   {
     "id": "mock_2",
@@ -2224,18 +2858,639 @@
     "duration": "120 mins",
     "description": "Focuses on higher-level C1/C2 topics for ambitious students.",
     "reading_section": [
-      "r_62",
-      "r_67",
-      "r_77",
-      "r_85",
-      "r_96"
+      "r_p4_h02_hard",
+      "r_p4_mtr2_04_hard",
+      "READ_R2_04",
+      "READ_R1_03",
+      "READ_R2_05"
     ],
     "listening_section": [
-      "l_46",
-      "l_52",
-      "l_58",
-      "l_60"
-    ]
+      "l_55",
+      "l_p3_h01",
+      "l_acad_p2",
+      "LIST_BUEPT_15"
+    ],
+    "sections": {
+      "reading": {
+        "passage": "BUSEPT reading sets combined. Answer each question below the related passage.",
+        "questions": [
+          {
+            "q": "What does the author identify as the \"key question\" about automation?",
+            "answer": [
+              "How fast workers can move into new roles"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_h02_hard"
+          },
+          {
+            "q": "What is meant by \"adjustment rather than absolute scarcity\"?",
+            "answer": [
+              "The main challenge is adapting to new skill demands"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_h02_hard"
+          },
+          {
+            "q": "Which example illustrates job redesign?",
+            "answer": [
+              "Automation handling sorting while workers manage exceptions"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_h02_hard"
+          },
+          {
+            "q": "According to the passage, what happens to complementary skills when routine tasks are automated?",
+            "answer": [
+              "They can increase in value"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_h02_hard"
+          },
+          {
+            "q": "What condition influences who benefits from automation?",
+            "answer": [
+              "Training and credentialing systems"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_h02_hard"
+          },
+          {
+            "q": "The author’s stance on automation can best be described as: ",
+            "answer": [
+              "Balanced and conditional"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_h02_hard"
+          },
+          {
+            "q": "What does \"contingent rather than predetermined\" imply?",
+            "answer": [
+              "Outcomes depend on choices"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_h02_hard"
+          },
+          {
+            "q": "Which statement is supported by the passage?",
+            "answer": [
+              "Institutions influence how benefits are distributed"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_h02_hard"
+          },
+          {
+            "q": "What is the function of the logistics example in the passage?",
+            "answer": [
+              "To illustrate a hybrid human‑machine workflow"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_h02_hard"
+          },
+          {
+            "q": "Which title best fits the passage?",
+            "answer": [
+              "Automation and Adjustment in the Labor Market"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_h02_hard"
+          },
+          {
+            "q": "According to the passage, what primarily determines the characteristics of living organisms?",
+            "answer": [
+              "Inherited DNA information"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "How does the text describe certainty in DNA fingerprinting?",
+            "answer": [
+              "Probabilistic, not absolute"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "Why is high match probability especially important in criminal cases?",
+            "answer": [
+              "Because outcomes affect guilt or innocence"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "Which statement about DNA fingerprints is correct?",
+            "answer": [
+              "They are found across cells, tissues, and organs"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "What sample type can now be used for DNA profiling?",
+            "answer": [
+              "Tiny samples such as hair, including degraded matter"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "What is one practical effect of expanded DNA databases?",
+            "answer": [
+              "They make matching evidence faster"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "Which concern is presented as a counterpoint to broader DNA collection?",
+            "answer": [
+              "Privacy concerns"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "Which title best summarizes this passage?",
+            "answer": [
+              "DNA Fingerprinting: Power, Limits, and Legal Impact"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr2_04_hard"
+          },
+          {
+            "q": "Why is germline editing particularly controversial?",
+            "answer": [
+              "It is controversial because the changes are heritable and could permanently alter the human gene pool."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_04"
+          },
+          {
+            "q": "What is the 'designer baby' concern mentioned in paragraph 2?",
+            "answer": [
+              "The concern is that parents might choose specific traits for their children, potentially leading to a new form of eugenics and reinforcing socioeconomic inequalities."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_04"
+          },
+          {
+            "q": "What are 'off-target' effects in genetic engineering?",
+            "answer": [
+              "Off-target effects are unintended genetic changes that could lead to unforeseen health problems in future generations."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_04"
+          },
+          {
+            "q": "How might genetic engineering impact human diversity?",
+            "answer": [
+              "It might narrow the range of human variation by selecting only 'ideal' traits, potentially reducing our species' ability to adapt."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_04"
+          },
+          {
+            "q": "What values should guide the future of genetic engineering according to the author?",
+            "answer": [
+              "The author argues that it should be guided by commitment to justice, equity, and the preservation of human dignity."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_04"
+          },
+          {
+            "q": "What is the author's attitude toward the claim that some people only need five hours of sleep?\nA) Neutral — the author acknowledges it is true for some individuals\nB) Skeptical — the author implies it is incorrect and potentially harmful\nC) Supportive — the author cites it as evidence of human adaptability\nD) Uncertain — the author says more research is needed to confirm or deny it",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_03"
+          },
+          {
+            "q": "According to paragraph 2, what does sleep do both BEFORE and AFTER learning?",
+            "answer": [
+              "Sleep before learning allows a rested brain to take in new information more effectively. Sleep after learning helps consolidate and transfer that information from short-term to long-term memory. Both processes maximize retention."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_03"
+          },
+          {
+            "q": "What does 'optimism bias under fatigue' mean as used in paragraph 3?\nA) The tendency of tired people to feel more positive about their work\nB) The tendency of exhausted people to misjudge risks and overrate their own capabilities\nC) The belief that getting less sleep makes a person more resilient over time\nD) The pattern in which tired workers make better decisions in familiar situations",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_03"
+          },
+          {
+            "q": "Where does the following sentence best fit in paragraph 3? Write the letter (A, B, C, or D). 'One landmark study found that surgical residents on such shifts made 36% more serious medical errors than those on shorter schedules.'",
+            "answer": [
+              "C — It follows directly from the general claim that doctors on long shifts make more diagnostic errors, providing specific statistical evidence for that claim."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_03"
+          },
+          {
+            "q": "According to paragraph 4, two hormones are involved in the link between sleep loss and weight gain. What role does each play?",
+            "answer": [
+              "Ghrelin signals hunger — sleep-deprived individuals produce more of it, increasing appetite and caloric intake."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_03"
+          },
+          {
+            "q": "Which paragraph from 1–5 best supports the following statement? 'A construction site manager who regularly sleeps only five hours begins to authorize shortcuts in safety procedures without fully recognizing the risks he is accepting.'",
+            "answer": [
+              "Paragraph 3 — The manager's pattern of underestimating danger ('authorize shortcuts') and not recognizing his impairment matches the 'optimism bias under fatigue' described in paragraph 3."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_03"
+          },
+          {
+            "q": "What made the finding about participants sleeping six hours per night particularly alarming?",
+            "answer": [
+              "Although participants' cognitive performance declined to the equivalent of two full nights without sleep, they themselves reported feeling only slightly impaired. This shows that chronically sleep-deprived people are often unaware of how severely their performance has actually deteriorated."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_03"
+          },
+          {
+            "q": "What CANNOT be inferred from the text?\nA) Cultural attitudes toward sleep can make it difficult to implement healthier sleep habits.\nB) Schools that adopted later start times saw improvements in both student wellbeing and learning.\nC) Chronically sleep-deprived people are always aware that their performance has declined.\nD) Hormonal changes caused by lack of sleep can contribute to long-term weight gain.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_03"
+          },
+          {
+            "q": "SUMMARY — Fill in the blanks.",
+            "answer": [
+              "normalized / widespread"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_03"
+          },
+          {
+            "q": "How do extreme weather events impact agricultural production?",
+            "answer": [
+              "Extreme weather events like droughts and floods disrupt production, leading to crop failures and reduced yields."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_05"
+          },
+          {
+            "q": "What is 'hidden hunger' and how is it related to climate change?",
+            "answer": [
+              "Hidden hunger is when people have enough calories but lack micronutrients. It's related to climate change because rising food prices make nutritious food less affordable."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_05"
+          },
+          {
+            "q": "What is one way CO2 levels affect the quality of crops?",
+            "answer": [
+              "Increased CO2 levels can reduce the nutritional value of crops like wheat and rice by lowering protein and mineral content."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_05"
+          },
+          {
+            "q": "Why are marine food sources threatened by climate change?",
+            "answer": [
+              "They are threatened by rising sea levels (saltwater intrusion) and ocean acidification/warming affecting fish populations."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_05"
+          },
+          {
+            "q": "What is 'climate-smart' agriculture?",
+            "answer": [
+              "Climate-smart agriculture refers to investing in resilient crop varieties and sustainable farming practices to adapt to climate change."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_05"
+          }
+        ]
+      },
+      "listening": {
+        "passage": "BUSEPT listening sets combined. Listen carefully; each recording is played once.",
+        "questions": [
+          {
+            "q": "Where did the Industrial Revolution begin?",
+            "answer": [
+              "Britain."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "What was the main shift in production?",
+            "answer": [
+              "From hand production to machine production."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "Why did people move to cities during this time?",
+            "answer": [
+              "For factory jobs."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "What was a negative side effect of rapid urbanization?",
+            "answer": [
+              "Overcrowded slums and poor sanitation."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "What social movement arose as a result of these conditions?",
+            "answer": [
+              "Labor unions."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
+            "answer": [
+              "The primary mechanism"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "How large was the pilot sample mentioned near the end?",
+            "answer": [
+              "220 participants"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "How is the relationship between attendance and performance described by the committee?",
+            "answer": [
+              "It correlates but is not perfectly linear"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_p3_h01"
+          },
+          {
+            "q": "At what attendance percentage do the academic gains typically level off?",
+            "answer": [
+              "Past eighty percent",
+              "80%"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_p3_h01"
+          },
+          {
+            "q": "What is the first recommended change regarding the course syllabus?",
+            "answer": [
+              "Publish attendance expectations clearly in the syllabus"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_p3_h01"
+          },
+          {
+            "q": "What is the purpose of the proposed weekly 'checkpoints'?",
+            "answer": [
+              "To keep students engaged"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_p3_h01"
+          },
+          {
+            "q": "Which students are specifically highlighted as needing expanded scheduling support?",
+            "answer": [
+              "Those with part-time jobs or caregiving responsibilities"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_p3_h01"
+          },
+          {
+            "q": "How does the brief propose to address faculty concerns about fairness?",
+            "answer": [
+              "Encouraging flexible make-up options and explaining the rationale"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_p3_h01"
+          },
+          {
+            "q": "What is the committee's stance on making attendance mandatory for every class?",
+            "answer": [
+              "They are not proposing mandatory attendance for every class"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_p3_h01"
+          },
+          {
+            "q": "The committee emphasizes transparency, consistent expectations, and ______ when students disengage.",
+            "answer": 1,
+            "similar": null,
+            "type": "cloze",
+            "_source_task": "l_p3_h01"
+          },
+          {
+            "q": "By what percentage did explicit signposting reduce listener confusion in the comparative run?",
+            "answer": [
+              "18%",
+              "Eighteen percent"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_p3_h01"
+          },
+          {
+            "q": "What is the common neoclassical critique of government subsidies for renewable energy?",
+            "answer": [
+              "They distort free markets"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_acad_p2"
+          },
+          {
+            "q": "What hidden subsidies have fossil fuels historically enjoyed according to Dr. Aris?",
+            "answer": [
+              "Unpriced negative externalities",
+              "Carbon emissions, health impacts, and environmental degradation"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_acad_p2"
+          },
+          {
+            "q": "What happens to the cost of pollution from a coal plant in the current market failure?",
+            "answer": [
+              "Society pays the price, not the company"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_acad_p2"
+          },
+          {
+            "q": "What is Dr. Chen's primary concern regarding aggressive feed-in tariffs in Europe?",
+            "answer": [
+              "They guarantee profits regardless of technological innovation"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_acad_p2"
+          },
+          {
+            "q": "Define the 'moral hazard' mentioned by Dr. Chen in the energy sector.",
+            "answer": [
+              "Companies become reliant on subsidies rather than striving to lower costs"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_acad_p2"
+          },
+          {
+            "q": "What does LCOE stand for in energy economics?",
+            "answer": [
+              "Levelized Cost of Energy"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_acad_p2"
+          },
+          {
+            "q": "What action usually forces companies to compete and drop their cost curves?",
+            "answer": [
+              "Tapering subsidies",
+              "Tapering of subsidies"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_acad_p2"
+          },
+          {
+            "q": "The group in the pilot study that received recap segments scored ______ higher on delayed recall.",
+            "answer": 2,
+            "similar": null,
+            "type": "cloze",
+            "_source_task": "l_acad_p2"
+          },
+          {
+            "q": "According to the pilot, what was the 'key factor' behind the higher recall scores?",
+            "answer": [
+              "Timing",
+              "Timing of the recap"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_acad_p2"
+          },
+          {
+            "q": "What is the primary argument against the idea that AI is truly 'creative'?",
+            "answer": [
+              "It relies on pattern recognition and existing data rather than intent or emotion"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_15"
+          },
+          {
+            "q": "How do generative models produce art, according to the speaker?",
+            "answer": [
+              "By synthesizing vast datasets of human-made work"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_15"
+          },
+          {
+            "q": "What essential human quality is missing from AI-generated content?",
+            "answer": [
+              "Subjectivity",
+              "Conscious intent",
+              "Lived experience"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_15"
+          },
+          {
+            "q": "What do proponents of AI art argue about the role of the AI?",
+            "answer": [
+              "It is a tool that expands the creative potential of the human artist"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_15"
+          },
+          {
+            "q": "What ethical concern is raised regarding the training of AI models?",
+            "answer": [
+              "Unauthorized use of copyrighted human work"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_15"
+          }
+        ]
+      },
+      "grammar": {
+        "questions": []
+      }
+    }
   },
   {
     "id": "mock_3",
@@ -2243,18 +3498,605 @@
     "duration": "120 mins",
     "description": "Themed exam focusing on Psychology, Sociology, and Economics.",
     "reading_section": [
-      "r_61",
-      "r_64",
-      "r_69",
-      "r_70",
-      "r_93"
+      "READ_R1_07",
+      "READ_R1_08",
+      "READ_R2_03",
+      "READ_R2_06",
+      "READ_R1_01"
     ],
     "listening_section": [
-      "l_43",
-      "l_44",
-      "l_50",
-      "l_56"
-    ]
+      "LIST_GEMINI_01",
+      "l_26",
+      "LIST_PRO_SPACE_01",
+      "l_54"
+    ],
+    "sections": {
+      "reading": {
+        "passage": "BUSEPT reading sets combined. Answer each question below the related passage.",
+        "questions": [
+          {
+            "q": "What is the primary purpose of paragraph 1?\nA) To argue that the Earth's water supply is sufficient for current needs\nB) To establish the scale of the global water crisis using statistics\nC) To explain why most of the Earth's water is found in oceans\nD) To introduce the political causes of global water inequality",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "According to paragraph 2, which uses the largest share of global freshwater?",
+            "answer": [
+              "Agriculture — it accounts for approximately 70 percent of global freshwater withdrawals, due to the large amounts of water needed for crop production and livestock."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "Which of the following is NOT stated as a consequence of climate change in paragraph 2?\nA) Changes in when and where rainfall occurs\nB) The accelerating retreat of glaciers\nC) More frequent and severe droughts\nD) A global decrease in total ocean water volume",
+            "answer": [
+              "D"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "How does paragraph 3 relate to paragraph 2?\nA) It provides historical background for the causes described in paragraph 2.\nB) It shifts from describing general causes to showing how the crisis affects people unequally.\nC) It introduces additional causes of the water crisis not covered in paragraph 2.\nD) It argues that the causes in paragraph 2 are less important than political factors.",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "According to paragraph 3, why are women and girls disproportionately affected by water insecurity in developing nations?",
+            "answer": [
+              "In many developing nations, women and girls are traditionally responsible for water collection. This means they must spend hours each day walking to collect water from distant or contaminated sources, taking time away from education, work, and other activities."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "What does the conflict over the Grand Ethiopian Renaissance Dam illustrate, according to paragraph 4?",
+            "answer": [
+              "It illustrates that water from shared international rivers can become a source of serious geopolitical tension and conflict. Ethiopia prioritizes the dam for development and electricity; Egypt and Sudan fear it will reduce the water flow they depend on for agriculture."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "Which word in paragraph 4 means 'a subject of dispute or argument'?",
+            "answer": [
+              "'contention' — 'The Grand Ethiopian Renaissance Dam has become a major point of contention.'"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "According to paragraph 5, what are two concerns about desalination as a solution to water scarcity?",
+            "answer": [
+              "1. High energy costs — desalination requires large amounts of energy, making it expensive to run. 2. Environmental challenges from brine waste disposal — the salty by-product of the desalination process poses environmental risks."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "What CANNOT be inferred from the text as a whole?\nA) The water crisis affects poorer populations more severely than wealthier ones.\nB) Improving agricultural water efficiency could reduce demand without harming food production.\nC) Desalination is currently too expensive to be used in any country on a large scale.\nD) International agreements for managing shared rivers are currently insufficient.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "What is the primary purpose of paragraph 1?\nA) To argue that AI is fundamentally different from all previous forms of automation\nB) To explain why the industrial revolution caused long-term unemployment\nC) To place AI-driven automation in the context of historical economic transitions\nD) To present AI as a solution to the problems created by industrial mechanization",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "According to paragraph 2, which of the following is NOT listed as a current application of AI?\nA) Detecting fraudulent financial transactions\nB) Generating text similar to that written by humans\nC) Designing new drugs through chemical simulation\nD) Translating content from one language to another",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "According to paragraph 3, what characteristics make certain jobs more resilient to automation?",
+            "answer": [
+              "Jobs requiring genuine common-sense reasoning, physical dexterity in complex/unpredictable environments, deep empathy, ethical judgment, and interpersonal trust have proven more resilient. AI systems struggle with novelty and real-world complexity, making such jobs harder to automate."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "What does the phrase 'brittle in the face of novelty' mean as used in paragraph 3?\nA) AI systems become outdated very quickly as new models are released\nB) AI performs well within its training data but fails unpredictably in genuinely new situations\nC) AI systems are too fragile to be used in professional work environments\nD) AI struggles to process creative and artistic content effectively",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "According to paragraph 4, who benefits most from AI-driven automation and who bears the greatest cost?",
+            "answer": [
+              "The gains primarily accrue to owners of capital and highly skilled workers whose expertise complements AI. The costs fall disproportionately on workers without post-secondary education in automatable jobs, particularly in manufacturing and routine service industries."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "How does paragraph 4 relate to paragraph 3?\nA) It provides historical evidence for the limitations of AI described in paragraph 3.\nB) It introduces a new set of AI capabilities not discussed in paragraphs 2 and 3.\nC) It shifts from discussing which jobs are at risk to exploring who will be most economically harmed.\nD) It challenges the argument in paragraph 3 by showing that AI has overcome its limitations.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "What is a 'robot tax' as described in paragraph 5?",
+            "answer": [
+              "A robot tax is a proposed levy (charge) on the use of automation by companies. The revenue generated would be used to fund social support systems to help workers displaced by automation."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "What CANNOT be inferred from the text as a whole?\nA) The impact of AI automation will vary significantly by industry, education level, and geography.\nB) AI systems currently lack the ability to fully replicate human empathy and ethical reasoning.\nC) A universal basic income scheme has been successfully implemented and proven effective in multiple countries.\nD) Whether AI creates net job gains or losses is still a matter of significant debate among economists.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "What is the 'urban penalty' referred to in paragraph 1?",
+            "answer": [
+              "The 'urban penalty' refers to the higher risk of mental health disorders, such as anxiety and depression, experienced by urban dwellers compared to rural populations."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_03"
+          },
+          {
+            "q": "How does noise pollution in cities affect mental health?",
+            "answer": [
+              "Constant noise from traffic and construction leads to chronic stress and sleep disruption, which are significant risk factors for mental illness."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_03"
+          },
+          {
+            "q": "Explain the concept of 'biophilia' and its importance in urban design.",
+            "answer": [
+              "Biophilia is the innate human need to connect with nature. Its stifling in cities due to lack of green space leads to disconnection and psychological distress."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_03"
+          },
+          {
+            "q": "Why is city living described as 'paradoxically isolating'?",
+            "answer": [
+              "It is paradoxical because despite being surrounded by many people, urban environments lack close-knit support systems, leading to loneliness and fragmentation."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_03"
+          },
+          {
+            "q": "What are some recommendations for urban planners to improve mental health?",
+            "answer": [
+              "Recommendations include increasing green/blue spaces, reducing noise, and designing environments that foster social connection and community."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_03"
+          },
+          {
+            "q": "What is the 'black box' problem in healthcare AI?",
+            "answer": [
+              "The 'black box' problem refers to the complexity of AI algorithms that makes it difficult to understand how they arrive at specific diagnoses or recommendations."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_06"
+          },
+          {
+            "q": "How can AI perpetuate health disparities?",
+            "answer": [
+              "AI can perpetuate disparities if it's trained on biased historical data that reflects existing inequalities, leading to less accurate results for marginalized groups."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_06"
+          },
+          {
+            "q": "What is the risk of 'deskilling' in the medical profession?",
+            "answer": [
+              "Deskilling is the risk that doctors may become over-reliant on AI, losing their own clinical judgment and expertise over time."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_06"
+          },
+          {
+            "q": "What does 'human in the loop' mean in this context?",
+            "answer": [
+              "It means ensuring that human doctors remain central to the decision-making process, combining AI insights with their own empathy and patient-specific values."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_06"
+          },
+          {
+            "q": "What is 'explainable AI' and why is it important?",
+            "answer": [
+              "Explainable AI provides clear justifications for its results. It's important for building trust and ensuring accountability in medical decisions."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_06"
+          },
+          {
+            "q": "What is the primary purpose of paragraph 1?\nA) To argue that procrastination is caused by a lack of discipline\nB) To distinguish between occasional and chronic procrastination\nC) To present procrastination as an emotional rather than a time management issue\nD) To persuade readers to seek professional help for procrastination",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "Which of the following is NOT supported by paragraph 2?\nA) Procrastinators may be neurologically predisposed to avoid difficult tasks.\nB) The amygdala plays a role in how threatening a task feels to a procrastinator.\nC) People with smaller amygdalae are more likely to be habitual procrastinators.\nD) A weaker brain connection in procrastinators makes rational goal-setting harder.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "Based on paragraph 3, what is the relationship between self-criticism and procrastination?",
+            "answer": [
+              "Self-criticism worsens procrastination. It increases guilt and shame, which raises emotional discomfort around the task, making the person even more likely to avoid it in the future. Self-compassion, by contrast, reduces future procrastination."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "Where does the following sentence best fit in paragraph 4? Write the letter (A, B, C, or D). 'Rather than reflecting disorganization, this behavior paradoxically stems from caring too much.'",
+            "answer": [
+              "B — The sentence logically follows the definition of self-handicapping and explains why it occurs (caring too much), before the paragraph concludes with the self-esteem protection idea."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "What does 'self-handicapping' mean as used in paragraph 4?\nA) Deliberately limiting one's own performance to have an excuse for failure\nB) Avoiding competition by refusing to participate in challenging tasks\nC) Setting unrealistically high standards that can never be reached\nD) Damaging one's physical health through excessive stress and worry",
+            "answer": [
+              "A"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "Which paragraph from 1–5 best supports the following case? 'A student delays submitting her essay for weeks, finishes it in one rushed night, receives a poor grade, and then feels terrible about herself — yet repeats the same pattern the following semester.'",
+            "answer": [
+              "Paragraph 3 — The student's cycle of guilt after procrastinating and then repeating the behavior matches the paragraph's argument that self-criticism increases avoidance and perpetuates the pattern."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "According to paragraph 5, what makes willpower an insufficient solution to procrastination?",
+            "answer": [
+              "Willpower alone is rarely effective because it does not address the emotional and environmental factors that trigger avoidance. Restructuring the environment and reframing one's emotional relationship with tasks produces more lasting change."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "What is 'temptation bundling,' and how does it help overcome procrastination?",
+            "answer": [
+              "Temptation bundling means pairing an unpleasant task with something enjoyable (e.g., only listening to a favorite podcast while exercising). It makes the aversive task more tolerable by associating it with a reward, reducing the emotional barrier to starting."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          },
+          {
+            "q": "What CANNOT be inferred from the text as a whole?\nA) Procrastination is partly linked to brain structure.\nB) Being forgiving toward oneself can reduce future procrastination.\nC) People who procrastinate due to perfectionism care more about results than average people.\nD) Procrastinators who use implementation intentions never relapse into old patterns.",
+            "answer": [
+              "D"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_01"
+          }
+        ]
+      },
+      "listening": {
+        "passage": "BUSEPT listening sets combined. Listen carefully; each recording is played once.",
+        "questions": [
+          {
+            "q": "According to the lecture, modern digital sociology studies internet memes not just as jokes, but as tools for ___________________.",
+            "answer": [
+              "establishing group boundaries"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_GEMINI_01"
+          },
+          {
+            "q": "What do fans effectively test when they share highly specific parodies about sports figures? (Write one)",
+            "answer": [
+              "cultural loyalty"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_GEMINI_01"
+          },
+          {
+            "q": "In the context of digital communities, researchers compare modern parody content creators to historical ___________________.",
+            "answer": [
+              "court jesters"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_GEMINI_01"
+          },
+          {
+            "q": "According to Dr. Milner’s research, what experienced a significant drop among fans after viewing self-deprecating humor?",
+            "answer": [
+              "aggressive behavior"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_GEMINI_01"
+          },
+          {
+            "q": "What negative outcome can the 'echo chamber' effect lead to? (Write one)",
+            "answer": [
+              "severe polarization",
+              "polarization"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_GEMINI_01"
+          },
+          {
+            "q": "What phrase is used to describe a meme's ability to remain relevant and be shared across different generations?",
+            "answer": [
+              "viral endurance"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_GEMINI_01"
+          },
+          {
+            "q": "According to the survey, which demographic values 'irony and satire' the most in their online interactions?",
+            "answer": [
+              "young adults",
+              "university students"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_GEMINI_01"
+          },
+          {
+            "q": "In evolutionary terms, what modern concept is equated to the basic human need for physical protection in ancient tribes?",
+            "answer": [
+              "social validation online",
+              "social validation"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_GEMINI_01"
+          },
+          {
+            "q": "What characterizes the gravity of a black hole?",
+            "answer": [
+              "So strong that light cannot escape."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_26"
+          },
+          {
+            "q": "What does the theory of general relativity predict about compact mass?",
+            "answer": [
+              "It can form a black hole by deforming spacetime."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_26"
+          },
+          {
+            "q": "Define the 'event horizon' based on the text.",
+            "answer": [
+              "The boundary from which no escape is possible."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_26"
+          },
+          {
+            "q": "Why is a black hole compared to an ideal black body?",
+            "answer": [
+              "It reflects no light."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_26"
+          },
+          {
+            "q": "What is Hawking radiation?",
+            "answer": [
+              "Radiation emitted by event horizons."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_26"
+          },
+          {
+            "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
+            "answer": [
+              "The primary mechanism"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_26"
+          },
+          {
+            "q": "What reduced listener confusion in the comparison run?",
+            "answer": [
+              "explicit signposting"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_26"
+          },
+          {
+            "q": "In which year was the first exoplanet orbiting a sun-like star confirmed?",
+            "answer": [
+              "1995"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_PRO_SPACE_01"
+          },
+          {
+            "q": "What was the 'Hot Jupiter' discovered in 1995 called?",
+            "answer": [
+              "51 Pegasi b"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_PRO_SPACE_01"
+          },
+          {
+            "q": "Which NASA mission, launched in 2009, used the 'Transit Method' to find planets?",
+            "answer": [
+              "Kepler",
+              "Kepler mission"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_PRO_SPACE_01"
+          },
+          {
+            "q": "What is the name of the first Earth-sized planet found in a habitable zone in 2014?",
+            "answer": [
+              "Kepler-186f"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_PRO_SPACE_01"
+          },
+          {
+            "q": "How many light-years away is the TRAPPIST-1 system located?",
+            "answer": [
+              "40 light-years",
+              "40"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_PRO_SPACE_01"
+          },
+          {
+            "q": "What is market equilibrium?",
+            "answer": [
+              "Product supply equals consumer demand at a certain price."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_54"
+          },
+          {
+            "q": "What happens when the price is too high?",
+            "answer": [
+              "A surplus (more supply than demand)."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_54"
+          },
+          {
+            "q": "What is a 'shortage'?",
+            "answer": [
+              "Quantity demanded is greater than quantity supplied."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_54"
+          },
+          {
+            "q": "How do prices act as 'signals'?",
+            "answer": [
+              "They guide behavior of producers and consumers."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_54"
+          },
+          {
+            "q": "What is the result of the 'invisible hand' in equilibrium?",
+            "answer": [
+              "Efficient allocation of resources."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_54"
+          },
+          {
+            "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
+            "answer": [
+              "The primary mechanism"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_54"
+          },
+          {
+            "q": "At what pace did accuracy drop sharply?",
+            "answer": [
+              "Above 170 words per minute"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_54"
+          }
+        ]
+      },
+      "grammar": {
+        "questions": []
+      }
+    }
   },
   {
     "id": "mock_4",
@@ -2262,18 +4104,612 @@
     "duration": "120 mins",
     "description": "Themed exam focusing on Physics, Biology, and Astronomy.",
     "reading_section": [
-      "r_62",
-      "r_63",
-      "r_72",
-      "r_75",
-      "r_90"
+      "READ_R1_08",
+      "r_p3_03",
+      "READ_R2_05",
+      "READ_R1_09",
+      "r_p4_mtr3_06_hard"
     ],
     "listening_section": [
-      "l_42",
-      "l_46",
-      "l_47",
-      "l_57"
-    ]
+      "LIST_BUEPT_01",
+      "l_21",
+      "l_55",
+      "l_44"
+    ],
+    "sections": {
+      "reading": {
+        "passage": "BUSEPT reading sets combined. Answer each question below the related passage.",
+        "questions": [
+          {
+            "q": "What is the primary purpose of paragraph 1?\nA) To argue that AI is fundamentally different from all previous forms of automation\nB) To explain why the industrial revolution caused long-term unemployment\nC) To place AI-driven automation in the context of historical economic transitions\nD) To present AI as a solution to the problems created by industrial mechanization",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "According to paragraph 2, which of the following is NOT listed as a current application of AI?\nA) Detecting fraudulent financial transactions\nB) Generating text similar to that written by humans\nC) Designing new drugs through chemical simulation\nD) Translating content from one language to another",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "According to paragraph 3, what characteristics make certain jobs more resilient to automation?",
+            "answer": [
+              "Jobs requiring genuine common-sense reasoning, physical dexterity in complex/unpredictable environments, deep empathy, ethical judgment, and interpersonal trust have proven more resilient. AI systems struggle with novelty and real-world complexity, making such jobs harder to automate."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "What does the phrase 'brittle in the face of novelty' mean as used in paragraph 3?\nA) AI systems become outdated very quickly as new models are released\nB) AI performs well within its training data but fails unpredictably in genuinely new situations\nC) AI systems are too fragile to be used in professional work environments\nD) AI struggles to process creative and artistic content effectively",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "According to paragraph 4, who benefits most from AI-driven automation and who bears the greatest cost?",
+            "answer": [
+              "The gains primarily accrue to owners of capital and highly skilled workers whose expertise complements AI. The costs fall disproportionately on workers without post-secondary education in automatable jobs, particularly in manufacturing and routine service industries."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "How does paragraph 4 relate to paragraph 3?\nA) It provides historical evidence for the limitations of AI described in paragraph 3.\nB) It introduces a new set of AI capabilities not discussed in paragraphs 2 and 3.\nC) It shifts from discussing which jobs are at risk to exploring who will be most economically harmed.\nD) It challenges the argument in paragraph 3 by showing that AI has overcome its limitations.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "What is a 'robot tax' as described in paragraph 5?",
+            "answer": [
+              "A robot tax is a proposed levy (charge) on the use of automation by companies. The revenue generated would be used to fund social support systems to help workers displaced by automation."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "What CANNOT be inferred from the text as a whole?\nA) The impact of AI automation will vary significantly by industry, education level, and geography.\nB) AI systems currently lack the ability to fully replicate human empathy and ethical reasoning.\nC) A universal basic income scheme has been successfully implemented and proven effective in multiple countries.\nD) Whether AI creates net job gains or losses is still a matter of significant debate among economists.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_08"
+          },
+          {
+            "q": "How do psychologists primarily define procrastination?",
+            "answer": 1,
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_03"
+          },
+          {
+            "q": "Why do individuals initially delay a task according to the passage?",
+            "answer": 2,
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_03"
+          },
+          {
+            "q": "What happens as the deadline approaches in the 'procrastination cycle'?",
+            "answer": 2,
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_03"
+          },
+          {
+            "q": "Which strategy is recommended to reduce the feeling of being overwhelmed?",
+            "answer": 2,
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_03"
+          },
+          {
+            "q": "What role does self-compassion play in combating procrastination?",
+            "answer": 1,
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_03"
+          },
+          {
+            "q": "How do extreme weather events impact agricultural production?",
+            "answer": [
+              "Extreme weather events like droughts and floods disrupt production, leading to crop failures and reduced yields."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_05"
+          },
+          {
+            "q": "What is 'hidden hunger' and how is it related to climate change?",
+            "answer": [
+              "Hidden hunger is when people have enough calories but lack micronutrients. It's related to climate change because rising food prices make nutritious food less affordable."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_05"
+          },
+          {
+            "q": "What is one way CO2 levels affect the quality of crops?",
+            "answer": [
+              "Increased CO2 levels can reduce the nutritional value of crops like wheat and rice by lowering protein and mineral content."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_05"
+          },
+          {
+            "q": "Why are marine food sources threatened by climate change?",
+            "answer": [
+              "They are threatened by rising sea levels (saltwater intrusion) and ocean acidification/warming affecting fish populations."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_05"
+          },
+          {
+            "q": "What is 'climate-smart' agriculture?",
+            "answer": [
+              "Climate-smart agriculture refers to investing in resilient crop varieties and sustainable farming practices to adapt to climate change."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_05"
+          },
+          {
+            "q": "According to paragraph 1, what factors make certain regions more vulnerable to food insecurity caused by climate change?",
+            "answer": [
+              "The most vulnerable regions are those that are already food insecure and least equipped to adapt — which often overlap with regions where climate-driven disruptions to food production are projected to be most severe."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "Which of the following is NOT mentioned as an effect of higher atmospheric CO2 on crops?\nA) Stimulating plant growth under controlled conditions\nB) Reducing the protein content of some staple crops\nC) Increasing the rate at which insects damage crops\nD) Producing smaller growth benefits in real fields than in laboratory experiments",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "How does paragraph 3 relate to paragraph 2?\nA) It challenges the argument in paragraph 2 by providing contradictory evidence.\nB) It shifts from describing gradual climate effects on crops to the immediate risks of extreme weather.\nC) It provides data that proves the warming projections in paragraph 2 are underestimated.\nD) It introduces the role of global food trade as an additional cause of food insecurity.",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "According to paragraph 3, how has global supply chain integration worsened the impact of regional crop failures?",
+            "answer": [
+              "Because supply chains are now globally integrated, a harvest failure in one major exporting country can rapidly transmit to global food prices, affecting food affordability in countries thousands of miles away from the original disruption."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "There is a missing sentence in paragraph 4. Where does the following sentence best fit? 'In some cases, governments have responded to domestic price pressures by banning food exports, which can further destabilize global food markets.' Write A, B, C, or D.",
+            "answer": [
+              "C — The sentence about export bans logically follows the point about countries dependent on food imports, adding another dimension of risk: they not only face import vulnerability but also destabilizing policy responses from exporting nations."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "According to paragraph 4, why are urban populations in developing countries particularly affected by food supply disruptions?",
+            "answer": [
+              "Urban populations in developing countries may spend 50 to 80 percent of their income on food, meaning that even small price spikes caused by supply disruptions represent a disproportionately large share of their budget and can quickly make food unaffordable."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "What does the phrase 'progressively overwhelmed' mean as used in paragraph 5?\nA) Gradually replaced by more effective technologies\nB) Increasingly unable to cope with the scale of the problem they face\nC) Entirely eliminated by large-scale political reform\nD) Forcefully rejected by international organizations",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "What CANNOT be inferred from the text as a whole?\nA) Reducing food loss and waste could meaningfully reduce pressure on the global food supply.\nB) Climate change affects food security both through slow temperature increases and sudden extreme events.\nC) Drought-resistant crop varieties are already being widely distributed to smallholder farmers in tropical regions.\nD) Addressing climate change itself is ultimately necessary for ensuring long-term food security.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "What is the passage's main claim about digital platforms?",
+            "answer": [
+              "They are designed to maximize attention capture"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr3_06_hard"
+          },
+          {
+            "q": "In the passage, 'deep work' refers to:",
+            "answer": [
+              "Long periods of uninterrupted concentration"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr3_06_hard"
+          },
+          {
+            "q": "What is 'cognitive residue' in this context?",
+            "answer": [
+              "Reduced efficiency after interruptions"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr3_06_hard"
+          },
+          {
+            "q": "Why can equal study time lead to different outcomes?",
+            "answer": [
+              "Because fragmented attention lowers depth of learning"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr3_06_hard"
+          },
+          {
+            "q": "What solution does the passage consider more reliable than willpower alone?",
+            "answer": [
+              "Environment design (blockers, notification control, pre-commitment)"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr3_06_hard"
+          },
+          {
+            "q": "How does the author distinguish productive vs extractive technology?",
+            "answer": [
+              "Productive tools serve goals; extractive tools compete for attention"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr3_06_hard"
+          },
+          {
+            "q": "What role should institutions play, according to the passage?",
+            "answer": [
+              "Teach attention management as an academic skill"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr3_06_hard"
+          },
+          {
+            "q": "Which statement best reflects the final implication?",
+            "answer": [
+              "Continuous partial attention may weaken reasoning quality"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p4_mtr3_06_hard"
+          }
+        ]
+      },
+      "listening": {
+        "passage": "BUSEPT listening sets combined. Listen carefully; each recording is played once.",
+        "questions": [
+          {
+            "q": "What is the specific definition of 'attrition' in the context of this seminar?",
+            "answer": [
+              "The non-pathological decline of previously acquired linguistic skills"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_01"
+          },
+          {
+            "q": "Which linguistic subsystem is identified as the most vulnerable to disuse?",
+            "answer": [
+              "The lexical domain",
+              "Vocabulary"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_01"
+          },
+          {
+            "q": "What happens to a word's activation threshold when it is frequently retrieved?",
+            "answer": [
+              "It is lowered",
+              "It becomes lower"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_01"
+          },
+          {
+            "q": "If a word is not retrieved for a long time, the Activation Threshold Hypothesis suggests its threshold will ______.",
+            "answer": 2,
+            "similar": null,
+            "type": "cloze",
+            "_source_task": "LIST_BUEPT_01"
+          },
+          {
+            "q": "What evidence do fMRI studies provide regarding 'attrited' vocabulary?",
+            "answer": [
+              "They retain latent neural representations",
+              "Neural networks reactivate quickly"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_01"
+          },
+          {
+            "q": "Where does the primary deficit lie in lexical attrition: storage or retrieval?",
+            "answer": [
+              "Retrieval",
+              "Retrieval pathways"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_01"
+          },
+          {
+            "q": "What term is used to describe the rapid reactivation of forgotten items upon re-exposure?",
+            "answer": [
+              "re-learning savings"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_01"
+          },
+          {
+            "q": "According to the pilot study, what percentage increase was observed in delayed recall?",
+            "answer": [
+              "15%",
+              "Fifteen percent"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_01"
+          },
+          {
+            "q": "What was the critical factor in the success of the recap segments?",
+            "answer": [
+              "Timing",
+              "Its timing"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_01"
+          },
+          {
+            "q": "When exactly should the recap segments be delivered for maximum effect?",
+            "answer": [
+              "Immediately after a complex section"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_01"
+          },
+          {
+            "q": "What is the primary subject of the lecture?",
+            "answer": [
+              "The carbon cycle and global warming."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_21"
+          },
+          {
+            "q": "How has human activity disrupted the carbon balance?",
+            "answer": [
+              "By burning fossil fuels and deforestation."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_21"
+          },
+          {
+            "q": "What is the 'greenhouse effect' described as?",
+            "answer": [
+              "The trapping of heat in the atmosphere."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_21"
+          },
+          {
+            "q": "What are 'carbon sinks'?",
+            "answer": [
+              "Natural reservoirs that absorb CO2."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_21"
+          },
+          {
+            "q": "What happens as the oceans warm?",
+            "answer": [
+              "Their capacity to absorb carbon decreases."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_21"
+          },
+          {
+            "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
+            "answer": [
+              "The primary mechanism"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_21"
+          },
+          {
+            "q": "At what pace did accuracy drop sharply?",
+            "answer": [
+              "Above 170 words per minute"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_21"
+          },
+          {
+            "q": "Where did the Industrial Revolution begin?",
+            "answer": [
+              "Britain."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "What was the main shift in production?",
+            "answer": [
+              "From hand production to machine production."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "Why did people move to cities during this time?",
+            "answer": [
+              "For factory jobs."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "What was a negative side effect of rapid urbanization?",
+            "answer": [
+              "Overcrowded slums and poor sanitation."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "What social movement arose as a result of these conditions?",
+            "answer": [
+              "Labor unions."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
+            "answer": [
+              "The primary mechanism"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "How large was the pilot sample mentioned near the end?",
+            "answer": [
+              "220 participants"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_55"
+          },
+          {
+            "q": "What does the prisoner's dilemma illustrate?",
+            "answer": [
+              "Why rational individuals might not cooperate even if it benefits them."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_44"
+          },
+          {
+            "q": "In the classic scenario, what is the 'silent' strategy called?",
+            "answer": [
+              "Cooperation."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_44"
+          },
+          {
+            "q": "Why is 'betraying' the rational choice for one individual?",
+            "answer": [
+              "It yields a better individual result regardless of the other's choice."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_44"
+          },
+          {
+            "q": "What is the result when *both* prisoners act rationally in their own self-interest?",
+            "answer": [
+              "They both serve a longer sentence than if they had cooperated."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_44"
+          },
+          {
+            "q": "What real-world situation is explained by this model?",
+            "answer": [
+              "Arms races and price wars."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_44"
+          },
+          {
+            "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
+            "answer": [
+              "The primary mechanism"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_44"
+          },
+          {
+            "q": "What reduced listener confusion in the comparison run?",
+            "answer": [
+              "explicit signposting"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_44"
+          }
+        ]
+      },
+      "grammar": {
+        "questions": []
+      }
+    }
   },
   {
     "id": "mock_5",
@@ -2281,16 +4717,619 @@
     "duration": "120 mins",
     "description": "The ultimate challenge combining the most complex units from all sections.",
     "reading_section": [
-      "r_67",
-      "r_85",
-      "r_86",
-      "r_91",
-      "r_96"
+      "READ_R1_09",
+      "READ_R1_05",
+      "READ_R1_07",
+      "r_p3_mtr3_05_hard",
+      "READ_R2_01"
     ],
     "listening_section": [
-      "l_52",
-      "l_58",
-      "l_60"
-    ]
+      "LIST_BUEPT_17",
+      "LIST_BUEPT_15",
+      "l_49",
+      "LIST_BUEPT_16"
+    ],
+    "sections": {
+      "reading": {
+        "passage": "BUSEPT reading sets combined. Answer each question below the related passage.",
+        "questions": [
+          {
+            "q": "According to paragraph 1, what factors make certain regions more vulnerable to food insecurity caused by climate change?",
+            "answer": [
+              "The most vulnerable regions are those that are already food insecure and least equipped to adapt — which often overlap with regions where climate-driven disruptions to food production are projected to be most severe."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "Which of the following is NOT mentioned as an effect of higher atmospheric CO2 on crops?\nA) Stimulating plant growth under controlled conditions\nB) Reducing the protein content of some staple crops\nC) Increasing the rate at which insects damage crops\nD) Producing smaller growth benefits in real fields than in laboratory experiments",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "How does paragraph 3 relate to paragraph 2?\nA) It challenges the argument in paragraph 2 by providing contradictory evidence.\nB) It shifts from describing gradual climate effects on crops to the immediate risks of extreme weather.\nC) It provides data that proves the warming projections in paragraph 2 are underestimated.\nD) It introduces the role of global food trade as an additional cause of food insecurity.",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "According to paragraph 3, how has global supply chain integration worsened the impact of regional crop failures?",
+            "answer": [
+              "Because supply chains are now globally integrated, a harvest failure in one major exporting country can rapidly transmit to global food prices, affecting food affordability in countries thousands of miles away from the original disruption."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "There is a missing sentence in paragraph 4. Where does the following sentence best fit? 'In some cases, governments have responded to domestic price pressures by banning food exports, which can further destabilize global food markets.' Write A, B, C, or D.",
+            "answer": [
+              "C — The sentence about export bans logically follows the point about countries dependent on food imports, adding another dimension of risk: they not only face import vulnerability but also destabilizing policy responses from exporting nations."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "According to paragraph 4, why are urban populations in developing countries particularly affected by food supply disruptions?",
+            "answer": [
+              "Urban populations in developing countries may spend 50 to 80 percent of their income on food, meaning that even small price spikes caused by supply disruptions represent a disproportionately large share of their budget and can quickly make food unaffordable."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "What does the phrase 'progressively overwhelmed' mean as used in paragraph 5?\nA) Gradually replaced by more effective technologies\nB) Increasingly unable to cope with the scale of the problem they face\nC) Entirely eliminated by large-scale political reform\nD) Forcefully rejected by international organizations",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "What CANNOT be inferred from the text as a whole?\nA) Reducing food loss and waste could meaningfully reduce pressure on the global food supply.\nB) Climate change affects food security both through slow temperature increases and sudden extreme events.\nC) Drought-resistant crop varieties are already being widely distributed to smallholder farmers in tropical regions.\nD) Addressing climate change itself is ultimately necessary for ensuring long-term food security.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_09"
+          },
+          {
+            "q": "According to paragraph 1, how has the scientific view of bacteria within the body changed?",
+            "answer": [
+              "Bacteria were once viewed primarily as pathogens — harmful agents to be eliminated. The science of the microbiome has challenged this view by showing that microorganisms play active, beneficial roles in digestion, immune development, mental health, and disease protection."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_05"
+          },
+          {
+            "q": "Which is NOT listed in paragraph 2 as a function of gut bacteria?\nA) Helping to process dietary fiber\nB) Producing certain vitamins needed by the body\nC) Eliminating harmful pathogens from the digestive tract\nD) Breaking down compounds the body cannot digest on its own",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_05"
+          },
+          {
+            "q": "What is the 'gut-brain axis' as described in paragraph 3?",
+            "answer": [
+              "The gut-brain axis refers to the bidirectional communication between the gut and the brain. The gut contains millions of nerve cells and produces most of the body's serotonin, and the composition of gut bacteria has been linked to mood-related conditions such as depression and anxiety."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_05"
+          },
+          {
+            "q": "Which finding most directly supports the idea that gut bacteria can influence psychological states?\nA) The gut contains more than 100 million nerve cells.\nB) Most of the body's serotonin is produced in the gut.\nC) Transferring gut bacteria from anxious mice to calm ones caused the calm mice to behave anxiously.\nD) Probiotics have been found to reduce depression symptoms in some individuals.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_05"
+          },
+          {
+            "q": "What is the main argument of the 'hygiene hypothesis'?\nA) Modern hygiene practices have greatly reduced the incidence of infectious disease.\nB) Children raised in clean environments develop stronger immune systems than others.\nC) Excessive cleanliness in early childhood may impair proper immune development.\nD) Bacteria in the environment are the primary cause of autoimmune conditions.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_05"
+          },
+          {
+            "q": "Which paragraph from 1–5 best supports the following case? 'A pediatric doctor notices that children on farms who regularly play in soil and interact with animals show far lower rates of asthma than urban children the same age.'",
+            "answer": [
+              "Paragraph 4 — This matches the hygiene hypothesis evidence cited in paragraph 4: lower rates of allergic conditions in children raised on farms or in households with pets, compared to highly sanitized urban environments."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_05"
+          },
+          {
+            "q": "According to the text, in what way has antibiotic overuse harmed the microbiome?",
+            "answer": [
+              "Overuse of antibiotics kills beneficial bacteria alongside harmful ones, disrupting the balance of the gut ecosystem and reducing microbial diversity."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_05"
+          },
+          {
+            "q": "What CANNOT be inferred from paragraph 5?\nA) Antibiotics used in livestock farming may affect the human microbiome.\nB) Babies born via cesarean section may have less diverse gut microbiomes.\nC) Fecal microbiota transplantation is a widely available standard treatment in most hospitals.\nD) Diet can play a role in restoring or disrupting the balance of gut bacteria.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_05"
+          },
+          {
+            "q": "SUMMARY — Fill in the blanks using words from the box.",
+            "answer": [
+              "pathogens"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_05"
+          },
+          {
+            "q": "What is the primary purpose of paragraph 1?\nA) To argue that the Earth's water supply is sufficient for current needs\nB) To establish the scale of the global water crisis using statistics\nC) To explain why most of the Earth's water is found in oceans\nD) To introduce the political causes of global water inequality",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "According to paragraph 2, which uses the largest share of global freshwater?",
+            "answer": [
+              "Agriculture — it accounts for approximately 70 percent of global freshwater withdrawals, due to the large amounts of water needed for crop production and livestock."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "Which of the following is NOT stated as a consequence of climate change in paragraph 2?\nA) Changes in when and where rainfall occurs\nB) The accelerating retreat of glaciers\nC) More frequent and severe droughts\nD) A global decrease in total ocean water volume",
+            "answer": [
+              "D"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "How does paragraph 3 relate to paragraph 2?\nA) It provides historical background for the causes described in paragraph 2.\nB) It shifts from describing general causes to showing how the crisis affects people unequally.\nC) It introduces additional causes of the water crisis not covered in paragraph 2.\nD) It argues that the causes in paragraph 2 are less important than political factors.",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "According to paragraph 3, why are women and girls disproportionately affected by water insecurity in developing nations?",
+            "answer": [
+              "In many developing nations, women and girls are traditionally responsible for water collection. This means they must spend hours each day walking to collect water from distant or contaminated sources, taking time away from education, work, and other activities."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "What does the conflict over the Grand Ethiopian Renaissance Dam illustrate, according to paragraph 4?",
+            "answer": [
+              "It illustrates that water from shared international rivers can become a source of serious geopolitical tension and conflict. Ethiopia prioritizes the dam for development and electricity; Egypt and Sudan fear it will reduce the water flow they depend on for agriculture."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "Which word in paragraph 4 means 'a subject of dispute or argument'?",
+            "answer": [
+              "'contention' — 'The Grand Ethiopian Renaissance Dam has become a major point of contention.'"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "According to paragraph 5, what are two concerns about desalination as a solution to water scarcity?",
+            "answer": [
+              "1. High energy costs — desalination requires large amounts of energy, making it expensive to run. 2. Environmental challenges from brine waste disposal — the salty by-product of the desalination process poses environmental risks."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "What CANNOT be inferred from the text as a whole?\nA) The water crisis affects poorer populations more severely than wealthier ones.\nB) Improving agricultural water efficiency could reduce demand without harming food production.\nC) Desalination is currently too expensive to be used in any country on a large scale.\nD) International agreements for managing shared rivers are currently insufficient.",
+            "answer": [
+              "C"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R1_07"
+          },
+          {
+            "q": "What central challenge does the passage describe?",
+            "answer": [
+              "AI tools complicate traditional ideas of academic integrity"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_mtr3_05_hard"
+          },
+          {
+            "q": "What is the 'nuanced approach' mentioned in paragraph 2?",
+            "answer": [
+              "Allow AI for limited support with disclosure"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_mtr3_05_hard"
+          },
+          {
+            "q": "Why is detection software described as imperfect?",
+            "answer": [
+              "It can produce false positives and misclassify writing"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_mtr3_05_hard"
+          },
+          {
+            "q": "What is implied about punitive-only policies?",
+            "answer": [
+              "They are being replaced by assessment redesign in many departments"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_mtr3_05_hard"
+          },
+          {
+            "q": "Which practice is listed as part of redesigned assessment?",
+            "answer": [
+              "Oral defenses and draft portfolios"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_mtr3_05_hard"
+          },
+          {
+            "q": "What equity concern is raised?",
+            "answer": [
+              "Some students lack equal access to paid AI tools and digital skills"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_mtr3_05_hard"
+          },
+          {
+            "q": "How does the final paragraph define effective policy?",
+            "answer": [
+              "Clear boundaries, guidance, and assessment redesign"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_mtr3_05_hard"
+          },
+          {
+            "q": "Which statement would the author most likely support?",
+            "answer": [
+              "Responsible authorship should be taught through course design and transparency"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "r_p3_mtr3_05_hard"
+          },
+          {
+            "q": "According to paragraph 1, how has the scientific understanding of boredom changed in recent years?",
+            "answer": [
+              "Boredom was previously dismissed as trivial — the absence of stimulation. Recent research has revealed it to be a complex, active state in which the mind searches for meaning and engagement it cannot find, raising deeper questions about what boredom signals."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_01"
+          },
+          {
+            "q": "From paragraph 2, we can understand that people with trait boredom\nA) are bored only in specific, under-stimulating situations\nB) are bored regardless of their environment and tend to have lower life satisfaction\nC) are more creative than people who rarely experience boredom\nD) become bored only when they face complex and overwhelming tasks",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_01"
+          },
+          {
+            "q": "Considering paragraph 3, what makes the finding about boring tasks and creativity 'counterintuitive'?",
+            "answer": [
+              "It is counterintuitive because we would normally expect a boring task to reduce creativity or mental performance. Instead, the research found that doing a boring task actually increased creativity afterward — the opposite of what common sense would predict."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_01"
+          },
+          {
+            "q": "The mind-wandering process described in paragraph 3 corresponds to which stage in Wallas's (1926) model of creativity? (Refer to your course text: preparation / incubation / illumination / verification)\nA) Preparation\nB) Incubation\nC) Illumination\nD) Verification",
+            "answer": [
+              "B"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_01"
+          },
+          {
+            "q": "How does the author seem to explain the relationship between boredom and creativity? Explain in your own words.",
+            "answer": [
+              "The author suggests that boredom triggers mind-wandering, which activates the brain's default mode network — associated with daydreaming and loose, associative thinking. This mental state, rather than being wasted time, is actually the kind of thinking that underlies creative idea generation. By immediately escaping boredom through phones or screens, people short-circuit this potentially valuable cognitive process."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_01"
+          },
+          {
+            "q": "Which of the following are TRUE according to paragraphs 3 and 4? (There may be more than one correct answer.)\nA) Boredom can sometimes function as a creative catalyst.\nB) Workplace boredom only affects employees whose jobs are too simple.\nC) Immediately using a phone to escape boredom may prevent a potentially useful mental process.\nD) Burnout and boreout are the same phenomenon described differently.",
+            "answer": [
+              "A"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_01"
+          },
+          {
+            "q": "In paragraph 5, Heidegger's view of profound boredom is cited to illustrate that",
+            "answer": [
+              "...boredom, at its deepest level, is not simply an unpleasant feeling to be avoided, but can serve a philosophically important function — forcing a person to confront what they genuinely value and whether their life has meaning. It prompts self-examination rather than distraction."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_01"
+          },
+          {
+            "q": "A student who finds himself scrolling social media for hours, feeling vaguely dissatisfied, then returning to his phone almost immediately after putting it down is demonstrating which two concepts from the text?",
+            "answer": [
+              "1. He is demonstrating the 'counterproductive' escape from boredom (paragraph 3) — by immediately reaching for his phone, he prevents the mind-wandering and creative thinking that boredom could activate. 2. His dissatisfaction may reflect the link between boredom and lack of meaning in life (paragraph 5) — his inability to feel satisfied may signal a deeper issue with purpose."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_01"
+          },
+          {
+            "q": "SUMMARY — Fill in the blanks using words from the box.",
+            "answer": [
+              "state boredom"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "READ_R2_01"
+          }
+        ]
+      },
+      "listening": {
+        "passage": "BUSEPT listening sets combined. Listen carefully; each recording is played once.",
+        "questions": [
+          {
+            "q": "What is a 'smart contract' in the context of DeFi?",
+            "answer": [
+              "A self-executing agreement with terms written directly into code."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_17"
+          },
+          {
+            "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
+            "answer": [
+              "The primary mechanism"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_17"
+          },
+          {
+            "q": "What reduced listener confusion in the comparison run?",
+            "answer": [
+              "explicit signposting"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_17"
+          },
+          {
+            "q": "What is the speaker's main purpose in the added segment?",
+            "answer": [
+              "To give evidence-based practical advice"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_17"
+          },
+          {
+            "q": "What is the primary argument against the idea that AI is truly 'creative'?",
+            "answer": [
+              "It relies on pattern recognition and existing data rather than intent or emotion"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_15"
+          },
+          {
+            "q": "How do generative models produce art, according to the speaker?",
+            "answer": [
+              "By synthesizing vast datasets of human-made work"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_15"
+          },
+          {
+            "q": "What essential human quality is missing from AI-generated content?",
+            "answer": [
+              "Subjectivity",
+              "Conscious intent",
+              "Lived experience"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_15"
+          },
+          {
+            "q": "What do proponents of AI art argue about the role of the AI?",
+            "answer": [
+              "It is a tool that expands the creative potential of the human artist"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_15"
+          },
+          {
+            "q": "What ethical concern is raised regarding the training of AI models?",
+            "answer": [
+              "Unauthorized use of copyrighted human work"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_15"
+          },
+          {
+            "q": "Who was Ötzi the Iceman?",
+            "answer": [
+              "A natural mummy from the Copper Age."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_49"
+          },
+          {
+            "q": "When was he discovered?",
+            "answer": [
+              "1991."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_49"
+          },
+          {
+            "q": "What was unique about the tool he was carrying?",
+            "answer": [
+              "It was a copper axe."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_49"
+          },
+          {
+            "q": "What did scientists find in his stomach?",
+            "answer": [
+              "Ibex (wild goat meat) and grains."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_49"
+          },
+          {
+            "q": "How did Ötzi likely die?",
+            "answer": [
+              "An arrow wound revealed by X-rays."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_49"
+          },
+          {
+            "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
+            "answer": [
+              "The primary mechanism"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_49"
+          },
+          {
+            "q": "How large was the pilot sample mentioned near the end?",
+            "answer": [
+              "220 participants"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "l_49"
+          },
+          {
+            "q": "When does 'flow' typically occur according to the speaker?",
+            "answer": [
+              "When the difficulty of a task perfectly matches a person's skills."
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_16"
+          },
+          {
+            "q": "The word 'it' (as used in the expanded academic context) most likely refers to:",
+            "answer": [
+              "The primary mechanism"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_16"
+          },
+          {
+            "q": "How large was the pilot sample mentioned near the end?",
+            "answer": [
+              "220 participants"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_16"
+          },
+          {
+            "q": "What improvement followed the recap segments?",
+            "answer": [
+              "A 15% increase in delayed recall"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_16"
+          },
+          {
+            "q": "What did the speaker say was the key factor behind the improvement?",
+            "answer": [
+              "timing"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_16"
+          },
+          {
+            "q": "What is the speaker's main purpose in the added segment?",
+            "answer": [
+              "To give evidence-based practical advice"
+            ],
+            "similar": null,
+            "type": "short_answer",
+            "_source_task": "LIST_BUEPT_16"
+          }
+        ]
+      },
+      "grammar": {
+        "questions": []
+      }
+    }
   }
 ]
