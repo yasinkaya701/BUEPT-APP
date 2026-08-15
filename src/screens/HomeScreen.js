@@ -203,11 +203,53 @@ export default function HomeScreen({ navigation }) {
     { key: 'presentation', label: 'Presentation', route: 'AIPresentationPrep' },
     { key: 'lesson-video', label: 'Lesson Video', route: 'AILessonVideoStudio' },
   ];
+  const latestMockOverall = latestMock?.overall;
   const planningTools = [
-    { key: 'placement', label: 'Placement', route: 'PlacementTest' },
-    { key: 'study-plan', label: 'Study Plan', route: 'StudyPlan' },
-    { key: 'analytics', label: 'Analytics', route: 'Analytics' },
-    { key: 'exams', label: 'Exams', route: 'Exams' },
+    {
+      key: 'placement',
+      label: 'Placement',
+      route: 'PlacementTest',
+      icon: 'clipboard-outline',
+      tone: '#1D4ED8',
+      surface: '#EEF4FF',
+      body: 'Find your CEFR level and start at the right difficulty.',
+      metricValue: level || '—',
+      metricLabel: 'current level',
+    },
+    {
+      key: 'study-plan',
+      label: 'Study Plan',
+      route: 'StudyPlan',
+      icon: 'calendar-outline',
+      tone: '#065F46',
+      surface: '#ECFDF5',
+      body: 'Your adaptive daily plan, rebuilt from your weak areas.',
+      metricValue: adaptive?.focusAction || '—',
+      metricLabel: 'today\'s focus',
+    },
+    {
+      key: 'analytics',
+      label: 'Analytics',
+      route: 'Analytics',
+      icon: 'analytics-outline',
+      tone: '#7C3AED',
+      surface: '#F5F3FF',
+      body: 'Skill trends, question-type matrix, and mastery map.',
+      metricValue: formatAccuracy(skillComposite),
+      metricLabel: 'composite score',
+    },
+    {
+      key: 'exams',
+      label: 'Exams',
+      route: 'Exams',
+      icon: 'school-outline',
+      tone: '#FFFFFF',
+      surface: colors.primaryDark,
+      dark: true,
+      body: 'Timed mock exams in official BUSEPT format.',
+      metricValue: latestMockOverall != null ? String(latestMockOverall) : `${mockHistory.length || 0} taken`,
+      metricLabel: latestMockOverall != null ? 'last mock score' : 'mock exams completed',
+    },
   ];
   const campusTools = [
     { key: 'calendar', label: 'Calendar', route: 'ClassScheduleCalendar' },
@@ -425,10 +467,33 @@ export default function HomeScreen({ navigation }) {
           </View>
           <View style={[styles.controlPanel, !isCompact && styles.controlPanelWide]}>
             <Text style={styles.controlPanelTitle}>Planning & Exams</Text>
-            <Text style={styles.controlPanelBody}>Placement, study planning, analytics, and timed exam routes.</Text>
-            <View style={styles.bouRow}>
+            <Text style={styles.controlPanelBody}>Placement, study planning, analytics, and timed exam routes — each with its own card.</Text>
+            <View style={[styles.planGrid, !isCompact && styles.planGridWide]}>
               {planningTools.map((item) => (
-                <Button key={item.key} label={item.label} variant={item.key === 'exams' ? 'primary' : 'secondary'} onPress={() => navigation.navigate(item.route)} />
+                <TouchableOpacity
+                  key={item.key}
+                  activeOpacity={0.75}
+                  style={[
+                    styles.planCard,
+                    !isCompact && styles.planCardWide,
+                    { backgroundColor: item.surface },
+                    item.dark && styles.planCardDark,
+                  ]}
+                  onPress={() => navigation.navigate(item.route)}
+                >
+                  <View style={styles.planHead}>
+                    <View style={[styles.planIconWrap, item.dark ? styles.planIconDark : styles.planIconLight]}>
+                      <Ionicons name={item.icon} size={16} color={item.dark ? '#FFFFFF' : item.tone} />
+                    </View>
+                    <Ionicons name="arrow-forward-outline" size={14} color={item.dark ? '#93C5FD' : '#9CA3AF'} />
+                  </View>
+                  <Text style={[styles.planTitle, item.dark && styles.planTitleDark]}>{item.label}</Text>
+                  <Text style={[styles.planBody, item.dark && styles.planBodyDark]} numberOfLines={2}>{item.body}</Text>
+                  <View style={[styles.planMetric, item.dark && styles.planMetricDark]}>
+                    <Text style={[styles.planMetricValue, item.dark && styles.planMetricValueDark]} numberOfLines={1} adjustsFontSizeToFit>{item.metricValue}</Text>
+                    <Text style={[styles.planMetricLabel, item.dark && styles.planMetricLabelDark]} numberOfLines={1}>{item.metricLabel}</Text>
+                  </View>
+                </TouchableOpacity>
               ))}
             </View>
           </View>
@@ -602,5 +667,24 @@ const styles = StyleSheet.create({
   controlPanelWide: { width: '48.5%' },
   controlPanelTitle: { fontSize: 15, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: 4, fontWeight: '900' },
   controlPanelBody: { fontSize: 12, color: colors.muted, marginBottom: 10, lineHeight: 18, fontWeight: '500' },
+  planGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 2 },
+  planGridWide: { justifyContent: 'space-between' },
+  planCard: { flexBasis: '48.5%', borderRadius: 16, borderWidth: 1, borderColor: 'rgba(203,213,225,0.8)', padding: 14, gap: 6, ...shadow.sm },
+  planCardWide: { flexBasis: '23.5%' },
+  planCardDark: { borderColor: 'rgba(96,165,250,0.35)' },
+  planHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  planIconWrap: { width: 32, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
+  planIconDark: { backgroundColor: 'rgba(255,255,255,0.15)' },
+  planIconLight: { backgroundColor: colors.primaryLight },
+  planTitle: { fontSize: 14, color: colors.text, fontFamily: typography.fontHeadline, fontWeight: '800' },
+  planTitleDark: { color: '#FFFFFF' },
+  planBody: { fontSize: 11, color: colors.muted, lineHeight: 16, fontWeight: '500' },
+  planBodyDark: { color: 'rgba(255,255,255,0.75)' },
+  planMetric: { marginTop: 6, borderTopWidth: 1, borderTopColor: 'rgba(203,213,225,0.6)', paddingTop: 6 },
+  planMetricDark: { borderTopColor: 'rgba(255,255,255,0.18)' },
+  planMetricValue: { fontSize: 16, color: '#172554', fontFamily: typography.fontHeadline, fontWeight: '900', letterSpacing: -0.3 },
+  planMetricValueDark: { color: '#F59E0B' },
+  planMetricLabel: { marginTop: 2, fontSize: 10, color: colors.muted, textTransform: 'uppercase', letterSpacing: 0.6, fontWeight: '800' },
+  planMetricLabelDark: { color: 'rgba(255,255,255,0.65)' },
   flexOne: { flex: 1 }
 });
