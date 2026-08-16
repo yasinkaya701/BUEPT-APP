@@ -54,7 +54,7 @@ export default class AppErrorBoundary extends React.Component {
   };
 
   handleRetry = () => {
-    this.setState({ hasError: false, message: '' });
+    this.setState({ hasError: false, message: '', stack: '' });
   };
 
   render() {
@@ -70,6 +70,7 @@ export default class AppErrorBoundary extends React.Component {
       <View style={styles.root}>
         <Text style={styles.title}>App Recovered From A Runtime Error</Text>
         <Text style={styles.body}>Details: {this.state.message}</Text>
+        {this.state.stack ? <Text style={styles.stack}>{String(this.state.stack).slice(0, 1400)}</Text> : null}
         <View style={styles.actions}>
             <Text style={styles.retry} onPress={this.handleRetry}>
             Tap to Retry Rendering
@@ -103,6 +104,13 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontBody,
     color: colors.text,
     marginBottom: spacing.sm
+  },
+  stack: {
+    fontSize: 11,
+    color: 'rgba(255,255,255,0.55)',
+    fontFamily: 'monospace',
+    marginBottom: spacing.sm,
+    lineHeight: 15,
   },
   retry: {
     color: colors.primary,

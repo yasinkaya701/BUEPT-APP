@@ -10,6 +10,8 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import { colors, spacing, typography, shadow } from '../theme/tokens';
 import buept from '../../data/buept_exams.json';
+// __APP_VARIANT__ is a build-time constant injected by webpack DefinePlugin (no module needed)
+const isOdtu = __APP_VARIANT__ === 'odtu';
 import { useAppState } from '../context/AppState';
 import examResources from '../../data/exam_resources.json';
 import prepProfile from '../../data/bogazici_prep_profile.json';
@@ -36,17 +38,33 @@ export default function ExamsScreen({ navigation }) {
   const [selectedExam, setSelectedExam] = useState(null);
   const { mockResults = [] } = useAppState() || {};
   const fadeAnim = useRef(new Animated.Value(1)).current;
-  const officialSections = (prepProfile.examFramework?.sections || []).map((s) => ({
-    ...s,
-    // Official BUSEPT sub-task breakdown used in the real exam
-    subTasks:
-      s.key === 'listening'
-        ? ['Selective Listening (main ideas, signposts)', 'Careful Listening (details, qualifiers) — each recording played once']
-        : s.key === 'reading'
-          ? ['Reading Text 1 (~10 questions)', 'Reading Text 2 (~10 questions)']
-          : ['Task 1 — 40 min', 'Task 2 — 40 min'],
-  }));
-  const policyNotes = prepProfile.examFramework?.coreRules || [];
+  // Official METU EPE/İYS structure (Oct 2025) for the ODTÜ variant
+  const officialSections = isOdtu
+    ? [
+        { key: 'listening', label: 'While Listening', weightPercent: 24, format: '16 MC • 1.5 pts each • ~25 min' },
+        { key: 'reading', label: 'Careful Reading', weightPercent: 32, format: '4 texts • 20 comp (1.5) + 4 vocab (0.5) • 60 min' },
+        { key: 'note-taking', label: 'Note-Taking', weightPercent: 9, format: 'Lecture once (~8 min) → 6 MC • 1.5 pts each • ~15 min' },
+        { key: 'writing', label: 'Independent Writing', weightPercent: 20, format: 'ONE essay • ~220 words • 35 min' },
+        { key: 'speaking', label: 'Speaking (Day 2)', weightPercent: 15, format: 'Face-to-face interview • ~8 min • 4 unprepared + 1 prepared' },
+      ]
+    : (prepProfile.examFramework?.sections || []).map((s) => ({
+        ...s,
+        // Official BUSEPT sub-task breakdown used in the real exam
+        subTasks:
+          s.key === 'listening'
+            ? ['Selective Listening (main ideas, signposts)', 'Careful Listening (details, qualifiers) — each recording played once']
+            : s.key === 'reading'
+              ? ['Reading Text 1 (~10 questions)', 'Reading Text 2 (~10 questions)']
+              : ['Task 1 — 40 min', 'Task 2 — 40 min'],
+      }));
+  const policyNotes = isOdtu
+    ? [
+        'Start with listening — arrive early; late arrivals are not admitted.',
+        'Listening texts are played once only.',
+        'Writing is hand-written on paper.',
+        'Speaking is a separate Day-2 face-to-face interview.',
+      ]
+    : prepProfile.examFramework?.coreRules || [];
 
   const bestScore = (examId) => {
     const results = mockResults.filter(r => r.examId === examId);
@@ -89,8 +107,10 @@ export default function ExamsScreen({ navigation }) {
 
   return (
     <Screen scroll contentStyle={styles.container}>
-      <Text style={styles.h1}>📋 BUEPT Exams</Text>
-      <Text style={styles.sub}>Official framework + BUEPT-oriented mock practice</Text>
+      <Text style={styles.h1}>{isOdtu ? '📋 ODTÜ EPE (İYS) Exams' : '📋 BUEPT Exams'}</Text>
+      <Text style={styles.sub}>
+        {isOdtu ? 'Official METU SFL framework + full-format mock practice' : 'Official framework + BUSEPT-oriented mock practice'}
+      </Text>
 
       {/* Score summary */}
       {mockResults.length > 0 && (
@@ -141,7 +161,7 @@ export default function ExamsScreen({ navigation }) {
 
       {/* Quick Stats bar */}
       <Card style={styles.tipsCard}>
-        <Text style={styles.tipsTitle}>💡 Official BUEPT Structure (YADYOK)</Text>
+        <Text style={styles.tipsTitle}>{isOdtu ? '💡 Official ODTÜ-EPE Structure (METU SFL)' : '💡 Official BUEPT Structure (YADYOK)'}</Text>
         {officialSections.map((section) => (
           <View key={section.key}>
             <View style={styles.structRow}>
@@ -158,13 +178,57 @@ export default function ExamsScreen({ navigation }) {
         {policyNotes.map((note) => (
           <Text key={note} style={styles.policyHint}>• {note}</Text>
         ))}
-        <Text style={styles.policyHint}>• Passing mark: 60 (S/F grade); part-passing (parçalı geçme) is applied under YADYOK policy.</Text>
+        <Text style={styles.policyHint}>
+          {isOdtu
+            ? '• Passing mark: 60/100. 85+ exempts you from later English courses. Total 100 pts: L24 + R32 + NT9 + W20 + S15.'
+            : '• Passing mark: 60 (S/F grade); part-passing (parçalı geçme) is applied under YADYOK policy.'}
+        </Text>
         <Text style={styles.policyHintMuted}>
-          In-app mock papers currently focus on Reading + Listening + Language Use practice. Use Writing module for full essay simulation.
+          {isOdtu
+            ? 'Open the AI Mock Generator below for full ODTÜ-format mocks (all five sections) — or pick a timed section drill here.'
+            : 'In-app mock papers currently focus on Reading + Listening + Language Use practice. Use Writing module for full essay simulation.'}
         </Text>
       </Card>
 
-      {/* Exam cards */}
+      {/* Exam cards — BUSEPT timed papers; ODTÜ uses full-format mocks via the AI Mock Generator */}
+      {isOdtu ? (
+        <>
+        <View style={styles.startRow}>
+          <Button
+            label="🎓 Open Full-Format ODTÜ Mocks (AI Mock Generator)"
+            icon="play"
+            onPress={() => navigation.navigate('AIMockGenerator')}
+            style={styles.startRowBtn}
+          />
+          <Text style={styles.policyHintMuted}>
+            Four offline METU-format mocks (L1–L4) work without an AI key; a Gemini key unlocks unlimited P1–P4 generation.
+          </Text>
+        </View>
+
+        {/* External resources — METU SFL */}
+        <Card style={[styles.card, styles.resourceCard]}>
+          <Text style={styles.sectionLabel}>METU SFL Official Resources</Text>
+          {[
+            { title: 'METU SFL — Test Content & Scoring', url: 'https://dil.metu.edu.tr/', note: 'Official examination office' },
+            { title: 'METU News — EPE announcements', url: 'https://news.metu.edu.tr/', note: 'Exam dates and policy updates' },
+          ].map((resource) => (
+            <TouchableOpacity
+              key={resource.title}
+              style={styles.resourceRow}
+              onPress={() => navigation.navigate('WebViewer', { url: resource.url, title: resource.title })}
+            >
+              <View style={styles.resourceCopyWrap}>
+                <Text style={styles.resourceText}>{resource.title}</Text>
+                <Text style={styles.resourceHint}>{resource.note}</Text>
+              </View>
+              <Text style={styles.resourceArrow}>›</Text>
+            </TouchableOpacity>
+          ))}
+          <Text style={styles.resourceStamp}>This tool is independent — not affiliated with METU or SFL.</Text>
+        </Card>
+        </>
+      ) : (
+      <>
       <Text style={styles.sectionLabel}>Available Exams</Text>
       <Animated.View style={{ opacity: fadeAnim }}>
         {buept.map((exam) => {
@@ -237,6 +301,27 @@ export default function ExamsScreen({ navigation }) {
         ))}
         <Text style={styles.resourceStamp}>Source sync: {prepProfile.lastVerified}</Text>
       </Card>
+
+      {/* External resources — BUSEPT */}
+      <Card style={[styles.card, styles.resourceCard]}>
+        <Text style={styles.sectionLabel}>Official Resources</Text>
+        {examResources.map((resource) => (
+          <TouchableOpacity
+            key={resource.id}
+            style={styles.resourceRow}
+            onPress={() => navigation.navigate('WebViewer', { url: resource.source_url, title: resource.title })}
+          >
+            <View style={styles.resourceCopyWrap}>
+              <Text style={styles.resourceText}>{resource.title}</Text>
+              <Text style={styles.resourceHint}>{resource.note}</Text>
+            </View>
+            <Text style={styles.resourceArrow}>›</Text>
+          </TouchableOpacity>
+        ))}
+        <Text style={styles.resourceStamp}>Source sync: {prepProfile.lastVerified}</Text>
+      </Card>
+      </>
+      )}
     </Screen>
   );
 }

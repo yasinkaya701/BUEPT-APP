@@ -32,7 +32,29 @@ const CEFR_BANDS = [
   { min: 0, band: 'A2' },
 ];
 
-function bandFor(score) {
+// METÜ SFL band descriptors (Oct 2025 official scale) — see MockResultScreen METU_BANDS
+const METU_BANDS = [
+  { min: 90, label: 'A Band · Advanced' },
+  { min: 80, label: 'B Band · Upper' },
+  { min: 68, label: 'C Band · Proficient' },
+  { min: 55, label: 'D Band · Approaching' },
+  { min: 40, label: 'E Band · Developing' },
+  { min: 0, label: 'F Band · Foundational' },
+];
+
+/** Official METU scoring keys map to the extracted section keys. */
+const ODTU_KEY_MAP = {
+  listening: ['listening-selective'],
+  reading: ['reading-search'],
+  noteTaking: ['note-taking'],
+  writing: ['writing-0', 'writing-1'],
+  speaking: ['speaking-practice'],
+};
+
+function bandFor(score, isOdtuExam) {
+  if (isOdtuExam) {
+    return (METU_BANDS.find((b) => score >= b.min) || METU_BANDS[METU_BANDS.length - 1]).label;
+  }
   return (CEFR_BANDS.find((b) => score >= b.min) || CEFR_BANDS[CEFR_BANDS.length - 1]).band;
 }
 
@@ -215,10 +237,14 @@ export default function AIMockExamScreen({ navigation, route }) {
   };
 
   // ── Results computation ────────────────────────────────────────────────────
+  // ODTÜ-EPE: weighted 100-point scale (L24/R32/NT9/W20/S15) with 60 pass / 85
+  // exemption; BUSEPT: per-section 0–100 averages, 60 pass, S/F grade.
   const results = useMemo(() => {
     if (phase !== 'results') return null;
+    const scoring = exam?.meta?.scoring || null;
+    const isOdtuExam = exam?.meta?.university === 'odtu';
     const sectionResults = sections.map((secDef) => {
-      const graded = secDef.questions
+      const gradedAll = secDef.questions
         .map((q, i) => {
           const a = answers[secDef.key]?.[i];
           if (q.type === 'essay') {
@@ -258,18 +284,78 @@ export default function AIMockExamScreen({ navigation, route }) {
               yourAnswer: Number.isFinite(picked) ? q.options?.[picked] : 'Not answered',
             };
           }
-          return { correct: false, score: 0, max: 100, modelAnswer: null, yourAnswer: a };
-        })
-        .filter((r) => !r.isEssay);
+          // Speaking / other types: no objective auto-grading — keep as practice input.
+          return { correct: q.type === 'speaking' ? undefined : false, score: 0, max: 100, modelAnswer: null, yourAnswer: a };
+        });
+      // Separate the essay record: it cannot be objectively pass/failed against
+      // other MC items, but its word-count ratio feeds the weighted essay pts.
+      const essayRec = secDef.questions.some((q) => q.type === 'essay')
+        ? gradedAll.find((r) => r && r.isEssay)
+        : null;
+      const graded = gradedAll.filter((r) => !r.isEssay);
       const total = graded.length ? Math.round(graded.reduce((acc, r) => acc + r.score, 0) / graded.length) : 0;
-      return { ...secDef, graded, total, passed: total >= PASS_MARK };
+      // Essay weight: if the section is an essay and METU weights exist, score
+      // the essay block out of its official pts by word-target ratio (like the
+      // word-count check above) capped at the section's official share.
+      const essayPts = secDef.kind === 'writing' && scoring ? scoring.writing : 0;
+      const secScore = essayPts && essayRec
+        ? Math.round((Math.min(1, (essayRec.score || 0) / (essayRec.max || 250))) * essayPts)
+        : total;
+      return { ...secDef, graded, essayRec, total, sectionScore: secScore, passed: total >= PASS_MARK };
     });
-    const objective = sectionResults.filter((s) => s.graded.length > 0);
-    const overall = objective.length
-      ? Math.round(objective.reduce((acc, r) => acc + r.total, 0) / objective.length)
-      : 0;
-    return { sectionResults, overall, passed: overall >= PASS_MARK, band: bandFor(overall) };
-  }, [phase, answers, sections]);
+
+    let overall = 0;
+    if (isOdtuExam && scoring) {
+      // Weighted METU 100-point scale: each official bucket is scored by its
+      // (objective section count, averaged to 0–100) × official pts.
+      const buckets = [
+        { key: 'listening', secs: ODTU_KEY_MAP.listening, pts: scoring.listening },
+        { key: 'reading', secs: ODTU_KEY_MAP.reading, pts: scoring.reading },
+        { key: 'noteTaking', secs: ODTU_KEY_MAP.noteTaking, pts: scoring.noteTaking },
+        { key: 'writing', secs: ODTU_KEY_MAP.writing, pts: scoring.writing },
+        { key: 'speaking', secs: ODTU_KEY_MAP.speaking, pts: scoring.speaking },
+      ];
+      let earned = 0;
+      let counted = 0;
+      for (const b of buckets) {
+        const matched = sectionResults.filter((s) => b.secs.includes(s.key));
+        if (b.key === 'writing') {
+          // Essay block: scored out of its official pts by word-target ratio
+          // (objective auto-grading of essay content is not reliable enough to
+          // pass/fail a student; the ratio still rewards a completed essay).
+          const wr = matched.find((s) => s && s.essayRec);
+          const essayRatio = wr ? Math.min(1, (wr.essayRec.score || 0) / (wr.essayRec.max || 250)) : 0;
+          earned += essayRatio * b.pts;
+          counted += b.pts;
+          continue;
+        }
+        const avg = matched.length
+          ? matched.reduce((acc, s) => acc + s.total, 0) / matched.length
+          : null;
+        if (avg != null) {
+          earned += (avg / 100) * b.pts;
+          counted += b.pts;
+        }
+      }
+      // Speaking is practice-only input (no objective grading) — its official
+      // pts are excluded from the weighted sum so it cannot silently zero out
+      // the exam; the 100-point total is rescaled over the graded buckets.
+      overall = counted > 0 ? Math.round((earned / counted) * scoring.total) : 0;
+    } else {
+      const objective = sectionResults.filter((s) => s.graded.length > 0);
+      overall = objective.length
+        ? Math.round(objective.reduce((acc, r) => acc + r.total, 0) / objective.length)
+        : 0;
+    }
+    return {
+      sectionResults,
+      overall,
+      passed: overall >= PASS_MARK,
+      exempt: isOdtuExam && overall >= (scoring?.exempt || 85),
+      isOdtuExam,
+      band: bandFor(overall, isOdtuExam),
+    };
+  }, [phase, answers, sections, exam]);
 
   if (!exam || sections.length === 0) {
     return (
@@ -292,28 +378,70 @@ export default function AIMockExamScreen({ navigation, route }) {
         <Card style={styles.heroCard}>
           <Text style={styles.heroLabel}>Overall Score</Text>
           <Text style={[styles.heroScore, results.passed ? styles.heroPass : styles.heroFail]}>{results.overall}</Text>
-          <Text style={styles.heroGrade}>{results.passed ? 'PASS — S (Satisfactory)' : 'FAIL — F'}</Text>
-          <Text style={styles.heroBand}>Estimated CEFR band: {results.band}</Text>
+          {results.isOdtuExam ? (
+            <>
+              <Text style={styles.heroGrade}>
+                {results.exempt ? '85+ — Muafiyet Bandında' : results.passed ? 'Geçme Bandında (60+)' : 'Geçme Bandının Altında'}
+              </Text>
+              <Text style={styles.heroBand}>METÜ SFL: {results.band} · Pass 60 · Exemption 85</Text>
+            </>
+          ) : (
+            <>
+              <Text style={styles.heroGrade}>{results.passed ? 'PASS — S (Satisfactory)' : 'FAIL — F'}</Text>
+              <Text style={styles.heroBand}>Estimated CEFR band: {results.band}</Text>
+            </>
+          )}
         </Card>
         {results.sectionResults.map((sr) => (
           <Card key={sr.key} style={styles.sectionCard}>
             <View style={styles.sectionHead}>
               <Text style={styles.sectionTitle}>{sr.title}</Text>
-              <Text style={[styles.sectionScore, sr.passed ? styles.passText : styles.failText]}>{sr.total}/100</Text>
+              {results.isOdtuExam && sr.kind === 'speaking' ? (
+                <Text style={[styles.sectionScore, { color: colors.muted }]}>Practice — not auto-scored</Text>
+              ) : (
+                <Text style={[styles.sectionScore, sr.passed ? styles.passText : styles.failText]}>
+                  {results.isOdtuExam ? `${sr.sectionScore} pts` : `${sr.total}/100`}
+                </Text>
+              )}
             </View>
-            {!sr.passed && <Text style={styles.gapText}>Gap to pass: {PASS_MARK - sr.total} points (BUEPT pass mark is 60 per section)</Text>}
-            {sr.graded.slice(0, 5).map((r, i) => (
-              <View key={i} style={[styles.reviewCard, r.correct ? styles.reviewCorrect : styles.reviewIncorrect]}>
-                <Text style={styles.reviewQ}>{sr.questions[i]?.q}</Text>
-                <Text style={styles.reviewYours}>Your answer: {r.yourAnswer || '—'}</Text>
-                {!r.correct && r.modelAnswer != null && (
-                  <Text style={styles.reviewModel}>Model answer: {r.modelAnswer}</Text>
-                )}
+            {results.isOdtuExam && sr.kind === 'speaking' ? (
+              <Text style={styles.gapText}>
+                Speaking is a face-to-face interview in the real İYS — this is a rehearsal of the 4 unpredictable + 1 prepared questions.
+              </Text>
+            ) : !sr.passed ? (
+              <Text style={styles.gapText}>
+                {results.isOdtuExam
+                  ? `Section average below 60 — needs work`
+                  : `Gap to pass: ${PASS_MARK - sr.total} points (BUEPT pass mark is 60 per section)`}
+              </Text>
+            ) : null}
+            {(sr.kind === 'writing' && sr.essayRec
+              ? [{ q: `${sr.title} — word-count check (${sr.essayRec.score} / ${sr.essayRec.max} words)`, yourAnswer: sr.essayRec.yourAnswer == null || String(sr.essayRec.yourAnswer).trim() === '' ? '(not answered)' : String(sr.essayRec.yourAnswer), modelAnswer: null, correct: sr.essayRec.score >= (sr.essayRec.max || 250) * 0.8, isEssay: true }]
+              : []
+            ).concat(sr.graded || []).slice(0, 5).map((r, i) => (
+              <View
+                key={i}
+                style={[
+                  styles.reviewCard,
+                  r.correct === undefined ? styles.reviewNeutral : r.correct ? styles.reviewCorrect : styles.reviewIncorrect,
+                ]}
+              >
+                <Text style={styles.reviewQ}>{r.isEssay ? r.q.replace(/\s*—\s*word-count check.*$/, '') : (sr.questions && sr.questions[i])?.q || ''}</Text>
+                <Text style={styles.reviewYours}>
+                  {r.isEssay
+                    ? `Submitted: ${r.yourAnswer == null || String(r.yourAnswer).trim() === '' ? '(not answered)' : `${String(r.yourAnswer).split(/\s+/).filter(Boolean).length} words`}`
+                    : r.yourAnswer == null || String(r.yourAnswer).trim() === ''
+                      ? r.correct === undefined
+                        ? 'Practice item — answered during the interview'
+                        : 'Your answer: —'
+                      : `Your answer: ${r.yourAnswer}`}
+                </Text>
+                {r.isEssay
+                  ? <Text style={styles.reviewModel}>Target: {sr.essayRec?.max || 250}+ words (≥80% earns the full writing share)</Text>
+                  : !r.correct && r.modelAnswer != null && <Text style={styles.reviewModel}>Model answer: {r.modelAnswer}</Text>}
               </View>
             ))}
-            {sr.graded.length > 5 && (
-              <Text style={styles.reviewMore}>…and {sr.graded.length - 5} more items</Text>
-            )}
+            {(sr.graded || []).length > 5 && <Text style={styles.reviewMore}>…and {(sr.graded || []).length - 5} more items</Text>}
           </Card>
         ))}
         <Button label="Done" onPress={() => navigation.goBack()} style={styles.doneBtn} />
@@ -524,6 +652,7 @@ const styles = StyleSheet.create({
   gapText: { fontSize: 12, color: colors.errorDark, marginBottom: spacing.sm, lineHeight: 17 },
   reviewCard: { padding: spacing.md, borderRadius: radius.md, marginBottom: spacing.sm },
   reviewCorrect: { borderColor: colors.success, borderWidth: 1 },
+  reviewNeutral: { borderColor: colors.muted, borderWidth: 1, borderStyle: 'dashed', opacity: 0.75 },
   reviewIncorrect: { borderColor: colors.error, borderWidth: 1 },
   reviewQ: { fontSize: 14, color: colors.text, lineHeight: 20, marginBottom: spacing.xs },
   reviewYours: { fontSize: 13, color: colors.error, fontWeight: '700', marginBottom: 2 },
