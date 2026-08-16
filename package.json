@@ -16,7 +16,8 @@
     "ios:safe": "./scripts/run-ios-safe.sh",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "node patches/patch-voice-androidx.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",

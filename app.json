@@ -1,4 +1,14 @@
 {
   "name": "BUEPTApp",
-  "displayName": "BUEPTApp"
+  "displayName": "BUEPTApp",
+  "version": "1.0.0",
+  "short_name": "BUEPT",
+  "description": "BUSEPT preparation companion — listening, reading, writing and speaking practice with AI-powered feedback, built for Boğaziçi University English Proficiency Test candidates.",
+  "scheme": "bueptapp",
+  "ios": {
+    "bundleIdentifier": "com.bueptapp"
+  },
+  "android": {
+    "package": "com.bueptapp"
+  }
 }
