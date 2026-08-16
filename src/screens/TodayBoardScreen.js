@@ -7,6 +7,7 @@ import Button from '../components/Button';
 import { colors, typography, spacing, radius, shadow } from '../theme/tokens';
 import { ScoreRing, Sparkline } from '../components/ui';
 import { useAppState } from '../context/AppState';
+import { useUniversity } from '../context/UniversityContext';
 
 const TODAY_MISSIONS = [
   {
@@ -44,6 +45,13 @@ const TODAY_MISSIONS = [
     route: 'SpeakingMockInterview',
     icon: 'mic-outline',
   },
+  {
+    id: 'full-mock',
+    label: 'Run one full-format mock',
+    detail: 'Complete a timed official-format mock from the offline bank and see your band report.',
+    route: 'AIMockGenerator',
+    icon: 'school-outline',
+  },
 ];
 
 function todayKey() {
@@ -70,7 +78,19 @@ function setTodayMap(map) {
 }
 
 export default function TodayBoardScreen({ navigation }) {
-  const { streakDays = 0, xp = 0, weakWords = [], mockResults = [], addXp } = useAppState();
+  const { streakDays = 0, xp = 0, errorWords = [], mockHistory = [], addXp } = useAppState();
+  const { uniKey } = useUniversity();
+  const isOdtu = uniKey === 'odtu';
+  // Back-compat aliases so the board works even if AppState renames fields.
+  // errorWords is a {word: missCount} object in AppState — map to an array for the board.
+  const weakWords = Array.isArray(errorWords)
+    ? errorWords
+    : Array.isArray(Object.entries(errorWords || {}))
+      ? Object.entries(errorWords || {})
+          .sort((a, b) => Number(b[1]) - Number(a[1]))
+          .map(([word, count]) => ({ word, count: Number(count) || 0 }))
+      : [];
+  const mockResults = Array.isArray(mockHistory) ? mockHistory : [];
 
   const completedToday = useMemo(() => getTodayMap(), []);
 
@@ -89,13 +109,17 @@ export default function TodayBoardScreen({ navigation }) {
 
   const markDone = (id) => {
     setTodayMap({ ...getTodayMap(), [id]: true });
-    addXp('daily_mission', 15);
+    addXp(15, 'Daily Mission');
   };
 
   return (
     <Screen scroll contentStyle={styles.container}>
       <Text style={styles.h1}>Today's Board</Text>
-      <Text style={styles.headerSub}>Five short missions keep every BUSEPT module warm. Complete all five and your streak grows automatically.</Text>
+      <Text style={styles.headerSub}>
+        {isOdtu
+          ? 'Günlük görevler İYS\u2019in tüm bölümlerini canlı tutar: dinleme, okuma, not alma, yazma ve konuşma. Bugünkülerin tamamla, zincirin büyüsün.'
+          : 'Günlük görevler tüm BUSEPT modüllerini canlı tutar. Bugünkülerin tamamla, zincirin büyüsün.'}
+      </Text>
 
       <Card style={[styles.card, shadow.elev1]}>
         <View style={styles.headRow}>
@@ -164,7 +188,7 @@ export default function TodayBoardScreen({ navigation }) {
         {completedCount === TODAY_MISSIONS.length ? (
           <View style={styles.allDoneBox}>
             <Ionicons name="trophy-outline" size={18} color={colors.success} />
-            <Text style={styles.allDoneText}>All missions complete — +75 XP earned today.</Text>
+            <Text style={styles.allDoneText}>All missions complete — +{TODAY_MISSIONS.length * 15} XP earned today.</Text>
           </View>
         ) : null}
       </Card>
@@ -175,7 +199,10 @@ export default function TodayBoardScreen({ navigation }) {
           <View style={styles.wordGrid}>
             {weakWords.slice(0, 10).map((w) => (
               <View key={w?.word || w} style={styles.wordChip}>
-                <Text style={styles.wordChipText}>{typeof w === 'string' ? w : w?.word || '?'}</Text>
+                <Text style={styles.wordChipText}>
+                  {typeof w === 'string' ? w : w?.word || '?'}
+                  {w?.count ? `  · ${w.count}` : ''}
+                </Text>
               </View>
             ))}
           </View>

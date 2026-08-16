@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-# Primary surfaces for AI assistants and crawlers
-Sitemap: https://yasinkaya701.github.io/BUEPT-ODTU/sitemap.xml

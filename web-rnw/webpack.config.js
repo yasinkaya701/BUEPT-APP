@@ -29,11 +29,15 @@ module.exports = (env = {}, argv = {}) => {
   const variant = process.env.WEB_VARIANT || 'buept';
   const distDir = env.distDir || (variant === 'odtu' ? path.resolve(projectRoot, 'web-rnw/dist-odtu') : path.resolve(projectRoot, 'web-rnw/dist'));
   // publicPath: explicit override (web:rnw:build sets /BUEPT-APP/ for the
-  // BUEPT edition which GitHub Pages serves under the repo-name base path
-  // /BUEPT-APP/). The ODTÜ edition deploys to its own repo
-  // (BUEPT-ODTU), whose Pages base path is /BUEPT-ODTU/ — set via
-  // WEB_PUBLIC_PATH=/BUEPT-ODTU/ in that repo's build, or / for the default.
-  const publicPath = env.publicPath || process.env.WEB_PUBLIC_PATH || '/BUEPT-APP/';
+  // BUSEPT edition which GitHub Pages serves under the repo-name base path
+  // /BUEPT-APP/). The ODTÜ edition deploys as /BUEPT-ODTU/ within the SAME
+  // repo (staged by the CI 'Stage ODTÜ edition' step), so its assets must
+  // resolve under /BUEPT-ODTU/ — automatically applied when WEB_VARIANT=odtu.
+  // Can still be overridden via WEB_PUBLIC_PATH for out-of-tree builds.
+  const publicPath =
+    env.publicPath ||
+    process.env.WEB_PUBLIC_PATH ||
+    (variant === 'odtu' ? '/BUEPT-ODTU/' : '/BUEPT-APP/');
   const devHost = process.env.WEB_DEV_HOST || '127.0.0.1';
   const devPort = Number(process.env.WEB_DEV_PORT || 8090);
 

@@ -109,31 +109,37 @@ export const UNIVERSITIES = [
       'İTÜ\'s English proficiency exam determines prep-school placement. AI mocks can be tuned to the announced format each term.',
   },
   {
-    // METU EPE/İYS 2026 format (verified: epe.metu.edu.tr 8 Sep 2026
-    // announcement "1. Oturum: Dinleme, Okuma, Not Alma, Yazma" + temaDil/
-    // epeguide breakdowns: Reading 32 pts/60 min, Listening 9 pts/15 min,
-    // Writing 20 pts/35 min, Speaking 15 pts/8 min on the face-to-face exam).
-    // Key difference vs BUSEPT: METU READING dominates (~42% of points), has
-    // a separate NOTE-TAKING block, shorter listening, ONE essay, and DOES
-    // include a speaking block on the face-to-face exam.
+    // METU EPE/İYS official format (verified: METU SFL "Test Content and
+    // Scoring — October 2025" PDF — dil.metu.edu.tr):
+    //   Session 1 (Day 1): While Listening 24 pts/~25 min (16 MC, 1.5 each),
+    //   Careful Reading 32 pts/60 min (4 texts 800–1000 words, 24 items:
+    //   20 comprehension×1.5 + 4 vocabulary×0.5), Note-Taking 9 pts/~15 min
+    //   (~8 min lecture → 6 MC), Independent Writing 20 pts/35 min (~220
+    //   words, hand-written, one task). Session 2 (Day 2): Speaking 15 pts/
+    //   ~8 min (4 unprepared Qs + 1 prepared broader-perspective Q).
+    //   TOTAL 100 pts, ~145 min; pass 60 (undergrad), halves round up; 85+ =
+    //   IS100-style course exemptions; TOEFL 75 ≈ EPE 60.
+    // Key difference vs BUSEPT: METU READING dominates (32/100), has a
+    // separate NOTE-TAKING block, starts with listening (no late entry!),
+    // ONE essay, and DOES include a Day-2 speaking interview.
     key: 'odtu',
     name: 'Middle East Technical University',
     shortName: 'ODTÜ-EPE',
     examName: 'ODTÜ İngilizce Yeterlik Sınavı (EPE / İYS)',
     adminName: 'Yabancı Diller Yüksekokulu (SFL)',
-    accent: '#7c3aed',
-    accentSoft: '#f5f3ff',
+    accent: '#15803d',
+    accentSoft: '#f0fdf4',
     format: {
       sections: ['listening', 'reading', 'note-taking', 'writing', 'speaking'],
       passRule:
-        'Pass band is ~60/100 overall; scores 85+ exempt you from later English courses (IS100). Reading carries the largest share (~32 pts of 76).',
+        'Pass mark is 60/100 overall (scores round up). 85+ grants exemption from later English courses. Reading carries the largest share (32/100).',
       timing: {
-        totalExam: '~165 minutes (single session: Dinleme, Okuma, Not Alma, Yazma)',
-        listening: '~15 min • 9 pts — short talks, dialogues and one lecture excerpt.',
-        reading: '60 min • 32 pts — 4-5 dense academic texts + a graph-interpretation item; main idea, inference, purpose, vocab-in-context.',
-        'note-taking': 'Lecture listened once → notes taken → questions answered afterwards.',
-        writing: '~35 min • 20 pts — one essay (~180-250 words) with idea guidelines provided.',
-        speaking: '~8 min • 15 pts — face-to-face speaking block (unlike BUSEPT, METU includes speaking).',
+        totalExam: '2 sessions, ~145 minutes — Day 1: Listening, Reading, Note-Taking, Writing; Day 2: Speaking interview.',
+        listening: '~25 min • 24 pts — 16 multiple-choice items (1.5 each) over short talks, conversations and lectures. The exam STARTS with listening.',
+        reading: '60 min • 32 pts — 4 academic texts (800–1000 words), 24 items: 20 comprehension (1.5 pts) + 4 vocabulary (0.5 pts). Main idea, inference, purpose, vocab-in-context.',
+        'note-taking': '~15 min • 9 pts — listen to a lecture once (~8 min), take notes, then answer 6 multiple-choice items (1.5 pts each).',
+        writing: '35 min • 20 pts — independent writing, ONE task, about 220 words, hand-written on paper.',
+        speaking: 'Day 2 • 15 pts • ~8 min — interview: 4 unprepared questions (personal experience, preferences, opinions) plus 1 prepared broader-perspective question.',
       },
     },
     features: {
@@ -144,7 +150,7 @@ export const UNIVERSITIES = [
       officialSim: true,
     },
     blurb:
-      'METU\'s exam is reading-dominated with a separate note-taking block and a real speaking section. Offline METU-style mocks and AI generation included.',
+      'METU\'s exam scores 100 points across 5 sections — reading dominates, note-taking is its own block, and speaking is a separate Day-2 interview. Offline METU-style mocks and AI generation included.',
     images: {
       hero: require('../assets/images/odtu_gate.webp'),
       campus: require('../assets/images/odtu_campus_panorama.jpg'),

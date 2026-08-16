@@ -40,10 +40,10 @@ const STATS_BY_UNI = {
     { value: 3.5, suffix: ' saat', label: 'Resmi sınav replikası' },
   ],
   odtu: [
-    { value: 32, suffix: ' puan', label: 'Okuma ağırlıklı puan' },
+    { value: 100, suffix: ' puan', label: 'Resmi 5 bölüm toplamı' },
+    { value: 32, suffix: ' puan', label: 'Okuma bölümü payı' },
     { value: 4, suffix: '+', label: 'Tam ODTÜ formatlı mock' },
-    { value: 4, suffix: '', label: 'AI puanlamalı beceri' },
-    { value: 165, suffix: ' dk', label: 'Tek oturum sınav replikası' },
+    { value: 60, suffix: ' puan', label: 'Geçme notu (85+ muafiyet)' },
   ],
 };
 const FEATURES_BY_UNI = {
@@ -74,7 +74,7 @@ const FEATURES = [
   {
     icon: 'mic-outline',
     title: 'Gerçek Konuşma Değerlendirmesi',
-    body: 'Mülakat simülasyonu ile telaffuz, akıcılık ve içerik puanlaması. BUSEPT\'te speaking yok — bu, üniversite mülakatları ve genel pratik için bonus.',
+    body: '__UNI_SPEAKING__',
     color: colors.skill.speaking,
     soft: colors.skillSoft.speaking,
   },
@@ -134,7 +134,7 @@ const FAQS = [
 const FAQS_ODTU = [
   {
     q: 'ODTÜ İYS (EPE) nasıl bir sınavdır?',
-    a: 'ODTÜ SFL\'nin resmi İngilizce Yeterlilik Sınavı tek oturumda (~165 dk) yapılır: Dinleme, Okuma, Not Alma ve Yazma. Yüz yüze konuşma bölümü de gerçek sınavda vardır. Geçme bandı ~60/100\'dür; okuma en büyük puan payına sahiptir (~32/76).',
+    a: 'ODTÜ SFL\'nin resmi İngilizce Yeterlilik Sınavı 100 puan üzerinden değerlendirilir: While Listening (~25 dk, 24 puan), Careful Reading (60 dk, 32 puan), Not Alma (~15 dk, 9 puan), Bağımsız Yazma (35 dk, 20 puan) ve yüz yüze Konuşma mülakatı (2. gün, ~8 dk, 15 puan). Geçme notu 60/100; 85 ve üzeri sonraki İngilizce derslerinden muafiyet sağlar.',
   },
   {
     q: 'Bu platform ücretsiz mi?',
@@ -182,7 +182,12 @@ export default function LandingScreen({ navigation }) {
   );
 
   const featureFormat = FEATURES_BY_UNI[uniKey] || FEATURES_BY_UNI.buept;
-  const features = [featureFormat, ...FEATURES.slice(1)];
+  const SPEAKING_BODY_BY_UNI = {
+    buept: 'Mülakat simülasyonu ile telaffuz, akıcılık ve içerik puanlaması. BUSEPT\'te speaking yok — bu, üniversite mülakatları ve genel pratik için bonus.',
+    odtu: 'Yüz yüze mülakat simülasyonu: 4 hazırlıksız + 1 hazırlıklı soru ile gerçek İYS konuşma bloğunun provası. Telaffuz, akıcılık ve içerik AI ile puanlanır.',
+  };
+  const features = [featureFormat, ...FEATURES.slice(1).map((f) => (f.body === '__UNI_SPEAKING__' ? { ...f, body: SPEAKING_BODY_BY_UNI[uniKey] || SPEAKING_BODY_BY_UNI.buept } : f))];
+  const FAQ_LIST = isOdtu ? FAQS_ODTU : FAQS;
 
   const start = useCallback(() => {
     if (isOdtu) {
@@ -236,15 +241,13 @@ export default function LandingScreen({ navigation }) {
 
       {/* ── Stats band ── */}
       <View style={styles.statsBand}>
-        <MotionGroup stagger={90}>
-          {STATS.map((s, i) => (
-            <View key={i} style={styles.statTile}>
-              <CountUp value={s.suffix === ' saat' ? '3.5 saat' : String(s.value)} textStyle={styles.statValue} />
-              {s.suffix !== ' saat' && <Text style={styles.statSuffix}>+</Text>}
-              <Text style={styles.statLabel}>{s.label}</Text>
-            </View>
-          ))}
-        </MotionGroup>
+        {STATS.map((s, i) => (
+          <View key={i} style={styles.statTile}>
+            <CountUp value={s.value === 3.5 ? '3.5 saat' : String(s.value)} textStyle={styles.statValue} />
+            <Text style={styles.statSuffix}>{s.suffix || '+'}</Text>
+            <Text style={styles.statLabel}>{s.label}</Text>
+          </View>
+        ))}
       </View>
 
       {/* ── Features ── */}
@@ -338,7 +341,7 @@ export default function LandingScreen({ navigation }) {
         <Text style={styles.sectionKicker}>SSS</Text>
         <Text style={styles.sectionTitle}>Sık sorulanlar</Text>
         <View style={styles.faqList}>
-          {FAQS.map((f, i) => (
+          {FAQ_LIST.map((f, i) => (
             <Pressable
               key={i}
               onPress={() => toggleFaq(i)}
@@ -461,7 +464,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
-  statTile: { alignItems: 'center', padding: 10, minWidth: '40%' },
+  statTile: { alignItems: 'center', padding: 10, ...(isWeb ? { width: '25%' } : { minWidth: '40%' }) },
   statValue: {
     fontSize: 32,
     fontWeight: '900',

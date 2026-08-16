@@ -18,6 +18,7 @@ import {
   saveMockBank,
   MOCK_LEVELS,
   MOCK_SECTIONS,
+  getMockSections,
   isAiAccessAvailable,
 } from '../utils/aiMockGenerator';
 import { getOfflineMocks } from '../data/offlineMocks';
@@ -88,6 +89,9 @@ export default function AIMockGeneratorScreen({ navigation }) {
       const s = exam.reading.search?.questions?.length || 0;
       const c = exam.reading.careful?.questions?.length || 0;
       counts.push(`Reading: ${s} search + ${c} careful`);
+    }
+    if (exam.noteTaking) {
+      counts.push(`Note-Taking: ${exam.noteTaking.lecture?.questions?.length || 0} MC items`);
     }
     if (exam.writing) counts.push(`Writing: ${exam.writing.essays.length} essays`);
     return counts;
@@ -163,7 +167,7 @@ export default function AIMockGeneratorScreen({ navigation }) {
           <Card style={styles.card}>
             <Text style={styles.sectionLabel}>What to Generate</Text>
             <View style={styles.optionRow}>
-              {MOCK_SECTIONS.map((s) => (
+              {getMockSections(uniKey).map((s) => (
                 <Button
                   key={s.key}
                   label={s.label}
@@ -211,7 +215,7 @@ export default function AIMockGeneratorScreen({ navigation }) {
                 {['P1', 'P2', 'P3', 'P4'].includes(bank[0]?.level) && (
                   <Text style={styles.newExamPill}>{bank[0].level}</Text>
                 )}
-                <Text style={styles.newExamPill}>{MOCK_SECTIONS.find((s) => s.key === bank[0]?.section)?.label}</Text>
+                <Text style={styles.newExamPill}>{getMockSections(uniKey).find((s) => s.key === bank[0]?.section)?.label}</Text>
               </View>
               <Button label="Open Exam" onPress={() => handleView(bank[0])} />
             </Card>
@@ -231,7 +235,7 @@ export default function AIMockGeneratorScreen({ navigation }) {
                   </Text>
                   <View style={styles.bankPills}>
                     <Text style={styles.bankPill}>{exam.level}</Text>
-                    <Text style={styles.bankPill}>{MOCK_SECTIONS.find((s) => s.key === exam.section)?.label}</Text>
+                    <Text style={styles.bankPill}>{getMockSections(uniKey).find((s) => s.key === exam.section)?.label}</Text>
                   </View>
                 </View>
                 {examQuestionCounts(exam).map((c) => (
@@ -249,50 +253,103 @@ export default function AIMockGeneratorScreen({ navigation }) {
 }
 
 function ExamPreview({ exam, onBack, onStart }) {
+  const isOdtu = (exam?.university || exam?.meta?.university) === 'odtu';
   const sectionEntries = [];
-  if (exam.listening?.selective) {
-    sectionEntries.push({
-      key: 'lis-sel',
-      icon: '🎧',
-      title: exam.listening.selective.title,
-      sub: `Selective Listening • ${exam.listening.selective.questions.length} questions • preview 3 min + check 3 min`,
-    });
-  }
-  if (exam.listening?.careful) {
-    sectionEntries.push({
-      key: 'lis-car',
-      icon: '📝',
-      title: exam.listening.careful.title,
-      sub: `Careful Listening (note-taking) • ${exam.listening.careful.questions.length} questions • answer 15 min`,
-    });
-  }
-  if (exam.reading?.search) {
-    sectionEntries.push({
-      key: 'rea-search',
-      icon: '🔍',
-      title: exam.reading.search.title,
-      sub: `Reading I (Search) • ${exam.reading.search.questions.length} questions • ${exam.reading.search.timeMinutes} min`,
-    });
-  }
-  if (exam.reading?.careful) {
-    sectionEntries.push({
-      key: 'rea-care',
-      icon: '📖',
-      title: exam.reading.careful.title,
-      sub: `Reading II (Careful) • ${exam.reading.careful.questions.length} questions • ${exam.reading.careful.timeMinutes} min`,
-    });
-  }
-  if (exam.writing) {
-    exam.writing.essays.forEach((e, i) => {
+  if (isOdtu) {
+    // Official METU order: While Listening → Careful Reading → Note-Taking → Independent Writing (+ Speaking Day-2 practice).
+    if (exam.listening?.selective) {
       sectionEntries.push({
-        key: `wri-${i}`,
-        icon: '✍️',
-        title: `Writing Task ${i + 1}`,
-        sub: `${e.topic.slice(0, 90)}${e.topic.length > 90 ? '…' : ''} • ~${e.wordTarget} words • ${e.timeMinutes} min`,
+        key: 'lis-sel',
+        icon: '🎧',
+        title: exam.listening.selective.title,
+        sub: `While Listening • ${exam.listening.selective.questions.length} questions • 1.5 pts each • ~25 min`,
       });
-    });
+    }
+    if (exam.reading?.search) {
+      sectionEntries.push({
+        key: 'rea-search',
+        icon: '📖',
+        title: exam.reading.search.title,
+        sub: `Careful Reading • ${exam.reading.search.questions.length} questions • 32 pts • 60 min`,
+      });
+    }
+    if (exam.noteTaking?.lecture) {
+      sectionEntries.push({
+        key: 'note',
+        icon: '📝',
+        title: exam.noteTaking.lecture.title,
+        sub: `Note-Taking • lecture once (~8 min) then ${exam.noteTaking.lecture.questions.length} MC items • 1.5 pts each • ~15 min`,
+      });
+    } else if (exam.listening?.careful) {
+      sectionEntries.push({
+        key: 'note',
+        icon: '📝',
+        title: exam.listening.careful.title,
+        sub: `Note-Taking • lecture once (~8 min) then ${exam.listening.careful.questions.length} MC items • 1.5 pts each • ~15 min`,
+      });
+    }
+    if (exam.writing) {
+      exam.writing.essays.forEach((e, i) => {
+        sectionEntries.push({
+          key: `wri-${i}`,
+          icon: '✍️',
+          title: 'Independent Writing',
+          sub: `${e.topic.slice(0, 90)}${e.topic.length > 90 ? '…' : ''} • one essay • ~220 words • 20 pts • 35 min`,
+        });
+      });
+    }
+    if (exam.bonusPractice?.speaking) {
+      sectionEntries.push({
+        key: 'spk',
+        icon: '🎤',
+        title: exam.bonusPractice.speaking.title,
+        sub: `Speaking practice (Day-2 interview block, ~8 min) • ${exam.bonusPractice.speaking.questions?.length || 0} questions`,
+      });
+    }
+  } else if (exam.listening?.selective) {
+    if (exam.listening?.selective) {
+      sectionEntries.push({
+        key: 'lis-sel',
+        icon: '🎧',
+        title: exam.listening.selective.title,
+        sub: `Selective Listening • ${exam.listening.selective.questions.length} questions • preview 3 min + check 3 min`,
+      });
+    }
+    if (exam.listening?.careful) {
+      sectionEntries.push({
+        key: 'lis-car',
+        icon: '📝',
+        title: exam.listening.careful.title,
+        sub: `Careful Listening (note-taking) • ${exam.listening.careful.questions.length} questions • answer 15 min`,
+      });
+    }
+    if (exam.reading?.search) {
+      sectionEntries.push({
+        key: 'rea-search',
+        icon: '🔍',
+        title: exam.reading.search.title,
+        sub: `Reading I (Search) • ${exam.reading.search.questions.length} questions • ${exam.reading.search.timeMinutes} min`,
+      });
+    }
+    if (exam.reading?.careful) {
+      sectionEntries.push({
+        key: 'rea-care',
+        icon: '📖',
+        title: exam.reading.careful.title,
+        sub: `Reading II (Careful) • ${exam.reading.careful.questions.length} questions • ${exam.reading.careful.timeMinutes} min`,
+      });
+    }
+    if (exam.writing) {
+      exam.writing.essays.forEach((e, i) => {
+        sectionEntries.push({
+          key: `wri-${i}`,
+          icon: '✍️',
+          title: `Writing Task ${i + 1}`,
+          sub: `${e.topic.slice(0, 90)}${e.topic.length > 90 ? '…' : ''} • ~${e.wordTarget} words • ${e.timeMinutes} min`,
+        });
+      });
+    }
   }
-
   return (
     <>
       <View style={styles.header}>
@@ -300,10 +357,21 @@ function ExamPreview({ exam, onBack, onStart }) {
         <Text style={styles.headerTitle}>Exam Preview</Text>
       </View>
       <Card style={styles.rulesCard}>
-        <Text style={styles.rulesHead}>Official BUEPT Rules (YADYOK)</Text>
-        <Text style={styles.ruleItem}>• Listening texts are read ONCE only. Keep your answers short and precise — extra information is to your disadvantage.</Text>
-        <Text style={styles.ruleItem}>• Writing: write 2 essays; show university-level written English, not only short simple sentences.</Text>
-        <Text style={styles.ruleItem}>• Pass mark: 60/100. Grade S (satisfactory) or F (fail).</Text>
+        <Text style={styles.rulesHead}>{isOdtu ? 'Official ODTÜ-EPE Rules (METU SFL)' : 'Official BUEPT Rules (YADYOK)'}</Text>
+        {isOdtu ? (
+          <>
+            <Text style={styles.ruleItem}>• Total 100 pts: Listening 24 + Reading 32 + Note-Taking 9 + Writing 20 + Speaking 15. Pass mark is 60; 85+ exempts later English courses.</Text>
+            <Text style={styles.ruleItem}>• The exam STARTS with listening — arrive early; late arrivals are not admitted.</Text>
+            <Text style={styles.ruleItem}>• Writing: ONE independent essay of about 220 words, hand-written on paper in 35 minutes.</Text>
+            <Text style={styles.ruleItem}>• Speaking is a separate Day-2 interview (~8 min): 4 unprepared questions plus 1 prepared broader-perspective question.</Text>
+          </>
+        ) : (
+          <>
+            <Text style={styles.ruleItem}>• Listening texts are read ONCE only. Keep your answers short and precise — extra information is to your disadvantage.</Text>
+            <Text style={styles.ruleItem}>• Writing: write 2 essays; show university-level written English, not only short simple sentences.</Text>
+            <Text style={styles.ruleItem}>• Pass mark: 60/100. Grade S (satisfactory) or F (fail). There is NO speaking section on BUSEPT.</Text>
+          </>
+        )}
       </Card>
       {sectionEntries.map((s) => (
         <Card key={s.key} style={styles.sectionCard}>

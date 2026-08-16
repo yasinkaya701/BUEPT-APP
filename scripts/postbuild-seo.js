@@ -15,6 +15,9 @@ const isOdtu = variant === 'odtu';
 // web-rnw/dist-odtu for odtu).
 const dist = path.resolve(__dirname, '..', 'web-rnw', isOdtu ? 'dist-odtu' : 'dist');
 
+// Base path the variant is served under on GitHub Pages.
+const basePath = isOdtu ? '/BUEPT-ODTU/' : '/BUEPT-APP/';
+
 // Both editions live under the same GitHub Pages root URL; only the base
 // path differs (/BUEPT-APP/ vs /BUEPT-ODTU/).
 const baseUrl = isOdtu
@@ -46,8 +49,18 @@ const cover = path.resolve(__dirname, '..', 'assets', 'og-cover.png');
 // the remaining BUSEPT-specific Open Graph / canonical / twitter tags so the
 // static HTML shell matches the edition that is being deployed.
 const indexPath = path.join(dist, 'index.html');
-if (isOdtu && fs.existsSync(indexPath)) {
-  let html = fs.readFileSync(indexPath, 'utf8');
+let html = fs.existsSync(indexPath) ? fs.readFileSync(indexPath, 'utf8') : '';
+if (html) {
+  // Script src may be written as an absolute path (/app.<hash>.js) without the
+  // variant's base path — rewrite it so the bundle resolves under the right
+  // subfolder after staging. (BUSEPT dist is deployed at repo root of
+  // /BUEPT-APP/, so this only matters for the ODTÜ variant.)
+  html = html.replace(/src="(\/app\.[a-f0-9]+\.js)"/g, (m, p1) => {
+    const target = basePath.replace(/\/$/, '') + p1;
+    return `src="${target}"`;
+  });
+}
+if (isOdtu && html) {
   // Minified builds collapse whitespace, so replace BUSEPT-APP URLs wholesale
   // (works for canonical, og:url, og:image, twitter:image and any stray refs).
   html = html.split('BUEPT-APP').join('BUEPT-ODTU');
@@ -78,6 +91,8 @@ if (isOdtu && fs.existsSync(indexPath)) {
   }
   fs.writeFileSync(indexPath, html);
   console.log('postbuild-seo (odtu): index.html OG/twitter/canonical meta rewritten');
+} else if (html) {
+  fs.writeFileSync(indexPath, html);
 }
 
 fs.mkdirSync(dist, { recursive: true });

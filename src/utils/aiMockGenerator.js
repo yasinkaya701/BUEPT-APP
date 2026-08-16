@@ -28,23 +28,31 @@ export const MOCK_LEVELS = [
 ];
 
 export const MOCK_SECTIONS = [
-  { key: 'listening', label: 'Listening' },
-  { key: 'reading', label: 'Reading' },
-  { key: 'writing', label: 'Writing' },
-  { key: 'full', label: 'Full BUSEPT (Listening + Reading + Writing)' },
+  { key: 'listening', label: 'Listening', labelOdtu: 'Listening' },
+  { key: 'reading', label: 'Reading', labelOdtu: 'Reading' },
+  { key: 'writing', label: 'Writing', labelOdtu: 'Writing' },
+  { key: 'full', label: 'Full BUSEPT (Listening + Reading + Writing)', labelOdtu: 'Full İYS (Listening + Reading + Note-Taking + Writing)' },
 ];
+
+/** Variant-aware section list: ODTÜ edition shows the real İYS section mix. */
+export function getMockSections(uni) {
+  return MOCK_SECTIONS.map((s) => ({
+    key: s.key,
+    label: uni === 'odtu' && s.labelOdtu ? s.labelOdtu : s.label,
+  }));
+}
 
 function short(text, max = 400) {
   if (!text) return '';
   return text.length <= max ? text : `${text.slice(0, max)}...`;
 }
 
-const ODTU_BASE = `You are an expert exam writer for the ODTÜ / METU English Proficiency Exam (EPE/İYS), administered by METU's School of Foreign Languages. Follow the official 2026 face-to-face format: one session (~165 min) with Listening, Reading, Note-Taking and Writing, plus a short Speaking block on the face-to-face exam.
-- LISTENING (~15 min, 9 pts): short talks, one dialogue and one lecture excerpt; mostly multiple-choice.
-- READING (60 min, 32 pts — the dominant section): 4-5 dense academic articles with main-idea, inference, author-purpose and vocabulary-in-context MC items, plus one graph/data-interpretation question.
-- NOTE-TAKING: students listen to a full lecture ONCE, take notes without seeing questions, then answer from their notes (short answers).
-- WRITING (~35 min, 20 pts): ONE essay of about 180-250 words on an argumentative/discussion topic; helper-idea guidelines may be provided.
-Scoring: pass band ~60/100; scores 85+ exempt students from later English courses. Reading carries the largest share of points.
+const ODTU_BASE = `You are an expert exam writer for the ODTÜ / METU English Proficiency Exam (EPE/İYS), administered by METU's School of Foreign Languages (SFL). Model your items on the official METU "Test Content and Scoring" document (October 2025) — total 100 points, pass mark 60, scores of 85+ exempt students from later English courses.
+- WHILE LISTENING (~25 min, 24 pts): the exam STARTS with listening. 16 multiple-choice items (1.5 pts each) built from short talks, conversations and lecture excerpts — main idea, detail, inference, speaker attitude.
+- CAREFUL READING (60 min, 32 pts — the dominant section): 4 academic articles of 800-1000 words, 24 items total — 20 comprehension items (1.5 pts each) plus 4 vocabulary items (0.5 pts each, e.g. "the word X in line 12 means..."). Question types: main idea, detail, inference, author purpose, vocab-in-context, NOT-mentioned, reference, inserted-sentence, paragraph-purpose.
+- NOTE-TAKING (~15 min, 9 pts): students listen to ONE lecture (~8 min) a single time, take notes WITHOUT seeing questions, then answer 6 multiple-choice items (1.5 pts each) from their notes.
+- INDEPENDENT WRITING (35 min, 20 pts): ONE argumentative/discussion essay of about 220 words, hand-written on paper; idea guidelines (helpers) are provided.
+- SPEAKING (Day 2, ~8 min, 15 pts): interview format — 4 unprepared questions (personal experience, preferences, opinions) plus 1 prepared broader-perspective question. This is a Day-2 block, separate from the written sessions.
 
 Language level for this mock: LEVEL_DESC_PLACEHOLDER
 
@@ -79,7 +87,17 @@ Every generated item MUST be original content, coherent, academically appropriat
 
   const schema = {
     listening: {
-      prompt: `${base}
+      prompt: isOdtu
+        ? `${base}
+
+Section requested: ODTÜ-EPE WHILE LISTENING.
+Return JSON:
+{
+  "selective": { "title": "While Listening", "transcript": "...", "questions": [ 8-12 multiple_choice items, each with 4 options and a 0-based correct index ] }
+}
+Transcript ~250-400 words (short talk + one conversation + a lecture excerpt). All items are MULTIPLE CHOICE: main idea, detail, inference, speaker attitude.
+Remember: the real METU listening section is ~25 min, 24 pts, 16 MC items (1.5 pts each).`
+        : `${base}
 
 Section requested: FULL LISTENING (Selective + Careful).
 Return JSON:
@@ -92,15 +110,23 @@ Selective transcript ~180-240 words, ~10 questions. Careful transcript ~260-340 
         const s = j?.selective;
         const c = j?.careful;
         return (
-          !!s && !!c &&
+          !!s &&
           Array.isArray(s.questions) && s.questions.length >= 6 &&
-          Array.isArray(c.questions) && c.questions.length >= 6 &&
-          !!s.transcript && !!c.transcript
+          !!s.transcript && (!c || (!!c.transcript && Array.isArray(c.questions) && c.questions.length >= 6))
         );
       },
     },
     reading: {
-      prompt: `${base}
+      prompt: isOdtu
+        ? `${base}
+
+Section requested: ODTÜ-EPE CAREFUL READING.
+Return JSON:
+{
+  "search": { "title": "Careful Reading", "article": "...", "timeMinutes": 60, "questions": [ 10-16 items — include 3-4 vocabulary-in-context items ("the word X in line N means...") with 4 options + 0-based correct index, plus comprehension MC items ] }
+}
+Article 500-800 words, dense academic style, at least 4 paragraphs. The real METU reading section is 60 min, 32 pts, 4 texts with 24 items (20 comprehension × 1.5 + 4 vocab × 0.5).`
+        : `${base}
 
 Section requested: FULL READING (Search + Careful).
 Return JSON:
@@ -113,15 +139,25 @@ Each article 400-550 words. Search questions must require scanning for specific 
         const s = j?.search;
         const c = j?.careful;
         return (
-          !!s && !!c &&
-          Array.isArray(s.questions) && s.questions.length >= 6 &&
-          Array.isArray(c.questions) && c.questions.length >= 6 &&
-          !!s.article && !!c.article
+          !!s &&
+          Array.isArray(s.questions) && s.questions.length >= 5 &&
+          !!s.article && (!c || (!!c.article && Array.isArray(c.questions) && c.questions.length >= 5))
         );
       },
     },
     writing: {
-      prompt: `${base}
+      prompt: isOdtu
+        ? `${base}
+
+Section requested: ODTÜ-EPE INDEPENDENT WRITING.
+Return JSON:
+{
+  "essays": [
+    { "id": "w1", "topic": "...", "helperIdeas": ["...", "...", "..."], "timeMinutes": 35, "wordTarget": 220, "promptText": "Write an essay of about 220 words on the topic above. You may use the helper ideas or your own." }
+  ]
+}
+ONE argumentative or discussion essay topic with 2-3 helper ideas. The real METU writing is 35 min, 20 pts, about 220 words, hand-written on paper.`
+        : `${base}
 
 Section requested: FULL WRITING (TWE).
 Return JSON:
@@ -132,22 +168,23 @@ Return JSON:
   ]
 }
 Topics should be argumentative or compare-contrast academic essay topics suitable for the level, with 2-3 helper ideas each. Return exactly 2 essays.`,
-      validate: (j) => Array.isArray(j?.essays) && j.essays.length >= 2 && !!j.essays[0]?.topic && !!j.essays[1]?.topic,
+      validate: (j) => Array.isArray(j?.essays) && j.essays.length >= 1 && !!j.essays[0]?.topic,
     },
     full: {
       buildPrompt: () =>
         isOdtu
           ? `${base}
 
-Section requested: FULL ODTÜ-EPE MOCK EXAM (Listening + Reading + Note-Taking + Writing).
+Section requested: FULL ODTÜ-EPE MOCK EXAM (While Listening + Careful Reading + Note-Taking + Independent Writing + Speaking practice).
 Return JSON:
 {
-  "listening": { "selective": { "title": "...", "transcript": "...", "questions": [ multiple_choice items, about 5 ] } },
-  "reading": { "search": { "title": "...", "article": "...", "timeMinutes": 60, "questions": [ about 8 items ] } },
-  "noteTaking": { "lecture": { "title": "...", "transcript": "...", "questions": [ short_answer or multiple_choice items, about 5 ] } },
-  "writing": { "essays": [ { "id": "w1", "topic": "...", "helperIdeas": ["...", "..."], "timeMinutes": 35, "wordTarget": 220, "promptText": "Write an essay of about 180-250 words on this topic." } ] }
+  "listening": { "selective": { "title": "While Listening", "transcript": "...", "questions": [ 10-16 multiple_choice items ] } },
+  "reading": { "search": { "title": "Careful Reading", "article": "...", "timeMinutes": 60, "questions": [ 12-24 items — include 3-4 vocabulary-in-context items like "the word X in line N means..." (0.5 pts each) and comprehension items (1.5 pts each) ] } },
+  "noteTaking": { "lecture": { "title": "Note-Taking", "transcript": "...", "questions": [ 6 multiple_choice items ] } },
+  "writing": { "essays": [ { "id": "w1", "topic": "...", "helperIdeas": ["...", "..."], "timeMinutes": 35, "wordTarget": 220, "promptText": "Write an essay of about 220 words on this topic." } ] }
 }
-Listening transcript ~200-300 words (short talks + one dialogue). Reading article 500-700 words, dense academic style. Note-taking lecture ~300-400 words (answers found by noting main ideas, contrasts, reasons, examples, definitions). Writing exactly ONE essay.`
+While Listening transcript ~250-400 words (short talk + conversation). Reading article 500-800 words, dense academic style, 4 paragraphs minimum. Note-taking lecture ~400-600 words (a real mini-lecture: thesis, examples, contrasts, a 3-part structure the student can note). Writing exactly ONE essay.
+Remember: Listening and Note-Taking items are MULTIPLE CHOICE in the real METU exam — generate 4 options + a 0-based correct index for every item there.`
           : `${base}
 
 Section requested: FULL BUSEPT MOCK EXAM (Listening + Reading + Writing).
@@ -166,9 +203,9 @@ Question shapes are documented above per section. Listening ~8 questions per par
           const wri = j?.writing;
           return (
             !!lis && !!rea && !!wri &&
-            Array.isArray(lis.selective?.questions) && lis.selective.questions.length >= 3 &&
-            Array.isArray(rea.search?.questions) && rea.search.questions.length >= 4 &&
-            (!nt || Array.isArray(nt.lecture?.questions)) &&
+            Array.isArray(lis.selective?.questions) && lis.selective.questions.length >= 6 &&
+            Array.isArray(rea.search?.questions) && rea.search.questions.length >= 6 &&
+            (!nt || (Array.isArray(nt.lecture?.questions) && nt.lecture.questions.length >= 4)) &&
             Array.isArray(wri.essays) && wri.essays.length >= 1 && !!wri.essays[0]?.topic
           );
         }
@@ -268,21 +305,29 @@ function normalizeExam(raw, section, level, uni = 'buept') {
     const s = raw.listening?.selective;
     const c = raw.listening?.careful;
     if (s) {
-      exam.listening = {
-        selective: {
-          title: short(s.title || 'Selective Listening', 80),
-          preReadSeconds: Number(s.preReadSeconds) || 180,
-          checkSeconds: Number(s.checkSeconds) || 180,
-          transcript: short(s.transcript, 2000),
-          questions: (s.questions || []).map(normalizeItem).filter(Boolean),
-        },
-        careful: {
-          title: short(c?.title || 'Careful Listening', 80),
-          answerSeconds: Number(c?.answerSeconds) || 900,
-          transcript: short(c?.transcript, 2000),
-          questions: (c?.questions || []).map(normalizeItem).filter(Boolean),
-        },
+      const baseListening = {
+        title: short(s.title || (uni === 'odtu' ? 'While Listening' : 'Selective Listening'), 80),
+        transcript: short(s.transcript, 2000),
+        questions: (s.questions || []).map(normalizeItem).filter(Boolean),
       };
+      if (uni === 'odtu') {
+        // METU while-listening: no pre-read/check phases (it is a straight MC section, ~25 min, 24 pts).
+        exam.listening = { selective: baseListening };
+      } else {
+        exam.listening = {
+          selective: {
+            ...baseListening,
+            preReadSeconds: Number(s.preReadSeconds) || 180,
+            checkSeconds: Number(s.checkSeconds) || 180,
+          },
+          careful: {
+            title: short(c?.title || 'Careful Listening', 80),
+            answerSeconds: Number(c?.answerSeconds) || 900,
+            transcript: short(c?.transcript, 2000),
+            questions: (c?.questions || []).map(normalizeItem).filter(Boolean),
+          },
+        };
+      }
     }
   }
   if (section === 'reading' || section === 'full') {
@@ -291,8 +336,8 @@ function normalizeExam(raw, section, level, uni = 'buept') {
     if (s) {
       exam.reading = {
         search: {
-          title: short(s.title || 'Search Reading', 80),
-          timeMinutes: Number(s.timeMinutes) || 32,
+          title: short(s.title || (uni === 'odtu' ? 'Careful Reading' : 'Search Reading'), 80),
+          timeMinutes: Number(s.timeMinutes) || (uni === 'odtu' ? 60 : 32),
           article: short(s.article, 3500),
           questions: (s.questions || []).map(normalizeItem).filter(Boolean),
         },
@@ -313,6 +358,7 @@ function normalizeExam(raw, section, level, uni = 'buept') {
       timeMinutes: Number(e.timeMinutes) || (uni === 'odtu' ? 35 : 40),
       wordTarget: Number(e.wordTarget) || (uni === 'odtu' ? 220 : 250),
       promptText: e.promptText || `Write an essay of about ${Number(e.wordTarget) || (uni === 'odtu' ? 220 : 250)} words on this topic.`,
+      handwritten: uni === 'odtu',
     }));
     if (essays.length >= 1) exam.writing = { essays };
   }

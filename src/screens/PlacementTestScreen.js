@@ -544,7 +544,10 @@ function buildResult(askedQuestions, answers) {
       skill,
       pct: Math.round((val.correctWeight / Math.max(1, val.totalWeight)) * 100),
     }))
-    .sort((a, b) => a.pct - b.pct)[0];
+    .sort((a, b) => a.pct - b.pct);
+  // If every skill is at 100% there is no weak area — report none.
+  const hasWeakness = weakestSkill.length > 0 && weakestSkill[0].pct < 100;
+  const weakestSkillResult = hasWeakness ? weakestSkill[0] : null;
 
   const missed = askedQuestions
     .filter((q) => answers[q.id] !== q.correct)
@@ -566,7 +569,7 @@ function buildResult(askedQuestions, answers) {
     accuracy,
     scoreText: `${earnedWeight}/${totalWeight}`,
     skillMap,
-    weakestSkill,
+    weakestSkill: weakestSkillResult,
     missed,
   };
 }
@@ -670,7 +673,7 @@ export default function PlacementTestScreen({ navigation }) {
             </View>
 
             <Text style={styles.scoreText}>Weighted Score: {result.scoreText} ({result.accuracy}%)</Text>
-            <Text style={styles.hintText}>Weakest skill: {result.weakestSkill?.skill || 'N/A'}</Text>
+            <Text style={styles.hintText}>{result.weakestSkill ? `En zayıf beceri: ${result.weakestSkill.skill}` : 'En zayıf beceri: Yok — tüm beceriler güçlü'}</Text>
 
             <View style={styles.breakdownBox}>
               {['Grammar', 'Reading', 'Vocabulary'].map((skill) => {
@@ -690,7 +693,7 @@ export default function PlacementTestScreen({ navigation }) {
             <View style={styles.bounext}>
               <Text style={styles.bounextTitle}>Boğaziçi Next Steps</Text>
               <Text style={styles.bounextText}>1. Class schedule + academic calendar ile haftanı planla.</Text>
-              <Text style={styles.bounextText}>2. Weakest skill için 7 günlük sprint başlat.</Text>
+              <Text style={styles.bounextText}>2. En zayıf becerin için 7 günlük sprint başlat.</Text>
               <Text style={styles.bounextText}>3. 1 hafta sonra placement retake yap.</Text>
             </View>
             {result.missed?.length ? (
