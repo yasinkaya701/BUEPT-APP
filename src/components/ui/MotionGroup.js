@@ -9,7 +9,7 @@ import { motion } from '../../theme/tokens';
  * motion.stagger. On native the animation is skipped (Screen handles it).
  * Use `style` to constrain the wrapper (defaults to a transparent row).
  */
-export default function MotionGroup({ children, style, axis = 'row' }) {
+export default function MotionGroup({ children, style, axis = 'row', stagger }) {
   const isWeb = Platform.OS === 'web';
   const count = React.Children.count(children);
   const fades = useRef(
@@ -30,14 +30,14 @@ export default function MotionGroup({ children, style, axis = 'row' }) {
             Animated.timing(f, {
               toValue: 1,
               duration: motion.pageIn,
-              delay: i * motion.stagger,
+              delay: i * (stagger ?? motion.stagger),
               easing: Easing.bezier(0.22, 0.61, 0.36, 1),
               useNativeDriver: true,
             }),
             Animated.timing(rises[i], {
               toValue: 0,
               duration: motion.pageIn,
-              delay: i * motion.stagger,
+              delay: i * (stagger ?? motion.stagger),
               easing: Easing.bezier(0.22, 0.61, 0.36, 1),
               useNativeDriver: true,
             }),

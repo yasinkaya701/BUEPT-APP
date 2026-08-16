@@ -20,6 +20,7 @@ import {
   MOCK_SECTIONS,
   isAiAccessAvailable,
 } from '../utils/aiMockGenerator';
+import { getOfflineMocks } from '../data/offlineMocks';
 import { useAppState } from '../context/AppState';
 
 export default function AIMockGeneratorScreen({ navigation }) {
@@ -118,6 +119,24 @@ export default function AIMockGeneratorScreen({ navigation }) {
               </Text>
             </Card>
           )}
+
+          <Card style={styles.card}>
+            <Text style={styles.sectionLabel}>Offline Mock Bank — no AI key required</Text>
+            <Text style={styles.levelNote}>
+              Four full official-format BUSEPT mocks (P1–P4): Selective + Careful Listening, Reading I/II, two essays, four speaking questions. Starts instantly.
+            </Text>
+            <View style={styles.optionRow}>
+              {getOfflineMocks().map((exam) => (
+                <Button
+                  key={exam.meta.id}
+                  label={exam.meta.level}
+                  variant="secondary"
+                  icon="play"
+                  onPress={() => navigation.navigate('AIMockExam', { exam })}
+                />
+              ))}
+            </View>
+          </Card>
 
           <Card style={styles.card}>
             <Text style={styles.sectionLabel}>Exam Level</Text>

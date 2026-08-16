@@ -46,7 +46,9 @@ export default function SplashAnimationScreen({ navigation }) {
             // First-run visitors always see the branded Onboarding experience,
             // even when a friction-free demo token was already seeded.
             let dest = 'Login';
-            if (!onboardedRef.current) {
+            if (isWeb && !onboardedRef.current) {
+                dest = 'Landing';
+            } else if (!onboardedRef.current) {
                 dest = 'Onboarding';
             } else if (userTokenRef.current) {
                 dest = 'MainTabs';

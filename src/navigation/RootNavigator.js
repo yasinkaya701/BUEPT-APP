@@ -39,6 +39,7 @@ export default function RootNavigator() {
         but we also structurally split the stack just to be safe.
       */}
       <Stack.Screen name="Splash" getComponent={() => require('../screens/SplashAnimationScreen').default} options={{ headerShown: false }} />
+      <Stack.Screen name="Landing" getComponent={() => require('../screens/LandingScreen').default} options={{ headerShown: false }} />
       <Stack.Screen name="Onboarding" getComponent={() => require('../screens/OnboardingScreen').default} options={{ headerShown: false }} />
 
       {userToken == null ? (

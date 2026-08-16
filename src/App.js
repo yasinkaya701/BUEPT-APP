@@ -3,6 +3,7 @@ import { LogBox, Platform } from 'react-native';
 import { NavigationContainer, DefaultTheme, useNavigationContainerRef } from '@react-navigation/native';
 import { enableScreens } from 'react-native-screens';
 import { AppStateProvider } from './context/AppState';
+import { UniversityProvider } from './context/UniversityContext';
 import RootNavigator from './navigation/RootNavigator';
 import { colors } from './theme/tokens';
 import AppErrorBoundary from './components/AppErrorBoundary';
@@ -71,6 +72,7 @@ export default function App() {
       <GestureHandlerRootView style={{ flex: 1, height: Platform.OS === 'web' ? '100%' : undefined }}>
         <SafeAreaProvider style={{ flex: 1, height: Platform.OS === 'web' ? '100%' : undefined }}>
           <AppStateProvider>
+            <UniversityProvider>
             <NavigationContainer
               ref={navigationRef}
               theme={navTheme}
@@ -95,6 +97,7 @@ export default function App() {
                 <SimulatorSmokeRunner navigationRef={navigationRef} currentRouteName={currentRouteName} />
               ) : null}
             </NavigationContainer>
+            </UniversityProvider>
           </AppStateProvider>
         </SafeAreaProvider>
       </GestureHandlerRootView>
