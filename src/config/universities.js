@@ -56,6 +56,11 @@ export const UNIVERSITIES = [
     },
     blurb:
       'The official Boğaziçi proficiency exam, produced by YADYÖK. BUSEPT decides whether you start at the Preparatory Programme or go straight to your department.',
+    images: {
+      hero: require('../assets/images/real_south_gate.jpg'),
+      campus: require('../assets/images/real_north_campus.jpg'),
+      walkway: require('../assets/images/boun_campus.png'),
+    },
   },
   {
     key: 'ytu',
@@ -140,6 +145,11 @@ export const UNIVERSITIES = [
     },
     blurb:
       'METU\'s exam is reading-dominated with a separate note-taking block and a real speaking section. Offline METU-style mocks and AI generation included.',
+    images: {
+      hero: require('../assets/images/odtu_gate.webp'),
+      campus: require('../assets/images/odtu_campus_panorama.jpg'),
+      walkway: require('../assets/images/odtu_campus_walkway.jpg'),
+    },
   },
   {
     key: 'sabanci',

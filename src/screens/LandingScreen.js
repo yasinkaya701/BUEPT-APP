@@ -30,24 +30,40 @@ import Card from '../components/Card';
 import MotionGroup from '../components/ui/MotionGroup';
 import CountUp from '../components/ui/CountUp';
 import { UNIVERSITIES } from '../config/universities';
-
+import { useUniversity } from '../context/UniversityContext';
 const isWeb = Platform.OS === 'web';
-
-const STATS = [
-  { value: 28000, suffix: '+', label: 'Soru bankası' },
-  { value: 40, suffix: '+', label: 'Tam mock sınav' },
-  { value: 4, suffix: '', label: 'AI puanlamalı beceri' },
-  { value: 3.5, suffix: ' saat', label: 'Resmi sınav replikası' },
-];
-
-const FEATURES = [
-  {
+const STATS_BY_UNI = {
+  buept: [
+    { value: 28000, suffix: '+', label: 'Soru bankası' },
+    { value: 40, suffix: '+', label: 'Tam mock sınav' },
+    { value: 4, suffix: '', label: 'AI puanlamalı beceri' },
+    { value: 3.5, suffix: ' saat', label: 'Resmi sınav replikası' },
+  ],
+  odtu: [
+    { value: 32, suffix: ' puan', label: 'Okuma ağırlıklı puan' },
+    { value: 4, suffix: '+', label: 'Tam ODTÜ formatlı mock' },
+    { value: 4, suffix: '', label: 'AI puanlamalı beceri' },
+    { value: 165, suffix: ' dk', label: 'Tek oturum sınav replikası' },
+  ],
+};
+const FEATURES_BY_UNI = {
+  buept: {
     icon: 'headset-outline',
     title: 'Resmi BUSEPT Formatı',
     body: 'Selective + Careful Listening, Reading I/II ve iki essay — gerçek sınavın üç resmi bölümünün birebir kopyası. (Gerçek BUSEPT\'te Speaking yok; mülakat pratiği bonus olarak sunulur.)',
     color: colors.skill.listening,
     soft: colors.skillSoft.listening,
   },
+  odtu: {
+    icon: 'headset-outline',
+    title: 'Resmi ODTÜ İYS Formatı',
+    body: 'Dinleme, okuma, not alma ve yazma tek oturumda; yüz yüze konuşma bölümüyle birlikte. Okuma puanın baskın (~32 puan) — ona göre çalış. Konuşma gerçek sınavda var; bonus değil.',
+    color: colors.skill.listening,
+    soft: colors.skillSoft.listening,
+  },
+};
+
+const FEATURES = [
   {
     icon: 'document-text-outline',
     title: 'WASC Puanlı Essay Bankası',
@@ -88,9 +104,13 @@ const FEATURES = [
 const STEPS = [
   { icon: 'clipboard-outline', title: 'Seviye tespiti', body: '10 dakikalık placement testiyle P seviyen belirilir.' },
   { icon: 'list-outline', title: 'Günlük plan', body: 'Uygulama her gün dinleme, okuma ve kelime işleri atar.' },
-  { icon: 'school-outline', title: 'Mock sınav', body: 'Resmi formatta tam deneme; AI essay puanlaması ve bonus speaking provası.' },
+  { icon: 'school-outline', title: 'Mock sınav', body: 'Resmi formatta tam deneme; AI essay puanlaması ve konuşma provası.' },
   { icon: 'refresh-outline', title: 'SRS tekrar', body: 'Yanlış soruların kelimeleri aralıklı tekrarla pekiştirilir.' },
 ];
+const STEP3_BODY_BY_UNI = {
+  buept: 'Resmi formatta tam deneme; AI essay puanlaması ve bonus mülakat provası.',
+  odtu: 'Tek oturumda tam ODTÜ format denemesi: dinleme, okuma, not alma, essay ve yüz yüze konuşma provası.',
+};
 
 const FAQS = [
   {
@@ -109,23 +129,33 @@ const FAQS = [
     q: 'LLM anahtarı olmadan kullanabilir miyim?',
     a: 'Evet. P1–P4 seviyelerinde 4 tam resmi format offline mock hemen kullanılabilir. AI üretici, essay bankası ve gelişmiş puanlama Gemini anahtarı ister.',
   },
+];
+
+const FAQS_ODTU = [
   {
-    q: 'Diğer üniversite sınavları için de çalışır mı?',
-    a: 'Altyapı çok üniversitelidir. ODTÜ-EPE (İYS) versiyonu şimdiden canlı: dinleme, okuma, not alma, yazma ve konuşma pratik bloklarıyla tam format. YTÜ-EPE, İTÜ-EPE, Sabancı PE ve Bilkent PPE sırada; aynı platformdan tek tıkla açılır.'
+    q: 'ODTÜ İYS (EPE) nasıl bir sınavdır?',
+    a: 'ODTÜ SFL\'nin resmi İngilizce Yeterlilik Sınavı tek oturumda (~165 dk) yapılır: Dinleme, Okuma, Not Alma ve Yazma. Yüz yüze konuşma bölümü de gerçek sınavda vardır. Geçme bandı ~60/100\'dür; okuma en büyük puan payına sahiptir (~32/76).',
+  },
+  {
+    q: 'Bu platform ücretsiz mi?',
+    a: 'Evet. Tüm çekirdek özellikler — ODTÜ formatlı mock sınavlar, günlük plan, SRS motoru ve not alma bloğu — şu anda ücretsiz. AI mock üretimi için Gemini anahtarı yeterlidir.',
+  },
+  {
+    q: 'Mobil uygulamayı nereden indiririm?',
+    a: 'Android sürümü GitHub Releases sayfasında APK olarak yayında. iOS sürümü için Mac\'te tek komutla derleme mümkündür; mağaza yayını hazırlık aşamasındadır.',
+  },
+  {
+    q: 'LLM anahtarı olmadan kullanabilir miyim?',
+    a: 'Evet. 4 tam ODTÜ formatlı offline mock hemen kullanılabilir. AI üretici, essay bankası ve gelişmiş puanlama Gemini anahtarı ister.',
   },
 ];
 
-const OTHER_UNIS = UNIVERSITIES.filter((u) => u.key !== 'buept').slice(0, 3);
-
-function tryOpenUni(key) {
-  if (Platform.OS === 'web' && typeof window !== 'undefined') {
-    const url = new URL(window.location.href);
-    url.searchParams.set('uni', key);
-    window.location.href = url.toString();
-  }
-}
+const OTHER_UNIS = UNIVERSITIES.filter((u) => u.key !== 'buept' && u.key !== 'odtu').slice(0, 2);
 
 export default function LandingScreen({ navigation }) {
+  const { university, uniKey } = useUniversity();
+  const isOdtu = uniKey === 'odtu';
+  const STATS = STATS_BY_UNI[uniKey] || STATS_BY_UNI.buept;
   const [openFaq, setOpenFaq] = useState(null);
   const heroFade = useMemo(() => new Animated.Value(0), []);
   const heroRise = useMemo(() => new Animated.Value(18), []);
@@ -140,19 +170,38 @@ export default function LandingScreen({ navigation }) {
 
   const toggleFaq = useCallback((i) => setOpenFaq((o) => (o === i ? null : i)), []);
 
+  const steps = useMemo(
+    () =>
+      STEPS.map((s, i) => (i === 2 ? { ...s, body: STEP3_BODY_BY_UNI[uniKey] || s.body } : s)),
+    [uniKey],
+  );
+
+  const heroImg = useMemo(
+    () => (university.images && university.images.hero) || require('../assets/images/real_south_gate.jpg'),
+    [university],
+  );
+
+  const featureFormat = FEATURES_BY_UNI[uniKey] || FEATURES_BY_UNI.buept;
+  const features = [featureFormat, ...FEATURES.slice(1)];
+
   const start = useCallback(() => {
+    if (isOdtu) {
+      // ODTÜ build: enter the app directly (placement test is Boğaziçi-specific).
+      navigation.navigate('TodayBoard');
+      return;
+    }
     navigation.navigate('PlacementTest');
-  }, [navigation]);
+  }, [navigation, isOdtu]);
 
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
       {/* ── Header ── */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <View style={styles.logoBadge}>
-            <Text style={styles.logoText}>BÜ</Text>
+          <View style={[styles.logoBadge, { backgroundColor: university.accent }]}>
+            <Text style={styles.logoText}>{isOdtu ? 'MET' : 'BÜ'}</Text>
           </View>
-          <Text style={styles.brandName}>BOĞAZİÇİ PREP</Text>
+          <Text style={styles.brandName}>{isOdtu ? 'ODTÜ PREP' : 'BOĞAZİÇİ PREP'}</Text>
         </View>
         <View style={styles.headerRight}>
           <Button label="Giriş Yap" variant="ghost" onPress={() => navigation.navigate('Login')} />
@@ -161,21 +210,22 @@ export default function LandingScreen({ navigation }) {
       </View>
 
       {/* ── Hero ── */}
-      <ImageBackground
-        source={require('../assets/images/real_south_gate.jpg')}
-        style={styles.hero}
-        resizeMode="cover"
-      >
+      <ImageBackground source={heroImg} style={styles.hero} resizeMode="cover">
         <LinearGradient colors={['rgba(13, 18, 37, 0.82)', 'rgba(13, 18, 37, 0.94)']} style={styles.heroOverlay} />
         <Animated.View style={[styles.heroInner, { opacity: heroFade, transform: [{ translateY: heroRise }] }]}>
           <View style={styles.pill}>
             <Ionicons name="school-outline" size={13} color={colors.accentBright} />
-            <Text style={styles.pillText}>BUSEPT&apos;E ÖZEL · YADYÖK FORMATI</Text>
+            <Text style={styles.pillText}>
+              {isOdtu ? 'ODTÜ İYS/EPE İÇİN · RESMİ SFL FORMATI' : 'BUSEPT\'E ÖZEL · YADYÖK FORMATI'}
+            </Text>
           </View>
-          <Text style={styles.heroTitle}>BUSEPT&apos;e hazırlığın{'\n'}tek platformu</Text>
+          <Text style={styles.heroTitle}>
+            {isOdtu ? 'ODTÜ İYS\'e hazırlığın' : 'BUSEPT\'e hazırlığın'}{'\n'}tek platformu
+          </Text>
           <Text style={styles.heroSub}>
-            Resmi sınavın birebir replikası: dinleme, okuma ve iki essay.
-            AI puanlamayla gerçek sınavdan önce her bölümü provaya al.
+            {isOdtu
+              ? 'Resmi sınavın birebir replikası: dinleme, okuma, not alma, essay ve yüz yüze konuşma. AI puanlamayla gerçek sınavdan önce her bölümü provaya al.'
+              : 'Resmi sınavın birebir replikası: dinleme, okuma ve iki essay.\nAI puanlamayla gerçek sınavdan önce her bölümü provaya al.'}
           </Text>
           <View style={styles.heroCtaRow}>
             <Button label="Hemen Başla" icon="play" onPress={start} />
@@ -203,7 +253,7 @@ export default function LandingScreen({ navigation }) {
         <Text style={styles.sectionTitle}>Her beceri için sınav kalitesinde araç</Text>
         <View style={styles.featureGrid}>
           <MotionGroup stagger={70}>
-            {FEATURES.map((f, i) => (
+            {features.map((f, i) => (
               <Card key={i} style={styles.featureCard}>
                 <View style={[styles.featureIconWrap, { backgroundColor: f.soft }]}>
                   <Ionicons name={f.icon} size={22} color={f.color} />
@@ -222,7 +272,7 @@ export default function LandingScreen({ navigation }) {
         <Text style={styles.sectionTitle}>Dört adımda sınava hazır</Text>
         <View style={styles.stepsGrid}>
           <MotionGroup stagger={80}>
-            {STEPS.map((s, i) => (
+            {steps.map((s, i) => (
               <View key={i} style={styles.stepCard}>
                 <View style={styles.stepNumBadge}>
                   <Text style={styles.stepNum}>{i + 1}</Text>
@@ -240,7 +290,9 @@ export default function LandingScreen({ navigation }) {
       <View style={styles.proofStrip}>
         <View style={styles.proofRow}>
           <Ionicons name="checkmark-circle" size={18} color={colors.success} />
-          <Text style={styles.proofText}>Boğaziçi&apos;ne özgü ilk ve tek dijital hazırlık platformu</Text>
+          <Text style={styles.proofText}>
+            {isOdtu ? 'ODTÜ İYS formatına birebir uyarlanmış dijital hazırlık platformu' : 'Boğaziçi\'ne özgü ilk ve tek dijital hazırlık platformu'}
+          </Text>
         </View>
         <View style={styles.proofRow}>
           <Ionicons name="checkmark-circle" size={18} color={colors.success} />
@@ -255,7 +307,14 @@ export default function LandingScreen({ navigation }) {
       {/* ── Other universities ── */}
       <View style={styles.section}>
         <Text style={styles.sectionKicker}>GENİŞLEME</Text>
-        <Text style={styles.sectionTitle}>Aynı platform, diğer üniversiteler</Text>
+        <Text style={styles.sectionTitle}>
+          {isOdtu ? 'Aynı altyapı, diğer üniversiteler' : 'Aynı platform, diğer üniversiteler'}
+        </Text>
+        <Text style={styles.otherSub}>
+          {isOdtu
+            ? 'Boğaziçi (BUSEPT) versiyonu ayrı bir sitede yayında; YTÜ, İTÜ, Sabancı ve Bilkent çok yakında bu altyapıda.'
+            : 'YTÜ-EPE, İTÜ-EPE, Sabancı PE ve Bilkent PPE altyapı hazır — resmi format duyurulduğunda aynı platformdan açılır.'}
+        </Text>
         <View style={styles.otherGrid}>
           <MotionGroup stagger={70}>
             {OTHER_UNIS.map((u) => (
@@ -265,21 +324,9 @@ export default function LandingScreen({ navigation }) {
                 </View>
                 <Text style={styles.otherName}>{u.name}</Text>
                 <Text style={styles.otherBlurb}>{u.blurb}</Text>
-                {u.key === 'odtu' ? (
-                  <Pressable
-                    onPress={() => tryOpenUni(u.key)}
-                    accessibilityRole="button"
-                    accessibilityLabel={`ODTÜ versiyonunu aç`}
-                  >
-                    <View style={styles.liveBadge}>
-                      <Text style={styles.liveText}>Canlı — Aç</Text>
-                    </View>
-                  </Pressable>
-                ) : (
-                  <View style={styles.comingBadge}>
-                    <Text style={styles.comingText}>Yakında</Text>
-                  </View>
-                )}
+                <View style={styles.comingBadge}>
+                  <Text style={styles.comingText}>Yakında</Text>
+                </View>
               </Card>
             ))}
           </MotionGroup>
@@ -316,19 +363,29 @@ export default function LandingScreen({ navigation }) {
 
       {/* ── Final CTA ── */}
       <View style={styles.finalCta}>
-        <Text style={styles.finalTitle}>BUSEPT&apos;e hazır mısın?</Text>
-        <Text style={styles.finalSub}>
-          Placement testinle başla, 10 dakikada seviyeni öğren.
-          Günlük planın ve ilk mock sınavın aynı gün hazır.
+        <Text style={styles.finalTitle}>
+          {isOdtu ? 'ODTÜ İYS\'e hazır mısın?' : 'BUSEPT\'e hazır mısın?'}
         </Text>
-        <Button label="Placement Testine Başla" icon="school-outline" onPress={start} style={styles.finalBtn} />
+        <Text style={styles.finalSub}>
+          {isOdtu
+            ? 'İlk ODTÜ formatlı mock sınavınla başla: dinleme, okuma, not alma ve essay. Günlük planın aynı gün hazır.'
+            : 'Placement testinle başla, 10 dakikada seviyeni öğren. Günlük planın ve ilk mock sınavın aynı gün hazır.'}
+        </Text>
+        <Button
+          label={isOdtu ? 'İlk Mock Sınava Başla' : 'Placement Testine Başla'}
+          icon="school-outline"
+          onPress={start}
+          style={styles.finalBtn}
+        />
       </View>
 
       {/* ── Footer ── */}
       <View style={styles.footer}>
-        <Text style={styles.footerBrand}>BOĞAZİÇİ PREP</Text>
+        <Text style={styles.footerBrand}>{isOdtu ? 'ODTÜ PREP' : 'BOĞAZİÇİ PREP'}</Text>
         <Text style={styles.footerCopy}>
-          Resmi Boğaziçi Üniversitesi veya YADYÖK ile bağlantısı yoktur; bağımsız bir hazırlık aracıdır.
+          {isOdtu
+            ? 'Resmi ODTÜ veya SFL ile bağlantısı yoktur; bağımsız bir hazırlık aracıdır.'
+            : 'Resmi Boğaziçi Üniversitesi veya YADYÖK ile bağlantısı yoktur; bağımsız bir hazırlık aracıdır.'}
         </Text>
         <Text style={styles.footerCopy}>© 2026 BUEPT-APP — Açık kaynak · GitHub&apos;da yayında</Text>
       </View>
@@ -476,6 +533,13 @@ const styles = StyleSheet.create({
   proofRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   proofText: { color: 'rgba(241,245,249,0.92)', fontSize: 13, flex: 1 },
 
+  otherSub: {
+    fontSize: 13,
+    color: colors.textSecondary,
+    lineHeight: 20,
+    marginBottom: 14,
+    maxWidth: 620,
+  },
   otherGrid: { gap: 14 },
   otherCard: { padding: 18, position: 'relative' },
   otherBadge: {

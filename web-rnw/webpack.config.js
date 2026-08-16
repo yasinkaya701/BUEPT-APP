@@ -23,7 +23,17 @@ const modulePathsToTranspile = [
 module.exports = (env = {}, argv = {}) => {
   const mode = argv.mode || 'development';
   const isProd = mode === 'production';
-  const publicPath = env.publicPath || process.env.WEB_PUBLIC_PATH || '/';
+  // Variant support: WEB_VARIANT=buept|odtu builds fully separate editions.
+  // Each variant gets its own output dir and public path, so they can be
+  // deployed as independent GitHub Pages sites.
+  const variant = process.env.WEB_VARIANT || 'buept';
+  const distDir = env.distDir || (variant === 'odtu' ? path.resolve(projectRoot, 'web-rnw/dist-odtu') : path.resolve(projectRoot, 'web-rnw/dist'));
+  // publicPath: explicit override (web:rnw:build sets /BUEPT-APP/ for the
+  // BUEPT edition which GitHub Pages serves under the repo-name base path
+  // /BUEPT-APP/). The ODTÜ edition deploys to its own repo
+  // (BUEPT-ODTU), whose Pages base path is /BUEPT-ODTU/ — set via
+  // WEB_PUBLIC_PATH=/BUEPT-ODTU/ in that repo's build, or / for the default.
+  const publicPath = env.publicPath || process.env.WEB_PUBLIC_PATH || '/BUEPT-APP/';
   const devHost = process.env.WEB_DEV_HOST || '127.0.0.1';
   const devPort = Number(process.env.WEB_DEV_PORT || 8090);
 
@@ -34,7 +44,7 @@ module.exports = (env = {}, argv = {}) => {
       app: [processPolyfill, appIndex],
     },
     output: {
-      path: path.resolve(projectRoot, 'web-rnw/dist'),
+      path: distDir,
       publicPath,
       filename: isProd ? '[name].[contenthash:8].js' : '[name].js',
       clean: true,
@@ -79,7 +89,7 @@ module.exports = (env = {}, argv = {}) => {
           },
         },
         {
-          test: /\.(png|jpe?g|gif|svg)$/i,
+          test: /\.(png|jpe?g|gif|svg|webp)$/i,
           type: 'asset/resource',
           generator: {
             filename: 'assets/[name][hash][ext]'
@@ -95,13 +105,28 @@ module.exports = (env = {}, argv = {}) => {
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProd),
         'process.env.NODE_ENV': JSON.stringify(mode),
+        __APP_VARIANT__: JSON.stringify(variant),
+        __OG_TITLE__: JSON.stringify(variant === 'odtu' ? 'ODTÜ-EPE Hazırlık — ODTÜ İYS/YDS Platformu' : 'BUEPT Hazırlık — Boğaziçi YADYÖK Platformu'),
+        __OG_DESCRIPTION__: JSON.stringify(variant === 'odtu' ? 'ODTÜ İYS (İngilizce Yeterlilik Sınavı) hazırlığın tek platformu: dinleme, okuma, not alma ve yazma. AI puanlamayla gerçek sınavdan önce her bölümü provaya al.' : 'BUSEPT\'e hazırlığın tek platformu. Resmi sınavın birebir replikası: dinleme, okuma ve iki essay. AI puanlamayla gerçek sınavdan önce her bölümü provaya al.'),
       }),
       new HtmlWebpackPlugin({
         template: path.resolve(projectRoot, 'web-rnw/index.html'),
+        templateParameters: {
+          // Variant-aware SEO shell: meta/title/og tags get variant-specific
+          // strings while the JS bundle defines the runtime constants.
+          TITLE: variant === 'odtu' ? 'ODTÜ-EPE Prep | ODTÜ İYS English Proficiency Practice' : 'BUSEPT Exam Prep | Boğaziçi University English Proficiency Test Practice App',
+          META_TITLE: variant === 'odtu' ? 'ODTÜ-EPE Prep | ODTÜ İYS English Proficiency Practice' : 'BUSEPT Exam Prep | Boğaziçi University English Proficiency Test Practice App',
+          META_DESCRIPTION: variant === 'odtu' ? 'Free ODTÜ İYS (English Proficiency Exam) preparation: official-format mock exams with listening, reading, note-taking, writing and speaking, AI scoring, and adaptive study plans.' : 'Free BUSEPT (Boğaziçi University English Proficiency Test) preparation app: official-format mock exams, WASC rubric-based AI writing feedback with scored sample essays, reading, listening, grammar, vocabulary with spaced repetition, and adaptive study plans.'
+        },
       }),
       new HtmlWebpackPlugin({
         filename: '404.html',
         template: path.resolve(projectRoot, 'web-rnw/index.html'),
+        templateParameters: {
+          TITLE: variant === 'odtu' ? 'ODTÜ-EPE Prep | ODTÜ İYS English Proficiency Practice' : 'BUSEPT Exam Prep | Boğaziçi University English Proficiency Test Practice App',
+          META_TITLE: variant === 'odtu' ? 'ODTÜ-EPE Prep | ODTÜ İYS English Proficiency Practice' : 'BUSEPT Exam Prep | Boğaziçi University English Proficiency Test Practice App',
+          META_DESCRIPTION: variant === 'odtu' ? 'Free ODTÜ İYS (English Proficiency Exam) preparation: official-format mock exams with listening, reading, note-taking, writing and speaking, AI scoring, and adaptive study plans.' : 'Free BUSEPT (Boğaziçi University English Proficiency Test) preparation app: official-format mock exams, WASC rubric-based AI writing feedback with scored sample essays, reading, listening, grammar, vocabulary with spaced repetition, and adaptive study plans.'
+        },
       }),
     ],
     devServer: {
