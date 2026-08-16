@@ -108,12 +108,41 @@ function extractSections(exam) {
       questions: exam.reading.careful.questions,
     });
   }
+  // METU EPE/İYS has a separate Note-Taking block (lecture once → notes → answer).
+  if (exam.noteTaking?.lecture?.questions?.length) {
+    out.push({
+      key: 'note-taking',
+      kind: 'listening',
+      title: exam.noteTaking.lecture.title || 'Note-Taking',
+      sub: 'Listen/read the lecture ONCE and take notes, then answer from your notes.',
+      content: exam.noteTaking.lecture.transcript || '',
+      contentLabel: 'Lecture Transcript (listened once — note-taking section)',
+      questions: exam.noteTaking.lecture.questions,
+    });
+  }
+  // Bonus speaking practice: on BUSEPT it is interview prep (the real exam has
+  // no speaking); on ODTÜ-EPE it mirrors the real 8-minute face-to-face block.
+  if (exam.bonusPractice?.speaking?.questions?.length) {
+    const isOdtuSpeak = exam?.meta?.university === 'odtu';
+    out.push({
+      key: 'speaking-practice',
+      kind: 'speaking',
+      title: isOdtuSpeak ? 'Speaking Practice (~8 min, real EPE block)' : 'Speaking Practice (bonus — interview prep)',
+      sub: isOdtuSpeak
+        ? 'Answer the prompts aloud; you will be scored on pronunciation, fluency and content.'
+        : 'BUSEPT has no speaking section — these prompts are bonus interview practice. Speak freely, get instant feedback.',
+      content: '',
+      contentLabel: '',
+      questions: exam.bonusPractice.speaking.questions,
+    });
+  }
   if (exam.writing?.essays?.length) {
+    const isOdtu = exam?.meta?.university === 'odtu';
     exam.writing.essays.forEach((e, i) => {
       out.push({
         key: `writing-${i}`,
         kind: 'writing',
-        title: `Writing Task ${i + 1}: ${e.topic || ''}`,
+        title: `${isOdtu ? '' : `Task ${i + 1}: `}${e.topic || ''}`,
         sub: `About ${e.wordTarget || 250} words • ${(e.helperIdeas || []).join(' • ')}`,
         content: '',
         contentLabel: '',
@@ -348,12 +377,19 @@ export default function AIMockExamScreen({ navigation, route }) {
                 ))}
               </View>
             )}
-            {(question.type === 'short_answer' || question.type === 'essay') && (
+            {question.type === 'speaking' && (
+              <View style={styles.speakHint}>
+                <Text style={styles.speakHintText}>
+                  Answer aloud (or tap the mic below). When you are done, briefly note your answer here and continue — full audio feedback is available from your Speaking tab.
+                </Text>
+              </View>
+            )}
+            {(question.type === 'short_answer' || question.type === 'essay' || question.type === 'speaking') && (
               <TextInput
                 style={styles.answerInput}
                 value={currentAnswer}
                 onChangeText={setCurrentAnswer}
-                placeholder={question.type === 'essay' ? 'Write your essay here…' : 'Write a short answer…'}
+                placeholder={question.type === 'essay' ? 'Write your essay here…' : question.type === 'speaking' ? 'Note your spoken answer briefly (optional)…' : 'Write a short answer…'}
                 placeholderTextColor={colors.muted}
                 multiline={question.type === 'essay'}
                 numberOfLines={question.type === 'essay' ? 8 : 1}
@@ -386,6 +422,7 @@ export default function AIMockExamScreen({ navigation, route }) {
 
 function typeLabel(type) {
   if (type === 'essay') return 'Writing';
+  if (type === 'speaking') return 'Speaking';
   if (type === 'short_answer') return 'Short Answer';
   if (type === 'multiple_choice') return 'Multiple Choice';
   if (type === 'matching') return 'Matching';
@@ -444,6 +481,18 @@ const styles = StyleSheet.create({
   },
   qText: { fontSize: 18, color: colors.text, lineHeight: 28, fontWeight: '600', marginBottom: spacing.md },
   optionsWrap: { gap: spacing.md, marginBottom: spacing.md },
+  speakHint: {
+    backgroundColor: colors.cardSoft || colors.soft,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    marginBottom: 10,
+  },
+  speakHintText: {
+    color: colors.muted,
+    fontSize: 13,
+    lineHeight: 18,
+  },
   answerInput: {
     borderWidth: 2,
     borderColor: colors.primary,

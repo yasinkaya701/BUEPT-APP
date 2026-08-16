@@ -44,7 +44,7 @@ const FEATURES = [
   {
     icon: 'headset-outline',
     title: 'Resmi BUSEPT Formatı',
-    body: 'Selective + Careful Listening, Reading I/II, iki essay, mülakat tipi Speaking. YADYÖK formatının birebir kopyası.',
+    body: 'Selective + Careful Listening, Reading I/II ve iki essay — gerçek sınavın üç resmi bölümünün birebir kopyası. (Gerçek BUSEPT\'te Speaking yok; mülakat pratiği bonus olarak sunulur.)',
     color: colors.skill.listening,
     soft: colors.skillSoft.listening,
   },
@@ -58,7 +58,7 @@ const FEATURES = [
   {
     icon: 'mic-outline',
     title: 'Gerçek Konuşma Değerlendirmesi',
-    body: 'Mülakat simülasyonu ile telaffuz, akıcılık ve içerik puanlaması. Sınav öncesi mülakat provası.',
+    body: 'Mülakat simülasyonu ile telaffuz, akıcılık ve içerik puanlaması. BUSEPT\'te speaking yok — bu, üniversite mülakatları ve genel pratik için bonus.',
     color: colors.skill.speaking,
     soft: colors.skillSoft.speaking,
   },
@@ -88,14 +88,14 @@ const FEATURES = [
 const STEPS = [
   { icon: 'clipboard-outline', title: 'Seviye tespiti', body: '10 dakikalık placement testiyle P seviyen belirilir.' },
   { icon: 'list-outline', title: 'Günlük plan', body: 'Uygulama her gün dinleme, okuma ve kelime işleri atar.' },
-  { icon: 'school-outline', title: 'Mock sınav', body: 'Resmi formatta tam deneme; AI essay ve speaking puanlaması.' },
+  { icon: 'school-outline', title: 'Mock sınav', body: 'Resmi formatta tam deneme; AI essay puanlaması ve bonus speaking provası.' },
   { icon: 'refresh-outline', title: 'SRS tekrar', body: 'Yanlış soruların kelimeleri aralıklı tekrarla pekiştirilir.' },
 ];
 
 const FAQS = [
   {
     q: 'BUSEPT tam olarak nedir?',
-    a: 'Boğaziçi Üniversitesi YADYÖK tarafından düzenlenen İngilizce Yeterlilik Sınavı\'dır. Bölümlerin her birinden 60+ almanız gerekir; tek bir bölümde kalmak tüm sınavı geçersiz kılar.',
+    a: 'Boğaziçi Üniversitesi YADYÖK tarafından düzenlenen İngilizce Yeterlilik Sınavı\'dır. Üç bölümden oluşur: Listening, Reading ve Writing. Writing ortalaması 56+, Listening + Reading toplamı 60+ olmalıdır; genel notunuz C (60–64) ve üzeriyse geçersiniz. Sonuçlar 2 yıl geçerlidir.'
   },
   {
     q: 'Bu platform ücretsiz mi?',
@@ -111,11 +111,19 @@ const FAQS = [
   },
   {
     q: 'Diğer üniversite sınavları için de çalışır mı?',
-    a: 'Altyapı çok üniversitelidir: YTÜ-EPE, İTÜ-EPE, ODTÜ-EPE, Sabancı PE ve Bilkent PPE için özel versiyonlar altyapıda hazır; ilk özel versiyonlar sırada.',
+    a: 'Altyapı çok üniversitelidir. ODTÜ-EPE (İYS) versiyonu şimdiden canlı: dinleme, okuma, not alma, yazma ve konuşma pratik bloklarıyla tam format. YTÜ-EPE, İTÜ-EPE, Sabancı PE ve Bilkent PPE sırada; aynı platformdan tek tıkla açılır.'
   },
 ];
 
 const OTHER_UNIS = UNIVERSITIES.filter((u) => u.key !== 'buept').slice(0, 3);
+
+function tryOpenUni(key) {
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    const url = new URL(window.location.href);
+    url.searchParams.set('uni', key);
+    window.location.href = url.toString();
+  }
+}
 
 export default function LandingScreen({ navigation }) {
   const [openFaq, setOpenFaq] = useState(null);
@@ -166,7 +174,7 @@ export default function LandingScreen({ navigation }) {
           </View>
           <Text style={styles.heroTitle}>BUSEPT&apos;e hazırlığın{'\n'}tek platformu</Text>
           <Text style={styles.heroSub}>
-            Resmi sınavın birebir replikası: dinleme, okuma, iki essay ve mülakat tipi konuşma.
+            Resmi sınavın birebir replikası: dinleme, okuma ve iki essay.
             AI puanlamayla gerçek sınavdan önce her bölümü provaya al.
           </Text>
           <View style={styles.heroCtaRow}>
@@ -247,7 +255,7 @@ export default function LandingScreen({ navigation }) {
       {/* ── Other universities ── */}
       <View style={styles.section}>
         <Text style={styles.sectionKicker}>GENİŞLEME</Text>
-        <Text style={styles.sectionTitle}>Diğer üniversiteler için yakında</Text>
+        <Text style={styles.sectionTitle}>Aynı platform, diğer üniversiteler</Text>
         <View style={styles.otherGrid}>
           <MotionGroup stagger={70}>
             {OTHER_UNIS.map((u) => (
@@ -257,9 +265,21 @@ export default function LandingScreen({ navigation }) {
                 </View>
                 <Text style={styles.otherName}>{u.name}</Text>
                 <Text style={styles.otherBlurb}>{u.blurb}</Text>
-                <View style={styles.comingBadge}>
-                  <Text style={styles.comingText}>Yakında</Text>
-                </View>
+                {u.key === 'odtu' ? (
+                  <Pressable
+                    onPress={() => tryOpenUni(u.key)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`ODTÜ versiyonunu aç`}
+                  >
+                    <View style={styles.liveBadge}>
+                      <Text style={styles.liveText}>Canlı — Aç</Text>
+                    </View>
+                  </Pressable>
+                ) : (
+                  <View style={styles.comingBadge}>
+                    <Text style={styles.comingText}>Yakında</Text>
+                  </View>
+                )}
               </Card>
             ))}
           </MotionGroup>
@@ -478,6 +498,16 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
   },
   comingText: { fontSize: 10, fontWeight: '800', color: colors.accent, letterSpacing: 1 },
+  liveBadge: {
+    position: 'absolute',
+    top: 18,
+    right: 18,
+    backgroundColor: colors.successSoft || '#e6f7ee',
+    borderRadius: radius.pill,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+  },
+  liveText: { fontSize: 10, fontWeight: '800', color: colors.success, letterSpacing: 1 },
 
   faqList: { gap: 10 },
   faqCard: { padding: 16 },

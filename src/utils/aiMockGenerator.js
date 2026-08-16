@@ -39,8 +39,20 @@ function short(text, max = 400) {
   return text.length <= max ? text : `${text.slice(0, max)}...`;
 }
 
-/** Build a BUSEPT-faithful generation prompt and a JSON schema. */
-function buildGenerationSpec({ section, level, essayTopics = null }) {
+const ODTU_BASE = `You are an expert exam writer for the ODTÜ / METU English Proficiency Exam (EPE/İYS), administered by METU's School of Foreign Languages. Follow the official 2026 face-to-face format: one session (~165 min) with Listening, Reading, Note-Taking and Writing, plus a short Speaking block on the face-to-face exam.
+- LISTENING (~15 min, 9 pts): short talks, one dialogue and one lecture excerpt; mostly multiple-choice.
+- READING (60 min, 32 pts — the dominant section): 4-5 dense academic articles with main-idea, inference, author-purpose and vocabulary-in-context MC items, plus one graph/data-interpretation question.
+- NOTE-TAKING: students listen to a full lecture ONCE, take notes without seeing questions, then answer from their notes (short answers).
+- WRITING (~35 min, 20 pts): ONE essay of about 180-250 words on an argumentative/discussion topic; helper-idea guidelines may be provided.
+Scoring: pass band ~60/100; scores 85+ exempt students from later English courses. Reading carries the largest share of points.
+
+Language level for this mock: LEVEL_DESC_PLACEHOLDER
+
+Generate the exam content requested. Use 'short_answer' for wh- questions and sentence completions, with a model answer array of 1-3 acceptable short-phrase variants (2-5 words each, lowercased). Use 'multiple_choice' with 4 options and a 0-based correct index.
+Every generated item MUST be original content, coherent, academically appropriate, and answerable from the given text/transcript. Never copy real exam texts verbatim — generate fresh, similar-spirited academic content.`;
+
+/** Build a university-faithful generation prompt and a JSON schema. */
+function buildGenerationSpec({ section, level, uni = 'buept', essayTopics = null }) {
   const levelDesc = {
     P1: 'A2-B1 elementary. Simple sentences, common academic vocabulary, straightforward grammar.',
     P2: 'B1-B1+ pre-intermediate. Moderately complex sentences, common academic vocabulary.',
@@ -48,7 +60,11 @@ function buildGenerationSpec({ section, level, essayTopics = null }) {
     P4: 'C1 advanced. Sophisticated syntax, abstract academic discourse, dense vocabulary.',
   }[level] || level;
 
-  const base = `You are an expert exam writer for the Boğaziçi University English Proficiency Test (BUEPT), administered by YADYOK. Model your items on the official YADYOK sample exam (e.g. the 2026 sample: 'Family Life' / 'Expression of Emotions' listening, 'Zheng He' Reading I, 'Cross-Cultural Adaptation' Reading II).
+  const isOdtu = uni === 'odtu';
+
+  const base = isOdtu
+    ? ODTU_BASE.replace('LEVEL_DESC_PLACEHOLDER', levelDesc)
+    : `You are an expert exam writer for the Boğaziçi University English Proficiency Test (BUEPT), administered by YADYOK. Model your items on the official YADYOK sample exam (e.g. the 2026 sample: 'Family Life' / 'Expression of Emotions' listening, 'Zheng He' Reading I, 'Cross-Cultural Adaptation' Reading II).
 The official BUSEPT format is:
 - LISTENING: two parts, texts read ONCE only. Selective Listening (~9-10 questions): students study questions for 3 min, answer WHILE listening (questions in the same order the information is delivered, mostly sentence-completion wh- short answers), then get 3 min to check. Careful Listening (~10 questions): students take notes while listening WITHOUT seeing questions, then answer from notes in 15 min; items are definitions, causes/factors, main ideas; an occasional multiple-choice case item (A-F) is acceptable.
 - READING: two parts. Reading I Search (~11 questions, 45 min): a numbered-paragraph academic article; items are vocabulary-in-context MC, paragraph-purpose MC, short-answer sentence completions, main-idea MC, NOT-mentioned MC, inserted-sentence (place a sentence at position A/B/C/D), paragraph-relationship MC, cross-text comparison MC, and whole-text inference MC. Reading II Careful (~10 questions, 50 min): a second academic article with in-text citations; includes MC, short-answer questions tied to specific cited studies, and a PARAGRAPH-MATCHING task (match short supporting texts to paragraph numbers, with one extra unused paragraph number).
@@ -59,6 +75,7 @@ Language level for this mock: ${levelDesc}
 
 Generate the exam content requested. Use 'short_answer' for wh- questions and sentence completions, with a model answer array of 1-3 acceptable short-phrase variants (2-5 words each, lowercased). Use 'multiple_choice' with 4 options and a 0-based correct index. Use 'matching' for paragraph-matching or definition matching: left items plus an options array that includes one extra/unused option, and correct as the 0-based index of the right option.
 Every generated item MUST be original content, coherent, academically appropriate, and answerable from the given text/transcript. Never copy real exam texts verbatim — generate fresh, similar-spirited academic content.`;
+
 
   const schema = {
     listening: {
@@ -118,7 +135,20 @@ Topics should be argumentative or compare-contrast academic essay topics suitabl
       validate: (j) => Array.isArray(j?.essays) && j.essays.length >= 2 && !!j.essays[0]?.topic && !!j.essays[1]?.topic,
     },
     full: {
-      prompt: `${base}
+      buildPrompt: () =>
+        isOdtu
+          ? `${base}
+
+Section requested: FULL ODTÜ-EPE MOCK EXAM (Listening + Reading + Note-Taking + Writing).
+Return JSON:
+{
+  "listening": { "selective": { "title": "...", "transcript": "...", "questions": [ multiple_choice items, about 5 ] } },
+  "reading": { "search": { "title": "...", "article": "...", "timeMinutes": 60, "questions": [ about 8 items ] } },
+  "noteTaking": { "lecture": { "title": "...", "transcript": "...", "questions": [ short_answer or multiple_choice items, about 5 ] } },
+  "writing": { "essays": [ { "id": "w1", "topic": "...", "helperIdeas": ["...", "..."], "timeMinutes": 35, "wordTarget": 220, "promptText": "Write an essay of about 180-250 words on this topic." } ] }
+}
+Listening transcript ~200-300 words (short talks + one dialogue). Reading article 500-700 words, dense academic style. Note-taking lecture ~300-400 words (answers found by noting main ideas, contrasts, reasons, examples, definitions). Writing exactly ONE essay.`
+          : `${base}
 
 Section requested: FULL BUSEPT MOCK EXAM (Listening + Reading + Writing).
 Return JSON:
@@ -129,6 +159,19 @@ Return JSON:
 }
 Question shapes are documented above per section. Listening ~8 questions per part, Reading ~8 questions per part, Writing exactly 2 essays.`,
       validate: (j) => {
+        if (isOdtu) {
+          const lis = j?.listening;
+          const rea = j?.reading;
+          const nt = j?.noteTaking;
+          const wri = j?.writing;
+          return (
+            !!lis && !!rea && !!wri &&
+            Array.isArray(lis.selective?.questions) && lis.selective.questions.length >= 3 &&
+            Array.isArray(rea.search?.questions) && rea.search.questions.length >= 4 &&
+            (!nt || Array.isArray(nt.lecture?.questions)) &&
+            Array.isArray(wri.essays) && wri.essays.length >= 1 && !!wri.essays[0]?.topic
+          );
+        }
         const lis = j?.listening;
         const rea = j?.reading;
         const wri = j?.writing;
@@ -145,7 +188,12 @@ Question shapes are documented above per section. Listening ~8 questions per par
   };
 
   const spec = schema[section] || schema.full;
-  return { ...spec, base };
+  // For ODTÜ the 'full' schema carries a dedicated prompt (prompt key 'prompt')
+  // while the BUSEPT fallback keeps the classic prompt under 'promptBuept'.
+  // For the 'full' schema the prompt is built by buildPrompt() (it avoids a
+  // parser issue with a false-less ternary over a multiline template literal).
+  const prompt = spec.buildPrompt ? spec.buildPrompt() : spec.prompt;
+  return { ...spec, prompt, base };
 }
 
 function sanitize(raw) {
@@ -201,8 +249,9 @@ function normalizeItem(item, idx) {
   return out;
 }
 
-function normalizeExam(raw, section, level) {
+function normalizeExam(raw, section, level, uni = 'buept') {
   if (!raw) return null;
+  const uniMeta = uni === 'odtu' ? { university: 'odtu', examName: 'ODTÜ-EPE (İYS)' } : { university: 'buept', examName: 'BUSEPT' };
   const exam = {
     id: `aimock_${Date.now()}`,
     generatedAt: new Date().toISOString(),
@@ -212,6 +261,7 @@ function normalizeExam(raw, section, level) {
       source: 'ai-mock-generator',
       passScore: 60,
       officialFormat: true,
+      ...uniMeta,
     },
   };
   if (section === 'listening' || section === 'full') {
@@ -260,16 +310,25 @@ function normalizeExam(raw, section, level) {
       id: e.id || `w${i + 1}`,
       topic: short(e.topic, 300),
       helperIdeas: (Array.isArray(e.helperIdeas) ? e.helperIdeas : []).filter(Boolean).slice(0, 4),
-      timeMinutes: Number(e.timeMinutes) || 40,
-      wordTarget: Number(e.wordTarget) || 250,
-      promptText: e.promptText || `Write an essay of about ${Number(e.wordTarget) || 250} words on this topic.`,
+      timeMinutes: Number(e.timeMinutes) || (uni === 'odtu' ? 35 : 40),
+      wordTarget: Number(e.wordTarget) || (uni === 'odtu' ? 220 : 250),
+      promptText: e.promptText || `Write an essay of about ${Number(e.wordTarget) || (uni === 'odtu' ? 220 : 250)} words on this topic.`,
     }));
-    if (essays.length >= 2) exam.writing = { essays };
+    if (essays.length >= 1) exam.writing = { essays };
+  }
+  if (section === 'full' && uni === 'odtu' && raw.noteTaking?.lecture?.questions?.length) {
+    exam.noteTaking = {
+      lecture: {
+        title: short(raw.noteTaking.lecture.title || 'Note-Taking', 80),
+        transcript: short(raw.noteTaking.lecture.transcript, 2500),
+        questions: (raw.noteTaking.lecture.questions || []).map(normalizeItem).filter(Boolean),
+      },
+    };
   }
   return exam;
 }
 
-export async function generateAiMock({ section = 'full', level = 'P3', onPartial = null } = {}) {
+export async function generateAiMock({ section = 'full', level = 'P3', onPartial = null, uni = 'buept' } = {}) {
   if (!['listening', 'reading', 'writing', 'full'].includes(section)) {
     throw new Error(`Unknown mock section: ${section}`);
   }
@@ -278,7 +337,7 @@ export async function generateAiMock({ section = 'full', level = 'P3', onPartial
   }
   const apiKey = getRuntimeApiKey();
   if (!apiKey) throw new Error('Gemini API key is not configured. Add it in Settings → AI Access.');
-  const spec = buildGenerationSpec({ section, level });
+  const spec = buildGenerationSpec({ section, level, uni });
 
   const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
   const timeout = setTimeout(() => { try { controller?.abort(); } catch (_) {} }, 120000);
@@ -293,7 +352,7 @@ export async function generateAiMock({ section = 'full', level = 'P3', onPartial
     clearTimeout(timeout);
     const parsed = sanitize(rawText);
     if (parsed && spec.validate(parsed)) {
-      const exam = normalizeExam(parsed, section, level);
+      const exam = normalizeExam(parsed, section, level, uni);
       if (exam) return { exam, source: 'online' };
     }
     // Retry once with a clearer retry instruction

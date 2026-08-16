@@ -21,10 +21,15 @@ import {
   isAiAccessAvailable,
 } from '../utils/aiMockGenerator';
 import { getOfflineMocks } from '../data/offlineMocks';
+import { getOdtuMocks } from '../data/offlineMocksOdtu';
 import { useAppState } from '../context/AppState';
+import { useUniversity } from '../context/UniversityContext';
 
 export default function AIMockGeneratorScreen({ navigation }) {
   const { addXp } = useAppState();
+  const { university, uniKey } = useUniversity();
+  const isOdtu = uniKey === 'odtu';
+  const offlineExams = isOdtu ? getOdtuMocks() : getOfflineMocks();
   const [level, setLevel] = useState('P3');
   const [section, setSection] = useState('full');
   const [generating, setGenerating] = useState(false);
@@ -51,7 +56,7 @@ export default function AIMockGeneratorScreen({ navigation }) {
     setGenerating(true);
     setError(null);
     try {
-      const { exam } = await generateAiMock({ section, level });
+      const { exam } = await generateAiMock({ section, level, uni: uniKey });
       if (section === 'full' || section === 'writing') {
         // Writing is graded separately by the existing AI grading flow
         exam.writingGenerated = true;
@@ -123,10 +128,12 @@ export default function AIMockGeneratorScreen({ navigation }) {
           <Card style={styles.card}>
             <Text style={styles.sectionLabel}>Offline Mock Bank — no AI key required</Text>
             <Text style={styles.levelNote}>
-              Four full official-format BUSEPT mocks (P1–P4): Selective + Careful Listening, Reading I/II, two essays, four speaking questions. Starts instantly.
+              {isOdtu
+                ? 'Four full METU-format mocks (L1–L4): Listening, dense Reading, Note-Taking, one essay and a Speaking practice block — the real EPE/İYS sections. Starts instantly.'
+                : 'Four full official-format BUSEPT mocks (P1–P4): Selective + Careful Listening, Reading I/II and two essays — the real exam\'s three scored parts (no speaking section on BUSEPT). Starts instantly.'}
             </Text>
             <View style={styles.optionRow}>
-              {getOfflineMocks().map((exam) => (
+              {offlineExams.map((exam) => (
                 <Button
                   key={exam.meta.id}
                   label={exam.meta.level}
@@ -166,12 +173,14 @@ export default function AIMockGeneratorScreen({ navigation }) {
               ))}
             </View>
             <Text style={styles.levelNote}>
-              Full mock follows the official BUEPT order: Selective Listening → Careful Listening → Reading I → Reading II → Writing.
+              {isOdtu
+                ? 'Full mock follows the official METU order: Listening → Reading (the dominant section) → Note-Taking → Writing (+ Speaking practice).'
+                : 'Full mock follows the official BUSEPT order: Selective Listening → Careful Listening → Reading I → Reading II → Writing.'}
             </Text>
           </Card>
 
           <Button
-            label={generating ? 'Generating exam…' : 'Generate BUSEPT Mock'}
+            label={generating ? 'Generating exam…' : isOdtu ? 'Generate ODTÜ-EPE Mock' : 'Generate BUSEPT Mock'}
             icon="sparkles-outline"
             disabled={generating || !accessReady}
             onPress={handleGenerate}
@@ -182,7 +191,7 @@ export default function AIMockGeneratorScreen({ navigation }) {
             <View style={styles.loadingRow}>
               <ActivityIndicator size="small" color={colors.primary} />
               <Text style={styles.loadingText}>
-                The AI is writing a YADYOK-format exam… (up to 2 minutes)
+                The AI is writing a {isOdtu ? 'METU-format' : 'YADYOK-format'} exam… (up to 2 minutes)
               </Text>
             </View>
           )}

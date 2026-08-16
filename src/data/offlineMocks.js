@@ -3,7 +3,10 @@
  *
  * Every mock follows the official YADYOK exam order: Selective Listening
  * → Careful Listening → Reading I (Search) → Reading II (Careful) →
- * Writing (2 essays) → Speaking (4 interview questions). Questions use the
+ * Writing (2 essays). The real BUSEPT has NO speaking section (verified
+ * against the official YADYÖK Test Content and Scoring page and the 2026
+ * sample exam); interview questions live under `bonusPractice` only and
+ * are never part of the scored exam order. Questions use the
  * same shape consumed by AIMockExamScreen (short_answer, multiple_choice,
  * matching, essay, speaking). Levels P1–P4 map to the BUSEPT P-levels.
  *
@@ -66,9 +69,12 @@ function buildMock({ id, name, level, lecture, listeningCareful, searchArticle, 
         essay('e2', carefulArticle.essayTopic2.topic, 250, carefulArticle.essayTopic2.helpers, carefulArticle.essayTopic2.prompt),
       ],
     },
-    speaking: {
-      title: 'Speaking (Mock Interview)',
-      questions: carefulArticle.speakingQuestions,
+    // Bonus practice only — speaking is NOT on the official BUSEPT.
+    bonusPractice: {
+      speaking: {
+        title: 'Speaking (Mock Interview — bonus practice, not on the real exam)',
+        questions: carefulArticle.speakingQuestions,
+      },
     },
   };
 }
