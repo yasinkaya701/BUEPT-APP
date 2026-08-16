@@ -619,8 +619,8 @@ const styles = StyleSheet.create({
   },
   heroCard: {
     marginBottom: spacing.lg,
-    backgroundColor: '#172554',
-    borderColor: '#172554',
+    backgroundColor: colors.primaryDeeper,
+    borderColor: colors.primaryDeeper,
   },
   heroHeader: {
     flexDirection: 'row',
@@ -1043,7 +1043,7 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontHeadline,
   },
   badgeBlueText: {
-    color: '#1D4ED8',
+    color: colors.primary,
   },
   emptyCard: {
     marginBottom: spacing.lg,

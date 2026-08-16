@@ -89,28 +89,28 @@ const styles = StyleSheet.create({
   text: { fontSize: 13, fontFamily: typography.fontHeadline, fontWeight: '700', letterSpacing: 0.2 },
   textDisabled: { color: '#94A3B8' },
 
-  // ── Premium Blue solid primary ──
+  // ── Brand solid primary (blue in BUSEPT, METU green in ODTÜ) ──
   primaryBase: {
-    backgroundColor: '#1D4ED8',
-    borderColor: '#172554',
+    backgroundColor: colors.primary,
+    borderColor: colors.primaryDark,
     ...shadow.sm,
   },
   primaryText: { color: '#FFFFFF' },
 
-  // ── Soft blue secondary ──
+  // ── Soft brand secondary ──
   secondaryBase: {
-    backgroundColor: '#EFF6FF',
-    borderColor: '#DBEAFE',
+    backgroundColor: colors.primaryLight,
+    borderColor: colors.primarySoft,
     ...shadow.slight,
   },
-  secondaryText: { color: '#172554' },
+  secondaryText: { color: colors.primaryDark },
 
   // ── Ghost ──
   ghostBase: {
-    backgroundColor: '#F0F5FF',
+    backgroundColor: colors.primaryUltraLight,
     borderColor: 'transparent',
   },
-  ghostText: { color: '#1D4ED8' },
+  ghostText: { color: colors.primary },
 
   // ── Error ──
   errorGhostBase: { backgroundColor: colors.errorLight, borderColor: 'transparent' },
@@ -135,8 +135,8 @@ const styles = StyleSheet.create({
 
 const BUTTON_TONES = {
   primary: { base: styles.primaryBase, text: styles.primaryText, textColor: '#FFFFFF', iconColor: '#FFFFFF' },
-  secondary: { base: styles.secondaryBase, text: styles.secondaryText, textColor: '#172554', iconColor: '#1D4ED8' },
-  ghost: { base: styles.ghostBase, text: styles.ghostText, textColor: '#1D4ED8', iconColor: '#1D4ED8' },
+  secondary: { base: styles.secondaryBase, text: styles.secondaryText, textColor: colors.primaryDark, iconColor: colors.primary },
+  ghost: { base: styles.ghostBase, text: styles.ghostText, textColor: colors.primary, iconColor: colors.primary },
   errorGhost: { base: styles.errorGhostBase, text: styles.errorGhostText, textColor: '#DC2626', iconColor: '#DC2626' },
   accent: { base: styles.accentBase, text: styles.accentText, textColor: '#92400E', iconColor: '#B45309' },
   success: { base: styles.successBase, text: styles.successText, textColor: '#FFFFFF', iconColor: '#FFFFFF' },

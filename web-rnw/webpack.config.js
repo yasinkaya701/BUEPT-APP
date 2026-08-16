@@ -56,6 +56,10 @@ module.exports = (env = {}, argv = {}) => {
     resolve: {
       extensions: ['.web.js', '.js', '.jsx', '.json', '.ts', '.tsx'],
       alias: {
+        // NOTE: variant-aware theming is handled inside src/theme/tokens.js
+        // via __APP_VARIANT__ — a resolve alias does not match relative
+        // import specifiers (`../theme/tokens`), so the tokens module itself
+        // chooses the palette at build time.
         'react-native$': 'react-native-web',
         'react-native-tts': path.resolve(projectRoot, 'web-rnw/shims/react-native-tts.js'),
         '@react-native-voice/voice': path.resolve(projectRoot, 'web-rnw/shims/react-native-voice.js'),

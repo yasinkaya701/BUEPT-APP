@@ -3969,7 +3969,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F4F6',
   },
   photoResultBadgeHigh: {
-    backgroundColor: '#DCFCE7',
+    backgroundColor: colors.primarySoft,
   },
   photoResultBadgeLow: {
     backgroundColor: '#FEF3C7',
@@ -4062,8 +4062,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   sentenceFeedbackGood: {
-    backgroundColor: '#ECFDF3',
-    borderColor: '#7AD9A1',
+    backgroundColor: colors.primarySoft,
+    borderColor: colors.primary,
   },
   sentenceFeedbackWarn: {
     backgroundColor: '#FFF7ED',
@@ -4326,8 +4326,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primarySoft,
   },
   challengeOptionCorrect: {
-    borderColor: '#16A34A',
-    backgroundColor: '#ECFDF3',
+    borderColor: colors.primary,
+    backgroundColor: colors.primarySoft,
   },
   challengeOptionWrong: {
     borderColor: '#DC2626',

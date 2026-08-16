@@ -183,7 +183,7 @@ export default function AnalyticsScreen() {
 
       {/* Top Stat Tiles */}
       <View style={[styles.tilesRow, isWide && styles.tilesRowWide]}>
-        <StatTile label="Total Sessions" value={totalSessions} icon="🎯" color="#3B82F6" />
+        <StatTile label="Total Sessions" value={totalSessions} icon="🎯" color="colors.primary" />
         <StatTile label="Day Streak" value={`${streak}🔥`} icon="📅" color="#F59E0B" />
         {bestSkill && <StatTile label="Best Skill" value={bestSkill.name} icon="⭐" color="#10B981" subtitle={`${bestSkill.avg}%`} />}
         {weakSkill && <StatTile label="Focus On" value={weakSkill.name} icon="📌" color="#EF4444" subtitle={`${weakSkill.avg}%`} />}
@@ -203,7 +203,7 @@ export default function AnalyticsScreen() {
               <View key={i} style={styles.weekCol}>
                 <View style={[styles.weekBar, {
                   height: Math.max(4, (count / weekMax) * 60),
-                  backgroundColor: count > 0 ? '#3B82F6' : 'rgba(59,130,246,0.12)',
+                  backgroundColor: count > 0 ? colors.primary : colors.primarySoft,
                 }]} />
                 <Text style={styles.weekDay}>{day}</Text>
               </View>
@@ -217,7 +217,7 @@ export default function AnalyticsScreen() {
 
       {skillPoints.length >= 3 ? <SkillRadar points={skillPoints} /> : null}
 
-      <SkillCard name="Reading" avg={readingAvg ?? 0} sessions={readingHistory.length} color="#3B82F6" icon="📖" />
+      <SkillCard name="Reading" avg={readingAvg ?? 0} sessions={readingHistory.length} color="colors.primary" icon="📖" />
       <SkillCard name="Listening" avg={listeningAvg ?? 0} sessions={listeningHistory.length} color="#8B5CF6" icon="🎧" />
       <SkillCard name="Grammar" avg={grammarAvg ?? 0} sessions={grammarHistory.length} color="#10B981" icon="✏️" />
       <SkillCard name="Writing" avg={writingAvg ?? 0} sessions={history.length} color="#EF4444" icon="📝" />
@@ -238,7 +238,7 @@ export default function AnalyticsScreen() {
         {readingTrend.length > 0 && (
           <View style={styles.trendRow}>
             <Text style={styles.trendLabel}>Reading</Text>
-            <Sparkline values={readingTrend} color="#3B82F6" />
+            <Sparkline values={readingTrend} color="colors.primary" />
           </View>
         )}
         {listeningTrend.length > 0 && (
@@ -262,7 +262,7 @@ export default function AnalyticsScreen() {
       <Card style={styles.card}>
         <Text style={styles.sectionTitle}>📋 Session Summary</Text>
         <MiniBar label="Writing" value={history.length} max={Math.max(1, totalSessions)} color="#EF4444" />
-        <MiniBar label="Reading" value={readingHistory.length} max={Math.max(1, totalSessions)} color="#3B82F6" />
+        <MiniBar label="Reading" value={readingHistory.length} max={Math.max(1, totalSessions)} color="colors.primary" />
         <MiniBar label="Listening" value={listeningHistory.length} max={Math.max(1, totalSessions)} color="#8B5CF6" />
         <MiniBar label="Grammar" value={grammarHistory.length} max={Math.max(1, totalSessions)} color="#10B981" />
         <MiniBar label="Mock" value={mockHistory.length} max={Math.max(1, totalSessions)} color="#F59E0B" />
@@ -311,7 +311,7 @@ function SkillRadar({ points }) {
           ))}
           <Polygon
             points={dataPoints.map((p) => `${p.x},${p.y}`).join(' ')}
-            fill="rgba(59,130,246,0.32)" stroke="#3B82F6" strokeWidth={2}
+            fill={colors.primarySoft} stroke={colors.primary} strokeWidth={2}
           />
           {points.map((p, i) => {
             const a = angleFor(i);
@@ -325,7 +325,7 @@ function SkillRadar({ points }) {
             );
           })}
           {dataPoints.map((p, i) => (
-            <Circle key={`dot-${i}`} cx={p.x} cy={p.y} r={4} fill="#3B82F6" />
+            <Circle key={`dot-${i}`} cx={p.x} cy={p.y} r={4} fill="colors.primary" />
           ))}
         </Svg>
         <View style={styles.radarLegend}>

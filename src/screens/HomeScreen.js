@@ -7,6 +7,7 @@ import Screen from '../components/Screen';
 import PageTransition from '../components/ui/PageTransition';
 import LogoMark from '../components/LogoMark';
 import { colors, spacing, typography, shadow, radius } from '../theme/tokens';
+import { useUniversity } from '../context/UniversityContext';
 
 import { useAppState } from '../context/AppState';
 import readingTasks from '../../data/reading_tasks.json';
@@ -40,6 +41,14 @@ function formatAccuracy(value) {
 }
 
 export default function HomeScreen({ navigation }) {
+  const { uniKey, examName } = useUniversity();
+  const isOdtu = uniKey === 'odtu';
+  const heroBg = React.useMemo(
+    () => (isOdtu
+      ? require('../assets/images/odtu_campus_panorama.jpg')
+      : require('../assets/images/real_north_campus.jpg')),
+    [isOdtu]
+  );
   const { width } = useWindowDimensions();
   const isCompact = width < 700;
   const [homeMode, setHomeMode] = useState('ESSENTIAL');
@@ -165,8 +174,8 @@ export default function HomeScreen({ navigation }) {
       icon: 'flash-outline',
       route: weakSkill?.route || 'Reading',
       bg: colors.surface,
-      iconBg: '#DBEAFE',
-      iconColor: '#1D4ED8',
+      iconBg: colors.primarySoft,
+      iconColor: colors.primary,
       titleColor: colors.text,
     },
     {
@@ -211,8 +220,8 @@ export default function HomeScreen({ navigation }) {
       label: 'Placement',
       route: 'PlacementTest',
       icon: 'clipboard-outline',
-      tone: '#1D4ED8',
-      surface: '#EEF4FF',
+      tone: isOdtu ? '#C8102E' : '#1D4ED8',
+      surface: isOdtu ? '#FEF2F4' : '#EEF4FF',
       body: 'Find your CEFR level and start at the right difficulty.',
       metricValue: level || '—',
       metricLabel: 'current level',
@@ -222,8 +231,8 @@ export default function HomeScreen({ navigation }) {
       label: 'Study Plan',
       route: 'StudyPlan',
       icon: 'calendar-outline',
-      tone: '#065F46',
-      surface: '#ECFDF5',
+      tone: isOdtu ? '#9B0A20' : '#065F46',
+      surface: isOdtu ? '#FDE3E8' : '#ECFDF5',
       body: 'Your adaptive daily plan, rebuilt from your weak areas.',
       metricValue: adaptive?.focusAction || '—',
       metricLabel: 'today\'s focus',
@@ -247,15 +256,19 @@ export default function HomeScreen({ navigation }) {
       tone: '#FFFFFF',
       surface: colors.primaryDark,
       dark: true,
-      body: 'Timed mock exams in official BUSEPT format.',
+      body: isOdtu ? 'Timed mock exams in the official ODTÜ EPE format.' : 'Timed mock exams in official BUSEPT format.',
       metricValue: latestMockOverall != null ? String(latestMockOverall) : `${mockHistory.length || 0} taken`,
       metricLabel: latestMockOverall != null ? 'last mock score' : 'mock exams completed',
     },
   ];
   const campusTools = [
-    { key: 'calendar', label: 'Calendar', route: 'ClassScheduleCalendar' },
+    ...(isOdtu
+      ? []
+      : [
+          { key: 'calendar', label: 'Calendar', route: 'ClassScheduleCalendar' },
+          { key: 'bogazici', label: 'Boğaziçi Hub', route: 'BogaziciHub' },
+        ]),
     { key: 'resources', label: 'Resources', route: 'Resources' },
-    { key: 'bogazici', label: 'Boğaziçi Hub', route: 'BogaziciHub' },
     { key: 'weak-analysis', label: 'Weak Analysis', route: 'WeakPointAnalysis' },
   ];
 
@@ -263,11 +276,11 @@ export default function HomeScreen({ navigation }) {
     <PageTransition>
       <Screen scroll contentStyle={styles.container}>
       {/* ── Glass hero card (background comes from Screen component) ── */}
-      <ImageBackground source={require('../assets/images/real_north_campus.jpg')} style={[styles.heroBgImg, isCompact && styles.heroBgImgCompact]} resizeMode="cover">
+      <ImageBackground source={heroBg} style={[styles.heroBgImg, isCompact && styles.heroBgImgCompact]} resizeMode="cover">
         <View style={[styles.header, isCompact && styles.headerCompact]}>
           <LogoMark size={36} />
           <View style={[styles.headerCopy, isCompact && styles.headerCopyCompact]}>
-            <Text style={[styles.h1, isCompact && styles.h1Compact]}>Boğaziçi Prep Dashboard</Text>
+            <Text style={[styles.h1, isCompact && styles.h1Compact]}>{isOdtu ? 'ODTÜ Prep Dashboard' : 'Boğaziçi Prep Dashboard'}</Text>
             <Text style={styles.sub}>{
               level === 'P1' ? 'P1 (A1) • Beginner' :
                 level === 'P2' ? 'P2 (A2) • Pre-Int' :
@@ -537,16 +550,29 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.bouTitle}>Prep Control Center</Text>
             <Text style={styles.bouBody}>Calendar, mock, weak-point analysis, and official resources in one place.</Text>
             <View style={styles.bouRow}>
-              <Button label="Boğaziçi Hub" onPress={() => navigation.navigate('BogaziciHub')} />
-              <Button label="Academic Calendar" variant="secondary" onPress={() => navigation.navigate('ClassScheduleCalendar')} />
+              {!isOdtu && (
+                <>
+                  <Button label="Boğaziçi Hub" onPress={() => navigation.navigate('BogaziciHub')} />
+                  <Button label="Academic Calendar" variant="secondary" onPress={() => navigation.navigate('ClassScheduleCalendar')} />
+                </>
+              )}
               <Button label="Official Simulation" onPress={() => navigation.navigate('OfficialSim')} />
               <Button label="AI Mock Generator" variant="secondary" onPress={() => navigation.navigate('AIMockGenerator')} />
               <Button label="Proficiency Mock" variant="secondary" onPress={() => navigation.navigate('ProficiencyMock')} />
               <Button label="Weak Analysis" variant="secondary" onPress={() => navigation.navigate('WeakPointAnalysis')} />
             </View>
             <View style={styles.bouRow}>
-              <Button label="Official Calendar" variant="ghost" onPress={() => navigation.navigate('WebViewer', { title: 'Boğaziçi Academic Calendar', url: 'https://akademiktakvim.bogazici.edu.tr/en' })} />
-              <Button label="Announcements" variant="ghost" onPress={() => navigation.navigate('WebViewer', { title: 'YADYOK Announcements', url: 'https://yadyok.bogazici.edu.tr/en' })} />
+              {isOdtu ? (
+                <>
+                  <Button label="METU SFL" variant="ghost" onPress={() => navigation.navigate('WebViewer', { title: 'METU SFL', url: 'https://sfl.metu.edu.tr/en' })} />
+                  <Button label="METU News" variant="ghost" onPress={() => navigation.navigate('WebViewer', { title: 'METU News', url: 'https://newsgate.metu.edu.tr/' })} />
+                </>
+              ) : (
+                <>
+                  <Button label="Official Calendar" variant="ghost" onPress={() => navigation.navigate('WebViewer', { title: 'Boğaziçi Academic Calendar', url: 'https://akademiktakvim.bogazici.edu.tr/en' })} />
+                  <Button label="Announcements" variant="ghost" onPress={() => navigation.navigate('WebViewer', { title: 'YADYÖK Announcements', url: 'https://yadyok.bogazici.edu.tr/en' })} />
+                </>
+              )}
             </View>
           </Card>
         </>
@@ -561,7 +587,7 @@ const styles = StyleSheet.create({
   container: { paddingBottom: 120 },
 
   // ── Premium hero card ──
-  heroCard: { marginBottom: spacing.md, borderRadius: radius.xl, backgroundColor: '#172554', padding: spacing.md, overflow: 'hidden', ...shadow.premium },
+  heroCard: { marginBottom: spacing.md, borderRadius: radius.xl, backgroundColor: colors.primaryDeeper, padding: spacing.md, overflow: 'hidden', ...shadow.premium },
 
   header: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: spacing.sm },
   headerCompact: { flexDirection: 'column' },

@@ -6,8 +6,8 @@ import { useAppState } from '../../context/AppState';
 import { buildAdaptivePlan } from '../../utils/studyPlan';
 
 const WEAK_ACTION_MAP = {
-  reading: { label: 'Train Reading', route: 'Reading', icon: 'book-outline', bg: '#EEF4FF', iconColor: '#1D4ED8' },
-  listening: { label: 'Train Listening', route: 'Listening', icon: 'headset-outline', bg: '#ECFDF3', iconColor: '#166534' },
+  reading: { label: 'Train Reading', route: 'Reading', icon: 'book-outline', bg: colors.primarySoft, iconColor: colors.primary },
+  listening: { label: 'Train Listening', route: 'Listening', icon: 'headset-outline', bg: colors.skillSoft.listening, iconColor: colors.skill.listening },
   grammar: { label: 'Train Grammar', route: 'Grammar', icon: 'flash-outline', bg: '#FEF3C7', iconColor: '#92400E' },
   writing: { label: 'Write Now', route: 'Writing', icon: 'create-outline', bg: '#FFF7ED', iconColor: '#9A3412' },
 };
@@ -56,7 +56,7 @@ export default function QuickActions({ navigation }) {
   const latestPractice = useMemo(() => {
     const options = [
       { key: 'reading', route: 'Reading', title: 'Continue Reading', icon: 'book-outline', ts: latestTimestamp(readingHistory), bg: colors.surfaceAlt, iconColor: '#334155' },
-      { key: 'listening', route: 'Listening', title: 'Continue Listening', icon: 'headset-outline', ts: latestTimestamp(listeningHistory), bg: '#EFF6FF', iconColor: '#1D4ED8' },
+      { key: 'listening', route: 'Listening', title: 'Continue Listening', icon: 'headset-outline', ts: latestTimestamp(listeningHistory), bg: colors.primaryLight, iconColor: colors.primary },
       { key: 'grammar', route: 'Grammar', title: 'Continue Grammar', icon: 'school-outline', ts: latestTimestamp(grammarHistory), bg: '#FEF3C7', iconColor: '#92400E' },
       { key: 'writing', route: 'Writing', title: 'Continue Writing', icon: 'document-text-outline', ts: latestTimestamp(history), bg: '#FFF7ED', iconColor: '#9A3412' },
     ];
@@ -71,8 +71,8 @@ export default function QuickActions({ navigation }) {
         label: dueCount > 0 ? `Review Queue (${dueCount})` : 'Review Queue',
         route: 'Review',
         icon: 'refresh-circle-outline',
-        bg: '#ECFDF3',
-        iconColor: '#166534',
+        bg: colors.successLight,
+        iconColor: colors.successDark,
         meta: dueCount > 0 ? 'Due now' : 'No backlog',
       },
       {
@@ -84,8 +84,7 @@ export default function QuickActions({ navigation }) {
         meta: 'Recent work',
       },
       { label: 'Writing Feedback', route: 'WritingEditor', icon: 'create-outline', bg: '#FFF7ED', iconColor: '#9A3412', meta: 'Draft or revise' },
-      { label: 'Calendar', route: 'ClassScheduleCalendar', icon: 'calendar-outline', bg: '#F5F3FF', iconColor: '#5B21B6', meta: 'Classes & deadlines' },
-      { label: 'Mock Exam', route: 'Mock', icon: 'school-outline', bg: '#EEF4FF', iconColor: '#1D4ED8', meta: 'Timed practice' },
+      { label: 'Mock Exam', route: 'Mock', icon: 'school-outline', bg: colors.primarySoft, iconColor: colors.primary, meta: 'Timed practice' },
     ];
     const seenRoutes = new Set();
     const unique = ordered.filter((item) => {

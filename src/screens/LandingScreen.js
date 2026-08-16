@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 14,
-    backgroundColor: 'rgba(13, 18, 37, 0.97)',
+    backgroundColor: colors.headerDark,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255,255,255,0.08)',
   },
@@ -583,7 +583,7 @@ const styles = StyleSheet.create({
   faqAnswer: { fontSize: 14, color: colors.textSecondary, lineHeight: 21, marginTop: 10 },
 
   finalCta: {
-    backgroundColor: '#312E81',
+    backgroundColor: colors.finalCta,
     padding: spacing.xxl,
     alignItems: 'center',
   },
@@ -605,7 +605,7 @@ const styles = StyleSheet.create({
   finalBtn: { minWidth: 280 },
 
   footer: {
-    backgroundColor: '#0B1220',
+    backgroundColor: colors.footerDark,
     padding: spacing.xl,
     alignItems: 'center',
     gap: 6,
