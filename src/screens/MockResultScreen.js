@@ -1,8 +1,12 @@
 /**
  * MockResultScreen.js
- * Rich BUEPT mock exam result with visual score display,
+ * Variant-aware mock exam result with visual score display,
  * CEFR mapping, section breakdowns, target score gap analysis,
  * and AI-driven personalized advice.
+ *
+ * - Boğaziçi (BUSEPT): CEFR band descriptors
+ * - ODTÜ (İYS/EPE): METÜ SFL band descriptors (A–F), 85+ exemption band,
+ *   official weight display (Listening 20 + Reading 32 + Note-taking 12 + Writing 20 + Speaking 16 = 100)
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
@@ -12,6 +16,8 @@ import Screen from '../components/Screen';
 import { colors, spacing, typography, radius } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import { buildMockAdvice } from '../utils/mockAdvice';
+// __APP_VARIANT__ is a build-time constant injected by webpack DefinePlugin (no module needed)
+const isOdtu = __APP_VARIANT__ === 'odtu';
 
 // ── CEFR helpers ─────────────────────────────────────────────────────────────
 const CEFR_LEVELS = ['A2', 'B1', 'B1+', 'B2', 'B2+', 'C1'];
@@ -21,13 +27,28 @@ function cefrColor(cefr) {
   return CEFR_COLORS[cefr] || '#6B7280';
 }
 
+// ── METÜ SFL band descriptors (approximate 0–100 scale) ──────────────────────
+// METÜ publishes internal A–F style proficiency bands; 60/100 is the pass line,
+// 85+ places the student in the exemption (muafiyet) band per SFL practice.
+const METU_BANDS = [
+  { min: 90, label: 'A Band · Advanced', short: 'A', cefr: 'C1' },
+  { min: 80, label: 'B Band · Upper', short: 'B', cefr: 'B2+' },
+  { min: 68, label: 'C Band · Proficient', short: 'C', cefr: 'B2' },
+  { min: 55, label: 'D Band · Approaching', short: 'D', cefr: 'B1+' },
+  { min: 40, label: 'E Band · Developing', short: 'E', cefr: 'B1' },
+  { min: 0, label: 'F Band · Foundational', short: 'F', cefr: 'A2' },
+];
+
 function getBand(score) {
-  if (score >= 90) return 'C1';
-  if (score >= 80) return 'B2+';
-  if (score >= 68) return 'B2';
-  if (score >= 58) return 'B1+';
-  if (score >= 48) return 'B1';
-  return 'A2';
+  if (isOdtu) {
+    return METU_BANDS.find(b => score >= b.min) || METU_BANDS[METU_BANDS.length - 1];
+  }
+  if (score >= 90) return { label: 'C1', short: 'C1', cefr: 'C1' };
+  if (score >= 80) return { label: 'B2+', short: 'B2+', cefr: 'B2+' };
+  if (score >= 68) return { label: 'B2', short: 'B2', cefr: 'B2' };
+  if (score >= 58) return { label: 'B1+', short: 'B1+', cefr: 'B1+' };
+  if (score >= 48) return { label: 'B1', short: 'B1', cefr: 'B1' };
+  return { label: 'A2', short: 'A2', cefr: 'A2' };
 }
 
 // ── Radial Score Circle ───────────────────────────────────────────────────────
@@ -49,7 +70,7 @@ function ScoreCircle({ score, maxScore = 100, color }) {
 }
 
 // ── Section Score Bar ─────────────────────────────────────────────────────────
-const PASSING_THRESHOLD = 60; // BUEPT minimum per section
+const PASSING_THRESHOLD = 60; // Official passing band
 
 function SectionBar({ name, score, icon, color, navigation }) {
   const pct = Math.min(100, Math.round(score));
@@ -124,10 +145,18 @@ export default function MockResultScreen({ route, navigation }) {
   }, [passed, addMockResult, result, markActivityToday]);
 
   const advice = buildMockAdvice(result);
-  const cefr = result.cefr || getBand(result.overall);
+  const bandInfo = getBand(result.overall);
+  const cefr = result.cefr || bandInfo.cefr;
   const overallColor = cefrColor(cefr);
+  const exempt = isOdtu && result.overall >= 85;
 
   const sections = [
+    ...(isOdtu
+      ? [
+          { name: 'Not Alma', score: result.noteTaking ?? 0, icon: '✍️', color: '#F59E0B', nav: 'History' },
+          { name: 'Konuşma', score: result.speaking ?? 0, icon: '🎤', color: '#10B981', nav: 'MockHistory' },
+        ]
+      : []),
     { name: 'Listening', score: result.listening, icon: '🎧', color: '#8B5CF6', nav: 'ListeningHistory' },
     { name: 'Reading', score: result.reading, icon: '📖', color: '#3B82F6', nav: 'ReadingHistory' },
     { name: 'Writing', score: result.writing, icon: '📝', color: '#EF4444', nav: 'History' },
@@ -136,7 +165,7 @@ export default function MockResultScreen({ route, navigation }) {
   const weakest = [...sections].sort((a, b) => a.score - b.score)[0];
   const strongest = [...sections].sort((a, b) => b.score - a.score)[0];
   const allPassed = sections.every(s => s.score >= PASSING_THRESHOLD);
-  const targetScore = 68; // B2 threshold
+  const targetScore = isOdtu ? (result.overall >= 85 ? 85 : 60) : 68; // B2 / exemption threshold
   const toTarget = Math.max(0, targetScore - result.overall);
 
   return (
@@ -153,15 +182,26 @@ export default function MockResultScreen({ route, navigation }) {
           <ScoreCircle score={result.overall} maxScore={100} color={overallColor} />
           <View style={styles.heroRight}>
             <View style={[styles.cefrTag, { backgroundColor: overallColor + '20', borderColor: overallColor + '40' }]}>
-              <Text style={[styles.cefrTagText, { color: overallColor }]}>CEFR {cefr}</Text>
+              <Text style={[styles.cefrTagText, { color: overallColor }]}>{isOdtu ? bandInfo.label : `CEFR ${cefr}`}</Text>
             </View>
-            <Text style={styles.heroLabel}>Overall Score</Text>
-            <Text style={[styles.heroStatus, { color: allPassed ? '#10B981' : '#EF4444' }]}>
-              {allPassed ? '✓ All sections passed' : '✗ Some sections need work'}
+            {isOdtu && (
+              <Text style={styles.heroCefr}>
+                CEFR ≈ {cefr} · {exempt ? '85+ — Muafiyet bandı' : '60 — Geçme bandı'}
+              </Text>
+            )}
+            <Text style={styles.heroLabel}>{isOdtu ? 'Toplam Puan' : 'Overall Score'}</Text>
+            <Text style={[styles.heroStatus, { color: exempt ? '#10B981' : allPassed ? '#10B981' : '#EF4444' }]}>
+              {isOdtu
+                ? (exempt
+                    ? '✓ Muafiyet bandında (85+)'
+                    : result.overall >= 60
+                      ? '✓ Geçme bandında (60+)'
+                      : '✗ Geçme bandının altında')
+                : (allPassed ? '✓ All sections passed' : '✗ Some sections need work')}
             </Text>
             {toTarget > 0 && (
               <Text style={styles.heroGap}>
-                +{toTarget} pts to reach B2
+                +{toTarget} pts {isOdtu ? (exempt ? 'to 85' : 'to 60') : 'to reach B2'}
               </Text>
             )}
           </View>
@@ -171,8 +211,12 @@ export default function MockResultScreen({ route, navigation }) {
 
       {/* Section Breakdown */}
       <Card style={styles.card}>
-        <Text style={styles.sectionTitle}>📊 Section Breakdown</Text>
-        <Text style={styles.sectionSub}>Pass threshold: 60/100 per section</Text>
+        <Text style={styles.sectionTitle}>{isOdtu ? '📊 Bölüm Bazında Dağılım' : '📊 Section Breakdown'}</Text>
+        <Text style={styles.sectionSub}>
+          {isOdtu
+            ? 'Resmi İYS skalası: Dinleme 20 + Okuma 32 + Not alma 12 + Yazma 20 + Konuşma 16 = 100'
+            : 'Pass threshold: 60/100 per section'}
+        </Text>
         {sections.map((s) => (
           <SectionBar key={s.name} {...s} navigation={navigation} />
         ))}
@@ -182,13 +226,13 @@ export default function MockResultScreen({ route, navigation }) {
       <View style={styles.insightRow}>
         <Card style={[styles.insightCard, { borderLeftColor: strongest.color }]}>
           <Text style={styles.insightIcon}>⭐</Text>
-          <Text style={styles.insightLabel}>Strongest</Text>
+          <Text style={styles.insightLabel}>{isOdtu ? 'En Güçlü' : 'Strongest'}</Text>
           <Text style={[styles.insightValue, { color: strongest.color }]}>{strongest.name}</Text>
           <Text style={styles.insightScore}>{strongest.score}/100</Text>
         </Card>
         <Card style={[styles.insightCard, { borderLeftColor: weakest.color }]}>
           <Text style={styles.insightIcon}>📌</Text>
-          <Text style={styles.insightLabel}>Focus On</Text>
+          <Text style={styles.insightLabel}>{isOdtu ? 'Odaklan' : 'Focus On'}</Text>
           <Text style={[styles.insightValue, { color: weakest.color }]}>{weakest.name}</Text>
           <Text style={styles.insightScore}>{weakest.score}/100</Text>
         </Card>
@@ -196,8 +240,8 @@ export default function MockResultScreen({ route, navigation }) {
 
       {/* Personalized Advice */}
       <Card style={styles.card}>
-        <Text style={styles.sectionTitle}>🎯 Personalized Action Plan</Text>
-        <Text style={styles.sectionSub}>Based on your performance profile</Text>
+        <Text style={styles.sectionTitle}>{isOdtu ? '🎯 Kişisel Aksiyon Planı' : '🎯 Personalized Action Plan'}</Text>
+        <Text style={styles.sectionSub}>{isOdtu ? 'Performans profiline göre öneriler' : 'Based on your performance profile'}</Text>
         {advice.map((a, i) => (
           <View key={i} style={styles.adviceRow}>
             <Text style={styles.adviceNum}>{i + 1}</Text>
@@ -208,7 +252,7 @@ export default function MockResultScreen({ route, navigation }) {
 
       {/* Practice Shortcuts */}
       <Card style={styles.card}>
-        <Text style={styles.sectionTitle}>🚀 Practice Weak Areas</Text>
+        <Text style={styles.sectionTitle}>{isOdtu ? '🚀 Zayıf Alanları Çalış' : '🚀 Practice Weak Areas'}</Text>
         <View style={styles.shortcutRow}>
           {sections.filter(s => s.score < PASSING_THRESHOLD).concat(sections.filter(s => s.score >= PASSING_THRESHOLD)).slice(0, 3).map(s => (
             <TouchableOpacity
@@ -231,7 +275,7 @@ export default function MockResultScreen({ route, navigation }) {
         onPress={() => navigation.navigate('MockHistory')}
         activeOpacity={0.8}
       >
-        <Text style={styles.historyBtnText}>View All Mock History →</Text>
+        <Text style={styles.historyBtnText}>{isOdtu ? 'Tüm Mock Geçmişini Gör →' : 'View All Mock History →'}</Text>
       </TouchableOpacity>
 
       <View style={{ height: spacing.xl }} />
@@ -263,6 +307,7 @@ const styles = StyleSheet.create({
   },
   cefrTagText: { fontSize: 12, fontWeight: '800' },
   heroLabel: { fontSize: typography.small || 12, color: colors.muted },
+  heroCefr: { fontSize: 11, color: colors.muted, marginTop: 2, fontWeight: '600' },
   heroStatus: { fontSize: 13, fontWeight: '700' },
   heroGap: { fontSize: 11, color: colors.muted, fontStyle: 'italic' },
   cefrStrip: { flexDirection: 'row', gap: 6, justifyContent: 'center', flexWrap: 'wrap' },
