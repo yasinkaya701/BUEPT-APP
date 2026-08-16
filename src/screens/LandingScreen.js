@@ -42,7 +42,7 @@ const STATS_BY_UNI = {
   odtu: [
     { value: 100, suffix: ' puan', label: 'Resmi 5 bölüm toplamı' },
     { value: 32, suffix: ' puan', label: 'Okuma bölümü payı' },
-    { value: 4, suffix: '+', label: 'Tam ODTÜ formatlı mock' },
+    { value: 8, suffix: '+', label: 'Tam ODTÜ formatlı mock' },
     { value: 60, suffix: ' puan', label: 'Geçme notu (85+ muafiyet)' },
   ],
 };

@@ -133,7 +133,7 @@ export default function AIMockGeneratorScreen({ navigation }) {
             <Text style={styles.sectionLabel}>Offline Mock Bank — no AI key required</Text>
             <Text style={styles.levelNote}>
               {isOdtu
-                ? 'Four full METU-format mocks (L1–L4): Listening, dense Reading, Note-Taking, one essay and a Speaking practice block — the real EPE/İYS sections. Starts instantly.'
+                ? 'Eight full METU-format mocks (L1–L4): Listening, dense Reading, Note-Taking, one essay and a Speaking block with AI microphone scoring — the real EPE/İYS sections. Starts instantly.'
                 : 'Four full official-format BUSEPT mocks (P1–P4): Selective + Careful Listening, Reading I/II and two essays — the real exam\'s three scored parts (no speaking section on BUSEPT). Starts instantly.'}
             </Text>
             <View style={styles.optionRow}>

@@ -150,7 +150,137 @@ const odtu1 = buildOdtuMock({
   speaking: l1Speaking,
 });
 
-/* ────────────────────────────── Level 2 — B1+ ─────────────────────────── */
+/* ───────────────────── Level 2 — B1+/B2 (original set + sets 2B, 2C) ──── */
+
+const l2bListening = {
+  transcript:
+    'Announcer: This is the METU Science and Technology Week podcast. Our first speaker is Dr Ayşe Yıldız from the Department of Environmental Engineering, talking about urban heat islands. Dr Yıldız: Thank you. An urban heat island is a city that is significantly warmer than its surrounding countryside. In summer afternoons, Ankara can be four to six degrees warmer than the fields around it. Three factors cause this. First, concrete and asphalt absorb sunlight during the day and release it slowly at night. Second, tall buildings block the wind that would otherwise cool the streets. Third, cars and air conditioners pump extra heat into the air. What can universities do? Our own campus has planted more than two thousand trees along its main avenue since 2018, and measurements show the avenue is now about two degrees cooler in August. Students can help by using the bus instead of personal cars and by joining the campus greening club, which meets every Monday at 5 p.m. in the cafeteria. Next, we turn to space research at METU…',
+  questions: [
+    multipleChoice('q1', 'What is an urban heat island, according to the speaker?', ['A city warmer than its surrounding countryside', 'A park inside a city', 'An island with high temperatures', 'A greenhouse district'], 0),
+    multipleChoice('q2', 'How much warmer can Ankara be than the countryside in summer afternoons?', ['One degree', 'Four to six degrees', 'Ten degrees', 'It is not mentioned'], 1),
+    multipleChoice('q3', 'Why does asphalt make cities warmer?', ['It reflects sunlight into space', 'It absorbs sunlight and releases heat slowly at night', 'It produces heat on its own', 'It blocks rain'], 1),
+    multipleChoice('q4', 'What has METU campus done since 2018?', ['Banned cars', 'Planted more than two thousand trees along its main avenue', 'Built air conditioners', 'Closed the cafeteria'], 1),
+    multipleChoice('q5', 'When does the campus greening club meet?', ['Every Monday at 5 p.m. in the cafeteria', 'Every Friday at noon', 'Every Monday at 8 a.m.', 'It does not meet'], 0),
+  ],
+};
+
+const l2bReading = {
+  article:
+    'The Hidden Cost of Fast Fashion\n\nA t-shirt that costs five euros cannot be cheap to make. Somewhere in its supply chain, someone else is paying the difference. Researchers at several European universities have traced fast fashion items back to textile workers in South Asia who earn less than two euros a day. Their working weeks often exceed sixty hours, and factory buildings in some regions still lack basic fire exits.\n\nThe environmental bill is equally heavy. Producing a single cotton t-shirt uses about 2,700 litres of water — enough for one person to drink for two and a half years. Synthetic fabrics such as polyester shed microplastic fibres in every wash, and wastewater treatment plants cannot fully filter them out. These fibres have now been found in fish, tap water, and even human blood.\n\nConsumers are beginning to respond. Second-hand clothing platforms have grown every year since 2019, and a survey of Turkish university students found that 41% now check a garment\'s origin label before buying. Some brands have introduced rental and repair programmes, arguing that a garment\'s value should be measured by how long it is worn rather than how often it is replaced. Policy makers are not waiting: the European Union has proposed a rule requiring brands to publish the carbon footprint of each item, and several countries have already taxed unsold clothing.\n\nTable note (as in the real exam): one column shows that production cost of a €5 t-shirt is roughly €1.20 for labour, €0.60 for fabric, and €0.40 for transport.',
+  questions: [
+    multipleChoice('q1', 'What does the text suggest about a €5 t-shirt?', ['It is genuinely cheap to make', 'Someone in the supply chain pays the difference', 'It costs €5 to produce', 'Its price is fair'], 1),
+    multipleChoice('q2', 'How much water does a cotton t-shirt require, according to the text?', ['About 270 litres', 'About 2,700 litres', 'About 27,000 litres', 'About 27 litres'], 1),
+    multipleChoice('q3', 'Where have microplastic fibres from synthetic fabrics been found?', ['Only in oceans', 'In fish, tap water, and human blood', 'Only in factory wastewater', 'Nowhere so far'], 1),
+    multipleChoice('q4', 'According to the table note, what is the largest listed component of the €5 t-shirt\'s production cost?', ['Labour (€1.20)', 'Fabric (€0.60)', 'Transport (€0.40)', 'Marketing'], 0),
+    multipleChoice('q5', 'What is one brand response mentioned in the text?', ['Lowering prices further', 'Rental and repair programmes that extend a garment\'s life', 'Stopping cotton use entirely', 'Selling only online'], 1),
+  ],
+};
+
+const l2bNoteTaking = {
+  transcript:
+    'Good morning. Today\'s lecture is about the psychology of habits, and you will answer questions from your notes afterwards. Habits form through a three-step loop. Step one is the cue: a trigger in the environment, such as putting on running shoes or opening a laptop at the same desk. Step two is the routine: the behaviour itself, like a thirty-minute run or a study session. Step three is the reward: the feeling of accomplishment, which makes the brain want to repeat the loop. Research from University College London shows that a new habit takes, on average, sixty-six days to become automatic — not the twenty-one days that popular books claim. Two practical findings matter for students. First, changing the cue changes the habit: students who studied in the library instead of their dormitory reported stronger study habits within one month, even though their routines did not change. Second, stacking habits works: attaching a new habit to an existing one, such as reviewing flashcards right after breakfast, increases the chance of keeping it. Remember the loop — cue, routine, reward — and the two strategies: change the cue, and stack the habit.',
+  questions: [
+    multipleChoice('q1', 'What is the first step of the habit loop described in the lecture?', ['The cue', 'The routine', 'The reward', 'The outcome'], 0),
+    multipleChoice('q2', 'According to the UCL research, how long does a new habit take on average?', ['Twenty-one days', 'Sixty-six days', 'One hundred days', 'Fourteen days'], 1),
+    multipleChoice('q3', 'What did students who changed their study location report?', ['Weaker habits', 'Stronger study habits within one month', 'No change', 'More stress'], 1),
+    multipleChoice('q4', 'What does habit stacking mean, according to the lecturer?', ['Repeating a habit many times daily', 'Attaching a new habit to an existing one', 'Practising several sports', 'Studying in groups'], 1),
+    multipleChoice('q5', 'Which two strategies does the lecturer recommend, in order?', ['Change the cue, stack the habit', 'Stack the habit, remove rewards', 'Remove cues, increase rewards', 'Extend routines, ignore cues'], 0),
+  ],
+};
+
+const l2bWriting = {
+  id: 'w1',
+  topic: 'Universities should require students to complete a semester abroad before graduating.',
+  wordTarget: 220,
+  helpers: ['personal growth and independence', 'language and career advantages', 'financial burden on families'],
+  prompt: 'Write an essay of about 180-250 words supporting or opposing this proposal. Use the guidelines or your own arguments.',
+};
+
+const l2bSpeaking = {
+  questions: [
+    { id: 'sp1', type: 'speaking', q: 'Tell us about a subject you studied this year that surprised you. Why was it unexpected?', prepared: false },
+    { id: 'sp2', type: 'speaking', q: 'Some students live in dormitories, others commute from home. Which do you think is better for a first-year student?', prepared: false },
+    { id: 'sp3', type: 'speaking', q: 'Describe a time you had to work in a group. What did you learn from the experience?', prepared: false },
+    { id: 'sp4', type: 'speaking', q: 'Is it better to specialise early in a narrow field or to study a broad range of subjects? Give your view.', prepared: false },
+    { id: 'sp_prepared_l2b', type: 'speaking', q: 'In your opinion, what is the biggest challenge facing universities today, and how would you address it?', prepared: true },
+  ],
+};
+
+const odtu2b = buildOdtuMock({
+  id: 'offline-odtu-l2-2',
+  name: 'ODTÜ-EPE Offline Mock — Level 2B',
+  level: 'L2',
+  listening: l2bListening,
+  reading: l2bReading,
+  noteTaking: l2bNoteTaking,
+  writing: l2bWriting,
+  speaking: l2bSpeaking,
+});
+
+const l2cListening = {
+  transcript:
+    'Welcome to the second session of the METU Economics of Education lecture series. Today: student loans and long-term earnings. Two facts frame the debate. Fact one: university graduates in Turkey earn, on average, about seventy percent more over their careers than high school graduates who enter the workforce directly. Fact two: students from low-income families are three times less likely to attend university than students from high-income families, even when their entrance exam scores are equal. The gap is not explained by ability — it is explained by financing. Three policy tools attempt to close it. The first is income-contingent loans: graduates repay only when their income passes a threshold, so a graduate who earns little pays little. The second is merit scholarships that cover tuition fully but are awarded by exam rank; they reward high scorers but do not reach students who underperform on exam day. The third is universal grants, funded by taxation, which reach everyone but cost the state heavily. Comparative evidence from Australia and England suggests income-contingent loans increase university attendance among low-income students more than grants of equal cost, because loans remove upfront payment without straining budgets. Questions follow these three tools.',
+  questions: [
+    multipleChoice('q1', 'How much more do graduates earn over their careers, on average, compared to high school graduates?', ['About thirty percent more', 'About seventy percent more', 'About ten percent more', 'The same'], 1),
+    multipleChoice('q2', 'According to the lecturer, why do low-income students attend university less often?', ['Lower ability', 'Financing constraints, not ability', 'Less interest in studying', 'Fewer scholarships available only to them'], 1),
+    multipleChoice('q3', 'What is an income-contingent loan?', ['A loan repaid only when income passes a threshold', 'A loan forgiven after ten years', 'A grant that needs no repayment', 'A loan with fixed monthly instalments'], 0),
+    multipleChoice('q4', 'What does comparative evidence from Australia and England suggest?', ['Grants outperform loans', 'Income-contingent loans raise low-income attendance more than equal-cost grants', 'Neither policy works', 'Scholarships are the best tool'], 1),
+    multipleChoice('q5', 'Which three policy tools does the lecturer compare?', ['Loans, scholarships, universal grants', 'Loans, taxes, subsidies', 'Grants, jobs, apprenticeships', 'Tuition cuts, loans, housing aid'], 0),
+  ],
+};
+
+const l2cReading = {
+  article:
+    'Why Sleep Determines Academic Performance\n\nSleep researchers call sleep the brain\'s nightly filing clerk. During deep sleep, the hippocampus transfers the day\'s experiences into long-term storage in the cortex. During REM sleep, the brain links new memories to old ones — which is why a student who studies before sleeping often solves problems more easily the next morning.\n\nThe practical implications are uncomfortable for exam-season students. A controlled study of undergraduates found that those who slept six hours or less for a week performed, on average, eleven percent worse on subsequent tests than those who slept eight hours — even though both groups studied for the same number of hours. All-nighters made it worse: students who pulled an all-nighter before an exam scored no better than peers who had not studied at all.\n\nCaffeine complicates the picture. A moderate dose before a study session improves alertness for roughly four hours, but caffeine consumed after noon extends the time needed to fall asleep by an average of forty minutes, reducing total sleep. The result is a hidden trade-off: the extra evening study hour costs the following morning\'s memory consolidation.\n\nUniversities are acting on the evidence. Several US institutions have banned exams before nine a.m., and METU\'s own counselling office now includes a sleep-hygiene module in its academic skills workshop. Figure note (as in the real exam): test performance drops approximately 4% for every hour of sleep lost below eight.\n\nIn short, sleep is not time lost from studying; it is the mechanism that makes studying stick.',
+  questions: [
+    multipleChoice('q1', 'What role does deep sleep play, according to the text?', ['It clears the brain of all information', 'The hippocampus transfers experiences into long-term storage', 'It blocks new learning', 'It only helps physical recovery'], 1),
+    multipleChoice('q2', 'What did the undergraduate study find?', ['Six-hours-or-less sleepers performed eleven percent worse', 'Sleep had no measurable effect', 'More sleep made students lazy', 'Only REM sleep mattered'], 0),
+    multipleChoice('q3', 'What did all-nighters achieve, according to the text?', ['They doubled exam scores', 'They scored no better than peers who had not studied at all', 'They helped only in mathematics', 'They improved alertness all week'], 1),
+    multipleChoice('q4', 'According to the figure note, how much does performance drop per hour of sleep lost below eight?', ['About four percent', 'About one percent', 'About eleven percent', 'About twenty percent'], 0),
+    multipleChoice('q5', 'What is the text\'s overall conclusion about sleep?', ['Sleep is wasted time for serious students', 'Sleep is the mechanism that makes studying stick', 'Sleep matters only for athletes', 'Caffeine removes the need for sleep'], 1),
+  ],
+};
+
+const l2cNoteTaking = {
+  transcript:
+    'This lecture covers three drivers of inflation, and you will answer six questions from your notes. Driver one is demand-pull inflation: when total spending in an economy grows faster than the economy can produce, prices are pulled upward. Think of an auction where ten bidders compete for one house — the price rises with the number of bidders. Driver two is cost-push inflation: when the cost of production rises — for example, oil prices double — firms pass those costs to consumers through higher prices. Driver three is expectations: if workers and firms expect prices to rise next year, workers demand higher wages today and firms raise prices in advance, making the expectation self-fulfilling. Central banks respond mainly with interest rates. Higher rates make borrowing expensive, which cools spending and weakens demand-pull pressure. The trade-off is well known: rates that are too high for too long push the economy into recession and raise unemployment. Remember the three drivers — demand-pull, cost-push, expectations — and the central bank tool: interest rates, used with a recession risk on the other side.',
+  questions: [
+    multipleChoice('q1', 'What is demand-pull inflation, according to the lecture?', ['Prices fall because demand drops', 'Prices rise when spending grows faster than production', 'Wages rise automatically', 'Oil prices double'], 1),
+    multipleChoice('q2', 'Why does the lecturer use an auction analogy?', ['To explain cost-push inflation', 'To show that more bidders competing for limited goods push prices up', 'To describe central bank auctions', 'To criticise housing markets'], 1),
+    multipleChoice('q3', 'What is cost-push inflation triggered by?', ['Rising production costs that firms pass to consumers', 'Consumer demand', 'Lower taxes', 'Higher interest rates'], 0),
+    multipleChoice('q4', 'How do expectations create inflation, according to the lecturer?', ['Workers demand higher wages and firms raise prices in advance, self-fulfilling the expectation', 'Banks print more money', 'Expectations have no effect', 'Prices fall automatically'], 0),
+    multipleChoice('q5', 'What is the main trade-off of raising interest rates too much?', ['Inflation accelerates', 'The economy may slip into recession and unemployment rises', 'Consumers spend more', 'Wages fall'], 1),
+  ],
+};
+
+const l2cWriting = {
+  id: 'w1',
+  topic: 'Social media platforms should be legally required to remove content that spreads false scientific or medical information.',
+  wordTarget: 220,
+  helpers: ['public health protection', 'freedom of expression', 'who decides what is false'],
+  prompt: 'Write an essay of about 180-250 words presenting a clear position. Support it with reasons and, where possible, examples.',
+};
+
+const l2cSpeaking = {
+  questions: [
+    { id: 'sp1', type: 'speaking', q: 'Tell us about a goal you set for yourself this year. How far have you progressed?', prepared: false },
+    { id: 'sp2', type: 'speaking', q: 'Do you think university education should be entirely free, or should students contribute? Explain.', prepared: false },
+    { id: 'sp3', type: 'speaking', q: 'Describe a moment when feedback from a teacher or mentor changed your approach to something.', prepared: false },
+    { id: 'sp4', type: 'speaking', q: 'Cities are growing fast. What is the single most important thing city planners should prioritise?', prepared: false },
+    { id: 'sp_prepared_l2c', type: 'speaking', q: 'In your opinion, what is the biggest challenge facing universities today, and how would you address it?', prepared: true },
+  ],
+};
+
+const odtu2c = buildOdtuMock({
+  id: 'offline-odtu-l2-3',
+  name: 'ODTÜ-EPE Offline Mock — Level 2C',
+  level: 'L2',
+  listening: l2cListening,
+  reading: l2cReading,
+  noteTaking: l2cNoteTaking,
+  writing: l2cWriting,
+  speaking: l2cSpeaking,
+});
 
 const l2Listening = {
   transcript:
@@ -215,6 +345,138 @@ const odtu2 = buildOdtuMock({
   noteTaking: l2NoteTaking,
   writing: l2Writing,
   speaking: l2Speaking,
+});
+
+/* ───────────────────── Level 3 — B2 (original set + sets 3C, 3D) ──────── */
+
+const l3cListening = {
+  transcript:
+    'Welcome to the third session of the METU Economics of Education lecture series. Today: labour markets and automation. Three claims circulate in public debate, and we will assess each. Claim one: automation destroys jobs permanently. The historical record complicates this. When automated teller machines were introduced, bank teller employment did not collapse; it plateaued, because branches multiplied and tellers shifted to customer service roles. Claim two: this time is different because artificial intelligence replaces cognitive work, not just manual work. Here the evidence is genuinely newer: in a study of a large software company, developers using AI coding assistants completed tasks forty percent faster, and managers reported hiring fewer junior programmers for routine work. Claim three: wages will fall for middle-skill workers while rising for both the lowest and highest skills — the so-called hollowing out of the labour market. Data from the OECD broadly supports this: employment shares have grown at both tails of the skill distribution since 2000. Two policy responses dominate the discussion. Retraining programmes, such as Germany\'s vocational conversion subsidies, and wage insurance, which tops up the pay of displaced workers who re-enter at lower wages. Questions follow.',
+  questions: [
+    multipleChoice('q1', 'What happened to bank teller employment after automated teller machines were introduced?', ['It collapsed immediately', 'It plateaued, as tellers shifted to customer service', 'It doubled', 'It is not mentioned'], 1),
+    multipleChoice('q2', 'What did the software company study find about AI coding assistants?', ['Developers completed tasks forty percent faster', 'Productivity fell', 'No change was measured', 'Senior developers were replaced'], 0),
+    multipleChoice('q3', 'What does hollowing out of the labour market mean, according to the lecturer?', ['All jobs disappear', 'Employment grows at both skill tails while middle-skill wages fall', 'Only low-skill jobs remain', 'Only high-skill jobs remain'], 1),
+    multipleChoice('q4', 'Since when has employment grown at both tails of the skill distribution, according to the OECD data?', ['Since 2000', 'Since 2010', 'Since 2020', 'Since 1990'], 0),
+    multipleChoice('q5', 'Which two policy responses dominate the discussion?', ['Retraining programmes and wage insurance', 'Universal basic income and job bans', 'Tax cuts and immigration limits', 'Minimum wages and automation taxes'], 0),
+  ],
+};
+
+const l3cReading = {
+  article:
+    'The Architecture of Attention\n\nAttention is often described as a spotlight, but a better metaphor is a currency. Every notification, headline, and autoplaying video spends it, and the spender is rarely you. In 2004, the average smartphone user checked their device a handful of times a day; today, research consortia report averages above ninety daily interactions, with a substantial share occurring within five minutes of waking.\n\nThe economic logic behind this is deliberate. Platforms maximise a metric called time-on-device, and the interface techniques that achieve it are now well documented. Infinite scroll removes the natural stopping cue that a page bottom once provided. Variable-ratio rewards — the unpredictable refresh of a feed — exploit the same psychological mechanism as a slot machine. Push notifications hijack the orienting reflex, the ancient attentional system that evolved to notice sudden changes in the environment.\n\nIndividual defences exist, but they fight an asymmetric battle. App timers are voluntary; the platform\'s engineering is not. Studies of digital-wellbeing tools report modest average effects: screen time falls by roughly thirty minutes daily in the first month, then regresses. Structural remedies are comparatively effective. France has banned work email outside office hours, and several schools have adopted phone-free classrooms; early evaluations link these policies to measurable improvements in self-reported concentration.\n\nThe deeper question is normative: if attention is a currency, who owns the mint? Regulators are beginning to treat interface design choices as consumer-protection issues, and the European Digital Services Act already requires large platforms to disclose their recommender logic. Table note (as in the real exam): daily interactions rose from about 10 in 2004 to about 96 in 2024.',
+  questions: [
+    multipleChoice('q1', 'Why does the author prefer the currency metaphor over the spotlight metaphor for attention?', ['Attention is bright', 'Every notification and headline spends attention, and the spender is rarely the user', 'Spotlights are outdated', 'The metaphor is decorative'], 1),
+    multipleChoice('q2', 'According to the table note, how did daily device interactions change from 2004 to 2024?', ['They halved', 'They rose from about 10 to about 96', 'They stayed the same', 'They tripled to about 30'], 1),
+    multipleChoice('q3', 'What psychological mechanism does variable-ratio reward exploit?', ['Classical conditioning only', 'The same mechanism as a slot machine', 'Language acquisition', 'Visual memory'], 1),
+    multipleChoice('q4', 'What do studies of digital-wellbeing tools report?', ['Screen time falls about thirty minutes daily in the first month, then regresses', 'Permanent halving of screen time', 'No effect at all', 'Doubled productivity'], 0),
+    multipleChoice('q5', 'What does the European Digital Services Act require of large platforms?', ['Deleting all recommenders', 'Disclosing their recommender logic', 'Banning notifications', 'Charging for attention'], 1),
+  ],
+};
+
+const l3cNoteTaking = {
+  transcript:
+    'This lecture addresses memory consolidation during sleep, and your notes will be tested afterwards. Three systems cooperate. System one: slow-wave sleep in the first half of the night strengthens declarative memories — facts, dates, vocabulary — by replaying hippocampal activity to the cortex. System two: REM sleep in the second half favours procedural and emotional memories — skills, faces, the tone of an argument. This is why a schedule with both early and late study matters differently: vocabulary learned in the evening pairs with slow-wave consolidation that night, whereas a motor skill practised late pairs with the richer REM that follows. System three: synaptic downscaling. Overnight, the brain weakens connections that were not activated, which is why a day without new learning followed by a full night\'s sleep can improve retention of what was learned the day before. Two applied findings for students. Naps of twenty to thirty minutes boost alertness without deep sleep inertia; longer naps enter slow-wave sleep and leave you groggy. And crammed information decays faster than spaced repetitions: the forgetting curve drops roughly half the material within a day unless retrieval practice interrupts it. Remember the three systems — slow-wave declarative, REM procedural, synaptic downscaling — and the two applications: short naps, spaced retrieval.',
+  questions: [
+    multipleChoice('q1', 'Which sleep stage strengthens declarative memories such as vocabulary?', ['REM sleep', 'Slow-wave sleep in the first half of the night', 'Light sleep only', 'Napping'], 1),
+    multipleChoice('q2', 'Why does the lecturer say evening vocabulary study is well timed?', ['Vocabulary pairs with slow-wave consolidation that night', 'It does not matter', 'Evening study prevents sleep', 'REM stores vocabulary'], 0),
+    multipleChoice('q3', 'What is synaptic downscaling, according to the lecture?', ['Growing all connections', 'Weakening connections that were not activated overnight', 'Destroying memories entirely', 'A disease'], 1),
+    multipleChoice('q4', 'Why do naps longer than thirty minutes leave students groggy?', ['They enter slow-wave sleep, causing sleep inertia', 'They are too short', 'They contain too much caffeine', 'The lecturer does not say'], 0),
+    multipleChoice('q5', 'What does the forgetting curve finding suggest?', ['Cramming is optimal', 'Without retrieval practice, about half the material is lost within a day', 'Memory is permanent', 'Only athletes forget'], 1),
+  ],
+};
+
+const l3cWriting = {
+  id: 'w1',
+  topic: 'Artificial intelligence tools should be permitted in university examinations, with appropriate safeguards.',
+  wordTarget: 240,
+  helpers: ['assessment of understanding vs. tool fluency', 'workplace readiness', 'academic integrity and cheating'],
+  prompt: 'Write an essay of about 180-250 words arguing for or against this proposal. Use the guidelines or your own ideas, and state your position clearly.',
+};
+
+const l3cSpeaking = {
+  questions: [
+    { id: 'sp1', type: 'speaking', q: 'Describe a decision you made recently that you later reconsidered. What would you do differently?', prepared: false },
+    { id: 'sp2', type: 'speaking', q: 'Some say remote work is the future; others say offices will return fully. Where do you stand?', prepared: false },
+    { id: 'sp3', type: 'speaking', q: 'What role should universities play in preparing students for an AI-driven workplace?', prepared: false },
+    { id: 'sp4', type: 'speaking', q: 'Describe a cultural tradition from your region that you think outsiders misunderstand. Explain it.', prepared: false },
+    { id: 'sp_prepared_l3c', type: 'speaking', q: 'In your opinion, what is the biggest challenge facing universities today, and how would you address it?', prepared: true },
+  ],
+};
+
+const odtu3c = buildOdtuMock({
+  id: 'offline-odtu-l3-3',
+  name: 'ODTÜ-EPE Offline Mock — Level 3C',
+  level: 'L3',
+  listening: l3cListening,
+  reading: l3cReading,
+  noteTaking: l3cNoteTaking,
+  writing: l3cWriting,
+  speaking: l3cSpeaking,
+});
+
+const l3dListening = {
+  transcript:
+    'Good afternoon. This lecture concerns public health communication, and you will answer questions from your notes. Three principles make health campaigns work, and three common mistakes make them fail. Principle one: specificity. A message such as walk thirty minutes a day, five days a week, outperforms exercise is good for you, because it tells the receiver exactly what to do and when. Principle two: messenger credibility. Community health workers delivering the message inside the target group outperform celebrity spokespeople for long-term behaviour change, because trust transfers from messenger to message. Principle three: loss framing in the right context. Research shows loss-framed messages, such as missing five screenings raises your risk, work better for detection behaviours like screening, whereas gain-framed messages, such as sunscreen keeps your skin healthy, work better for prevention behaviours like vaccination. Mistake one: fear appeals without efficacy. Telling people a danger is serious without telling them what to do produces anxiety, not action. Mistake two: information overload; more facts than people can process reduce recall of all of them. Mistake three: one-size-fits-all campaigns that ignore the audience\'s starting knowledge. Questions follow these six points.',
+  questions: [
+    multipleChoice('q1', 'Why does the lecturer prefer the specific message over the general one?', ['It is shorter', 'It tells the receiver exactly what to do and when', 'It is cheaper', 'It is scarier'], 1),
+    multipleChoice('q2', 'Who outperforms celebrity spokespeople for long-term behaviour change?', ['Community health workers trusted within the target group', 'Politicians', 'Advertisers', 'No one outperforms them'], 0),
+    multipleChoice('q3', 'Which framing works better for detection behaviours such as screening?', ['Loss-framed messages', 'Gain-framed messages', 'Humour', 'No framing matters'], 0),
+    multipleChoice('q4', 'What does a fear appeal without efficacy produce, according to the lecturer?', ['Immediate action', 'Anxiety, not action', 'Vaccination', 'Nothing'], 1),
+    multipleChoice('q5', 'Which three mistakes does the lecturer list?', ['Fear without efficacy, information overload, one-size-fits-all campaigns', 'Too little fear, too few facts, local targeting', 'Celebrity endorsements, specificity, framing', 'Trust, clarity, repetition'], 0),
+  ],
+};
+
+const l3dReading = {
+  article:
+    'The Economics of Language\n\nDoes speaking English raise wages? Economists have studied this question for three decades, and the answer is yes — with important caveats. In a large survey of Turkish professionals, those who report working in English earn, on average, 20 to 30 percent more than similar colleagues who do not, after controlling for education, sector, and experience. The premium is not a reward for the language itself; it is a marker of exposure to international firms, management roles, and knowledge-intensive tasks where English is the working medium.\n\nThe caveats matter. First, self-reporting inflates the premium: people who say their English is fluent are more confident in salary negotiations, and confidence has an independent wage effect. Second, the premium is largest in services and smallest in agriculture and manufacturing, where production is local. Third, the benefit is asymmetric — the English speaker gains more than the counterpart loses, so national debates about English-medium instruction often conflate distribution with total productivity.\n\nPolicy follows the evidence unevenly. Universities that require English proficiency for graduation produce graduates with the premium; critics reply that the requirement excludes talented students from rural schools with weak English instruction, converting a productivity tool into a selection barrier. Some institutions have responded with bridge-year programmes that teach academic English intensively before the degree begins, and early data suggest these programmes recover much of the gap without lowering completion rates.\n\nGraph note (as in the real exam): the wage premium curve rises steeply from intermediate to advanced proficiency and flattens beyond it — the difference between B2 and C1 pays more than the difference between C1 and C2.',
+  questions: [
+    multipleChoice('q1', 'What is the reported wage premium for professionals working in English, after controls?', ['5 to 10 percent', '20 to 30 percent', '50 percent', 'No premium exists'], 1),
+    multipleChoice('q2', 'According to the text, what does the premium actually mark?', ['A reward for the language itself', 'Exposure to international firms and knowledge-intensive tasks', 'Native-speaker status', 'Younger age'], 1),
+    multipleChoice('q3', 'In which sectors is the premium smallest, according to the text?', ['Services and finance', 'Agriculture and manufacturing', 'Technology', 'Healthcare'], 1),
+    multipleChoice('q4', 'According to the graph note, where does the wage curve rise most steeply?', ['Between A1 and A2', 'Between intermediate and advanced proficiency (B2 to C1)', 'Beyond C2', 'It is flat everywhere'], 1),
+    multipleChoice('q5', 'What concern do critics raise about English proficiency requirements?', ['They are too cheap to enforce', 'They exclude talented rural students and become a selection barrier', 'They lower wages', 'They are unconstitutional'], 1),
+  ],
+};
+
+const l3dNoteTaking = {
+  transcript:
+    'Today\'s lecture is about cognitive load theory and instructional design, and your notes will be graded in questions afterwards. The theory holds that working memory can hold only a few items at once — roughly four — while long-term memory is effectively unlimited. Three kinds of load compete for those four slots. Intrinsic load comes from the material itself: solving a differential equation is inherently heavier than reading a definition. Extraneous load comes from poor presentation: a diagram split across two pages forces the learner to hold one half in memory while reading the other, wasting capacity. Germane load is the productive kind: the effort spent actually building schemas, the organised knowledge structures that experts retrieve as single units. Two design rules follow. Rule one: integrate, do not separate — place labels inside diagrams rather than in a distant legend, eliminating split-attention. Rule two: remove redundancy — narrating a diagram while the identical text appears on screen doubles processing without adding information. The worked-example effect completes the picture: novices learn faster from step-by-step solved examples than from unsolved problems, because examples direct germane load toward schema construction. Experts, by contrast, benefit from problem solving, since examples become redundant for them. Remember the three loads — intrinsic, extraneous, germane — and the two rules: integrate, remove redundancy.',
+  questions: [
+    multipleChoice('q1', 'According to the lecturer, how many items can working memory hold at once?', ['About four', 'About forty', 'Unlimited', 'Exactly one'], 0),
+    multipleChoice('q2', 'What creates extraneous load, in the lecturer\'s example?', ['Difficult mathematics', 'A diagram split across two pages', 'Schemas', 'Expertise'], 1),
+    multipleChoice('q3', 'What is germane load, according to the theory?', ['Wasted effort', 'The productive effort spent building schemas', 'Intrinsic difficulty', 'Distraction'], 1),
+    multipleChoice('q4', 'What does the worked-example effect show?', ['Novices learn faster from step-by-step solved examples than unsolved problems', 'Examples hinder all learners', 'Only experts learn from examples', 'Problems are always better'], 0),
+    multipleChoice('q5', 'Which two design rules does the lecturer give, in order?', ['Integrate instead of separating, remove redundancy', 'Separate elements, add narration', 'Remove diagrams, add text', 'Increase load, repeat testing'], 0),
+  ],
+};
+
+const l3dWriting = {
+  id: 'w1',
+  topic: 'The traditional university degree is losing relevance in a world of online certificates and skills-based hiring.',
+  wordTarget: 240,
+  helpers: ['signalling value of degrees', 'flexibility of online certificates', 'employer hiring practices'],
+  prompt: 'Write an essay of about 180-250 words evaluating this claim. Present both sides before stating your own conclusion.',
+};
+
+const l3dSpeaking = {
+  questions: [
+    { id: 'sp1', type: 'speaking', q: 'Tell us about a skill you learned outside the classroom that has proven valuable.', prepared: false },
+    { id: 'sp2', type: 'speaking', q: 'Should voting be compulsory? Present arguments from both sides before your conclusion.', prepared: false },
+    { id: 'sp3', type: 'speaking', q: 'Describe a policy you would implement if you ran your university for one year.', prepared: false },
+    { id: 'sp4', type: 'speaking', q: 'How do you think the concept of a career will change for your generation compared to your parents\'?', prepared: false },
+    { id: 'sp_prepared_l3d', type: 'speaking', q: 'In your opinion, what is the biggest challenge facing universities today, and how would you address it?', prepared: true },
+  ],
+};
+
+const odtu3d = buildOdtuMock({
+  id: 'offline-odtu-l3-4',
+  name: 'ODTÜ-EPE Offline Mock — Level 3D',
+  level: 'L3',
+  listening: l3dListening,
+  reading: l3dReading,
+  noteTaking: l3dNoteTaking,
+  writing: l3dWriting,
+  speaking: l3dSpeaking,
 });
 
 /* ────────────────────────────── Level 3 — B2 ─────────────────────────── */
@@ -351,8 +613,8 @@ const odtu4 = buildOdtuMock({
   speaking: l4Speaking,
 });
 
-/** The complete ODTÜ offline mock bank, one METU-format mock per level. */
-export const ODTU_OFFLINE_MOCKS = [odtu1, odtu2, odtu3, odtu4];
+/** The complete ODTÜ offline mock bank — expanded to multiple mocks at L2/L3. */
+export const ODTU_OFFLINE_MOCKS = [odtu1, odtu2, odtu2b, odtu2c, odtu3, odtu3c, odtu3d, odtu4];
 export function getOdtuMocks(level) {
   if (!level) return ODTU_OFFLINE_MOCKS;
   return ODTU_OFFLINE_MOCKS.filter((m) => m.meta.level === level);

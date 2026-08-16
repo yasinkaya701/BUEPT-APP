@@ -21,6 +21,8 @@ import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import { colors, spacing, typography, radius } from '../theme/tokens';
+import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
+import { assessSpokenResponse, speakingPtsFor } from '../utils/speakingExamAssessment';
 
 const PASS_MARK = 60;
 const CEFR_BANDS = [
@@ -184,8 +186,34 @@ export default function AIMockExamScreen({ navigation, route }) {
   const [sectionIdx, setSectionIdx] = useState(0);
   const [qIdx, setQIdx] = useState(0);
   const [answers, setAnswers] = useState({}); // [sectionKey]: { [qIdx]: value }
+  const [spoken, setSpoken] = useState({}); // [sectionKey]: { [qIdx]: { transcript, elapsedSec } }
   const [elapsed, setElapsed] = useState(0);
   const [running, setRunning] = useState(false);
+  const [recStartAt, setRecStartAt] = useState(0); // epoch ms when recording started
+  const isSpeakingSection = section?.kind === 'speaking';
+
+  // Live speech capture for the speaking section (web only; degrades on native).
+  const recorder = useSpeechRecognition({
+    onTranscript: (full) => {
+      if (isSpeakingSection && question) {
+        setSpoken((prev) => {
+          const sec = { ...(prev[section.key] || {}) };
+          sec[qIdx] = { ...(sec[qIdx] || {}), transcript: full, elapsedSec: recStartAt ? Math.round((Date.now() - recStartAt) / 1000) : 0 };
+          return { ...prev, [section.key]: sec };
+        });
+      }
+    },
+  });
+
+  const toggleRecording = useCallback(() => {
+    if (!isSpeakingSection) return;
+    if (recorder.isListening) {
+      recorder.stop();
+    } else {
+      setRecStartAt(Date.now());
+      recorder.start();
+    }
+  }, [recorder, isSpeakingSection]);
 
   useEffect(() => {
     if (!exam) navigation.goBack();
@@ -284,8 +312,33 @@ export default function AIMockExamScreen({ navigation, route }) {
               yourAnswer: Number.isFinite(picked) ? q.options?.[picked] : 'Not answered',
             };
           }
-          // Speaking / other types: no objective auto-grading — keep as practice input.
-          return { correct: q.type === 'speaking' ? undefined : false, score: 0, max: 100, modelAnswer: null, yourAnswer: a };
+          if (q.type === 'speaking') {
+            const sp = spoken[secDef.key]?.[i] || {};
+            const assessment = assessSpokenResponse({ promptText: q.q, transcript: sp.transcript, elapsedSec: sp.elapsedSec || 0 });
+            return {
+              correct: undefined,
+              score: 0,
+              max: 100,
+              modelAnswer: null,
+              yourAnswer: a,
+              speakingRec: {
+                transcript: sp.transcript || '',
+                assessment,
+                aiScore: assessment.overall,
+                words: assessment.fluency.wordCount,
+                wpm: assessment.fluency.wpm,
+                fillers: assessment.fluency.fillerCount,
+                accuracy: assessment.accuracy,
+                band: assessment.band,
+                strengths: assessment.strengths,
+                improvements: assessment.improvements,
+                dimensions: assessment.dimensions,
+                notRecorded: assessment.notRecorded,
+              },
+            };
+          }
+          // Other types: no objective auto-grading — keep as practice input.
+          return { correct: false, score: 0, max: 100, modelAnswer: null, yourAnswer: a };
         });
       // Separate the essay record: it cannot be objectively pass/failed against
       // other MC items, but its word-count ratio feeds the weighted essay pts.
@@ -301,7 +354,12 @@ export default function AIMockExamScreen({ navigation, route }) {
       const secScore = essayPts && essayRec
         ? Math.round((Math.min(1, (essayRec.score || 0) / (essayRec.max || 250))) * essayPts)
         : total;
-      return { ...secDef, graded, essayRec, total, sectionScore: secScore, passed: total >= PASS_MARK };
+      // Speaking: the AI composite (0–100) earns up to 85% of the official
+      // Speaking pts; unanswered items keep the section practice-only.
+      const speakingRec = secDef.kind === 'speaking' ? gradedAll.find((r) => r?.speakingRec) : null;
+      const speakingPts = secDef.kind === 'speaking' && scoring ? speakingPtsFor(speakingRec?.speakingRec?.aiScore ?? 0, scoring) : 0;
+      const secScoreFinal = secDef.kind === 'speaking' && speakingRec ? speakingPts : secScore;
+      return { ...secDef, graded, essayRec, total, sectionScore: secScoreFinal, speakingRec: speakingRec?.speakingRec || null, passed: total >= PASS_MARK };
     });
 
     let overall = 0;
@@ -329,6 +387,14 @@ export default function AIMockExamScreen({ navigation, route }) {
           counted += b.pts;
           continue;
         }
+        if (b.key === 'speaking') {
+          // Speaking: AI composite earns up to 85% of the official pts; a
+          // skipped speaking block keeps its pts out of the denominator.
+          const sp = matched.find((s) => s && s.speakingRec);
+          earned += sp ? sp.sectionScore : 0;
+          counted += b.pts;
+          continue;
+        }
         const avg = matched.length
           ? matched.reduce((acc, s) => acc + s.total, 0) / matched.length
           : null;
@@ -337,9 +403,9 @@ export default function AIMockExamScreen({ navigation, route }) {
           counted += b.pts;
         }
       }
-      // Speaking is practice-only input (no objective grading) — its official
-      // pts are excluded from the weighted sum so it cannot silently zero out
-      // the exam; the 100-point total is rescaled over the graded buckets.
+      // Any bucket that stayed ungraded keeps its pts out of the denominator —
+      // the 100-point total is rescaled over the graded buckets so that a
+      // skipped section cannot silently drag the score down.
       overall = counted > 0 ? Math.round((earned / counted) * scoring.total) : 0;
     } else {
       const objective = sectionResults.filter((s) => s.graded.length > 0);
@@ -355,7 +421,7 @@ export default function AIMockExamScreen({ navigation, route }) {
       isOdtuExam,
       band: bandFor(overall, isOdtuExam),
     };
-  }, [phase, answers, sections, exam]);
+  }, [phase, answers, spoken, sections, exam]);
 
   if (!exam || sections.length === 0) {
     return (
@@ -397,16 +463,22 @@ export default function AIMockExamScreen({ navigation, route }) {
             <View style={styles.sectionHead}>
               <Text style={styles.sectionTitle}>{sr.title}</Text>
               {results.isOdtuExam && sr.kind === 'speaking' ? (
-                <Text style={[styles.sectionScore, { color: colors.muted }]}>Practice — not auto-scored</Text>
+                sr.speakingRec && !sr.speakingRec.notRecorded ? (
+                  <Text style={[styles.sectionScore, { color: colors.success || '#16a34a' }]}>AI {sr.speakingRec.aiScore}/100 · {sr.sectionScore}/15 pts</Text>
+                ) : (
+                  <Text style={[styles.sectionScore, { color: colors.muted }]}>Practice — not auto-scored</Text>
+                )
               ) : (
                 <Text style={[styles.sectionScore, sr.passed ? styles.passText : styles.failText]}>
                   {results.isOdtuExam ? `${sr.sectionScore} pts` : `${sr.total}/100`}
                 </Text>
               )}
             </View>
-            {results.isOdtuExam && sr.kind === 'speaking' ? (
+            {results.isOdtuExam && sr.kind === 'speaking' && sr.speakingRec && !sr.speakingRec.notRecorded ? (
+              <SpeakingReview rec={sr.speakingRec} />
+            ) : results.isOdtuExam && sr.kind === 'speaking' ? (
               <Text style={styles.gapText}>
-                Speaking is a face-to-face interview in the real İYS — this is a rehearsal of the 4 unpredictable + 1 prepared questions.
+                Speaking is a face-to-face interview in the real İYS — this is a rehearsal of the 4 unpredictable + 1 prepared questions. Use the microphone next time to receive an AI score.
               </Text>
             ) : !sr.passed ? (
               <Text style={styles.gapText}>
@@ -508,16 +580,26 @@ export default function AIMockExamScreen({ navigation, route }) {
             {question.type === 'speaking' && (
               <View style={styles.speakHint}>
                 <Text style={styles.speakHintText}>
-                  Answer aloud (or tap the mic below). When you are done, briefly note your answer here and continue — full audio feedback is available from your Speaking tab.
+                  Answer aloud using the microphone. Your answer is transcribed and scored live (fluency, coherence, vocabulary). ODTÜ Speaking is worth 15 points on the official 100-point scale.
                 </Text>
+                <SpeakingRecorderCard
+                  question={question}
+                  rec={recorder}
+                  onToggle={toggleRecording}
+                  onChange={(t) => setSpoken((prev) => {
+                    const sec = { ...(prev[section.key] || {}) };
+                    sec[qIdx] = { ...(sec[qIdx] || {}), textAnswer: t };
+                    return { ...prev, [section.key]: sec };
+                  })}
+                />
               </View>
             )}
-            {(question.type === 'short_answer' || question.type === 'essay' || question.type === 'speaking') && (
+            {(question.type === 'short_answer' || question.type === 'essay') && (
               <TextInput
                 style={styles.answerInput}
                 value={currentAnswer}
                 onChangeText={setCurrentAnswer}
-                placeholder={question.type === 'essay' ? 'Write your essay here…' : question.type === 'speaking' ? 'Note your spoken answer briefly (optional)…' : 'Write a short answer…'}
+                placeholder={question.type === 'essay' ? 'Write your essay here…' : 'Write a short answer…'}
                 placeholderTextColor={colors.muted}
                 multiline={question.type === 'essay'}
                 numberOfLines={question.type === 'essay' ? 8 : 1}
@@ -555,6 +637,103 @@ function typeLabel(type) {
   if (type === 'multiple_choice') return 'Multiple Choice';
   if (type === 'matching') return 'Matching';
   return 'Question';
+}
+
+/** Live microphone panel for a speaking prompt inside the mock exam. */
+function SpeakingRecorderCard({ question, rec, onToggle, onChange }) {
+  const isListening = rec.isListening;
+  const transcript = rec.transcript || '';
+  return (
+    <View style={styles.recCard}>
+      <View style={styles.recTop}>
+        <Button
+          label={isListening ? '⏹ Stop Recording' : '🎤 Record Answer'}
+          variant={isListening ? 'secondary' : 'primary'}
+          onPress={onToggle}
+          disabled={!rec.isAvailable}
+        />
+        {!rec.isAvailable && (
+          <Text style={styles.recFallback}>Microphone not available — type your answer instead, or retry in a desktop browser.</Text>
+        )}
+        {rec.error ? <Text style={styles.recError}>{rec.error}</Text> : null}
+      </View>
+      {transcript ? (
+        <View style={styles.recTranscript}>
+          <Text style={styles.recTranscriptLabel}>AI transcript:</Text>
+          <Text style={styles.recTranscriptText}>{transcript}</Text>
+          {transcript.trim() && (
+            <TextInput
+              style={styles.recNote}
+              value={rec.textAnswer || ''}
+              onChangeText={onChange}
+              placeholder="Edit or add to your answer (optional)…"
+              placeholderTextColor={colors.muted}
+              multiline
+              numberOfLines={3}
+              textAlignVertical="top"
+            />
+          )}
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
+/** Dimension score bar used by the speaking review in results. */
+function SpeakingBar({ label, value }) {
+  return (
+    <View style={styles.spBarRow}>
+      <Text style={styles.spBarLabel}>{label}</Text>
+      <View style={styles.spBarTrack}>
+        <View style={[styles.spBarFill, { width: `${Math.max(2, Math.min(100, value))}%` }]} />
+      </View>
+      <Text style={styles.spBarValue}>{value}</Text>
+    </View>
+  );
+}
+
+/** Speaking result card shown in the results view for the ODTÜ exam. */
+function SpeakingReview({ rec }) {
+  const d = rec.dimensions || {};
+  return (
+    <View style={styles.spReview}>
+      <View style={styles.spReviewHead}>
+        <View>
+          <Text style={styles.spReviewBand}>AI Speaking Score: {rec.aiScore}/100</Text>
+          <Text style={styles.spReviewMeta}>
+            {rec.words} words · {rec.wpm} WPM · {rec.fillers} filler · {rec.accuracy}% accuracy
+          </Text>
+        </View>
+      </View>
+      <SpeakingBar label="Fluency" value={d.fluency || 0} />
+      <SpeakingBar label="Coherence" value={d.coherence || 0} />
+      <SpeakingBar label="Lexical Range" value={d.lexicalRange || 0} />
+      <SpeakingBar label="Rubric Alignment" value={d.rubricAlignment || 0} />
+      <SpeakingBar label="Stamina" value={d.speakingStamina || 0} />
+      {Array.isArray(rec.strengths) && rec.strengths.length > 0 && (
+        <>
+          <Text style={styles.spSectionLabel}>Strengths</Text>
+          {rec.strengths.map((s, i) => (
+            <Text key={`st-${i}`} style={styles.spListText}>• {s}</Text>
+          ))}
+        </>
+      )}
+      {Array.isArray(rec.improvements) && rec.improvements.length > 0 && (
+        <>
+          <Text style={[styles.spSectionLabel, styles.spSectionLabelGap]}>Improvements</Text>
+          {rec.improvements.map((s, i) => (
+            <Text key={`im-${i}`} style={styles.spListText}>• {s}</Text>
+          ))}
+        </>
+      )}
+      {rec.transcript ? (
+        <>
+          <Text style={[styles.spSectionLabel, styles.spSectionLabelGap]}>Your transcript</Text>
+          <Text style={styles.spTranscriptText}>{rec.transcript}</Text>
+        </>
+      ) : null}
+    </View>
+  );
 }
 
 function fmtTime(totalSeconds) {
@@ -660,4 +839,25 @@ const styles = StyleSheet.create({
   reviewMore: { fontSize: 12, color: colors.muted, marginTop: spacing.xs },
   doneBtn: { marginHorizontal: spacing.xl, marginTop: spacing.lg },
   emptyText: { fontSize: 14, color: colors.text, lineHeight: 21, marginBottom: spacing.md },
+  recCard: { marginTop: spacing.md, gap: spacing.md },
+  recTop: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
+  recFallback: { fontSize: 11, color: colors.muted, flex: 1, lineHeight: 15 },
+  recError: { fontSize: 12, color: colors.error, flex: 1, lineHeight: 16 },
+  recTranscript: { backgroundColor: '#fff', borderRadius: 10, padding: spacing.md },
+  recTranscriptLabel: { fontSize: 11, fontWeight: '800', color: colors.primaryDark, textTransform: 'uppercase', marginBottom: 4 },
+  recTranscriptText: { fontSize: 14, color: colors.text, lineHeight: 21 },
+  recNote: { borderWidth: 1, borderColor: colors.border || colors.primarySoft, borderRadius: 8, padding: spacing.sm, fontSize: 13, color: colors.text, backgroundColor: colors.cardSoft || colors.soft, minHeight: 60, textAlignVertical: 'top', marginTop: spacing.sm },
+  spReview: { marginTop: spacing.md },
+  spReviewHead: { marginBottom: spacing.md },
+  spReviewBand: { fontSize: 16, fontWeight: '900', color: colors.success },
+  spReviewMeta: { fontSize: 12, color: colors.muted, marginTop: 2 },
+  spBarRow: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs, gap: spacing.sm },
+  spBarLabel: { fontSize: 12, fontWeight: '800', color: colors.text, width: 130 },
+  spBarTrack: { flex: 1, height: 8, backgroundColor: 'rgba(0,0,0,0.06)', borderRadius: 4 },
+  spBarFill: { height: '100%', backgroundColor: colors.primary, borderRadius: 4 },
+  spBarValue: { fontSize: 12, fontWeight: '900', color: colors.primaryDark, width: 30, textAlign: 'right' },
+  spSectionLabel: { fontSize: 12, fontWeight: '800', color: colors.text, marginTop: spacing.sm, textTransform: 'uppercase' },
+  spSectionLabelGap: { marginTop: spacing.md },
+  spListText: { fontSize: 13, color: colors.text, lineHeight: 19, marginTop: 2 },
+  spTranscriptText: { fontSize: 13, color: colors.muted, lineHeight: 19, fontStyle: 'italic' },
 });
