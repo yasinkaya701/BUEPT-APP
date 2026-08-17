@@ -453,7 +453,25 @@ function buildImprovedSpeakingDraft(text = '', fb = null) {
 }
 
 export default function SpeakingDetailScreen({ route }) {
-  const { prompt: item } = route.params;
+  const { prompt: item } = route.params || {};
+
+  // Safety net: if the screen is opened without a prompt (e.g. a deep link or programmatic nav),
+  // render a calm empty state instead of throwing "Cannot read properties of undefined (reading 'prompt')".
+  if (!item || (!item.prompt && !item.title)) {
+    return (
+      <Screen scrollable>
+        <View style={styles.content}>
+          <Card style={styles.card}>
+            <Text style={styles.title}>Speaking Practice</Text>
+            <Text style={styles.subTextMuted}>
+              No speaking prompt was loaded for this session. Open the Speaking section and pick a prompt to start practicing.
+            </Text>
+          </Card>
+        </View>
+      </Screen>
+    );
+  }
+
   const [notes, setNotes] = useState('');
   const [feedback, setFeedback] = useState(null);
   const [rubricResult, setRubricResult] = useState(null);
