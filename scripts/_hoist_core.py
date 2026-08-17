@@ -9,8 +9,10 @@ def find_styles_range(src):
     start = m.start()
     brace_start = src.index('{', m.end() - 1)
     depth = 0
-    mode = None  # 'q' double, 's' single, 't' template
+    mode = None  # 'q' double, 's' single, 't' template, 'x' nested ${} expr
     tpl_stack = 0
+    x_depth = 0
+    x_depth_at = 0
     j = brace_start
     while j < len(src):
         ch = src[j]
@@ -34,7 +36,47 @@ def find_styles_range(src):
                 tpl_stack -= 1
                 mode = tpl_stack if tpl_stack else None
             elif ch == '$' and j + 1 < len(src) and src[j + 1] == '{':
-                depth += 1
+                x_depth_at = depth
+                x_depth = 0
+                mode = 'x'
+                j += 2
+                continue
+        elif mode == 'x':
+            if ch == '\\':
+                j += 2
+                continue
+            if ch == '{':
+                x_depth += 1
+            elif ch == '}':
+                x_depth -= 1
+                if x_depth == 0:
+                    mode = 't'
+            elif ch == '"':
+                mode = 'xq'
+            elif ch == "'":
+                mode = 'xs'
+            elif ch == '`':
+                mode = 'xt'
+        elif mode == 'xq':
+            if ch == '\\':
+                j += 2
+                continue
+            if ch == '"':
+                mode = 'x'
+        elif mode == 'xs':
+            if ch == '\\':
+                j += 2
+                continue
+            if ch == "'":
+                mode = 'x'
+        elif mode == 'xt':
+            if ch == '\\':
+                j += 2
+                continue
+            if ch == '`':
+                mode = 'x'
+            elif ch == '$' and j + 1 < len(src) and src[j + 1] == '{':
+                x_depth += 1
         else:
             if ch == '"':
                 mode = 'q'
