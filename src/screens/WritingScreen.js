@@ -14,6 +14,8 @@ import MetricRail, { MetricTile } from '../components/ui/MetricRail';
 import SectionHeader from '../components/ui/SectionHeader';
 import FilterBar, { FilterChip } from '../components/ui/FilterBar';
 
+const TYPES = ['opinion', 'definition', 'cause_effect', 'problem_solution', 'compare_contrast', 'argumentative', 'reaction'];
+
 const styles = StyleSheet.create({
   cardInner: {
     paddingHorizontal: spacing.sm,
@@ -172,9 +174,8 @@ const styles = StyleSheet.create({
   templateCategory: { fontSize: 16, fontWeight: '800', color: '#1E293B', marginBottom: 12, borderBottomWidth: 1, borderBottomColor: '#F1F5F9', paddingBottom: 8 },
   exprRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginBottom: 10 },
   exprText: { fontSize: 15, color: '#334155', flex: 1, lineHeight: 22, fontWeight: '500' }
-}
+});
 
-const TYPES = ['opinion', 'definition', 'cause_effect', 'problem_solution', 'compare_contrast', 'argumentative', 'reaction'];
 const TASKS = ['paragraph', 'essay'];
 
 const START_PATHS = [
@@ -467,4 +468,3 @@ export default function WritingScreen({ navigation }) {
   );
 }
 
-);

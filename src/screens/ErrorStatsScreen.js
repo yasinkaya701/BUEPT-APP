@@ -7,6 +7,9 @@ import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import { speakText } from '../hooks/useTts';
 
+export default function ErrorStatsScreen({ navigation }) {
+    const { errorWords, grammarErrors, clearErrorWords, clearGrammarErrors } = useAppState();
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -109,10 +112,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: colors.muted,
     },
-}
+});
 
-export default function ErrorStatsScreen({ navigation }) {
-    const { errorWords, grammarErrors, clearErrorWords, clearGrammarErrors } = useAppState();
     const [activeTab, setActiveTab] = useState('words'); // 'words' | 'grammar'
 
     // Sort error words by frequency
@@ -222,4 +223,3 @@ export default function ErrorStatsScreen({ navigation }) {
     );
 }
 
-);

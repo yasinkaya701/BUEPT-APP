@@ -19,6 +19,13 @@ import {
 } from '../../utils/appStorage';
 import { speakEnglish } from '../../utils/ttsEnglish';
 import {
+  buildErrorNotebook,
+  buildTopMistakenCollocations,
+  getDailyQuiz,
+  getRecommendedWeek,
+  getVocabCurriculum,
+  getWeekMastery,
+} from '../../utils/vocabCurriculum';
 
 const styles = StyleSheet.create({
   heroCard: {
@@ -837,15 +844,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontFamily: typography.fontHeadline,
   },
-}
-
-  buildErrorNotebook,
-  buildTopMistakenCollocations,
-  getDailyQuiz,
-  getRecommendedWeek,
-  getVocabCurriculum,
-  getWeekMastery,
-} from '../../utils/vocabCurriculum';
+});
 
 const LEVEL_FILTERS = ['All', 'A1', 'A2', 'B1', 'B2', 'C1'];
 
@@ -1940,4 +1939,3 @@ export default function VocabWeeklyPlanner({ initialDay = null }) {
   );
 }
 
-);

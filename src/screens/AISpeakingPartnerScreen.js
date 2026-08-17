@@ -24,6 +24,8 @@ import { speakEnglish, stopEnglishTts } from '../utils/ttsEnglish';
 import voiceEngine from '../utils/speechRecognition';
 import { useSpeechRecognition, scoreTranscriptCoverage, estimateFluency } from '../hooks/useSpeechRecognition';
 
+const isWeb = Platform.OS === 'web';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -685,9 +687,7 @@ const styles = StyleSheet.create({
   micBtnDisabled: {
     opacity: 0.5,
   },
-}
-
-const isWeb = Platform.OS === 'web';
+});
 
 const MODE_META = [
   { key: 'opinion', label: 'Opinion', icon: 'chatbubble-ellipses-outline' },
@@ -1753,4 +1753,3 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
   );
 }
 
-);

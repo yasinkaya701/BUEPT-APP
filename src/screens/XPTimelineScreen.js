@@ -7,6 +7,8 @@ import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
+const CHART_WIDTH = 320;
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xxl,
@@ -122,9 +124,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 18,
   },
-}
+});
 
-const CHART_WIDTH = 320;
 const CHART_HEIGHT = 140;
 const CHART_PAD = 24;
 
@@ -220,4 +221,3 @@ export default function XPTimelineScreen() {
   );
 }
 
-);

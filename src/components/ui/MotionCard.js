@@ -2,15 +2,6 @@ import React, { useRef } from 'react';
 import { View, Animated, Easing, Platform, StyleSheet, Pressable } from 'react-native';
 import { motion, shadow as shadows } from '../../theme/tokens';
 
-const styles = StyleSheet.create({
-  base: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 18,
-    ...shadows.md,
-    overflow: 'hidden',
-  },
-}
-
 /**
  * MotionCard — a card with premium micro-interactions on web.
  *
@@ -29,6 +20,16 @@ export default function MotionCard({
   entrance = true,
 }) {
   const isWeb = Platform.OS === 'web';
+
+const styles = StyleSheet.create({
+  base: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 18,
+    ...shadows.md,
+    overflow: 'hidden',
+  },
+});
+
   const hoverRef = useRef(false);
   const scaleAnim = useRef(new Animated.Value(isWeb && entrance ? 0.96 : 1)).current;
   const liftAnim = useRef(new Animated.Value(isWeb ? 10 : 0)).current;
@@ -126,4 +127,3 @@ export default function MotionCard({
   );
 }
 
-);

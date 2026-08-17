@@ -18,6 +18,72 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import { Sparkline } from '../components/ui';
 import { useAppState } from '../context/AppState';
 
+const HISTORY_CONFIG = {
+  reading: {
+    title: 'Reading History',
+    icon: 'book-outline',
+    color: '#3B82F6',
+    getHistory: (state) => state.readingHistory || [],
+    renderItem: (item) => ({
+      label: 'Reading',
+      date: item.createdAt,
+      score: `${item.result?.score ?? item?.score ?? 0} / ${item.result?.total ?? item?.total ?? 10}`,
+      pct: item.result?.total ? Math.round((item.result.score / item.result.total) * 100) : null,
+    }),
+  },
+  listening: {
+    title: 'Listening History',
+    icon: 'headset-outline',
+    color: '#8B5CF6',
+    getHistory: (state) => state.listeningHistory || [],
+    renderItem: (item) => ({
+      label: 'Listening',
+      date: item.createdAt,
+      score: `${item.result?.score ?? 0} / ${item.result?.total ?? 10}`,
+      pct: item.result?.total ? Math.round((item.result.score / item.result.total) * 100) : null,
+    }),
+  },
+  grammar: {
+    title: 'Grammar History',
+    icon: 'school-outline',
+    color: '#10B981',
+    getHistory: (state) => state.grammarHistory || [],
+    renderItem: (item) => ({
+      label: 'Grammar',
+      date: item.createdAt,
+      score: `${item.result?.score ?? 0} / ${item.result?.total ?? 10}`,
+      pct: item.result?.total ? Math.round((item.result.score / item.result.total) * 100) : null,
+    }),
+  },
+  mock: {
+    title: 'Mock Exam History',
+    icon: 'clipboard-outline',
+    color: '#F59E0B',
+    getHistory: (state) => state.mockHistory || [],
+    renderItem: (item) => ({
+      label: 'Mock Exam',
+      date: item.createdAt,
+      score: `${item.result?.overall ?? 0}/100`,
+      pct: item.result?.overall ?? null,
+      detail: `Listening ${item.result?.listening ?? '—'} · Reading ${item.result?.reading ?? '—'} · Writing ${item.result?.writing ?? '—'}`,
+    }),
+    onPress: (item, navigation) => navigation.navigate('MockResult', { result: item.result }),
+  },
+  writing: {
+    title: 'Writing History',
+    icon: 'create-outline',
+    color: '#EF4444',
+    getHistory: (state) => state.history || [],
+    renderItem: (item) => ({
+      label: 'Writing',
+      date: item.createdAt,
+      score: `${item.report?.rubric?.Total ?? '—'}/20`,
+      pct: item.report?.rubric?.Total ? Math.round((item.report.rubric.Total / 20) * 100) : null,
+      detail: item.prompt ? `"${String(item.prompt).slice(0, 60)}..."` : null,
+    }),
+  },
+};
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl,
@@ -191,73 +257,7 @@ const styles = StyleSheet.create({
     fontSize: typography.small || 12,
     fontFamily: typography.fontHeadline,
   },
-}
-
-const HISTORY_CONFIG = {
-  reading: {
-    title: 'Reading History',
-    icon: 'book-outline',
-    color: '#3B82F6',
-    getHistory: (state) => state.readingHistory || [],
-    renderItem: (item) => ({
-      label: 'Reading',
-      date: item.createdAt,
-      score: `${item.result?.score ?? item?.score ?? 0} / ${item.result?.total ?? item?.total ?? 10}`,
-      pct: item.result?.total ? Math.round((item.result.score / item.result.total) * 100) : null,
-    }),
-  },
-  listening: {
-    title: 'Listening History',
-    icon: 'headset-outline',
-    color: '#8B5CF6',
-    getHistory: (state) => state.listeningHistory || [],
-    renderItem: (item) => ({
-      label: 'Listening',
-      date: item.createdAt,
-      score: `${item.result?.score ?? 0} / ${item.result?.total ?? 10}`,
-      pct: item.result?.total ? Math.round((item.result.score / item.result.total) * 100) : null,
-    }),
-  },
-  grammar: {
-    title: 'Grammar History',
-    icon: 'school-outline',
-    color: '#10B981',
-    getHistory: (state) => state.grammarHistory || [],
-    renderItem: (item) => ({
-      label: 'Grammar',
-      date: item.createdAt,
-      score: `${item.result?.score ?? 0} / ${item.result?.total ?? 10}`,
-      pct: item.result?.total ? Math.round((item.result.score / item.result.total) * 100) : null,
-    }),
-  },
-  mock: {
-    title: 'Mock Exam History',
-    icon: 'clipboard-outline',
-    color: '#F59E0B',
-    getHistory: (state) => state.mockHistory || [],
-    renderItem: (item) => ({
-      label: 'Mock Exam',
-      date: item.createdAt,
-      score: `${item.result?.overall ?? 0}/100`,
-      pct: item.result?.overall ?? null,
-      detail: `Listening ${item.result?.listening ?? '—'} · Reading ${item.result?.reading ?? '—'} · Writing ${item.result?.writing ?? '—'}`,
-    }),
-    onPress: (item, navigation) => navigation.navigate('MockResult', { result: item.result }),
-  },
-  writing: {
-    title: 'Writing History',
-    icon: 'create-outline',
-    color: '#EF4444',
-    getHistory: (state) => state.history || [],
-    renderItem: (item) => ({
-      label: 'Writing',
-      date: item.createdAt,
-      score: `${item.report?.rubric?.Total ?? '—'}/20`,
-      pct: item.report?.rubric?.Total ? Math.round((item.report.rubric.Total / 20) * 100) : null,
-      detail: item.prompt ? `"${String(item.prompt).slice(0, 60)}..."` : null,
-    }),
-  },
-};
+});
 
 function ScoreBadge({ pct, color }) {
   if (pct == null) return null;
@@ -437,4 +437,3 @@ export default function GenericHistoryScreen({ navigation, route }) {
   );
 }
 
-);

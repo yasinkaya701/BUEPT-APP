@@ -6,6 +6,16 @@ import Button from '../components/Button';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const RISK_PHRASES = [
+    'according to recent studies',
+    'has become a global issue',
+    'it is widely believed that',
+    'researchers have found that',
+    'there is no doubt that',
+    'playing a crucial role in',
+    'the most important factor',
+];
+
 const styles = StyleSheet.create({
     container: { flex: 1 },
     keyboard: { flex: 1 },
@@ -220,17 +230,7 @@ const styles = StyleSheet.create({
     flagSentenceHighlightExact: { backgroundColor: 'rgba(231,76,60,0.14)', color: '#C0392B', fontWeight: '700' },
     flagSentenceHighlightCitation: { backgroundColor: 'rgba(245,158,11,0.14)', color: '#B45309', fontWeight: '700' },
     flagMatch: { fontSize: 12, color: colors.muted, fontWeight: '700' },
-}
-
-const RISK_PHRASES = [
-    'according to recent studies',
-    'has become a global issue',
-    'it is widely believed that',
-    'researchers have found that',
-    'there is no doubt that',
-    'playing a crucial role in',
-    'the most important factor',
-];
+});
 
 const SOURCE_BANK = [
     'https://academic-journals.org/article/',
@@ -559,4 +559,3 @@ export default function PlagiarismCheckerScreen({ navigation }) {
     );
 }
 
-);

@@ -15,6 +15,13 @@ import { speakEnglish } from '../utils/ttsEnglish';
 import { useAppState } from '../context/AppState';
 import { subscribeSmokeActions } from '../dev/smokeBus';
 import {
+  escapeRegExp, seededIndex, seededShuffle, normalizeAcademicVerbList,
+  safeDictionaryCount, safeDictionarySample, safeDictionarySlice,
+  safeWordEntry, safeWordFamily, safeVerbForms,
+  formatTopicLabel, normalizeWordKey, getLevelWeight,
+  buildVocabChallenge, buildSentenceStarters,
+  hasConnector, buildVerbDrillSentence, buildSentenceUpgrade, speakWord,
+} from '../utils/vocabHelpers';
 
 const styles = StyleSheet.create({
   content: { paddingBottom: spacing.xl },
@@ -1398,15 +1405,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
   },
-}
-
-  escapeRegExp, seededIndex, seededShuffle, normalizeAcademicVerbList,
-  safeDictionaryCount, safeDictionarySample, safeDictionarySlice,
-  safeWordEntry, safeWordFamily, safeVerbForms,
-  formatTopicLabel, normalizeWordKey, getLevelWeight,
-  buildVocabChallenge, buildSentenceStarters,
-  hasConnector, buildVerbDrillSentence, buildSentenceUpgrade, speakWord,
-} from '../utils/vocabHelpers';
+});
 
 const LEVELS = ['All', 'A1', 'A2', 'B1', 'B2', 'C1'];
 const DICTIONARY_VIEWS = ['All', 'Saved', 'Review', 'Unknown', 'Collocation'];
@@ -4422,4 +4421,3 @@ export default function VocabScreen({ navigation, route }) {
   );
 }
 
-);

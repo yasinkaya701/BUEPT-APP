@@ -5,6 +5,9 @@ import Screen from '../components/Screen';
 import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
+export default function HistoryScreen({ navigation }) {
+  const { history, setActiveReportById } = useAppState();
+
 const styles = StyleSheet.create({
   content: {
     paddingBottom: spacing.xl
@@ -31,10 +34,7 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: spacing.lg
   }
-}
-
-export default function HistoryScreen({ navigation }) {
-  const { history, setActiveReportById } = useAppState();
+});
 
   const openReport = (id) => {
     setActiveReportById(id);
@@ -58,4 +58,3 @@ export default function HistoryScreen({ navigation }) {
   );
 }
 
-);

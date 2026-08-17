@@ -3,6 +3,43 @@ import { View, Text, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
+/**
+ * Numbered section header with optional accent tile and count pill.
+ * Shared across Vocab / Listening / Writing / Speaking surfaces.
+ */
+export default function SectionHeader({
+  number = null,
+  icon = null,
+  title,
+  description = null,
+  count = null,
+  accent = colors.primary,
+  style,
+}) {
+  return (
+    <View style={[styles.wrap, style]}>
+      <View style={styles.row}>
+        <View style={styles.left}>
+          <View style={[styles.numberTile, { backgroundColor: `${accent}14` }]}>
+            {icon ? <Ionicons name={icon} size={13} color={accent} /> : (
+              <Text style={[styles.numberText, { color: accent }]}>{number}</Text>
+            )}
+          </View>
+          <View style={styles.copy}>
+            <Text style={styles.title}>{title}</Text>
+            {description ? <Text style={styles.description} numberOfLines={2}>{description}</Text> : null}
+          </View>
+        </View>
+        {count != null ? (
+          <View style={[styles.countPill, { backgroundColor: `${accent}14` }]}>
+            <Text style={[styles.countText, { color: accent }]}>{count}</Text>
+          </View>
+        ) : null}
+      </View>
+      <View style={[styles.rule, { backgroundColor: `${accent}22` }]} />
+    </View>
+  );
+
 const styles = StyleSheet.create({
   wrap: {
     marginTop: spacing.lg,
@@ -59,44 +96,7 @@ const styles = StyleSheet.create({
     height: 1,
     marginTop: spacing.sm,
   },
+});
+
 }
 
-/**
- * Numbered section header with optional accent tile and count pill.
- * Shared across Vocab / Listening / Writing / Speaking surfaces.
- */
-export default function SectionHeader({
-  number = null,
-  icon = null,
-  title,
-  description = null,
-  count = null,
-  accent = colors.primary,
-  style,
-}) {
-  return (
-    <View style={[styles.wrap, style]}>
-      <View style={styles.row}>
-        <View style={styles.left}>
-          <View style={[styles.numberTile, { backgroundColor: `${accent}14` }]}>
-            {icon ? <Ionicons name={icon} size={13} color={accent} /> : (
-              <Text style={[styles.numberText, { color: accent }]}>{number}</Text>
-            )}
-          </View>
-          <View style={styles.copy}>
-            <Text style={styles.title}>{title}</Text>
-            {description ? <Text style={styles.description} numberOfLines={2}>{description}</Text> : null}
-          </View>
-        </View>
-        {count != null ? (
-          <View style={[styles.countPill, { backgroundColor: `${accent}14` }]}>
-            <Text style={[styles.countText, { color: accent }]}>{count}</Text>
-          </View>
-        ) : null}
-      </View>
-      <View style={[styles.rule, { backgroundColor: `${accent}22` }]} />
-    </View>
-  );
-}
-
-);

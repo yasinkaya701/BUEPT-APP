@@ -2,6 +2,23 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
+/**
+ * Single filter chip (used inside FilterBar).
+ */
+export function FilterChip({ label, active, onPress, helper, style }) {
+  return (
+    <TouchableOpacity
+      accessibilityRole="button"
+      activeOpacity={0.85}
+      onPress={onPress}
+      hitSlop={{ top: 10, bottom: 10, left: 8, right: 8 }}
+      style={[styles.chip, active && styles.chipActive, style]}
+    >
+      <Text style={[styles.chipText, active && styles.chipTextActive]}>{label}</Text>
+      {helper ? <Text style={[styles.helper, active && styles.helperActive]}>{helper}</Text> : null}
+    </TouchableOpacity>
+  );
+
 const styles = StyleSheet.create({
   wrap: {
     marginBottom: spacing.md,
@@ -59,24 +76,8 @@ const styles = StyleSheet.create({
     color: colors.primary,
     backgroundColor: colors.surface,
   },
-}
+});
 
-/**
- * Single filter chip (used inside FilterBar).
- */
-export function FilterChip({ label, active, onPress, helper, style }) {
-  return (
-    <TouchableOpacity
-      accessibilityRole="button"
-      activeOpacity={0.85}
-      onPress={onPress}
-      hitSlop={{ top: 10, bottom: 10, left: 8, right: 8 }}
-      style={[styles.chip, active && styles.chipActive, style]}
-    >
-      <Text style={[styles.chipText, active && styles.chipTextActive]}>{label}</Text>
-      {helper ? <Text style={[styles.helper, active && styles.helperActive]}>{helper}</Text> : null}
-    </TouchableOpacity>
-  );
 }
 
 /**
@@ -101,4 +102,3 @@ export default function FilterBar({ label = null, children, style, scroll = fals
 
 FilterBar.Chip = FilterChip;
 
-);

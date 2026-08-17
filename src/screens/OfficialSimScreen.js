@@ -20,6 +20,8 @@ import { useAppState } from '../context/AppState';
 import { generateAiMock, loadMockBank } from '../utils/aiMockGenerator';
 import { saveMockHistory } from '../utils/appStorage';
 
+const PASS_MARK = 60;
+
 const styles = StyleSheet.create({
   container: { paddingBottom: spacing.xl },
   h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
@@ -52,9 +54,8 @@ const styles = StyleSheet.create({
   essayInput: { borderWidth: 2, borderColor: colors.secondary, borderRadius: 12, padding: spacing.md, fontSize: typography.body, color: colors.text, backgroundColor: colors.surface, fontFamily: typography.fontBody, minHeight: 180, textAlignVertical: 'top' },
   wordCount: { fontSize: typography.small, color: colors.muted, marginTop: spacing.xs },
   shortInput: { borderWidth: 2, borderColor: colors.secondary, borderRadius: 10, padding: spacing.sm, fontSize: typography.body, color: colors.text, backgroundColor: colors.surface, marginTop: spacing.xs },
-}
+});
 
-const PASS_MARK = 60;
 const SIM_TOTAL_SECONDS = 150 * 60; // official total window
 
 function bandFor(score) {
@@ -438,4 +439,3 @@ export default function OfficialSimScreen({ route, navigation }) {
   );
 }
 
-);

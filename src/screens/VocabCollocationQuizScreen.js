@@ -17,6 +17,9 @@ import { speakText } from '../hooks/useTts';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
 
+function shuffle(arr) {
+  const result = Array.isArray(arr) ? [...arr] : [];
+
 const styles = StyleSheet.create({
   master: { flex: 1, backgroundColor: '#F8FAFC' },
 
@@ -131,10 +134,8 @@ const styles = StyleSheet.create({
   missedRow: { paddingVertical: spacing.sm, borderBottomWidth: 1, borderBottomColor: '#F1F5F9' },
   missedWord: { fontSize: 15, fontFamily: typography.fontHeadline, fontWeight: '700', color: '#E11D48' },
   missedDef: { fontSize: 13, color: '#64748B' },
-}
+});
 
-function shuffle(arr) {
-  const result = Array.isArray(arr) ? [...arr] : [];
   for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [result[i], result[j]] = [result[j], result[i]];
@@ -563,4 +564,3 @@ export default function VocabCollocationQuizScreen({ route, navigation }) {
   );
 }
 
-);

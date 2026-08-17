@@ -20,6 +20,8 @@ import SectionHeader from '../components/ui/SectionHeader';
 import FilterBar, { FilterChip } from '../components/ui/FilterBar';
 import ScoreRing from '../components/ui/ScoreRing';
 
+const LEVELS = ['ALL', 'P1', 'P2', 'P3', 'P4'];
+
 const styles = StyleSheet.create({
     container: {
         paddingBottom: spacing.xl,
@@ -438,9 +440,8 @@ const styles = StyleSheet.create({
         color: '#1E293B',
         lineHeight: 19,
     }
-}
+});
 
-const LEVELS = ['ALL', 'P1', 'P2', 'P3', 'P4'];
 const LEVEL_LABELS = { ALL: 'All Levels', P1: 'P1 (A1)', P2: 'P2 (A2)', P3: 'P3 (B1)', P4: 'P4 (B2)' };
 
 // (MetricTile / FilterChip now shared from src/components/ui)
@@ -806,4 +807,3 @@ export default function SpeakingScreen({ navigation }) {
     );
 }
 
-);

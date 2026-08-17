@@ -7,6 +7,36 @@ import { colors, spacing, typography, radius } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import prepProfile from '../../data/bogazici_prep_profile.json';
 
+const LEVEL_CHECKLIST = {
+  P1: [
+    { key: 'calendar', label: 'Takvimden bu haftayi planla' },
+    { key: 'reading_foundation', label: '2 temel reading metni coz' },
+    { key: 'listening_foundation', label: '2 temel listening set tamamla' },
+    { key: 'writing_short', label: '1 kisa paragraph yaz' },
+  ],
+  P2: [
+    { key: 'calendar', label: 'Takvimden bu haftayi planla' },
+    { key: 'reading', label: '2 reading metni + soru seti tamamla' },
+    { key: 'listening', label: '2 listening set tamamla' },
+    { key: 'writing', label: '1 writing gorevi yaz' },
+    { key: 'mock_half', label: '1 mini proficiency practice coz' },
+  ],
+  P3: [
+    { key: 'calendar', label: 'Takvimde sinavlari kontrol et' },
+    { key: 'mock', label: '1 full mock (timed) coz' },
+    { key: 'writing', label: '2 writing task (40 dk disiplin) yap' },
+    { key: 'listening', label: '2 selective + careful listening calis' },
+    { key: 'reading', label: '2 academic reading seti bitir' },
+  ],
+  P4: [
+    { key: 'calendar', label: 'Takvimde next exam ve deadline kontrol et' },
+    { key: 'essay', label: '2 essay (40 dk) yaz ve feedback al' },
+    { key: 'reading', label: '2 uzun academic reading metni coz' },
+    { key: 'listening', label: '2 lecture-style listening seti yap' },
+    { key: 'policy', label: 'Resmi BUEPT kurallarini tekrar et' },
+  ],
+};
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl,
@@ -388,37 +418,7 @@ const styles = StyleSheet.create({
     fontSize: typography.xsmall,
     color: colors.muted,
   },
-}
-
-const LEVEL_CHECKLIST = {
-  P1: [
-    { key: 'calendar', label: 'Takvimden bu haftayi planla' },
-    { key: 'reading_foundation', label: '2 temel reading metni coz' },
-    { key: 'listening_foundation', label: '2 temel listening set tamamla' },
-    { key: 'writing_short', label: '1 kisa paragraph yaz' },
-  ],
-  P2: [
-    { key: 'calendar', label: 'Takvimden bu haftayi planla' },
-    { key: 'reading', label: '2 reading metni + soru seti tamamla' },
-    { key: 'listening', label: '2 listening set tamamla' },
-    { key: 'writing', label: '1 writing gorevi yaz' },
-    { key: 'mock_half', label: '1 mini proficiency practice coz' },
-  ],
-  P3: [
-    { key: 'calendar', label: 'Takvimde sinavlari kontrol et' },
-    { key: 'mock', label: '1 full mock (timed) coz' },
-    { key: 'writing', label: '2 writing task (40 dk disiplin) yap' },
-    { key: 'listening', label: '2 selective + careful listening calis' },
-    { key: 'reading', label: '2 academic reading seti bitir' },
-  ],
-  P4: [
-    { key: 'calendar', label: 'Takvimde next exam ve deadline kontrol et' },
-    { key: 'essay', label: '2 essay (40 dk) yaz ve feedback al' },
-    { key: 'reading', label: '2 uzun academic reading metni coz' },
-    { key: 'listening', label: '2 lecture-style listening seti yap' },
-    { key: 'policy', label: 'Resmi BUEPT kurallarini tekrar et' },
-  ],
-};
+});
 
 const QUICK_MODULES = [
   { key: 'placement', label: 'Placement Test', route: 'PlacementTest', icon: 'analytics-outline', tone: '#EAF2FF', color: '#1D4ED8' },
@@ -759,4 +759,3 @@ export default function BogaziciHubScreen({ navigation }) {
   );
 }
 
-);

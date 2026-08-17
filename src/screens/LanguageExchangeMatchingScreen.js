@@ -5,6 +5,13 @@ import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const MATCHES = [
+    { id: '1', name: 'Laura', from: 'Spain', faculty: 'Architecture', fluent: 'Spanish', learning: 'Turkish', avatar: '🇪🇸', bio: "Looking to practice Turkish for my exchange semester." },
+    { id: '2', name: 'Chen', from: 'China', faculty: 'Engineering', fluent: 'Mandarin', learning: 'English', avatar: '🇨🇳', bio: "Need help with academic English pronunciation." },
+    { id: '3', name: 'Hans', from: 'Germany', faculty: 'Business', fluent: 'German', learning: 'Turkish', avatar: '🇩🇪', bio: "Happy to help with German while learning Turkish slang." },
+    { id: '4', name: 'Emma', from: 'UK', faculty: 'Literature', fluent: 'English', learning: 'Turkish', avatar: '🇬🇧', bio: "Let's grab a coffee and exchange languages!" }
+];
+
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl, zIndex: 100 },
@@ -46,14 +53,7 @@ const styles = StyleSheet.create({
     noMoreDesc: { fontSize: 14, color: colors.muted, textAlign: 'center', lineHeight: 20, marginBottom: spacing.xl },
     refreshBtn: { backgroundColor: colors.primary, paddingHorizontal: spacing.xl, paddingVertical: spacing.md, borderRadius: radius.pill },
     btnText: { color: '#fff', fontWeight: '800', fontSize: 16 }
-}
-
-const MATCHES = [
-    { id: '1', name: 'Laura', from: 'Spain', faculty: 'Architecture', fluent: 'Spanish', learning: 'Turkish', avatar: '🇪🇸', bio: "Looking to practice Turkish for my exchange semester." },
-    { id: '2', name: 'Chen', from: 'China', faculty: 'Engineering', fluent: 'Mandarin', learning: 'English', avatar: '🇨🇳', bio: "Need help with academic English pronunciation." },
-    { id: '3', name: 'Hans', from: 'Germany', faculty: 'Business', fluent: 'German', learning: 'Turkish', avatar: '🇩🇪', bio: "Happy to help with German while learning Turkish slang." },
-    { id: '4', name: 'Emma', from: 'UK', faculty: 'Literature', fluent: 'English', learning: 'Turkish', avatar: '🇬🇧', bio: "Let's grab a coffee and exchange languages!" }
-];
+});
 
 export default function LanguageExchangeMatchingScreen({ navigation }) {
     const { width: SCREEN_WIDTH } = useWindowDimensions();
@@ -218,4 +218,3 @@ const MatchCard = ({ item }) => (
     </Card>
 );
 
-);

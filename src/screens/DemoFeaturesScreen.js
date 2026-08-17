@@ -7,6 +7,12 @@ import Screen from '../components/Screen';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
+    BADGE_CONFIG,
+    DEMO_ANALYTICS,
+    DEMO_CATEGORIES,
+    DEMO_ISSUES,
+    DEMO_MODULES
+} from '../data/demoModules';
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#FFFFFF' },
@@ -240,14 +246,7 @@ const styles = StyleSheet.create({
     emptySub: { fontSize: typography.small, color: colors.muted, marginTop: spacing.xs },
     emptyActionBtn: { marginTop: spacing.md, backgroundColor: colors.primarySoft, paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.pill, borderWidth: 1, borderColor: 'rgba(0,0,0,0.06)' },
     emptyActionText: { fontSize: 12, color: colors.primaryDark, fontWeight: '700' },
-}
-
-    BADGE_CONFIG,
-    DEMO_ANALYTICS,
-    DEMO_CATEGORIES,
-    DEMO_ISSUES,
-    DEMO_MODULES
-} from '../data/demoModules';
+});
 
 const FAVORITES_KEY = '@demo_features_favorites_v1';
 const RECENTS_KEY = '@demo_features_recents_v1';
@@ -1378,4 +1377,3 @@ export default function DemoFeaturesScreen() {
     );
 }
 
-);

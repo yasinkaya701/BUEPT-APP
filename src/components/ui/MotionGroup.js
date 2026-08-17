@@ -2,10 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { View, Animated, Easing, Platform, StyleSheet } from 'react-native';
 import { motion } from '../../theme/tokens';
 
-const styles = StyleSheet.create({
-  wrap: { width: '100%' },
-}
-
 /**
  * MotionGroup — staggered entrance for a row/column of cards or list items.
  *
@@ -15,6 +11,11 @@ const styles = StyleSheet.create({
  */
 export default function MotionGroup({ children, style, axis = 'row', stagger }) {
   const isWeb = Platform.OS === 'web';
+
+const styles = StyleSheet.create({
+  wrap: { width: '100%' },
+});
+
   const count = React.Children.count(children);
   const fades = useRef(
     Array.from({ length: count }, () => new Animated.Value(isWeb ? 0 : 1))
@@ -73,4 +74,3 @@ export default function MotionGroup({ children, style, axis = 'row', stagger }) 
   );
 }
 
-);

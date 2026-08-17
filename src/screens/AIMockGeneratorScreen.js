@@ -26,6 +26,9 @@ import { getOdtuMocks } from '../data/offlineMocksOdtu';
 import { useAppState } from '../context/AppState';
 import { useUniversity } from '../context/UniversityContext';
 
+export default function AIMockGeneratorScreen({ navigation }) {
+  const { addXp } = useAppState();
+
 const styles = StyleSheet.create({
   container: { paddingBottom: spacing.xl },
   header: {
@@ -112,10 +115,8 @@ const styles = StyleSheet.create({
   sectionTitle: { fontSize: 15, fontWeight: '800', color: colors.text, flex: 1, lineHeight: 21 },
   sectionSub: { fontSize: 12, color: colors.muted, lineHeight: 17, marginTop: 2 },
   startBtn: { marginHorizontal: spacing.xl, marginVertical: spacing.md },
-}
+});
 
-export default function AIMockGeneratorScreen({ navigation }) {
-  const { addXp } = useAppState();
   const { university, uniKey } = useUniversity();
   const isOdtu = uniKey === 'odtu';
   const offlineExams = isOdtu ? getOdtuMocks() : getOfflineMocks();
@@ -473,4 +474,3 @@ function ExamPreview({ exam, onBack, onStart }) {
   );
 }
 
-);

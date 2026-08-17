@@ -6,6 +6,9 @@ import { colors, spacing, typography, radius } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { isDemoAiConfigured, requestDemoModule } from '../utils/demoAi';
 
+export default function AcademicWritingScreen({ navigation }) {
+    const [topic, setTopic] = useState('');
+
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
@@ -37,10 +40,8 @@ const styles = StyleSheet.create({
     flexFill: { flex: 1 },
     generateIcon: { marginLeft: 8 },
     bottomSpacer: { height: 40 },
-}
+});
 
-export default function AcademicWritingScreen({ navigation }) {
-    const [topic, setTopic] = useState('');
     const [stance, setStance] = useState('');
     const [generatedText, setGeneratedText] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
@@ -165,4 +166,3 @@ In conclusion, the evidence strongly supports the assertion that ${stance.toLowe
     );
 }
 
-);

@@ -9,6 +9,8 @@ import { generateVideoLesson, isVideoLessonApiConfigured } from '../utils/videoL
 import { useTts } from '../hooks/useTts';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
 
+const LEVELS = ['A2', 'B1', 'B2', 'C1'];
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: 40,
@@ -379,9 +381,8 @@ const styles = StyleSheet.create({
     fontSize: typography.xsmall,
     color: colors.muted,
   },
-}
+});
 
-const LEVELS = ['A2', 'B1', 'B2', 'C1'];
 const DURATIONS = [3, 4, 6, 8];
 const TOPIC_SUGGESTIONS = [
   'BUEPT paraphrase strategy',
@@ -734,4 +735,3 @@ export default function AILessonVideoStudioScreen({ navigation, route }) {
   );
 }
 
-);

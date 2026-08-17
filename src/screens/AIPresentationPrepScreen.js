@@ -8,6 +8,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { generatePresentationDeck, isDemoAiConfigured } from '../utils/demoAi';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
 
+const DURATION_OPTIONS = [5, 8, 10, 15];
+
 const styles = StyleSheet.create({
     container: { flex: 1 },
     header: { flexDirection: 'row', alignItems: 'center', padding: spacing.xl, paddingTop: spacing.md },
@@ -150,9 +152,8 @@ const styles = StyleSheet.create({
 
     cueBadge: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'rgba(230, 126, 34, 0.1)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill, alignSelf: 'flex-start' },
     cueText: { fontSize: 11, fontWeight: '700', color: colors.accent }
-}
+});
 
-const DURATION_OPTIONS = [5, 8, 10, 15];
 const TONE_OPTIONS = ['Academic', 'Persuasive', 'Conference', 'Student-Friendly'];
 const LEVEL_OPTIONS = ['B1', 'B2', 'C1'];
 const TOPIC_SUGGESTIONS = [
@@ -630,4 +631,3 @@ const SummaryMetric = ({ label, value }) => (
     </View>
 );
 
-);

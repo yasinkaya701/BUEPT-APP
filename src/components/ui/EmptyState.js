@@ -3,6 +3,15 @@ import { View, Text, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
+const ICON_COLORS = {
+  blue: colors.primary,
+  teal: colors.teal,
+  amber: colors.accentBright,
+  green: colors.success,
+  red: colors.error,
+  slate: colors.muted,
+};
+
 const styles = StyleSheet.create({
   box: {
     alignItems: 'center',
@@ -36,16 +45,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     maxWidth: 320,
   },
-}
-
-const ICON_COLORS = {
-  blue: colors.primary,
-  teal: colors.teal,
-  amber: colors.accentBright,
-  green: colors.success,
-  red: colors.error,
-  slate: colors.muted,
-};
+});
 
 /**
  * Icon-led empty state with title, description and optional action button slot.
@@ -70,4 +70,3 @@ export default function EmptyState({
   );
 }
 
-);

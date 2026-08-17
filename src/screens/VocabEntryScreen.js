@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, ActivityIndicator, InteractionManager } from 'r
 import Screen from '../components/Screen';
 import { colors, spacing, typography } from '../theme/tokens';
 
+export default function VocabEntryScreen(props) {
+  const [LoadedScreen, setLoadedScreen] = useState(null);
+
 const styles = StyleSheet.create({
   container: { paddingTop: spacing.lg },
   card: {
@@ -30,10 +33,8 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   spinner: { marginTop: spacing.sm },
-}
+});
 
-export default function VocabEntryScreen(props) {
-  const [LoadedScreen, setLoadedScreen] = useState(null);
   const [error, setError] = useState('');
   const loadingRef = useRef(false);
 
@@ -89,4 +90,3 @@ export default function VocabEntryScreen(props) {
   );
 }
 
-);

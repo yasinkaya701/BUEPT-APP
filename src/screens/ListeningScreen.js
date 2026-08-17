@@ -22,6 +22,8 @@ import cslTasks from '../../data/careful_selective_tasks.json';
 import geminiTasks from '../../data/gemini_listening.json';
 import podcasts from '../../data/listening_podcasts.json';
 
+const tasks = [...geminiTasks, ...baseTasks, ...hardTasks, ...cslTasks];
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl,
@@ -416,9 +418,8 @@ const styles = StyleSheet.create({
     fontSize: typography.small,
     color: colors.muted,
   },
-}
+});
 
-const tasks = [...geminiTasks, ...baseTasks, ...hardTasks, ...cslTasks];
 const LEVEL_OPTIONS = ['ALL', 'P1', 'P2', 'P3', 'P4'];
 const TYPE_OPTIONS = [
   { key: 'ALL', label: 'All types' },
@@ -1143,4 +1144,3 @@ export default function ListeningScreen({ navigation }) {
   );
 }
 
-);

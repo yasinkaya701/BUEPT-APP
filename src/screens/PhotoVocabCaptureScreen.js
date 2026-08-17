@@ -12,6 +12,8 @@ import { pickPhotoFromGallery, runPhotoOcr } from '../utils/photoOcr';
 import { speakEnglish } from '../utils/ttsEnglish';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
 
+const MIN_LEVELS = ['B1', 'B2', 'C1', 'C2'];
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl,
@@ -335,9 +337,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 3,
   },
-}
+});
 
-const MIN_LEVELS = ['B1', 'B2', 'C1', 'C2'];
 const LIMITS = [8, 12, 16, 24];
 const OCR_SAMPLES = [
   {
@@ -714,4 +715,3 @@ export default function PhotoVocabCaptureScreen({ navigation }) {
   );
 }
 
-);

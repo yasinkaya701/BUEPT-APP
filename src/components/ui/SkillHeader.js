@@ -3,6 +3,14 @@ import { View, Text, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, typography, spacing, radius, shadow } from '../../theme/tokens';
 
+const ACCENTS = {
+  vocab: colors.skill.vocab,
+  listening: colors.skill.listening,
+  writing: colors.skill.writing,
+  speaking: colors.skill.speaking,
+  default: colors.primary,
+};
+
 const styles = StyleSheet.create({
   wrap: {
     marginBottom: spacing.md,
@@ -65,15 +73,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.8,
   },
-}
-
-const ACCENTS = {
-  vocab: colors.skill.vocab,
-  listening: colors.skill.listening,
-  writing: colors.skill.writing,
-  speaking: colors.skill.speaking,
-  default: colors.primary,
-};
+});
 
 const SOFTS = {
   vocab: colors.skillSoft.vocab,
@@ -121,4 +121,3 @@ export default function SkillHeader({
   );
 }
 
-);

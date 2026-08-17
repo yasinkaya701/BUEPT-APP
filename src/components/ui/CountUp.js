@@ -2,10 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Text, Platform, StyleSheet } from 'react-native';
 import { motion } from '../../theme/tokens';
 
-const styles = StyleSheet.create({
-  text: {},
-}
-
 /**
  * CountUp — animated numeric counter for metric tiles (web).
  *
@@ -14,6 +10,11 @@ const styles = StyleSheet.create({
  */
 export default function CountUp({ value, end, style, textStyle, duration = 700 }) {
   const isWeb = Platform.OS === 'web';
+
+const styles = StyleSheet.create({
+  text: {},
+});
+
   const target = end !== undefined ? end : value;
   const [display, setDisplay] = useState(target);
   const rafRef = useRef(null);
@@ -59,4 +60,3 @@ export default function CountUp({ value, end, style, textStyle, duration = 700 }
   );
 }
 
-);

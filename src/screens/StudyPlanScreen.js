@@ -8,6 +8,8 @@ import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import { buildAdaptivePlan } from '../utils/studyPlan';
 
+const STORAGE_CUSTOM_PLAN = '@buept_custom_daily_plan_v1';
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl
@@ -62,9 +64,8 @@ const styles = StyleSheet.create({
     color: colors.text,
     backgroundColor: '#fff'
   }
-}
+});
 
-const STORAGE_CUSTOM_PLAN = '@buept_custom_daily_plan_v1';
 const DEFAULT_CUSTOM_PLAN = {
   essays: 1,
   appMinutes: 60,
@@ -387,4 +388,3 @@ export default function StudyPlanScreen({ navigation }) {
   );
 }
 
-);

@@ -4,6 +4,15 @@ import Screen from '../components/Screen';
 import { colors, spacing, radius } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const MOCK_CHAT_POOL = [
+    { user: 'Ahmet', text: 'Can you explain the inversion rule again?' },
+    { user: 'Selin', text: 'Yeah, I didn\'t get that part either.' },
+    { user: 'ProfT', text: 'Sure, we will review inversion in 5 minutes.', isMod: true },
+    { user: 'Deniz', text: 'Thanks!' },
+    { user: 'Burak', text: 'Is this topic included in the midterm?' },
+    { user: 'Zeynep', text: 'No, only up to relative clauses.' }
+];
+
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
 
@@ -30,16 +39,7 @@ const styles = StyleSheet.create({
     sendBtn: { padding: spacing.sm, marginLeft: spacing.xs },
 
     flexFill: { flex: 1 }
-}
-
-const MOCK_CHAT_POOL = [
-    { user: 'Ahmet', text: 'Can you explain the inversion rule again?' },
-    { user: 'Selin', text: 'Yeah, I didn\'t get that part either.' },
-    { user: 'ProfT', text: 'Sure, we will review inversion in 5 minutes.', isMod: true },
-    { user: 'Deniz', text: 'Thanks!' },
-    { user: 'Burak', text: 'Is this topic included in the midterm?' },
-    { user: 'Zeynep', text: 'No, only up to relative clauses.' }
-];
+});
 
 export default function LiveClassesScreen({ navigation }) {
     const [chat, setChat] = useState([
@@ -126,4 +126,3 @@ export default function LiveClassesScreen({ navigation }) {
     );
 }
 
-);

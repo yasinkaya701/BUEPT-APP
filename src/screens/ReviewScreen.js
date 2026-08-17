@@ -7,6 +7,8 @@ import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import { advanceReview, createReviewItem, dueNow, upcomingReviews } from '../utils/srs';
 
+/** Dedupe reviews;
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl
@@ -108,9 +110,8 @@ const styles = StyleSheet.create({
     color: colors.muted,
     lineHeight: 20
   }
-}
-
-/** Dedupe reviews; prefer the existing entry's stage/ease when the word already exists. */
+});
+ prefer the existing entry's stage/ease when the word already exists. */
 function mergeWords(into, from) {
   const existing = new Set((into || []).map((r) => String(r.word).toLowerCase()));
   const extra = (from || []).filter((w) => {
@@ -227,4 +228,3 @@ export default function ReviewScreen() {
   );
 }
 
-);

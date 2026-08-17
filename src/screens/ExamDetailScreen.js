@@ -8,6 +8,8 @@ import { colors, spacing, typography } from '../theme/tokens';
 import exams from '../../data/buept_exams.json';
 import { buildExamSectionOpenEndedPrompts } from '../utils/openEndedPrompts';
 
+const EXAM_DURATION = 150 * 60;
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl
@@ -127,9 +129,8 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     fontFamily: typography.fontBody,
   },
-}
-
-const EXAM_DURATION = 150 * 60; // 150 minutes
+});
+ // 150 minutes
 
 function keyIndex(items, key) {
   const idx = items.findIndex((a) => a.key === key);
@@ -659,4 +660,3 @@ export default function ExamDetailScreen({ route, navigation }) {
   );
 }
 
-);

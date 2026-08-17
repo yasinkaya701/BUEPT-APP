@@ -3,6 +3,17 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
+/**
+ * 3-level confidence selector strip (Unsure / Moderate / Sure)
+ * used for marking question confidence during exams.
+ */
+export default function ConfidenceStrip({ value = 'moderate', onChange, style }) {
+  const levels = [
+    { key: 'low', label: 'Unsure', icon: 'help-circle-outline', color: colors.error },
+    { key: 'moderate', label: 'Maybe', icon: 'remove-circle-outline', color: colors.accentBright },
+    { key: 'high', label: 'Sure', icon: 'checkmark-circle-outline', color: colors.success },
+  ];
+
 const styles = StyleSheet.create({
   wrap: {
     marginVertical: spacing.xs,
@@ -33,18 +44,8 @@ const styles = StyleSheet.create({
     fontSize: typography.small,
     fontFamily: typography.fontHeadline,
   },
-}
+});
 
-/**
- * 3-level confidence selector strip (Unsure / Moderate / Sure)
- * used for marking question confidence during exams.
- */
-export default function ConfidenceStrip({ value = 'moderate', onChange, style }) {
-  const levels = [
-    { key: 'low', label: 'Unsure', icon: 'help-circle-outline', color: colors.error },
-    { key: 'moderate', label: 'Maybe', icon: 'remove-circle-outline', color: colors.accentBright },
-    { key: 'high', label: 'Sure', icon: 'checkmark-circle-outline', color: colors.success },
-  ];
   return (
     <View style={[styles.wrap, style]}>
       <Text style={styles.label}>Confidence</Text>
@@ -74,4 +75,3 @@ export default function ConfidenceStrip({ value = 'moderate', onChange, style })
   );
 }
 
-);

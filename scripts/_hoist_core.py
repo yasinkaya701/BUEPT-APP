@@ -90,7 +90,15 @@ def find_styles_range(src):
             elif ch == '}':
                 depth -= 1
                 if depth == 0:
-                    return (start, j + 1, m.group(1))
+                    # consume trailing whitespace + the `);` that closes StyleSheet.create({...});
+                    k = j + 1
+                    while k < len(src) and src[k] in ' \t':
+                        k += 1
+                    if k + 1 < len(src) and src[k:k + 2] == ');':
+                        k += 2
+                    elif k < len(src) and src[k] == ';':
+                        k += 1
+                    return (start, k, m.group(1))
         j += 1
     return None
 
@@ -102,10 +110,35 @@ def hoist_file(path):
     start, end, indent = r
     block = src[start:end]
     before, after = src[:start], src[end:]
-    import_pattern = re.compile(r"^import .*?$", re.M)
     last_import = None
-    for m in import_pattern.finditer(before):
-        last_import = m.end()
+    pos = 0
+    for line_m in re.finditer(r'^import .*?$', before, re.M):
+        # start of a (possibly multi-line) import statement
+        k = line_m.end()
+        # consume continuation lines until the statement ends with `;` (strings aware)
+        depth = 0
+        in_str = None
+        while k < len(before) and before[k] != ';':
+            ch = before[k]
+            if in_str:
+                if ch == '\\':
+                    k += 2
+                    continue
+                if ch == in_str:
+                    in_str = None
+                elif ch == '`' and in_str == 't':
+                    in_str = None
+            elif ch in '"\'`':
+                in_str = 't' if ch == '`' else ch
+            elif in_str is None and ch in '{([':
+                depth += 1
+            elif in_str is None and ch in '})]':
+                depth -= 1
+            elif in_str is None and ch == '\n':
+                pass
+            k += 1
+        k += 1  # include the `;`
+        last_import = k
     if last_import is None:
         return False
     stripped = block.rstrip('\n')

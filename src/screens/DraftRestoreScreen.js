@@ -4,6 +4,9 @@ import Button from '../components/Button';
 import Screen from '../components/Screen';
 import { colors, spacing, typography } from '../theme/tokens';
 
+export default function DraftRestoreScreen({ navigation, route }) {
+  const draftText = route?.params?.draftText || '';
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl
@@ -24,10 +27,7 @@ const styles = StyleSheet.create({
     color: colors.muted,
     marginBottom: spacing.lg
   }
-}
-
-export default function DraftRestoreScreen({ navigation, route }) {
-  const draftText = route?.params?.draftText || '';
+});
 
   return (
     <Screen scroll contentStyle={styles.container}>
@@ -40,4 +40,3 @@ export default function DraftRestoreScreen({ navigation, route }) {
   );
 }
 
-);

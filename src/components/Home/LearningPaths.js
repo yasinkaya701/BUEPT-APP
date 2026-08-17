@@ -4,6 +4,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Card from '../Card';
 import { colors, spacing, typography, radius } from '../../theme/tokens';
 
+const LEVELS = [
+    { id: 'P1', label: 'P1 (A1)', title: 'Starter', icon: 'leaf-outline', bg: '#ECFDF3', color: '#166534' },
+    { id: 'P2', label: 'P2 (A2)', title: 'Foundation', icon: 'trending-up-outline', bg: '#EFF6FF', color: '#1D4ED8' },
+    { id: 'P3', label: 'P3 (B1)', title: 'Intermediate', icon: 'bar-chart-outline', bg: '#F5F3FF', color: '#5B21B6' },
+    { id: 'P4', label: 'P4 (B2)', title: 'Advanced', icon: 'ribbon-outline', bg: '#FFF7ED', color: '#9A3412' },
+];
+
 const styles = StyleSheet.create({
     card: {
         marginBottom: spacing.lg,
@@ -52,14 +59,7 @@ const styles = StyleSheet.create({
         color: colors.text,
         fontFamily: typography.fontHeadline,
     },
-}
-
-const LEVELS = [
-    { id: 'P1', label: 'P1 (A1)', title: 'Starter', icon: 'leaf-outline', bg: '#ECFDF3', color: '#166534' },
-    { id: 'P2', label: 'P2 (A2)', title: 'Foundation', icon: 'trending-up-outline', bg: '#EFF6FF', color: '#1D4ED8' },
-    { id: 'P3', label: 'P3 (B1)', title: 'Intermediate', icon: 'bar-chart-outline', bg: '#F5F3FF', color: '#5B21B6' },
-    { id: 'P4', label: 'P4 (B2)', title: 'Advanced', icon: 'ribbon-outline', bg: '#FFF7ED', color: '#9A3412' },
-];
+});
 
 export default function LearningPaths({ setLevel, navigation }) {
     return (
@@ -89,4 +89,3 @@ export default function LearningPaths({ setLevel, navigation }) {
     );
 }
 
-);

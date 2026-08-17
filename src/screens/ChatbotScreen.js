@@ -14,6 +14,8 @@ import { getAiSourceMeta } from '../utils/aiWorkspace';
 import { speakEnglish, stopEnglishTts } from '../utils/ttsEnglish';
 import { performWebSearch } from '../utils/webSearch';
 
+const CHAT_STATE_KEY = '@chatbot_state_v1';
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8FAFC' },
   header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)' },
@@ -113,9 +115,8 @@ const styles = StyleSheet.create({
   artifactCloseBtn: { padding: 4 },
   artifactContent: { padding: spacing.lg },
   artifactText: { fontSize: 14, color: colors.text, lineHeight: 22, fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace' },
-}
+});
 
-const CHAT_STATE_KEY = '@chatbot_state_v1';
 const DEFAULT_CHIPS = ["📝 Essay Help", "📖 Reading Skills", "🎧 Listening", "📚 Grammar", "Find Synonyms", "🧠 Vocab Quiz"];
 const WELCOME_MESSAGE = "👋 Hello! I am your **BUEPT AI** coach.\n\nI am specifically designed to assist you with your BUEPT preparation. I communicate exclusively in **English** to help you practice and improve your academic language skills.\n\nHow can I help you today?";
 const CHAT_MODES = [
@@ -1207,4 +1208,3 @@ export default function ChatbotScreen({ navigation }) {
   );
 }
 
-);

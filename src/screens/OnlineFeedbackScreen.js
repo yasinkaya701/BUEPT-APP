@@ -9,6 +9,9 @@ import { buildYS9Report, countWords } from '../utils/ys9Mock';
 import { getWordEntry } from '../utils/dictionary';
 import { useAppState } from '../context/AppState';
 
+export default function OnlineFeedbackScreen({ route }) {
+  const { userProfile } = useAppState();
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl
@@ -90,10 +93,8 @@ const styles = StyleSheet.create({
     marginTop: spacing.md,
     gap: spacing.xs
   }
-}
+});
 
-export default function OnlineFeedbackScreen({ route }) {
-  const { userProfile } = useAppState();
   const studentName = userProfile?.name || '';
   const [text, setText] = useState('');
   const [status, setStatus] = useState('idle');
@@ -401,4 +402,3 @@ export default function OnlineFeedbackScreen({ route }) {
   );
 }
 
-);

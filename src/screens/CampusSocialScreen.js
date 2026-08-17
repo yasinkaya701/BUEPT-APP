@@ -5,6 +5,26 @@ import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const LEADERBOARD_DB = {
+    'Global': [
+        { id: '1', name: 'Zeynep Y.', score: 4250, badge: 'crown' },
+        { id: '2', name: 'Emre C.', score: 3980, badge: 'star' },
+        { id: '3', name: 'Alperen K.', score: 3850, badge: 'star' },
+        { id: '4', name: 'You', score: 2140, badge: 'none' },
+        { id: '5', name: 'Ayşe B.', score: 1800, badge: 'none' },
+    ],
+    'Engineering': [
+        { id: '3', name: 'Alperen K.', score: 3850, badge: 'star' },
+        { id: '22', name: 'Caner D.', score: 3100, badge: 'none' },
+        { id: '9', name: 'Mert T.', score: 2950, badge: 'none' },
+    ],
+    'Economics': [
+        { id: '1', name: 'Zeynep Y.', score: 4250, badge: 'crown' },
+        { id: '4', name: 'You', score: 2140, badge: 'none' },
+        { id: '14', name: 'Buse S.', score: 1650, badge: 'none' },
+    ]
+};
+
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
@@ -40,27 +60,7 @@ const styles = StyleSheet.create({
     youBadgeText: { fontSize: 10, fontWeight: '900', color: '#fff' },
     badgeIcon: { marginLeft: 4 },
     bottomSpacer: { height: 40 },
-}
-
-const LEADERBOARD_DB = {
-    'Global': [
-        { id: '1', name: 'Zeynep Y.', score: 4250, badge: 'crown' },
-        { id: '2', name: 'Emre C.', score: 3980, badge: 'star' },
-        { id: '3', name: 'Alperen K.', score: 3850, badge: 'star' },
-        { id: '4', name: 'You', score: 2140, badge: 'none' },
-        { id: '5', name: 'Ayşe B.', score: 1800, badge: 'none' },
-    ],
-    'Engineering': [
-        { id: '3', name: 'Alperen K.', score: 3850, badge: 'star' },
-        { id: '22', name: 'Caner D.', score: 3100, badge: 'none' },
-        { id: '9', name: 'Mert T.', score: 2950, badge: 'none' },
-    ],
-    'Economics': [
-        { id: '1', name: 'Zeynep Y.', score: 4250, badge: 'crown' },
-        { id: '4', name: 'You', score: 2140, badge: 'none' },
-        { id: '14', name: 'Buse S.', score: 1650, badge: 'none' },
-    ]
-};
+});
 
 export default function CampusSocialScreen({ navigation }) {
     const [activeTab, setActiveTab] = useState('Global');
@@ -133,4 +133,3 @@ export default function CampusSocialScreen({ navigation }) {
     );
 }
 
-);

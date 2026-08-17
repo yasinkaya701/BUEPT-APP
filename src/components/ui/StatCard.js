@@ -3,6 +3,16 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, typography, spacing, radius, shadow } from '../../theme/tokens';
 
+const ACCENT_COLORS = {
+  blue: colors.primary,
+  teal: colors.teal,
+  amber: colors.accentBright,
+  purple: '#7C3AED',
+  green: colors.success,
+  red: colors.error,
+  slate: colors.muted,
+};
+
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
@@ -41,17 +51,7 @@ const styles = StyleSheet.create({
     color: colors.muted,
     marginTop: 2,
   },
-}
-
-const ACCENT_COLORS = {
-  blue: colors.primary,
-  teal: colors.teal,
-  amber: colors.accentBright,
-  purple: '#7C3AED',
-  green: colors.success,
-  red: colors.error,
-  slate: colors.muted,
-};
+});
 
 /**
  * Compact metric card with icon tile, big value, label and optional sparkline slot.
@@ -90,4 +90,3 @@ export default function StatCard({
   return body;
 }
 
-);

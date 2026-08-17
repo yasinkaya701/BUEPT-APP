@@ -8,6 +8,8 @@ import { colors, typography, spacing, radius, shadow } from '../theme/tokens';
 import { ScoreRing, ScoreBandChip, Sparkline, TimelineStep, TabPill, EmptyState } from '../components/ui';
 import { useAppState } from '../context/AppState';
 
+const SECTION_KEYS = ['listening-selective', 'listening-careful', 'reading-1', 'reading-2', 'writing'];
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xxl,
@@ -197,9 +199,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 15,
   },
-}
-
-const SECTION_KEYS = ['listening-selective', 'listening-careful', 'reading-1', 'reading-2', 'writing'];
+});
 
 const SECTIONS = {
   'listening-selective': {
@@ -386,4 +386,3 @@ export default function MockScreen({ navigation }) {
   );
 }
 
-);

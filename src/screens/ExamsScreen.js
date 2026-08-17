@@ -16,6 +16,11 @@ import { useAppState } from '../context/AppState';
 import examResources from '../../data/exam_resources.json';
 import prepProfile from '../../data/bogazici_prep_profile.json';
 
+const EXAM_MODES = [
+  { key: 'timed', label: '⏱ Timed Mode', desc: 'Real exam conditions. Timer runs.' },
+  { key: 'practice', label: '📖 Practice Mode', desc: 'No timer. Review at your own pace.' },
+];
+
 const styles = StyleSheet.create({
   container: { paddingBottom: 40 },
 
@@ -83,12 +88,7 @@ const styles = StyleSheet.create({
   resourceArrow: { fontSize: 20, color: colors.muted },
   resourceHint: { marginTop: 2, fontSize: typography.xsmall, color: colors.muted },
   resourceStamp: { marginTop: spacing.sm, fontSize: typography.xsmall, color: colors.muted },
-}
-
-const EXAM_MODES = [
-  { key: 'timed', label: '⏱ Timed Mode', desc: 'Real exam conditions. Timer runs.' },
-  { key: 'practice', label: '📖 Practice Mode', desc: 'No timer. Review at your own pace.' },
-];
+});
 
 const DIFFICULTY_COLOR = {
   Easy: { bg: '#E8F5E9', text: '#1B5E20', border: '#A5D6A7' },
@@ -395,4 +395,3 @@ export default function ExamsScreen({ navigation }) {
   );
 }
 
-);

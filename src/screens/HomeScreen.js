@@ -24,6 +24,9 @@ import LearningPaths from '../components/Home/LearningPaths';
 import DailyTasks from '../components/Home/DailyTasks';
 import FeatureGrid from '../components/Home/FeatureGrid';
 
+function calcAccuracy(history = []) {
+  const recent = Array.isArray(history) ? history.slice(0, 5) : [];
+
 const styles = StyleSheet.create({
   container: { paddingBottom: 120 },
 
@@ -157,10 +160,8 @@ const styles = StyleSheet.create({
   planMetricLabel: { marginTop: 2, fontSize: 10, color: colors.muted, textTransform: 'uppercase', letterSpacing: 0.6, fontWeight: '800' },
   planMetricLabelDark: { color: 'rgba(255,255,255,0.65)' },
   flexOne: { flex: 1 }
-}
+});
 
-function calcAccuracy(history = []) {
-  const recent = Array.isArray(history) ? history.slice(0, 5) : [];
   let correct = 0;
   let total = 0;
   recent.forEach((item) => {
@@ -718,4 +719,3 @@ export default function HomeScreen({ navigation }) {
   );
 }
 
-);

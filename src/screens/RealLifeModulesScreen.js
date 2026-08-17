@@ -5,46 +5,6 @@ import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.background },
-    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
-    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
-
-    scroll: { paddingHorizontal: spacing.xl },
-
-    progressRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.md },
-    progText: { fontSize: 13, fontWeight: '800', color: colors.muted, textTransform: 'uppercase' },
-
-    scenarioCard: { padding: spacing.xl, borderRadius: radius.xl, backgroundColor: '#fff', marginBottom: spacing.xl },
-    speakerBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primarySoft, paddingHorizontal: 10, paddingVertical: 4, borderRadius: radius.pill, alignSelf: 'flex-start', marginBottom: spacing.sm },
-    speakerText: { fontSize: 11, fontWeight: '800', color: colors.primaryDark, marginLeft: 4, letterSpacing: 0.5 },
-    scenarioText: { fontSize: 18, color: colors.text, lineHeight: 28, fontWeight: '600' },
-
-    optionsHead: { fontSize: 14, fontWeight: '800', color: colors.muted, marginBottom: spacing.md, textTransform: 'uppercase' },
-    optionsWrap: { gap: spacing.md },
-    optionBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: spacing.lg, borderRadius: radius.lg, borderWidth: 1, borderColor: 'rgba(0,0,0,0.05)', ...shadow.slight },
-    optIconWrap: { width: 32, height: 32, borderRadius: 16, backgroundColor: colors.primarySoft, justifyContent: 'center', alignItems: 'center', marginRight: spacing.md },
-    optLetter: { fontSize: 14, fontWeight: '900', color: colors.primary },
-    optionText: { flex: 1, fontSize: 15, color: colors.text, fontWeight: '500', lineHeight: 22 },
-
-    endCard: { padding: spacing.xxl, alignItems: 'center', backgroundColor: '#fff', borderRadius: radius.xl, borderWidth: 2 },
-    endCardSuccess: { borderColor: colors.success },
-    endCardFail: { borderColor: colors.error },
-    iconWrap: { width: 100, height: 100, borderRadius: 50, justifyContent: 'center', alignItems: 'center', marginBottom: spacing.lg },
-    iconWrapSuccess: { backgroundColor: 'rgba(46, 204, 113, 0.1)' },
-    iconWrapFail: { backgroundColor: 'rgba(231, 76, 60, 0.1)' },
-    endTitle: { fontSize: 28, fontWeight: '900', marginBottom: spacing.sm, fontFamily: typography.fontHeadline },
-    endTitleSuccess: { color: colors.success },
-    endTitleFail: { color: colors.error },
-    endDesc: { fontSize: 15, color: colors.text, textAlign: 'center', lineHeight: 22, marginBottom: spacing.xxl },
-    restartBtn: { backgroundColor: colors.primary, paddingHorizontal: spacing.xxl, paddingVertical: spacing.md, borderRadius: radius.pill },
-    restartBtnText: { color: '#fff', fontWeight: '800', fontSize: 16 },
-
-    bottomSpacer: { height: 40 }
-}
-
 // Complex Q&A State Tree
 const SCENARIO_TREE = {
     start: {
@@ -97,6 +57,46 @@ const SCENARIO_TREE = {
         ]
     }
 };
+
+const styles = StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background },
+    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
+    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
+    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+
+    scroll: { paddingHorizontal: spacing.xl },
+
+    progressRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.md },
+    progText: { fontSize: 13, fontWeight: '800', color: colors.muted, textTransform: 'uppercase' },
+
+    scenarioCard: { padding: spacing.xl, borderRadius: radius.xl, backgroundColor: '#fff', marginBottom: spacing.xl },
+    speakerBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primarySoft, paddingHorizontal: 10, paddingVertical: 4, borderRadius: radius.pill, alignSelf: 'flex-start', marginBottom: spacing.sm },
+    speakerText: { fontSize: 11, fontWeight: '800', color: colors.primaryDark, marginLeft: 4, letterSpacing: 0.5 },
+    scenarioText: { fontSize: 18, color: colors.text, lineHeight: 28, fontWeight: '600' },
+
+    optionsHead: { fontSize: 14, fontWeight: '800', color: colors.muted, marginBottom: spacing.md, textTransform: 'uppercase' },
+    optionsWrap: { gap: spacing.md },
+    optionBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: spacing.lg, borderRadius: radius.lg, borderWidth: 1, borderColor: 'rgba(0,0,0,0.05)', ...shadow.slight },
+    optIconWrap: { width: 32, height: 32, borderRadius: 16, backgroundColor: colors.primarySoft, justifyContent: 'center', alignItems: 'center', marginRight: spacing.md },
+    optLetter: { fontSize: 14, fontWeight: '900', color: colors.primary },
+    optionText: { flex: 1, fontSize: 15, color: colors.text, fontWeight: '500', lineHeight: 22 },
+
+    endCard: { padding: spacing.xxl, alignItems: 'center', backgroundColor: '#fff', borderRadius: radius.xl, borderWidth: 2 },
+    endCardSuccess: { borderColor: colors.success },
+    endCardFail: { borderColor: colors.error },
+    iconWrap: { width: 100, height: 100, borderRadius: 50, justifyContent: 'center', alignItems: 'center', marginBottom: spacing.lg },
+    iconWrapSuccess: { backgroundColor: 'rgba(46, 204, 113, 0.1)' },
+    iconWrapFail: { backgroundColor: 'rgba(231, 76, 60, 0.1)' },
+    endTitle: { fontSize: 28, fontWeight: '900', marginBottom: spacing.sm, fontFamily: typography.fontHeadline },
+    endTitleSuccess: { color: colors.success },
+    endTitleFail: { color: colors.error },
+    endDesc: { fontSize: 15, color: colors.text, textAlign: 'center', lineHeight: 22, marginBottom: spacing.xxl },
+    restartBtn: { backgroundColor: colors.primary, paddingHorizontal: spacing.xxl, paddingVertical: spacing.md, borderRadius: radius.pill },
+    restartBtnText: { color: '#fff', fontWeight: '800', fontSize: 16 },
+
+    bottomSpacer: { height: 40 }
+});
 
 const ENDINGS = {
     dorm_repair_success: { title: "Success!", desc: "You clearly articulated the problem. Maintenance has been dispatched.", win: true },
@@ -195,4 +195,3 @@ export default function RealLifeModulesScreen({ navigation }) {
     );
 }
 
-);

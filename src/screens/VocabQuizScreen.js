@@ -10,6 +10,10 @@ import { speakText } from '../hooks/useTts';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
 
+/** Fisher-Yates shuffle — inline fallback to guard against Metro resolution issues */
+function shuffle(arr) {
+  const result = Array.isArray(arr) ? [...arr] : [];
+
 const styles = StyleSheet.create({
   master: {
     flex: 1,
@@ -289,11 +293,8 @@ const styles = StyleSheet.create({
   },
   bannerTextCorrect: { color: '#047857' },
   bannerTextIncorrect: { color: '#B91C1C' },
-}
+});
 
-/** Fisher-Yates shuffle — inline fallback to guard against Metro resolution issues */
-function shuffle(arr) {
-  const result = Array.isArray(arr) ? [...arr] : [];
   for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [result[i], result[j]] = [result[j], result[i]];
@@ -733,4 +734,3 @@ export default function VocabQuizScreen({ navigation, route }) {
   );
 }
 
-);

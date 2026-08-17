@@ -5,6 +5,32 @@ import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+// Complex curriculum state payload
+const CURRICULUM_DATA = {
+    1: {
+        theme: "Introduction to Academic Writing",
+        tasks: [
+            { id: 'w1_1', title: 'Read: Cause & Effect Basics', type: 'reading', status: 'completed' },
+            { id: 'w1_2', title: 'Submit Draft 1', type: 'writing', status: 'pending' }
+        ]
+    },
+    2: {
+        theme: "Advanced Syntactical Structures",
+        tasks: [
+            { id: 'w2_1', title: 'Grammar Quiz: Relative Clauses', type: 'quiz', status: 'in_progress' },
+            { id: 'w2_2', title: 'Listen: Climate Change Lecture', type: 'listening', status: 'pending' },
+            { id: 'w2_3', title: 'Submit Final Essay 1', type: 'writing', status: 'pending' }
+        ]
+    },
+    3: {
+        theme: "Argumentative Debates",
+        tasks: [
+            { id: 'w3_1', title: 'Live Class: Group Debate Prep', type: 'live', status: 'pending' },
+            { id: 'w3_2', title: 'Read: Pro vs Con Articles', type: 'reading', status: 'pending' }
+        ]
+    }
+};
+
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
@@ -42,33 +68,7 @@ const styles = StyleSheet.create({
     emptyTitle: { fontSize: typography.h3, fontWeight: '800', color: colors.muted, marginTop: spacing.md, marginBottom: spacing.xs },
     emptyDesc: { fontSize: 13, color: colors.muted, textAlign: 'center', lineHeight: 20, paddingHorizontal: spacing.xl },
     bottomSpacer: { height: 40 },
-}
-
-// Complex curriculum state payload
-const CURRICULUM_DATA = {
-    1: {
-        theme: "Introduction to Academic Writing",
-        tasks: [
-            { id: 'w1_1', title: 'Read: Cause & Effect Basics', type: 'reading', status: 'completed' },
-            { id: 'w1_2', title: 'Submit Draft 1', type: 'writing', status: 'pending' }
-        ]
-    },
-    2: {
-        theme: "Advanced Syntactical Structures",
-        tasks: [
-            { id: 'w2_1', title: 'Grammar Quiz: Relative Clauses', type: 'quiz', status: 'in_progress' },
-            { id: 'w2_2', title: 'Listen: Climate Change Lecture', type: 'listening', status: 'pending' },
-            { id: 'w2_3', title: 'Submit Final Essay 1', type: 'writing', status: 'pending' }
-        ]
-    },
-    3: {
-        theme: "Argumentative Debates",
-        tasks: [
-            { id: 'w3_1', title: 'Live Class: Group Debate Prep', type: 'live', status: 'pending' },
-            { id: 'w3_2', title: 'Read: Pro vs Con Articles', type: 'reading', status: 'pending' }
-        ]
-    }
-};
+});
 
 export default function CurriculumSyncScreen({ navigation }) {
     const [selectedWeek, setSelectedWeek] = useState(2); // Default to current week
@@ -161,4 +161,3 @@ export default function CurriculumSyncScreen({ navigation }) {
     );
 }
 
-);

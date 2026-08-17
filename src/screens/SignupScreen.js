@@ -5,6 +5,8 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppState } from '../context/AppState';
 
+const FACULTIES = ["Engineering", "Economics", "Arts & Sciences", "Education", "Law"];
+
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     flex: { flex: 1 },
@@ -33,9 +35,7 @@ const styles = StyleSheet.create({
     switchBtn: { alignItems: 'center', marginTop: spacing.xl, padding: spacing.md },
     switchBtnText: { fontSize: 14, color: colors.muted, fontWeight: '600' },
     switchLink: { color: colors.primary, fontWeight: '800' },
-}
-
-const FACULTIES = ["Engineering", "Economics", "Arts & Sciences", "Education", "Law"];
+});
 
 export default function SignupScreen({ navigation }) {
     const { register } = useAppState();
@@ -137,4 +137,3 @@ export default function SignupScreen({ navigation }) {
     );
 }
 
-);

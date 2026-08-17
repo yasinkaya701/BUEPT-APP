@@ -8,6 +8,14 @@ import { colors, typography, spacing, radius, shadow } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import { fetchDirectGeminiChat } from '../utils/runtimeApi';
 
+const SAMPLE_SENTENCES = [
+  'The university requires students to achieve a high level of English proficiency before graduation.',
+  'Many researchers argue that regular exercise significantly improves cognitive performance.',
+  'The government has implemented new policies to reduce carbon emissions in major cities.',
+  'Some people believe that technology will eventually replace traditional classroom teaching.',
+  'Climate change poses serious threats to coastal communities around the world.',
+];
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xxl,
@@ -157,15 +165,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 15,
   },
-}
-
-const SAMPLE_SENTENCES = [
-  'The university requires students to achieve a high level of English proficiency before graduation.',
-  'Many researchers argue that regular exercise significantly improves cognitive performance.',
-  'The government has implemented new policies to reduce carbon emissions in major cities.',
-  'Some people believe that technology will eventually replace traditional classroom teaching.',
-  'Climate change poses serious threats to coastal communities around the world.',
-];
+});
 
 const LEVELS = [
   { key: 'B1', label: 'B1', sub: 'Intermediate', color: colors.success },
@@ -333,4 +333,3 @@ export default function ParaphraseStudioScreen({ navigation }) {
   );
 }
 
-);

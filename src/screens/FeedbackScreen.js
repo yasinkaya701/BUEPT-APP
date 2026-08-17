@@ -16,6 +16,8 @@ import { executeDirectAiChat } from '../utils/runtimeApi';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
 import bueptScoredEssays from '../../data/buept_scored_essays.json';
 
+const TABS = ['overview', 'rewrite', 'line-by-line', 'tools', 'deep review', 'full report'];
+
 const styles = StyleSheet.create({
   content: {
     paddingBottom: spacing.xl,
@@ -761,9 +763,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#eff6ff',
     borderColor: '#bfdbfe',
   },
-}
-
-const TABS = ['overview', 'rewrite', 'line-by-line', 'tools', 'deep review', 'full report'];
+});
 
 function formatLabel(value = '') {
   return String(value || '')
@@ -2024,4 +2024,3 @@ export default function FeedbackScreen({ navigation, route }) {
   );
 }
 
-);

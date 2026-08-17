@@ -4,6 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors, spacing, typography } from '../theme/tokens';
 import { DEV_SMOKE_TEST_REPORT_KEY } from '../dev/smokeTestConfig';
 
+function getMessage(error) {
+  if (!error) return 'Unknown runtime error';
+
 const styles = StyleSheet.create({
   root: {
     flex: 1,
@@ -54,10 +57,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontStyle: 'italic',
   }
-}
+});
 
-function getMessage(error) {
-  if (!error) return 'Unknown runtime error';
   if (typeof error === 'string') return error;
   if (error.message) return error.message;
   return String(error);
@@ -138,4 +139,3 @@ export default class AppErrorBoundary extends React.Component {
   }
 }
 
-);

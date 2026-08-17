@@ -5,6 +5,31 @@ import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const INITIAL_THREADS = [
+    {
+        id: '1',
+        author: 'EconPrepper',
+        faculty: 'Economics',
+        title: 'Has anyone passed the proficiency without taking prep class?',
+        content: "I'm planning to skip the prep year entirely. What materials should I focus on for the listening section?",
+        likes: 14,
+        replies: 3,
+        time: '2h ago',
+        hasLiked: false
+    },
+    {
+        id: '2',
+        author: 'EngStud24',
+        faculty: 'Engineering',
+        title: 'Need a study buddy for Advanced C1 Writing',
+        content: "Hey, I struggle with Cause & Effect essays. Anyone want to exchange essays and grade them together?",
+        likes: 8,
+        replies: 5,
+        time: '5h ago',
+        hasLiked: true
+    }
+];
+
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
@@ -39,32 +64,7 @@ const styles = StyleSheet.create({
     flexFill: { flex: 1 },
     submitIcon: { marginLeft: 8 },
     bottomSpacer: { height: 60 }
-}
-
-const INITIAL_THREADS = [
-    {
-        id: '1',
-        author: 'EconPrepper',
-        faculty: 'Economics',
-        title: 'Has anyone passed the proficiency without taking prep class?',
-        content: "I'm planning to skip the prep year entirely. What materials should I focus on for the listening section?",
-        likes: 14,
-        replies: 3,
-        time: '2h ago',
-        hasLiked: false
-    },
-    {
-        id: '2',
-        author: 'EngStud24',
-        faculty: 'Engineering',
-        title: 'Need a study buddy for Advanced C1 Writing',
-        content: "Hey, I struggle with Cause & Effect essays. Anyone want to exchange essays and grade them together?",
-        likes: 8,
-        replies: 5,
-        time: '5h ago',
-        hasLiked: true
-    }
-];
+});
 
 export default function DiscussionForumsScreen({ navigation }) {
     const [threads, setThreads] = useState(INITIAL_THREADS);
@@ -189,4 +189,3 @@ export default function DiscussionForumsScreen({ navigation }) {
     );
 }
 
-);

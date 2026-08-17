@@ -5,6 +5,12 @@ import Card from '../Card';
 import Button from '../Button';
 import { colors, spacing, typography, radius } from '../../theme/tokens';
 
+const TASKS_META = [
+    { key: 'reading', icon: 'book-outline', route: 'Reading', color: '#1D4ED8' },
+    { key: 'listening', icon: 'headset-outline', route: 'Listening', color: '#166534' },
+    { key: 'grammar', icon: 'create-outline', route: 'Grammar', color: '#9A3412' },
+];
+
 const styles = StyleSheet.create({
     card: {
         marginBottom: spacing.lg,
@@ -54,13 +60,7 @@ const styles = StyleSheet.create({
         minWidth: 84,
         height: 40,
     }
-}
-
-const TASKS_META = [
-    { key: 'reading', icon: 'book-outline', route: 'Reading', color: '#1D4ED8' },
-    { key: 'listening', icon: 'headset-outline', route: 'Listening', color: '#166534' },
-    { key: 'grammar', icon: 'create-outline', route: 'Grammar', color: '#9A3412' },
-];
+});
 
 export default function DailyTasks({ adaptive, navigation }) {
     return (
@@ -82,4 +82,3 @@ export default function DailyTasks({ adaptive, navigation }) {
     );
 }
 
-);

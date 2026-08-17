@@ -12,6 +12,8 @@ import DeveloperScreen from '../screens/DeveloperScreen';
 import LogoMark from '../components/LogoMark';
 import { colors, typography, spacing, radius, shadow } from '../theme/tokens';
 
+const Tab = createBottomTabNavigator();
+
 const styles = StyleSheet.create({
   tabBar: {
     position: 'absolute',
@@ -259,9 +261,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 18,
   },
-}
-
-const Tab = createBottomTabNavigator();
+});
 
 const TAB_ICONS = {
   Home: '🏠',
@@ -561,4 +561,3 @@ export default function TabNavigator() {
   );
 }
 
-);

@@ -3,6 +3,16 @@ import { View, Text, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
+/**
+ * Horizontal exam-section timeline.
+ * steps: [{ key, label, icon?, duration?, status: 'done'|'active'|'upcoming' }]
+ */
+export default function TimelineStep({ steps = [], activeIndex = 0, style }) {
+  return (
+    <View style={[styles.wrap, style]}>
+      {steps.map((step, idx) => {
+        const status = idx < activeIndex ? 'done' : idx === activeIndex ? 'active' : 'upcoming';
+
 const styles = StyleSheet.create({
   wrap: {
     flexDirection: 'row',
@@ -71,17 +81,8 @@ const styles = StyleSheet.create({
     color: colors.muted,
     marginTop: 1,
   },
-}
+});
 
-/**
- * Horizontal exam-section timeline.
- * steps: [{ key, label, icon?, duration?, status: 'done'|'active'|'upcoming' }]
- */
-export default function TimelineStep({ steps = [], activeIndex = 0, style }) {
-  return (
-    <View style={[styles.wrap, style]}>
-      {steps.map((step, idx) => {
-        const status = idx < activeIndex ? 'done' : idx === activeIndex ? 'active' : 'upcoming';
         const isLast = idx === steps.length - 1;
         return (
           <View key={step.key} style={styles.step}>
@@ -128,4 +129,3 @@ export default function TimelineStep({ steps = [], activeIndex = 0, style }) {
   );
 }
 
-);

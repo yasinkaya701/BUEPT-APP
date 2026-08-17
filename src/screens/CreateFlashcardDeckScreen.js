@@ -4,6 +4,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
+export default function CreateFlashcardDeckScreen({ navigation }) {
+  const { addCustomDeck } = useAppState();
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0F172A' },
   header: {
@@ -71,10 +74,8 @@ const styles = StyleSheet.create({
   
   emptyState: { alignItems: 'center', marginTop: 40, opacity: 0.5 },
   emptyText: { color: '#fff', marginTop: 12, fontSize: 14, fontWeight: '600' }
-}
+});
 
-export default function CreateFlashcardDeckScreen({ navigation }) {
-  const { addCustomDeck } = useAppState();
   const [title, setTitle] = useState('');
   const [wordInput, setWordInput] = useState('');
   const [words, setWords] = useState([]);
@@ -219,4 +220,3 @@ export default function CreateFlashcardDeckScreen({ navigation }) {
   );
 }
 
-);

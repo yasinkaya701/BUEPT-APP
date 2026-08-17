@@ -7,6 +7,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { isDemoAiConfigured, requestDemoModule } from '../utils/demoAi';
 import { useAppState } from '../context/AppState';
 
+// Simulated complex historical data
+const HISTORICAL_DATA = {
+    grammar: { score: 45, label: 'Grammar Accuracy' },
+    vocab: { score: 82, label: 'Lexical Resource' },
+    reading: { score: 68, label: 'Reading Comprehension' },
+    listening: { score: 55, label: 'Listening Retention' },
+    writing: { score: 90, label: 'Academic Writing' }
+};
+
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
@@ -45,16 +54,7 @@ const styles = StyleSheet.create({
     fixBtnIcon: { marginLeft: 4 },
 
     bottomSpacer: { height: 40 }
-}
-
-// Simulated complex historical data
-const HISTORICAL_DATA = {
-    grammar: { score: 45, label: 'Grammar Accuracy' },
-    vocab: { score: 82, label: 'Lexical Resource' },
-    reading: { score: 68, label: 'Reading Comprehension' },
-    listening: { score: 55, label: 'Listening Retention' },
-    writing: { score: 90, label: 'Academic Writing' }
-};
+});
 
 function normalizeSkills(payload = {}) {
     const raw = payload.skills && typeof payload.skills === 'object'
@@ -218,4 +218,3 @@ const BarChartRow = ({ label, animValue, target, isLast }) => {
     );
 };
 
-);

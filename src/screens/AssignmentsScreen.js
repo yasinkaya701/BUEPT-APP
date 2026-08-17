@@ -5,6 +5,12 @@ import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const INITIAL_TASKS = [
+    { id: '1', title: 'Submit Essay Draft 1', course: 'ENG 101', due: 'Today, 23:59', status: 'pending', type: 'writing' },
+    { id: '2', title: 'Listen to Lecture 4', course: 'ECON 202', due: 'Tomorrow', status: 'pending', type: 'listening' },
+    { id: '3', title: 'Read Chapter 3', course: 'HIST 105', due: 'Next Week', status: 'completed', type: 'reading' }
+];
+
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
@@ -36,13 +42,7 @@ const styles = StyleSheet.create({
     emptyState: { alignItems: 'center', paddingVertical: 80 },
     emptyText: { marginTop: spacing.md, color: colors.muted, fontWeight: '600', fontSize: 14 },
     bottomSpacer: { height: 40 },
-}
-
-const INITIAL_TASKS = [
-    { id: '1', title: 'Submit Essay Draft 1', course: 'ENG 101', due: 'Today, 23:59', status: 'pending', type: 'writing' },
-    { id: '2', title: 'Listen to Lecture 4', course: 'ECON 202', due: 'Tomorrow', status: 'pending', type: 'listening' },
-    { id: '3', title: 'Read Chapter 3', course: 'HIST 105', due: 'Next Week', status: 'completed', type: 'reading' }
-];
+});
 
 export default function AssignmentsScreen({ navigation }) {
     const [tasks, setTasks] = useState(INITIAL_TASKS);
@@ -143,4 +143,3 @@ export default function AssignmentsScreen({ navigation }) {
     );
 }
 
-);

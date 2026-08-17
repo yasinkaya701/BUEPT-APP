@@ -7,6 +7,8 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppState } from '../context/AppState';
 
+const TEST_LENGTH = 12;
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
@@ -113,9 +115,8 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
     alignSelf: 'flex-start',
   },
-}
+});
 
-const TEST_LENGTH = 12;
 const BAND_ORDER = ['P1', 'P2', 'P3', 'P4'];
 
 const CEFR_BY_BAND = {
@@ -877,4 +878,3 @@ export default function PlacementTestScreen({ navigation }) {
   );
 }
 
-);

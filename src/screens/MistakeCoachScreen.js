@@ -14,6 +14,13 @@ import Button from '../components/Button';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import { buildMistakeExplain, requestMistakeCoachReply } from '../utils/mistakeCoach';
 
+const DEFAULT_QUESTIONS = [
+  'Why is my answer wrong?',
+  'What clue proves the correct option?',
+  'Explain the correct answer simply.',
+  'Give me a tip to avoid this mistake.',
+];
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl,
@@ -172,14 +179,7 @@ const styles = StyleSheet.create({
     color: colors.text,
     backgroundColor: colors.surface,
   },
-}
-
-const DEFAULT_QUESTIONS = [
-  'Why is my answer wrong?',
-  'What clue proves the correct option?',
-  'Explain the correct answer simply.',
-  'Give me a tip to avoid this mistake.',
-];
+});
 
 const MODULE_QUESTIONS = {
   reading: [
@@ -389,4 +389,3 @@ export default function MistakeCoachScreen({ route, navigation }) {
   );
 }
 
-);

@@ -3,6 +3,21 @@ import { Pressable, Text, StyleSheet, View, Platform, Animated } from 'react-nat
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { typography, shadow, colors, radius } from '../theme/tokens';
 
+function Button({
+  label,
+  onPress,
+  variant = 'primary',
+  disabled = false,
+  style,
+  textStyle,
+  fullWidth = false,
+  iconLeft = null,
+  iconRight = null,
+  icon = null,
+  iconColor = null,
+}) {
+  const tone = BUTTON_TONES[variant] || BUTTON_TONES.primary;
+
 const styles = StyleSheet.create({
   base: {
     minHeight: 46,
@@ -66,22 +81,8 @@ const styles = StyleSheet.create({
     ...shadow.sm,
   },
   successText: { color: '#FFFFFF' },
-}
+});
 
-function Button({
-  label,
-  onPress,
-  variant = 'primary',
-  disabled = false,
-  style,
-  textStyle,
-  fullWidth = false,
-  iconLeft = null,
-  iconRight = null,
-  icon = null,
-  iconColor = null,
-}) {
-  const tone = BUTTON_TONES[variant] || BUTTON_TONES.primary;
   const fallbackIconColor = disabled ? '#94A3B8' : (iconColor || tone.iconColor);
   const resolvedLeftIcon = iconLeft || (icon ? <Ionicons name={icon} size={14} color={fallbackIconColor} /> : null);
 
@@ -132,8 +133,6 @@ function Button({
 }
 
 export default React.memo(Button);
-
-);
 
 const BUTTON_TONES = {
   primary: { base: styles.primaryBase, text: styles.primaryText, textColor: '#FFFFFF', iconColor: '#FFFFFF' },

@@ -8,6 +8,31 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { executeDirectAiChat } from '../utils/runtimeApi';
 
+const PHRASES = [
+  {
+    category: "Argumentation & Nuance",
+    phrases: [
+      { text: "It is ostensibly the case that...", level: "C1", meaning: "Appears to be true but might have hidden complexity.", example: "It is ostensibly the case that economic growth leads to happiness, yet statistics suggest otherwise." },
+      { text: "The overarching consensus among scholars is...", level: "C2", meaning: "Most experts agree on this general point.", example: "The overarching consensus among scholars is that climate change requires immediate global intervention." },
+      { text: "This phenomenon is fundamentally rooted in...", level: "C1", meaning: "Explaining the core cause of something.", example: "This phenomenon is fundamentally rooted in deep-seated social inequalities." }
+    ]
+  },
+  {
+    category: "Counter-Argumentation",
+    phrases: [
+      { text: "Notwithstanding the validity of this claim...", level: "C2", meaning: "Accepting a point but presenting a stronger opposing one.", example: "Notwithstanding the validity of this claim, the long-term risks remain unacceptably high." },
+      { text: "While this perspective carries significant weight, it fails to account for...", level: "C1", meaning: "Criticizing a popular but incomplete view.", example: "While this perspective carries significant weight, it fails to account for the psychological impact on workers." }
+    ]
+  },
+  {
+    category: "Emphasis & Significance",
+    phrases: [
+      { text: "It is of paramount importance to recognize that...", level: "C1", meaning: "Highlighting the most critical part of an argument.", example: "It is of paramount importance to recognize that education is a basic human right." },
+      { text: "This leads to a pivotal shift in how we perceive...", level: "C2", meaning: "Showing a major change in understanding.", example: "This discovery leads to a pivotal shift in how we perceive renewable energy storage." }
+    ]
+  }
+];
+
 const styles = StyleSheet.create({
   container: {
     padding: spacing.md,
@@ -53,32 +78,7 @@ const styles = StyleSheet.create({
   feedbackCard: { padding: spacing.lg, backgroundColor: '#F0F7FF', borderColor: '#CDE4FF' },
   feedbackHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: spacing.md },
   feedbackText: { fontSize: 15, color: colors.text, lineHeight: 22 },
-}
-
-const PHRASES = [
-  {
-    category: "Argumentation & Nuance",
-    phrases: [
-      { text: "It is ostensibly the case that...", level: "C1", meaning: "Appears to be true but might have hidden complexity.", example: "It is ostensibly the case that economic growth leads to happiness, yet statistics suggest otherwise." },
-      { text: "The overarching consensus among scholars is...", level: "C2", meaning: "Most experts agree on this general point.", example: "The overarching consensus among scholars is that climate change requires immediate global intervention." },
-      { text: "This phenomenon is fundamentally rooted in...", level: "C1", meaning: "Explaining the core cause of something.", example: "This phenomenon is fundamentally rooted in deep-seated social inequalities." }
-    ]
-  },
-  {
-    category: "Counter-Argumentation",
-    phrases: [
-      { text: "Notwithstanding the validity of this claim...", level: "C2", meaning: "Accepting a point but presenting a stronger opposing one.", example: "Notwithstanding the validity of this claim, the long-term risks remain unacceptably high." },
-      { text: "While this perspective carries significant weight, it fails to account for...", level: "C1", meaning: "Criticizing a popular but incomplete view.", example: "While this perspective carries significant weight, it fails to account for the psychological impact on workers." }
-    ]
-  },
-  {
-    category: "Emphasis & Significance",
-    phrases: [
-      { text: "It is of paramount importance to recognize that...", level: "C1", meaning: "Highlighting the most critical part of an argument.", example: "It is of paramount importance to recognize that education is a basic human right." },
-      { text: "This leads to a pivotal shift in how we perceive...", level: "C2", meaning: "Showing a major change in understanding.", example: "This discovery leads to a pivotal shift in how we perceive renewable energy storage." }
-    ]
-  }
-];
+});
 
 export default function AcademicPhraseStudioScreen() {
   const [selectedPhrase, setSelectedPhrase] = useState(null);
@@ -178,4 +178,3 @@ export default function AcademicPhraseStudioScreen() {
   );
 }
 
-);

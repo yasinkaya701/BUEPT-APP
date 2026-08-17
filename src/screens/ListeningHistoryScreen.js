@@ -5,6 +5,9 @@ import Card from '../components/Card';
 import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
+export default function ListeningHistoryScreen() {
+  const { listeningHistory } = useAppState();
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl
@@ -27,10 +30,7 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: spacing.lg
   }
-}
-
-export default function ListeningHistoryScreen() {
-  const { listeningHistory } = useAppState();
+});
 
   return (
     <Screen scroll contentStyle={styles.container}>
@@ -46,4 +46,3 @@ export default function ListeningHistoryScreen() {
   );
 }
 
-);

@@ -9,6 +9,9 @@ import { useAppState } from '../context/AppState';
 import { speakEnglish } from '../utils/ttsEnglish';
 import { loadAiAccessConfig } from '../utils/appStorage';
 
+// ---------------- Passages ----------------
+const PASSAGE_GENERAL = `Economics is the social science that studies the production, distribution, and consumption of goods and services. Economics focuses on the behaviour and interactions of economic agents and how economies work. Microeconomics analyzes what's viewed as basic elements in the economy, including individual agents and markets, their interactions, and the outcomes of interactions. Individual agents may include, for example, households, firms, buyers, and sellers. Macroeconomics analyzes the economy as a system where production, consumption, saving, and investment interact, and factors affecting it: employment of the resources of labour, capital, and land, currency inflation, economic growth, and public policies that have impact on these elements.`;
+
 const styles = StyleSheet.create({
     container: { paddingBottom: spacing.xl },
     headerRow: { flexDirection: 'row', alignItems: 'center', paddingBottom: spacing.md },
@@ -41,10 +44,7 @@ const styles = StyleSheet.create({
     modalWordText: { fontSize: 24, fontWeight: '900', color: colors.primaryDark, flex: 1, textTransform: 'capitalize' },
     modalDefText: { fontSize: 16, color: colors.text, lineHeight: 24 },
     modalAudioIcon: { marginRight: 16 },
-}
-
-// ---------------- Passages ----------------
-const PASSAGE_GENERAL = `Economics is the social science that studies the production, distribution, and consumption of goods and services. Economics focuses on the behaviour and interactions of economic agents and how economies work. Microeconomics analyzes what's viewed as basic elements in the economy, including individual agents and markets, their interactions, and the outcomes of interactions. Individual agents may include, for example, households, firms, buyers, and sellers. Macroeconomics analyzes the economy as a system where production, consumption, saving, and investment interact, and factors affecting it: employment of the resources of labour, capital, and land, currency inflation, economic growth, and public policies that have impact on these elements.`;
+});
 
 const PASSAGE_GENERAL_2 = `Education systems around the world are increasingly adopting student-centred learning models. In this approach, the teacher acts as a facilitator rather than the sole source of knowledge. Students are encouraged to develop critical thinking, collaborate with peers, and apply concepts to real-world problems. Research shows that active learning improves long-term retention compared with traditional lectures. Assessment methods have also evolved: portfolios, project-based evaluation, and peer review now complement standard examinations. The shift reflects a broader understanding that modern workplaces value adaptability and problem-solving over memorised knowledge.`;
 
@@ -374,4 +374,3 @@ export default function AdvancedReadingScreen({ navigation }) {
     );
 }
 
-);

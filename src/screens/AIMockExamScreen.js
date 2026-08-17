@@ -24,6 +24,8 @@ import { colors, spacing, typography, radius } from '../theme/tokens';
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
 import { assessSpokenResponse, speakingPtsFor } from '../utils/speakingExamAssessment';
 
+const PASS_MARK = 60;
+
 const styles = StyleSheet.create({
   container: { paddingBottom: spacing.xl },
   header: {
@@ -140,9 +142,8 @@ const styles = StyleSheet.create({
   spSectionLabelGap: { marginTop: spacing.md },
   spListText: { fontSize: 13, color: colors.text, lineHeight: 19, marginTop: 2 },
   spTranscriptText: { fontSize: 13, color: colors.muted, lineHeight: 19, fontStyle: 'italic' },
-}
+});
 
-const PASS_MARK = 60;
 const CEFR_BANDS = [
   { min: 90, band: 'C1' },
   { min: 80, band: 'B2+' },
@@ -861,4 +862,3 @@ function fmtTime(totalSeconds) {
   return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
-);

@@ -20,6 +20,8 @@ import Button from '../components/Button';
 import { colors, spacing, typography, radius } from '../theme/tokens';
 import { projectBuseptScore, gradeLabelForScore, PASS_MARK, BUSEPT_WEIGHTS } from '../utils/buseptScorePredictor';
 
+const isWeb = Platform.OS === 'web';
+
 const styles = StyleSheet.create({
   container: { flex: 1 },
   header: {
@@ -286,9 +288,7 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   bottomSpacer: { height: 80 },
-}
-
-const isWeb = Platform.OS === 'web';
+});
 
 const BAND_OPTIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -439,4 +439,3 @@ export default function BUSEPTScorePredictorScreen({ navigation }) {
   );
 }
 
-);

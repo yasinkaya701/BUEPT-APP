@@ -6,6 +6,9 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { speakEnglish, stopEnglishTts } from '../utils/ttsEnglish';
 
+// Simulated lecture transcript
+const LECTURE_SCRIPT = "Welcome everyone to Introduction to Macroeconomics. Today we're going to discuss the concept of inflation. Now, inflation is defined as a general increase in prices and a fall in the purchasing value of money. It's essentially what happens when the money supply grows faster than the rate of economic output. As a fundamental principle, central banks attempt to limit inflation, aiming to keep the economy running smoothly. Take out your notes, because we will look at three historic examples...";
+
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     flex: { flex: 1 },
@@ -46,10 +49,7 @@ const styles = StyleSheet.create({
     cueTextArea: { flex: 1 },
     mainTextArea: { flex: 2 },
     bottomSpacer: { height: 40 },
-}
-
-// Simulated lecture transcript
-const LECTURE_SCRIPT = "Welcome everyone to Introduction to Macroeconomics. Today we're going to discuss the concept of inflation. Now, inflation is defined as a general increase in prices and a fall in the purchasing value of money. It's essentially what happens when the money supply grows faster than the rate of economic output. As a fundamental principle, central banks attempt to limit inflation, aiming to keep the economy running smoothly. Take out your notes, because we will look at three historic examples...";
+});
 
 /** Safe TTS stop */
 const safeTtsStop = () => { stopEnglishTts(); };
@@ -203,4 +203,3 @@ export default function LectureListeningLabScreen({ navigation }) {
     );
 }
 
-);

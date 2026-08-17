@@ -9,6 +9,51 @@ import { ScoreRing, Sparkline } from '../components/ui';
 import { useAppState } from '../context/AppState';
 import { useUniversity } from '../context/UniversityContext';
 
+const TODAY_MISSIONS = [
+  {
+    id: 'vocab-srs',
+    label: 'Review SRS due words',
+    detail: 'Clear your spaced-repetition queue to keep weak words in circulation.',
+    route: 'Vocabulary',
+    icon: 'swap-horizontal-outline',
+  },
+  {
+    id: 'reading',
+    label: 'Complete one Reading passage',
+    detail: 'Finish a passage with its comprehension quiz to hold your streak.',
+    route: 'Reading',
+    icon: 'reader-outline',
+  },
+  {
+    id: 'listening',
+    label: 'Listen to one lecture',
+    detail: 'Selective Listening practice with the signpost detector.',
+    route: 'Listening',
+    icon: 'ear-outline',
+  },
+  {
+    id: 'writing',
+    label: 'Write a body paragraph',
+    detail: '120 words minimum with at least 2 connectors in the Essay Bank.',
+    route: 'EssayBank',
+    icon: 'create-outline',
+  },
+  {
+    id: 'speaking',
+    label: 'Run one mock interview stage',
+    detail: 'Speak into the mic and beat your last coverage score.',
+    route: 'SpeakingMockInterview',
+    icon: 'mic-outline',
+  },
+  {
+    id: 'full-mock',
+    label: 'Run one full-format mock',
+    detail: 'Complete a timed official-format mock from the offline bank and see your band report.',
+    route: 'AIMockGenerator',
+    icon: 'school-outline',
+  },
+];
+
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xxl,
@@ -192,52 +237,7 @@ const styles = StyleSheet.create({
     color: colors.muted,
     marginBottom: spacing.sm,
   },
-}
-
-const TODAY_MISSIONS = [
-  {
-    id: 'vocab-srs',
-    label: 'Review SRS due words',
-    detail: 'Clear your spaced-repetition queue to keep weak words in circulation.',
-    route: 'Vocabulary',
-    icon: 'swap-horizontal-outline',
-  },
-  {
-    id: 'reading',
-    label: 'Complete one Reading passage',
-    detail: 'Finish a passage with its comprehension quiz to hold your streak.',
-    route: 'Reading',
-    icon: 'reader-outline',
-  },
-  {
-    id: 'listening',
-    label: 'Listen to one lecture',
-    detail: 'Selective Listening practice with the signpost detector.',
-    route: 'Listening',
-    icon: 'ear-outline',
-  },
-  {
-    id: 'writing',
-    label: 'Write a body paragraph',
-    detail: '120 words minimum with at least 2 connectors in the Essay Bank.',
-    route: 'EssayBank',
-    icon: 'create-outline',
-  },
-  {
-    id: 'speaking',
-    label: 'Run one mock interview stage',
-    detail: 'Speak into the mic and beat your last coverage score.',
-    route: 'SpeakingMockInterview',
-    icon: 'mic-outline',
-  },
-  {
-    id: 'full-mock',
-    label: 'Run one full-format mock',
-    detail: 'Complete a timed official-format mock from the offline bank and see your band report.',
-    route: 'AIMockGenerator',
-    icon: 'school-outline',
-  },
-];
+});
 
 function todayKey() {
   const d = new Date();
@@ -400,4 +400,3 @@ export default function TodayBoardScreen({ navigation }) {
   );
 }
 
-);
