@@ -18,13 +18,6 @@ import { speakEnglish, stopEnglishTts } from '../utils/ttsEnglish';
 import { generateSpeakingCoachReply, isDemoAiConfigured } from '../utils/demoAi';
 import { evaluateSpeakingModel } from '../utils/speakingModel';
 
-const LEVEL_COLORS = {
-    P1: colors.success,
-    P2: colors.primary,
-    P3: colors.warning,
-    P4: colors.accent,
-};
-
 const styles = StyleSheet.create({
     content: { paddingBottom: spacing.xl },
     header: { marginBottom: spacing.md },
@@ -353,6 +346,13 @@ const styles = StyleSheet.create({
     followUpText: { flex: 1, fontSize: typography.small, color: colors.text, lineHeight: 22 },
     followUpSpeak: { fontSize: 20, marginTop: -2 },
 });
+
+const LEVEL_COLORS = {
+    P1: colors.success,
+    P2: colors.primary,
+    P3: colors.warning,
+    P4: colors.accent,
+};
 
 const TYPE_COLORS = {
     description: colors.success,

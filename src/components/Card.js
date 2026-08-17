@@ -2,9 +2,6 @@ import React from 'react';
 import { View, StyleSheet, Animated, Platform } from 'react-native';
 import { spacing, shadow, colors, radius } from '../theme/tokens';
 
-function Card({ children, style, glow = false, compact = false }) {
-  const hover = React.useRef(new Animated.Value(0)).current;
-
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
@@ -33,6 +30,8 @@ const styles = StyleSheet.create({
   },
 });
 
+function Card({ children, style, glow = false, compact = false }) {
+  const hover = React.useRef(new Animated.Value(0)).current;
   const lift = hover.interpolate({ inputRange: [0, 1], outputRange: [0, -3] });
   const scale = hover.interpolate({ inputRange: [0, 1], outputRange: [1, 1.008] });
 

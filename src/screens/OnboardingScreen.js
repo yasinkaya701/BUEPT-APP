@@ -8,8 +8,6 @@ import LogoMark from '../components/LogoMark';
 import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
-const BG_IMAGE = require('../assets/images/real_south_gate.jpg');
-
 const styles = StyleSheet.create({
   bgImage: {
     flex: 1,
@@ -130,6 +128,7 @@ const styles = StyleSheet.create({
   },
 });
 
+const BG_IMAGE = require('../assets/images/real_south_gate.jpg');
 const levels = ['P1', 'P2', 'P3', 'P4'];
 const levelLabels = {
   P1: 'A1 — Beginner',

@@ -34,8 +34,6 @@ import { evaluateReadingModel } from '../utils/readingModel';
 import { subscribeSmokeActions } from '../dev/smokeBus';
 import clozeTasks from '../../data/reading_cloze.json';
 
-const tasks = [...baseTasks, ...hardTasks, ...clozeTasks];
-
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bg },
   header: { 
@@ -571,6 +569,8 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 });
+
+const tasks = [...baseTasks, ...hardTasks, ...clozeTasks];
 
 function buildReadingFeedback(task, answers = {}) {
   const qs = task?.questions || [];

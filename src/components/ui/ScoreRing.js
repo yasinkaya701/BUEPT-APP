@@ -3,8 +3,6 @@ import { View, Text, StyleSheet } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
-const DEFAULT_SIZE = 84;
-
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
@@ -33,6 +31,7 @@ const styles = StyleSheet.create({
   },
 });
 
+const DEFAULT_SIZE = 84;
 const DEFAULT_STROKE = 8;
 
 export function scoreBandColor(score, total = 100) {

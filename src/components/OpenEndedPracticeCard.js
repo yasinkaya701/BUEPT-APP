@@ -3,9 +3,6 @@ import { Text, StyleSheet, View, TextInput, TouchableOpacity } from 'react-nativ
 import Card from './Card';
 import { colors, spacing, typography } from '../theme/tokens';
 
-function countWords(text) {
-  if (!text || typeof text !== 'string') return 0;
-
 const styles = StyleSheet.create({
   card: {
     marginBottom: spacing.md,
@@ -128,6 +125,8 @@ const styles = StyleSheet.create({
   },
 });
 
+function countWords(text) {
+  if (!text || typeof text !== 'string') return 0;
   const tokens = text.trim().split(/\s+/).filter(Boolean);
   return tokens.length;
 }

@@ -3,15 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
-const BADGE_TONES = {
-  gold: { bg: colors.accentSoft, text: colors.accent },
-  blue: { bg: colors.primaryLight, text: colors.primaryDark },
-  teal: { bg: colors.tealSoft, text: colors.teal },
-  soft: { bg: colors.surfaceAlt, text: colors.muted },
-  red: { bg: colors.errorLight, text: colors.error },
-  green: { bg: colors.successLight, text: colors.successDark },
-};
-
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
@@ -74,6 +65,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
+
+const BADGE_TONES = {
+  gold: { bg: colors.accentSoft, text: colors.accent },
+  blue: { bg: colors.primaryLight, text: colors.primaryDark },
+  teal: { bg: colors.tealSoft, text: colors.teal },
+  soft: { bg: colors.surfaceAlt, text: colors.muted },
+  red: { bg: colors.errorLight, text: colors.error },
+  green: { bg: colors.successLight, text: colors.successDark },
+};
 
 /**
  * Premium library row for practice tasks and prompts.

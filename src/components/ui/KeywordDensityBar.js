@@ -2,13 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
-/**
- * Stacked keyword usage density bar for writing practice.
- * segments: [{ key, label, used, total, color }]
- */
-export default function KeywordDensityBar({ segments = [], label, style }) {
-  const grandTotal = segments.reduce((sum, s) => sum + (s.total || 0), 0);
-
 const styles = StyleSheet.create({
   wrap: {
     marginVertical: spacing.xs,
@@ -80,6 +73,12 @@ const styles = StyleSheet.create({
   },
 });
 
+/**
+ * Stacked keyword usage density bar for writing practice.
+ * segments: [{ key, label, used, total, color }]
+ */
+export default function KeywordDensityBar({ segments = [], label, style }) {
+  const grandTotal = segments.reduce((sum, s) => sum + (s.total || 0), 0);
   const grandUsed = segments.reduce((sum, s) => sum + (s.used || 0), 0);
   const ratio = grandTotal > 0 ? grandUsed / grandTotal : 0;
 

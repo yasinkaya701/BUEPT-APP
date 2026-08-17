@@ -11,9 +11,6 @@ import { useAppState } from '../context/AppState';
 import { scoreSpeakingRubric } from '../utils/rubricScoring';
 import { TimelineStep, ScoreRing } from '../components/ui';
 
-function normalizeSpeechText(text = '') {
-  return String(text || '').replace(/\s+/g, ' ').trim();
-
 const styles = StyleSheet.create({
   container: { paddingBottom: spacing.xl },
   h1: {
@@ -163,6 +160,8 @@ const styles = StyleSheet.create({
   },
 });
 
+function normalizeSpeechText(text = '') {
+  return String(text || '').replace(/\s+/g, ' ').trim();
 }
 
 function pickBestSpeechResult(values = []) {

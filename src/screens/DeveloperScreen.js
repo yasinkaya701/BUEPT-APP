@@ -9,12 +9,6 @@ import { runDiagnostics } from '../utils/diagnostics';
 import { useAppState } from '../context/AppState';
 import { useTts } from '../hooks/useTts';
 
-const PROVIDERS = [
-  { key: 'openai',  label: 'OpenAI',           emoji: '🔑', color: '#10a37f' },
-  { key: 'gemini',  label: '🆓 Gemini',         emoji: '🟣', color: '#4285F4' },
-  { key: 'ollama',  label: '🏠 Ollama (Local)',  emoji: '🦙', color: '#FF6B35' },
-];
-
 const styles = StyleSheet.create({
   container: { paddingBottom: spacing.xl, paddingTop: spacing.md },
 
@@ -174,6 +168,12 @@ const styles = StyleSheet.create({
   hqBadge: { backgroundColor: '#10B981', borderRadius: 4, paddingHorizontal: 4, paddingVertical: 1 },
   hqBadgeText: { color: '#FFFFFF', fontSize: 8, fontWeight: '900' },
 });
+
+const PROVIDERS = [
+  { key: 'openai',  label: 'OpenAI',           emoji: '🔑', color: '#10a37f' },
+  { key: 'gemini',  label: '🆓 Gemini',         emoji: '🟣', color: '#4285F4' },
+  { key: 'ollama',  label: '🏠 Ollama (Local)',  emoji: '🦙', color: '#FF6B35' },
+];
 
 const PROVIDER_INFO = {
   openai: {

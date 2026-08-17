@@ -6,9 +6,6 @@ import Screen from '../components/Screen';
 import Card from '../components/Card';
 import { colors, spacing, typography } from '../theme/tokens';
 
-function isHttpUrl(value) {
-  return typeof value === 'string' && /^https?:\/\//i.test(value);
-
 const styles = StyleSheet.create({
   fullscreen: { flex: 1, backgroundColor: '#0b1020' },
   container: { paddingBottom: spacing.xl },
@@ -192,6 +189,8 @@ const styles = StyleSheet.create({
   },
 });
 
+function isHttpUrl(value) {
+  return typeof value === 'string' && /^https?:\/\//i.test(value);
 }
 
 function formatClock(sec) {

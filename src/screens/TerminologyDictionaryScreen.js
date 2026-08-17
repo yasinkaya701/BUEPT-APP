@@ -8,8 +8,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getDictionarySample } from '../utils/dictionary';
 import { speakEnglish } from '../utils/ttsEnglish';
 
-const STARTER_TERMS = ['citation', 'cohesion', 'framework', 'integrity', 'evidence', 'thesis'];
-
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: { 
@@ -334,6 +332,7 @@ const styles = StyleSheet.create({
     bottomSpacer: { height: 80 },
 });
 
+const STARTER_TERMS = ['citation', 'cohesion', 'framework', 'integrity', 'evidence', 'thesis'];
 const TERM_DB = getDictionarySample(320).map((item, index) => {
     const rawWord = String(item.word || '').trim();
     const normalizedWord = rawWord ? rawWord.charAt(0).toUpperCase() + rawWord.slice(1) : `Term ${index + 1}`;

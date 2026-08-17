@@ -9,8 +9,6 @@ import hardTasks from '../../data/grammar_tasks_hard.json';
 import testEnglishTasks from '../../data/test_english_grammar_tasks.json';
 import { useAppState } from '../context/AppState';
 
-const allTasks = [...baseTasks, ...hardTasks, ...testEnglishTasks];
-
 const styles = StyleSheet.create({
   container: { paddingBottom: spacing.xl },
   h1: {
@@ -65,6 +63,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
 });
+
+const allTasks = [...baseTasks, ...hardTasks, ...testEnglishTasks];
 
 function shuffle(list, seed = 1) {
   const arr = [...list];

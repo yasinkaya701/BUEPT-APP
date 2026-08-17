@@ -31,7 +31,6 @@ import MotionGroup from '../components/ui/MotionGroup';
 import CountUp from '../components/ui/CountUp';
 import { UNIVERSITIES } from '../config/universities';
 import { useUniversity } from '../context/UniversityContext';
-const isWeb = Platform.OS === 'web';
 
 const styles = StyleSheet.create({
   header: {
@@ -251,6 +250,7 @@ const styles = StyleSheet.create({
   footerCopy: { color: 'rgba(148,163,184,0.8)', fontSize: 11, textAlign: 'center' },
 });
 
+const isWeb = Platform.OS === 'web';
 const STATS_BY_UNI = {
   buept: [
     { value: 28000, suffix: '+', label: 'Soru bankası' },

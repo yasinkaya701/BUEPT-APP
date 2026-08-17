@@ -13,8 +13,6 @@ import Card from '../components/Card';
 import { colors, spacing, typography } from '../theme/tokens';
 import templates from '../../data/essay_templates.json';
 
-const TABS = ['Templates', 'Phrases', 'Sample', 'Topics', 'Mistakes'];
-
 const styles = StyleSheet.create({
     container: { paddingBottom: 40 },
 
@@ -157,6 +155,8 @@ const styles = StyleSheet.create({
     mistakeIcon: { fontSize: 16, color: '#C62828', width: 20 },
     mistakeText: { flex: 1, fontSize: typography.small, color: '#5D4037', lineHeight: 20 },
 });
+
+const TABS = ['Templates', 'Phrases', 'Sample', 'Topics', 'Mistakes'];
 
 const TAB_ICONS = {
     Templates: '📝',

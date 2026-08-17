@@ -10,9 +10,6 @@ import hardTasks from '../../data/grammar_tasks_hard.json';
 import testEnglishTasks from '../../data/test_english_grammar_tasks.json';
 import { useAppState } from '../context/AppState';
 
-const tasks = [...baseTasks, ...hardTasks, ...testEnglishTasks].map((item) => {
-  const id = String(item?.id || '');
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl,
@@ -405,6 +402,8 @@ const styles = StyleSheet.create({
   }
 });
 
+const tasks = [...baseTasks, ...hardTasks, ...testEnglishTasks].map((item) => {
+  const id = String(item?.id || '');
   const title = String(item?.title || '');
   // Strip markdown markers so task cards never show raw '###' or '**' glyphs.
   const explain = String(item?.explanation || item?.explain || '')

@@ -9,17 +9,6 @@ import { colors, typography, spacing, radius, shadow } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import bueptScoredEssays from '../../data/buept_scored_essays.json';
 
-const BAND_STYLE = {
-  E: { color: '#16a34a', label: 'Excellent', labelAlt: 'E' },
-  VG: { color: '#0d9488', label: 'Very Good', labelAlt: 'VG' },
-  MA: { color: '#2563eb', label: 'More Than Adequate', labelAlt: 'MA' },
-  A: { color: '#0891b2', label: 'Adequate', labelAlt: 'A' },
-  D: { color: '#d97706', label: 'Doubtful', labelAlt: 'D' },
-  NA: { color: '#ea580c', label: 'Not Adequate', labelAlt: 'NA' },
-  FBA: { color: '#dc2626', label: 'Far Below Adequate', labelAlt: 'FBA' },
-  INS: { color: '#b91c1c', label: 'Insufficient', labelAlt: 'INS' },
-};
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xxl,
@@ -324,6 +313,17 @@ const styles = StyleSheet.create({
     lineHeight: 15,
   },
 });
+
+const BAND_STYLE = {
+  E: { color: '#16a34a', label: 'Excellent', labelAlt: 'E' },
+  VG: { color: '#0d9488', label: 'Very Good', labelAlt: 'VG' },
+  MA: { color: '#2563eb', label: 'More Than Adequate', labelAlt: 'MA' },
+  A: { color: '#0891b2', label: 'Adequate', labelAlt: 'A' },
+  D: { color: '#d97706', label: 'Doubtful', labelAlt: 'D' },
+  NA: { color: '#ea580c', label: 'Not Adequate', labelAlt: 'NA' },
+  FBA: { color: '#dc2626', label: 'Far Below Adequate', labelAlt: 'FBA' },
+  INS: { color: '#b91c1c', label: 'Insufficient', labelAlt: 'INS' },
+};
 
 const PASS_BANNER = {
   E: 'Passing — official WASC expectation exceeded',

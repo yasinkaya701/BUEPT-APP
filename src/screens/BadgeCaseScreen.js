@@ -6,9 +6,6 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import { BADGE_DEFS } from '../utils/gamification';
 import { useAppState } from '../context/AppState';
 
-export default function BadgeCaseScreen({ navigation }) {
-  const { badges = [], streakDays, userWords, wordLabWords, readingDone, listeningDone, grammarDone, writingDone, mockCount, mockMaxScore, perfectQuiz } = useAppState();
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xxl,
@@ -169,6 +166,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default function BadgeCaseScreen({ navigation }) {
+  const { badges = [], streakDays, userWords, wordLabWords, readingDone, listeningDone, grammarDone, writingDone, mockCount, mockMaxScore, perfectQuiz } = useAppState();
 
   const held = useMemo(() => new Set(Array.isArray(badges) ? badges : []), [badges]);
 

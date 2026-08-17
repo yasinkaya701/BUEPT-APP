@@ -6,13 +6,6 @@ import { colors, spacing, typography, radius } from '../../theme/tokens';
 import { useAppState } from '../../context/AppState';
 import { levelFromXP } from '../../utils/gamification';
 
-const ROUTE_BY_FOCUS = {
-    reading: 'Reading',
-    listening: 'Listening',
-    grammar: 'Grammar',
-    writing: 'Writing',
-};
-
 const styles = StyleSheet.create({
     hero: {
         marginBottom: spacing.lg,
@@ -152,6 +145,13 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     }
 });
+
+const ROUTE_BY_FOCUS = {
+    reading: 'Reading',
+    listening: 'Listening',
+    grammar: 'Grammar',
+    writing: 'Writing',
+};
 
 function formatFocusLabel(value) {
     if (!value) return 'Study';

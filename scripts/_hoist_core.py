@@ -115,7 +115,11 @@ def hoist_file(path):
     for line_m in re.finditer(r'^import .*?$', before, re.M):
         # start of a (possibly multi-line) import statement
         k = line_m.end()
-        # consume continuation lines until the statement ends with `;` (strings aware)
+        # If the import line already ends with `;` the statement is complete; stop here.
+        if k > 0 and before[k - 1] == ';':
+            last_import = k
+            continue
+        # Otherwise consume continuation lines until the statement ends with `;` (strings aware)
         depth = 0
         in_str = None
         while k < len(before) and before[k] != ';':

@@ -4,8 +4,6 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppState } from '../context/AppState';
 
-const BG_IMAGE = require('../assets/images/real_south_gate.jpg');
-
 const styles = StyleSheet.create({
     bgImage: { flex: 1, width: '100%', height: '100%' },
     overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.45)' },
@@ -76,6 +74,8 @@ const styles = StyleSheet.create({
     switchBtnText: { fontSize: 15, color: colors.muted, fontWeight: '600' },
     switchLink: { color: colors.primary, fontWeight: '800' },
 });
+
+const BG_IMAGE = require('../assets/images/real_south_gate.jpg');
 
 export default function LoginScreen({ navigation }) {
     const { login, userProfile } = useAppState();

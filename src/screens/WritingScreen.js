@@ -14,8 +14,6 @@ import MetricRail, { MetricTile } from '../components/ui/MetricRail';
 import SectionHeader from '../components/ui/SectionHeader';
 import FilterBar, { FilterChip } from '../components/ui/FilterBar';
 
-const TYPES = ['opinion', 'definition', 'cause_effect', 'problem_solution', 'compare_contrast', 'argumentative', 'reaction'];
-
 const styles = StyleSheet.create({
   cardInner: {
     paddingHorizontal: spacing.sm,
@@ -176,6 +174,7 @@ const styles = StyleSheet.create({
   exprText: { fontSize: 15, color: '#334155', flex: 1, lineHeight: 22, fontWeight: '500' }
 });
 
+const TYPES = ['opinion', 'definition', 'cause_effect', 'problem_solution', 'compare_contrast', 'argumentative', 'reaction'];
 const TASKS = ['paragraph', 'essay'];
 
 const START_PATHS = [

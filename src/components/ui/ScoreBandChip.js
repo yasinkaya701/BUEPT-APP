@@ -2,14 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
-export const BANDS = {
-  EXCELLENT: { label: '90+', color: colors.success, bg: colors.successLight },
-  STRONG: { label: '80–89', color: colors.primary, bg: colors.primaryLight },
-  GOOD: { label: '70–79', color: '#2563EB', bg: colors.tintBlue },
-  BORDERLINE: { label: '60–69', color: colors.accentBright, bg: colors.warningLight },
-  BELOW: { label: '<60', color: colors.error, bg: colors.errorLight },
-};
-
 const styles = StyleSheet.create({
   chip: {
     flexDirection: 'row',
@@ -52,6 +44,14 @@ const styles = StyleSheet.create({
     fontSize: typography.small,
   },
 });
+
+export const BANDS = {
+  EXCELLENT: { label: '90+', color: colors.success, bg: colors.successLight },
+  STRONG: { label: '80–89', color: colors.primary, bg: colors.primaryLight },
+  GOOD: { label: '70–79', color: '#2563EB', bg: colors.tintBlue },
+  BORDERLINE: { label: '60–69', color: colors.accentBright, bg: colors.warningLight },
+  BELOW: { label: '<60', color: colors.error, bg: colors.errorLight },
+};
 
 export function bandForScore(score, total = 100) {
   if (typeof score !== 'number' || typeof total !== 'number' || total === 0) return BANDS.BELOW;

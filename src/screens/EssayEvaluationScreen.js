@@ -7,8 +7,6 @@ import { colors, spacing, typography, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
 
-const TRANSITION_WORDS = ['furthermore', 'moreover', 'however', 'therefore', 'consequently', 'nevertheless', 'in addition', 'on the other hand', 'thus', 'subsequently', 'in contrast', 'significantly', 'notably', 'conversely', 'as a result', 'in particular', 'typically', 'generally', 'to illustrate'];
-
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#F8FAFC',
@@ -336,6 +334,7 @@ const styles = StyleSheet.create({
     },
 });
 
+const TRANSITION_WORDS = ['furthermore', 'moreover', 'however', 'therefore', 'consequently', 'nevertheless', 'in addition', 'on the other hand', 'thus', 'subsequently', 'in contrast', 'significantly', 'notably', 'conversely', 'as a result', 'in particular', 'typically', 'generally', 'to illustrate'];
 const ACADEMIC_WORDS = ['analyze', 'evaluate', 'synthesize', 'methodology', 'hypothesis', 'empirical', 'theoretical', 'paradigm', 'implication', 'comprehensive', 'validate', 'correlation', 'ambiguous', 'facilitate', 'perspective', 'framework', 'sustain', 'innovation', 'phenomenon', 'fundamental', 'transform', 'substantial', 'capacity', 'integrate', 'diminish', 'proponent', 'advocate', 'mitigate'];
 
 const BASIC_UPGRADES = {

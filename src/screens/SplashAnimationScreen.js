@@ -4,9 +4,6 @@ import { colors, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import LinearGradient from 'react-native-linear-gradient';
 
-export default function SplashAnimationScreen({ navigation }) {
-    const { userToken, authReady, onboarded } = useAppState();
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -95,6 +92,8 @@ const styles = StyleSheet.create({
     }
 });
 
+export default function SplashAnimationScreen({ navigation }) {
+    const { userToken, authReady, onboarded } = useAppState();
     const isWeb = Platform.OS === 'web';
     
     // Animation Values

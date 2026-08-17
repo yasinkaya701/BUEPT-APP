@@ -6,9 +6,6 @@ import Screen from '../components/Screen';
 import { colors, spacing, typography, radius } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
-export default function ProgressScreen({ navigation }) {
-  const { history, mockHistory, favoritePrompts, readingHistory, listeningHistory, grammarHistory } = useAppState();
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xxl
@@ -195,6 +192,8 @@ const styles = StyleSheet.create({
   }
 });
 
+export default function ProgressScreen({ navigation }) {
+  const { history, mockHistory, favoritePrompts, readingHistory, listeningHistory, grammarHistory } = useAppState();
   const count = history.length;
   const latestMock = mockHistory[0]?.result;
 

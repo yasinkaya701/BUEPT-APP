@@ -6,8 +6,6 @@ import { useAppState } from '../context/AppState';
 import specializedDecks from '../../data/specialized_flashcards.json';
 import wascQuizletDecks from '../../data/wasc_quizlet_decks.json';
 
-const AWL_STATS = { total: 534, mastered: 120, learning: 45 };
-
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0F172A' },
   scrollContent: { padding: spacing.lg },
@@ -169,7 +167,8 @@ const styles = StyleSheet.create({
   emptyResultTitle: { color: '#fff', fontSize: 16, fontWeight: '800' },
   emptyResultBody: { color: 'rgba(255,255,255,0.45)', fontSize: 13 },
 });
- // Simulated stats
+
+const AWL_STATS = { total: 534, mastered: 120, learning: 45 }; // Simulated stats
 
 export default function FlashcardHomeScreen({ navigation }) {
   const { customDecks, deleteCustomDeck, restoreCustomDeck } = useAppState();

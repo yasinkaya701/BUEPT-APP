@@ -16,8 +16,6 @@ import baseTasks from '../../data/grammar_tasks.json';
 import hardTasks from '../../data/grammar_tasks_hard.json';
 import testEnglishTasks from '../../data/test_english_grammar_tasks.json';
 
-const ALL_TASKS = [...baseTasks, ...hardTasks, ...testEnglishTasks];
-
 const styles = StyleSheet.create({
   container: { paddingBottom: spacing.xl, backgroundColor: colors.background || '#FFFFFF' },
   headerRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.md },
@@ -40,6 +38,8 @@ const styles = StyleSheet.create({
   progressTrack: { height: 6, backgroundColor: '#E5E7EB', borderRadius: 999, marginTop: spacing.xs, overflow: 'hidden' },
   progressFill: { height: 6, backgroundColor: colors.primary, borderRadius: 999 },
 });
+
+const ALL_TASKS = [...baseTasks, ...hardTasks, ...testEnglishTasks];
 
 const DRILL_LENGTH = 10;
 

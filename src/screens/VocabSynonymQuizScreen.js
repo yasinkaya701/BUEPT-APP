@@ -19,10 +19,6 @@ import { useAppState } from '../context/AppState';
 import { speakText } from '../hooks/useTts';
 import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
 
-/** Fisher-Yates shuffle — inline to avoid any module resolution issues */
-function shuffle(arr) {
-  const result = Array.isArray(arr) ? [...arr] : [];
-
 const styles = StyleSheet.create({
   container: { paddingBottom: 40 },
   startContainer: { paddingBottom: 40, alignItems: 'center', justifyContent: 'center', flex: 1 },
@@ -87,6 +83,9 @@ const styles = StyleSheet.create({
   bandLabel: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.text, textAlign: 'center', marginBottom: spacing.xs },
 });
 
+/** Fisher-Yates shuffle — inline to avoid any module resolution issues */
+function shuffle(arr) {
+  const result = Array.isArray(arr) ? [...arr] : [];
   for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [result[i], result[j]] = [result[j], result[i]];

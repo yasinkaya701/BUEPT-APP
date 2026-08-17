@@ -5,13 +5,6 @@ import { colors, spacing, typography } from '../../theme/tokens';
 import { useAppState } from '../../context/AppState';
 import { buildAdaptivePlan } from '../../utils/studyPlan';
 
-const WEAK_ACTION_MAP = {
-  reading: { label: 'Train Reading', route: 'Reading', icon: 'book-outline', bg: colors.primarySoft, iconColor: colors.primary },
-  listening: { label: 'Train Listening', route: 'Listening', icon: 'headset-outline', bg: colors.skillSoft.listening, iconColor: colors.skill.listening },
-  grammar: { label: 'Train Grammar', route: 'Grammar', icon: 'flash-outline', bg: '#FEF3C7', iconColor: '#92400E' },
-  writing: { label: 'Write Now', route: 'Writing', icon: 'create-outline', bg: '#FFF7ED', iconColor: '#9A3412' },
-};
-
 const styles = StyleSheet.create({
   scrollSection: {
     marginHorizontal: -spacing.md,
@@ -74,6 +67,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
+
+const WEAK_ACTION_MAP = {
+  reading: { label: 'Train Reading', route: 'Reading', icon: 'book-outline', bg: colors.primarySoft, iconColor: colors.primary },
+  listening: { label: 'Train Listening', route: 'Listening', icon: 'headset-outline', bg: colors.skillSoft.listening, iconColor: colors.skill.listening },
+  grammar: { label: 'Train Grammar', route: 'Grammar', icon: 'flash-outline', bg: '#FEF3C7', iconColor: '#92400E' },
+  writing: { label: 'Write Now', route: 'Writing', icon: 'create-outline', bg: '#FFF7ED', iconColor: '#9A3412' },
+};
 
 const FALLBACK_ACTION = {
   label: 'Resources',

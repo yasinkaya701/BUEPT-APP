@@ -24,9 +24,6 @@ import LearningPaths from '../components/Home/LearningPaths';
 import DailyTasks from '../components/Home/DailyTasks';
 import FeatureGrid from '../components/Home/FeatureGrid';
 
-function calcAccuracy(history = []) {
-  const recent = Array.isArray(history) ? history.slice(0, 5) : [];
-
 const styles = StyleSheet.create({
   container: { paddingBottom: 120 },
 
@@ -162,6 +159,8 @@ const styles = StyleSheet.create({
   flexOne: { flex: 1 }
 });
 
+function calcAccuracy(history = []) {
+  const recent = Array.isArray(history) ? history.slice(0, 5) : [];
   let correct = 0;
   let total = 0;
   recent.forEach((item) => {

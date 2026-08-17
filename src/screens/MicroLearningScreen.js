@@ -7,42 +7,6 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { speakEnglish } from '../utils/ttsEnglish';
 
-const MICRO_PACKS = [
-    {
-        id: 'core',
-        label: 'Core Academic',
-        subtitle: 'High-frequency academic terms',
-        cards: [
-            { id: '1', term: 'Ubiquitous', type: 'Adj', def: 'Present or appearing everywhere in a context.', ex: 'Digital platforms are now ubiquitous in university life.', note: 'Useful for reading passages about technology or society.' },
-            { id: '2', term: 'Paradigm', type: 'Noun', def: 'A model or pattern that shapes how something is understood.', ex: 'The article describes a new paradigm in language assessment.', note: 'Common in academic reading and presentation tasks.' },
-            { id: '3', term: 'Empirical', type: 'Adj', def: 'Based on observation, evidence, or experience rather than theory alone.', ex: 'The report relies on empirical evidence from several case studies.', note: 'High-value word for BUEPT writing and reading.' },
-            { id: '4', term: 'Synthesis', type: 'Noun', def: 'A combination of ideas or materials into a unified whole.', ex: 'The conclusion requires a synthesis of the main arguments.', note: 'Strong word for summary and essay tasks.' },
-        ],
-    },
-    {
-        id: 'writing',
-        label: 'Writing Moves',
-        subtitle: 'Terms for essays and feedback',
-        cards: [
-            { id: '5', term: 'Coherent', type: 'Adj', def: 'Logical, well-organized, and easy to follow.', ex: 'A coherent paragraph guides the reader smoothly.', note: 'Use when discussing organization or paragraph quality.' },
-            { id: '6', term: 'Justify', type: 'Verb', def: 'To give clear reasons or evidence in support of something.', ex: 'You must justify the claim with relevant evidence.', note: 'Essential for task response and argumentation.' },
-            { id: '7', term: 'Concise', type: 'Adj', def: 'Expressing much information clearly and in few words.', ex: 'A concise thesis statement improves control and clarity.', note: 'Useful in feedback and revision language.' },
-            { id: '8', term: 'Evaluate', type: 'Verb', def: 'To judge the value, quality, or significance of something carefully.', ex: 'The prompt asks students to evaluate both advantages and risks.', note: 'Frequent in B2-C1 prompts.' },
-        ],
-    },
-    {
-        id: 'seminar',
-        label: 'Seminar Talk',
-        subtitle: 'Speaking and presentation language',
-        cards: [
-            { id: '9', term: 'Illustrate', type: 'Verb', def: 'To explain or clarify by using examples.', ex: 'The speaker used a graph to illustrate the trend.', note: 'Useful for presentations and explanation tasks.' },
-            { id: '10', term: 'Inference', type: 'Noun', def: 'A conclusion reached from evidence and reasoning.', ex: 'The listener must make an inference from the lecture.', note: 'High-value reading and listening term.' },
-            { id: '11', term: 'Heuristic', type: 'Adj', def: 'Helping someone discover or learn by active problem-solving.', ex: 'The instructor used a heuristic method in the discussion.', note: 'Advanced academic vocabulary with strong demo value.' },
-            { id: '12', term: 'Dichotomy', type: 'Noun', def: 'A sharp division between two opposing ideas or categories.', ex: 'The article challenges the false dichotomy between theory and practice.', note: 'Good term for higher-level speaking and essay topics.' },
-        ],
-    },
-];
-
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
@@ -291,6 +255,42 @@ const styles = StyleSheet.create({
     navText: { fontSize: 16, fontWeight: '800', color: colors.primary, marginHorizontal: 8 },
     navTextDisabled: { color: colors.muted },
 });
+
+const MICRO_PACKS = [
+    {
+        id: 'core',
+        label: 'Core Academic',
+        subtitle: 'High-frequency academic terms',
+        cards: [
+            { id: '1', term: 'Ubiquitous', type: 'Adj', def: 'Present or appearing everywhere in a context.', ex: 'Digital platforms are now ubiquitous in university life.', note: 'Useful for reading passages about technology or society.' },
+            { id: '2', term: 'Paradigm', type: 'Noun', def: 'A model or pattern that shapes how something is understood.', ex: 'The article describes a new paradigm in language assessment.', note: 'Common in academic reading and presentation tasks.' },
+            { id: '3', term: 'Empirical', type: 'Adj', def: 'Based on observation, evidence, or experience rather than theory alone.', ex: 'The report relies on empirical evidence from several case studies.', note: 'High-value word for BUEPT writing and reading.' },
+            { id: '4', term: 'Synthesis', type: 'Noun', def: 'A combination of ideas or materials into a unified whole.', ex: 'The conclusion requires a synthesis of the main arguments.', note: 'Strong word for summary and essay tasks.' },
+        ],
+    },
+    {
+        id: 'writing',
+        label: 'Writing Moves',
+        subtitle: 'Terms for essays and feedback',
+        cards: [
+            { id: '5', term: 'Coherent', type: 'Adj', def: 'Logical, well-organized, and easy to follow.', ex: 'A coherent paragraph guides the reader smoothly.', note: 'Use when discussing organization or paragraph quality.' },
+            { id: '6', term: 'Justify', type: 'Verb', def: 'To give clear reasons or evidence in support of something.', ex: 'You must justify the claim with relevant evidence.', note: 'Essential for task response and argumentation.' },
+            { id: '7', term: 'Concise', type: 'Adj', def: 'Expressing much information clearly and in few words.', ex: 'A concise thesis statement improves control and clarity.', note: 'Useful in feedback and revision language.' },
+            { id: '8', term: 'Evaluate', type: 'Verb', def: 'To judge the value, quality, or significance of something carefully.', ex: 'The prompt asks students to evaluate both advantages and risks.', note: 'Frequent in B2-C1 prompts.' },
+        ],
+    },
+    {
+        id: 'seminar',
+        label: 'Seminar Talk',
+        subtitle: 'Speaking and presentation language',
+        cards: [
+            { id: '9', term: 'Illustrate', type: 'Verb', def: 'To explain or clarify by using examples.', ex: 'The speaker used a graph to illustrate the trend.', note: 'Useful for presentations and explanation tasks.' },
+            { id: '10', term: 'Inference', type: 'Noun', def: 'A conclusion reached from evidence and reasoning.', ex: 'The listener must make an inference from the lecture.', note: 'High-value reading and listening term.' },
+            { id: '11', term: 'Heuristic', type: 'Adj', def: 'Helping someone discover or learn by active problem-solving.', ex: 'The instructor used a heuristic method in the discussion.', note: 'Advanced academic vocabulary with strong demo value.' },
+            { id: '12', term: 'Dichotomy', type: 'Noun', def: 'A sharp division between two opposing ideas or categories.', ex: 'The article challenges the false dichotomy between theory and practice.', note: 'Good term for higher-level speaking and essay topics.' },
+        ],
+    },
+];
 
 export default function MicroLearningScreen({ navigation }) {
     const [packId, setPackId] = useState(MICRO_PACKS[0].id);

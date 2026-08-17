@@ -6,12 +6,6 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import { colors, spacing, typography } from '../theme/tokens';
 
-const FALLBACK_LINKS = [
-  { id: 'calendar', label: 'Academic Calendar', url: 'https://akademiktakvim.bogazici.edu.tr/en' },
-  { id: 'yadyok', label: 'YADYOK', url: 'https://yadyok.bogazici.edu.tr/en' },
-  { id: 'buept_info', label: 'BUEPT Info', url: 'https://yadyok.bogazici.edu.tr/en/pages/buept/2440' },
-];
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -67,6 +61,12 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
   },
 });
+
+const FALLBACK_LINKS = [
+  { id: 'calendar', label: 'Academic Calendar', url: 'https://akademiktakvim.bogazici.edu.tr/en' },
+  { id: 'yadyok', label: 'YADYOK', url: 'https://yadyok.bogazici.edu.tr/en' },
+  { id: 'buept_info', label: 'BUEPT Info', url: 'https://yadyok.bogazici.edu.tr/en/pages/buept/2440' },
+];
 
 function normalizeUrl(input) {
   const raw = String(input || '').trim();

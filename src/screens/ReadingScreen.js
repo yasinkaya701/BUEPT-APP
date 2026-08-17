@@ -16,8 +16,6 @@ import baseTasks from '../../data/reading_tasks.json';
 import hardTasks from '../../data/reading_tasks_hard.json';
 import clozeTasks from '../../data/reading_cloze.json';
 
-const tasks = [...baseTasks, ...hardTasks, ...clozeTasks];
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl,
@@ -483,6 +481,7 @@ const styles = StyleSheet.create({
   },
 });
 
+const tasks = [...baseTasks, ...hardTasks, ...clozeTasks];
 const LEVEL_OPTIONS = ['ALL', 'P1', 'P2', 'P3', 'P4'];
 const FORMAT_OPTIONS = [
   { key: 'ALL', label: 'All formats' },

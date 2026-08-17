@@ -2,19 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors, spacing, typography, radius } from '../theme/tokens';
 
-/**
- * React Error Boundary — catches JS errors in the child tree.
- * Wrap any critical screen or component to prevent full app crashes.
- *
- * Usage:
- *   <ErrorBoundary fallbackTitle="AI Bağlantısı Başarısız">
- *     <ChatbotScreen />
- *   </ErrorBoundary>
- */
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -72,6 +59,18 @@ const styles = StyleSheet.create({
   },
 });
 
+/**
+ * React Error Boundary — catches JS errors in the child tree.
+ * Wrap any critical screen or component to prevent full app crashes.
+ *
+ * Usage:
+ *   <ErrorBoundary fallbackTitle="AI Bağlantısı Başarısız">
+ *     <ChatbotScreen />
+ *   </ErrorBoundary>
+ */
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = { hasError: false, error: null };
   }
 

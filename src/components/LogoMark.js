@@ -2,9 +2,6 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { typography } from '../theme/tokens';
 
-export default function LogoMark({ size = 40, label }) {
-  const fs = Math.round(size * 0.36);
-
 const styles = StyleSheet.create({
   outer: {
     backgroundColor: 'rgba(255,255,255,0.15)',
@@ -26,6 +23,8 @@ const styles = StyleSheet.create({
   },
 });
 
+export default function LogoMark({ size = 40, label }) {
+  const fs = Math.round(size * 0.36);
   return (
     <View style={[styles.outer, { width: size, height: size, borderRadius: size / 2 }]}>
       <View style={[styles.inner, { width: size - 6, height: size - 6, borderRadius: (size - 6) / 2 }]}>

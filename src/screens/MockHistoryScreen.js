@@ -5,9 +5,6 @@ import Screen from '../components/Screen';
 import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
-export default function MockHistoryScreen({ navigation }) {
-  const { mockHistory } = useAppState();
-
 const styles = StyleSheet.create({
   content: {
     paddingBottom: spacing.xl
@@ -35,6 +32,9 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg
   }
 });
+
+export default function MockHistoryScreen({ navigation }) {
+  const { mockHistory } = useAppState();
 
   const openMock = (result) => {
     navigation.navigate('MockResult', { result });

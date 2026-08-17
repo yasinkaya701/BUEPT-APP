@@ -4,9 +4,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, shadow } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
-export default function BueptChatButton({ navigationRef, currentRouteName }) {
-  const { isFocusMode } = useAppState();
-
 const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
@@ -23,6 +20,8 @@ const styles = StyleSheet.create({
   },
 });
 
+export default function BueptChatButton({ navigationRef, currentRouteName }) {
+  const { isFocusMode } = useAppState();
   // Don't show on certain screens like Splash, Login, Signup or Chatbot itself
   const hideOn = ['Splash', 'Onboarding', 'Login', 'Signup', 'Chatbot', 'SplashAnimation'];
   if (hideOn.includes(currentRouteName) || isFocusMode) return null;

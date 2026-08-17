@@ -6,9 +6,6 @@ import { useTts } from '../hooks/useTts';
 import { colors, spacing, typography } from '../theme/tokens';
 import confusingPairs from '../../data/confusing_pronunciations.json';
 
-function WordPairCard({ item, practiceMode, speakText }) {
-    const speakA = () => speakText(item.pair[0]);
-
 const styles = StyleSheet.create({
     container: {
         paddingTop: spacing.md,
@@ -253,6 +250,8 @@ const styles = StyleSheet.create({
     },
 });
 
+function WordPairCard({ item, practiceMode, speakText }) {
+    const speakA = () => speakText(item.pair[0]);
     const speakB = () => speakText(item.pair[1]);
     const [revealed, setRevealed] = useState(!practiceMode);
 

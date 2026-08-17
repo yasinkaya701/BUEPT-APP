@@ -8,69 +8,6 @@ import { colors, typography, spacing, radius, shadow } from '../theme/tokens';
 import { ScoreBandChip, TabPill, EmptyState } from '../components/ui';
 import { useAppState } from '../context/AppState';
 
-const PASSAGES = [
-  {
-    id: 'pr-urban-heat',
-    level: 'P2',
-    title: 'Urban Heat Islands',
-    paragraphs: [
-      'Cities are consistently warmer than the surrounding countryside. This phenomenon, known as the urban heat island effect, happens because dense concentrations of buildings, roads, and pavements absorb and retain the sun\'s heat during the day.',
-      'Another major factor is the reduction of green space. Trees and vegetation cool the air through evaporation, a process that is severely limited when concrete replaces soil and grass.',
-      'Researchers have proposed several solutions, including reflective roof materials, urban forestry programs, and "cool pavement" technologies that reduce surface temperatures by reflecting rather than absorbing sunlight.',
-      'Studies from Athens and Phoenix show that well-planned interventions can lower daytime surface temperatures by up to five degrees, which in turn reduces the energy demand for air conditioning.',
-    ],
-    statements: [
-      { text: 'Urban areas tend to be hotter than nearby rural regions.', match: 0, type: 'Explicit' },
-      { text: 'Vegetation helps regulate urban temperatures naturally.', match: 1, type: 'Explicit' },
-      { text: 'Reflective building materials are among the proposed remedies.', match: 2, type: 'Explicit' },
-      { text: 'Temperature reductions have been measured in specific cities.', match: 3, type: 'Explicit' },
-      { text: 'Heat islands increase cooling costs for residents.', match: 3, type: 'Inference' },
-      { text: 'The problem worsens at night when surfaces release stored heat.', match: -1, type: 'NG' },
-    ],
-    questionType: 'matching',
-  },
-  {
-    id: 'pr-sleep-memory',
-    level: 'P3',
-    title: 'Sleep and Memory Consolidation',
-    paragraphs: [
-      'During sleep, the brain actively processes experiences from the day. Scientists now believe that this process, called memory consolidation, transfers information from short-term storage to more permanent neural networks.',
-      'Slow-wave sleep appears especially critical for factual memory. Experiments that disrupted this stage found significant impairments in participants\' ability to recall newly learned vocabulary and dates.',
-      'REM sleep, by contrast, seems to support emotional and procedural learning. Dream-rich sleep helps people integrate new skills, from playing an instrument to navigating complex social situations.',
-      'The practical implication for students is clear: cramming all night before an exam undermines the very process that makes learning stick. Consistent sleep schedules outperform extended study marathons.',
-    ],
-    statements: [
-      { text: 'The brain reorganizes daily experiences while we sleep.', match: 0, type: 'Explicit' },
-      { text: 'Deep sleep stages are essential for remembering facts.', match: 1, type: 'Explicit' },
-      { text: 'REM sleep contributes to learning physical and emotional skills.', match: 2, type: 'Explicit' },
-      { text: 'Short, regular sleep is more beneficial than long study sessions.', match: 3, type: 'Explicit' },
-      { text: 'Pulling an all-nighter weakens long-term retention.', match: 3, type: 'Inference' },
-      { text: 'Teenagers need more sleep than adults to consolidate memory.', match: -1, type: 'NG' },
-    ],
-    questionType: 'matching',
-  },
-  {
-    id: 'pr-language-attrition',
-    level: 'P3',
-    title: 'First Language Attrition',
-    paragraphs: [
-      'People who live abroad for many years sometimes notice that their native language feels less fluent. Linguists call this first language attrition, and it is far more common than most people assume.',
-      'The strongest predictor is not time away but daily usage. Immigrants who speak their mother tongue every day retain far more fluency than those who use it only on special occasions.',
-      'Interestingly, attrition affects less frequent vocabulary before basic grammar. Long-time emigrants may forget the word for a specific kitchen utensil while their core sentence structures remain untouched.',
-      'Recent studies suggest the process is reversible. Intensive re-immersion courses have restored native-like fluency in adult learners within a single academic year.',
-    ],
-    statements: [
-      { text: 'Long-term residents abroad may experience a decline in native fluency.', match: 0, type: 'Explicit' },
-      { text: 'Daily use of the first language slows down attrition.', match: 1, type: 'Explicit' },
-      { text: 'Rare words are lost before fundamental grammatical patterns.', match: 2, type: 'Explicit' },
-      { text: 'Targeted training can rebuild lost fluency.', match: 3, type: 'Explicit' },
-      { text: 'The decline is stronger in children than adults.', match: -1, type: 'NG' },
-      { text: 'Losing vocabulary does not necessarily mean losing fluency.', match: 2, type: 'Inference' },
-    ],
-    questionType: 'matching',
-  },
-];
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xxl,
@@ -222,6 +159,69 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
 });
+
+const PASSAGES = [
+  {
+    id: 'pr-urban-heat',
+    level: 'P2',
+    title: 'Urban Heat Islands',
+    paragraphs: [
+      'Cities are consistently warmer than the surrounding countryside. This phenomenon, known as the urban heat island effect, happens because dense concentrations of buildings, roads, and pavements absorb and retain the sun\'s heat during the day.',
+      'Another major factor is the reduction of green space. Trees and vegetation cool the air through evaporation, a process that is severely limited when concrete replaces soil and grass.',
+      'Researchers have proposed several solutions, including reflective roof materials, urban forestry programs, and "cool pavement" technologies that reduce surface temperatures by reflecting rather than absorbing sunlight.',
+      'Studies from Athens and Phoenix show that well-planned interventions can lower daytime surface temperatures by up to five degrees, which in turn reduces the energy demand for air conditioning.',
+    ],
+    statements: [
+      { text: 'Urban areas tend to be hotter than nearby rural regions.', match: 0, type: 'Explicit' },
+      { text: 'Vegetation helps regulate urban temperatures naturally.', match: 1, type: 'Explicit' },
+      { text: 'Reflective building materials are among the proposed remedies.', match: 2, type: 'Explicit' },
+      { text: 'Temperature reductions have been measured in specific cities.', match: 3, type: 'Explicit' },
+      { text: 'Heat islands increase cooling costs for residents.', match: 3, type: 'Inference' },
+      { text: 'The problem worsens at night when surfaces release stored heat.', match: -1, type: 'NG' },
+    ],
+    questionType: 'matching',
+  },
+  {
+    id: 'pr-sleep-memory',
+    level: 'P3',
+    title: 'Sleep and Memory Consolidation',
+    paragraphs: [
+      'During sleep, the brain actively processes experiences from the day. Scientists now believe that this process, called memory consolidation, transfers information from short-term storage to more permanent neural networks.',
+      'Slow-wave sleep appears especially critical for factual memory. Experiments that disrupted this stage found significant impairments in participants\' ability to recall newly learned vocabulary and dates.',
+      'REM sleep, by contrast, seems to support emotional and procedural learning. Dream-rich sleep helps people integrate new skills, from playing an instrument to navigating complex social situations.',
+      'The practical implication for students is clear: cramming all night before an exam undermines the very process that makes learning stick. Consistent sleep schedules outperform extended study marathons.',
+    ],
+    statements: [
+      { text: 'The brain reorganizes daily experiences while we sleep.', match: 0, type: 'Explicit' },
+      { text: 'Deep sleep stages are essential for remembering facts.', match: 1, type: 'Explicit' },
+      { text: 'REM sleep contributes to learning physical and emotional skills.', match: 2, type: 'Explicit' },
+      { text: 'Short, regular sleep is more beneficial than long study sessions.', match: 3, type: 'Explicit' },
+      { text: 'Pulling an all-nighter weakens long-term retention.', match: 3, type: 'Inference' },
+      { text: 'Teenagers need more sleep than adults to consolidate memory.', match: -1, type: 'NG' },
+    ],
+    questionType: 'matching',
+  },
+  {
+    id: 'pr-language-attrition',
+    level: 'P3',
+    title: 'First Language Attrition',
+    paragraphs: [
+      'People who live abroad for many years sometimes notice that their native language feels less fluent. Linguists call this first language attrition, and it is far more common than most people assume.',
+      'The strongest predictor is not time away but daily usage. Immigrants who speak their mother tongue every day retain far more fluency than those who use it only on special occasions.',
+      'Interestingly, attrition affects less frequent vocabulary before basic grammar. Long-time emigrants may forget the word for a specific kitchen utensil while their core sentence structures remain untouched.',
+      'Recent studies suggest the process is reversible. Intensive re-immersion courses have restored native-like fluency in adult learners within a single academic year.',
+    ],
+    statements: [
+      { text: 'Long-term residents abroad may experience a decline in native fluency.', match: 0, type: 'Explicit' },
+      { text: 'Daily use of the first language slows down attrition.', match: 1, type: 'Explicit' },
+      { text: 'Rare words are lost before fundamental grammatical patterns.', match: 2, type: 'Explicit' },
+      { text: 'Targeted training can rebuild lost fluency.', match: 3, type: 'Explicit' },
+      { text: 'The decline is stronger in children than adults.', match: -1, type: 'NG' },
+      { text: 'Losing vocabulary does not necessarily mean losing fluency.', match: 2, type: 'Inference' },
+    ],
+    questionType: 'matching',
+  },
+];
 
 export default function PassageReaderScreen({ navigation }) {
   const { readingHistory = [] } = useAppState();

@@ -4,8 +4,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { spacing, motion, colors } from '../theme/tokens';
 
-const BG_IMAGE = require('../assets/images/boun_campus.png');
-
 const styles = StyleSheet.create({
   container: { flex: 1, minHeight: 0, backgroundColor: colors.bg },
   bgImageFull: { ...StyleSheet.absoluteFillObject, width: '100%', height: '100%', opacity: 1.0 },
@@ -37,6 +35,8 @@ const styles = StyleSheet.create({
   contentPhone: { paddingHorizontal: spacing.sm + 2 },
   animatedFill: { flex: 1, minHeight: 0 },
 });
+
+const BG_IMAGE = require('../assets/images/boun_campus.png');
 
 export default function Screen({
   children,

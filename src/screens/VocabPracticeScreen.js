@@ -6,8 +6,6 @@ import Button from '../components/Button';
 import { colors, spacing, typography } from '../theme/tokens';
 import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
 
-const TEST_ENGLISH_TOPICS = ['all', ...Array.from(new Set((testEnglishVocabItems || []).map((x) => String(x.topic || '').toLowerCase()).filter(Boolean)))];
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl
@@ -61,6 +59,7 @@ const styles = StyleSheet.create({
   }
 });
 
+const TEST_ENGLISH_TOPICS = ['all', ...Array.from(new Set((testEnglishVocabItems || []).map((x) => String(x.topic || '').toLowerCase()).filter(Boolean)))];
 const TEST_ENGLISH_LEVEL_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const TEST_ENGLISH_LEVELS = [
   'all',

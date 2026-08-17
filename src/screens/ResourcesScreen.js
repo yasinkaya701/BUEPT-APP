@@ -4,9 +4,6 @@ import Screen from '../components/Screen';
 import Card from '../components/Card';
 import { colors, spacing, typography } from '../theme/tokens';
 
-export default function ResourcesScreen({ navigation }) {
-  const goTab = (tab) => navigation.navigate("MainTabs", { screen: tab });
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl
@@ -78,6 +75,8 @@ const styles = StyleSheet.create({
   },
 });
 
+export default function ResourcesScreen({ navigation }) {
+  const goTab = (tab) => navigation.navigate("MainTabs", { screen: tab });
   return (
     <Screen scroll contentStyle={styles.container}>
       <Text style={styles.h1}>In-App Library</Text>

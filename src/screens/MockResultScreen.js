@@ -16,8 +16,6 @@ import Screen from '../components/Screen';
 import { colors, spacing, typography, radius } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import { buildMockAdvice } from '../utils/mockAdvice';
-// __APP_VARIANT__ is a build-time constant injected by webpack DefinePlugin (no module needed)
-const isOdtu = __APP_VARIANT__ === 'odtu';
 
 const styles = StyleSheet.create({
   container: { paddingHorizontal: spacing.md, paddingBottom: spacing.xl },
@@ -96,6 +94,9 @@ const styles = StyleSheet.create({
   },
   historyBtnText: { fontSize: 13, color: colors.primary, fontWeight: '700' },
 });
+
+// __APP_VARIANT__ is a build-time constant injected by webpack DefinePlugin (no module needed)
+const isOdtu = __APP_VARIANT__ === 'odtu';
 
 // ── CEFR helpers ─────────────────────────────────────────────────────────────
 const CEFR_LEVELS = ['A2', 'B1', 'B1+', 'B2', 'B2+', 'C1'];

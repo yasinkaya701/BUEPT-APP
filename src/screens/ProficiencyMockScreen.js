@@ -7,13 +7,6 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { isDemoAiConfigured, requestDemoModule } from '../utils/demoAi';
 
-const DEFAULT_MOCK_QUESTIONS = [
-    { id: 1, type: 'grammar', text: 'By the time the manager arrived, the team ________ the project.', options: ['has finished', 'have finished', 'had finished', 'was finishing'], correct: 2 },
-    { id: 2, type: 'reading', text: 'According to the passage, what is the primary cause of urban heat islands?', options: ['Increased vegetation', 'High concentration of dark surfaces', 'Ozone layer depletion', 'Wind patterns'], correct: 1 },
-    { id: 3, type: 'vocab', text: 'The new policy is designed to ________ the negative effects of the economic downturn.', options: ['ameliorate', 'exacerbate', 'proliferate', 'obfuscate'], correct: 0 },
-    { id: 4, type: 'grammar', text: 'Not only ________ late, but he also forgot his notes.', options: ['did he arrive', 'he arrived', 'he did arrive', 'arrived he'], correct: 0 }
-];
-
 const styles = StyleSheet.create({
     container: { flex: 1 },
     header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
@@ -86,6 +79,13 @@ const styles = StyleSheet.create({
     retryButton: { marginTop: spacing.xl },
     bottomSpacer: { height: 40 }
 });
+
+const DEFAULT_MOCK_QUESTIONS = [
+    { id: 1, type: 'grammar', text: 'By the time the manager arrived, the team ________ the project.', options: ['has finished', 'have finished', 'had finished', 'was finishing'], correct: 2 },
+    { id: 2, type: 'reading', text: 'According to the passage, what is the primary cause of urban heat islands?', options: ['Increased vegetation', 'High concentration of dark surfaces', 'Ozone layer depletion', 'Wind patterns'], correct: 1 },
+    { id: 3, type: 'vocab', text: 'The new policy is designed to ________ the negative effects of the economic downturn.', options: ['ameliorate', 'exacerbate', 'proliferate', 'obfuscate'], correct: 0 },
+    { id: 4, type: 'grammar', text: 'Not only ________ late, but he also forgot his notes.', options: ['did he arrive', 'he arrived', 'he did arrive', 'arrived he'], correct: 0 }
+];
 
 function normalizeQuestion(item = {}, idx = 0) {
     const options = Array.isArray(item.options) ? item.options.filter(Boolean).slice(0, 4) : [];

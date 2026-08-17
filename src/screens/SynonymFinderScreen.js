@@ -20,13 +20,6 @@ import { speakEnglish } from '../utils/ttsEnglish';
 import { lookupSynonymsForWord } from '../utils/synonymSuggest';
 import { subscribeSmokeActions } from '../dev/smokeBus';
 
-const CHIP_COLORS = {
-    synonym: { bg: '#E8F5E9', text: '#1B5E20', border: '#A5D6A7' },
-    antonym: { bg: '#FFEBEE', text: '#B71C1C', border: '#EF9A9A' },
-    collocation: { bg: '#E3F2FD', text: '#0D47A1', border: '#90CAF9' },
-    derivative: { bg: '#FFF3E0', text: '#BF360C', border: '#FFCC80' },
-};
-
 const styles = StyleSheet.create({
     container: { paddingBottom: spacing.xl },
     h1: {
@@ -241,6 +234,12 @@ const styles = StyleSheet.create({
     loadingText: { fontSize: typography.body, color: colors.primary, fontFamily: typography.fontHeadline },
 });
 
+const CHIP_COLORS = {
+    synonym: { bg: '#E8F5E9', text: '#1B5E20', border: '#A5D6A7' },
+    antonym: { bg: '#FFEBEE', text: '#B71C1C', border: '#EF9A9A' },
+    collocation: { bg: '#E3F2FD', text: '#0D47A1', border: '#90CAF9' },
+    derivative: { bg: '#FFF3E0', text: '#BF360C', border: '#FFCC80' },
+};
 const SEARCH_HISTORY_KEY = '@synonym_finder_history_v2';
 const STARTER_WORDS = ['significant', 'coherent', 'through', 'analyze', 'contribute', 'although'];
 const TIP_LINES = [

@@ -13,10 +13,6 @@ import Screen from '../components/Screen';
 import { colors, spacing, typography, radius } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
-// ── Mini Bar Chart ────────────────────────────────────────────────────────────
-function MiniBar({ value, max, color, label }) {
-  const pct = max > 0 ? Math.max(0, Math.min(100, (value / max) * 100)) : 0;
-
 const styles = StyleSheet.create({
   container: { paddingHorizontal: spacing.md, paddingBottom: spacing.xl },
   header: { paddingVertical: spacing.lg, alignItems: 'center' },
@@ -66,6 +62,9 @@ const styles = StyleSheet.create({
   radarLegendItem: { fontSize: typography.xsmall, color: colors.muted, fontFamily: typography.fontHeadline },
 });
 
+// ── Mini Bar Chart ────────────────────────────────────────────────────────────
+function MiniBar({ value, max, color, label }) {
+  const pct = max > 0 ? Math.max(0, Math.min(100, (value / max) * 100)) : 0;
   return (
     <View style={styles.miniBarRow}>
       <Text style={styles.miniBarLabel} numberOfLines={1}>{label}</Text>

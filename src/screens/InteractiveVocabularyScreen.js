@@ -10,8 +10,6 @@ import { isDemoAiConfigured, requestDemoModule } from '../utils/demoAi';
 import { getWordEntry, getWordFamily } from '../utils/dictionary';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
 
-const STARTER_TERMS = ['significant', 'analyze', 'equilibrium', 'synthesis'];
-
 const styles = StyleSheet.create({
     container: { flex: 1 },
     keyboard: { flex: 1 },
@@ -232,6 +230,8 @@ const styles = StyleSheet.create({
     suggestionChip: { backgroundColor: colors.primarySoft, paddingHorizontal: 14, paddingVertical: 8, borderRadius: radius.pill },
     suggestionTxt: { fontSize: 13, fontWeight: '700', color: colors.primaryDark },
 });
+
+const STARTER_TERMS = ['significant', 'analyze', 'equilibrium', 'synthesis'];
 
 // Word Family: shows how a word transforms across parts of speech
 const DICTIONARY_API_MOCK = {

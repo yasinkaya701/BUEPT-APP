@@ -5,9 +5,6 @@ import Screen from '../components/Screen';
 import { colors, spacing, typography } from '../theme/tokens';
 import { loadDraftSnapshots } from '../utils/essayStorage';
 
-export default function DraftsScreen({ navigation }) {
-  const [drafts, setDrafts] = useState([]);
-
 const styles = StyleSheet.create({
   content: {
     paddingBottom: spacing.xl
@@ -35,6 +32,9 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg
   }
 });
+
+export default function DraftsScreen({ navigation }) {
+  const [drafts, setDrafts] = useState([]);
 
   useEffect(() => {
     loadDraftSnapshots().then(setDrafts);

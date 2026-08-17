@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Animated, ImageBackground } from 'react-native';
 
-const BG_IMAGE = require('../assets/images/boun_splash.png');
-
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
@@ -99,6 +97,8 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
 });
+
+const BG_IMAGE = require('../assets/images/boun_splash.png');
 
 export default function SplashScreen({ onFinish }) {
   const bgOpacity = useRef(new Animated.Value(0)).current;

@@ -26,9 +26,6 @@ import { getOdtuMocks } from '../data/offlineMocksOdtu';
 import { useAppState } from '../context/AppState';
 import { useUniversity } from '../context/UniversityContext';
 
-export default function AIMockGeneratorScreen({ navigation }) {
-  const { addXp } = useAppState();
-
 const styles = StyleSheet.create({
   container: { paddingBottom: spacing.xl },
   header: {
@@ -117,6 +114,8 @@ const styles = StyleSheet.create({
   startBtn: { marginHorizontal: spacing.xl, marginVertical: spacing.md },
 });
 
+export default function AIMockGeneratorScreen({ navigation }) {
+  const { addXp } = useAppState();
   const { university, uniKey } = useUniversity();
   const isOdtu = uniKey === 'odtu';
   const offlineExams = isOdtu ? getOdtuMocks() : getOfflineMocks();

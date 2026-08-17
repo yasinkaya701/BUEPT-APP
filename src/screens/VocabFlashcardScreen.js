@@ -7,10 +7,6 @@ import { useAppState } from '../context/AppState';
 import { speakEnglish } from '../utils/ttsEnglish';
 import academicWordlist from '../../data/academic_wordlist.json';
 
-// Minimal shuffle helper
-function shuffle(array) {
-  const result = [...array];
-
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0F172A' }, // Deep Navy Premium
   header: {
@@ -327,6 +323,9 @@ const styles = StyleSheet.create({
   statPillText: { color: '#fff', fontSize: 11, fontWeight: '700' },
 });
 
+// Minimal shuffle helper
+function shuffle(array) {
+  const result = [...array];
   for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [result[i], result[j]] = [result[j], result[i]];

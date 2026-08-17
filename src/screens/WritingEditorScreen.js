@@ -22,8 +22,6 @@ import { loadDraft, saveDraft } from '../utils/essayStorage';
 import { calculateLiveInsights } from '../utils/rubricScoring';
 import { detectRotePhrases, detectStructureRisks } from '../utils/wascRubricCriteria';
 
-const VIEWS = ['draft', 'guide', 'assistant', 'coach', 'resources'];
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -549,6 +547,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.warning,
   },
 });
+
+const VIEWS = ['draft', 'guide', 'assistant', 'coach', 'resources'];
 
 function formatLabel(value = '') {
   return String(value || '').replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase()).trim();

@@ -6,8 +6,6 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import { levelFromXP, titleForLevel, xpToNextLevel, levelProgressPct } from '../utils/gamification';
 import { useAppState } from '../context/AppState';
 
-const LEVEL_ICONS = ['flask-outline', 'book-outline', 'reader-outline', 'albums-outline', 'document-text-outline', 'school-outline', 'trophy-outline', 'medal-outline', 'diamond-outline', 'star-outline'];
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xxl,
@@ -158,6 +156,8 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
 });
+
+const LEVEL_ICONS = ['flask-outline', 'book-outline', 'reader-outline', 'albums-outline', 'document-text-outline', 'school-outline', 'trophy-outline', 'medal-outline', 'diamond-outline', 'star-outline'];
 
 export default function LevelCardScreen() {
   const { xp = 0 } = useAppState();

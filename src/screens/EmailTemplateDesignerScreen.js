@@ -5,9 +5,6 @@ import Card from '../components/Card';
 import { colors, spacing, typography, radius } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function EmailTemplateDesignerScreen({ navigation }) {
-    const [profName, setProfName] = useState('');
-
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
@@ -49,6 +46,8 @@ const styles = StyleSheet.create({
     bottomSpacer: { height: 40 }
 });
 
+export default function EmailTemplateDesignerScreen({ navigation }) {
+    const [profName, setProfName] = useState('');
     const [course, setCourse] = useState('');
     const [reasonType, setReasonType] = useState('extension'); // extension, recommendation
     const [generatedEmail, setGeneratedEmail] = useState('');

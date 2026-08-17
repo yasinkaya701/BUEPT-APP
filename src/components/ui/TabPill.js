@@ -2,16 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors, typography, spacing, radius, shadow } from '../../theme/tokens';
 
-/**
- * Segmented tab control.
- * options: [{ key, label, badge? }]
- */
-export default function TabPill({ options = [], activeKey, onPress, style }) {
-  return (
-    <View style={[styles.group, style, shadow.elev1]}>
-      {options.map((option) => {
-        const active = option.key === activeKey;
-
 const styles = StyleSheet.create({
   group: {
     flexDirection: 'row',
@@ -74,6 +64,15 @@ const styles = StyleSheet.create({
   },
 });
 
+/**
+ * Segmented tab control.
+ * options: [{ key, label, badge? }]
+ */
+export default function TabPill({ options = [], activeKey, onPress, style }) {
+  return (
+    <View style={[styles.group, style, shadow.elev1]}>
+      {options.map((option) => {
+        const active = option.key === activeKey;
         return (
           <TouchableOpacity
             key={option.key}

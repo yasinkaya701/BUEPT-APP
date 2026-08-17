@@ -2,20 +2,6 @@ import React from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native';
 import { colors, radius, spacing, typography } from '../theme/tokens';
 
-function Chip({ label, onPress, active = false }) {
-  return (
-    <Pressable
-      style={({ pressed }) => [styles.base, active && styles.active, pressed && styles.pressed]}
-      onPress={onPress}
-      hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
-      accessibilityRole="button"
-      accessibilityState={{ selected: active }}
-      accessibilityLabel={label}
-    >
-      <Text style={[styles.text, active && styles.textActive]}>{label}</Text>
-    </Pressable>
-  );
-
 const styles = StyleSheet.create({
   base: {
     minHeight: 36,
@@ -50,6 +36,19 @@ const styles = StyleSheet.create({
   },
 });
 
+function Chip({ label, onPress, active = false }) {
+  return (
+    <Pressable
+      style={({ pressed }) => [styles.base, active && styles.active, pressed && styles.pressed]}
+      onPress={onPress}
+      hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+      accessibilityRole="button"
+      accessibilityState={{ selected: active }}
+      accessibilityLabel={label}
+    >
+      <Text style={[styles.text, active && styles.textActive]}>{label}</Text>
+    </Pressable>
+  );
 }
 
 export default React.memo(Chip);

@@ -3,16 +3,6 @@ import { View, Text, StyleSheet } from 'react-native';
 import { colors, typography, spacing, radius, shadow } from '../../theme/tokens';
 import CountUp from './CountUp';
 
-const ACCENT_COLORS = {
-  blue: colors.primary,
-  teal: colors.teal,
-  amber: colors.accentBright,
-  purple: '#7C3AED',
-  green: colors.success,
-  red: colors.error,
-  slate: colors.muted,
-};
-
 const styles = StyleSheet.create({
   rail: {
     flexDirection: 'row',
@@ -52,6 +42,16 @@ const styles = StyleSheet.create({
     letterSpacing: 0.6,
   },
 });
+
+const ACCENT_COLORS = {
+  blue: colors.primary,
+  teal: colors.teal,
+  amber: colors.accentBright,
+  purple: '#7C3AED',
+  green: colors.success,
+  red: colors.error,
+  slate: colors.muted,
+};
 
 /**
  * Compact metric tile with a colored accent bar, big value and label.
