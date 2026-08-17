@@ -8,216 +8,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getDictionarySample } from '../utils/dictionary';
 import { speakEnglish } from '../utils/ttsEnglish';
 
-const STARTER_TERMS = ['citation', 'cohesion', 'framework', 'integrity', 'evidence', 'thesis'];
-const TERM_DB = getDictionarySample(320).map((item, index) => {
-    const rawWord = String(item.word || '').trim();
-    const normalizedWord = rawWord ? rawWord.charAt(0).toUpperCase() + rawWord.slice(1) : `Term ${index + 1}`;
-    const type = String(item.word_type || 'term').toLowerCase();
-    return {
-        id: `${normalizedWord}-${index}`,
-        word: normalizedWord,
-        key: rawWord.toLowerCase(),
-        def: item.simple_definition || 'No definition available.',
-        type,
-        example: item.examples?.[0] || `Students can use "${rawWord}" in a formal academic response.`,
-    };
-});
-
-function toTitle(value = '') {
-    return String(value || '')
-        .split(/\s+/)
-        .filter(Boolean)
-        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-        .join(' ');
-}
-
-export default function TerminologyDictionaryScreen({ navigation }) {
-    const [searchQuery, setSearchQuery] = useState('');
-    const filteredTerms = useMemo(() => {
-        const normalizedQuery = searchQuery.trim().toLowerCase();
-        return TERM_DB.filter((term) => {
-            const queryMatch = !normalizedQuery
-                || term.word.toLowerCase().includes(normalizedQuery)
-                || term.def.toLowerCase().includes(normalizedQuery)
-                || term.example.toLowerCase().includes(normalizedQuery);
-            return queryMatch;
-        });
-    }, [searchQuery]);
-
-    const groupedTerms = useMemo(() => (
-        filteredTerms.reduce((acc, term) => {
-            const letter = term.word.charAt(0).toUpperCase();
-            if (!acc[letter]) acc[letter] = [];
-            acc[letter].push(term);
-            return acc;
-        }, {})
-    ), [filteredTerms]);
-
-    const groupedLetters = useMemo(
-        () => Object.keys(groupedTerms).sort(),
-        [groupedTerms],
-    );
-
-    const focusTerm = filteredTerms[0] || TERM_DB[0];
-    const handleStarter = (term) => setSearchQuery(term);
-    const openInteractiveLab = (term) => navigation.navigate('InteractiveVocabulary', { initialTerm: term });
-    const openSynonymFinder = (term) => navigation.navigate('SynonymFinder', { initialWord: term });
-
-    const highlightSearch = (text, query) => {
-        if (!query.trim()) return <Text>{text}</Text>;
-        const parts = text.split(new RegExp(`(${query})`, 'gi'));
-        return (
-            <Text>
-                {parts.map((part, i) => 
-                    part.toLowerCase() === query.toLowerCase() 
-                        ? <Text key={i} style={styles.highlight}>{part}</Text>
-                        : part
-                )}
-            </Text>
-        );
-    };
-
-    return (
-        <Screen scroll contentStyle={styles.container}>
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-                    <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
-                </TouchableOpacity>
-                <View>
-                    <Text style={styles.pageTitle}>Terminology Dictionary</Text>
-                    <Text style={styles.pageSub}>Academic Lexicon Workspace</Text>
-                </View>
-            </View>
-
-            <Card style={styles.heroCard}>
-                <View style={styles.heroHead}>
-                    <View style={styles.heroCopy}>
-                        <Text style={styles.heroEyebrow}>Academic Tool</Text>
-                        <Text style={styles.heroTitle}>Terminology Desk</Text>
-                        <Text style={styles.heroBody}>
-                            Search academic terms, analyze word families, and jump into interactive practice tools without leaving the flow.
-                        </Text>
-                    </View>
-                    <View style={styles.heroMetric}>
-                        <Text style={styles.heroMetricValue}>{filteredTerms.length}</Text>
-                        <Text style={styles.heroMetricLabel}>Terms</Text>
-                    </View>
-                </View>
-                <View style={styles.heroActionRow}>
-                    <Button label="Interactive Lab" variant="secondary" icon="flask-outline" onPress={() => openInteractiveLab(focusTerm?.key || '')} />
-                    <Button label="Synonym Finder" variant="ghost" icon="git-compare-outline" onPress={() => openSynonymFinder(focusTerm?.key || '')} />
-                </View>
-                <View style={styles.quickChipRow}>
-                    {STARTER_TERMS.map((term) => (
-                        <TouchableOpacity key={term} style={styles.quickChip} onPress={() => handleStarter(term)}>
-                            <Text style={styles.quickChipText}>{term}</Text>
-                        </TouchableOpacity>
-                    ))}
-                </View>
-            </Card>
-
-            <View style={styles.searchWrap}>
-                <Ionicons name="search" size={20} color={colors.muted} />
-                <TextInput
-                    style={styles.searchInput}
-                    placeholder="Search terms, definitions, or examples..."
-                    value={searchQuery}
-                    onChangeText={setSearchQuery}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                />
-                {searchQuery.length > 0 ? (
-                    <TouchableOpacity onPress={() => setSearchQuery('')} style={styles.clearBtn}>
-                        <Ionicons name="close-circle" size={20} color={colors.muted} />
-                    </TouchableOpacity>
-                ) : null}
-            </View>
-
-            <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-                {focusTerm ? (
-                    <Card style={styles.focusCard}>
-                        <View style={styles.focusHead}>
-                            <View style={styles.focusCopy}>
-                                <Text style={styles.focusWord}>{focusTerm.word}</Text>
-                                <View style={styles.focusMetaRow}>
-                                    <View style={styles.focusTypeBadge}>
-                                        <Text style={styles.focusTypeText}>{toTitle(focusTerm.type)}</Text>
-                                    </View>
-                                    <Text style={styles.focusMetaText}>Current focus term</Text>
-                                </View>
-                            </View>
-                            <TouchableOpacity onPress={() => speakEnglish(focusTerm.word, { rate: 0.48 })} style={styles.speakerBtn}>
-                                <Ionicons name="volume-medium" size={20} color={colors.primary} />
-                            </TouchableOpacity>
-                        </View>
-                        <Text style={styles.focusDefinition}>{focusTerm.def}</Text>
-                        <Text style={styles.focusExample}>{focusTerm.example}</Text>
-                        <View style={styles.focusActionRow}>
-                            <Button label="Interactive Lab" variant="secondary" icon="search-outline" onPress={() => openInteractiveLab(focusTerm.key)} />
-                            <Button label="Synonyms" variant="ghost" icon="git-compare-outline" onPress={() => openSynonymFinder(focusTerm.key)} />
-                        </View>
-                    </Card>
-                ) : null}
-
-                {groupedLetters.length === 0 ? (
-                    <Card style={styles.emptyCard}>
-                        <Ionicons name="search-outline" size={28} color={colors.muted} />
-                        <Text style={styles.emptyTitle}>No matching terms</Text>
-                        <Text style={styles.emptyBody}>Try a broader academic keyword or switch back to All types.</Text>
-                    </Card>
-                ) : (
-                    groupedLetters.map((letter) => (
-                        <View key={letter} style={styles.letterSection}>
-                            <Text style={styles.letterHead}>{letter}</Text>
-                            {groupedTerms[letter].map((term) => (
-                                <Card key={term.id} style={styles.termCard}>
-                                    <View style={styles.termHeader}>
-                                        <View style={styles.termCopy}>
-                                            <Text style={styles.termWord}>{term.word}</Text>
-                                            <View style={styles.termMetaRow}>
-                                                <View style={styles.typeBadge}>
-                                                    <Text style={styles.typeText}>{toTitle(term.type)}</Text>
-                                                </View>
-                                                <Text style={styles.termMetaText}>Academic glossary entry</Text>
-                                            </View>
-                                        </View>
-                                        <TouchableOpacity onPress={() => speakEnglish(term.word, { rate: 0.48 })} style={styles.ttsBtn}>
-                                            <Ionicons name="volume-medium" size={18} color={colors.primary} />
-                                        </TouchableOpacity>
-                                    </View>
-                                    <Text style={styles.termDef}>{highlightSearch(term.def, searchQuery)}</Text>
-                                    <View style={styles.termExampleBox}>
-                                        <Text style={styles.termExampleLabel}>Example</Text>
-                                        <Text style={styles.termExample}>{highlightSearch(term.example, searchQuery)}</Text>
-                                    </View>
-                                    <View style={styles.termActionRow}>
-                                        <TouchableOpacity 
-                                            onPress={() => openInteractiveLab(term.key)}
-                                            style={styles.termActionBtn}
-                                        >
-                                            <Ionicons name="flask-outline" size={14} color="#172554" />
-                                            <Text style={styles.termActionText}>Lab</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity 
-                                            onPress={() => openSynonymFinder(term.key)}
-                                            style={[styles.termActionBtn, styles.termActionBtnGhost]}
-                                        >
-                                            <Ionicons name="git-compare-outline" size={14} color="#64748B" />
-                                            <Text style={styles.termActionTextGhost}>Synonyms</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </Card>
-                            ))}
-                        </View>
-                    ))
-                )}
-
-                <View style={styles.bottomSpacer} />
-            </ScrollView>
-        </Screen>
-    );
-}
-
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: { 
@@ -540,4 +330,216 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     bottomSpacer: { height: 80 },
+}
+
+const STARTER_TERMS = ['citation', 'cohesion', 'framework', 'integrity', 'evidence', 'thesis'];
+const TERM_DB = getDictionarySample(320).map((item, index) => {
+    const rawWord = String(item.word || '').trim();
+    const normalizedWord = rawWord ? rawWord.charAt(0).toUpperCase() + rawWord.slice(1) : `Term ${index + 1}`;
+    const type = String(item.word_type || 'term').toLowerCase();
+    return {
+        id: `${normalizedWord}-${index}`,
+        word: normalizedWord,
+        key: rawWord.toLowerCase(),
+        def: item.simple_definition || 'No definition available.',
+        type,
+        example: item.examples?.[0] || `Students can use "${rawWord}" in a formal academic response.`,
+    };
 });
+
+function toTitle(value = '') {
+    return String(value || '')
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(' ');
+}
+
+export default function TerminologyDictionaryScreen({ navigation }) {
+    const [searchQuery, setSearchQuery] = useState('');
+    const filteredTerms = useMemo(() => {
+        const normalizedQuery = searchQuery.trim().toLowerCase();
+        return TERM_DB.filter((term) => {
+            const queryMatch = !normalizedQuery
+                || term.word.toLowerCase().includes(normalizedQuery)
+                || term.def.toLowerCase().includes(normalizedQuery)
+                || term.example.toLowerCase().includes(normalizedQuery);
+            return queryMatch;
+        });
+    }, [searchQuery]);
+
+    const groupedTerms = useMemo(() => (
+        filteredTerms.reduce((acc, term) => {
+            const letter = term.word.charAt(0).toUpperCase();
+            if (!acc[letter]) acc[letter] = [];
+            acc[letter].push(term);
+            return acc;
+        }, {})
+    ), [filteredTerms]);
+
+    const groupedLetters = useMemo(
+        () => Object.keys(groupedTerms).sort(),
+        [groupedTerms],
+    );
+
+    const focusTerm = filteredTerms[0] || TERM_DB[0];
+    const handleStarter = (term) => setSearchQuery(term);
+    const openInteractiveLab = (term) => navigation.navigate('InteractiveVocabulary', { initialTerm: term });
+    const openSynonymFinder = (term) => navigation.navigate('SynonymFinder', { initialWord: term });
+
+    const highlightSearch = (text, query) => {
+        if (!query.trim()) return <Text>{text}</Text>;
+        const parts = text.split(new RegExp(`(${query})`, 'gi'));
+        return (
+            <Text>
+                {parts.map((part, i) => 
+                    part.toLowerCase() === query.toLowerCase() 
+                        ? <Text key={i} style={styles.highlight}>{part}</Text>
+                        : part
+                )}
+            </Text>
+        );
+    };
+
+    return (
+        <Screen scroll contentStyle={styles.container}>
+            <View style={styles.header}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+                    <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+                </TouchableOpacity>
+                <View>
+                    <Text style={styles.pageTitle}>Terminology Dictionary</Text>
+                    <Text style={styles.pageSub}>Academic Lexicon Workspace</Text>
+                </View>
+            </View>
+
+            <Card style={styles.heroCard}>
+                <View style={styles.heroHead}>
+                    <View style={styles.heroCopy}>
+                        <Text style={styles.heroEyebrow}>Academic Tool</Text>
+                        <Text style={styles.heroTitle}>Terminology Desk</Text>
+                        <Text style={styles.heroBody}>
+                            Search academic terms, analyze word families, and jump into interactive practice tools without leaving the flow.
+                        </Text>
+                    </View>
+                    <View style={styles.heroMetric}>
+                        <Text style={styles.heroMetricValue}>{filteredTerms.length}</Text>
+                        <Text style={styles.heroMetricLabel}>Terms</Text>
+                    </View>
+                </View>
+                <View style={styles.heroActionRow}>
+                    <Button label="Interactive Lab" variant="secondary" icon="flask-outline" onPress={() => openInteractiveLab(focusTerm?.key || '')} />
+                    <Button label="Synonym Finder" variant="ghost" icon="git-compare-outline" onPress={() => openSynonymFinder(focusTerm?.key || '')} />
+                </View>
+                <View style={styles.quickChipRow}>
+                    {STARTER_TERMS.map((term) => (
+                        <TouchableOpacity key={term} style={styles.quickChip} onPress={() => handleStarter(term)}>
+                            <Text style={styles.quickChipText}>{term}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </Card>
+
+            <View style={styles.searchWrap}>
+                <Ionicons name="search" size={20} color={colors.muted} />
+                <TextInput
+                    style={styles.searchInput}
+                    placeholder="Search terms, definitions, or examples..."
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                />
+                {searchQuery.length > 0 ? (
+                    <TouchableOpacity onPress={() => setSearchQuery('')} style={styles.clearBtn}>
+                        <Ionicons name="close-circle" size={20} color={colors.muted} />
+                    </TouchableOpacity>
+                ) : null}
+            </View>
+
+            <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+                {focusTerm ? (
+                    <Card style={styles.focusCard}>
+                        <View style={styles.focusHead}>
+                            <View style={styles.focusCopy}>
+                                <Text style={styles.focusWord}>{focusTerm.word}</Text>
+                                <View style={styles.focusMetaRow}>
+                                    <View style={styles.focusTypeBadge}>
+                                        <Text style={styles.focusTypeText}>{toTitle(focusTerm.type)}</Text>
+                                    </View>
+                                    <Text style={styles.focusMetaText}>Current focus term</Text>
+                                </View>
+                            </View>
+                            <TouchableOpacity onPress={() => speakEnglish(focusTerm.word, { rate: 0.48 })} style={styles.speakerBtn}>
+                                <Ionicons name="volume-medium" size={20} color={colors.primary} />
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={styles.focusDefinition}>{focusTerm.def}</Text>
+                        <Text style={styles.focusExample}>{focusTerm.example}</Text>
+                        <View style={styles.focusActionRow}>
+                            <Button label="Interactive Lab" variant="secondary" icon="search-outline" onPress={() => openInteractiveLab(focusTerm.key)} />
+                            <Button label="Synonyms" variant="ghost" icon="git-compare-outline" onPress={() => openSynonymFinder(focusTerm.key)} />
+                        </View>
+                    </Card>
+                ) : null}
+
+                {groupedLetters.length === 0 ? (
+                    <Card style={styles.emptyCard}>
+                        <Ionicons name="search-outline" size={28} color={colors.muted} />
+                        <Text style={styles.emptyTitle}>No matching terms</Text>
+                        <Text style={styles.emptyBody}>Try a broader academic keyword or switch back to All types.</Text>
+                    </Card>
+                ) : (
+                    groupedLetters.map((letter) => (
+                        <View key={letter} style={styles.letterSection}>
+                            <Text style={styles.letterHead}>{letter}</Text>
+                            {groupedTerms[letter].map((term) => (
+                                <Card key={term.id} style={styles.termCard}>
+                                    <View style={styles.termHeader}>
+                                        <View style={styles.termCopy}>
+                                            <Text style={styles.termWord}>{term.word}</Text>
+                                            <View style={styles.termMetaRow}>
+                                                <View style={styles.typeBadge}>
+                                                    <Text style={styles.typeText}>{toTitle(term.type)}</Text>
+                                                </View>
+                                                <Text style={styles.termMetaText}>Academic glossary entry</Text>
+                                            </View>
+                                        </View>
+                                        <TouchableOpacity onPress={() => speakEnglish(term.word, { rate: 0.48 })} style={styles.ttsBtn}>
+                                            <Ionicons name="volume-medium" size={18} color={colors.primary} />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <Text style={styles.termDef}>{highlightSearch(term.def, searchQuery)}</Text>
+                                    <View style={styles.termExampleBox}>
+                                        <Text style={styles.termExampleLabel}>Example</Text>
+                                        <Text style={styles.termExample}>{highlightSearch(term.example, searchQuery)}</Text>
+                                    </View>
+                                    <View style={styles.termActionRow}>
+                                        <TouchableOpacity 
+                                            onPress={() => openInteractiveLab(term.key)}
+                                            style={styles.termActionBtn}
+                                        >
+                                            <Ionicons name="flask-outline" size={14} color="#172554" />
+                                            <Text style={styles.termActionText}>Lab</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity 
+                                            onPress={() => openSynonymFinder(term.key)}
+                                            style={[styles.termActionBtn, styles.termActionBtnGhost]}
+                                        >
+                                            <Ionicons name="git-compare-outline" size={14} color="#64748B" />
+                                            <Text style={styles.termActionTextGhost}>Synonyms</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </Card>
+                            ))}
+                        </View>
+                    ))
+                )}
+
+                <View style={styles.bottomSpacer} />
+            </ScrollView>
+        </Screen>
+    );
+}
+
+);

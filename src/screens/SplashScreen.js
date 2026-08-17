@@ -1,6 +1,103 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Animated, ImageBackground } from 'react-native';
 
+const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 9999,
+    backgroundColor: '#0A1628',
+  },
+  bg: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(10,22,40,0.65)',
+  },
+  content: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 40,
+  },
+  logoWrap: {
+    marginBottom: 28,
+  },
+  logoBorder: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 3,
+    borderColor: 'rgba(255,255,255,0.3)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+  },
+  logoInner: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: 'rgba(37,99,235,0.9)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.4)',
+  },
+  logoLetter: {
+    fontSize: 32,
+    fontFamily: 'Avenir Next',
+    fontWeight: '900',
+    color: '#FFFFFF',
+    letterSpacing: 1,
+  },
+  title: {
+    fontSize: 28,
+    fontFamily: 'Avenir Next',
+    fontWeight: '900',
+    color: '#FFFFFF',
+    letterSpacing: 4,
+    textAlign: 'center',
+  },
+  titleSub: {
+    fontSize: 13,
+    fontFamily: 'Avenir Next',
+    fontWeight: '600',
+    color: 'rgba(255,255,255,0.6)',
+    textAlign: 'center',
+    marginTop: 4,
+    letterSpacing: 1,
+  },
+  lineContainer: {
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 8,
+  },
+  line: {
+    height: 2,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    borderRadius: 1,
+  },
+  subtitle: {
+    fontSize: 16,
+    fontFamily: 'Avenir Next',
+    fontWeight: '700',
+    color: 'rgba(255,255,255,0.85)',
+    textAlign: 'center',
+    letterSpacing: 0.5,
+  },
+  version: {
+    fontSize: 11,
+    fontFamily: 'Avenir Next',
+    fontWeight: '600',
+    color: 'rgba(255,255,255,0.4)',
+    textAlign: 'center',
+    marginTop: 6,
+  },
+}
+
 const BG_IMAGE = require('../assets/images/boun_splash.png');
 
 export default function SplashScreen({ onFinish }) {
@@ -97,99 +194,4 @@ export default function SplashScreen({ onFinish }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    zIndex: 9999,
-    backgroundColor: '#0A1628',
-  },
-  bg: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(10,22,40,0.65)',
-  },
-  content: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 40,
-  },
-  logoWrap: {
-    marginBottom: 28,
-  },
-  logoBorder: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 3,
-    borderColor: 'rgba(255,255,255,0.3)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.08)',
-  },
-  logoInner: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: 'rgba(37,99,235,0.9)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.4)',
-  },
-  logoLetter: {
-    fontSize: 32,
-    fontFamily: 'Avenir Next',
-    fontWeight: '900',
-    color: '#FFFFFF',
-    letterSpacing: 1,
-  },
-  title: {
-    fontSize: 28,
-    fontFamily: 'Avenir Next',
-    fontWeight: '900',
-    color: '#FFFFFF',
-    letterSpacing: 4,
-    textAlign: 'center',
-  },
-  titleSub: {
-    fontSize: 13,
-    fontFamily: 'Avenir Next',
-    fontWeight: '600',
-    color: 'rgba(255,255,255,0.6)',
-    textAlign: 'center',
-    marginTop: 4,
-    letterSpacing: 1,
-  },
-  lineContainer: {
-    height: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 8,
-  },
-  line: {
-    height: 2,
-    backgroundColor: 'rgba(255,255,255,0.3)',
-    borderRadius: 1,
-  },
-  subtitle: {
-    fontSize: 16,
-    fontFamily: 'Avenir Next',
-    fontWeight: '700',
-    color: 'rgba(255,255,255,0.85)',
-    textAlign: 'center',
-    letterSpacing: 0.5,
-  },
-  version: {
-    fontSize: 11,
-    fontFamily: 'Avenir Next',
-    fontWeight: '600',
-    color: 'rgba(255,255,255,0.4)',
-    textAlign: 'center',
-    marginTop: 6,
-  },
-});
+);

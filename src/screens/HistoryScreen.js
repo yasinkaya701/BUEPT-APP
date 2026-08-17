@@ -5,31 +5,6 @@ import Screen from '../components/Screen';
 import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
-export default function HistoryScreen({ navigation }) {
-  const { history, setActiveReportById } = useAppState();
-
-  const openReport = (id) => {
-    setActiveReportById(id);
-    navigation.navigate('Feedback');
-  };
-
-  return (
-    <Screen scroll contentStyle={styles.content}>
-      <Text style={styles.h1}>Writing History</Text>
-      {history.length === 0 && <Text style={styles.body}>No essays submitted yet.</Text>}
-      {history.map((h) => (
-        <Pressable key={h.id} onPress={() => openReport(h.id)}>
-          <Card style={styles.card}>
-            <Text style={styles.h3}>Essay • {new Date(h.createdAt).toLocaleDateString()}</Text>
-            <Text style={styles.body}>Score: {h.report.rubric.Total}/20</Text>
-            <Text style={styles.sub}>CEFR: {h.report.cefr}</Text>
-          </Card>
-        </Pressable>
-      ))}
-    </Screen>
-  );
-}
-
 const styles = StyleSheet.create({
   content: {
     paddingBottom: spacing.xl
@@ -56,4 +31,31 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: spacing.lg
   }
-});
+}
+
+export default function HistoryScreen({ navigation }) {
+  const { history, setActiveReportById } = useAppState();
+
+  const openReport = (id) => {
+    setActiveReportById(id);
+    navigation.navigate('Feedback');
+  };
+
+  return (
+    <Screen scroll contentStyle={styles.content}>
+      <Text style={styles.h1}>Writing History</Text>
+      {history.length === 0 && <Text style={styles.body}>No essays submitted yet.</Text>}
+      {history.map((h) => (
+        <Pressable key={h.id} onPress={() => openReport(h.id)}>
+          <Card style={styles.card}>
+            <Text style={styles.h3}>Essay • {new Date(h.createdAt).toLocaleDateString()}</Text>
+            <Text style={styles.body}>Score: {h.report.rubric.Total}/20</Text>
+            <Text style={styles.sub}>CEFR: {h.report.cefr}</Text>
+          </Card>
+        </Pressable>
+      ))}
+    </Screen>
+  );
+}
+
+);

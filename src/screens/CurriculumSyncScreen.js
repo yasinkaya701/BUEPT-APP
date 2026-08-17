@@ -5,6 +5,45 @@ import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const styles = StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background },
+    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
+    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
+    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+
+    weekScrollerWrap: { borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)', backgroundColor: '#fff', paddingBottom: spacing.md },
+    weekScroller: { paddingHorizontal: spacing.xl, gap: spacing.sm },
+    weekPill: { width: 50, height: 60, borderRadius: radius.lg, backgroundColor: 'rgba(0,0,0,0.02)', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'rgba(0,0,0,0.05)' },
+    weekPillActive: { backgroundColor: colors.primary, borderColor: colors.primary },
+    weekPillText: { fontSize: 16, fontWeight: '800', color: colors.text },
+    weekPillTextActive: { color: '#fff' },
+    currentDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: colors.error, position: 'absolute', top: 6, right: 6 },
+
+    scroll: { paddingHorizontal: spacing.xl, paddingTop: spacing.lg },
+
+    themeHero: { backgroundColor: colors.primarySoft, padding: spacing.xl, borderRadius: radius.xl, marginBottom: spacing.xxl, borderWidth: 1, borderColor: 'rgba(52, 152, 219, 0.2)' },
+    themeLabel: { fontSize: 12, fontWeight: '800', color: colors.primary, textTransform: 'uppercase', marginBottom: 4 },
+    themeVal: { fontSize: 24, fontWeight: '900', color: colors.primaryDark, fontFamily: typography.fontHeadline, lineHeight: 30 },
+
+    sectionHeader: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: spacing.md },
+    taskCard: { flexDirection: 'row', alignItems: 'center', padding: spacing.lg, borderRadius: radius.lg, marginBottom: spacing.md, backgroundColor: '#fff', ...shadow.slight },
+    taskIconWrap: { width: 44, height: 44, borderRadius: 22, backgroundColor: 'rgba(0,0,0,0.03)', justifyContent: 'center', alignItems: 'center', marginRight: spacing.md },
+    taskTextWrap: { flex: 1 },
+    taskTitle: { fontSize: 15, fontWeight: '700', color: colors.text, marginBottom: 2 },
+    statusDot: { width: 8, height: 8, borderRadius: 4, marginRight: 6 },
+    statusText: { fontSize: 10, fontWeight: '800' },
+    statusRow: { flexDirection: 'row', alignItems: 'center', marginTop: 4 },
+    statusSuccess: { color: colors.success, backgroundColor: colors.success },
+    statusProgress: { color: '#f39c12', backgroundColor: '#f39c12' },
+    statusPending: { color: colors.muted, backgroundColor: colors.muted },
+
+    emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 80 },
+    emptyTitle: { fontSize: typography.h3, fontWeight: '800', color: colors.muted, marginTop: spacing.md, marginBottom: spacing.xs },
+    emptyDesc: { fontSize: 13, color: colors.muted, textAlign: 'center', lineHeight: 20, paddingHorizontal: spacing.xl },
+    bottomSpacer: { height: 40 },
+}
+
 // Complex curriculum state payload
 const CURRICULUM_DATA = {
     1: {
@@ -122,41 +161,4 @@ export default function CurriculumSyncScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.background },
-    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
-    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
-
-    weekScrollerWrap: { borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)', backgroundColor: '#fff', paddingBottom: spacing.md },
-    weekScroller: { paddingHorizontal: spacing.xl, gap: spacing.sm },
-    weekPill: { width: 50, height: 60, borderRadius: radius.lg, backgroundColor: 'rgba(0,0,0,0.02)', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'rgba(0,0,0,0.05)' },
-    weekPillActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-    weekPillText: { fontSize: 16, fontWeight: '800', color: colors.text },
-    weekPillTextActive: { color: '#fff' },
-    currentDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: colors.error, position: 'absolute', top: 6, right: 6 },
-
-    scroll: { paddingHorizontal: spacing.xl, paddingTop: spacing.lg },
-
-    themeHero: { backgroundColor: colors.primarySoft, padding: spacing.xl, borderRadius: radius.xl, marginBottom: spacing.xxl, borderWidth: 1, borderColor: 'rgba(52, 152, 219, 0.2)' },
-    themeLabel: { fontSize: 12, fontWeight: '800', color: colors.primary, textTransform: 'uppercase', marginBottom: 4 },
-    themeVal: { fontSize: 24, fontWeight: '900', color: colors.primaryDark, fontFamily: typography.fontHeadline, lineHeight: 30 },
-
-    sectionHeader: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: spacing.md },
-    taskCard: { flexDirection: 'row', alignItems: 'center', padding: spacing.lg, borderRadius: radius.lg, marginBottom: spacing.md, backgroundColor: '#fff', ...shadow.slight },
-    taskIconWrap: { width: 44, height: 44, borderRadius: 22, backgroundColor: 'rgba(0,0,0,0.03)', justifyContent: 'center', alignItems: 'center', marginRight: spacing.md },
-    taskTextWrap: { flex: 1 },
-    taskTitle: { fontSize: 15, fontWeight: '700', color: colors.text, marginBottom: 2 },
-    statusDot: { width: 8, height: 8, borderRadius: 4, marginRight: 6 },
-    statusText: { fontSize: 10, fontWeight: '800' },
-    statusRow: { flexDirection: 'row', alignItems: 'center', marginTop: 4 },
-    statusSuccess: { color: colors.success, backgroundColor: colors.success },
-    statusProgress: { color: '#f39c12', backgroundColor: '#f39c12' },
-    statusPending: { color: colors.muted, backgroundColor: colors.muted },
-
-    emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 80 },
-    emptyTitle: { fontSize: typography.h3, fontWeight: '800', color: colors.muted, marginTop: spacing.md, marginBottom: spacing.xs },
-    emptyDesc: { fontSize: 13, color: colors.muted, textAlign: 'center', lineHeight: 20, paddingHorizontal: spacing.xl },
-    bottomSpacer: { height: 40 },
-});
+);

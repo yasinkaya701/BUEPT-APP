@@ -7,6 +7,333 @@ import { colors, spacing, typography, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
 
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#F8FAFC',
+    },
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: spacing.xl,
+        paddingTop: spacing.lg,
+        paddingBottom: spacing.md,
+    },
+    iconBtn: {
+        padding: spacing.xs,
+    },
+    headerTitle: {
+        fontSize: 16,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '800',
+        color: '#0F172A',
+    },
+    keyboard: {
+        flex: 1,
+    },
+    scroll: {
+        paddingHorizontal: spacing.xl,
+        paddingBottom: 40,
+    },
+    // INPUT STATE
+    inputSection: {
+        marginTop: spacing.md,
+    },
+    welcomeBanner: {
+        backgroundColor: '#EEF2FF',
+        padding: spacing.lg,
+        borderRadius: 16,
+        flexDirection: 'row',
+        gap: spacing.md,
+        alignItems: 'center',
+        marginBottom: spacing.xl,
+        borderWidth: 1,
+        borderColor: '#E0E7FF',
+    },
+    welcomeTextWrap: {
+        flex: 1,
+    },
+    welcomeTitle: {
+        fontSize: 14,
+        fontWeight: '800',
+        color: '#3730A3',
+        marginBottom: 4,
+    },
+    welcomeBody: {
+        fontSize: 12,
+        color: '#4F46E5',
+        lineHeight: 18,
+    },
+    editorArea: {
+        minHeight: 280,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 16,
+        padding: spacing.lg,
+        fontSize: 16,
+        color: '#1E293B',
+        lineHeight: 24,
+        ...shadow.sm,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+    },
+    editorFooter: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: spacing.md,
+    },
+    wordCount: {
+        fontSize: 14,
+        color: '#64748B',
+        fontWeight: '600',
+    },
+    analyzeBtn: {
+        paddingHorizontal: spacing.xl,
+    },
+    divider: {
+        height: 1,
+        backgroundColor: '#E2E8F0',
+        marginVertical: spacing.xl,
+    },
+    scanBox: {
+        height: 100,
+        backgroundColor: '#F1F5F9',
+        borderRadius: 16,
+        borderWidth: 2,
+        borderColor: '#CBD5E1',
+        borderStyle: 'dashed',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        overflow: 'hidden', // for the laser
+    },
+    scanText: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#475569',
+    },
+    scannerLine: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 4,
+        backgroundColor: '#1D4ED8',
+        shadowColor: '#1D4ED8',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.8,
+        shadowRadius: 10,
+        elevation: 6,
+    },
+
+    // LOADING STATE
+    loadingSection: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 100,
+    },
+    pulseDisk: {
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        backgroundColor: '#6366F1',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: spacing.xl,
+        ...shadow.lg,
+        shadowColor: '#6366F1',
+    },
+    loadingTitle: {
+        fontSize: 22,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '800',
+        color: '#0F172A',
+        marginBottom: 8,
+    },
+    loadingSub: {
+        fontSize: 15,
+        color: '#64748B',
+    },
+
+    // REPORT STATE
+    reportSection: {
+        marginTop: spacing.md,
+    },
+    scoreCard: {
+        padding: spacing.xl,
+        borderWidth: 2,
+        backgroundColor: '#FFFFFF',
+        marginBottom: spacing.lg,
+    },
+    scoreRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        marginBottom: spacing.xl,
+    },
+    scoreTitle: {
+        fontSize: 14,
+        textTransform: 'uppercase',
+        fontWeight: '800',
+        color: '#64748B',
+        letterSpacing: 1,
+        marginBottom: 8,
+    },
+    scoreSummary: {
+        fontSize: 14,
+        color: '#334155',
+        lineHeight: 22,
+    },
+    bandBadge: {
+        width: 72,
+        height: 72,
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...shadow.md,
+    },
+    bandLetter: {
+        fontSize: 32,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '900',
+        color: '#FFFFFF',
+    },
+    subScoreGrid: {
+        gap: spacing.md,
+    },
+    progContainer: {
+        width: '100%',
+    },
+    progLabelRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 6,
+    },
+    progLabel: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#475569',
+    },
+    progValue: {
+        fontSize: 13,
+        fontWeight: '800',
+    },
+    progTrack: {
+        height: 6,
+        backgroundColor: '#F1F5F9',
+        borderRadius: 3,
+        overflow: 'hidden',
+    },
+    progFill: {
+        height: '100%',
+        borderRadius: 3,
+    },
+    statsRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        gap: spacing.xs,
+        marginBottom: spacing.xl,
+    },
+    statBox: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        paddingVertical: spacing.md,
+        alignItems: 'center',
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+        ...shadow.sm,
+    },
+    statVal: {
+        fontSize: 20,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '900',
+        color: '#0F172A',
+        marginBottom: 2,
+    },
+    statLab: {
+        fontSize: 10,
+        textTransform: 'uppercase',
+        fontWeight: '700',
+        color: '#64748B',
+    },
+    sectionHeading: {
+        fontSize: 18,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '800',
+        color: '#0F172A',
+        marginBottom: spacing.md,
+    },
+    listContainer: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+        padding: spacing.md,
+        gap: spacing.md,
+        marginBottom: spacing.xl,
+        ...shadow.sm,
+    },
+    listItem: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        gap: spacing.md,
+    },
+    listIconWrap: {
+        padding: 4,
+        borderRadius: 8,
+        marginTop: 2,
+    },
+    listIconGood: {
+        backgroundColor: '#ECFDF5',
+    },
+    listIconWarn: {
+        backgroundColor: '#FFFBEB',
+    },
+    listText: {
+        flex: 1,
+        fontSize: 14,
+        color: '#334155',
+        lineHeight: 22,
+    },
+    upgradesGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: spacing.sm,
+        marginBottom: spacing.xl,
+    },
+    upgradeBox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+        backgroundColor: '#FFFFFF',
+        paddingHorizontal: spacing.md,
+        paddingVertical: spacing.sm,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+        ...shadow.sm,
+    },
+    upgradeBasic: {
+        fontSize: 13,
+        color: '#64748B',
+        textDecorationLine: 'line-through',
+    },
+    upgradeAdv: {
+        fontSize: 13,
+        fontWeight: '800',
+    },
+    actionRow: {
+        flexDirection: 'row',
+        gap: spacing.md,
+        marginTop: spacing.md,
+    },
+    actionFlexBtn: {
+        flex: 1,
+    },
+}
+
 const TRANSITION_WORDS = ['furthermore', 'moreover', 'however', 'therefore', 'consequently', 'nevertheless', 'in addition', 'on the other hand', 'thus', 'subsequently', 'in contrast', 'significantly', 'notably', 'conversely', 'as a result', 'in particular', 'typically', 'generally', 'to illustrate'];
 const ACADEMIC_WORDS = ['analyze', 'evaluate', 'synthesize', 'methodology', 'hypothesis', 'empirical', 'theoretical', 'paradigm', 'implication', 'comprehensive', 'validate', 'correlation', 'ambiguous', 'facilitate', 'perspective', 'framework', 'sustain', 'innovation', 'phenomenon', 'fundamental', 'transform', 'substantial', 'capacity', 'integrate', 'diminish', 'proponent', 'advocate', 'mitigate'];
 
@@ -392,329 +719,4 @@ export default function EssayEvaluationScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#F8FAFC',
-    },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: spacing.xl,
-        paddingTop: spacing.lg,
-        paddingBottom: spacing.md,
-    },
-    iconBtn: {
-        padding: spacing.xs,
-    },
-    headerTitle: {
-        fontSize: 16,
-        fontFamily: typography.fontHeadline,
-        fontWeight: '800',
-        color: '#0F172A',
-    },
-    keyboard: {
-        flex: 1,
-    },
-    scroll: {
-        paddingHorizontal: spacing.xl,
-        paddingBottom: 40,
-    },
-    // INPUT STATE
-    inputSection: {
-        marginTop: spacing.md,
-    },
-    welcomeBanner: {
-        backgroundColor: '#EEF2FF',
-        padding: spacing.lg,
-        borderRadius: 16,
-        flexDirection: 'row',
-        gap: spacing.md,
-        alignItems: 'center',
-        marginBottom: spacing.xl,
-        borderWidth: 1,
-        borderColor: '#E0E7FF',
-    },
-    welcomeTextWrap: {
-        flex: 1,
-    },
-    welcomeTitle: {
-        fontSize: 14,
-        fontWeight: '800',
-        color: '#3730A3',
-        marginBottom: 4,
-    },
-    welcomeBody: {
-        fontSize: 12,
-        color: '#4F46E5',
-        lineHeight: 18,
-    },
-    editorArea: {
-        minHeight: 280,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 16,
-        padding: spacing.lg,
-        fontSize: 16,
-        color: '#1E293B',
-        lineHeight: 24,
-        ...shadow.sm,
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-    },
-    editorFooter: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginTop: spacing.md,
-    },
-    wordCount: {
-        fontSize: 14,
-        color: '#64748B',
-        fontWeight: '600',
-    },
-    analyzeBtn: {
-        paddingHorizontal: spacing.xl,
-    },
-    divider: {
-        height: 1,
-        backgroundColor: '#E2E8F0',
-        marginVertical: spacing.xl,
-    },
-    scanBox: {
-        height: 100,
-        backgroundColor: '#F1F5F9',
-        borderRadius: 16,
-        borderWidth: 2,
-        borderColor: '#CBD5E1',
-        borderStyle: 'dashed',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 8,
-        overflow: 'hidden', // for the laser
-    },
-    scanText: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#475569',
-    },
-    scannerLine: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 4,
-        backgroundColor: '#1D4ED8',
-        shadowColor: '#1D4ED8',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.8,
-        shadowRadius: 10,
-        elevation: 6,
-    },
-
-    // LOADING STATE
-    loadingSection: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 100,
-    },
-    pulseDisk: {
-        width: 120,
-        height: 120,
-        borderRadius: 60,
-        backgroundColor: '#6366F1',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: spacing.xl,
-        ...shadow.lg,
-        shadowColor: '#6366F1',
-    },
-    loadingTitle: {
-        fontSize: 22,
-        fontFamily: typography.fontHeadline,
-        fontWeight: '800',
-        color: '#0F172A',
-        marginBottom: 8,
-    },
-    loadingSub: {
-        fontSize: 15,
-        color: '#64748B',
-    },
-
-    // REPORT STATE
-    reportSection: {
-        marginTop: spacing.md,
-    },
-    scoreCard: {
-        padding: spacing.xl,
-        borderWidth: 2,
-        backgroundColor: '#FFFFFF',
-        marginBottom: spacing.lg,
-    },
-    scoreRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        marginBottom: spacing.xl,
-    },
-    scoreTitle: {
-        fontSize: 14,
-        textTransform: 'uppercase',
-        fontWeight: '800',
-        color: '#64748B',
-        letterSpacing: 1,
-        marginBottom: 8,
-    },
-    scoreSummary: {
-        fontSize: 14,
-        color: '#334155',
-        lineHeight: 22,
-    },
-    bandBadge: {
-        width: 72,
-        height: 72,
-        borderRadius: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-        ...shadow.md,
-    },
-    bandLetter: {
-        fontSize: 32,
-        fontFamily: typography.fontHeadline,
-        fontWeight: '900',
-        color: '#FFFFFF',
-    },
-    subScoreGrid: {
-        gap: spacing.md,
-    },
-    progContainer: {
-        width: '100%',
-    },
-    progLabelRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 6,
-    },
-    progLabel: {
-        fontSize: 13,
-        fontWeight: '700',
-        color: '#475569',
-    },
-    progValue: {
-        fontSize: 13,
-        fontWeight: '800',
-    },
-    progTrack: {
-        height: 6,
-        backgroundColor: '#F1F5F9',
-        borderRadius: 3,
-        overflow: 'hidden',
-    },
-    progFill: {
-        height: '100%',
-        borderRadius: 3,
-    },
-    statsRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        gap: spacing.xs,
-        marginBottom: spacing.xl,
-    },
-    statBox: {
-        flex: 1,
-        backgroundColor: '#FFFFFF',
-        paddingVertical: spacing.md,
-        alignItems: 'center',
-        borderRadius: 12,
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-        ...shadow.sm,
-    },
-    statVal: {
-        fontSize: 20,
-        fontFamily: typography.fontHeadline,
-        fontWeight: '900',
-        color: '#0F172A',
-        marginBottom: 2,
-    },
-    statLab: {
-        fontSize: 10,
-        textTransform: 'uppercase',
-        fontWeight: '700',
-        color: '#64748B',
-    },
-    sectionHeading: {
-        fontSize: 18,
-        fontFamily: typography.fontHeadline,
-        fontWeight: '800',
-        color: '#0F172A',
-        marginBottom: spacing.md,
-    },
-    listContainer: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-        padding: spacing.md,
-        gap: spacing.md,
-        marginBottom: spacing.xl,
-        ...shadow.sm,
-    },
-    listItem: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        gap: spacing.md,
-    },
-    listIconWrap: {
-        padding: 4,
-        borderRadius: 8,
-        marginTop: 2,
-    },
-    listIconGood: {
-        backgroundColor: '#ECFDF5',
-    },
-    listIconWarn: {
-        backgroundColor: '#FFFBEB',
-    },
-    listText: {
-        flex: 1,
-        fontSize: 14,
-        color: '#334155',
-        lineHeight: 22,
-    },
-    upgradesGrid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: spacing.sm,
-        marginBottom: spacing.xl,
-    },
-    upgradeBox: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 6,
-        backgroundColor: '#FFFFFF',
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.sm,
-        borderRadius: 20,
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-        ...shadow.sm,
-    },
-    upgradeBasic: {
-        fontSize: 13,
-        color: '#64748B',
-        textDecorationLine: 'line-through',
-    },
-    upgradeAdv: {
-        fontSize: 13,
-        fontWeight: '800',
-    },
-    actionRow: {
-        flexDirection: 'row',
-        gap: spacing.md,
-        marginTop: spacing.md,
-    },
-    actionFlexBtn: {
-        flex: 1,
-    },
-});
+);

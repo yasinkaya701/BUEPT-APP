@@ -5,6 +5,143 @@ import Tts from 'react-native-tts';
 import Screen from '../components/Screen';
 import { colors, spacing, typography, shadow } from '../theme/tokens';
 
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.xl,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.xl,
+  },
+  iconBtn: {
+    padding: spacing.xs,
+  },
+  headerTitle: {
+    fontSize: 12,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+  },
+  artContainer: {
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  albumArt: {
+    borderRadius: 24,
+    backgroundColor: '#172554', // Deep Boğaziçi blue
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...shadow.md,
+    shadowColor: '#172554',
+    shadowOpacity: 0.4,
+    shadowRadius: 15,
+  },
+  albumText: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    fontSize: 24,
+    fontWeight: '900',
+    color: 'rgba(255,255,255,0.4)',
+    fontFamily: typography.fontHeadline,
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  episodeTitle: {
+    fontSize: 24,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+    color: colors.text,
+    marginBottom: 4,
+  },
+  podcastAuthor: {
+    fontSize: 16,
+    color: '#6366F1', // indigo
+    fontWeight: '600',
+  },
+  progressContainer: {
+    marginBottom: 30,
+  },
+  progressBarBg: {
+    height: 6,
+    backgroundColor: '#E2E8F0',
+    borderRadius: 3,
+    overflow: 'hidden',
+    marginBottom: 8,
+  },
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: '#6366F1', // indigo accent
+    borderRadius: 3,
+  },
+  timeRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  timeText: {
+    fontSize: 12,
+    color: colors.muted,
+    fontFamily: typography.fontBody,
+    fontWeight: '600',
+  },
+  controlsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 40,
+    marginBottom: 40,
+  },
+  playBtn: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#6366F1',
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...shadow.md,
+    shadowColor: '#6366F1',
+    shadowOpacity: 0.5,
+  },
+  playIconOffset: {
+    marginLeft: 4,
+  },
+  secondaryBtn: {
+    padding: spacing.sm,
+  },
+  transcriptSection: {
+    flex: 1,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 20,
+    padding: spacing.md,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  transcriptHeading: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: colors.primaryDark,
+    marginBottom: spacing.sm,
+    textTransform: 'uppercase',
+  },
+  transcriptScroll: {
+    flex: 1,
+  },
+  transcriptText: {
+    fontSize: 18,
+    lineHeight: 28,
+    color: '#334155',
+  },
+}
 
 const PODCAST_TEXT = `Welcome to the daily Boğaziçi Prep Podcast. Today we are looking at the impact of artificial intelligence on traditional academic integrity. As universities worldwide adapt to the presence of advanced language models, the debate centers not only on plagiarism, but on how human learning might evolve. Can a student truly synthesize knowledge if a machine drafts the essay? Proponents argue that AI acts as an advanced tutor, freeing students to focus on higher-level critical thinking. Critics, however, warn of a fundamental degradation in core writing skills. In this episode, we will explore both perspectives and provide key vocabulary for your proficiency exam. Stay tuned.`;
 
@@ -149,140 +286,4 @@ export default function PodcastScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: spacing.xl,
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.xl,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.xl,
-  },
-  iconBtn: {
-    padding: spacing.xs,
-  },
-  headerTitle: {
-    fontSize: 12,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '800',
-    color: colors.muted,
-    textTransform: 'uppercase',
-    letterSpacing: 1.5,
-  },
-  artContainer: {
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  albumArt: {
-    borderRadius: 24,
-    backgroundColor: '#172554', // Deep Boğaziçi blue
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...shadow.md,
-    shadowColor: '#172554',
-    shadowOpacity: 0.4,
-    shadowRadius: 15,
-  },
-  albumText: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    fontSize: 24,
-    fontWeight: '900',
-    color: 'rgba(255,255,255,0.4)',
-    fontFamily: typography.fontHeadline,
-  },
-  infoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  episodeTitle: {
-    fontSize: 24,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '800',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  podcastAuthor: {
-    fontSize: 16,
-    color: '#6366F1', // indigo
-    fontWeight: '600',
-  },
-  progressContainer: {
-    marginBottom: 30,
-  },
-  progressBarBg: {
-    height: 6,
-    backgroundColor: '#E2E8F0',
-    borderRadius: 3,
-    overflow: 'hidden',
-    marginBottom: 8,
-  },
-  progressBarFill: {
-    height: '100%',
-    backgroundColor: '#6366F1', // indigo accent
-    borderRadius: 3,
-  },
-  timeRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  timeText: {
-    fontSize: 12,
-    color: colors.muted,
-    fontFamily: typography.fontBody,
-    fontWeight: '600',
-  },
-  controlsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 40,
-    marginBottom: 40,
-  },
-  playBtn: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#6366F1',
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...shadow.md,
-    shadowColor: '#6366F1',
-    shadowOpacity: 0.5,
-  },
-  playIconOffset: {
-    marginLeft: 4,
-  },
-  secondaryBtn: {
-    padding: spacing.sm,
-  },
-  transcriptSection: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-    borderRadius: 20,
-    padding: spacing.md,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-  },
-  transcriptHeading: {
-    fontSize: 14,
-    fontWeight: '800',
-    color: colors.primaryDark,
-    marginBottom: spacing.sm,
-    textTransform: 'uppercase',
-  },
-  transcriptScroll: {
-    flex: 1,
-  },
-  transcriptText: {
-    fontSize: 18,
-    lineHeight: 28,
-    color: '#334155',
-  },
-});
+);

@@ -7,6 +7,79 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { isDemoAiConfigured, requestDemoModule } from '../utils/demoAi';
 
+const styles = StyleSheet.create({
+    container: { flex: 1 },
+    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
+    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
+    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+
+    headerTitleWrap: { flex: 1 },
+
+    timerBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primaryDark, paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill, gap: 4 },
+    timerText: { color: '#fff', fontSize: 13, fontWeight: '900', fontFamily: 'Courier' },
+    timerBadgeDanger: { backgroundColor: colors.error },
+
+    scroll: { paddingHorizontal: spacing.xl },
+
+    introWrap: { marginTop: spacing.xl },
+    introIcon: { alignSelf: 'center', marginBottom: spacing.md },
+    introTitle: { fontSize: 24, fontWeight: '900', color: colors.text, textAlign: 'center', marginBottom: 8 },
+    introDesc: { fontSize: 15, color: colors.muted, textAlign: 'center', lineHeight: 22, paddingHorizontal: spacing.lg, marginBottom: spacing.xl },
+    sourceText: { fontSize: 12, color: colors.muted, textAlign: 'center', marginBottom: spacing.md },
+    loadingInline: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: spacing.md },
+    loadingInlineText: { marginLeft: 8, color: colors.primaryDark, fontSize: 12, fontWeight: '700' },
+    rulesCard: { padding: spacing.lg, borderRadius: radius.lg, marginBottom: spacing.xxl },
+    rulesHead: { fontSize: 14, fontWeight: '800', textTransform: 'uppercase', color: colors.primaryDark, marginBottom: spacing.sm },
+    ruleItem: { flexDirection: 'row', marginTop: spacing.md, paddingRight: spacing.xl },
+    ruleBullet: { width: 6, height: 6, borderRadius: 3, backgroundColor: colors.primary, marginTop: 6, marginRight: spacing.sm },
+    ruleLabel: { fontSize: 14, fontWeight: '800', color: colors.text },
+    ruleDesc: { fontSize: 13, color: colors.muted, lineHeight: 18, marginTop: 2 },
+
+    progressRow: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.lg, gap: spacing.md },
+    qCounter: { fontSize: 12, fontWeight: '800', color: colors.muted, textTransform: 'uppercase' },
+    progBg: { flex: 1, height: 6, backgroundColor: 'rgba(0,0,0,0.05)', borderRadius: 3 },
+    progFill: { height: '100%', backgroundColor: colors.primary, borderRadius: 3 },
+
+    qCard: { padding: spacing.xl, borderRadius: radius.lg, marginBottom: spacing.xl, minHeight: 180, justifyContent: 'center' },
+    qTypeBadge: { alignSelf: 'flex-start', backgroundColor: colors.accent, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4, marginBottom: spacing.md },
+    qTypeText: { color: '#fff', fontSize: 10, fontWeight: '800', textTransform: 'uppercase' },
+    qText: { fontSize: 18, color: colors.text, lineHeight: 28, fontWeight: '600' },
+
+    optionsWrap: { gap: spacing.md, marginBottom: spacing.xxl },
+    optBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: spacing.lg, borderRadius: radius.md, borderWidth: 2, borderColor: 'transparent', ...shadow.slight },
+    optBtnSelected: { borderColor: colors.primary, backgroundColor: colors.primarySoft },
+    radioDot: { width: 18, height: 18, borderRadius: 9, borderWidth: 2, borderColor: colors.muted, marginRight: spacing.md, justifyContent: 'center', alignItems: 'center' },
+    radioDotSelected: { borderColor: colors.primary, borderWidth: 5 },
+    optText: { fontSize: 15, color: colors.text, fontWeight: '500', flex: 1 },
+    optTextSelected: { color: colors.primaryDark, fontWeight: '800' },
+
+    navRow: { flexDirection: 'row', justifyContent: 'space-between' },
+    navButton: { width: '48%' },
+
+    resultWrap: { marginTop: spacing.lg },
+    resultHero: { alignItems: 'center', padding: spacing.xxl, backgroundColor: '#fff', borderRadius: radius.xl, ...shadow.md, marginBottom: spacing.xl },
+    resultLabel: { fontSize: 13, fontWeight: '800', color: colors.muted, textTransform: 'uppercase', marginBottom: 8 },
+    resultVal: { fontSize: 64, fontWeight: '900', lineHeight: 70 },
+    resultValPass: { color: colors.success },
+    resultValFail: { color: colors.error },
+    passFailText: { fontSize: 16, fontWeight: '900', color: colors.text, marginTop: spacing.xs },
+
+    reviewHead: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: spacing.md },
+    reviewCard: { padding: spacing.md, borderRadius: radius.md, marginBottom: spacing.sm },
+    reviewCardCorrect: { borderColor: colors.success, borderWidth: 1 },
+    reviewCardIncorrect: { borderColor: colors.error, borderWidth: 1 },
+    reviewHeaderRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
+    reviewHeaderText: { marginLeft: 8, fontWeight: '800', color: colors.text },
+    reviewQText: { fontSize: 14, color: colors.text, lineHeight: 20, marginBottom: spacing.sm },
+    yourAnsText: { fontSize: 13, color: colors.error, fontWeight: '700', marginBottom: 2 },
+    corrAnsText: { fontSize: 13, color: colors.success, fontWeight: '800' },
+    reviewCoachBtn: { marginTop: spacing.xs, alignSelf: 'flex-start' },
+
+    retryButton: { marginTop: spacing.xl },
+    bottomSpacer: { height: 40 }
+}
+
 const DEFAULT_MOCK_QUESTIONS = [
     { id: 1, type: 'grammar', text: 'By the time the manager arrived, the team ________ the project.', options: ['has finished', 'have finished', 'had finished', 'was finishing'], correct: 2 },
     { id: 2, type: 'reading', text: 'According to the passage, what is the primary cause of urban heat islands?', options: ['Increased vegetation', 'High concentration of dark surfaces', 'Ozone layer depletion', 'Wind patterns'], correct: 1 },
@@ -276,75 +349,4 @@ const Rule = ({ label, desc }) => (
     </View>
 )
 
-const styles = StyleSheet.create({
-    container: { flex: 1 },
-    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
-    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
-
-    headerTitleWrap: { flex: 1 },
-
-    timerBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primaryDark, paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill, gap: 4 },
-    timerText: { color: '#fff', fontSize: 13, fontWeight: '900', fontFamily: 'Courier' },
-    timerBadgeDanger: { backgroundColor: colors.error },
-
-    scroll: { paddingHorizontal: spacing.xl },
-
-    introWrap: { marginTop: spacing.xl },
-    introIcon: { alignSelf: 'center', marginBottom: spacing.md },
-    introTitle: { fontSize: 24, fontWeight: '900', color: colors.text, textAlign: 'center', marginBottom: 8 },
-    introDesc: { fontSize: 15, color: colors.muted, textAlign: 'center', lineHeight: 22, paddingHorizontal: spacing.lg, marginBottom: spacing.xl },
-    sourceText: { fontSize: 12, color: colors.muted, textAlign: 'center', marginBottom: spacing.md },
-    loadingInline: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: spacing.md },
-    loadingInlineText: { marginLeft: 8, color: colors.primaryDark, fontSize: 12, fontWeight: '700' },
-    rulesCard: { padding: spacing.lg, borderRadius: radius.lg, marginBottom: spacing.xxl },
-    rulesHead: { fontSize: 14, fontWeight: '800', textTransform: 'uppercase', color: colors.primaryDark, marginBottom: spacing.sm },
-    ruleItem: { flexDirection: 'row', marginTop: spacing.md, paddingRight: spacing.xl },
-    ruleBullet: { width: 6, height: 6, borderRadius: 3, backgroundColor: colors.primary, marginTop: 6, marginRight: spacing.sm },
-    ruleLabel: { fontSize: 14, fontWeight: '800', color: colors.text },
-    ruleDesc: { fontSize: 13, color: colors.muted, lineHeight: 18, marginTop: 2 },
-
-    progressRow: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.lg, gap: spacing.md },
-    qCounter: { fontSize: 12, fontWeight: '800', color: colors.muted, textTransform: 'uppercase' },
-    progBg: { flex: 1, height: 6, backgroundColor: 'rgba(0,0,0,0.05)', borderRadius: 3 },
-    progFill: { height: '100%', backgroundColor: colors.primary, borderRadius: 3 },
-
-    qCard: { padding: spacing.xl, borderRadius: radius.lg, marginBottom: spacing.xl, minHeight: 180, justifyContent: 'center' },
-    qTypeBadge: { alignSelf: 'flex-start', backgroundColor: colors.accent, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4, marginBottom: spacing.md },
-    qTypeText: { color: '#fff', fontSize: 10, fontWeight: '800', textTransform: 'uppercase' },
-    qText: { fontSize: 18, color: colors.text, lineHeight: 28, fontWeight: '600' },
-
-    optionsWrap: { gap: spacing.md, marginBottom: spacing.xxl },
-    optBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: spacing.lg, borderRadius: radius.md, borderWidth: 2, borderColor: 'transparent', ...shadow.slight },
-    optBtnSelected: { borderColor: colors.primary, backgroundColor: colors.primarySoft },
-    radioDot: { width: 18, height: 18, borderRadius: 9, borderWidth: 2, borderColor: colors.muted, marginRight: spacing.md, justifyContent: 'center', alignItems: 'center' },
-    radioDotSelected: { borderColor: colors.primary, borderWidth: 5 },
-    optText: { fontSize: 15, color: colors.text, fontWeight: '500', flex: 1 },
-    optTextSelected: { color: colors.primaryDark, fontWeight: '800' },
-
-    navRow: { flexDirection: 'row', justifyContent: 'space-between' },
-    navButton: { width: '48%' },
-
-    resultWrap: { marginTop: spacing.lg },
-    resultHero: { alignItems: 'center', padding: spacing.xxl, backgroundColor: '#fff', borderRadius: radius.xl, ...shadow.md, marginBottom: spacing.xl },
-    resultLabel: { fontSize: 13, fontWeight: '800', color: colors.muted, textTransform: 'uppercase', marginBottom: 8 },
-    resultVal: { fontSize: 64, fontWeight: '900', lineHeight: 70 },
-    resultValPass: { color: colors.success },
-    resultValFail: { color: colors.error },
-    passFailText: { fontSize: 16, fontWeight: '900', color: colors.text, marginTop: spacing.xs },
-
-    reviewHead: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: spacing.md },
-    reviewCard: { padding: spacing.md, borderRadius: radius.md, marginBottom: spacing.sm },
-    reviewCardCorrect: { borderColor: colors.success, borderWidth: 1 },
-    reviewCardIncorrect: { borderColor: colors.error, borderWidth: 1 },
-    reviewHeaderRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
-    reviewHeaderText: { marginLeft: 8, fontWeight: '800', color: colors.text },
-    reviewQText: { fontSize: 14, color: colors.text, lineHeight: 20, marginBottom: spacing.sm },
-    yourAnsText: { fontSize: 13, color: colors.error, fontWeight: '700', marginBottom: 2 },
-    corrAnsText: { fontSize: 13, color: colors.success, fontWeight: '800' },
-    reviewCoachBtn: { marginTop: spacing.xs, alignSelf: 'flex-start' },
-
-    retryButton: { marginTop: spacing.xl },
-    bottomSpacer: { height: 40 }
-});
+);

@@ -7,6 +7,114 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppState } from '../context/AppState';
 
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.background },
+  header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
+  backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+  pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
+  pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+
+  scroll: { paddingHorizontal: spacing.xl, paddingTop: spacing.xl, paddingBottom: spacing.xxl },
+
+  progressRow: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.md, gap: spacing.md },
+  progText: { fontSize: 13, fontWeight: '800', color: colors.muted, textTransform: 'uppercase' },
+  progBg: { flex: 1, height: 6, backgroundColor: 'rgba(0,0,0,0.06)', borderRadius: 999 },
+  progFill: { height: '100%', backgroundColor: colors.primary, borderRadius: 999 },
+
+  badgeRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.md },
+  skillBadge: { backgroundColor: colors.primarySoft, borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: 6 },
+  bandBadge: { backgroundColor: '#e8f8f5', borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: 6 },
+  badgeText: { color: colors.primaryDark, fontWeight: '800', fontSize: 12, textTransform: 'uppercase' },
+
+  qCard: { padding: spacing.xxl, borderRadius: radius.xl, backgroundColor: '#fff', marginBottom: spacing.lg, borderWidth: 1, borderColor: 'rgba(0,0,0,0.05)' },
+  qText: { fontSize: 20, fontWeight: '600', color: colors.text, lineHeight: 30, textAlign: 'center' },
+
+  optWrap: { gap: spacing.md },
+  optBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: spacing.lg, borderRadius: radius.lg, ...shadow.slight },
+  optRadio: { width: 18, height: 18, borderRadius: 9, borderWidth: 2, borderColor: colors.muted, marginRight: spacing.md },
+  optText: { fontSize: 16, color: colors.text, fontWeight: '600', flexShrink: 1 },
+
+  resultCard: { padding: spacing.xxl, alignItems: 'center', backgroundColor: '#fff', borderRadius: radius.xl },
+  resultTitle: { fontSize: 24, fontWeight: '900', color: colors.text, marginTop: spacing.md, marginBottom: 8 },
+  resultDesc: { fontSize: 14, color: colors.muted, textAlign: 'center', lineHeight: 22, marginBottom: spacing.md },
+  bandHero: { backgroundColor: colors.primarySoft, width: 140, height: 140, borderRadius: 70, justifyContent: 'center', alignItems: 'center', marginBottom: spacing.lg },
+  bandText: { fontSize: 42, fontWeight: '900', color: colors.primaryDark, fontFamily: typography.fontHeadline, lineHeight: 42 },
+  cefrText: { marginTop: 4, fontSize: 18, fontWeight: '800', color: colors.primary },
+  scoreText: { fontSize: 14, fontWeight: '700', color: colors.text, marginBottom: 4 },
+  hintText: { fontSize: 13, color: colors.muted, marginBottom: spacing.md },
+
+  breakdownBox: { width: '100%', marginBottom: spacing.lg },
+  skillRow: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.sm },
+  skillLabel: { width: 92, fontSize: 13, color: colors.text, fontWeight: '700' },
+  skillTrack: { flex: 1, height: 8, backgroundColor: '#E2E8F0', borderRadius: 999, overflow: 'hidden' },
+  skillFill: { height: '100%', backgroundColor: colors.primary },
+  skillPct: { width: 44, textAlign: 'right', fontSize: 12, fontWeight: '700', color: colors.muted },
+
+  resultActions: { flexDirection: 'row', gap: spacing.sm, width: '100%' },
+  secondaryBtn: { flex: 1, borderWidth: 1, borderColor: colors.secondary, paddingVertical: spacing.md, borderRadius: radius.pill, alignItems: 'center' },
+  secondaryBtnText: { fontWeight: '800', color: colors.text },
+  primaryBtn: { flex: 1, backgroundColor: colors.primary, paddingVertical: spacing.md, borderRadius: radius.pill, alignItems: 'center' },
+  primaryBtnText: { color: '#fff', fontWeight: '800' },
+  bounext: {
+    width: '100%',
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    borderRadius: 12,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+  },
+  bounextTitle: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    marginBottom: 4,
+    textTransform: 'uppercase',
+  },
+  bounextText: {
+    fontSize: 13,
+    color: colors.text,
+    marginBottom: 3,
+  },
+  reviewBox: {
+    width: '100%',
+    backgroundColor: '#FDF4FF',
+    borderWidth: 1,
+    borderColor: '#E9D5FF',
+    borderRadius: 12,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+  },
+  reviewTitle: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    marginBottom: 6,
+    textTransform: 'uppercase',
+  },
+  reviewRow: {
+    marginBottom: spacing.sm,
+  },
+  reviewQ: {
+    fontSize: 13,
+    color: colors.text,
+    fontWeight: '700',
+    marginBottom: 2,
+  },
+  reviewA: {
+    fontSize: 12,
+    color: colors.primaryDark,
+  },
+  reviewExplain: {
+    fontSize: 12,
+    color: colors.muted,
+  },
+  reviewCoachBtn: {
+    marginTop: spacing.xs,
+    alignSelf: 'flex-start',
+  },
+}
+
 const TEST_LENGTH = 12;
 const BAND_ORDER = ['P1', 'P2', 'P3', 'P4'];
 
@@ -769,110 +877,4 @@ export default function PlacementTestScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background },
-  header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
-  backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-  pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-  pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
-
-  scroll: { paddingHorizontal: spacing.xl, paddingTop: spacing.xl, paddingBottom: spacing.xxl },
-
-  progressRow: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.md, gap: spacing.md },
-  progText: { fontSize: 13, fontWeight: '800', color: colors.muted, textTransform: 'uppercase' },
-  progBg: { flex: 1, height: 6, backgroundColor: 'rgba(0,0,0,0.06)', borderRadius: 999 },
-  progFill: { height: '100%', backgroundColor: colors.primary, borderRadius: 999 },
-
-  badgeRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.md },
-  skillBadge: { backgroundColor: colors.primarySoft, borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: 6 },
-  bandBadge: { backgroundColor: '#e8f8f5', borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: 6 },
-  badgeText: { color: colors.primaryDark, fontWeight: '800', fontSize: 12, textTransform: 'uppercase' },
-
-  qCard: { padding: spacing.xxl, borderRadius: radius.xl, backgroundColor: '#fff', marginBottom: spacing.lg, borderWidth: 1, borderColor: 'rgba(0,0,0,0.05)' },
-  qText: { fontSize: 20, fontWeight: '600', color: colors.text, lineHeight: 30, textAlign: 'center' },
-
-  optWrap: { gap: spacing.md },
-  optBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: spacing.lg, borderRadius: radius.lg, ...shadow.slight },
-  optRadio: { width: 18, height: 18, borderRadius: 9, borderWidth: 2, borderColor: colors.muted, marginRight: spacing.md },
-  optText: { fontSize: 16, color: colors.text, fontWeight: '600', flexShrink: 1 },
-
-  resultCard: { padding: spacing.xxl, alignItems: 'center', backgroundColor: '#fff', borderRadius: radius.xl },
-  resultTitle: { fontSize: 24, fontWeight: '900', color: colors.text, marginTop: spacing.md, marginBottom: 8 },
-  resultDesc: { fontSize: 14, color: colors.muted, textAlign: 'center', lineHeight: 22, marginBottom: spacing.md },
-  bandHero: { backgroundColor: colors.primarySoft, width: 140, height: 140, borderRadius: 70, justifyContent: 'center', alignItems: 'center', marginBottom: spacing.lg },
-  bandText: { fontSize: 42, fontWeight: '900', color: colors.primaryDark, fontFamily: typography.fontHeadline, lineHeight: 42 },
-  cefrText: { marginTop: 4, fontSize: 18, fontWeight: '800', color: colors.primary },
-  scoreText: { fontSize: 14, fontWeight: '700', color: colors.text, marginBottom: 4 },
-  hintText: { fontSize: 13, color: colors.muted, marginBottom: spacing.md },
-
-  breakdownBox: { width: '100%', marginBottom: spacing.lg },
-  skillRow: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.sm },
-  skillLabel: { width: 92, fontSize: 13, color: colors.text, fontWeight: '700' },
-  skillTrack: { flex: 1, height: 8, backgroundColor: '#E2E8F0', borderRadius: 999, overflow: 'hidden' },
-  skillFill: { height: '100%', backgroundColor: colors.primary },
-  skillPct: { width: 44, textAlign: 'right', fontSize: 12, fontWeight: '700', color: colors.muted },
-
-  resultActions: { flexDirection: 'row', gap: spacing.sm, width: '100%' },
-  secondaryBtn: { flex: 1, borderWidth: 1, borderColor: colors.secondary, paddingVertical: spacing.md, borderRadius: radius.pill, alignItems: 'center' },
-  secondaryBtnText: { fontWeight: '800', color: colors.text },
-  primaryBtn: { flex: 1, backgroundColor: colors.primary, paddingVertical: spacing.md, borderRadius: radius.pill, alignItems: 'center' },
-  primaryBtnText: { color: '#fff', fontWeight: '800' },
-  bounext: {
-    width: '100%',
-    backgroundColor: '#F8FAFC',
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    borderRadius: 12,
-    padding: spacing.md,
-    marginBottom: spacing.md,
-  },
-  bounextTitle: {
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-    marginBottom: 4,
-    textTransform: 'uppercase',
-  },
-  bounextText: {
-    fontSize: 13,
-    color: colors.text,
-    marginBottom: 3,
-  },
-  reviewBox: {
-    width: '100%',
-    backgroundColor: '#FDF4FF',
-    borderWidth: 1,
-    borderColor: '#E9D5FF',
-    borderRadius: 12,
-    padding: spacing.md,
-    marginBottom: spacing.md,
-  },
-  reviewTitle: {
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-    marginBottom: 6,
-    textTransform: 'uppercase',
-  },
-  reviewRow: {
-    marginBottom: spacing.sm,
-  },
-  reviewQ: {
-    fontSize: 13,
-    color: colors.text,
-    fontWeight: '700',
-    marginBottom: 2,
-  },
-  reviewA: {
-    fontSize: 12,
-    color: colors.primaryDark,
-  },
-  reviewExplain: {
-    fontSize: 12,
-    color: colors.muted,
-  },
-  reviewCoachBtn: {
-    marginTop: spacing.xs,
-    alignSelf: 'flex-start',
-  },
-});
+);

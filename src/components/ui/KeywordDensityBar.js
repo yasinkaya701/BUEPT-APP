@@ -2,51 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
-/**
- * Stacked keyword usage density bar for writing practice.
- * segments: [{ key, label, used, total, color }]
- */
-export default function KeywordDensityBar({ segments = [], label, style }) {
-  const grandTotal = segments.reduce((sum, s) => sum + (s.total || 0), 0);
-  const grandUsed = segments.reduce((sum, s) => sum + (s.used || 0), 0);
-  const ratio = grandTotal > 0 ? grandUsed / grandTotal : 0;
-
-  return (
-    <View style={[styles.wrap, style]}>
-      {label ? (
-        <View style={styles.header}>
-          <Text style={styles.headerLabel}>{label}</Text>
-          <Text style={styles.headerRatio}>{Math.round(ratio * 100)}% coverage</Text>
-        </View>
-      ) : null}
-      <View style={styles.track}>
-        {segments.map((segment) => {
-          const segmentTotal = segment.total || 0;
-          const segmentUsed = segment.used || 0;
-          const widthPct = grandTotal > 0 ? (segmentTotal / grandTotal) * 100 : 0;
-          const fillPct = segmentTotal > 0 ? (segmentUsed / segmentTotal) * 100 : 0;
-          return (
-            <View key={segment.key} style={[styles.segment, { width: `${Math.max(0, widthPct)}%` }]}>
-              <View style={[styles.segmentTrack, { backgroundColor: `${segment.color || colors.primary}26` }]}>
-                <View style={[styles.segmentFill, { width: `${Math.min(100, fillPct)}%`, backgroundColor: segment.color || colors.primary }]} />
-              </View>
-            </View>
-          );
-        })}
-      </View>
-      <View style={styles.legend}>
-        {segments.map((segment) => (
-          <View key={segment.key} style={styles.legendRow}>
-            <View style={[styles.legendDot, { backgroundColor: segment.color || colors.primary }]} />
-            <Text style={styles.legendLabel}>{segment.label}</Text>
-            <Text style={styles.legendCount}>{segment.used || 0}/{segment.total || 0}</Text>
-          </View>
-        ))}
-      </View>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
   wrap: {
     marginVertical: spacing.xs,
@@ -116,4 +71,51 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     fontFamily: typography.fontHeadline,
   },
-});
+}
+
+/**
+ * Stacked keyword usage density bar for writing practice.
+ * segments: [{ key, label, used, total, color }]
+ */
+export default function KeywordDensityBar({ segments = [], label, style }) {
+  const grandTotal = segments.reduce((sum, s) => sum + (s.total || 0), 0);
+  const grandUsed = segments.reduce((sum, s) => sum + (s.used || 0), 0);
+  const ratio = grandTotal > 0 ? grandUsed / grandTotal : 0;
+
+  return (
+    <View style={[styles.wrap, style]}>
+      {label ? (
+        <View style={styles.header}>
+          <Text style={styles.headerLabel}>{label}</Text>
+          <Text style={styles.headerRatio}>{Math.round(ratio * 100)}% coverage</Text>
+        </View>
+      ) : null}
+      <View style={styles.track}>
+        {segments.map((segment) => {
+          const segmentTotal = segment.total || 0;
+          const segmentUsed = segment.used || 0;
+          const widthPct = grandTotal > 0 ? (segmentTotal / grandTotal) * 100 : 0;
+          const fillPct = segmentTotal > 0 ? (segmentUsed / segmentTotal) * 100 : 0;
+          return (
+            <View key={segment.key} style={[styles.segment, { width: `${Math.max(0, widthPct)}%` }]}>
+              <View style={[styles.segmentTrack, { backgroundColor: `${segment.color || colors.primary}26` }]}>
+                <View style={[styles.segmentFill, { width: `${Math.min(100, fillPct)}%`, backgroundColor: segment.color || colors.primary }]} />
+              </View>
+            </View>
+          );
+        })}
+      </View>
+      <View style={styles.legend}>
+        {segments.map((segment) => (
+          <View key={segment.key} style={styles.legendRow}>
+            <View style={[styles.legendDot, { backgroundColor: segment.color || colors.primary }]} />
+            <Text style={styles.legendLabel}>{segment.label}</Text>
+            <Text style={styles.legendCount}>{segment.used || 0}/{segment.total || 0}</Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+
+);

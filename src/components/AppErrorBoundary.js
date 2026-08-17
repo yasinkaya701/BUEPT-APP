@@ -4,6 +4,58 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors, spacing, typography } from '../theme/tokens';
 import { DEV_SMOKE_TEST_REPORT_KEY } from '../dev/smokeTestConfig';
 
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: colors.bg,
+    padding: spacing.xl,
+    justifyContent: 'center'
+  },
+  title: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.error,
+    marginBottom: spacing.md
+  },
+  body: {
+    fontSize: typography.body,
+    fontFamily: typography.fontBody,
+    color: colors.text,
+    marginBottom: spacing.sm
+  },
+  stack: {
+    fontSize: 11,
+    color: 'rgba(255,255,255,0.55)',
+    fontFamily: 'monospace',
+    marginBottom: spacing.sm,
+    lineHeight: 15,
+  },
+  retry: {
+    color: colors.primary,
+    fontSize: typography.body,
+    fontFamily: typography.fontHeadline,
+    paddingVertical: spacing.sm,
+  },
+  actions: {
+    marginTop: spacing.lg,
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    borderRadius: 16,
+    padding: spacing.md,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    marginVertical: spacing.xs,
+  },
+  hint: {
+    marginTop: spacing.xl,
+    fontSize: 12,
+    color: 'rgba(255,255,255,0.4)',
+    textAlign: 'center',
+    fontStyle: 'italic',
+  }
+}
+
 function getMessage(error) {
   if (!error) return 'Unknown runtime error';
   if (typeof error === 'string') return error;
@@ -86,54 +138,4 @@ export default class AppErrorBoundary extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: colors.bg,
-    padding: spacing.xl,
-    justifyContent: 'center'
-  },
-  title: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.error,
-    marginBottom: spacing.md
-  },
-  body: {
-    fontSize: typography.body,
-    fontFamily: typography.fontBody,
-    color: colors.text,
-    marginBottom: spacing.sm
-  },
-  stack: {
-    fontSize: 11,
-    color: 'rgba(255,255,255,0.55)',
-    fontFamily: 'monospace',
-    marginBottom: spacing.sm,
-    lineHeight: 15,
-  },
-  retry: {
-    color: colors.primary,
-    fontSize: typography.body,
-    fontFamily: typography.fontHeadline,
-    paddingVertical: spacing.sm,
-  },
-  actions: {
-    marginTop: spacing.lg,
-    backgroundColor: 'rgba(255,255,255,0.05)',
-    borderRadius: 16,
-    padding: spacing.md,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    marginVertical: spacing.xs,
-  },
-  hint: {
-    marginTop: spacing.xl,
-    fontSize: 12,
-    color: 'rgba(255,255,255,0.4)',
-    textAlign: 'center',
-    fontStyle: 'italic',
-  }
-});
+);

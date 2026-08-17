@@ -5,23 +5,6 @@ import Card from '../components/Card';
 import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
-export default function ListeningHistoryScreen() {
-  const { listeningHistory } = useAppState();
-
-  return (
-    <Screen scroll contentStyle={styles.container}>
-      <Text style={styles.h1}>Listening History</Text>
-      {listeningHistory.length === 0 && <Text style={styles.body}>No attempts yet.</Text>}
-      {listeningHistory.map((r) => (
-        <Card key={r.id} style={styles.card}>
-          <Text style={styles.h3}>Listening • {new Date(r.createdAt).toLocaleDateString()}</Text>
-          <Text style={styles.body}>Score: {r.result.score}/{r.result.total}</Text>
-        </Card>
-      ))}
-    </Screen>
-  );
-}
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl
@@ -44,4 +27,23 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: spacing.lg
   }
-});
+}
+
+export default function ListeningHistoryScreen() {
+  const { listeningHistory } = useAppState();
+
+  return (
+    <Screen scroll contentStyle={styles.container}>
+      <Text style={styles.h1}>Listening History</Text>
+      {listeningHistory.length === 0 && <Text style={styles.body}>No attempts yet.</Text>}
+      {listeningHistory.map((r) => (
+        <Card key={r.id} style={styles.card}>
+          <Text style={styles.h3}>Listening • {new Date(r.createdAt).toLocaleDateString()}</Text>
+          <Text style={styles.body}>Score: {r.result.score}/{r.result.total}</Text>
+        </Card>
+      ))}
+    </Screen>
+  );
+}
+
+);

@@ -9,6 +9,61 @@ import hardTasks from '../../data/grammar_tasks_hard.json';
 import testEnglishTasks from '../../data/test_english_grammar_tasks.json';
 import { useAppState } from '../context/AppState';
 
+const styles = StyleSheet.create({
+  container: { paddingBottom: spacing.xl },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.xs,
+  },
+  sub: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.md,
+  },
+  h3: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.sm,
+  },
+  body: {
+    fontSize: typography.body,
+    color: colors.text,
+    marginBottom: spacing.xs,
+  },
+  note: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.xs,
+  },
+  row: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginTop: spacing.sm,
+  },
+  card: {
+    marginBottom: spacing.md,
+  },
+  correct: {
+    fontSize: typography.small,
+    color: '#1F8B4C',
+    fontFamily: typography.fontHeadline,
+    marginTop: spacing.xs,
+  },
+  incorrect: {
+    fontSize: typography.small,
+    color: '#B42318',
+    fontFamily: typography.fontHeadline,
+    marginTop: spacing.xs,
+  },
+  mistakeBtn: {
+    marginTop: spacing.xs,
+    alignSelf: 'flex-start',
+  },
+}
+
 const allTasks = [...baseTasks, ...hardTasks, ...testEnglishTasks];
 
 function shuffle(list, seed = 1) {
@@ -233,57 +288,4 @@ export default function GrammarSectionExamScreen({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { paddingBottom: spacing.xl },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.xs,
-  },
-  sub: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.md,
-  },
-  h3: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.sm,
-  },
-  body: {
-    fontSize: typography.body,
-    color: colors.text,
-    marginBottom: spacing.xs,
-  },
-  note: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.xs,
-  },
-  row: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    marginTop: spacing.sm,
-  },
-  card: {
-    marginBottom: spacing.md,
-  },
-  correct: {
-    fontSize: typography.small,
-    color: '#1F8B4C',
-    fontFamily: typography.fontHeadline,
-    marginTop: spacing.xs,
-  },
-  incorrect: {
-    fontSize: typography.small,
-    color: '#B42318',
-    fontFamily: typography.fontHeadline,
-    marginTop: spacing.xs,
-  },
-  mistakeBtn: {
-    marginTop: spacing.xs,
-    alignSelf: 'flex-start',
-  },
-});
+);

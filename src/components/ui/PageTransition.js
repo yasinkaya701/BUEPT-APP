@@ -2,6 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import { View, Animated, Easing, Platform, StyleSheet } from 'react-native';
 import { motion } from '../../theme/tokens';
 
+const styles = StyleSheet.create({
+  wrap: { flex: 1, minHeight: 0, width: '100%' },
+  page: { flex: 1, minHeight: 0, width: '100%' },
+}
+
 /**
  * PageTransition — premium page entrance for the web app.
  *
@@ -69,7 +74,4 @@ export default function PageTransition({ children, delay = 0 }) {
   );
 }
 
-const styles = StyleSheet.create({
-  wrap: { flex: 1, minHeight: 0, width: '100%' },
-  page: { flex: 1, minHeight: 0, width: '100%' },
-});
+);

@@ -2,41 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors, typography, spacing, radius, shadow } from '../../theme/tokens';
 
-/**
- * Segmented tab control.
- * options: [{ key, label, badge? }]
- */
-export default function TabPill({ options = [], activeKey, onPress, style }) {
-  return (
-    <View style={[styles.group, style, shadow.elev1]}>
-      {options.map((option) => {
-        const active = option.key === activeKey;
-        return (
-          <TouchableOpacity
-            key={option.key}
-            activeOpacity={0.75}
-            onPress={() => onPress && onPress(option.key)}
-            style={[
-              styles.pill,
-              active && styles.pillActive,
-              !active && { backgroundColor: 'transparent' },
-            ]}
-          >
-            <Text style={[styles.pillLabel, active && styles.pillLabelActive, !active && styles.pillLabelInactive]}>
-              {option.label}
-            </Text>
-            {option.badge ? (
-              <View style={[styles.badge, active ? styles.badgeActive : styles.badgeInactive]}>
-                <Text style={[styles.badgeText, active ? styles.badgeTextActive : styles.badgeTextInactive]}>{option.badge}</Text>
-              </View>
-            ) : null}
-          </TouchableOpacity>
-        );
-      })}
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
   group: {
     flexDirection: 'row',
@@ -97,4 +62,41 @@ const styles = StyleSheet.create({
   badgeTextInactive: {
     color: colors.muted,
   },
-});
+}
+
+/**
+ * Segmented tab control.
+ * options: [{ key, label, badge? }]
+ */
+export default function TabPill({ options = [], activeKey, onPress, style }) {
+  return (
+    <View style={[styles.group, style, shadow.elev1]}>
+      {options.map((option) => {
+        const active = option.key === activeKey;
+        return (
+          <TouchableOpacity
+            key={option.key}
+            activeOpacity={0.75}
+            onPress={() => onPress && onPress(option.key)}
+            style={[
+              styles.pill,
+              active && styles.pillActive,
+              !active && { backgroundColor: 'transparent' },
+            ]}
+          >
+            <Text style={[styles.pillLabel, active && styles.pillLabelActive, !active && styles.pillLabelInactive]}>
+              {option.label}
+            </Text>
+            {option.badge ? (
+              <View style={[styles.badge, active ? styles.badgeActive : styles.badgeInactive]}>
+                <Text style={[styles.badgeText, active ? styles.badgeTextActive : styles.badgeTextInactive]}>{option.badge}</Text>
+              </View>
+            ) : null}
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+}
+
+);

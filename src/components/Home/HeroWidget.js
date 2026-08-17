@@ -6,82 +6,6 @@ import { colors, spacing, typography, radius } from '../../theme/tokens';
 import { useAppState } from '../../context/AppState';
 import { levelFromXP } from '../../utils/gamification';
 
-const ROUTE_BY_FOCUS = {
-    reading: 'Reading',
-    listening: 'Listening',
-    grammar: 'Grammar',
-    writing: 'Writing',
-};
-
-function formatFocusLabel(value) {
-    if (!value) return 'Study';
-    return value.charAt(0).toUpperCase() + value.slice(1);
-}
-
-export default function HeroWidget({ adaptive, navigation }) {
-    const { xp } = useAppState();
-    const userLevel = levelFromXP(xp || 0);
-    const focusRoute = ROUTE_BY_FOCUS[adaptive.weakest] || 'StudyPlan';
-    const focusLabel = formatFocusLabel(adaptive.weakest);
-
-    // Calculate specific progress inside the current level
-    const prevLevelXp = userLevel > 1 ? Math.pow(userLevel - 1, 2) * 50 : 0;
-    const nextLevelXp = Math.pow(userLevel, 2) * 50;
-    const currentLevelProgress = Math.max(0, xp - prevLevelXp);
-    const requiredForNext = nextLevelXp - prevLevelXp;
-    let progressPct = Math.min(100, Math.round((currentLevelProgress / requiredForNext) * 100));
-    if (isNaN(progressPct)) progressPct = 0;
-
-    return (
-        <Card style={styles.hero} glow>
-        <View pointerEvents="none" style={styles.heroGlow1} />
-        <View pointerEvents="none" style={styles.heroGlow2} />
-
-            <View style={styles.headerRow}>
-                <View>
-                    <Text style={styles.heroLabel}>Daily Plan</Text>
-                    <Text style={styles.heroTitle}>{adaptive.focusTitle}</Text>
-                </View>
-
-                {/* Level / Gamification Banner */}
-                <View style={styles.levelRow}>
-                    <View style={styles.levelBadge}>
-                        <Text style={styles.levelText}>Lv. {userLevel}</Text>
-                    </View>
-                    <View style={styles.xpCol}>
-                        <View style={styles.xpBarContainer}>
-                            <View style={[styles.xpBarFill, { width: `${progressPct}%` }]} />
-                        </View>
-                        <Text style={styles.xpText}>{xp} XP</Text>
-                    </View>
-                </View>
-            </View>
-
-            <Text style={styles.heroBody}>
-                {adaptive.focusAction}
-            </Text>
-
-            <View style={styles.priorityPill}>
-                <Text style={styles.priorityPillText}>Today&apos;s priority: {adaptive.focusTitle}</Text>
-            </View>
-
-            <View style={styles.heroRow}>
-                <Button
-                    label={`Start ${focusLabel}`}
-                    onPress={() => navigation.navigate(focusRoute)}
-                    style={styles.btnShadow}
-                />
-                <Button
-                    label="Open Plan"
-                    variant="secondary"
-                    onPress={() => navigation.navigate('StudyPlan')}
-                    style={styles.btnShadow}
-                />
-            </View>
-        </Card>
-    );
-}
-
 const styles = StyleSheet.create({
     hero: {
         marginBottom: spacing.lg,
@@ -220,4 +144,82 @@ const styles = StyleSheet.create({
         fontFamily: typography.fontHeadline,
         fontWeight: '600',
     }
-});
+}
+
+const ROUTE_BY_FOCUS = {
+    reading: 'Reading',
+    listening: 'Listening',
+    grammar: 'Grammar',
+    writing: 'Writing',
+};
+
+function formatFocusLabel(value) {
+    if (!value) return 'Study';
+    return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+export default function HeroWidget({ adaptive, navigation }) {
+    const { xp } = useAppState();
+    const userLevel = levelFromXP(xp || 0);
+    const focusRoute = ROUTE_BY_FOCUS[adaptive.weakest] || 'StudyPlan';
+    const focusLabel = formatFocusLabel(adaptive.weakest);
+
+    // Calculate specific progress inside the current level
+    const prevLevelXp = userLevel > 1 ? Math.pow(userLevel - 1, 2) * 50 : 0;
+    const nextLevelXp = Math.pow(userLevel, 2) * 50;
+    const currentLevelProgress = Math.max(0, xp - prevLevelXp);
+    const requiredForNext = nextLevelXp - prevLevelXp;
+    let progressPct = Math.min(100, Math.round((currentLevelProgress / requiredForNext) * 100));
+    if (isNaN(progressPct)) progressPct = 0;
+
+    return (
+        <Card style={styles.hero} glow>
+        <View pointerEvents="none" style={styles.heroGlow1} />
+        <View pointerEvents="none" style={styles.heroGlow2} />
+
+            <View style={styles.headerRow}>
+                <View>
+                    <Text style={styles.heroLabel}>Daily Plan</Text>
+                    <Text style={styles.heroTitle}>{adaptive.focusTitle}</Text>
+                </View>
+
+                {/* Level / Gamification Banner */}
+                <View style={styles.levelRow}>
+                    <View style={styles.levelBadge}>
+                        <Text style={styles.levelText}>Lv. {userLevel}</Text>
+                    </View>
+                    <View style={styles.xpCol}>
+                        <View style={styles.xpBarContainer}>
+                            <View style={[styles.xpBarFill, { width: `${progressPct}%` }]} />
+                        </View>
+                        <Text style={styles.xpText}>{xp} XP</Text>
+                    </View>
+                </View>
+            </View>
+
+            <Text style={styles.heroBody}>
+                {adaptive.focusAction}
+            </Text>
+
+            <View style={styles.priorityPill}>
+                <Text style={styles.priorityPillText}>Today&apos;s priority: {adaptive.focusTitle}</Text>
+            </View>
+
+            <View style={styles.heroRow}>
+                <Button
+                    label={`Start ${focusLabel}`}
+                    onPress={() => navigation.navigate(focusRoute)}
+                    style={styles.btnShadow}
+                />
+                <Button
+                    label="Open Plan"
+                    variant="secondary"
+                    onPress={() => navigation.navigate('StudyPlan')}
+                    style={styles.btnShadow}
+                />
+            </View>
+        </Card>
+    );
+}
+
+);

@@ -8,6 +8,157 @@ import { colors, typography, spacing, radius, shadow } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import { fetchDirectGeminiChat } from '../utils/runtimeApi';
 
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: spacing.xxl,
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.xs,
+  },
+  headerSub: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.md,
+    lineHeight: 18,
+  },
+  card: {
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderWidth: 1,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+  },
+  cardTitle: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    marginBottom: spacing.sm,
+  },
+  cardSub: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    marginBottom: spacing.sm,
+    lineHeight: 17,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    fontSize: typography.body,
+    color: colors.text,
+    minHeight: 92,
+    textAlignVertical: 'top',
+    marginBottom: spacing.md,
+    backgroundColor: colors.surfaceAlt,
+  },
+  levelLabel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.xs,
+  },
+  levelRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  levelCell: {
+    flex: 1,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    paddingVertical: spacing.md,
+    alignItems: 'center',
+  },
+  levelKey: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+  },
+  levelSub: {
+    fontSize: typography.micro,
+    color: colors.muted,
+    marginTop: 2,
+  },
+  sampleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderLight,
+  },
+  sampleText: {
+    flex: 1,
+    fontSize: typography.small,
+    color: colors.textSecondary,
+    lineHeight: 17,
+  },
+  suggestionBox: {
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    marginBottom: spacing.sm,
+  },
+  suggestionLabel: {
+    fontSize: typography.micro,
+    color: colors.primary,
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: spacing.xs,
+  },
+  suggestionText: {
+    fontSize: typography.body,
+    color: colors.text,
+    lineHeight: 21,
+  },
+  pairRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    paddingVertical: spacing.xs,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderLight,
+  },
+  pairRowApplied: {
+    backgroundColor: colors.successLight,
+    borderRadius: radius.sm,
+    paddingHorizontal: spacing.xs,
+  },
+  pairOriginal: {
+    fontSize: typography.small,
+    color: colors.textSecondary,
+  },
+  pairUpgraded: {
+    fontSize: typography.small,
+    color: colors.accent,
+    fontFamily: typography.fontHeadline,
+  },
+  pairReason: {
+    flex: 1,
+    fontSize: typography.micro,
+    color: colors.muted,
+  },
+  errorText: {
+    fontSize: typography.small,
+    color: colors.error,
+    marginTop: spacing.sm,
+    lineHeight: 17,
+  },
+  footerNote: {
+    fontSize: typography.micro,
+    color: colors.muted,
+    textAlign: 'center',
+    lineHeight: 15,
+  },
+}
+
 const SAMPLE_SENTENCES = [
   'The university requires students to achieve a high level of English proficiency before graduation.',
   'Many researchers argue that regular exercise significantly improves cognitive performance.',
@@ -182,153 +333,4 @@ export default function ParaphraseStudioScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: spacing.xxl,
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.xs,
-  },
-  headerSub: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.md,
-    lineHeight: 18,
-  },
-  card: {
-    backgroundColor: colors.surface,
-    borderColor: colors.border,
-    borderWidth: 1,
-    borderRadius: radius.lg,
-    padding: spacing.md,
-    marginBottom: spacing.md,
-  },
-  cardTitle: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-    marginBottom: spacing.sm,
-  },
-  cardSub: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    marginBottom: spacing.sm,
-    lineHeight: 17,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radius.md,
-    padding: spacing.md,
-    fontSize: typography.body,
-    color: colors.text,
-    minHeight: 92,
-    textAlignVertical: 'top',
-    marginBottom: spacing.md,
-    backgroundColor: colors.surfaceAlt,
-  },
-  levelLabel: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.xs,
-  },
-  levelRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    marginBottom: spacing.md,
-  },
-  levelCell: {
-    flex: 1,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    paddingVertical: spacing.md,
-    alignItems: 'center',
-  },
-  levelKey: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-  },
-  levelSub: {
-    fontSize: typography.micro,
-    color: colors.muted,
-    marginTop: 2,
-  },
-  sampleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    paddingVertical: spacing.xs,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
-  },
-  sampleText: {
-    flex: 1,
-    fontSize: typography.small,
-    color: colors.textSecondary,
-    lineHeight: 17,
-  },
-  suggestionBox: {
-    backgroundColor: colors.surfaceAlt,
-    borderRadius: radius.md,
-    padding: spacing.md,
-    marginBottom: spacing.sm,
-  },
-  suggestionLabel: {
-    fontSize: typography.micro,
-    color: colors.primary,
-    fontFamily: typography.fontHeadline,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginBottom: spacing.xs,
-  },
-  suggestionText: {
-    fontSize: typography.body,
-    color: colors.text,
-    lineHeight: 21,
-  },
-  pairRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs,
-    paddingVertical: spacing.xs,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
-  },
-  pairRowApplied: {
-    backgroundColor: colors.successLight,
-    borderRadius: radius.sm,
-    paddingHorizontal: spacing.xs,
-  },
-  pairOriginal: {
-    fontSize: typography.small,
-    color: colors.textSecondary,
-  },
-  pairUpgraded: {
-    fontSize: typography.small,
-    color: colors.accent,
-    fontFamily: typography.fontHeadline,
-  },
-  pairReason: {
-    flex: 1,
-    fontSize: typography.micro,
-    color: colors.muted,
-  },
-  errorText: {
-    fontSize: typography.small,
-    color: colors.error,
-    marginTop: spacing.sm,
-    lineHeight: 17,
-  },
-  footerNote: {
-    fontSize: typography.micro,
-    color: colors.muted,
-    textAlign: 'center',
-    lineHeight: 15,
-  },
-});
+);

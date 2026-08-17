@@ -22,6 +22,402 @@ import cslTasks from '../../data/careful_selective_tasks.json';
 import geminiTasks from '../../data/gemini_listening.json';
 import podcasts from '../../data/listening_podcasts.json';
 
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: spacing.xl,
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.textOnDark,
+    marginBottom: spacing.sm,
+  },
+  sub: {
+    fontSize: typography.small,
+    color: colors.textOnDarkMuted,
+    marginBottom: spacing.lg,
+  },
+  section: {
+    fontSize: typography.small,
+    color: colors.textOnDarkMuted,
+    marginBottom: spacing.sm,
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+  },
+  h3: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.xs,
+  },
+  heroCard: {
+    marginBottom: spacing.lg,
+    backgroundColor: '#0F4C81',
+    borderColor: '#0F4C81',
+  },
+  heroCardDark: {
+    marginBottom: spacing.lg,
+    backgroundColor: '#0F172A',
+    borderColor: '#172554',
+  },
+  heroHeader: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    marginBottom: spacing.md,
+  },
+  heroCopy: {
+    flex: 1,
+  },
+  heroEyebrow: {
+    fontSize: typography.xsmall,
+    fontFamily: typography.fontHeadline,
+    color: '#BFDBFE',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: spacing.xs,
+  },
+  heroTitle: {
+    fontSize: typography.h2,
+    fontFamily: typography.fontHeadline,
+    color: '#FFFFFF',
+    marginBottom: spacing.xs,
+  },
+  heroBody: {
+    fontSize: typography.small,
+    color: '#DBEAFE',
+    lineHeight: 20,
+  },
+  heroCounter: {
+    minWidth: 90,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.sm,
+    borderRadius: radius.lg,
+    backgroundColor: 'rgba(255,255,255,0.12)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.16)',
+    alignItems: 'center',
+  },
+  heroCounterValue: {
+    fontSize: 28,
+    lineHeight: 32,
+    color: '#FFFFFF',
+    fontFamily: typography.fontHeadline,
+  },
+  heroCounterLabel: {
+    marginTop: 2,
+    fontSize: typography.xsmall,
+    color: '#BFDBFE',
+    textTransform: 'uppercase',
+  },
+  modeRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  modeChip: {
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.24)',
+    borderRadius: 999,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs + 2,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+  },
+  modeChipActive: {
+    borderColor: '#BFDBFE',
+    backgroundColor: 'rgba(191,219,254,0.18)',
+  },
+  modeChipText: {
+    color: '#DBEAFE',
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+  },
+  modeChipTextActive: {
+    color: '#FFFFFF',
+  },
+  heroActionRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+  },
+  metricRail: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginBottom: spacing.lg,
+  },
+  suggestedHeader: {
+    marginTop: spacing.lg,
+    marginBottom: spacing.md,
+  },
+  snapshotCard: {
+    marginBottom: spacing.lg,
+  },
+  progressTrack: {
+    height: 8,
+    borderRadius: 999,
+    backgroundColor: '#E2E8F0',
+    overflow: 'hidden',
+    marginBottom: spacing.sm,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: colors.primary,
+  },
+  subtleBody: {
+    fontSize: typography.small,
+    color: colors.muted,
+    lineHeight: 20,
+  },
+  modelFocusBox: {
+    marginTop: spacing.md,
+    borderWidth: 1,
+    borderColor: '#D7E4FA',
+    borderRadius: radius.md,
+    backgroundColor: '#F8FBFF',
+    padding: spacing.md,
+  },
+  modelFocusTitle: {
+    fontSize: typography.small,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.xs,
+  },
+  modelFocusBody: {
+    fontSize: typography.small,
+    color: colors.text,
+    lineHeight: 20,
+  },
+  letterRail: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  letterTile: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: spacing.sm,
+    borderRadius: radius.md,
+    backgroundColor: '#F8FBFF',
+    borderWidth: 1,
+    borderColor: '#D7E4FA',
+  },
+  letterValue: {
+    fontSize: 26,
+    lineHeight: 30,
+    fontFamily: typography.fontHeadline,
+    marginBottom: 2,
+  },
+  letterGreen: {
+    color: '#15803D',
+  },
+  letterBlue: {
+    color: colors.primary,
+  },
+  letterAmber: {
+    color: '#B45309',
+  },
+  letterRed: {
+    color: '#B91C1C',
+  },
+  letterMuted: {
+    color: colors.muted,
+  },
+  letterOverall: {
+    color: colors.text,
+  },
+  letterLabel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+  },
+  examFormatCard: {
+    marginBottom: spacing.lg,
+  },
+  formatRow: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    marginBottom: spacing.sm,
+  },
+  formatBlock: {
+    flex: 1,
+    borderRadius: radius.md,
+    backgroundColor: '#F0F9FF',
+    borderWidth: 1,
+    borderColor: '#BAE6FD',
+    padding: spacing.md,
+  },
+  formatHead: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.xs,
+  },
+  formatTitle: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: '#0C4A6E',
+  },
+  formatNote: {
+    fontSize: typography.xsmall,
+    color: '#0369A1',
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+  },
+  formatBody: {
+    fontSize: typography.xsmall,
+    color: '#334155',
+    lineHeight: 18,
+  },
+  formatFoot: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    fontStyle: 'italic',
+  },
+  quickStartCard: {
+    marginBottom: spacing.lg,
+  },
+  controlsCard: {
+    marginBottom: spacing.lg,
+  },
+  suggestedCard: {
+    marginBottom: spacing.lg,
+  },
+  podcastFeaturedCard: {
+    marginBottom: spacing.lg,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+    marginBottom: spacing.md,
+  },
+  actionRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+  },
+  meta: {
+    marginTop: spacing.sm,
+    fontSize: typography.small,
+    color: colors.muted,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+    borderRadius: 14,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm + 2,
+    color: colors.text,
+    marginBottom: spacing.md,
+  },
+  filterLabel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    letterSpacing: 0.6,
+    marginBottom: spacing.xs,
+  },
+  filterRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  filterChip: {
+    minHeight: 48,
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs + 2,
+    backgroundColor: colors.surfaceAlt,
+    borderWidth: 1,
+    borderColor: '#D8E4F8',
+    justifyContent: 'center',
+  },
+  filterChipActive: {
+    backgroundColor: colors.primaryDark,
+    borderColor: colors.primaryDark,
+  },
+  filterChipText: {
+    fontSize: typography.small,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+  },
+  filterChipTextActive: {
+    color: '#FFFFFF',
+  },
+  filterChipHelper: {
+    marginTop: 1,
+    fontSize: typography.xsmall,
+    color: colors.muted,
+  },
+  filterChipHelperActive: {
+    color: '#DBEAFE',
+  },
+  bankGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginHorizontal: -6,
+  },
+  bankColumn: {
+    width: '50%',
+    paddingHorizontal: 6,
+  },
+  bankCard: {
+    marginBottom: spacing.lg,
+  },
+  bankHeader: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: spacing.md,
+  },
+  bankHeaderCopy: {
+    flex: 1,
+  },
+  bankTitle: {
+    fontSize: typography.h3,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.xs,
+  },
+  bankDescription: {
+    fontSize: typography.small,
+    color: colors.muted,
+    lineHeight: 20,
+  },
+  bankCountPill: {
+    minWidth: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.primarySoft,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: spacing.xs,
+  },
+  bankCountText: {
+    fontSize: typography.body,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+  },
+  bankList: {
+    gap: spacing.sm,
+  },
+  emptyCard: {
+    marginBottom: spacing.lg,
+  },
+  emptyText: {
+    fontSize: typography.small,
+    color: colors.muted,
+  },
+}
+
 const tasks = [...geminiTasks, ...baseTasks, ...hardTasks, ...cslTasks];
 const LEVEL_OPTIONS = ['ALL', 'P1', 'P2', 'P3', 'P4'];
 const TYPE_OPTIONS = [
@@ -747,398 +1143,4 @@ export default function ListeningScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: spacing.xl,
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.textOnDark,
-    marginBottom: spacing.sm,
-  },
-  sub: {
-    fontSize: typography.small,
-    color: colors.textOnDarkMuted,
-    marginBottom: spacing.lg,
-  },
-  section: {
-    fontSize: typography.small,
-    color: colors.textOnDarkMuted,
-    marginBottom: spacing.sm,
-    textTransform: 'uppercase',
-    letterSpacing: 0.4,
-  },
-  h3: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.xs,
-  },
-  heroCard: {
-    marginBottom: spacing.lg,
-    backgroundColor: '#0F4C81',
-    borderColor: '#0F4C81',
-  },
-  heroCardDark: {
-    marginBottom: spacing.lg,
-    backgroundColor: '#0F172A',
-    borderColor: '#172554',
-  },
-  heroHeader: {
-    flexDirection: 'row',
-    gap: spacing.md,
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    marginBottom: spacing.md,
-  },
-  heroCopy: {
-    flex: 1,
-  },
-  heroEyebrow: {
-    fontSize: typography.xsmall,
-    fontFamily: typography.fontHeadline,
-    color: '#BFDBFE',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: spacing.xs,
-  },
-  heroTitle: {
-    fontSize: typography.h2,
-    fontFamily: typography.fontHeadline,
-    color: '#FFFFFF',
-    marginBottom: spacing.xs,
-  },
-  heroBody: {
-    fontSize: typography.small,
-    color: '#DBEAFE',
-    lineHeight: 20,
-  },
-  heroCounter: {
-    minWidth: 90,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.sm,
-    borderRadius: radius.lg,
-    backgroundColor: 'rgba(255,255,255,0.12)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.16)',
-    alignItems: 'center',
-  },
-  heroCounterValue: {
-    fontSize: 28,
-    lineHeight: 32,
-    color: '#FFFFFF',
-    fontFamily: typography.fontHeadline,
-  },
-  heroCounterLabel: {
-    marginTop: 2,
-    fontSize: typography.xsmall,
-    color: '#BFDBFE',
-    textTransform: 'uppercase',
-  },
-  modeRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    marginBottom: spacing.md,
-  },
-  modeChip: {
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.24)',
-    borderRadius: 999,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs + 2,
-    backgroundColor: 'rgba(255,255,255,0.08)',
-  },
-  modeChipActive: {
-    borderColor: '#BFDBFE',
-    backgroundColor: 'rgba(191,219,254,0.18)',
-  },
-  modeChipText: {
-    color: '#DBEAFE',
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-  },
-  modeChipTextActive: {
-    color: '#FFFFFF',
-  },
-  heroActionRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-  },
-  metricRail: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-    marginBottom: spacing.lg,
-  },
-  suggestedHeader: {
-    marginTop: spacing.lg,
-    marginBottom: spacing.md,
-  },
-  snapshotCard: {
-    marginBottom: spacing.lg,
-  },
-  progressTrack: {
-    height: 8,
-    borderRadius: 999,
-    backgroundColor: '#E2E8F0',
-    overflow: 'hidden',
-    marginBottom: spacing.sm,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: colors.primary,
-  },
-  subtleBody: {
-    fontSize: typography.small,
-    color: colors.muted,
-    lineHeight: 20,
-  },
-  modelFocusBox: {
-    marginTop: spacing.md,
-    borderWidth: 1,
-    borderColor: '#D7E4FA',
-    borderRadius: radius.md,
-    backgroundColor: '#F8FBFF',
-    padding: spacing.md,
-  },
-  modelFocusTitle: {
-    fontSize: typography.small,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.xs,
-  },
-  modelFocusBody: {
-    fontSize: typography.small,
-    color: colors.text,
-    lineHeight: 20,
-  },
-  letterRail: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    marginBottom: spacing.sm,
-  },
-  letterTile: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: spacing.sm,
-    borderRadius: radius.md,
-    backgroundColor: '#F8FBFF',
-    borderWidth: 1,
-    borderColor: '#D7E4FA',
-  },
-  letterValue: {
-    fontSize: 26,
-    lineHeight: 30,
-    fontFamily: typography.fontHeadline,
-    marginBottom: 2,
-  },
-  letterGreen: {
-    color: '#15803D',
-  },
-  letterBlue: {
-    color: colors.primary,
-  },
-  letterAmber: {
-    color: '#B45309',
-  },
-  letterRed: {
-    color: '#B91C1C',
-  },
-  letterMuted: {
-    color: colors.muted,
-  },
-  letterOverall: {
-    color: colors.text,
-  },
-  letterLabel: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    textTransform: 'uppercase',
-    letterSpacing: 0.4,
-  },
-  examFormatCard: {
-    marginBottom: spacing.lg,
-  },
-  formatRow: {
-    flexDirection: 'row',
-    gap: spacing.md,
-    marginBottom: spacing.sm,
-  },
-  formatBlock: {
-    flex: 1,
-    borderRadius: radius.md,
-    backgroundColor: '#F0F9FF',
-    borderWidth: 1,
-    borderColor: '#BAE6FD',
-    padding: spacing.md,
-  },
-  formatHead: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.xs,
-  },
-  formatTitle: {
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-    color: '#0C4A6E',
-  },
-  formatNote: {
-    fontSize: typography.xsmall,
-    color: '#0369A1',
-    fontFamily: typography.fontHeadline,
-    textTransform: 'uppercase',
-  },
-  formatBody: {
-    fontSize: typography.xsmall,
-    color: '#334155',
-    lineHeight: 18,
-  },
-  formatFoot: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    fontStyle: 'italic',
-  },
-  quickStartCard: {
-    marginBottom: spacing.lg,
-  },
-  controlsCard: {
-    marginBottom: spacing.lg,
-  },
-  suggestedCard: {
-    marginBottom: spacing.lg,
-  },
-  podcastFeaturedCard: {
-    marginBottom: spacing.lg,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-    marginBottom: spacing.md,
-  },
-  actionRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-  },
-  meta: {
-    marginTop: spacing.sm,
-    fontSize: typography.small,
-    color: colors.muted,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.surface,
-    borderRadius: 14,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm + 2,
-    color: colors.text,
-    marginBottom: spacing.md,
-  },
-  filterLabel: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    fontFamily: typography.fontHeadline,
-    textTransform: 'uppercase',
-    letterSpacing: 0.6,
-    marginBottom: spacing.xs,
-  },
-  filterRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-    marginBottom: spacing.md,
-  },
-  filterChip: {
-    minHeight: 48,
-    borderRadius: radius.pill,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs + 2,
-    backgroundColor: colors.surfaceAlt,
-    borderWidth: 1,
-    borderColor: '#D8E4F8',
-    justifyContent: 'center',
-  },
-  filterChipActive: {
-    backgroundColor: colors.primaryDark,
-    borderColor: colors.primaryDark,
-  },
-  filterChipText: {
-    fontSize: typography.small,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-  },
-  filterChipTextActive: {
-    color: '#FFFFFF',
-  },
-  filterChipHelper: {
-    marginTop: 1,
-    fontSize: typography.xsmall,
-    color: colors.muted,
-  },
-  filterChipHelperActive: {
-    color: '#DBEAFE',
-  },
-  bankGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginHorizontal: -6,
-  },
-  bankColumn: {
-    width: '50%',
-    paddingHorizontal: 6,
-  },
-  bankCard: {
-    marginBottom: spacing.lg,
-  },
-  bankHeader: {
-    flexDirection: 'row',
-    gap: spacing.md,
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: spacing.md,
-  },
-  bankHeaderCopy: {
-    flex: 1,
-  },
-  bankTitle: {
-    fontSize: typography.h3,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.xs,
-  },
-  bankDescription: {
-    fontSize: typography.small,
-    color: colors.muted,
-    lineHeight: 20,
-  },
-  bankCountPill: {
-    minWidth: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: colors.primarySoft,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: spacing.xs,
-  },
-  bankCountText: {
-    fontSize: typography.body,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-  },
-  bankList: {
-    gap: spacing.sm,
-  },
-  emptyCard: {
-    marginBottom: spacing.lg,
-  },
-  emptyText: {
-    fontSize: typography.small,
-    color: colors.muted,
-  },
-});
+);

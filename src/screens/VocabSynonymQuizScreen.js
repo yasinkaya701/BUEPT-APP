@@ -19,6 +19,70 @@ import { useAppState } from '../context/AppState';
 import { speakText } from '../hooks/useTts';
 import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
 
+const styles = StyleSheet.create({
+  container: { paddingBottom: 40 },
+  startContainer: { paddingBottom: 40, alignItems: 'center', justifyContent: 'center', flex: 1 },
+
+  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm, textAlign: 'center' },
+  sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.lg, textAlign: 'center' },
+  label: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
+  card: { width: '100%', marginBottom: spacing.lg },
+
+  // Start
+  sizeRow: { flexDirection: 'row', gap: spacing.sm, justifyContent: 'center' },
+  sizeBtn: { paddingHorizontal: spacing.xl, paddingVertical: spacing.md, borderRadius: 14, borderWidth: 1.5, borderColor: colors.secondary },
+  sizeBtnActive: { backgroundColor: colors.primary, borderColor: colors.primary },
+  sizeBtnText: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text },
+  sizeBtnTextActive: { color: '#fff' },
+
+  // Progress
+  progressBar: { height: 6, backgroundColor: colors.secondary, borderRadius: 999, marginBottom: spacing.sm },
+  progressFill: { height: 6, backgroundColor: colors.primary, borderRadius: 999 },
+  progressText: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.md, textAlign: 'center' },
+
+  // Flip card
+  flipContainer: { height: 200, marginBottom: spacing.lg, position: 'relative' },
+  flipCard: {
+    position: 'absolute', width: '100%', height: '100%',
+    borderRadius: 20, padding: spacing.xl,
+    backfaceVisibility: 'hidden',
+    alignItems: 'center', justifyContent: 'center',
+  },
+  flipFront: { backgroundColor: colors.primaryDark, borderColor: colors.primary, borderWidth: 1 },
+  flipBack: { backgroundColor: '#1B5E20', borderColor: '#4CAF50', borderWidth: 1 },
+
+  wordSpeak: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.xs },
+  bigWord: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: '#fff' },
+  speakIcon: { fontSize: 24, color: '#A8C0FF' },
+  wordType: { fontSize: typography.small, color: '#A8C0FF', marginBottom: spacing.xs },
+  wordDef: { fontSize: typography.small, color: '#DDE8FF', textAlign: 'center', lineHeight: 18 },
+  wordEx: { fontSize: 11, color: '#A8C0FF', fontStyle: 'italic', marginTop: spacing.xs, textAlign: 'center' },
+  resultCorrect: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: '#A5D6A7', marginBottom: spacing.sm },
+  resultIncorrect: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: '#EF9A9A', marginBottom: spacing.sm },
+  correctWord: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: '#fff' },
+
+  // Options grid
+  optionsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginBottom: spacing.md },
+  optionBtn: {
+    width: '47%', paddingVertical: spacing.md, paddingHorizontal: spacing.sm,
+    borderRadius: 14, backgroundColor: colors.surface, borderWidth: 1.5,
+    borderColor: colors.secondary, alignItems: 'center',
+  },
+  optionSelected: { backgroundColor: colors.secondary, borderColor: colors.primary },
+  optionCorrect: { backgroundColor: '#E8F5E9', borderColor: '#4CAF50' },
+  optionWrong: { backgroundColor: '#FFEBEE', borderColor: '#F44336' },
+  optionText: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text, textAlign: 'center' },
+  optionTextCorrect: { color: '#1B5E20' },
+  optionTextWrong: { color: '#B71C1C' },
+
+  actionRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.sm },
+
+  // Finish
+  bandEmoji: { fontSize: 60, textAlign: 'center', marginBottom: spacing.md },
+  bigScore: { fontSize: 64, fontFamily: typography.fontHeadline, textAlign: 'center' },
+  bandLabel: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.text, textAlign: 'center', marginBottom: spacing.xs },
+}
+
 /** Fisher-Yates shuffle — inline to avoid any module resolution issues */
 function shuffle(arr) {
   const result = Array.isArray(arr) ? [...arr] : [];
@@ -28,7 +92,6 @@ function shuffle(arr) {
   }
   return result;
 }
-
 
 const SIZE_OPTIONS = [10, 15, 20];
 
@@ -390,66 +453,4 @@ export default function VocabSynonymQuizScreen({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { paddingBottom: 40 },
-  startContainer: { paddingBottom: 40, alignItems: 'center', justifyContent: 'center', flex: 1 },
-
-  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm, textAlign: 'center' },
-  sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.lg, textAlign: 'center' },
-  label: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
-  card: { width: '100%', marginBottom: spacing.lg },
-
-  // Start
-  sizeRow: { flexDirection: 'row', gap: spacing.sm, justifyContent: 'center' },
-  sizeBtn: { paddingHorizontal: spacing.xl, paddingVertical: spacing.md, borderRadius: 14, borderWidth: 1.5, borderColor: colors.secondary },
-  sizeBtnActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-  sizeBtnText: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text },
-  sizeBtnTextActive: { color: '#fff' },
-
-  // Progress
-  progressBar: { height: 6, backgroundColor: colors.secondary, borderRadius: 999, marginBottom: spacing.sm },
-  progressFill: { height: 6, backgroundColor: colors.primary, borderRadius: 999 },
-  progressText: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.md, textAlign: 'center' },
-
-  // Flip card
-  flipContainer: { height: 200, marginBottom: spacing.lg, position: 'relative' },
-  flipCard: {
-    position: 'absolute', width: '100%', height: '100%',
-    borderRadius: 20, padding: spacing.xl,
-    backfaceVisibility: 'hidden',
-    alignItems: 'center', justifyContent: 'center',
-  },
-  flipFront: { backgroundColor: colors.primaryDark, borderColor: colors.primary, borderWidth: 1 },
-  flipBack: { backgroundColor: '#1B5E20', borderColor: '#4CAF50', borderWidth: 1 },
-
-  wordSpeak: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.xs },
-  bigWord: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: '#fff' },
-  speakIcon: { fontSize: 24, color: '#A8C0FF' },
-  wordType: { fontSize: typography.small, color: '#A8C0FF', marginBottom: spacing.xs },
-  wordDef: { fontSize: typography.small, color: '#DDE8FF', textAlign: 'center', lineHeight: 18 },
-  wordEx: { fontSize: 11, color: '#A8C0FF', fontStyle: 'italic', marginTop: spacing.xs, textAlign: 'center' },
-  resultCorrect: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: '#A5D6A7', marginBottom: spacing.sm },
-  resultIncorrect: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: '#EF9A9A', marginBottom: spacing.sm },
-  correctWord: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: '#fff' },
-
-  // Options grid
-  optionsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginBottom: spacing.md },
-  optionBtn: {
-    width: '47%', paddingVertical: spacing.md, paddingHorizontal: spacing.sm,
-    borderRadius: 14, backgroundColor: colors.surface, borderWidth: 1.5,
-    borderColor: colors.secondary, alignItems: 'center',
-  },
-  optionSelected: { backgroundColor: colors.secondary, borderColor: colors.primary },
-  optionCorrect: { backgroundColor: '#E8F5E9', borderColor: '#4CAF50' },
-  optionWrong: { backgroundColor: '#FFEBEE', borderColor: '#F44336' },
-  optionText: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text, textAlign: 'center' },
-  optionTextCorrect: { color: '#1B5E20' },
-  optionTextWrong: { color: '#B71C1C' },
-
-  actionRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.sm },
-
-  // Finish
-  bandEmoji: { fontSize: 60, textAlign: 'center', marginBottom: spacing.md },
-  bigScore: { fontSize: 64, fontFamily: typography.fontHeadline, textAlign: 'center' },
-  bandLabel: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.text, textAlign: 'center', marginBottom: spacing.xs },
-});
+);

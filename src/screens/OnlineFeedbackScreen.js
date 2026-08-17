@@ -9,6 +9,89 @@ import { buildYS9Report, countWords } from '../utils/ys9Mock';
 import { getWordEntry } from '../utils/dictionary';
 import { useAppState } from '../context/AppState';
 
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: spacing.xl
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.sm
+  },
+  sub: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.lg
+  },
+  link: {
+    fontSize: typography.small,
+    color: colors.primary,
+    marginBottom: spacing.lg,
+    textDecorationLine: 'underline'
+  },
+  h3: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.sm
+  },
+  body: {
+    fontSize: typography.body,
+    fontFamily: typography.fontBody
+  },
+  card: {
+    marginBottom: spacing.lg
+  },
+  input: {
+    backgroundColor: colors.surface,
+    borderRadius: 12,
+    padding: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    minHeight: 140,
+    textAlignVertical: 'top',
+    marginBottom: spacing.md
+  },
+  resultItem: {
+    padding: spacing.sm,
+    borderRadius: 10,
+    backgroundColor: colors.surface,
+    marginTop: spacing.sm
+  },
+  inlinePress: {
+    lineHeight: 22
+  },
+  online_grammar: {
+    backgroundColor: '#FFE9D6'
+  },
+  online_vocab: {
+    backgroundColor: '#E6F4FF'
+  },
+  online_mechanics: {
+    backgroundColor: '#E9F7E3'
+  },
+  onlineActions: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginTop: spacing.sm
+  },
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.35)',
+    justifyContent: 'center',
+    padding: spacing.lg
+  },
+  modalCard: {
+    backgroundColor: colors.surface,
+    borderRadius: 16,
+    padding: spacing.lg
+  },
+  modalActions: {
+    marginTop: spacing.md,
+    gap: spacing.xs
+  }
+}
+
 export default function OnlineFeedbackScreen({ route }) {
   const { userProfile } = useAppState();
   const studentName = userProfile?.name || '';
@@ -318,85 +401,4 @@ export default function OnlineFeedbackScreen({ route }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: spacing.xl
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.sm
-  },
-  sub: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.lg
-  },
-  link: {
-    fontSize: typography.small,
-    color: colors.primary,
-    marginBottom: spacing.lg,
-    textDecorationLine: 'underline'
-  },
-  h3: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.sm
-  },
-  body: {
-    fontSize: typography.body,
-    fontFamily: typography.fontBody
-  },
-  card: {
-    marginBottom: spacing.lg
-  },
-  input: {
-    backgroundColor: colors.surface,
-    borderRadius: 12,
-    padding: spacing.md,
-    borderWidth: 1,
-    borderColor: colors.secondary,
-    minHeight: 140,
-    textAlignVertical: 'top',
-    marginBottom: spacing.md
-  },
-  resultItem: {
-    padding: spacing.sm,
-    borderRadius: 10,
-    backgroundColor: colors.surface,
-    marginTop: spacing.sm
-  },
-  inlinePress: {
-    lineHeight: 22
-  },
-  online_grammar: {
-    backgroundColor: '#FFE9D6'
-  },
-  online_vocab: {
-    backgroundColor: '#E6F4FF'
-  },
-  online_mechanics: {
-    backgroundColor: '#E9F7E3'
-  },
-  onlineActions: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    marginTop: spacing.sm
-  },
-  modalBackdrop: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.35)',
-    justifyContent: 'center',
-    padding: spacing.lg
-  },
-  modalCard: {
-    backgroundColor: colors.surface,
-    borderRadius: 16,
-    padding: spacing.lg
-  },
-  modalActions: {
-    marginTop: spacing.md,
-    gap: spacing.xs
-  }
-});
+);

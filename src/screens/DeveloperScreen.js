@@ -9,6 +9,166 @@ import { runDiagnostics } from '../utils/diagnostics';
 import { useAppState } from '../context/AppState';
 import { useTts } from '../hooks/useTts';
 
+const styles = StyleSheet.create({
+  container: { paddingBottom: spacing.xl, paddingTop: spacing.md },
+
+  // Hero
+  hero: { alignItems: 'center', marginBottom: spacing.xl },
+  appName: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginTop: spacing.md },
+  version: { fontSize: typography.small, color: colors.muted, marginTop: 4 },
+
+  // BYOK Card
+  byokCard: { marginBottom: spacing.lg, backgroundColor: '#08152E', borderColor: '#2563EB', borderWidth: 1.5 },
+  voiceCard: { marginBottom: spacing.lg, backgroundColor: '#0F172A', borderColor: '#6366F1', borderWidth: 1.5 },
+  byokHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginBottom: spacing.md },
+  byokIcon: { fontSize: 34 },
+  byokTitle: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: '#FFFFFF', fontWeight: '800' },
+  byokSub: { fontSize: typography.small, color: 'rgba(148,163,184,0.9)', marginTop: 2 },
+  activeBadge: { backgroundColor: '#16a34a', paddingHorizontal: spacing.sm, paddingVertical: 4, borderRadius: 6 },
+  activeBadgeText: { fontSize: 10, fontWeight: '900', color: '#fff', letterSpacing: 0.5 },
+
+  // Provider Tabs
+  tabRow: { flexDirection: 'row', gap: spacing.xs, marginBottom: spacing.md, flexWrap: 'wrap' },
+  tab: {
+    flex: 1, minWidth: 90,
+    borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.12)',
+    borderRadius: radius.md,
+    paddingVertical: spacing.sm,
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+  },
+  tabText: { fontSize: typography.small, color: 'rgba(203,213,225,0.7)', textAlign: 'center' },
+
+  // Note box
+  noteBox: {
+    backgroundColor: 'rgba(37,99,235,0.10)',
+    borderRadius: 10, padding: spacing.md,
+    borderWidth: 1, borderColor: 'rgba(96,165,250,0.2)',
+    marginBottom: spacing.md,
+  },
+  noteText: { fontSize: typography.small, color: '#93C5FD', lineHeight: 20 },
+
+  // Inputs
+  inputLabel: {
+    fontSize: typography.small, color: 'rgba(203,213,225,0.7)',
+    fontFamily: typography.fontHeadline, marginBottom: 6,
+    textTransform: 'uppercase', letterSpacing: 0.5,
+  },
+  keyRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginBottom: spacing.md },
+  keyInput: {
+    flex: 1,
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    borderColor: 'rgba(255,255,255,0.16)', borderWidth: 1,
+    borderRadius: 10, padding: spacing.md,
+    color: '#FFFFFF', fontSize: typography.body,
+    fontFamily: Platform.OS === 'web' ? 'monospace' : 'Courier',
+  },
+  eyeBtn: { padding: spacing.sm },
+  eyeText: { fontSize: 20 },
+
+  // Ollama model chips
+  modelChips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginBottom: spacing.md },
+  modelChip: {
+    borderWidth: 1, borderColor: 'rgba(255,255,255,0.15)',
+    borderRadius: 999, paddingHorizontal: spacing.md, paddingVertical: 6,
+    backgroundColor: 'rgba(255,255,255,0.04)',
+  },
+  modelChipActive: { borderColor: '#FF6B35', backgroundColor: 'rgba(255,107,53,0.15)' },
+  modelChipText: { fontSize: typography.xsmall, color: 'rgba(203,213,225,0.7)', fontFamily: 'monospace' },
+  modelChipTextActive: { color: '#FF6B35', fontFamily: typography.fontHeadline },
+  modelChipBadge: { fontSize: 10, fontWeight: '700', marginLeft: 4 },
+  modelChipBadgeOk: { color: '#4ade80' },
+  modelChipBadgeMissing: { color: '#fb923c' },
+  modelHint: { fontSize: 11, color: 'rgba(203,213,225,0.45)', marginBottom: spacing.sm, fontStyle: 'italic' },
+  ollamaTestRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.md },
+  testOk: { fontSize: typography.small, color: '#4ade80', fontFamily: typography.fontHeadline },
+  testFail: { fontSize: typography.small, color: '#f87171', fontFamily: typography.fontHeadline },
+
+  // Action buttons
+  actions: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.sm },
+
+  // Feedback
+  savedMsg: {
+    fontSize: typography.small, color: '#4ade80',
+    fontFamily: typography.fontHeadline, textAlign: 'center',
+    marginVertical: spacing.xs,
+  },
+  activeRow: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    marginTop: spacing.sm, gap: spacing.sm,
+    borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.07)', paddingTop: spacing.sm,
+  },
+  activeLabel: { flex: 1, fontSize: typography.small, color: '#86efac', lineHeight: 19 },
+  clearBtn: {
+    paddingHorizontal: spacing.md, paddingVertical: spacing.xs,
+    borderRadius: radius.sm, borderWidth: 1, borderColor: 'rgba(255,255,255,0.15)',
+  },
+  clearBtnText: { fontSize: typography.small, color: 'rgba(203,213,225,0.6)' },
+
+  // Guide cards
+  guideCard: { marginBottom: spacing.md, backgroundColor: '#0a1a2e', borderColor: '#1e3a5f', borderWidth: 1 },
+  stepText: { fontSize: typography.small, color: '#93C5FD', lineHeight: 22, marginBottom: 4 },
+
+  // Dev card
+  devCard: { marginBottom: spacing.lg, backgroundColor: '#0A1628', borderColor: colors.primary, borderWidth: 1 },
+  infoRow: {
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start',
+    marginBottom: spacing.sm, paddingBottom: spacing.sm,
+    borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)',
+  },
+  infoLabel: { fontSize: typography.body, color: colors.muted, fontWeight: '700', flex: 1 },
+  infoValue: { fontSize: typography.body, color: '#DDE8FF', fontFamily: typography.fontHeadline, flex: 2, textAlign: 'right', lineHeight: 22 },
+  quoteBox: {
+    marginTop: spacing.md, padding: spacing.md,
+    backgroundColor: 'rgba(88,166,255,0.08)', borderRadius: 10,
+    borderLeftWidth: 3, borderLeftColor: colors.primary,
+  },
+  quoteText: { fontSize: typography.small, color: '#A8C0FF', fontStyle: 'italic', lineHeight: 20 },
+
+  // Contact & misc
+  contactCard: { marginBottom: spacing.xl },
+  cardTitle: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.primary, marginBottom: spacing.md },
+  bodyText: { fontSize: typography.body, color: colors.text, marginBottom: spacing.md, lineHeight: 22 },
+  bold: { fontFamily: typography.fontHeadline, color: '#7DD3FC', fontWeight: '700' },
+
+  // Diagnostics
+  diagList: { marginTop: spacing.md, gap: spacing.sm },
+  diagRow: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.sm, paddingVertical: spacing.xs },
+  diagBadge: { borderRadius: 6, paddingHorizontal: 8, paddingVertical: 3, minWidth: 44, alignItems: 'center' },
+  diagOk: { backgroundColor: '#DCFCE7' },
+  diagFail: { backgroundColor: '#FEE2E2' },
+  diagBadgeText: { fontSize: 11, fontWeight: '900', color: '#374151' },
+  diagLabel: { fontSize: typography.small, fontWeight: '700', color: colors.text, marginBottom: 2 },
+  diagDetail: { fontSize: typography.xsmall, color: colors.muted, lineHeight: 17 },
+
+  // Settings & Toggles
+  settingRow: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.lg, gap: spacing.md },
+  settingLabel: { fontSize: typography.body, color: '#FFFFFF', fontWeight: '700' },
+  settingSub: { fontSize: typography.xsmall, color: 'rgba(148,163,184,0.7)', marginTop: 2 },
+  toggleBtn: { backgroundColor: 'rgba(255,255,255,0.1)', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8, minWidth: 60, alignItems: 'center' },
+  toggleBtnActive: { backgroundColor: '#22C55E' },
+  toggleText: { color: '#FFFFFF', fontWeight: '900', fontSize: 12 },
+
+  // Rate chips
+  rateRow: { flexDirection: 'row', gap: 8, marginBottom: spacing.lg },
+  rateChip: { backgroundColor: 'rgba(255,255,255,0.05)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
+  rateChipActive: { backgroundColor: 'rgba(99,102,241,0.2)', borderColor: '#6366F1' },
+  rateChipText: { color: 'rgba(255,255,255,0.6)', fontSize: 12 },
+  rateChipTextActive: { color: '#818CF8', fontWeight: 'bold' },
+
+  // Voice list
+  voiceList: { gap: 8 },
+  voiceItem: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.04)', padding: 12, borderRadius: 10, borderWidth: 1, borderColor: 'rgba(255,255,255,0.08)' },
+  voiceItemActive: { borderColor: '#6366F1', backgroundColor: 'rgba(99,102,241,0.1)' },
+  voiceName: { fontSize: 13, color: '#FFFFFF', fontWeight: '600' },
+  voiceNameActive: { color: '#818CF8' },
+  voiceLang: { fontSize: 10, color: 'rgba(148,163,184,0.6)', marginTop: 2 },
+  voicePreviewIcon: { fontSize: 14, opacity: 0.8 },
+  emptyText: { color: 'rgba(255,255,255,0.4)', fontStyle: 'italic', fontSize: 12 },
+  hqBadge: { backgroundColor: '#10B981', borderRadius: 4, paddingHorizontal: 4, paddingVertical: 1 },
+  hqBadgeText: { color: '#FFFFFF', fontSize: 8, fontWeight: '900' },
+}
+
 const PROVIDERS = [
   { key: 'openai',  label: 'OpenAI',           emoji: '🔑', color: '#10a37f' },
   { key: 'gemini',  label: '🆓 Gemini',         emoji: '🟣', color: '#4285F4' },
@@ -490,162 +650,4 @@ export default function DeveloperScreen() {
 
 // ── Styles ────────────────────────────────────────────────────────────────────
 
-const styles = StyleSheet.create({
-  container: { paddingBottom: spacing.xl, paddingTop: spacing.md },
-
-  // Hero
-  hero: { alignItems: 'center', marginBottom: spacing.xl },
-  appName: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginTop: spacing.md },
-  version: { fontSize: typography.small, color: colors.muted, marginTop: 4 },
-
-  // BYOK Card
-  byokCard: { marginBottom: spacing.lg, backgroundColor: '#08152E', borderColor: '#2563EB', borderWidth: 1.5 },
-  voiceCard: { marginBottom: spacing.lg, backgroundColor: '#0F172A', borderColor: '#6366F1', borderWidth: 1.5 },
-  byokHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginBottom: spacing.md },
-  byokIcon: { fontSize: 34 },
-  byokTitle: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: '#FFFFFF', fontWeight: '800' },
-  byokSub: { fontSize: typography.small, color: 'rgba(148,163,184,0.9)', marginTop: 2 },
-  activeBadge: { backgroundColor: '#16a34a', paddingHorizontal: spacing.sm, paddingVertical: 4, borderRadius: 6 },
-  activeBadgeText: { fontSize: 10, fontWeight: '900', color: '#fff', letterSpacing: 0.5 },
-
-  // Provider Tabs
-  tabRow: { flexDirection: 'row', gap: spacing.xs, marginBottom: spacing.md, flexWrap: 'wrap' },
-  tab: {
-    flex: 1, minWidth: 90,
-    borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.12)',
-    borderRadius: radius.md,
-    paddingVertical: spacing.sm,
-    alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.04)',
-  },
-  tabText: { fontSize: typography.small, color: 'rgba(203,213,225,0.7)', textAlign: 'center' },
-
-  // Note box
-  noteBox: {
-    backgroundColor: 'rgba(37,99,235,0.10)',
-    borderRadius: 10, padding: spacing.md,
-    borderWidth: 1, borderColor: 'rgba(96,165,250,0.2)',
-    marginBottom: spacing.md,
-  },
-  noteText: { fontSize: typography.small, color: '#93C5FD', lineHeight: 20 },
-
-  // Inputs
-  inputLabel: {
-    fontSize: typography.small, color: 'rgba(203,213,225,0.7)',
-    fontFamily: typography.fontHeadline, marginBottom: 6,
-    textTransform: 'uppercase', letterSpacing: 0.5,
-  },
-  keyRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginBottom: spacing.md },
-  keyInput: {
-    flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    borderColor: 'rgba(255,255,255,0.16)', borderWidth: 1,
-    borderRadius: 10, padding: spacing.md,
-    color: '#FFFFFF', fontSize: typography.body,
-    fontFamily: Platform.OS === 'web' ? 'monospace' : 'Courier',
-  },
-  eyeBtn: { padding: spacing.sm },
-  eyeText: { fontSize: 20 },
-
-  // Ollama model chips
-  modelChips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginBottom: spacing.md },
-  modelChip: {
-    borderWidth: 1, borderColor: 'rgba(255,255,255,0.15)',
-    borderRadius: 999, paddingHorizontal: spacing.md, paddingVertical: 6,
-    backgroundColor: 'rgba(255,255,255,0.04)',
-  },
-  modelChipActive: { borderColor: '#FF6B35', backgroundColor: 'rgba(255,107,53,0.15)' },
-  modelChipText: { fontSize: typography.xsmall, color: 'rgba(203,213,225,0.7)', fontFamily: 'monospace' },
-  modelChipTextActive: { color: '#FF6B35', fontFamily: typography.fontHeadline },
-  modelChipBadge: { fontSize: 10, fontWeight: '700', marginLeft: 4 },
-  modelChipBadgeOk: { color: '#4ade80' },
-  modelChipBadgeMissing: { color: '#fb923c' },
-  modelHint: { fontSize: 11, color: 'rgba(203,213,225,0.45)', marginBottom: spacing.sm, fontStyle: 'italic' },
-  ollamaTestRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.md },
-  testOk: { fontSize: typography.small, color: '#4ade80', fontFamily: typography.fontHeadline },
-  testFail: { fontSize: typography.small, color: '#f87171', fontFamily: typography.fontHeadline },
-
-  // Action buttons
-  actions: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.sm },
-
-  // Feedback
-  savedMsg: {
-    fontSize: typography.small, color: '#4ade80',
-    fontFamily: typography.fontHeadline, textAlign: 'center',
-    marginVertical: spacing.xs,
-  },
-  activeRow: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    marginTop: spacing.sm, gap: spacing.sm,
-    borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.07)', paddingTop: spacing.sm,
-  },
-  activeLabel: { flex: 1, fontSize: typography.small, color: '#86efac', lineHeight: 19 },
-  clearBtn: {
-    paddingHorizontal: spacing.md, paddingVertical: spacing.xs,
-    borderRadius: radius.sm, borderWidth: 1, borderColor: 'rgba(255,255,255,0.15)',
-  },
-  clearBtnText: { fontSize: typography.small, color: 'rgba(203,213,225,0.6)' },
-
-  // Guide cards
-  guideCard: { marginBottom: spacing.md, backgroundColor: '#0a1a2e', borderColor: '#1e3a5f', borderWidth: 1 },
-  stepText: { fontSize: typography.small, color: '#93C5FD', lineHeight: 22, marginBottom: 4 },
-
-  // Dev card
-  devCard: { marginBottom: spacing.lg, backgroundColor: '#0A1628', borderColor: colors.primary, borderWidth: 1 },
-  infoRow: {
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start',
-    marginBottom: spacing.sm, paddingBottom: spacing.sm,
-    borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)',
-  },
-  infoLabel: { fontSize: typography.body, color: colors.muted, fontWeight: '700', flex: 1 },
-  infoValue: { fontSize: typography.body, color: '#DDE8FF', fontFamily: typography.fontHeadline, flex: 2, textAlign: 'right', lineHeight: 22 },
-  quoteBox: {
-    marginTop: spacing.md, padding: spacing.md,
-    backgroundColor: 'rgba(88,166,255,0.08)', borderRadius: 10,
-    borderLeftWidth: 3, borderLeftColor: colors.primary,
-  },
-  quoteText: { fontSize: typography.small, color: '#A8C0FF', fontStyle: 'italic', lineHeight: 20 },
-
-  // Contact & misc
-  contactCard: { marginBottom: spacing.xl },
-  cardTitle: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.primary, marginBottom: spacing.md },
-  bodyText: { fontSize: typography.body, color: colors.text, marginBottom: spacing.md, lineHeight: 22 },
-  bold: { fontFamily: typography.fontHeadline, color: '#7DD3FC', fontWeight: '700' },
-
-  // Diagnostics
-  diagList: { marginTop: spacing.md, gap: spacing.sm },
-  diagRow: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.sm, paddingVertical: spacing.xs },
-  diagBadge: { borderRadius: 6, paddingHorizontal: 8, paddingVertical: 3, minWidth: 44, alignItems: 'center' },
-  diagOk: { backgroundColor: '#DCFCE7' },
-  diagFail: { backgroundColor: '#FEE2E2' },
-  diagBadgeText: { fontSize: 11, fontWeight: '900', color: '#374151' },
-  diagLabel: { fontSize: typography.small, fontWeight: '700', color: colors.text, marginBottom: 2 },
-  diagDetail: { fontSize: typography.xsmall, color: colors.muted, lineHeight: 17 },
-
-  // Settings & Toggles
-  settingRow: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.lg, gap: spacing.md },
-  settingLabel: { fontSize: typography.body, color: '#FFFFFF', fontWeight: '700' },
-  settingSub: { fontSize: typography.xsmall, color: 'rgba(148,163,184,0.7)', marginTop: 2 },
-  toggleBtn: { backgroundColor: 'rgba(255,255,255,0.1)', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8, minWidth: 60, alignItems: 'center' },
-  toggleBtnActive: { backgroundColor: '#22C55E' },
-  toggleText: { color: '#FFFFFF', fontWeight: '900', fontSize: 12 },
-
-  // Rate chips
-  rateRow: { flexDirection: 'row', gap: 8, marginBottom: spacing.lg },
-  rateChip: { backgroundColor: 'rgba(255,255,255,0.05)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
-  rateChipActive: { backgroundColor: 'rgba(99,102,241,0.2)', borderColor: '#6366F1' },
-  rateChipText: { color: 'rgba(255,255,255,0.6)', fontSize: 12 },
-  rateChipTextActive: { color: '#818CF8', fontWeight: 'bold' },
-
-  // Voice list
-  voiceList: { gap: 8 },
-  voiceItem: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.04)', padding: 12, borderRadius: 10, borderWidth: 1, borderColor: 'rgba(255,255,255,0.08)' },
-  voiceItemActive: { borderColor: '#6366F1', backgroundColor: 'rgba(99,102,241,0.1)' },
-  voiceName: { fontSize: 13, color: '#FFFFFF', fontWeight: '600' },
-  voiceNameActive: { color: '#818CF8' },
-  voiceLang: { fontSize: 10, color: 'rgba(148,163,184,0.6)', marginTop: 2 },
-  voicePreviewIcon: { fontSize: 14, opacity: 0.8 },
-  emptyText: { color: 'rgba(255,255,255,0.4)', fontStyle: 'italic', fontSize: 12 },
-  hqBadge: { backgroundColor: '#10B981', borderRadius: 4, paddingHorizontal: 4, paddingVertical: 1 },
-  hqBadgeText: { color: '#FFFFFF', fontSize: 8, fontWeight: '900' },
-});
+);

@@ -11,6 +11,155 @@ import { useAppState } from '../context/AppState';
 import { scoreSpeakingRubric } from '../utils/rubricScoring';
 import { TimelineStep, ScoreRing } from '../components/ui';
 
+const styles = StyleSheet.create({
+  container: { paddingBottom: spacing.xl },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.xs,
+  },
+  sub: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.md,
+  },
+  card: { marginBottom: spacing.md },
+  cardTitle: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    marginBottom: spacing.sm,
+  },
+  timeline: {
+    marginBottom: 0,
+  },
+  h3: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.sm,
+  },
+  prompt: {
+    fontSize: typography.body,
+    color: colors.text,
+    marginBottom: spacing.sm,
+    lineHeight: 24,
+  },
+  timerText: {
+    fontSize: typography.small,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.sm,
+  },
+  quickHint: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.sm,
+    fontStyle: 'italic',
+  },
+  input: {
+    minHeight: 150,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 10,
+    backgroundColor: colors.surface,
+    padding: spacing.md,
+    color: colors.text,
+    marginBottom: spacing.sm,
+  },
+  liveBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    backgroundColor: colors.tintBlue,
+    borderRadius: radius.sm,
+    padding: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  liveText: {
+    flex: 1,
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+    lineHeight: 16,
+  },
+  resultHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    marginBottom: spacing.md,
+  },
+  resultMeta: {
+    flex: 1,
+  },
+  resultSub: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    marginTop: 2,
+    lineHeight: 16,
+  },
+  stageBarTrack: {
+    flex: 1,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.borderLight,
+    overflow: 'hidden',
+    marginVertical: spacing.xs,
+  },
+  stageBarFill: {
+    height: 8,
+    borderRadius: 4,
+  },
+  followUpTitle: {
+    fontSize: typography.small,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    marginBottom: 4,
+  },
+  followUpQuestion: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.xs,
+  },
+  followUpInput: {
+    minHeight: 90,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 10,
+    backgroundColor: colors.surface,
+    padding: spacing.md,
+    color: colors.text,
+    marginBottom: spacing.sm,
+  },
+  row: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  result: {
+    fontSize: typography.body,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.sm,
+  },
+  resultRow: {
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    borderRadius: 10,
+    padding: spacing.sm,
+    marginBottom: spacing.xs,
+  },
+  rowTitle: {
+    fontSize: typography.small,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    marginBottom: 2,
+  },
+  rowMeta: {
+    fontSize: typography.small,
+    color: colors.muted,
+  },
+}
+
 function normalizeSpeechText(text = '') {
   return String(text || '').replace(/\s+/g, ' ').trim();
 }
@@ -292,151 +441,4 @@ export default function SpeakingMockInterviewScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { paddingBottom: spacing.xl },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.xs,
-  },
-  sub: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.md,
-  },
-  card: { marginBottom: spacing.md },
-  cardTitle: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-    marginBottom: spacing.sm,
-  },
-  timeline: {
-    marginBottom: 0,
-  },
-  h3: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.sm,
-  },
-  prompt: {
-    fontSize: typography.body,
-    color: colors.text,
-    marginBottom: spacing.sm,
-    lineHeight: 24,
-  },
-  timerText: {
-    fontSize: typography.small,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.sm,
-  },
-  quickHint: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.sm,
-    fontStyle: 'italic',
-  },
-  input: {
-    minHeight: 150,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 10,
-    backgroundColor: colors.surface,
-    padding: spacing.md,
-    color: colors.text,
-    marginBottom: spacing.sm,
-  },
-  liveBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs,
-    backgroundColor: colors.tintBlue,
-    borderRadius: radius.sm,
-    padding: spacing.sm,
-    marginBottom: spacing.sm,
-  },
-  liveText: {
-    flex: 1,
-    fontSize: typography.xsmall,
-    color: colors.primaryDark,
-    lineHeight: 16,
-  },
-  resultHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    marginBottom: spacing.md,
-  },
-  resultMeta: {
-    flex: 1,
-  },
-  resultSub: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    marginTop: 2,
-    lineHeight: 16,
-  },
-  stageBarTrack: {
-    flex: 1,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: colors.borderLight,
-    overflow: 'hidden',
-    marginVertical: spacing.xs,
-  },
-  stageBarFill: {
-    height: 8,
-    borderRadius: 4,
-  },
-  followUpTitle: {
-    fontSize: typography.small,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-    marginBottom: 4,
-  },
-  followUpQuestion: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.xs,
-  },
-  followUpInput: {
-    minHeight: 90,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 10,
-    backgroundColor: colors.surface,
-    padding: spacing.md,
-    color: colors.text,
-    marginBottom: spacing.sm,
-  },
-  row: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-  },
-  result: {
-    fontSize: typography.body,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.sm,
-  },
-  resultRow: {
-    borderWidth: 1,
-    borderColor: colors.secondary,
-    borderRadius: 10,
-    padding: spacing.sm,
-    marginBottom: spacing.xs,
-  },
-  rowTitle: {
-    fontSize: typography.small,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-    marginBottom: 2,
-  },
-  rowMeta: {
-    fontSize: typography.small,
-    color: colors.muted,
-  },
-});
+);

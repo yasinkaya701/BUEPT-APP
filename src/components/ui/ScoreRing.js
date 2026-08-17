@@ -3,6 +3,34 @@ import { View, Text, StyleSheet } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  inner: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  value: {
+    fontSize: typography.h2,
+    fontFamily: typography.fontHeadline,
+    lineHeight: 26,
+  },
+  label: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    marginTop: 2,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  sublabel: {
+    fontSize: typography.micro,
+    color: colors.muted,
+    marginTop: 1,
+  },
+}
+
 const DEFAULT_SIZE = 84;
 const DEFAULT_STROKE = 8;
 
@@ -108,30 +136,4 @@ export default function ScoreRing({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  inner: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  value: {
-    fontSize: typography.h2,
-    fontFamily: typography.fontHeadline,
-    lineHeight: 26,
-  },
-  label: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    marginTop: 2,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  sublabel: {
-    fontSize: typography.micro,
-    color: colors.muted,
-    marginTop: 1,
-  },
-});
+);

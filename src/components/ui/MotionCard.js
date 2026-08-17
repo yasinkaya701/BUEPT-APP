@@ -2,6 +2,15 @@ import React, { useRef } from 'react';
 import { View, Animated, Easing, Platform, StyleSheet, Pressable } from 'react-native';
 import { motion, shadow as shadows } from '../../theme/tokens';
 
+const styles = StyleSheet.create({
+  base: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 18,
+    ...shadows.md,
+    overflow: 'hidden',
+  },
+}
+
 /**
  * MotionCard — a card with premium micro-interactions on web.
  *
@@ -117,11 +126,4 @@ export default function MotionCard({
   );
 }
 
-const styles = StyleSheet.create({
-  base: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 18,
-    ...shadows.md,
-    overflow: 'hidden',
-  },
-});
+);

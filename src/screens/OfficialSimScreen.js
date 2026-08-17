@@ -20,6 +20,40 @@ import { useAppState } from '../context/AppState';
 import { generateAiMock, loadMockBank } from '../utils/aiMockGenerator';
 import { saveMockHistory } from '../utils/appStorage';
 
+const styles = StyleSheet.create({
+  container: { paddingBottom: spacing.xl },
+  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
+  h3: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },
+  sub: { fontSize: typography.body, color: colors.muted, marginBottom: spacing.md, lineHeight: 20 },
+  body: { fontSize: typography.body, fontFamily: typography.fontBody, color: colors.text, lineHeight: 22, marginTop: 6 },
+  card: { marginTop: spacing.md },
+  row: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.md },
+  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.md },
+  timerBadge: { backgroundColor: colors.primary, borderRadius: 10, paddingHorizontal: spacing.md, paddingVertical: spacing.xs },
+  timerText: { color: '#FFFFFF', fontWeight: '700', fontSize: typography.body },
+  stageCard: { ...shadow.md, backgroundColor: '#0A1628', borderColor: colors.primary, borderWidth: 1, borderRadius: 14, padding: spacing.md, marginBottom: spacing.md },
+  stageLabel: { color: '#93C5FD', fontSize: typography.small, fontWeight: '700', marginBottom: 4 },
+  writingTimer: { color: '#FBBF24', fontSize: typography.small, fontWeight: '700', marginTop: spacing.xs },
+  stagePreviewRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 6 },
+  stagePreviewLabel: { fontSize: typography.small, color: colors.text, flex: 1 },
+  stagePreviewDur: { fontSize: typography.small, color: colors.muted },
+  policyLine: { fontSize: typography.small, color: colors.muted, marginTop: spacing.sm, lineHeight: 18 },
+  scoreCard: { backgroundColor: '#0A1628', borderRadius: 14, padding: spacing.lg, alignItems: 'center', marginBottom: spacing.md },
+  scoreValue: { fontSize: 44, fontWeight: '800', color: '#DDE8FF', fontFamily: typography.fontHeadline },
+  bandText: { fontSize: typography.body, color: '#93C5FD', fontWeight: '700', marginTop: 4 },
+  timeText: { fontSize: typography.small, color: colors.muted, marginTop: spacing.xs },
+  sectionRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: '#F1F5F9' },
+  sectionLabel: { fontSize: typography.body, color: colors.text, flex: 1 },
+  sectionScore: { fontSize: typography.body, fontWeight: '700' },
+  pass: { color: '#15803D' },
+  fail: { color: '#DC2626' },
+  correct: { color: '#15803D', marginTop: spacing.xs, fontSize: typography.small, fontWeight: '700' },
+  incorrect: { color: '#DC2626', marginTop: spacing.xs, fontSize: typography.small, fontWeight: '700' },
+  essayInput: { borderWidth: 2, borderColor: colors.secondary, borderRadius: 12, padding: spacing.md, fontSize: typography.body, color: colors.text, backgroundColor: colors.surface, fontFamily: typography.fontBody, minHeight: 180, textAlignVertical: 'top' },
+  wordCount: { fontSize: typography.small, color: colors.muted, marginTop: spacing.xs },
+  shortInput: { borderWidth: 2, borderColor: colors.secondary, borderRadius: 10, padding: spacing.sm, fontSize: typography.body, color: colors.text, backgroundColor: colors.surface, marginTop: spacing.xs },
+}
+
 const PASS_MARK = 60;
 const SIM_TOTAL_SECONDS = 150 * 60; // official total window
 
@@ -404,36 +438,4 @@ export default function OfficialSimScreen({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { paddingBottom: spacing.xl },
-  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
-  h3: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },
-  sub: { fontSize: typography.body, color: colors.muted, marginBottom: spacing.md, lineHeight: 20 },
-  body: { fontSize: typography.body, fontFamily: typography.fontBody, color: colors.text, lineHeight: 22, marginTop: 6 },
-  card: { marginTop: spacing.md },
-  row: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.md },
-  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.md },
-  timerBadge: { backgroundColor: colors.primary, borderRadius: 10, paddingHorizontal: spacing.md, paddingVertical: spacing.xs },
-  timerText: { color: '#FFFFFF', fontWeight: '700', fontSize: typography.body },
-  stageCard: { ...shadow.md, backgroundColor: '#0A1628', borderColor: colors.primary, borderWidth: 1, borderRadius: 14, padding: spacing.md, marginBottom: spacing.md },
-  stageLabel: { color: '#93C5FD', fontSize: typography.small, fontWeight: '700', marginBottom: 4 },
-  writingTimer: { color: '#FBBF24', fontSize: typography.small, fontWeight: '700', marginTop: spacing.xs },
-  stagePreviewRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 6 },
-  stagePreviewLabel: { fontSize: typography.small, color: colors.text, flex: 1 },
-  stagePreviewDur: { fontSize: typography.small, color: colors.muted },
-  policyLine: { fontSize: typography.small, color: colors.muted, marginTop: spacing.sm, lineHeight: 18 },
-  scoreCard: { backgroundColor: '#0A1628', borderRadius: 14, padding: spacing.lg, alignItems: 'center', marginBottom: spacing.md },
-  scoreValue: { fontSize: 44, fontWeight: '800', color: '#DDE8FF', fontFamily: typography.fontHeadline },
-  bandText: { fontSize: typography.body, color: '#93C5FD', fontWeight: '700', marginTop: 4 },
-  timeText: { fontSize: typography.small, color: colors.muted, marginTop: spacing.xs },
-  sectionRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: '#F1F5F9' },
-  sectionLabel: { fontSize: typography.body, color: colors.text, flex: 1 },
-  sectionScore: { fontSize: typography.body, fontWeight: '700' },
-  pass: { color: '#15803D' },
-  fail: { color: '#DC2626' },
-  correct: { color: '#15803D', marginTop: spacing.xs, fontSize: typography.small, fontWeight: '700' },
-  incorrect: { color: '#DC2626', marginTop: spacing.xs, fontSize: typography.small, fontWeight: '700' },
-  essayInput: { borderWidth: 2, borderColor: colors.secondary, borderRadius: 12, padding: spacing.md, fontSize: typography.body, color: colors.text, backgroundColor: colors.surface, fontFamily: typography.fontBody, minHeight: 180, textAlignVertical: 'top' },
-  wordCount: { fontSize: typography.small, color: colors.muted, marginTop: spacing.xs },
-  shortInput: { borderWidth: 2, borderColor: colors.secondary, borderRadius: 10, padding: spacing.sm, fontSize: typography.body, color: colors.text, backgroundColor: colors.surface, marginTop: spacing.xs },
-});
+);

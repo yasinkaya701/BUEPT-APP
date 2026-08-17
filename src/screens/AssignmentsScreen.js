@@ -5,6 +5,39 @@ import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const styles = StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background },
+    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
+    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
+    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+
+    tabWrap: { flexDirection: 'row', paddingHorizontal: spacing.xl, marginBottom: spacing.lg, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)', backgroundColor: '#fff', paddingBottom: spacing.sm, gap: spacing.md },
+    tabBtn: { paddingVertical: spacing.sm, paddingHorizontal: spacing.md, borderRadius: radius.pill, backgroundColor: 'rgba(0,0,0,0.03)' },
+    tabBtnActive: { backgroundColor: colors.primaryDark },
+    tabText: { fontSize: 13, fontWeight: '800', color: colors.muted },
+    tabTextActive: { color: '#fff' },
+
+    scroll: { paddingHorizontal: spacing.xl },
+
+    taskCard: { flexDirection: 'row', alignItems: 'center', padding: spacing.lg, borderRadius: radius.lg, backgroundColor: '#fff', marginBottom: spacing.md, ...shadow.slight },
+    iconCol: { width: 44, height: 44, borderRadius: 22, backgroundColor: 'rgba(0,0,0,0.03)', justifyContent: 'center', alignItems: 'center', marginRight: spacing.md },
+    textCol: { flex: 1 },
+    taskTitle: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: spacing.xs },
+    metaRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
+    courseBadge: { backgroundColor: colors.primarySoft, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 },
+    courseText: { fontSize: 10, fontWeight: '900', color: colors.primaryDark },
+    dueText: { fontSize: 12, fontWeight: '700', color: colors.muted },
+    dueTextUrgent: { color: colors.error },
+
+    submitBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: colors.success, justifyContent: 'center', alignItems: 'center', ...shadow.sm },
+    doneMark: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
+
+    emptyState: { alignItems: 'center', paddingVertical: 80 },
+    emptyText: { marginTop: spacing.md, color: colors.muted, fontWeight: '600', fontSize: 14 },
+    bottomSpacer: { height: 40 },
+}
+
 const INITIAL_TASKS = [
     { id: '1', title: 'Submit Essay Draft 1', course: 'ENG 101', due: 'Today, 23:59', status: 'pending', type: 'writing' },
     { id: '2', title: 'Listen to Lecture 4', course: 'ECON 202', due: 'Tomorrow', status: 'pending', type: 'listening' },
@@ -110,35 +143,4 @@ export default function AssignmentsScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.background },
-    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
-    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
-
-    tabWrap: { flexDirection: 'row', paddingHorizontal: spacing.xl, marginBottom: spacing.lg, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)', backgroundColor: '#fff', paddingBottom: spacing.sm, gap: spacing.md },
-    tabBtn: { paddingVertical: spacing.sm, paddingHorizontal: spacing.md, borderRadius: radius.pill, backgroundColor: 'rgba(0,0,0,0.03)' },
-    tabBtnActive: { backgroundColor: colors.primaryDark },
-    tabText: { fontSize: 13, fontWeight: '800', color: colors.muted },
-    tabTextActive: { color: '#fff' },
-
-    scroll: { paddingHorizontal: spacing.xl },
-
-    taskCard: { flexDirection: 'row', alignItems: 'center', padding: spacing.lg, borderRadius: radius.lg, backgroundColor: '#fff', marginBottom: spacing.md, ...shadow.slight },
-    iconCol: { width: 44, height: 44, borderRadius: 22, backgroundColor: 'rgba(0,0,0,0.03)', justifyContent: 'center', alignItems: 'center', marginRight: spacing.md },
-    textCol: { flex: 1 },
-    taskTitle: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: spacing.xs },
-    metaRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
-    courseBadge: { backgroundColor: colors.primarySoft, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 },
-    courseText: { fontSize: 10, fontWeight: '900', color: colors.primaryDark },
-    dueText: { fontSize: 12, fontWeight: '700', color: colors.muted },
-    dueTextUrgent: { color: colors.error },
-
-    submitBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: colors.success, justifyContent: 'center', alignItems: 'center', ...shadow.sm },
-    doneMark: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
-
-    emptyState: { alignItems: 'center', paddingVertical: 80 },
-    emptyText: { marginTop: spacing.md, color: colors.muted, fontWeight: '600', fontSize: 14 },
-    bottomSpacer: { height: 40 },
-});
+);

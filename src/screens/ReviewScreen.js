@@ -7,6 +7,109 @@ import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import { advanceReview, createReviewItem, dueNow, upcomingReviews } from '../utils/srs';
 
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: spacing.xl
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.sm
+  },
+  subTop: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.md,
+    lineHeight: 18
+  },
+  body: {
+    fontSize: typography.body,
+    fontFamily: typography.fontBody
+  },
+  card: {
+    marginTop: spacing.lg
+  },
+  answerRow: {
+    marginTop: spacing.md,
+    gap: spacing.sm
+  },
+  word: {
+    fontSize: typography.h2,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.sm
+  },
+  sub: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.md
+  },
+  statsCard: {
+    backgroundColor: '#0A1628',
+    borderRadius: 14,
+    padding: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.primary,
+    marginBottom: spacing.lg
+  },
+  statsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginBottom: spacing.md
+  },
+  statItem: {
+    alignItems: 'center'
+  },
+  statNumber: {
+    fontSize: typography.h2,
+    fontFamily: typography.fontHeadline,
+    color: '#DDE8FF'
+  },
+  statLabel: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginTop: 4
+  },
+  statDivider: {
+    width: 1,
+    height: 30,
+    backgroundColor: 'rgba(255,255,255,0.1)'
+  },
+  progressBarWrapper: {
+    height: 6,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderRadius: 3,
+    overflow: 'hidden',
+    marginBottom: spacing.xs
+  },
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: colors.primary,
+    borderRadius: 3
+  },
+  progressText: {
+    fontSize: 10,
+    color: colors.primary,
+    textAlign: 'right',
+    fontFamily: typography.fontHeadline
+  },
+  upcomingCard: {
+    marginTop: spacing.lg
+  },
+  upcomingTitle: {
+    fontSize: typography.body,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.xs
+  },
+  upcomingLine: {
+    fontSize: typography.small,
+    color: colors.muted,
+    lineHeight: 20
+  }
+}
+
 /** Dedupe reviews; prefer the existing entry's stage/ease when the word already exists. */
 function mergeWords(into, from) {
   const existing = new Set((into || []).map((r) => String(r.word).toLowerCase()));
@@ -124,105 +227,4 @@ export default function ReviewScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: spacing.xl
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.sm
-  },
-  subTop: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.md,
-    lineHeight: 18
-  },
-  body: {
-    fontSize: typography.body,
-    fontFamily: typography.fontBody
-  },
-  card: {
-    marginTop: spacing.lg
-  },
-  answerRow: {
-    marginTop: spacing.md,
-    gap: spacing.sm
-  },
-  word: {
-    fontSize: typography.h2,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.sm
-  },
-  sub: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.md
-  },
-  statsCard: {
-    backgroundColor: '#0A1628',
-    borderRadius: 14,
-    padding: spacing.md,
-    borderWidth: 1,
-    borderColor: colors.primary,
-    marginBottom: spacing.lg
-  },
-  statsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    marginBottom: spacing.md
-  },
-  statItem: {
-    alignItems: 'center'
-  },
-  statNumber: {
-    fontSize: typography.h2,
-    fontFamily: typography.fontHeadline,
-    color: '#DDE8FF'
-  },
-  statLabel: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginTop: 4
-  },
-  statDivider: {
-    width: 1,
-    height: 30,
-    backgroundColor: 'rgba(255,255,255,0.1)'
-  },
-  progressBarWrapper: {
-    height: 6,
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    borderRadius: 3,
-    overflow: 'hidden',
-    marginBottom: spacing.xs
-  },
-  progressBarFill: {
-    height: '100%',
-    backgroundColor: colors.primary,
-    borderRadius: 3
-  },
-  progressText: {
-    fontSize: 10,
-    color: colors.primary,
-    textAlign: 'right',
-    fontFamily: typography.fontHeadline
-  },
-  upcomingCard: {
-    marginTop: spacing.lg
-  },
-  upcomingTitle: {
-    fontSize: typography.body,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.xs
-  },
-  upcomingLine: {
-    fontSize: typography.small,
-    color: colors.muted,
-    lineHeight: 20
-  }
-});
+);

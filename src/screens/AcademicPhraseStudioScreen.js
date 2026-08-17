@@ -8,6 +8,53 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { executeDirectAiChat } from '../utils/runtimeApi';
 
+const styles = StyleSheet.create({
+  container: {
+    padding: spacing.md,
+  },
+  h1: { fontSize: 28, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },
+  sub: { fontSize: 14, color: colors.muted, marginBottom: spacing.xl },
+  categoryBlock: { marginBottom: spacing.xl },
+  categoryTitle: { fontSize: 18, fontWeight: '800', color: colors.primary, marginBottom: spacing.md, textTransform: 'uppercase', letterSpacing: 1 },
+  phraseCard: {
+    backgroundColor: colors.surface,
+    padding: spacing.lg,
+    borderRadius: radius.md,
+    marginBottom: spacing.md,
+    ...shadow.sm,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  phraseHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
+  phraseText: { fontSize: 17, fontWeight: '700', color: colors.text, flex: 1 },
+  levelBadge: { backgroundColor: colors.primarySoft, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 },
+  levelText: { fontSize: 10, fontWeight: '900', color: colors.primaryDark },
+  meaning: { fontSize: 14, color: colors.muted, fontStyle: 'italic' },
+  backBtn: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.lg },
+  backBtnText: { marginLeft: 8, color: colors.primary, fontWeight: '600' },
+  activeCard: { padding: spacing.xl, marginBottom: spacing.lg, borderLeftWidth: 5, borderLeftColor: colors.primary },
+  activePhrase: { fontSize: 22, fontWeight: '800', color: colors.text, marginBottom: 8 },
+  exampleBox: { marginTop: spacing.lg, padding: spacing.md, backgroundColor: colors.surfaceAlt, borderRadius: radius.sm },
+  exampleTitle: { fontSize: 12, fontWeight: '800', color: colors.muted, marginBottom: 4, textTransform: 'uppercase' },
+  exampleText: { fontSize: 15, color: colors.text, lineHeight: 22 },
+  practiceCard: { padding: spacing.lg, marginBottom: spacing.lg },
+  h3: { fontSize: 18, fontWeight: '800', marginBottom: spacing.xs },
+  input: {
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: 12,
+    padding: spacing.md,
+    fontSize: 16,
+    minHeight: 100,
+    textAlignVertical: 'top',
+    marginBottom: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  feedbackCard: { padding: spacing.lg, backgroundColor: '#F0F7FF', borderColor: '#CDE4FF' },
+  feedbackHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: spacing.md },
+  feedbackText: { fontSize: 15, color: colors.text, lineHeight: 22 },
+}
+
 const PHRASES = [
   {
     category: "Argumentation & Nuance",
@@ -131,49 +178,4 @@ export default function AcademicPhraseStudioScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: spacing.md,
-  },
-  h1: { fontSize: 28, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },
-  sub: { fontSize: 14, color: colors.muted, marginBottom: spacing.xl },
-  categoryBlock: { marginBottom: spacing.xl },
-  categoryTitle: { fontSize: 18, fontWeight: '800', color: colors.primary, marginBottom: spacing.md, textTransform: 'uppercase', letterSpacing: 1 },
-  phraseCard: {
-    backgroundColor: colors.surface,
-    padding: spacing.lg,
-    borderRadius: radius.md,
-    marginBottom: spacing.md,
-    ...shadow.sm,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  phraseHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
-  phraseText: { fontSize: 17, fontWeight: '700', color: colors.text, flex: 1 },
-  levelBadge: { backgroundColor: colors.primarySoft, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 },
-  levelText: { fontSize: 10, fontWeight: '900', color: colors.primaryDark },
-  meaning: { fontSize: 14, color: colors.muted, fontStyle: 'italic' },
-  backBtn: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.lg },
-  backBtnText: { marginLeft: 8, color: colors.primary, fontWeight: '600' },
-  activeCard: { padding: spacing.xl, marginBottom: spacing.lg, borderLeftWidth: 5, borderLeftColor: colors.primary },
-  activePhrase: { fontSize: 22, fontWeight: '800', color: colors.text, marginBottom: 8 },
-  exampleBox: { marginTop: spacing.lg, padding: spacing.md, backgroundColor: colors.surfaceAlt, borderRadius: radius.sm },
-  exampleTitle: { fontSize: 12, fontWeight: '800', color: colors.muted, marginBottom: 4, textTransform: 'uppercase' },
-  exampleText: { fontSize: 15, color: colors.text, lineHeight: 22 },
-  practiceCard: { padding: spacing.lg, marginBottom: spacing.lg },
-  h3: { fontSize: 18, fontWeight: '800', marginBottom: spacing.xs },
-  input: {
-    backgroundColor: colors.surfaceAlt,
-    borderRadius: 12,
-    padding: spacing.md,
-    fontSize: 16,
-    minHeight: 100,
-    textAlignVertical: 'top',
-    marginBottom: spacing.md,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  feedbackCard: { padding: spacing.lg, backgroundColor: '#F0F7FF', borderColor: '#CDE4FF' },
-  feedbackHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: spacing.md },
-  feedbackText: { fontSize: 15, color: colors.text, lineHeight: 22 },
-});
+);

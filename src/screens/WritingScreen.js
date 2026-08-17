@@ -14,6 +14,166 @@ import MetricRail, { MetricTile } from '../components/ui/MetricRail';
 import SectionHeader from '../components/ui/SectionHeader';
 import FilterBar, { FilterChip } from '../components/ui/FilterBar';
 
+const styles = StyleSheet.create({
+  cardInner: {
+    paddingHorizontal: spacing.sm,
+    paddingBottom: spacing.sm,
+  },
+  container: {},
+  headerSpacer: { paddingTop: spacing.md },
+  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },
+  sub: { fontSize: typography.body, color: colors.muted, marginBottom: spacing.md, lineHeight: 20 },
+  listContent: { paddingBottom: spacing.xxl + 84, paddingHorizontal: spacing.lg },
+  listContentWide: { paddingHorizontal: spacing.xl },
+  columnWrapper: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: spacing.md },
+  promptItemWrap: { marginBottom: 12 },
+  promptItemWrapWide: { width: '48%' },
+  
+  // Hero Widget
+  heroCard: { 
+    backgroundColor: '#172554', 
+    borderColor: '#172554', 
+    borderWidth: 1, 
+    borderRadius: 16, 
+    padding: spacing.xl, 
+    marginBottom: spacing.md, 
+    ...shadow.md 
+  },
+  heroTopRow: { 
+    flexDirection: 'row', 
+    alignItems: 'flex-start', 
+    gap: spacing.md, 
+    marginBottom: spacing.md 
+  },
+  heroIconWrap: { 
+    width: 48, 
+    height: 48, 
+    borderRadius: 16, 
+    backgroundColor: 'rgba(255,255,255,0.1)', 
+    alignItems: 'center', 
+    justifyContent: 'center' 
+  },
+  heroCopy: { flex: 1 },
+  heroEyebrow: { 
+    fontSize: typography.xsmall, 
+    fontFamily: typography.fontHeadline, 
+    color: '#BFDBFE', 
+    textTransform: 'uppercase', 
+    letterSpacing: 1, 
+    marginBottom: spacing.xs 
+  },
+  heroTitle: { 
+    fontSize: typography.h2, 
+    fontFamily: typography.fontHeadline, 
+    color: '#FFFFFF', 
+    marginBottom: spacing.xs 
+  },
+  heroBody: {
+    fontSize: typography.small,
+    color: '#DBEAFE',
+    lineHeight: 20,
+  },
+  
+  heroCounter: { 
+    minWidth: 90, 
+    paddingHorizontal: spacing.sm, 
+    paddingVertical: spacing.sm, 
+    borderRadius: radius.lg, 
+    backgroundColor: 'rgba(255,255,255,0.12)', 
+    borderWidth: 1, 
+    borderColor: 'rgba(255,255,255,0.16)', 
+    alignItems: 'center' 
+  },
+  heroCounterValue: { 
+    fontSize: 28, 
+    lineHeight: 32, 
+    color: '#FFFFFF', 
+    fontFamily: typography.fontHeadline 
+  },
+  heroCounterLabel: { 
+    marginTop: 2, 
+    fontSize: typography.xsmall, 
+    color: '#BFDBFE', 
+    textTransform: 'uppercase' 
+  },
+
+  heroActionRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  actionFlexBtn: { flex: 1 },
+  
+  // Metric Tiles
+  metricGrid: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.md },
+  metricTile: { flex: 1, backgroundColor: colors.surface, borderRadius: 12, paddingVertical: spacing.md, paddingHorizontal: spacing.sm, borderWidth: 1, borderColor: '#D7E4FA', position: 'relative', overflow: 'hidden' },
+  metricAccent: { position: 'absolute', top: 0, left: 0, right: 0, height: 4 },
+  metricAccentBlue: { backgroundColor: '#1D4ED8' },
+  metricAccentTeal: { backgroundColor: '#14B8A6' },
+  metricAccentAmber: { backgroundColor: '#F59E0B' },
+  metricValue: { fontSize: 20, fontFamily: typography.fontHeadline, fontWeight: '800', color: colors.primaryDark, marginBottom: 2 },
+  metricLabel: { fontSize: 11, fontWeight: '700', color: '#64748B', textTransform: 'uppercase', letterSpacing: 0.5 },
+
+  // Cards & Layout
+  grid: { gap: spacing.md },
+  gridWide: { flexDirection: 'row', alignItems: 'flex-start' },
+  card: { flex: 1, marginBottom: spacing.md, backgroundColor: '#FFFFFF', borderRadius: 16, borderColor: '#E2E8F0', borderWidth: 1, padding: spacing.lg, ...shadow.sm },
+  sectionHead: { marginBottom: spacing.md },
+  sectionTitle: { fontSize: 18, fontFamily: typography.fontHeadline, fontWeight: '800', color: '#0F172A' },
+  
+  // Resume Block
+  resumeCard: { backgroundColor: '#FFFBEB', borderColor: '#FDE68A', borderWidth: 1, borderRadius: 16, padding: spacing.lg, marginBottom: spacing.md, ...shadow.sm },
+  resumeHeader: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 8 },
+  resumeTitle: { fontSize: 15, fontWeight: '700', color: '#92400E' },
+  resumePreview: { fontSize: 14, color: '#B45309', fontStyle: 'italic', marginBottom: 12, lineHeight: 20 },
+
+  // Inputs & Search
+  input: { backgroundColor: '#F8FAFC', borderRadius: 12, paddingHorizontal: spacing.md, paddingVertical: 12, borderWidth: 1, borderColor: '#CBD5E1', fontSize: 15, color: '#0F172A', marginBottom: spacing.md },
+  actionRow: { flexDirection: 'row', gap: spacing.sm },
+  
+  searchBox: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#F8FAFC', borderRadius: 12, paddingHorizontal: spacing.md, paddingVertical: 10, borderWidth: 1, borderColor: '#CBD5E1', marginBottom: spacing.md },
+  searchInput: { flex: 1, marginLeft: 8, fontSize: 15, color: '#0F172A', padding: 0 },
+
+  // Filter Chips
+  chipScroll: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  chipScrollTop: { marginTop: 8 },
+  filterChip: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surfaceAlt, paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.pill, borderWidth: 1, borderColor: '#D8E4F8' },
+  filterChipActive: { backgroundColor: colors.primaryDark, borderColor: colors.primaryDark },
+  filterChipText: { fontSize: 13, fontWeight: '600', color: colors.text },
+  filterChipTextActive: { color: '#FFFFFF', fontWeight: '700' },
+  
+  // Path Rows (Quick Starts)
+  pathRow: { flexDirection: 'row', backgroundColor: '#F8FAFC', padding: 12, borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', marginBottom: 8 },
+  checkIcon: { marginTop: 2 },
+  pathIconWrap: { width: 32, height: 32, borderRadius: 8, backgroundColor: '#E0E7FF', alignItems: 'center', justifyContent: 'center', marginRight: 12 },
+  pathCopy: { flex: 1, justifyContent: 'center' },
+  pathTitle: { fontSize: 15, fontWeight: '700', color: '#0F172A', marginBottom: 2 },
+  pathDesc: { fontSize: 12, color: '#64748B' },
+
+  listHeaderRow: { marginBottom: spacing.sm, paddingHorizontal: 4 },
+  listHeaderTitle: { fontSize: 14, fontWeight: '700', color: '#64748B', textTransform: 'uppercase', letterSpacing: 0.5 },
+
+  // Prompt Library list
+  taskItemWrap: { flex: 1, marginBottom: spacing.md },
+  promptCard: { backgroundColor: '#FFFFFF', padding: 16, borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', marginBottom: 10, ...shadow.slight },
+  promptBadges: { flexDirection: 'row', gap: 6, marginBottom: 8 },
+  badgeSoft: { backgroundColor: '#F1F5F9', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 },
+  badgeBlue: { backgroundColor: '#EFF6FF', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 },
+  badgeText: { fontSize: 11, fontWeight: '700', color: '#475569', textTransform: 'uppercase', letterSpacing: 0.5 },
+  badgeBlueText: { color: '#1D4ED8' },
+  promptText: { fontSize: 15, color: '#1E293B', lineHeight: 22 },
+  emptyText: { fontSize: 15, color: '#64748B', fontStyle: 'italic', textAlign: 'center', marginTop: 20 },
+
+  // Modal Styles
+  modalContainer: { flex: 1, backgroundColor: '#F8FAFC' },
+  modalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: spacing.lg, backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E2E8F0' },
+  modalTitle: { fontSize: 20, fontFamily: typography.fontHeadline, fontWeight: '800', color: '#0F172A' },
+  closeBtnText: { fontSize: 16, fontWeight: '700', color: '#1D4ED8' },
+  modalScroll: { flex: 1 },
+  modalContent: { padding: spacing.lg, paddingBottom: 60 },
+  modalIntro: { fontSize: 15, color: '#475569', lineHeight: 22, marginBottom: 24 },
+  templateSection: { marginBottom: 24, backgroundColor: '#FFFFFF', padding: 16, borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', ...shadow.slight },
+  templateCategory: { fontSize: 16, fontWeight: '800', color: '#1E293B', marginBottom: 12, borderBottomWidth: 1, borderBottomColor: '#F1F5F9', paddingBottom: 8 },
+  exprRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginBottom: 10 },
+  exprText: { fontSize: 15, color: '#334155', flex: 1, lineHeight: 22, fontWeight: '500' }
+}
+
 const TYPES = ['opinion', 'definition', 'cause_effect', 'problem_solution', 'compare_contrast', 'argumentative', 'reaction'];
 const TASKS = ['paragraph', 'essay'];
 
@@ -307,162 +467,4 @@ export default function WritingScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  cardInner: {
-    paddingHorizontal: spacing.sm,
-    paddingBottom: spacing.sm,
-  },
-  container: {},
-  headerSpacer: { paddingTop: spacing.md },
-  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },
-  sub: { fontSize: typography.body, color: colors.muted, marginBottom: spacing.md, lineHeight: 20 },
-  listContent: { paddingBottom: spacing.xxl + 84, paddingHorizontal: spacing.lg },
-  listContentWide: { paddingHorizontal: spacing.xl },
-  columnWrapper: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: spacing.md },
-  promptItemWrap: { marginBottom: 12 },
-  promptItemWrapWide: { width: '48%' },
-  
-  // Hero Widget
-  heroCard: { 
-    backgroundColor: '#172554', 
-    borderColor: '#172554', 
-    borderWidth: 1, 
-    borderRadius: 16, 
-    padding: spacing.xl, 
-    marginBottom: spacing.md, 
-    ...shadow.md 
-  },
-  heroTopRow: { 
-    flexDirection: 'row', 
-    alignItems: 'flex-start', 
-    gap: spacing.md, 
-    marginBottom: spacing.md 
-  },
-  heroIconWrap: { 
-    width: 48, 
-    height: 48, 
-    borderRadius: 16, 
-    backgroundColor: 'rgba(255,255,255,0.1)', 
-    alignItems: 'center', 
-    justifyContent: 'center' 
-  },
-  heroCopy: { flex: 1 },
-  heroEyebrow: { 
-    fontSize: typography.xsmall, 
-    fontFamily: typography.fontHeadline, 
-    color: '#BFDBFE', 
-    textTransform: 'uppercase', 
-    letterSpacing: 1, 
-    marginBottom: spacing.xs 
-  },
-  heroTitle: { 
-    fontSize: typography.h2, 
-    fontFamily: typography.fontHeadline, 
-    color: '#FFFFFF', 
-    marginBottom: spacing.xs 
-  },
-  heroBody: {
-    fontSize: typography.small,
-    color: '#DBEAFE',
-    lineHeight: 20,
-  },
-  
-  heroCounter: { 
-    minWidth: 90, 
-    paddingHorizontal: spacing.sm, 
-    paddingVertical: spacing.sm, 
-    borderRadius: radius.lg, 
-    backgroundColor: 'rgba(255,255,255,0.12)', 
-    borderWidth: 1, 
-    borderColor: 'rgba(255,255,255,0.16)', 
-    alignItems: 'center' 
-  },
-  heroCounterValue: { 
-    fontSize: 28, 
-    lineHeight: 32, 
-    color: '#FFFFFF', 
-    fontFamily: typography.fontHeadline 
-  },
-  heroCounterLabel: { 
-    marginTop: 2, 
-    fontSize: typography.xsmall, 
-    color: '#BFDBFE', 
-    textTransform: 'uppercase' 
-  },
-
-  heroActionRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
-  actionFlexBtn: { flex: 1 },
-  
-  // Metric Tiles
-  metricGrid: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.md },
-  metricTile: { flex: 1, backgroundColor: colors.surface, borderRadius: 12, paddingVertical: spacing.md, paddingHorizontal: spacing.sm, borderWidth: 1, borderColor: '#D7E4FA', position: 'relative', overflow: 'hidden' },
-  metricAccent: { position: 'absolute', top: 0, left: 0, right: 0, height: 4 },
-  metricAccentBlue: { backgroundColor: '#1D4ED8' },
-  metricAccentTeal: { backgroundColor: '#14B8A6' },
-  metricAccentAmber: { backgroundColor: '#F59E0B' },
-  metricValue: { fontSize: 20, fontFamily: typography.fontHeadline, fontWeight: '800', color: colors.primaryDark, marginBottom: 2 },
-  metricLabel: { fontSize: 11, fontWeight: '700', color: '#64748B', textTransform: 'uppercase', letterSpacing: 0.5 },
-
-  // Cards & Layout
-  grid: { gap: spacing.md },
-  gridWide: { flexDirection: 'row', alignItems: 'flex-start' },
-  card: { flex: 1, marginBottom: spacing.md, backgroundColor: '#FFFFFF', borderRadius: 16, borderColor: '#E2E8F0', borderWidth: 1, padding: spacing.lg, ...shadow.sm },
-  sectionHead: { marginBottom: spacing.md },
-  sectionTitle: { fontSize: 18, fontFamily: typography.fontHeadline, fontWeight: '800', color: '#0F172A' },
-  
-  // Resume Block
-  resumeCard: { backgroundColor: '#FFFBEB', borderColor: '#FDE68A', borderWidth: 1, borderRadius: 16, padding: spacing.lg, marginBottom: spacing.md, ...shadow.sm },
-  resumeHeader: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 8 },
-  resumeTitle: { fontSize: 15, fontWeight: '700', color: '#92400E' },
-  resumePreview: { fontSize: 14, color: '#B45309', fontStyle: 'italic', marginBottom: 12, lineHeight: 20 },
-
-  // Inputs & Search
-  input: { backgroundColor: '#F8FAFC', borderRadius: 12, paddingHorizontal: spacing.md, paddingVertical: 12, borderWidth: 1, borderColor: '#CBD5E1', fontSize: 15, color: '#0F172A', marginBottom: spacing.md },
-  actionRow: { flexDirection: 'row', gap: spacing.sm },
-  
-  searchBox: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#F8FAFC', borderRadius: 12, paddingHorizontal: spacing.md, paddingVertical: 10, borderWidth: 1, borderColor: '#CBD5E1', marginBottom: spacing.md },
-  searchInput: { flex: 1, marginLeft: 8, fontSize: 15, color: '#0F172A', padding: 0 },
-
-  // Filter Chips
-  chipScroll: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
-  chipScrollTop: { marginTop: 8 },
-  filterChip: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surfaceAlt, paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.pill, borderWidth: 1, borderColor: '#D8E4F8' },
-  filterChipActive: { backgroundColor: colors.primaryDark, borderColor: colors.primaryDark },
-  filterChipText: { fontSize: 13, fontWeight: '600', color: colors.text },
-  filterChipTextActive: { color: '#FFFFFF', fontWeight: '700' },
-  
-  // Path Rows (Quick Starts)
-  pathRow: { flexDirection: 'row', backgroundColor: '#F8FAFC', padding: 12, borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', marginBottom: 8 },
-  checkIcon: { marginTop: 2 },
-  pathIconWrap: { width: 32, height: 32, borderRadius: 8, backgroundColor: '#E0E7FF', alignItems: 'center', justifyContent: 'center', marginRight: 12 },
-  pathCopy: { flex: 1, justifyContent: 'center' },
-  pathTitle: { fontSize: 15, fontWeight: '700', color: '#0F172A', marginBottom: 2 },
-  pathDesc: { fontSize: 12, color: '#64748B' },
-
-  listHeaderRow: { marginBottom: spacing.sm, paddingHorizontal: 4 },
-  listHeaderTitle: { fontSize: 14, fontWeight: '700', color: '#64748B', textTransform: 'uppercase', letterSpacing: 0.5 },
-
-  // Prompt Library list
-  taskItemWrap: { flex: 1, marginBottom: spacing.md },
-  promptCard: { backgroundColor: '#FFFFFF', padding: 16, borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', marginBottom: 10, ...shadow.slight },
-  promptBadges: { flexDirection: 'row', gap: 6, marginBottom: 8 },
-  badgeSoft: { backgroundColor: '#F1F5F9', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 },
-  badgeBlue: { backgroundColor: '#EFF6FF', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 },
-  badgeText: { fontSize: 11, fontWeight: '700', color: '#475569', textTransform: 'uppercase', letterSpacing: 0.5 },
-  badgeBlueText: { color: '#1D4ED8' },
-  promptText: { fontSize: 15, color: '#1E293B', lineHeight: 22 },
-  emptyText: { fontSize: 15, color: '#64748B', fontStyle: 'italic', textAlign: 'center', marginTop: 20 },
-
-  // Modal Styles
-  modalContainer: { flex: 1, backgroundColor: '#F8FAFC' },
-  modalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: spacing.lg, backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E2E8F0' },
-  modalTitle: { fontSize: 20, fontFamily: typography.fontHeadline, fontWeight: '800', color: '#0F172A' },
-  closeBtnText: { fontSize: 16, fontWeight: '700', color: '#1D4ED8' },
-  modalScroll: { flex: 1 },
-  modalContent: { padding: spacing.lg, paddingBottom: 60 },
-  modalIntro: { fontSize: 15, color: '#475569', lineHeight: 22, marginBottom: 24 },
-  templateSection: { marginBottom: 24, backgroundColor: '#FFFFFF', padding: 16, borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', ...shadow.slight },
-  templateCategory: { fontSize: 16, fontWeight: '800', color: '#1E293B', marginBottom: 12, borderBottomWidth: 1, borderBottomColor: '#F1F5F9', paddingBottom: 8 },
-  exprRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginBottom: 10 },
-  exprText: { fontSize: 15, color: '#334155', flex: 1, lineHeight: 22, fontWeight: '500' }
-});
+);

@@ -3,6 +3,38 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
+const styles = StyleSheet.create({
+  wrap: {
+    marginVertical: spacing.xs,
+  },
+  label: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    fontFamily: typography.fontHeadline,
+    marginBottom: 6,
+  },
+  row: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  cell: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
+    borderWidth: 1,
+    borderRadius: radius.sm,
+    paddingVertical: 7,
+  },
+  cellLabel: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+  },
+}
+
 /**
  * 3-level confidence selector strip (Unsure / Moderate / Sure)
  * used for marking question confidence during exams.
@@ -42,34 +74,4 @@ export default function ConfidenceStrip({ value = 'moderate', onChange, style })
   );
 }
 
-const styles = StyleSheet.create({
-  wrap: {
-    marginVertical: spacing.xs,
-  },
-  label: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    fontFamily: typography.fontHeadline,
-    marginBottom: 6,
-  },
-  row: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-  },
-  cell: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 5,
-    borderWidth: 1,
-    borderRadius: radius.sm,
-    paddingVertical: 7,
-  },
-  cellLabel: {
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-  },
-});
+);

@@ -13,6 +13,149 @@ import Card from '../components/Card';
 import { colors, spacing, typography } from '../theme/tokens';
 import templates from '../../data/essay_templates.json';
 
+const styles = StyleSheet.create({
+    container: { paddingBottom: 40 },
+
+    h1: {
+        fontSize: typography.h1,
+        fontFamily: typography.fontHeadline,
+        color: colors.text,
+        marginBottom: spacing.xs,
+    },
+    sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.md },
+
+    sectionScroll: { marginBottom: spacing.md },
+    typeRow: { flexDirection: 'row', gap: spacing.sm, paddingRight: spacing.md },
+    typeBtn: {
+        paddingHorizontal: spacing.md,
+        paddingVertical: spacing.sm,
+        borderRadius: 14,
+        borderWidth: 1.5,
+        borderColor: colors.secondary,
+        backgroundColor: colors.surface,
+        maxWidth: 200,
+    },
+    typeBtnActive: { backgroundColor: colors.primary, borderColor: colors.primary },
+    typeBtnText: { fontSize: typography.small, fontFamily: typography.fontHeadline, color: colors.text },
+    typeBtnTextActive: { color: '#fff' },
+    typeNote: { fontSize: 10, color: colors.muted, marginTop: 2 },
+
+    bueptBanner: {
+        backgroundColor: '#EEF5FF',
+        borderRadius: 12,
+        padding: spacing.md,
+        marginBottom: spacing.md,
+        borderLeftWidth: 4,
+        borderLeftColor: colors.primary,
+    },
+    bueptText: { fontSize: typography.small, color: colors.primaryDark, lineHeight: 20 },
+
+    tabRow: { flexDirection: 'row', gap: spacing.xs, paddingRight: spacing.md },
+    tab: {
+        paddingHorizontal: spacing.md,
+        paddingVertical: spacing.xs + 2,
+        borderRadius: 999,
+        borderWidth: 1,
+        borderColor: colors.secondary,
+        backgroundColor: colors.surface,
+    },
+    tabActive: { backgroundColor: colors.primary, borderColor: colors.primary },
+    tabText: { fontSize: typography.small, color: colors.muted, fontFamily: typography.fontHeadline },
+    tabTextActive: { color: '#fff' },
+
+    card: { marginBottom: spacing.md },
+
+    sectionHeader: {
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+        marginBottom: spacing.sm,
+    },
+    sectionTitle: {
+        fontSize: typography.body,
+        fontFamily: typography.fontHeadline,
+        color: colors.text,
+    },
+    toggle: { fontSize: typography.small, color: colors.primary, fontFamily: typography.fontHeadline },
+    catDot: { width: 10, height: 10, borderRadius: 5, marginRight: spacing.sm },
+    catDotPrimary: { backgroundColor: colors.primary },
+    sectionTitlePrimary: { color: colors.primary },
+    sectionTitleFlex: { flex: 1 },
+
+    // Template
+    templateRow: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: spacing.sm, gap: spacing.sm },
+    templateNum: { fontSize: typography.small, color: colors.muted, width: 18, paddingTop: 2 },
+    templateText: { flex: 1, fontSize: typography.small, color: colors.text, lineHeight: 20, fontStyle: 'italic' },
+    copyBtn: {
+        backgroundColor: colors.surfaceAlt,
+        paddingHorizontal: spacing.sm,
+        paddingVertical: 2,
+        borderRadius: 8,
+    },
+    copyBtnText: { fontSize: 11, color: colors.primary, fontFamily: typography.fontHeadline },
+
+    // Phrases
+    chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginTop: spacing.xs },
+    phraseChip: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 4,
+        backgroundColor: colors.surfaceAlt,
+        paddingHorizontal: spacing.md,
+        paddingVertical: spacing.xs + 2,
+        borderRadius: 999,
+        borderWidth: 1,
+        borderColor: colors.secondary,
+    },
+    phraseChipText: { fontSize: typography.small, color: colors.text },
+    copyIcon: { fontSize: 11, color: colors.primary },
+
+    // Sample
+    sampleText: {
+        fontSize: typography.body,
+        color: colors.text,
+        lineHeight: 26,
+        fontFamily: typography.fontBody,
+        marginBottom: spacing.sm,
+    },
+    wordCount: { fontSize: typography.small, color: colors.muted, textAlign: 'right' },
+
+    // Topics
+    topicRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: spacing.sm,
+        paddingVertical: spacing.sm,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.secondary,
+    },
+    topicNumBadge: {
+        width: 26, height: 26, borderRadius: 13,
+        backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center',
+    },
+    topicNum: { color: '#fff', fontSize: 11, fontFamily: typography.fontHeadline },
+    topicText: { flex: 1, fontSize: typography.small, color: colors.text },
+    topicCopy: { fontSize: 14, color: colors.muted },
+
+    structCard: { backgroundColor: colors.surfaceAlt },
+    structRow: {
+        flexDirection: 'row', gap: spacing.md, paddingVertical: spacing.sm,
+        borderBottomWidth: 1, borderBottomColor: colors.secondary,
+    },
+    structLeft: {
+        width: 60, alignItems: 'center', justifyContent: 'center',
+        backgroundColor: colors.primary, borderRadius: 10, padding: spacing.sm,
+    },
+    structTask: { color: '#fff', fontFamily: typography.fontHeadline, fontSize: typography.small },
+    structRight: { flex: 1 },
+    structWords: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text },
+    structTime: { fontSize: typography.small, color: colors.muted },
+    structType: { fontSize: typography.small, color: colors.primary, marginTop: 2 },
+
+    // Mistakes
+    mistakeRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.sm, alignItems: 'flex-start' },
+    mistakeIcon: { fontSize: 16, color: '#C62828', width: 20 },
+    mistakeText: { flex: 1, fontSize: typography.small, color: '#5D4037', lineHeight: 20 },
+}
+
 const TABS = ['Templates', 'Phrases', 'Sample', 'Topics', 'Mistakes'];
 
 const TAB_ICONS = {
@@ -284,145 +427,4 @@ export default function EssayScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: { paddingBottom: 40 },
-
-    h1: {
-        fontSize: typography.h1,
-        fontFamily: typography.fontHeadline,
-        color: colors.text,
-        marginBottom: spacing.xs,
-    },
-    sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.md },
-
-    sectionScroll: { marginBottom: spacing.md },
-    typeRow: { flexDirection: 'row', gap: spacing.sm, paddingRight: spacing.md },
-    typeBtn: {
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.sm,
-        borderRadius: 14,
-        borderWidth: 1.5,
-        borderColor: colors.secondary,
-        backgroundColor: colors.surface,
-        maxWidth: 200,
-    },
-    typeBtnActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-    typeBtnText: { fontSize: typography.small, fontFamily: typography.fontHeadline, color: colors.text },
-    typeBtnTextActive: { color: '#fff' },
-    typeNote: { fontSize: 10, color: colors.muted, marginTop: 2 },
-
-    bueptBanner: {
-        backgroundColor: '#EEF5FF',
-        borderRadius: 12,
-        padding: spacing.md,
-        marginBottom: spacing.md,
-        borderLeftWidth: 4,
-        borderLeftColor: colors.primary,
-    },
-    bueptText: { fontSize: typography.small, color: colors.primaryDark, lineHeight: 20 },
-
-    tabRow: { flexDirection: 'row', gap: spacing.xs, paddingRight: spacing.md },
-    tab: {
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.xs + 2,
-        borderRadius: 999,
-        borderWidth: 1,
-        borderColor: colors.secondary,
-        backgroundColor: colors.surface,
-    },
-    tabActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-    tabText: { fontSize: typography.small, color: colors.muted, fontFamily: typography.fontHeadline },
-    tabTextActive: { color: '#fff' },
-
-    card: { marginBottom: spacing.md },
-
-    sectionHeader: {
-        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-        marginBottom: spacing.sm,
-    },
-    sectionTitle: {
-        fontSize: typography.body,
-        fontFamily: typography.fontHeadline,
-        color: colors.text,
-    },
-    toggle: { fontSize: typography.small, color: colors.primary, fontFamily: typography.fontHeadline },
-    catDot: { width: 10, height: 10, borderRadius: 5, marginRight: spacing.sm },
-    catDotPrimary: { backgroundColor: colors.primary },
-    sectionTitlePrimary: { color: colors.primary },
-    sectionTitleFlex: { flex: 1 },
-
-    // Template
-    templateRow: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: spacing.sm, gap: spacing.sm },
-    templateNum: { fontSize: typography.small, color: colors.muted, width: 18, paddingTop: 2 },
-    templateText: { flex: 1, fontSize: typography.small, color: colors.text, lineHeight: 20, fontStyle: 'italic' },
-    copyBtn: {
-        backgroundColor: colors.surfaceAlt,
-        paddingHorizontal: spacing.sm,
-        paddingVertical: 2,
-        borderRadius: 8,
-    },
-    copyBtnText: { fontSize: 11, color: colors.primary, fontFamily: typography.fontHeadline },
-
-    // Phrases
-    chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginTop: spacing.xs },
-    phraseChip: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 4,
-        backgroundColor: colors.surfaceAlt,
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.xs + 2,
-        borderRadius: 999,
-        borderWidth: 1,
-        borderColor: colors.secondary,
-    },
-    phraseChipText: { fontSize: typography.small, color: colors.text },
-    copyIcon: { fontSize: 11, color: colors.primary },
-
-    // Sample
-    sampleText: {
-        fontSize: typography.body,
-        color: colors.text,
-        lineHeight: 26,
-        fontFamily: typography.fontBody,
-        marginBottom: spacing.sm,
-    },
-    wordCount: { fontSize: typography.small, color: colors.muted, textAlign: 'right' },
-
-    // Topics
-    topicRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: spacing.sm,
-        paddingVertical: spacing.sm,
-        borderBottomWidth: 1,
-        borderBottomColor: colors.secondary,
-    },
-    topicNumBadge: {
-        width: 26, height: 26, borderRadius: 13,
-        backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center',
-    },
-    topicNum: { color: '#fff', fontSize: 11, fontFamily: typography.fontHeadline },
-    topicText: { flex: 1, fontSize: typography.small, color: colors.text },
-    topicCopy: { fontSize: 14, color: colors.muted },
-
-    structCard: { backgroundColor: colors.surfaceAlt },
-    structRow: {
-        flexDirection: 'row', gap: spacing.md, paddingVertical: spacing.sm,
-        borderBottomWidth: 1, borderBottomColor: colors.secondary,
-    },
-    structLeft: {
-        width: 60, alignItems: 'center', justifyContent: 'center',
-        backgroundColor: colors.primary, borderRadius: 10, padding: spacing.sm,
-    },
-    structTask: { color: '#fff', fontFamily: typography.fontHeadline, fontSize: typography.small },
-    structRight: { flex: 1 },
-    structWords: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text },
-    structTime: { fontSize: typography.small, color: colors.muted },
-    structType: { fontSize: typography.small, color: colors.primary, marginTop: 2 },
-
-    // Mistakes
-    mistakeRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.sm, alignItems: 'flex-start' },
-    mistakeIcon: { fontSize: 16, color: '#C62828', width: 20 },
-    mistakeText: { flex: 1, fontSize: typography.small, color: '#5D4037', lineHeight: 20 },
-});
+);

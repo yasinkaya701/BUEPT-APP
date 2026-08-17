@@ -6,23 +6,6 @@ import Screen from '../components/Screen';
 import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
-export default function FavoritesScreen({ navigation }) {
-  const { favoritePrompts } = useAppState();
-
-  return (
-    <Screen scroll contentStyle={styles.content}>
-      <Text style={styles.h1}>Favorite Prompts</Text>
-      {favoritePrompts.length === 0 && <Text style={styles.body}>No favorites yet.</Text>}
-      {favoritePrompts.map((p, i) => (
-        <Card key={i} style={styles.card}>
-          <Text style={styles.body}>{p}</Text>
-          <Button label="Start Writing" variant="secondary" onPress={() => navigation.navigate('WritingEditor', { prompt: p })} />
-        </Card>
-      ))}
-    </Screen>
-  );
-}
-
 const styles = StyleSheet.create({
   content: {
     paddingBottom: spacing.xl
@@ -41,4 +24,23 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: spacing.lg
   }
-});
+}
+
+export default function FavoritesScreen({ navigation }) {
+  const { favoritePrompts } = useAppState();
+
+  return (
+    <Screen scroll contentStyle={styles.content}>
+      <Text style={styles.h1}>Favorite Prompts</Text>
+      {favoritePrompts.length === 0 && <Text style={styles.body}>No favorites yet.</Text>}
+      {favoritePrompts.map((p, i) => (
+        <Card key={i} style={styles.card}>
+          <Text style={styles.body}>{p}</Text>
+          <Button label="Start Writing" variant="secondary" onPress={() => navigation.navigate('WritingEditor', { prompt: p })} />
+        </Card>
+      ))}
+    </Screen>
+  );
+}
+
+);

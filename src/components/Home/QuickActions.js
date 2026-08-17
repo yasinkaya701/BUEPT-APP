@@ -5,6 +5,69 @@ import { colors, spacing, typography } from '../../theme/tokens';
 import { useAppState } from '../../context/AppState';
 import { buildAdaptivePlan } from '../../utils/studyPlan';
 
+const styles = StyleSheet.create({
+  scrollSection: {
+    marginHorizontal: -spacing.md,
+    marginBottom: spacing.sm,
+  },
+  sectionHead: {
+    marginLeft: spacing.md,
+    marginBottom: 6,
+  },
+  sectionHeader: {
+    fontSize: 17,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '900',
+    color: colors.text,
+    letterSpacing: -0.3,
+  },
+  sectionMeta: {
+    marginTop: 2,
+    fontSize: 11,
+    color: colors.muted,
+    fontWeight: '500',
+  },
+  horizontalScroll: {
+    paddingHorizontal: spacing.md,
+    gap: 8,
+    paddingBottom: 4,
+  },
+  actionCard: {
+    width: 130,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+    paddingHorizontal: 10,
+    paddingVertical: 12,
+    gap: 4,
+  },
+  actionHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  actionIconWrap: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: colors.primaryUltraLight,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  actionLabel: {
+    fontSize: 13,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+  },
+  actionMeta: {
+    fontSize: 10,
+    color: colors.muted,
+    fontWeight: '600',
+  },
+}
+
 const WEAK_ACTION_MAP = {
   reading: { label: 'Train Reading', route: 'Reading', icon: 'book-outline', bg: colors.primarySoft, iconColor: colors.primary },
   listening: { label: 'Train Listening', route: 'Listening', icon: 'headset-outline', bg: colors.skillSoft.listening, iconColor: colors.skill.listening },
@@ -133,65 +196,4 @@ export default function QuickActions({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  scrollSection: {
-    marginHorizontal: -spacing.md,
-    marginBottom: spacing.sm,
-  },
-  sectionHead: {
-    marginLeft: spacing.md,
-    marginBottom: 6,
-  },
-  sectionHeader: {
-    fontSize: 17,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '900',
-    color: colors.text,
-    letterSpacing: -0.3,
-  },
-  sectionMeta: {
-    marginTop: 2,
-    fontSize: 11,
-    color: colors.muted,
-    fontWeight: '500',
-  },
-  horizontalScroll: {
-    paddingHorizontal: spacing.md,
-    gap: 8,
-    paddingBottom: 4,
-  },
-  actionCard: {
-    width: 130,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.surface,
-    paddingHorizontal: 10,
-    paddingVertical: 12,
-    gap: 4,
-  },
-  actionHead: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  actionIconWrap: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: colors.primaryUltraLight,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  actionLabel: {
-    fontSize: 13,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '800',
-  },
-  actionMeta: {
-    fontSize: 10,
-    color: colors.muted,
-    fontWeight: '600',
-  },
-});
+);

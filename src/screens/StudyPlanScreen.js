@@ -8,6 +8,62 @@ import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import { buildAdaptivePlan } from '../utils/studyPlan';
 
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: spacing.xl
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.sm
+  },
+  sub: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.lg
+  },
+  h3: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.sm
+  },
+  body: {
+    fontSize: typography.body,
+    fontFamily: typography.fontBody
+  },
+  card: {
+    marginBottom: spacing.lg
+  },
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm
+  },
+  formRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: spacing.sm,
+    gap: spacing.sm
+  },
+  label: {
+    width: 94,
+    fontSize: typography.small,
+    color: colors.text
+  },
+  input: {
+    width: 72,
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    fontSize: typography.body,
+    color: colors.text,
+    backgroundColor: '#fff'
+  }
+}
+
 const STORAGE_CUSTOM_PLAN = '@buept_custom_daily_plan_v1';
 const DEFAULT_CUSTOM_PLAN = {
   essays: 1,
@@ -331,58 +387,4 @@ export default function StudyPlanScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: spacing.xl
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.sm
-  },
-  sub: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.lg
-  },
-  h3: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.sm
-  },
-  body: {
-    fontSize: typography.body,
-    fontFamily: typography.fontBody
-  },
-  card: {
-    marginBottom: spacing.lg
-  },
-  row: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm
-  },
-  formRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: spacing.sm,
-    gap: spacing.sm
-  },
-  label: {
-    width: 94,
-    fontSize: typography.small,
-    color: colors.text
-  },
-  input: {
-    width: 72,
-    borderWidth: 1,
-    borderColor: colors.secondary,
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-    fontSize: typography.body,
-    color: colors.text,
-    backgroundColor: '#fff'
-  }
-});
+);

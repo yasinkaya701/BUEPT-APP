@@ -4,6 +4,77 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppState } from '../context/AppState';
 
+const styles = StyleSheet.create({
+    bgImage: { flex: 1, width: '100%', height: '100%' },
+    overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.45)' },
+    flex: { flex: 1 },
+    flexOne: { flex: 1 },
+    scrollContent: { flexGrow: 1 },
+
+    // ── Top hero ──
+    topSection: { alignItems: 'center', justifyContent: 'center', paddingTop: 80, paddingBottom: 48, paddingHorizontal: spacing.lg },
+    topSectionCompact: { paddingTop: 56, paddingBottom: 28 },
+    logoWrap: { width: 88, height: 88, borderRadius: 44, backgroundColor: 'rgba(255,255,255,0.18)', justifyContent: 'center', alignItems: 'center', marginBottom: spacing.md, borderWidth: 2, borderColor: 'rgba(255,255,255,0.3)' },
+    brandTitle: { fontSize: 44, fontWeight: '900', color: '#fff', fontFamily: typography.fontHeadline, letterSpacing: -1.5, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 8 },
+    brandSub: { fontSize: 14, color: 'rgba(255,255,255,0.9)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: 1.6, textAlign: 'center', marginTop: 4 },
+    heroBadgeRow: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 8, marginTop: spacing.lg },
+    heroBadge: { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: 'rgba(255,255,255,0.15)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.25)' },
+    heroBadgeText: { color: '#fff', fontSize: 12, fontWeight: '700' },
+
+    // ── Glass form ──
+    formShell: { paddingHorizontal: spacing.lg, marginTop: -spacing.md, paddingBottom: 40 },
+    formShellCompact: { paddingHorizontal: spacing.md },
+    glassCard: { padding: spacing.xl, backgroundColor: 'rgba(255,255,255,0.92)', borderRadius: 28, borderWidth: 1, borderColor: 'rgba(255,255,255,0.6)', ...shadow.lg },
+    glassCardCompact: { padding: spacing.lg },
+    sectionHeader: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: spacing.sm, marginBottom: spacing.lg },
+    statusPill: { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 999, paddingHorizontal: 12, paddingVertical: 6, backgroundColor: colors.primaryLight, borderWidth: 1, borderColor: colors.border },
+    statusPillText: { color: colors.primaryDark, fontSize: 11, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5 },
+    formTitle: { fontSize: 30, fontWeight: '900', color: colors.text, fontFamily: typography.fontHeadline, letterSpacing: -0.8 },
+    formSub: { fontSize: 15, color: colors.muted, lineHeight: 22, marginTop: 4, maxWidth: 420 },
+
+    // Saved account + info
+    savedAccountCard: { borderRadius: radius.lg, backgroundColor: colors.surfaceAlt, borderWidth: 1, borderColor: colors.border, padding: spacing.md, marginBottom: spacing.md, ...shadow.slight },
+    savedAccountTop: { flexDirection: 'row', gap: spacing.md, justifyContent: 'space-between', alignItems: 'center' },
+    savedAccountLabel: { fontSize: 11, color: colors.muted, textTransform: 'uppercase', fontWeight: '800', letterSpacing: 0.8 },
+    savedAccountValue: { marginTop: 4, fontSize: 15, color: colors.primaryDark, fontFamily: typography.fontHeadline, maxWidth: 260, fontWeight: '700' },
+    savedAccountMeta: { marginTop: 2, fontSize: 13, color: colors.muted },
+    savedAccountUseBtn: { borderRadius: 999, backgroundColor: colors.primaryLight, paddingHorizontal: 14, paddingVertical: 10 },
+    savedAccountUseText: { color: colors.primaryDark, fontSize: 12, fontWeight: '800' },
+    infoCard: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.sm, borderRadius: radius.lg, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surfaceAlt, padding: spacing.md, marginBottom: spacing.md },
+    infoCopy: { flex: 1 },
+    infoTitle: { color: colors.primaryDark, fontSize: 15, fontWeight: '800', fontFamily: typography.fontHeadline },
+    infoBody: { color: colors.muted, fontSize: 14, lineHeight: 20, marginTop: 4 },
+
+    // Inputs
+    inputWrap: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#F8FAFC', borderRadius: 16, marginBottom: 12, paddingHorizontal: 16, paddingVertical: Platform.OS === 'ios' ? 16 : 8, borderWidth: 1.5, borderColor: '#E2E8F0' },
+    inputIcon: { marginRight: 12 },
+    input: { flex: 1, fontSize: 16, color: colors.text, fontWeight: '500' },
+    errorBox: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: colors.errorLight, borderRadius: 12, borderWidth: 1, borderColor: '#FCA5A5', paddingHorizontal: 14, paddingVertical: 12, marginTop: 4 },
+    errorText: { flex: 1, fontSize: 14, color: colors.errorDark, lineHeight: 20, fontWeight: '500' },
+
+    // Sign in button
+    loginBtn: { backgroundColor: colors.primary, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 16, borderRadius: 999, marginTop: 16, ...shadow.md, borderWidth: 1.5, borderColor: colors.primaryDark },
+    loginBtnDisabled: { opacity: 0.6 },
+    loginBtnText: { color: '#fff', fontSize: 17, fontWeight: '800', letterSpacing: 0.3 },
+    loginBtnIcon: { marginLeft: 8 },
+
+    // Presenter card
+    presenterCard: { marginTop: spacing.lg, borderRadius: 20, backgroundColor: '#F0F4FF', borderWidth: 1, borderColor: '#D4DEFF', padding: spacing.lg, ...shadow.sm },
+    presenterHeader: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
+    presenterIcon: { width: 42, height: 42, borderRadius: 21, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', borderWidth: 1, borderColor: '#D4DEFF', ...shadow.slight },
+    presenterCopy: { flex: 1 },
+    presenterTitle: { color: colors.primaryDark, fontSize: 17, fontWeight: '900', fontFamily: typography.fontHeadline },
+    presenterBody: { color: colors.muted, fontSize: 14, lineHeight: 21, marginTop: 4 },
+    presenterChecklist: { marginTop: 12, gap: 6, paddingLeft: 4 },
+    presenterCheck: { color: colors.text, fontSize: 14, lineHeight: 20, fontWeight: '600' },
+    demoBtn: { marginTop: spacing.md, paddingVertical: 14, borderRadius: 999, borderWidth: 1.5, borderColor: '#D4DEFF', backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, ...shadow.sm },
+    demoBtnText: { color: colors.primaryDark, fontSize: 15, fontWeight: '800' },
+
+    switchBtn: { alignItems: 'center', marginTop: 24, padding: spacing.md },
+    switchBtnText: { fontSize: 15, color: colors.muted, fontWeight: '600' },
+    switchLink: { color: colors.primary, fontWeight: '800' },
+}
+
 const BG_IMAGE = require('../assets/images/real_south_gate.jpg');
 
 export default function LoginScreen({ navigation }) {
@@ -199,73 +270,4 @@ export default function LoginScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    bgImage: { flex: 1, width: '100%', height: '100%' },
-    overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.45)' },
-    flex: { flex: 1 },
-    flexOne: { flex: 1 },
-    scrollContent: { flexGrow: 1 },
-
-    // ── Top hero ──
-    topSection: { alignItems: 'center', justifyContent: 'center', paddingTop: 80, paddingBottom: 48, paddingHorizontal: spacing.lg },
-    topSectionCompact: { paddingTop: 56, paddingBottom: 28 },
-    logoWrap: { width: 88, height: 88, borderRadius: 44, backgroundColor: 'rgba(255,255,255,0.18)', justifyContent: 'center', alignItems: 'center', marginBottom: spacing.md, borderWidth: 2, borderColor: 'rgba(255,255,255,0.3)' },
-    brandTitle: { fontSize: 44, fontWeight: '900', color: '#fff', fontFamily: typography.fontHeadline, letterSpacing: -1.5, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 8 },
-    brandSub: { fontSize: 14, color: 'rgba(255,255,255,0.9)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: 1.6, textAlign: 'center', marginTop: 4 },
-    heroBadgeRow: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 8, marginTop: spacing.lg },
-    heroBadge: { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: 'rgba(255,255,255,0.15)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.25)' },
-    heroBadgeText: { color: '#fff', fontSize: 12, fontWeight: '700' },
-
-    // ── Glass form ──
-    formShell: { paddingHorizontal: spacing.lg, marginTop: -spacing.md, paddingBottom: 40 },
-    formShellCompact: { paddingHorizontal: spacing.md },
-    glassCard: { padding: spacing.xl, backgroundColor: 'rgba(255,255,255,0.92)', borderRadius: 28, borderWidth: 1, borderColor: 'rgba(255,255,255,0.6)', ...shadow.lg },
-    glassCardCompact: { padding: spacing.lg },
-    sectionHeader: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: spacing.sm, marginBottom: spacing.lg },
-    statusPill: { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 999, paddingHorizontal: 12, paddingVertical: 6, backgroundColor: colors.primaryLight, borderWidth: 1, borderColor: colors.border },
-    statusPillText: { color: colors.primaryDark, fontSize: 11, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5 },
-    formTitle: { fontSize: 30, fontWeight: '900', color: colors.text, fontFamily: typography.fontHeadline, letterSpacing: -0.8 },
-    formSub: { fontSize: 15, color: colors.muted, lineHeight: 22, marginTop: 4, maxWidth: 420 },
-
-    // Saved account + info
-    savedAccountCard: { borderRadius: radius.lg, backgroundColor: colors.surfaceAlt, borderWidth: 1, borderColor: colors.border, padding: spacing.md, marginBottom: spacing.md, ...shadow.slight },
-    savedAccountTop: { flexDirection: 'row', gap: spacing.md, justifyContent: 'space-between', alignItems: 'center' },
-    savedAccountLabel: { fontSize: 11, color: colors.muted, textTransform: 'uppercase', fontWeight: '800', letterSpacing: 0.8 },
-    savedAccountValue: { marginTop: 4, fontSize: 15, color: colors.primaryDark, fontFamily: typography.fontHeadline, maxWidth: 260, fontWeight: '700' },
-    savedAccountMeta: { marginTop: 2, fontSize: 13, color: colors.muted },
-    savedAccountUseBtn: { borderRadius: 999, backgroundColor: colors.primaryLight, paddingHorizontal: 14, paddingVertical: 10 },
-    savedAccountUseText: { color: colors.primaryDark, fontSize: 12, fontWeight: '800' },
-    infoCard: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.sm, borderRadius: radius.lg, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surfaceAlt, padding: spacing.md, marginBottom: spacing.md },
-    infoCopy: { flex: 1 },
-    infoTitle: { color: colors.primaryDark, fontSize: 15, fontWeight: '800', fontFamily: typography.fontHeadline },
-    infoBody: { color: colors.muted, fontSize: 14, lineHeight: 20, marginTop: 4 },
-
-    // Inputs
-    inputWrap: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#F8FAFC', borderRadius: 16, marginBottom: 12, paddingHorizontal: 16, paddingVertical: Platform.OS === 'ios' ? 16 : 8, borderWidth: 1.5, borderColor: '#E2E8F0' },
-    inputIcon: { marginRight: 12 },
-    input: { flex: 1, fontSize: 16, color: colors.text, fontWeight: '500' },
-    errorBox: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: colors.errorLight, borderRadius: 12, borderWidth: 1, borderColor: '#FCA5A5', paddingHorizontal: 14, paddingVertical: 12, marginTop: 4 },
-    errorText: { flex: 1, fontSize: 14, color: colors.errorDark, lineHeight: 20, fontWeight: '500' },
-
-    // Sign in button
-    loginBtn: { backgroundColor: colors.primary, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 16, borderRadius: 999, marginTop: 16, ...shadow.md, borderWidth: 1.5, borderColor: colors.primaryDark },
-    loginBtnDisabled: { opacity: 0.6 },
-    loginBtnText: { color: '#fff', fontSize: 17, fontWeight: '800', letterSpacing: 0.3 },
-    loginBtnIcon: { marginLeft: 8 },
-
-    // Presenter card
-    presenterCard: { marginTop: spacing.lg, borderRadius: 20, backgroundColor: '#F0F4FF', borderWidth: 1, borderColor: '#D4DEFF', padding: spacing.lg, ...shadow.sm },
-    presenterHeader: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
-    presenterIcon: { width: 42, height: 42, borderRadius: 21, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', borderWidth: 1, borderColor: '#D4DEFF', ...shadow.slight },
-    presenterCopy: { flex: 1 },
-    presenterTitle: { color: colors.primaryDark, fontSize: 17, fontWeight: '900', fontFamily: typography.fontHeadline },
-    presenterBody: { color: colors.muted, fontSize: 14, lineHeight: 21, marginTop: 4 },
-    presenterChecklist: { marginTop: 12, gap: 6, paddingLeft: 4 },
-    presenterCheck: { color: colors.text, fontSize: 14, lineHeight: 20, fontWeight: '600' },
-    demoBtn: { marginTop: spacing.md, paddingVertical: 14, borderRadius: 999, borderWidth: 1.5, borderColor: '#D4DEFF', backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, ...shadow.sm },
-    demoBtnText: { color: colors.primaryDark, fontSize: 15, fontWeight: '800' },
-
-    switchBtn: { alignItems: 'center', marginTop: 24, padding: spacing.md },
-    switchBtnText: { fontSize: 15, color: colors.muted, fontWeight: '600' },
-    switchLink: { color: colors.primary, fontWeight: '800' },
-});
+);

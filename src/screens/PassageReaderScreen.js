@@ -8,6 +8,158 @@ import { colors, typography, spacing, radius, shadow } from '../theme/tokens';
 import { ScoreBandChip, TabPill, EmptyState } from '../components/ui';
 import { useAppState } from '../context/AppState';
 
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: spacing.xxl,
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.xs,
+  },
+  headerSub: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.md,
+    lineHeight: 18,
+  },
+  card: {
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderWidth: 1,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+  },
+  cardTitle: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    marginBottom: spacing.sm,
+  },
+  metaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  levelChip: {
+    borderRadius: radius.sm,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+  },
+  levelChipText: {
+    fontSize: typography.micro,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+  },
+  metaText: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+  },
+  tabPill: {
+    marginBottom: spacing.md,
+  },
+  paraBox: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderLight,
+  },
+  paraNum: {
+    fontSize: typography.micro,
+    fontFamily: typography.fontHeadline,
+    color: colors.primary,
+    lineHeight: 20,
+  },
+  paraText: {
+    flex: 1,
+    fontSize: typography.body,
+    color: colors.text,
+    lineHeight: 21,
+  },
+  statementBox: {
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    marginBottom: spacing.sm,
+  },
+  correctBox: {
+    borderWidth: 1,
+    borderColor: colors.success,
+    backgroundColor: colors.successLight,
+  },
+  wrongBox: {
+    borderWidth: 1,
+    borderColor: colors.error,
+    backgroundColor: colors.errorLight,
+  },
+  statementText: {
+    fontSize: typography.small,
+    color: colors.text,
+    lineHeight: 19,
+    marginBottom: spacing.xs,
+  },
+  statementHint: {
+    fontSize: typography.micro,
+    color: colors.muted,
+    marginBottom: spacing.xs,
+    fontFamily: typography.fontHeadline,
+  },
+  optionRow: {
+    flexDirection: 'row',
+    gap: spacing.xs,
+    marginBottom: spacing.xs,
+  },
+  option: {
+    flex: 1,
+    borderRadius: radius.sm,
+    borderWidth: 1,
+    paddingVertical: 8,
+    alignItems: 'center',
+  },
+  optionText: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+  },
+  feedbackText: {
+    fontSize: typography.xsmall,
+    fontFamily: typography.fontHeadline,
+  },
+  bouRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    flexWrap: 'wrap',
+    marginTop: spacing.sm,
+  },
+  scoreRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    marginTop: spacing.sm,
+  },
+  scoreNote: {
+    flex: 1,
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    lineHeight: 16,
+  },
+  tipRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: spacing.xs,
+    paddingVertical: spacing.xs,
+  },
+  tipText: {
+    flex: 1,
+    fontSize: typography.small,
+    color: colors.textSecondary,
+    lineHeight: 18,
+  },
+}
+
 const PASSAGES = [
   {
     id: 'pr-urban-heat',
@@ -206,154 +358,4 @@ export default function PassageReaderScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: spacing.xxl,
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.xs,
-  },
-  headerSub: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.md,
-    lineHeight: 18,
-  },
-  card: {
-    backgroundColor: colors.surface,
-    borderColor: colors.border,
-    borderWidth: 1,
-    borderRadius: radius.lg,
-    padding: spacing.md,
-    marginBottom: spacing.md,
-  },
-  cardTitle: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-    marginBottom: spacing.sm,
-  },
-  metaRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    marginBottom: spacing.sm,
-  },
-  levelChip: {
-    borderRadius: radius.sm,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 4,
-  },
-  levelChipText: {
-    fontSize: typography.micro,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-  },
-  metaText: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-  },
-  tabPill: {
-    marginBottom: spacing.md,
-  },
-  paraBox: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    paddingVertical: spacing.xs,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
-  },
-  paraNum: {
-    fontSize: typography.micro,
-    fontFamily: typography.fontHeadline,
-    color: colors.primary,
-    lineHeight: 20,
-  },
-  paraText: {
-    flex: 1,
-    fontSize: typography.body,
-    color: colors.text,
-    lineHeight: 21,
-  },
-  statementBox: {
-    backgroundColor: colors.surfaceAlt,
-    borderRadius: radius.md,
-    padding: spacing.md,
-    marginBottom: spacing.sm,
-  },
-  correctBox: {
-    borderWidth: 1,
-    borderColor: colors.success,
-    backgroundColor: colors.successLight,
-  },
-  wrongBox: {
-    borderWidth: 1,
-    borderColor: colors.error,
-    backgroundColor: colors.errorLight,
-  },
-  statementText: {
-    fontSize: typography.small,
-    color: colors.text,
-    lineHeight: 19,
-    marginBottom: spacing.xs,
-  },
-  statementHint: {
-    fontSize: typography.micro,
-    color: colors.muted,
-    marginBottom: spacing.xs,
-    fontFamily: typography.fontHeadline,
-  },
-  optionRow: {
-    flexDirection: 'row',
-    gap: spacing.xs,
-    marginBottom: spacing.xs,
-  },
-  option: {
-    flex: 1,
-    borderRadius: radius.sm,
-    borderWidth: 1,
-    paddingVertical: 8,
-    alignItems: 'center',
-  },
-  optionText: {
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-  },
-  feedbackText: {
-    fontSize: typography.xsmall,
-    fontFamily: typography.fontHeadline,
-  },
-  bouRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    flexWrap: 'wrap',
-    marginTop: spacing.sm,
-  },
-  scoreRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    marginTop: spacing.sm,
-  },
-  scoreNote: {
-    flex: 1,
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    lineHeight: 16,
-  },
-  tipRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: spacing.xs,
-    paddingVertical: spacing.xs,
-  },
-  tipText: {
-    flex: 1,
-    fontSize: typography.small,
-    color: colors.textSecondary,
-    lineHeight: 18,
-  },
-});
+);

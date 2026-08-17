@@ -6,195 +6,6 @@ import { useTts } from '../hooks/useTts';
 import { colors, spacing, typography } from '../theme/tokens';
 import confusingPairs from '../../data/confusing_pronunciations.json';
 
-function WordPairCard({ item, practiceMode, speakText }) {
-    const speakA = () => speakText(item.pair[0]);
-    const speakB = () => speakText(item.pair[1]);
-    const [revealed, setRevealed] = useState(!practiceMode);
-
-    return (
-        <Card style={styles.card}>
-            <View style={styles.pairRow}>
-                {/* Word A */}
-                <View style={styles.wordSide}>
-                    <TouchableOpacity onPress={speakA} style={styles.wordSpeakBtn}>
-                        <Text style={styles.wordTitle}>{item.pair[0]}</Text>
-                        <Text style={styles.speakIcon}>🔊</Text>
-                    </TouchableOpacity>
-                    {revealed ? (
-                      <>
-                        <Text style={styles.phonetic}>{item.phonetics[0]}</Text>
-                        <Text style={styles.definitionText}>{item.definitions[0]}</Text>
-                      </>
-                    ) : (
-                      <Text style={styles.hiddenText}>Tap reveal to see meaning</Text>
-                    )}
-                </View>
-
-                {/* Divider */}
-                <View style={styles.divider} />
-
-                {/* Word B */}
-                <View style={styles.wordSide}>
-                    <TouchableOpacity onPress={speakB} style={styles.wordSpeakBtn}>
-                        <Text style={styles.wordTitle}>{item.pair[1]}</Text>
-                        <Text style={styles.speakIcon}>🔊</Text>
-                    </TouchableOpacity>
-                    {revealed ? (
-                      <>
-                        <Text style={styles.phonetic}>{item.phonetics[1]}</Text>
-                        <Text style={styles.definitionText}>{item.definitions[1]}</Text>
-                      </>
-                    ) : (
-                      <Text style={styles.hiddenText}>Tap reveal to see meaning</Text>
-                    )}
-                </View>
-            </View>
-            <View style={styles.actionRow}>
-              <TouchableOpacity onPress={speakA} style={styles.actionBtn}>
-                <Text style={styles.actionText}>Play A</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={speakB} style={styles.actionBtn}>
-                <Text style={styles.actionText}>Play B</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setRevealed((v) => !v)} style={styles.actionBtnGhost}>
-                <Text style={styles.actionTextGhost}>{revealed ? 'Hide' : 'Reveal'}</Text>
-              </TouchableOpacity>
-            </View>
-        </Card>
-    );
-}
-
-export default function ConfusingPronunciationsScreen() {
-    const { speakWord: speakText } = useTts();
-    const [query, setQuery] = useState('');
-    const [practiceMode, setPracticeMode] = useState(true);
-    const [quizSeed, setQuizSeed] = useState(1);
-    const [quizChoice, setQuizChoice] = useState(null);
-    const [quizChecked, setQuizChecked] = useState(false);
-    const filtered = useMemo(() => {
-      const q = query.trim().toLowerCase();
-      if (!q) return confusingPairs;
-      return confusingPairs.filter((item) => {
-        const hay = `${item.pair.join(' ')} ${item.definitions.join(' ')}`.toLowerCase();
-        return hay.includes(q);
-      });
-    }, [query]);
-    const quizPair = useMemo(() => {
-      const list = filtered.length ? filtered : confusingPairs;
-      if (!list.length) return null;
-      return list[Math.abs(quizSeed * 7) % list.length];
-    }, [filtered, quizSeed]);
-    const quizData = useMemo(() => {
-      if (!quizPair) return null;
-      const side = Math.abs(quizSeed) % 2;
-      return {
-        definition: quizPair.definitions[side],
-        options: quizPair.pair,
-        correctIndex: side,
-      };
-    }, [quizPair, quizSeed]);
-
-    return (
-        <Screen scroll contentStyle={styles.container}>
-            <Card style={styles.heroCard} glow>
-                <View style={styles.heroHeader}>
-                    <View style={styles.heroCopy}>
-                        <Text style={styles.heroEyebrow}>Pronunciation Tool</Text>
-                        <Text style={styles.h1}>Confusing Pairs</Text>
-                        <Text style={styles.sub}>
-                            Listen, compare, and reveal meaning only when needed. This keeps the focus on sound discrimination first.
-                        </Text>
-                    </View>
-                    <View style={styles.heroMetric}>
-                        <Text style={styles.heroMetricValue}>{filtered.length}</Text>
-                        <Text style={styles.heroMetricLabel}>Pairs</Text>
-                    </View>
-                </View>
-                <View style={styles.heroModeRow}>
-                    <Text style={styles.modeInfoLabel}>Mode</Text>
-                    <TouchableOpacity
-                        onPress={() => setPracticeMode((v) => !v)}
-                        style={[styles.modeBtn, practiceMode && styles.modeBtnActive]}
-                    >
-                        <Text style={[styles.modeText, practiceMode && styles.modeTextActive]}>
-                            {practiceMode ? 'Practice On' : 'Reveal On'}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </Card>
-
-            <Card style={styles.controlsCard}>
-              <Text style={styles.sectionTitle}>Find a Pair</Text>
-              <TextInput
-                style={styles.search}
-                placeholder="Search word or meaning..."
-                value={query}
-                onChangeText={setQuery}
-                placeholderTextColor={colors.muted}
-              />
-              <Text style={styles.resultsLabel}>{filtered.length} pair(s) visible</Text>
-            </Card>
-            <Card style={styles.quizCard}>
-              <Text style={styles.quizTitle}>Quick Pronunciation Check</Text>
-              {quizData ? (
-                <>
-                  <Text style={styles.quizPrompt}>Which word matches this meaning?</Text>
-                  <Text style={styles.quizDef}>{quizData.definition}</Text>
-                  <View style={styles.quizOptions}>
-                    {quizData.options.map((opt, idx) => {
-                      const selected = quizChoice === idx;
-                      const correct = quizChecked && idx === quizData.correctIndex;
-                      const wrong = quizChecked && selected && idx !== quizData.correctIndex;
-                      return (
-                        <TouchableOpacity
-                          key={`${opt}-${idx}`}
-                          style={[
-                            styles.quizOption,
-                            selected && styles.quizOptionSelected,
-                            correct && styles.quizOptionCorrect,
-                            wrong && styles.quizOptionWrong,
-                          ]}
-                          onPress={() => !quizChecked && setQuizChoice(idx)}
-                        >
-                          <Text style={styles.quizOptionText}>{opt}</Text>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </View>
-                  <View style={styles.actionRow}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        if (quizChoice == null) return;
-                        setQuizChecked(true);
-                      }}
-                      style={styles.actionBtn}
-                    >
-                      <Text style={styles.actionText}>Check</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => { setQuizSeed((s) => s + 1); setQuizChoice(null); setQuizChecked(false); }}
-                      style={styles.actionBtnGhost}
-                    >
-                      <Text style={styles.actionTextGhost}>Next</Text>
-                    </TouchableOpacity>
-                  </View>
-                </>
-              ) : (
-                <Text style={styles.hiddenText}>No quiz data.</Text>
-              )}
-            </Card>
-
-            <FlatList
-                data={filtered}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <WordPairCard item={item} practiceMode={practiceMode} speakText={speakText} />}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.listContent}
-            />
-        </Screen>
-    );
-}
-
 const styles = StyleSheet.create({
     container: {
         paddingTop: spacing.md,
@@ -437,4 +248,195 @@ const styles = StyleSheet.create({
         fontSize: typography.small,
         color: colors.text,
     },
-});
+}
+
+function WordPairCard({ item, practiceMode, speakText }) {
+    const speakA = () => speakText(item.pair[0]);
+    const speakB = () => speakText(item.pair[1]);
+    const [revealed, setRevealed] = useState(!practiceMode);
+
+    return (
+        <Card style={styles.card}>
+            <View style={styles.pairRow}>
+                {/* Word A */}
+                <View style={styles.wordSide}>
+                    <TouchableOpacity onPress={speakA} style={styles.wordSpeakBtn}>
+                        <Text style={styles.wordTitle}>{item.pair[0]}</Text>
+                        <Text style={styles.speakIcon}>🔊</Text>
+                    </TouchableOpacity>
+                    {revealed ? (
+                      <>
+                        <Text style={styles.phonetic}>{item.phonetics[0]}</Text>
+                        <Text style={styles.definitionText}>{item.definitions[0]}</Text>
+                      </>
+                    ) : (
+                      <Text style={styles.hiddenText}>Tap reveal to see meaning</Text>
+                    )}
+                </View>
+
+                {/* Divider */}
+                <View style={styles.divider} />
+
+                {/* Word B */}
+                <View style={styles.wordSide}>
+                    <TouchableOpacity onPress={speakB} style={styles.wordSpeakBtn}>
+                        <Text style={styles.wordTitle}>{item.pair[1]}</Text>
+                        <Text style={styles.speakIcon}>🔊</Text>
+                    </TouchableOpacity>
+                    {revealed ? (
+                      <>
+                        <Text style={styles.phonetic}>{item.phonetics[1]}</Text>
+                        <Text style={styles.definitionText}>{item.definitions[1]}</Text>
+                      </>
+                    ) : (
+                      <Text style={styles.hiddenText}>Tap reveal to see meaning</Text>
+                    )}
+                </View>
+            </View>
+            <View style={styles.actionRow}>
+              <TouchableOpacity onPress={speakA} style={styles.actionBtn}>
+                <Text style={styles.actionText}>Play A</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={speakB} style={styles.actionBtn}>
+                <Text style={styles.actionText}>Play B</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setRevealed((v) => !v)} style={styles.actionBtnGhost}>
+                <Text style={styles.actionTextGhost}>{revealed ? 'Hide' : 'Reveal'}</Text>
+              </TouchableOpacity>
+            </View>
+        </Card>
+    );
+}
+
+export default function ConfusingPronunciationsScreen() {
+    const { speakWord: speakText } = useTts();
+    const [query, setQuery] = useState('');
+    const [practiceMode, setPracticeMode] = useState(true);
+    const [quizSeed, setQuizSeed] = useState(1);
+    const [quizChoice, setQuizChoice] = useState(null);
+    const [quizChecked, setQuizChecked] = useState(false);
+    const filtered = useMemo(() => {
+      const q = query.trim().toLowerCase();
+      if (!q) return confusingPairs;
+      return confusingPairs.filter((item) => {
+        const hay = `${item.pair.join(' ')} ${item.definitions.join(' ')}`.toLowerCase();
+        return hay.includes(q);
+      });
+    }, [query]);
+    const quizPair = useMemo(() => {
+      const list = filtered.length ? filtered : confusingPairs;
+      if (!list.length) return null;
+      return list[Math.abs(quizSeed * 7) % list.length];
+    }, [filtered, quizSeed]);
+    const quizData = useMemo(() => {
+      if (!quizPair) return null;
+      const side = Math.abs(quizSeed) % 2;
+      return {
+        definition: quizPair.definitions[side],
+        options: quizPair.pair,
+        correctIndex: side,
+      };
+    }, [quizPair, quizSeed]);
+
+    return (
+        <Screen scroll contentStyle={styles.container}>
+            <Card style={styles.heroCard} glow>
+                <View style={styles.heroHeader}>
+                    <View style={styles.heroCopy}>
+                        <Text style={styles.heroEyebrow}>Pronunciation Tool</Text>
+                        <Text style={styles.h1}>Confusing Pairs</Text>
+                        <Text style={styles.sub}>
+                            Listen, compare, and reveal meaning only when needed. This keeps the focus on sound discrimination first.
+                        </Text>
+                    </View>
+                    <View style={styles.heroMetric}>
+                        <Text style={styles.heroMetricValue}>{filtered.length}</Text>
+                        <Text style={styles.heroMetricLabel}>Pairs</Text>
+                    </View>
+                </View>
+                <View style={styles.heroModeRow}>
+                    <Text style={styles.modeInfoLabel}>Mode</Text>
+                    <TouchableOpacity
+                        onPress={() => setPracticeMode((v) => !v)}
+                        style={[styles.modeBtn, practiceMode && styles.modeBtnActive]}
+                    >
+                        <Text style={[styles.modeText, practiceMode && styles.modeTextActive]}>
+                            {practiceMode ? 'Practice On' : 'Reveal On'}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </Card>
+
+            <Card style={styles.controlsCard}>
+              <Text style={styles.sectionTitle}>Find a Pair</Text>
+              <TextInput
+                style={styles.search}
+                placeholder="Search word or meaning..."
+                value={query}
+                onChangeText={setQuery}
+                placeholderTextColor={colors.muted}
+              />
+              <Text style={styles.resultsLabel}>{filtered.length} pair(s) visible</Text>
+            </Card>
+            <Card style={styles.quizCard}>
+              <Text style={styles.quizTitle}>Quick Pronunciation Check</Text>
+              {quizData ? (
+                <>
+                  <Text style={styles.quizPrompt}>Which word matches this meaning?</Text>
+                  <Text style={styles.quizDef}>{quizData.definition}</Text>
+                  <View style={styles.quizOptions}>
+                    {quizData.options.map((opt, idx) => {
+                      const selected = quizChoice === idx;
+                      const correct = quizChecked && idx === quizData.correctIndex;
+                      const wrong = quizChecked && selected && idx !== quizData.correctIndex;
+                      return (
+                        <TouchableOpacity
+                          key={`${opt}-${idx}`}
+                          style={[
+                            styles.quizOption,
+                            selected && styles.quizOptionSelected,
+                            correct && styles.quizOptionCorrect,
+                            wrong && styles.quizOptionWrong,
+                          ]}
+                          onPress={() => !quizChecked && setQuizChoice(idx)}
+                        >
+                          <Text style={styles.quizOptionText}>{opt}</Text>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
+                  <View style={styles.actionRow}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        if (quizChoice == null) return;
+                        setQuizChecked(true);
+                      }}
+                      style={styles.actionBtn}
+                    >
+                      <Text style={styles.actionText}>Check</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => { setQuizSeed((s) => s + 1); setQuizChoice(null); setQuizChecked(false); }}
+                      style={styles.actionBtnGhost}
+                    >
+                      <Text style={styles.actionTextGhost}>Next</Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              ) : (
+                <Text style={styles.hiddenText}>No quiz data.</Text>
+              )}
+            </Card>
+
+            <FlatList
+                data={filtered}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => <WordPairCard item={item} practiceMode={practiceMode} speakText={speakText} />}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.listContent}
+            />
+        </Screen>
+    );
+}
+
+);

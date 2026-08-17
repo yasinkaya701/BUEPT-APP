@@ -8,6 +8,68 @@ import { getEntriesWithExamples, getDictionarySample, subscribeDictionaryBuild }
 import { useAppState } from '../context/AppState';
 import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
 
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: spacing.xl
+  },
+  emptyState: {
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  emptyBtn: {
+    marginTop: 20,
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.sm
+  },
+  sub: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.xs
+  },
+  progress: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.lg
+  },
+  h3: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.sm
+  },
+  body: {
+    fontSize: typography.body,
+    fontFamily: typography.fontBody
+  },
+  card: {
+    marginBottom: spacing.lg
+  },
+  row: {
+    marginTop: spacing.md,
+    flexDirection: 'row',
+    gap: spacing.sm
+  },
+  score: {
+    marginTop: spacing.md,
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.primary
+  },
+  answer: {
+    marginTop: spacing.xs,
+    fontSize: typography.small,
+    color: colors.muted
+  },
+  correct: {
+    color: '#1F8B4C'
+  },
+  incorrect: {
+    color: '#B42318'
+  }
+}
 
 /** Fisher-Yates shuffle — inline fallback to guard against Metro resolution issues */
 function shuffle(arr) {
@@ -285,65 +347,4 @@ export default function VocabClozeQuizScreen({ navigation, route }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: spacing.xl
-  },
-  emptyState: {
-    alignItems: 'center',
-    marginTop: 40,
-  },
-  emptyBtn: {
-    marginTop: 20,
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.sm
-  },
-  sub: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.xs
-  },
-  progress: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.lg
-  },
-  h3: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.sm
-  },
-  body: {
-    fontSize: typography.body,
-    fontFamily: typography.fontBody
-  },
-  card: {
-    marginBottom: spacing.lg
-  },
-  row: {
-    marginTop: spacing.md,
-    flexDirection: 'row',
-    gap: spacing.sm
-  },
-  score: {
-    marginTop: spacing.md,
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.primary
-  },
-  answer: {
-    marginTop: spacing.xs,
-    fontSize: typography.small,
-    color: colors.muted
-  },
-  correct: {
-    color: '#1F8B4C'
-  },
-  incorrect: {
-    color: '#B42318'
-  }
-});
+);

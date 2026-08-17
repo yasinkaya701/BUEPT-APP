@@ -4,6 +4,22 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, shadow } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
+const styles = StyleSheet.create({
+  fab: {
+    position: 'absolute',
+    right: 20,
+    bottom: Platform.OS === 'web' ? 20 : 90, // Higher on mobile to avoid tab bar
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...shadow.lg,
+    zIndex: 9999,
+  },
+}
+
 export default function BueptChatButton({ navigationRef, currentRouteName }) {
   const { isFocusMode } = useAppState();
   // Don't show on certain screens like Splash, Login, Signup or Chatbot itself
@@ -27,18 +43,4 @@ export default function BueptChatButton({ navigationRef, currentRouteName }) {
   );
 }
 
-const styles = StyleSheet.create({
-  fab: {
-    position: 'absolute',
-    right: 20,
-    bottom: Platform.OS === 'web' ? 20 : 90, // Higher on mobile to avoid tab bar
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    ...shadow.lg,
-    zIndex: 9999,
-  },
-});
+);

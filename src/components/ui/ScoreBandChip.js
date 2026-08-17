@@ -2,6 +2,49 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
+const styles = StyleSheet.create({
+  chip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    borderWidth: 1,
+  },
+  sizesm: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 3,
+    borderRadius: 9999,
+  },
+  sizemd: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 9999,
+  },
+  sizelg: {
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: radius.sm,
+  },
+  dot: {
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+  },
+  label: {
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  labelsm: {
+    fontSize: typography.micro,
+  },
+  labelmd: {
+    fontSize: typography.xsmall,
+  },
+  labellg: {
+    fontSize: typography.small,
+  },
+}
+
 export const BANDS = {
   EXCELLENT: { label: '90+', color: colors.success, bg: colors.successLight },
   STRONG: { label: '80–89', color: colors.primary, bg: colors.primaryLight },
@@ -45,45 +88,4 @@ export default function ScoreBandChip({ score, total = 100, letter, label, size 
   );
 }
 
-const styles = StyleSheet.create({
-  chip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    borderWidth: 1,
-  },
-  sizesm: {
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 3,
-    borderRadius: 9999,
-  },
-  sizemd: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 9999,
-  },
-  sizelg: {
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-    borderRadius: radius.sm,
-  },
-  dot: {
-    width: 7,
-    height: 7,
-    borderRadius: 4,
-  },
-  label: {
-    fontFamily: typography.fontHeadline,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  labelsm: {
-    fontSize: typography.micro,
-  },
-  labelmd: {
-    fontSize: typography.xsmall,
-  },
-  labellg: {
-    fontSize: typography.small,
-  },
-});
+);

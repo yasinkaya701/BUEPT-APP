@@ -6,6 +6,59 @@ import Button from '../components/Button';
 import { colors, spacing, typography } from '../theme/tokens';
 import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
 
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: spacing.xl
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.sm
+  },
+  sub: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.lg
+  },
+  h3: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.sm
+  },
+  body: {
+    fontSize: typography.body,
+    fontFamily: typography.fontBody,
+    marginBottom: spacing.md
+  },
+  hint: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginTop: spacing.md,
+    marginBottom: spacing.xs
+  },
+  input: {
+    backgroundColor: colors.surface,
+    borderRadius: 12,
+    padding: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.secondary
+  },
+  card: {
+    marginBottom: spacing.lg
+  },
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm
+  },
+  topicRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm
+  }
+}
+
 const TEST_ENGLISH_TOPICS = ['all', ...Array.from(new Set((testEnglishVocabItems || []).map((x) => String(x.topic || '').toLowerCase()).filter(Boolean)))];
 const TEST_ENGLISH_LEVEL_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const TEST_ENGLISH_LEVELS = [
@@ -162,55 +215,4 @@ export default function VocabPracticeScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: spacing.xl
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.sm
-  },
-  sub: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.lg
-  },
-  h3: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.sm
-  },
-  body: {
-    fontSize: typography.body,
-    fontFamily: typography.fontBody,
-    marginBottom: spacing.md
-  },
-  hint: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginTop: spacing.md,
-    marginBottom: spacing.xs
-  },
-  input: {
-    backgroundColor: colors.surface,
-    borderRadius: 12,
-    padding: spacing.md,
-    borderWidth: 1,
-    borderColor: colors.secondary
-  },
-  card: {
-    marginBottom: spacing.lg
-  },
-  row: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm
-  },
-  topicRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm
-  }
-});
+);

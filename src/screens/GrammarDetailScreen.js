@@ -288,7 +288,9 @@ const styles = StyleSheet.create({
     borderColor: '#B42318',
     backgroundColor: '#FEF3F2',
   },
-});
+}
+
+);
 
 import OpenEndedPracticeCard from '../components/OpenEndedPracticeCard';
 import baseTasks from '../../data/grammar_tasks.json';

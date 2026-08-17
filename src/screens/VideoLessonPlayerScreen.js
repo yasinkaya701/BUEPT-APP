@@ -6,6 +6,189 @@ import Screen from '../components/Screen';
 import Card from '../components/Card';
 import { colors, spacing, typography } from '../theme/tokens';
 
+const styles = StyleSheet.create({
+  fullscreen: { flex: 1, backgroundColor: '#0b1020' },
+  container: { paddingBottom: spacing.xl },
+  title: {
+    fontSize: typography.h3,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.sm,
+  },
+  error: { fontSize: typography.body, color: colors.error, marginBottom: spacing.md },
+  backBtn: {
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: colors.primary,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 8,
+    alignSelf: 'flex-start',
+  },
+  backText: { color: colors.primaryDark, fontSize: typography.small, fontFamily: typography.fontHeadline },
+  header: {
+    height: 58,
+    backgroundColor: '#0f172a',
+    borderBottomWidth: 1,
+    borderBottomColor: '#1e293b',
+    paddingHorizontal: spacing.sm,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  iconBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#1e293b',
+  },
+  headerBody: { flex: 1 },
+  headerTitle: {
+    color: '#fff',
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+  },
+  headerSub: { color: '#93c5fd', fontSize: 11 },
+  playerArea: {
+    height: '52%',
+    borderBottomWidth: 1,
+    borderBottomColor: '#1e293b',
+  },
+  bottomPanel: {
+    flex: 1,
+  },
+  bottomContent: {
+    padding: spacing.sm,
+    gap: spacing.sm,
+    paddingBottom: spacing.xl,
+  },
+  timeRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  timeText: {
+    color: '#93c5fd',
+    fontSize: typography.xsmall,
+    fontFamily: typography.fontHeadline,
+  },
+  progressTrack: {
+    height: 6,
+    borderRadius: 999,
+    backgroundColor: '#1e293b',
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#3b82f6',
+  },
+  controlRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.xs,
+  },
+  ctrlBtn: {
+    borderWidth: 1,
+    borderColor: '#334155',
+    borderRadius: 999,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 6,
+    backgroundColor: '#111827',
+  },
+  ctrlBtnPrimary: {
+    borderRadius: 999,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 6,
+    backgroundColor: '#2563eb',
+  },
+  ctrlText: {
+    color: '#cbd5e1',
+    fontSize: typography.xsmall,
+    fontFamily: typography.fontHeadline,
+  },
+  ctrlTextPrimary: {
+    color: '#fff',
+    fontSize: typography.xsmall,
+    fontFamily: typography.fontHeadline,
+  },
+  ctrlTextActive: {
+    color: '#60a5fa',
+  },
+  activeCard: {
+    marginBottom: 0,
+    borderColor: '#334155',
+    backgroundColor: '#0f172a',
+  },
+  activeLabel: {
+    fontSize: typography.xsmall,
+    color: '#93c5fd',
+    textTransform: 'uppercase',
+    marginBottom: 4,
+  },
+  activeTitle: {
+    color: '#fff',
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    marginBottom: 4,
+  },
+  activeBullet: {
+    color: '#cbd5e1',
+    fontSize: typography.xsmall,
+    marginBottom: 2,
+  },
+  chapterWrap: {
+    borderWidth: 1,
+    borderColor: '#1e293b',
+    borderRadius: 12,
+    backgroundColor: '#0f172a',
+    padding: spacing.sm,
+  },
+  chapterTitle: {
+    color: '#dbeafe',
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.xs,
+  },
+  chapterRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    paddingVertical: 8,
+    borderTopWidth: 1,
+    borderTopColor: '#1e293b',
+  },
+  chapterRowActive: {
+    backgroundColor: '#172554',
+    borderRadius: 8,
+    paddingHorizontal: 6,
+  },
+  chapterIndex: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#1d4ed8',
+  },
+  chapterIndexText: {
+    color: '#fff',
+    fontSize: 11,
+    fontFamily: typography.fontHeadline,
+  },
+  chapterBody: {
+    flex: 1,
+  },
+  chapterHeading: {
+    color: '#e2e8f0',
+    fontSize: typography.small,
+  },
+  chapterMeta: {
+    color: '#94a3b8',
+    fontSize: typography.xsmall,
+  },
+}
+
 function isHttpUrl(value) {
   return typeof value === 'string' && /^https?:\/\//i.test(value);
 }
@@ -332,185 +515,4 @@ export default function VideoLessonPlayerScreen({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  fullscreen: { flex: 1, backgroundColor: '#0b1020' },
-  container: { paddingBottom: spacing.xl },
-  title: {
-    fontSize: typography.h3,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.sm,
-  },
-  error: { fontSize: typography.body, color: colors.error, marginBottom: spacing.md },
-  backBtn: {
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: colors.primary,
-    paddingHorizontal: spacing.md,
-    paddingVertical: 8,
-    alignSelf: 'flex-start',
-  },
-  backText: { color: colors.primaryDark, fontSize: typography.small, fontFamily: typography.fontHeadline },
-  header: {
-    height: 58,
-    backgroundColor: '#0f172a',
-    borderBottomWidth: 1,
-    borderBottomColor: '#1e293b',
-    paddingHorizontal: spacing.sm,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-  },
-  iconBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#1e293b',
-  },
-  headerBody: { flex: 1 },
-  headerTitle: {
-    color: '#fff',
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-  },
-  headerSub: { color: '#93c5fd', fontSize: 11 },
-  playerArea: {
-    height: '52%',
-    borderBottomWidth: 1,
-    borderBottomColor: '#1e293b',
-  },
-  bottomPanel: {
-    flex: 1,
-  },
-  bottomContent: {
-    padding: spacing.sm,
-    gap: spacing.sm,
-    paddingBottom: spacing.xl,
-  },
-  timeRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  timeText: {
-    color: '#93c5fd',
-    fontSize: typography.xsmall,
-    fontFamily: typography.fontHeadline,
-  },
-  progressTrack: {
-    height: 6,
-    borderRadius: 999,
-    backgroundColor: '#1e293b',
-    overflow: 'hidden',
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: '#3b82f6',
-  },
-  controlRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.xs,
-  },
-  ctrlBtn: {
-    borderWidth: 1,
-    borderColor: '#334155',
-    borderRadius: 999,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 6,
-    backgroundColor: '#111827',
-  },
-  ctrlBtnPrimary: {
-    borderRadius: 999,
-    paddingHorizontal: spacing.md,
-    paddingVertical: 6,
-    backgroundColor: '#2563eb',
-  },
-  ctrlText: {
-    color: '#cbd5e1',
-    fontSize: typography.xsmall,
-    fontFamily: typography.fontHeadline,
-  },
-  ctrlTextPrimary: {
-    color: '#fff',
-    fontSize: typography.xsmall,
-    fontFamily: typography.fontHeadline,
-  },
-  ctrlTextActive: {
-    color: '#60a5fa',
-  },
-  activeCard: {
-    marginBottom: 0,
-    borderColor: '#334155',
-    backgroundColor: '#0f172a',
-  },
-  activeLabel: {
-    fontSize: typography.xsmall,
-    color: '#93c5fd',
-    textTransform: 'uppercase',
-    marginBottom: 4,
-  },
-  activeTitle: {
-    color: '#fff',
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-    marginBottom: 4,
-  },
-  activeBullet: {
-    color: '#cbd5e1',
-    fontSize: typography.xsmall,
-    marginBottom: 2,
-  },
-  chapterWrap: {
-    borderWidth: 1,
-    borderColor: '#1e293b',
-    borderRadius: 12,
-    backgroundColor: '#0f172a',
-    padding: spacing.sm,
-  },
-  chapterTitle: {
-    color: '#dbeafe',
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.xs,
-  },
-  chapterRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    paddingVertical: 8,
-    borderTopWidth: 1,
-    borderTopColor: '#1e293b',
-  },
-  chapterRowActive: {
-    backgroundColor: '#172554',
-    borderRadius: 8,
-    paddingHorizontal: 6,
-  },
-  chapterIndex: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#1d4ed8',
-  },
-  chapterIndexText: {
-    color: '#fff',
-    fontSize: 11,
-    fontFamily: typography.fontHeadline,
-  },
-  chapterBody: {
-    flex: 1,
-  },
-  chapterHeading: {
-    color: '#e2e8f0',
-    fontSize: typography.small,
-  },
-  chapterMeta: {
-    color: '#94a3b8',
-    fontSize: typography.xsmall,
-  },
-});
+);

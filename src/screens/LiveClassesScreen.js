@@ -4,6 +4,34 @@ import Screen from '../components/Screen';
 import { colors, spacing, radius } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const styles = StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background },
+
+    videoPlayerFrame: { width: '100%', height: 250, backgroundColor: '#2c3e50', justifyContent: 'center', alignItems: 'center' },
+    closeBtn: { position: 'absolute', top: 40, left: 20, zIndex: 10, width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' },
+    liveBadge: { position: 'absolute', top: 40, right: 20, backgroundColor: 'rgba(231,76,60,0.9)', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 4 },
+    liveDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#fff', marginRight: 6 },
+    liveText: { color: '#fff', fontSize: 10, fontWeight: '900', letterSpacing: 1 },
+    mockPlayBtn: { opacity: 0.5 },
+    videoInfoOverlay: { position: 'absolute', bottom: 0, left: 0, right: 0, padding: spacing.md, backgroundColor: 'rgba(0,0,0,0.6)' },
+    videoTitle: { fontSize: 16, fontWeight: '800', color: '#fff', marginBottom: 2 },
+    videoSub: { fontSize: 12, color: 'rgba(255,255,255,0.7)', fontWeight: '600' },
+
+    chatHeader: { padding: spacing.md, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)' },
+    chatHeadText: { fontSize: 14, fontWeight: '800', color: colors.text, textTransform: 'uppercase' },
+
+    chatScroll: { padding: spacing.md, flexGrow: 1, backgroundColor: '#fff' },
+    chatMsgRow: { flexDirection: 'row', marginBottom: spacing.sm, flexWrap: 'wrap' },
+    chatUser: { fontSize: 14, fontWeight: '800', color: colors.text },
+    chatText: { fontSize: 14, color: 'rgba(0,0,0,0.8)', lineHeight: 20 },
+
+    inputArea: { flexDirection: 'row', alignItems: 'center', padding: spacing.md, paddingBottom: Platform.OS === 'ios' ? spacing.xl : spacing.md, backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: 'rgba(0,0,0,0.05)' },
+    input: { flex: 1, backgroundColor: 'rgba(0,0,0,0.04)', paddingHorizontal: spacing.md, paddingVertical: 10, borderRadius: radius.pill, fontSize: 14, color: colors.text },
+    sendBtn: { padding: spacing.sm, marginLeft: spacing.xs },
+
+    flexFill: { flex: 1 }
+}
+
 const MOCK_CHAT_POOL = [
     { user: 'Ahmet', text: 'Can you explain the inversion rule again?' },
     { user: 'Selin', text: 'Yeah, I didn\'t get that part either.' },
@@ -98,30 +126,4 @@ export default function LiveClassesScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.background },
-
-    videoPlayerFrame: { width: '100%', height: 250, backgroundColor: '#2c3e50', justifyContent: 'center', alignItems: 'center' },
-    closeBtn: { position: 'absolute', top: 40, left: 20, zIndex: 10, width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' },
-    liveBadge: { position: 'absolute', top: 40, right: 20, backgroundColor: 'rgba(231,76,60,0.9)', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 4 },
-    liveDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#fff', marginRight: 6 },
-    liveText: { color: '#fff', fontSize: 10, fontWeight: '900', letterSpacing: 1 },
-    mockPlayBtn: { opacity: 0.5 },
-    videoInfoOverlay: { position: 'absolute', bottom: 0, left: 0, right: 0, padding: spacing.md, backgroundColor: 'rgba(0,0,0,0.6)' },
-    videoTitle: { fontSize: 16, fontWeight: '800', color: '#fff', marginBottom: 2 },
-    videoSub: { fontSize: 12, color: 'rgba(255,255,255,0.7)', fontWeight: '600' },
-
-    chatHeader: { padding: spacing.md, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)' },
-    chatHeadText: { fontSize: 14, fontWeight: '800', color: colors.text, textTransform: 'uppercase' },
-
-    chatScroll: { padding: spacing.md, flexGrow: 1, backgroundColor: '#fff' },
-    chatMsgRow: { flexDirection: 'row', marginBottom: spacing.sm, flexWrap: 'wrap' },
-    chatUser: { fontSize: 14, fontWeight: '800', color: colors.text },
-    chatText: { fontSize: 14, color: 'rgba(0,0,0,0.8)', lineHeight: 20 },
-
-    inputArea: { flexDirection: 'row', alignItems: 'center', padding: spacing.md, paddingBottom: Platform.OS === 'ios' ? spacing.xl : spacing.md, backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: 'rgba(0,0,0,0.05)' },
-    input: { flex: 1, backgroundColor: 'rgba(0,0,0,0.04)', paddingHorizontal: spacing.md, paddingVertical: 10, borderRadius: radius.pill, fontSize: 14, color: colors.text },
-    sendBtn: { padding: spacing.sm, marginLeft: spacing.xs },
-
-    flexFill: { flex: 1 }
-});
+);

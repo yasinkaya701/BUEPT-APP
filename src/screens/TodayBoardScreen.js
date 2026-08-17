@@ -9,6 +9,191 @@ import { ScoreRing, Sparkline } from '../components/ui';
 import { useAppState } from '../context/AppState';
 import { useUniversity } from '../context/UniversityContext';
 
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: spacing.xxl,
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.surface,
+    marginBottom: spacing.xs,
+  },
+  headerSub: {
+    fontSize: typography.small,
+    color: 'rgba(255,255,255,0.85)',
+    marginBottom: spacing.md,
+    lineHeight: 18,
+  },
+  card: {
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderWidth: 1,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+  },
+  cardTitle: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    marginBottom: spacing.sm,
+  },
+  headRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.sm,
+  },
+  headLabel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  headValue: {
+    fontSize: typography.h2,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    lineHeight: 26,
+  },
+  percentBadge: {
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 5,
+  },
+  percentText: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+  },
+  progressTrack: {
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.borderLight,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.primary,
+  },
+  trendRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    marginBottom: spacing.sm,
+  },
+  trendMeta: {
+    flex: 1,
+  },
+  trendAvg: {
+    fontSize: typography.h2,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    lineHeight: 24,
+  },
+  trendNote: {
+    fontSize: typography.micro,
+    color: colors.muted,
+  },
+  trendStreak: {
+    fontSize: typography.micro,
+    color: colors.success,
+    fontFamily: typography.fontHeadline,
+    marginTop: 2,
+  },
+  sparkBox: {
+    borderWidth: 1,
+    borderColor: colors.borderLight,
+    borderRadius: radius.md,
+    padding: spacing.sm,
+    minHeight: 74,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sparkEmpty: {
+    fontSize: typography.small,
+    color: colors.muted,
+  },
+  missionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderLight,
+  },
+  missionDone: {
+    opacity: 0.75,
+  },
+  missionIcon: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  missionMeta: {
+    flex: 1,
+  },
+  missionLabel: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    lineHeight: 17,
+  },
+  missionDetail: {
+    fontSize: typography.micro,
+    color: colors.muted,
+    lineHeight: 15,
+  },
+  missionGo: {
+    borderRadius: radius.sm,
+    backgroundColor: colors.primaryLight,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 6,
+  },
+  missionGoText: {
+    fontSize: typography.micro,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+  },
+  allDoneBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    marginTop: spacing.sm,
+  },
+  allDoneText: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: colors.success,
+  },
+  wordGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.xs,
+    marginBottom: spacing.sm,
+  },
+  wordChip: {
+    backgroundColor: colors.tintRed,
+    borderRadius: radius.sm,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 5,
+  },
+  wordChipText: {
+    fontSize: typography.micro,
+    fontFamily: typography.fontHeadline,
+    color: colors.error,
+  },
+  emptyNote: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.sm,
+  },
+}
+
 const TODAY_MISSIONS = [
   {
     id: 'vocab-srs',
@@ -215,187 +400,4 @@ export default function TodayBoardScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: spacing.xxl,
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.surface,
-    marginBottom: spacing.xs,
-  },
-  headerSub: {
-    fontSize: typography.small,
-    color: 'rgba(255,255,255,0.85)',
-    marginBottom: spacing.md,
-    lineHeight: 18,
-  },
-  card: {
-    backgroundColor: colors.surface,
-    borderColor: colors.border,
-    borderWidth: 1,
-    borderRadius: radius.lg,
-    padding: spacing.md,
-    marginBottom: spacing.md,
-  },
-  cardTitle: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-    marginBottom: spacing.sm,
-  },
-  headRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.sm,
-  },
-  headLabel: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    fontFamily: typography.fontHeadline,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  headValue: {
-    fontSize: typography.h2,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    lineHeight: 26,
-  },
-  percentBadge: {
-    borderRadius: radius.pill,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 5,
-  },
-  percentText: {
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-  },
-  progressTrack: {
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: colors.borderLight,
-    overflow: 'hidden',
-  },
-  progressFill: {
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: colors.primary,
-  },
-  trendRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    marginBottom: spacing.sm,
-  },
-  trendMeta: {
-    flex: 1,
-  },
-  trendAvg: {
-    fontSize: typography.h2,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-    lineHeight: 24,
-  },
-  trendNote: {
-    fontSize: typography.micro,
-    color: colors.muted,
-  },
-  trendStreak: {
-    fontSize: typography.micro,
-    color: colors.success,
-    fontFamily: typography.fontHeadline,
-    marginTop: 2,
-  },
-  sparkBox: {
-    borderWidth: 1,
-    borderColor: colors.borderLight,
-    borderRadius: radius.md,
-    padding: spacing.sm,
-    minHeight: 74,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  sparkEmpty: {
-    fontSize: typography.small,
-    color: colors.muted,
-  },
-  missionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    paddingVertical: spacing.xs,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
-  },
-  missionDone: {
-    opacity: 0.75,
-  },
-  missionIcon: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  missionMeta: {
-    flex: 1,
-  },
-  missionLabel: {
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    lineHeight: 17,
-  },
-  missionDetail: {
-    fontSize: typography.micro,
-    color: colors.muted,
-    lineHeight: 15,
-  },
-  missionGo: {
-    borderRadius: radius.sm,
-    backgroundColor: colors.primaryLight,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 6,
-  },
-  missionGoText: {
-    fontSize: typography.micro,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-  },
-  allDoneBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs,
-    marginTop: spacing.sm,
-  },
-  allDoneText: {
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-    color: colors.success,
-  },
-  wordGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.xs,
-    marginBottom: spacing.sm,
-  },
-  wordChip: {
-    backgroundColor: colors.tintRed,
-    borderRadius: radius.sm,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 5,
-  },
-  wordChipText: {
-    fontSize: typography.micro,
-    fontFamily: typography.fontHeadline,
-    color: colors.error,
-  },
-  emptyNote: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.sm,
-  },
-});
+);

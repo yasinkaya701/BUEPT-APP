@@ -24,6 +24,669 @@ import { speakEnglish, stopEnglishTts } from '../utils/ttsEnglish';
 import voiceEngine from '../utils/speechRecognition';
 import { useSpeechRecognition, scoreTranscriptCoverage, estimateFluency } from '../hooks/useSpeechRecognition';
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  coverageCard: {
+    marginTop: spacing.sm,
+    backgroundColor: '#F0F4FA',
+    borderColor: '#D6E0F2',
+  },
+  coverageHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: spacing.xs,
+  },
+  coverageTitle: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    fontWeight: '800',
+  },
+  coverageBadge: {
+    fontSize: typography.small,
+    fontFamily: typography.fontHeadline,
+    color: '#0F172A',
+    fontWeight: '800',
+  },
+  coverageTrack: {
+    height: 8,
+    borderRadius: radius.round,
+    backgroundColor: '#D6E0F2',
+    marginBottom: spacing.xs,
+  },
+  coverageFill: {
+    height: 8,
+    borderRadius: radius.round,
+  },
+  coverageFillStrong: {
+    backgroundColor: '#16A34A',
+  },
+  coverageFillMid: {
+    backgroundColor: '#D97706',
+  },
+  coverageFillLow: {
+    backgroundColor: '#DC2626',
+  },
+  coverageMetaRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: spacing.xs,
+  },
+  coverageMeta: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+  },
+  coverageHint: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    lineHeight: 16,
+  },
+  webErrorText: {
+    fontSize: typography.xsmall,
+    color: '#DC2626',
+    marginTop: spacing.xs,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: spacing.md,
+    paddingBottom: spacing.sm,
+    paddingHorizontal: spacing.xl,
+  },
+  backBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.round,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
+    marginRight: spacing.md,
+    borderWidth: 1,
+    borderColor: '#D6E0F2',
+  },
+  headerCopy: {
+    flex: 1,
+  },
+  title: {
+    fontSize: typography.h2,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+    fontWeight: '800',
+  },
+  subTitle: {
+    marginTop: 2,
+    fontSize: typography.small,
+    color: colors.muted,
+  },
+  scrollContent: {
+    paddingHorizontal: spacing.xl,
+    paddingBottom: 160,
+  },
+  heroCard: {
+    backgroundColor: '#0F172A',
+    borderColor: '#172554',
+    marginTop: spacing.sm,
+  },
+  eyebrow: {
+    fontSize: typography.xsmall,
+    color: '#93C5FD',
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    marginBottom: spacing.xs,
+  },
+  heroTitle: {
+    color: '#FFFFFF',
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+    lineHeight: 28,
+    marginBottom: spacing.sm,
+  },
+  heroBody: {
+    color: '#CBD5E1',
+    fontSize: typography.small,
+    lineHeight: 20,
+    marginBottom: spacing.md,
+  },
+  modeWrap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: spacing.xs,
+  },
+  promptCard: {
+    marginTop: spacing.sm,
+  },
+  promptTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: spacing.sm,
+    gap: spacing.sm,
+  },
+  promptHeaderCopy: {
+    flex: 1,
+  },
+  promptEyebrow: {
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    letterSpacing: 0.7,
+    marginBottom: spacing.xs,
+  },
+  promptTitle: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+  },
+  timeBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.primarySoft,
+    borderWidth: 1,
+    borderColor: '#C7D7F4',
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.sm + 2,
+    paddingVertical: spacing.xs + 2,
+  },
+  timeBadgeText: {
+    fontSize: typography.xsmall,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+  },
+  promptBody: {
+    fontSize: typography.body,
+    color: colors.text,
+    lineHeight: 24,
+    marginBottom: spacing.md,
+  },
+  frameBox: {
+    backgroundColor: colors.surfaceAlt,
+    borderWidth: 1,
+    borderColor: '#D8E2F3',
+    borderRadius: radius.md,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+  },
+  frameLabel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    letterSpacing: 0.6,
+    marginBottom: spacing.xs,
+  },
+  frameText: {
+    fontSize: typography.small,
+    color: colors.text,
+    lineHeight: 20,
+  },
+  promptActions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+  },
+  summaryRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  summaryCard: {
+    flex: 1,
+    marginBottom: 0,
+    minHeight: 100,
+    justifyContent: 'center',
+  },
+  summaryCardPrimary: {
+    backgroundColor: colors.primaryDark,
+    borderColor: colors.primaryDark,
+  },
+  summaryLabel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    letterSpacing: 0.7,
+    marginBottom: spacing.xs,
+  },
+  summaryLabelOnDark: {
+    color: '#BFDBFE',
+  },
+  summaryValue: {
+    fontSize: typography.h2,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+  },
+  summaryValueOnDark: {
+    color: '#FFFFFF',
+  },
+  summaryValueSmall: {
+    fontSize: typography.small,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '700',
+  },
+  savedCard: {
+    backgroundColor: '#FCFDFE',
+  },
+  savedRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+    marginBottom: spacing.sm,
+  },
+  savedTitle: {
+    fontSize: typography.body,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '700',
+  },
+  savedSubtitle: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginTop: 4,
+  },
+  savedScoreBadge: {
+    minWidth: 74,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.sm,
+    borderRadius: radius.md,
+    backgroundColor: colors.primarySoft,
+    alignItems: 'center',
+  },
+  savedScoreValue: {
+    fontSize: typography.h3,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+  },
+  savedScoreText: {
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  savedMeta: {
+    fontSize: typography.small,
+    color: colors.muted,
+  },
+  chatArea: {
+    marginBottom: spacing.sm,
+  },
+  bubbleWrap: {
+    width: '100%',
+    marginBottom: spacing.md,
+  },
+  bubbleWrapAI: {
+    alignItems: 'flex-start',
+  },
+  bubbleWrapUser: {
+    alignItems: 'flex-end',
+  },
+  bubble: {
+    maxWidth: '88%',
+    padding: spacing.md,
+    borderRadius: radius.lg,
+    ...shadow.elev1,
+  },
+  bubbleAI: {
+    backgroundColor: '#FFFFFF',
+    borderBottomLeftRadius: 6,
+  },
+  bubbleUser: {
+    backgroundColor: colors.primaryDark,
+    borderBottomRightRadius: 6,
+  },
+  bubbleText: {
+    fontSize: typography.body,
+    color: colors.text,
+    lineHeight: 22,
+  },
+  bubbleTextUser: {
+    color: '#FFFFFF',
+  },
+  aiIcon: {
+    marginBottom: spacing.xs,
+  },
+  typingBubble: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  typingText: {
+    fontSize: typography.small,
+    color: colors.muted,
+    fontStyle: 'italic',
+  },
+  analysisCard: {
+    width: '100%',
+    marginTop: spacing.sm,
+    marginBottom: 0,
+    backgroundColor: '#FBFDFF',
+  },
+  analysisTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: spacing.md,
+    marginBottom: spacing.md,
+  },
+  analysisTitle: {
+    fontSize: typography.body,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    fontWeight: '700',
+  },
+  analysisSubtitle: {
+    marginTop: 2,
+    fontSize: typography.small,
+    color: colors.muted,
+  },
+  analysisScoreBadge: {
+    minWidth: 78,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.sm,
+    borderRadius: radius.md,
+    backgroundColor: '#EAF1FF',
+    alignItems: 'center',
+  },
+  analysisScoreValue: {
+    fontSize: typography.h3,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+  },
+  analysisScoreLabel: {
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+  },
+  metricPillRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  metricPill: {
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.sm + 2,
+    paddingVertical: spacing.xs + 2,
+    borderWidth: 1,
+  },
+  metricPillNeutral: {
+    backgroundColor: '#F8FAFC',
+    borderColor: '#D6E0EC',
+  },
+  metricPillAccent: {
+    backgroundColor: colors.primarySoft,
+    borderColor: '#C5D6F6',
+  },
+  metricPillWarning: {
+    backgroundColor: colors.warningLight,
+    borderColor: '#F2D49F',
+  },
+  metricPillLabel: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  metricPillValue: {
+    fontSize: typography.small,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '700',
+    marginTop: 2,
+  },
+  scoreBarBlock: {
+    marginBottom: spacing.sm,
+  },
+  scoreBarHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 6,
+  },
+  scoreBarLabel: {
+    fontSize: typography.small,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+  },
+  scoreBarValue: {
+    fontSize: typography.small,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '700',
+  },
+  scoreTrack: {
+    height: 10,
+    borderRadius: radius.pill,
+    backgroundColor: '#E5EDF8',
+    overflow: 'hidden',
+  },
+  scoreFill: {
+    height: '100%',
+    borderRadius: radius.pill,
+    backgroundColor: colors.primaryDark,
+  },
+  timelineWrap: {
+    marginBottom: spacing.xs,
+  },
+  timelineRow: {
+    marginBottom: spacing.xs,
+  },
+  timelineHead: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+  },
+  timelineLabel: {
+    fontSize: typography.xsmall,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+  },
+  timelineMeta: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+  },
+  timelineTrack: {
+    height: 8,
+    borderRadius: radius.pill,
+    backgroundColor: '#E6EEF8',
+    overflow: 'hidden',
+  },
+  timelineFill: {
+    height: '100%',
+    borderRadius: radius.pill,
+  },
+  timelineFillStable: {
+    backgroundColor: '#16A34A',
+  },
+  timelineFillSlow: {
+    backgroundColor: '#2563EB',
+  },
+  timelineFillFast: {
+    backgroundColor: '#D97706',
+  },
+  hotspotRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+    borderWidth: 1,
+    borderColor: '#E3EBFA',
+    borderRadius: radius.md,
+    padding: spacing.sm,
+    backgroundColor: '#F8FBFF',
+  },
+  hotspotBadge: {
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.xs + 4,
+    paddingVertical: spacing.xs,
+  },
+  hotspotBadgeHigh: {
+    backgroundColor: '#FEE2E2',
+  },
+  hotspotBadgeMedium: {
+    backgroundColor: '#FFEDD5',
+  },
+  hotspotBadgeLight: {
+    backgroundColor: '#DBEAFE',
+  },
+  hotspotBadgeText: {
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+  },
+  hotspotBody: {
+    flex: 1,
+  },
+  hotspotWord: {
+    fontSize: typography.small,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    marginBottom: 2,
+  },
+  hotspotTip: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    lineHeight: 16,
+  },
+  sectionLabel: {
+    marginTop: spacing.sm,
+    marginBottom: spacing.xs,
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    letterSpacing: 0.7,
+  },
+  sectionLabelSpacing: {
+    marginTop: spacing.md,
+  },
+  listText: {
+    fontSize: typography.small,
+    color: colors.text,
+    lineHeight: 20,
+    marginBottom: 4,
+  },
+  followUpBox: {
+    marginTop: spacing.md,
+    backgroundColor: colors.primaryUltraLight,
+    borderWidth: 1,
+    borderColor: '#D1DDF3',
+    borderRadius: radius.md,
+    padding: spacing.md,
+  },
+  followUpLabel: {
+    fontSize: typography.xsmall,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+    textTransform: 'uppercase',
+    letterSpacing: 0.6,
+    marginBottom: spacing.xs,
+  },
+  followUpText: {
+    fontSize: typography.small,
+    color: colors.text,
+    lineHeight: 20,
+  },
+  transcriptCard: {
+    borderColor: '#C7D6EE',
+    backgroundColor: '#FFFFFF',
+  },
+  transcriptTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.sm,
+  },
+  transcriptTitle: {
+    fontSize: typography.body,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '700',
+  },
+  transcriptMeta: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+  },
+  transcriptText: {
+    fontSize: typography.body,
+    color: colors.text,
+    lineHeight: 24,
+  },
+  transcriptActions: {
+    marginTop: spacing.md,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+  },
+  bottomSpacer: {
+    height: spacing.lg,
+  },
+  footer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#FFFFFF',
+    borderTopWidth: 1,
+    borderTopColor: '#D9E3F1',
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.lg,
+  },
+  micStatusRow: {
+    minHeight: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.md,
+  },
+  idleText: {
+    fontSize: typography.small,
+    color: colors.muted,
+  },
+  waveformContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 24,
+    gap: 5,
+  },
+  waveBar: {
+    width: 8,
+    height: 18,
+    borderRadius: radius.pill,
+    backgroundColor: colors.primaryDark,
+  },
+  footerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+  },
+  micBtn: {
+    width: 84,
+    height: 84,
+    borderRadius: 42,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.primaryDark,
+    ...shadow.glow,
+  },
+  micBtnActive: {
+    backgroundColor: colors.error,
+    shadowColor: colors.error,
+  },
+  micBtnDisabled: {
+    opacity: 0.5,
+  },
+}
+
 const isWeb = Platform.OS === 'web';
 
 const MODE_META = [
@@ -1090,665 +1753,4 @@ export default function AISpeakingPartnerScreen({ navigation, route }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  coverageCard: {
-    marginTop: spacing.sm,
-    backgroundColor: '#F0F4FA',
-    borderColor: '#D6E0F2',
-  },
-  coverageHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: spacing.xs,
-  },
-  coverageTitle: {
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-    fontWeight: '800',
-  },
-  coverageBadge: {
-    fontSize: typography.small,
-    fontFamily: typography.fontHeadline,
-    color: '#0F172A',
-    fontWeight: '800',
-  },
-  coverageTrack: {
-    height: 8,
-    borderRadius: radius.round,
-    backgroundColor: '#D6E0F2',
-    marginBottom: spacing.xs,
-  },
-  coverageFill: {
-    height: 8,
-    borderRadius: radius.round,
-  },
-  coverageFillStrong: {
-    backgroundColor: '#16A34A',
-  },
-  coverageFillMid: {
-    backgroundColor: '#D97706',
-  },
-  coverageFillLow: {
-    backgroundColor: '#DC2626',
-  },
-  coverageMetaRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: spacing.xs,
-  },
-  coverageMeta: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-  },
-  coverageHint: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    lineHeight: 16,
-  },
-  webErrorText: {
-    fontSize: typography.xsmall,
-    color: '#DC2626',
-    marginTop: spacing.xs,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingTop: spacing.md,
-    paddingBottom: spacing.sm,
-    paddingHorizontal: spacing.xl,
-  },
-  backBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: radius.round,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-    marginRight: spacing.md,
-    borderWidth: 1,
-    borderColor: '#D6E0F2',
-  },
-  headerCopy: {
-    flex: 1,
-  },
-  title: {
-    fontSize: typography.h2,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-    fontWeight: '800',
-  },
-  subTitle: {
-    marginTop: 2,
-    fontSize: typography.small,
-    color: colors.muted,
-  },
-  scrollContent: {
-    paddingHorizontal: spacing.xl,
-    paddingBottom: 160,
-  },
-  heroCard: {
-    backgroundColor: '#0F172A',
-    borderColor: '#172554',
-    marginTop: spacing.sm,
-  },
-  eyebrow: {
-    fontSize: typography.xsmall,
-    color: '#93C5FD',
-    fontFamily: typography.fontHeadline,
-    textTransform: 'uppercase',
-    letterSpacing: 0.8,
-    marginBottom: spacing.xs,
-  },
-  heroTitle: {
-    color: '#FFFFFF',
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '800',
-    lineHeight: 28,
-    marginBottom: spacing.sm,
-  },
-  heroBody: {
-    color: '#CBD5E1',
-    fontSize: typography.small,
-    lineHeight: 20,
-    marginBottom: spacing.md,
-  },
-  modeWrap: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: spacing.xs,
-  },
-  promptCard: {
-    marginTop: spacing.sm,
-  },
-  promptTopRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: spacing.sm,
-    gap: spacing.sm,
-  },
-  promptHeaderCopy: {
-    flex: 1,
-  },
-  promptEyebrow: {
-    fontSize: typography.xsmall,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-    textTransform: 'uppercase',
-    letterSpacing: 0.7,
-    marginBottom: spacing.xs,
-  },
-  promptTitle: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-  },
-  timeBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    backgroundColor: colors.primarySoft,
-    borderWidth: 1,
-    borderColor: '#C7D7F4',
-    borderRadius: radius.pill,
-    paddingHorizontal: spacing.sm + 2,
-    paddingVertical: spacing.xs + 2,
-  },
-  timeBadgeText: {
-    fontSize: typography.xsmall,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-  },
-  promptBody: {
-    fontSize: typography.body,
-    color: colors.text,
-    lineHeight: 24,
-    marginBottom: spacing.md,
-  },
-  frameBox: {
-    backgroundColor: colors.surfaceAlt,
-    borderWidth: 1,
-    borderColor: '#D8E2F3',
-    borderRadius: radius.md,
-    padding: spacing.md,
-    marginBottom: spacing.md,
-  },
-  frameLabel: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    fontFamily: typography.fontHeadline,
-    textTransform: 'uppercase',
-    letterSpacing: 0.6,
-    marginBottom: spacing.xs,
-  },
-  frameText: {
-    fontSize: typography.small,
-    color: colors.text,
-    lineHeight: 20,
-  },
-  promptActions: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-  },
-  summaryRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    marginBottom: spacing.md,
-  },
-  summaryCard: {
-    flex: 1,
-    marginBottom: 0,
-    minHeight: 100,
-    justifyContent: 'center',
-  },
-  summaryCardPrimary: {
-    backgroundColor: colors.primaryDark,
-    borderColor: colors.primaryDark,
-  },
-  summaryLabel: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    fontFamily: typography.fontHeadline,
-    textTransform: 'uppercase',
-    letterSpacing: 0.7,
-    marginBottom: spacing.xs,
-  },
-  summaryLabelOnDark: {
-    color: '#BFDBFE',
-  },
-  summaryValue: {
-    fontSize: typography.h2,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '800',
-  },
-  summaryValueOnDark: {
-    color: '#FFFFFF',
-  },
-  summaryValueSmall: {
-    fontSize: typography.small,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '700',
-  },
-  savedCard: {
-    backgroundColor: '#FCFDFE',
-  },
-  savedRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-    marginBottom: spacing.sm,
-  },
-  savedTitle: {
-    fontSize: typography.body,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '700',
-  },
-  savedSubtitle: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginTop: 4,
-  },
-  savedScoreBadge: {
-    minWidth: 74,
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.sm,
-    borderRadius: radius.md,
-    backgroundColor: colors.primarySoft,
-    alignItems: 'center',
-  },
-  savedScoreValue: {
-    fontSize: typography.h3,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '800',
-  },
-  savedScoreText: {
-    fontSize: typography.xsmall,
-    color: colors.primaryDark,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  savedMeta: {
-    fontSize: typography.small,
-    color: colors.muted,
-  },
-  chatArea: {
-    marginBottom: spacing.sm,
-  },
-  bubbleWrap: {
-    width: '100%',
-    marginBottom: spacing.md,
-  },
-  bubbleWrapAI: {
-    alignItems: 'flex-start',
-  },
-  bubbleWrapUser: {
-    alignItems: 'flex-end',
-  },
-  bubble: {
-    maxWidth: '88%',
-    padding: spacing.md,
-    borderRadius: radius.lg,
-    ...shadow.elev1,
-  },
-  bubbleAI: {
-    backgroundColor: '#FFFFFF',
-    borderBottomLeftRadius: 6,
-  },
-  bubbleUser: {
-    backgroundColor: colors.primaryDark,
-    borderBottomRightRadius: 6,
-  },
-  bubbleText: {
-    fontSize: typography.body,
-    color: colors.text,
-    lineHeight: 22,
-  },
-  bubbleTextUser: {
-    color: '#FFFFFF',
-  },
-  aiIcon: {
-    marginBottom: spacing.xs,
-  },
-  typingBubble: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  typingText: {
-    fontSize: typography.small,
-    color: colors.muted,
-    fontStyle: 'italic',
-  },
-  analysisCard: {
-    width: '100%',
-    marginTop: spacing.sm,
-    marginBottom: 0,
-    backgroundColor: '#FBFDFF',
-  },
-  analysisTopRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: spacing.md,
-    marginBottom: spacing.md,
-  },
-  analysisTitle: {
-    fontSize: typography.body,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    fontWeight: '700',
-  },
-  analysisSubtitle: {
-    marginTop: 2,
-    fontSize: typography.small,
-    color: colors.muted,
-  },
-  analysisScoreBadge: {
-    minWidth: 78,
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.sm,
-    borderRadius: radius.md,
-    backgroundColor: '#EAF1FF',
-    alignItems: 'center',
-  },
-  analysisScoreValue: {
-    fontSize: typography.h3,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '800',
-  },
-  analysisScoreLabel: {
-    fontSize: typography.xsmall,
-    color: colors.primaryDark,
-  },
-  metricPillRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-    marginBottom: spacing.md,
-  },
-  metricPill: {
-    borderRadius: radius.pill,
-    paddingHorizontal: spacing.sm + 2,
-    paddingVertical: spacing.xs + 2,
-    borderWidth: 1,
-  },
-  metricPillNeutral: {
-    backgroundColor: '#F8FAFC',
-    borderColor: '#D6E0EC',
-  },
-  metricPillAccent: {
-    backgroundColor: colors.primarySoft,
-    borderColor: '#C5D6F6',
-  },
-  metricPillWarning: {
-    backgroundColor: colors.warningLight,
-    borderColor: '#F2D49F',
-  },
-  metricPillLabel: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  metricPillValue: {
-    fontSize: typography.small,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '700',
-    marginTop: 2,
-  },
-  scoreBarBlock: {
-    marginBottom: spacing.sm,
-  },
-  scoreBarHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 6,
-  },
-  scoreBarLabel: {
-    fontSize: typography.small,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-  },
-  scoreBarValue: {
-    fontSize: typography.small,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '700',
-  },
-  scoreTrack: {
-    height: 10,
-    borderRadius: radius.pill,
-    backgroundColor: '#E5EDF8',
-    overflow: 'hidden',
-  },
-  scoreFill: {
-    height: '100%',
-    borderRadius: radius.pill,
-    backgroundColor: colors.primaryDark,
-  },
-  timelineWrap: {
-    marginBottom: spacing.xs,
-  },
-  timelineRow: {
-    marginBottom: spacing.xs,
-  },
-  timelineHead: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 4,
-  },
-  timelineLabel: {
-    fontSize: typography.xsmall,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-  },
-  timelineMeta: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-  },
-  timelineTrack: {
-    height: 8,
-    borderRadius: radius.pill,
-    backgroundColor: '#E6EEF8',
-    overflow: 'hidden',
-  },
-  timelineFill: {
-    height: '100%',
-    borderRadius: radius.pill,
-  },
-  timelineFillStable: {
-    backgroundColor: '#16A34A',
-  },
-  timelineFillSlow: {
-    backgroundColor: '#2563EB',
-  },
-  timelineFillFast: {
-    backgroundColor: '#D97706',
-  },
-  hotspotRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: spacing.sm,
-    marginBottom: spacing.sm,
-    borderWidth: 1,
-    borderColor: '#E3EBFA',
-    borderRadius: radius.md,
-    padding: spacing.sm,
-    backgroundColor: '#F8FBFF',
-  },
-  hotspotBadge: {
-    borderRadius: radius.pill,
-    paddingHorizontal: spacing.xs + 4,
-    paddingVertical: spacing.xs,
-  },
-  hotspotBadgeHigh: {
-    backgroundColor: '#FEE2E2',
-  },
-  hotspotBadgeMedium: {
-    backgroundColor: '#FFEDD5',
-  },
-  hotspotBadgeLight: {
-    backgroundColor: '#DBEAFE',
-  },
-  hotspotBadgeText: {
-    fontSize: typography.xsmall,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-  },
-  hotspotBody: {
-    flex: 1,
-  },
-  hotspotWord: {
-    fontSize: typography.small,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-    marginBottom: 2,
-  },
-  hotspotTip: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    lineHeight: 16,
-  },
-  sectionLabel: {
-    marginTop: spacing.sm,
-    marginBottom: spacing.xs,
-    fontSize: typography.xsmall,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-    textTransform: 'uppercase',
-    letterSpacing: 0.7,
-  },
-  sectionLabelSpacing: {
-    marginTop: spacing.md,
-  },
-  listText: {
-    fontSize: typography.small,
-    color: colors.text,
-    lineHeight: 20,
-    marginBottom: 4,
-  },
-  followUpBox: {
-    marginTop: spacing.md,
-    backgroundColor: colors.primaryUltraLight,
-    borderWidth: 1,
-    borderColor: '#D1DDF3',
-    borderRadius: radius.md,
-    padding: spacing.md,
-  },
-  followUpLabel: {
-    fontSize: typography.xsmall,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-    textTransform: 'uppercase',
-    letterSpacing: 0.6,
-    marginBottom: spacing.xs,
-  },
-  followUpText: {
-    fontSize: typography.small,
-    color: colors.text,
-    lineHeight: 20,
-  },
-  transcriptCard: {
-    borderColor: '#C7D6EE',
-    backgroundColor: '#FFFFFF',
-  },
-  transcriptTopRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.sm,
-  },
-  transcriptTitle: {
-    fontSize: typography.body,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '700',
-  },
-  transcriptMeta: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-  },
-  transcriptText: {
-    fontSize: typography.body,
-    color: colors.text,
-    lineHeight: 24,
-  },
-  transcriptActions: {
-    marginTop: spacing.md,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-  },
-  bottomSpacer: {
-    height: spacing.lg,
-  },
-  footer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: '#FFFFFF',
-    borderTopWidth: 1,
-    borderTopColor: '#D9E3F1',
-    paddingHorizontal: spacing.xl,
-    paddingTop: spacing.md,
-    paddingBottom: spacing.lg,
-  },
-  micStatusRow: {
-    minHeight: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: spacing.md,
-  },
-  idleText: {
-    fontSize: typography.small,
-    color: colors.muted,
-  },
-  waveformContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 24,
-    gap: 5,
-  },
-  waveBar: {
-    width: 8,
-    height: 18,
-    borderRadius: radius.pill,
-    backgroundColor: colors.primaryDark,
-  },
-  footerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-  },
-  micBtn: {
-    width: 84,
-    height: 84,
-    borderRadius: 42,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.primaryDark,
-    ...shadow.glow,
-  },
-  micBtnActive: {
-    backgroundColor: colors.error,
-    shadowColor: colors.error,
-  },
-  micBtnDisabled: {
-    opacity: 0.5,
-  },
-});
+);

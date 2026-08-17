@@ -5,23 +5,6 @@ import Card from '../components/Card';
 import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
-export default function ReadingHistoryScreen() {
-  const { readingHistory } = useAppState();
-
-  return (
-    <Screen scroll contentStyle={styles.container}>
-      <Text style={styles.h1}>Reading History</Text>
-      {readingHistory.length === 0 && <Text style={styles.body}>No attempts yet.</Text>}
-      {readingHistory.map((r) => (
-        <Card key={r.id} style={styles.card}>
-          <Text style={styles.h3}>Reading • {new Date(r.createdAt).toLocaleDateString()}</Text>
-          <Text style={styles.body}>Score: {r.result.score}/{r.result.total}</Text>
-        </Card>
-      ))}
-    </Screen>
-  );
-}
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl
@@ -44,4 +27,23 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: spacing.lg
   }
-});
+}
+
+export default function ReadingHistoryScreen() {
+  const { readingHistory } = useAppState();
+
+  return (
+    <Screen scroll contentStyle={styles.container}>
+      <Text style={styles.h1}>Reading History</Text>
+      {readingHistory.length === 0 && <Text style={styles.body}>No attempts yet.</Text>}
+      {readingHistory.map((r) => (
+        <Card key={r.id} style={styles.card}>
+          <Text style={styles.h3}>Reading • {new Date(r.createdAt).toLocaleDateString()}</Text>
+          <Text style={styles.body}>Score: {r.result.score}/{r.result.total}</Text>
+        </Card>
+      ))}
+    </Screen>
+  );
+}
+
+);

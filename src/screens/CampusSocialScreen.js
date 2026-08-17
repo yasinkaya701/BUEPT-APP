@@ -5,6 +5,43 @@ import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const styles = StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background },
+    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
+    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
+    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+
+    tabWrap: { marginBottom: spacing.lg, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)', backgroundColor: '#fff', paddingBottom: spacing.sm },
+    tabScroll: { paddingHorizontal: spacing.xl, gap: spacing.md },
+    tabBtn: { paddingVertical: spacing.sm, paddingHorizontal: spacing.md, borderRadius: radius.pill, backgroundColor: 'rgba(0,0,0,0.03)' },
+    tabBtnActive: { backgroundColor: colors.primaryDark },
+    tabText: { fontSize: 13, fontWeight: '800', color: colors.muted },
+    tabTextActive: { color: '#fff' },
+
+    scroll: { paddingHorizontal: spacing.xl },
+
+    heroBanner: { alignItems: 'center', padding: spacing.xl, backgroundColor: colors.primaryDark, borderRadius: radius.xl, marginBottom: spacing.xl },
+    heroTitle: { fontSize: 24, fontWeight: '900', color: '#fff', marginTop: spacing.md, fontFamily: typography.fontHeadline },
+    heroDesc: { fontSize: 13, color: 'rgba(255,255,255,0.7)', fontWeight: '600', marginTop: 4 },
+
+    listWrap: { gap: spacing.sm },
+    rankCard: { flexDirection: 'row', alignItems: 'center', padding: spacing.md, borderRadius: radius.lg, backgroundColor: '#fff', ...shadow.slight },
+    rankCardYou: { backgroundColor: colors.primarySoft, borderWidth: 1, borderColor: colors.primary },
+    rankNum: { fontSize: 18, fontWeight: '900', color: colors.muted, width: 40, textAlign: 'center' },
+    rankNumTop: { color: colors.primaryDark },
+    avatarWrap: { marginHorizontal: spacing.sm },
+    nameRow: { flexDirection: 'row', alignItems: 'center' },
+    nameWrap: { flex: 1 },
+    userName: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: 2 },
+    userNameYou: { color: colors.primaryDark },
+    userScore: { fontSize: 13, color: colors.muted, fontWeight: '700' },
+    youBadge: { backgroundColor: colors.primary, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4 },
+    youBadgeText: { fontSize: 10, fontWeight: '900', color: '#fff' },
+    badgeIcon: { marginLeft: 4 },
+    bottomSpacer: { height: 40 },
+}
+
 const LEADERBOARD_DB = {
     'Global': [
         { id: '1', name: 'Zeynep Y.', score: 4250, badge: 'crown' },
@@ -96,39 +133,4 @@ export default function CampusSocialScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.background },
-    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
-    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
-
-    tabWrap: { marginBottom: spacing.lg, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)', backgroundColor: '#fff', paddingBottom: spacing.sm },
-    tabScroll: { paddingHorizontal: spacing.xl, gap: spacing.md },
-    tabBtn: { paddingVertical: spacing.sm, paddingHorizontal: spacing.md, borderRadius: radius.pill, backgroundColor: 'rgba(0,0,0,0.03)' },
-    tabBtnActive: { backgroundColor: colors.primaryDark },
-    tabText: { fontSize: 13, fontWeight: '800', color: colors.muted },
-    tabTextActive: { color: '#fff' },
-
-    scroll: { paddingHorizontal: spacing.xl },
-
-    heroBanner: { alignItems: 'center', padding: spacing.xl, backgroundColor: colors.primaryDark, borderRadius: radius.xl, marginBottom: spacing.xl },
-    heroTitle: { fontSize: 24, fontWeight: '900', color: '#fff', marginTop: spacing.md, fontFamily: typography.fontHeadline },
-    heroDesc: { fontSize: 13, color: 'rgba(255,255,255,0.7)', fontWeight: '600', marginTop: 4 },
-
-    listWrap: { gap: spacing.sm },
-    rankCard: { flexDirection: 'row', alignItems: 'center', padding: spacing.md, borderRadius: radius.lg, backgroundColor: '#fff', ...shadow.slight },
-    rankCardYou: { backgroundColor: colors.primarySoft, borderWidth: 1, borderColor: colors.primary },
-    rankNum: { fontSize: 18, fontWeight: '900', color: colors.muted, width: 40, textAlign: 'center' },
-    rankNumTop: { color: colors.primaryDark },
-    avatarWrap: { marginHorizontal: spacing.sm },
-    nameRow: { flexDirection: 'row', alignItems: 'center' },
-    nameWrap: { flex: 1 },
-    userName: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: 2 },
-    userNameYou: { color: colors.primaryDark },
-    userScore: { fontSize: 13, color: colors.muted, fontWeight: '700' },
-    youBadge: { backgroundColor: colors.primary, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4 },
-    youBadgeText: { fontSize: 10, fontWeight: '900', color: '#fff' },
-    badgeIcon: { marginLeft: 4 },
-    bottomSpacer: { height: 40 },
-});
+);

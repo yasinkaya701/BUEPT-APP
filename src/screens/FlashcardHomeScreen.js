@@ -6,6 +6,168 @@ import { useAppState } from '../context/AppState';
 import specializedDecks from '../../data/specialized_flashcards.json';
 import wascQuizletDecks from '../../data/wasc_quizlet_decks.json';
 
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#0F172A' },
+  scrollContent: { padding: spacing.lg },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 30,
+    marginTop: 10
+  },
+  welcomeText: { fontSize: 28, fontWeight: '800', color: '#fff', fontFamily: typography.fontHeadline },
+  subWelcome: { fontSize: 16, color: 'rgba(255,255,255,0.5)', marginTop: 4 },
+  addBtn: {
+    width: 56, height: 56,
+    borderRadius: 28,
+    backgroundColor: colors.secondary,
+    justifyContent: 'center', alignItems: 'center',
+    ...shadow.md
+  },
+  undoBanner: {
+    backgroundColor: 'rgba(15, 23, 42, 0.8)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    marginBottom: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  undoBannerText: {
+    color: '#E2E8F0',
+    fontSize: 13,
+    fontWeight: '600',
+    flex: 1,
+  },
+  undoBtn: {
+    backgroundColor: colors.secondary,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  undoBtnText: { color: colors.textOnSecondary, fontSize: 12, fontWeight: '800' },
+  searchWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    borderRadius: 14,
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    marginBottom: 14,
+  },
+  searchInput: {
+    flex: 1,
+    color: '#fff',
+    fontSize: 14,
+    paddingVertical: 0,
+  },
+  tabRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 20,
+  },
+  tabBtn: {
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: 'rgba(255,255,255,0.03)',
+  },
+  tabBtnActive: {
+    backgroundColor: 'rgba(52, 117, 238, 0.24)',
+    borderColor: 'rgba(110, 170, 255, 0.6)',
+  },
+  tabBtnText: { color: 'rgba(255,255,255,0.72)', fontSize: 12, fontWeight: '700' },
+  tabBtnTextActive: { color: '#fff' },
+  
+  heroCard: {
+      height: 220,
+      marginBottom: 30,
+      borderRadius: 24,
+      backgroundColor: '#1E293B',
+      overflow: 'hidden',
+      borderWidth: 1,
+      borderColor: 'rgba(255,255,255,0.1)'
+  },
+  heroBg: { flex: 1, padding: 24 },
+  heroContent: { flex: 1, justifyContent: 'flex-end' },
+  heroBadge: { 
+      backgroundColor: colors.secondary, 
+      alignSelf: 'flex-start', 
+      paddingHorizontal: 10, 
+      paddingVertical: 4, 
+      borderRadius: 8,
+      marginBottom: 12
+  },
+  heroBadgeText: { color: colors.textOnSecondary, fontSize: 10, fontWeight: '800', letterSpacing: 1 },
+  heroTitle: { fontSize: 24, fontWeight: '800', color: '#fff', marginBottom: 8 },
+  heroSub: { fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 20, marginBottom: 16 },
+  heroStats: { flexDirection: 'row', alignItems: 'center', gap: 20 },
+  heroStatItem: { alignItems: 'flex-start' },
+  heroStatVal: { fontSize: 18, fontWeight: '800', color: '#fff' },
+  heroStatLab: { fontSize: 11, color: 'rgba(255,255,255,0.4)', fontWeight: '600' },
+  heroStatDivider: { width: 1, height: 20, backgroundColor: 'rgba(255,255,255,0.1)' },
+
+  sectionHeader: { marginBottom: 16 },
+  sectionTitle: { fontSize: 18, fontWeight: '800', color: '#fff', letterSpacing: 0.5 },
+  horizontalScroll: { paddingRight: 40, gap: 16, marginBottom: 30 },
+  
+  deckCard: {
+      width: 180,
+      backgroundColor: 'rgba(255,255,255,0.03)',
+      borderRadius: 24,
+      padding: 16,
+      borderWidth: 1,
+      borderColor: 'rgba(255,255,255,0.05)',
+      ...shadow.sm
+  },
+  deckIconRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 16 },
+  deckIcon: { width: 44, height: 44, borderRadius: 14, justifyContent: 'center', alignItems: 'center' },
+  deleteBtn: { padding: 4 },
+  deckTitle: { fontSize: 16, fontWeight: '700', color: '#fff', marginBottom: 6 },
+  deckSub: { fontSize: 12, color: 'rgba(255,255,255,0.4)', lineHeight: 18, height: 36 },
+  deckFooter: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 },
+  deckLevel: { fontSize: 11, fontWeight: '700', color: colors.secondary, opacity: 0.8 },
+  
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 16 },
+  
+  emptyState: {
+      height: 140,
+      borderRadius: 24,
+      borderWidth: 2,
+      borderStyle: 'dashed',
+      borderColor: 'rgba(255,255,255,0.05)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: 12
+  },
+  emptyText: { color: 'rgba(255,255,255,0.2)', fontWeight: '600' },
+  emptyResultCard: {
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: 'rgba(255,255,255,0.03)',
+    paddingVertical: 24,
+    alignItems: 'center',
+    gap: 6,
+  },
+  emptyResultTitle: { color: '#fff', fontSize: 16, fontWeight: '800' },
+  emptyResultBody: { color: 'rgba(255,255,255,0.45)', fontSize: 13 },
+}
+
 const AWL_STATS = { total: 534, mastered: 120, learning: 45 }; // Simulated stats
 
 export default function FlashcardHomeScreen({ navigation }) {
@@ -248,164 +410,4 @@ export default function FlashcardHomeScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0F172A' },
-  scrollContent: { padding: spacing.lg },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 30,
-    marginTop: 10
-  },
-  welcomeText: { fontSize: 28, fontWeight: '800', color: '#fff', fontFamily: typography.fontHeadline },
-  subWelcome: { fontSize: 16, color: 'rgba(255,255,255,0.5)', marginTop: 4 },
-  addBtn: {
-    width: 56, height: 56,
-    borderRadius: 28,
-    backgroundColor: colors.secondary,
-    justifyContent: 'center', alignItems: 'center',
-    ...shadow.md
-  },
-  undoBanner: {
-    backgroundColor: 'rgba(15, 23, 42, 0.8)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    borderRadius: 14,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    marginBottom: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 12,
-  },
-  undoBannerText: {
-    color: '#E2E8F0',
-    fontSize: 13,
-    fontWeight: '600',
-    flex: 1,
-  },
-  undoBtn: {
-    backgroundColor: colors.secondary,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  undoBtnText: { color: colors.textOnSecondary, fontSize: 12, fontWeight: '800' },
-  searchWrap: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    borderRadius: 14,
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    marginBottom: 14,
-  },
-  searchInput: {
-    flex: 1,
-    color: '#fff',
-    fontSize: 14,
-    paddingVertical: 0,
-  },
-  tabRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 20,
-  },
-  tabBtn: {
-    borderRadius: 999,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.12)',
-    backgroundColor: 'rgba(255,255,255,0.03)',
-  },
-  tabBtnActive: {
-    backgroundColor: 'rgba(52, 117, 238, 0.24)',
-    borderColor: 'rgba(110, 170, 255, 0.6)',
-  },
-  tabBtnText: { color: 'rgba(255,255,255,0.72)', fontSize: 12, fontWeight: '700' },
-  tabBtnTextActive: { color: '#fff' },
-  
-  heroCard: {
-      height: 220,
-      marginBottom: 30,
-      borderRadius: 24,
-      backgroundColor: '#1E293B',
-      overflow: 'hidden',
-      borderWidth: 1,
-      borderColor: 'rgba(255,255,255,0.1)'
-  },
-  heroBg: { flex: 1, padding: 24 },
-  heroContent: { flex: 1, justifyContent: 'flex-end' },
-  heroBadge: { 
-      backgroundColor: colors.secondary, 
-      alignSelf: 'flex-start', 
-      paddingHorizontal: 10, 
-      paddingVertical: 4, 
-      borderRadius: 8,
-      marginBottom: 12
-  },
-  heroBadgeText: { color: colors.textOnSecondary, fontSize: 10, fontWeight: '800', letterSpacing: 1 },
-  heroTitle: { fontSize: 24, fontWeight: '800', color: '#fff', marginBottom: 8 },
-  heroSub: { fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 20, marginBottom: 16 },
-  heroStats: { flexDirection: 'row', alignItems: 'center', gap: 20 },
-  heroStatItem: { alignItems: 'flex-start' },
-  heroStatVal: { fontSize: 18, fontWeight: '800', color: '#fff' },
-  heroStatLab: { fontSize: 11, color: 'rgba(255,255,255,0.4)', fontWeight: '600' },
-  heroStatDivider: { width: 1, height: 20, backgroundColor: 'rgba(255,255,255,0.1)' },
-
-  sectionHeader: { marginBottom: 16 },
-  sectionTitle: { fontSize: 18, fontWeight: '800', color: '#fff', letterSpacing: 0.5 },
-  horizontalScroll: { paddingRight: 40, gap: 16, marginBottom: 30 },
-  
-  deckCard: {
-      width: 180,
-      backgroundColor: 'rgba(255,255,255,0.03)',
-      borderRadius: 24,
-      padding: 16,
-      borderWidth: 1,
-      borderColor: 'rgba(255,255,255,0.05)',
-      ...shadow.sm
-  },
-  deckIconRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 16 },
-  deckIcon: { width: 44, height: 44, borderRadius: 14, justifyContent: 'center', alignItems: 'center' },
-  deleteBtn: { padding: 4 },
-  deckTitle: { fontSize: 16, fontWeight: '700', color: '#fff', marginBottom: 6 },
-  deckSub: { fontSize: 12, color: 'rgba(255,255,255,0.4)', lineHeight: 18, height: 36 },
-  deckFooter: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 },
-  deckLevel: { fontSize: 11, fontWeight: '700', color: colors.secondary, opacity: 0.8 },
-  
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 16 },
-  
-  emptyState: {
-      height: 140,
-      borderRadius: 24,
-      borderWidth: 2,
-      borderStyle: 'dashed',
-      borderColor: 'rgba(255,255,255,0.05)',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: 12
-  },
-  emptyText: { color: 'rgba(255,255,255,0.2)', fontWeight: '600' },
-  emptyResultCard: {
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
-    backgroundColor: 'rgba(255,255,255,0.03)',
-    paddingVertical: 24,
-    alignItems: 'center',
-    gap: 6,
-  },
-  emptyResultTitle: { color: '#fff', fontSize: 16, fontWeight: '800' },
-  emptyResultBody: { color: 'rgba(255,255,255,0.45)', fontSize: 13 },
-});
+);

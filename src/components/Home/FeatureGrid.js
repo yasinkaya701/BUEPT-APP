@@ -4,6 +4,81 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Card from '../Card';
 import { colors, spacing, typography } from '../../theme/tokens';
 
+const styles = StyleSheet.create({
+  grid: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    marginBottom: spacing.xxl,
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  gridNarrow: {
+    flexDirection: 'column',
+  },
+  itemWrap: {
+    width: '100%',
+  },
+  itemWrapWide: {
+    width: '48.7%',
+  },
+  miniCard: {
+    padding: spacing.md,
+    marginBottom: 0,
+    minHeight: 146,
+  },
+  darkCard: {
+    borderColor: colors.primary,
+  },
+  cardHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: spacing.md,
+  },
+  iconBadge: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: colors.surfaceRaised,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconBadgeDark: {
+    backgroundColor: colors.surfaceRaised,
+  },
+  darkCardTitle: {
+    color: colors.textOnDark,
+  },
+  darkCardBody: {
+    color: colors.textOnDarkMuted,
+  },
+  h3: {
+    fontSize: typography.body,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '700',
+    color: colors.text,
+    marginBottom: 4,
+    letterSpacing: -0.2,
+  },
+  body: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.md,
+    lineHeight: 20,
+  },
+  linkRow: {
+    marginTop: 'auto',
+  },
+  linkText: {
+    fontSize: typography.small,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+  },
+  linkTextDark: {
+    color: colors.textOnDark,
+  },
+}
+
 const FEATURES = [
   {
     id: 'placement',
@@ -116,77 +191,4 @@ export default function FeatureGrid({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  grid: {
-    flexDirection: 'row',
-    gap: spacing.md,
-    marginBottom: spacing.xxl,
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  gridNarrow: {
-    flexDirection: 'column',
-  },
-  itemWrap: {
-    width: '100%',
-  },
-  itemWrapWide: {
-    width: '48.7%',
-  },
-  miniCard: {
-    padding: spacing.md,
-    marginBottom: 0,
-    minHeight: 146,
-  },
-  darkCard: {
-    borderColor: colors.primary,
-  },
-  cardHead: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: spacing.md,
-  },
-  iconBadge: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    backgroundColor: colors.surfaceRaised,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  iconBadgeDark: {
-    backgroundColor: colors.surfaceRaised,
-  },
-  darkCardTitle: {
-    color: colors.textOnDark,
-  },
-  darkCardBody: {
-    color: colors.textOnDarkMuted,
-  },
-  h3: {
-    fontSize: typography.body,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '700',
-    color: colors.text,
-    marginBottom: 4,
-    letterSpacing: -0.2,
-  },
-  body: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.md,
-    lineHeight: 20,
-  },
-  linkRow: {
-    marginTop: 'auto',
-  },
-  linkText: {
-    fontSize: typography.small,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-  },
-  linkTextDark: {
-    color: colors.textOnDark,
-  },
-});
+);

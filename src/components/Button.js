@@ -3,6 +3,71 @@ import { Pressable, Text, StyleSheet, View, Platform, Animated } from 'react-nat
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { typography, shadow, colors, radius } from '../theme/tokens';
 
+const styles = StyleSheet.create({
+  base: {
+    minHeight: 46,
+    borderRadius: radius.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 11,
+    flexDirection: 'row',
+    borderWidth: 1.5,
+    overflow: 'hidden',
+  },
+  fullWidth: { width: '100%' },
+  pressed: { opacity: 0.92, transform: [{ scale: 0.97 }] },
+  disabled: { opacity: 0.45 },
+  content: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
+  iconSlotLeft: { marginRight: 2 },
+  iconSlotRight: { marginLeft: 2 },
+  text: { fontSize: 13, fontFamily: typography.fontHeadline, fontWeight: '700', letterSpacing: 0.2 },
+  textDisabled: { color: '#94A3B8' },
+
+  // ── Brand solid primary (blue in BUSEPT, METU green in ODTÜ) ──
+  primaryBase: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primaryDark,
+    ...shadow.sm,
+  },
+  primaryText: { color: '#FFFFFF' },
+
+  // ── Soft brand secondary ──
+  secondaryBase: {
+    backgroundColor: colors.primaryLight,
+    borderColor: colors.primarySoft,
+    ...shadow.slight,
+  },
+  secondaryText: { color: colors.primaryDark },
+
+  // ── Ghost ──
+  ghostBase: {
+    backgroundColor: colors.primaryUltraLight,
+    borderColor: 'transparent',
+  },
+  ghostText: { color: colors.primary },
+
+  // ── Error ──
+  errorGhostBase: { backgroundColor: colors.errorLight, borderColor: 'transparent' },
+  errorGhostText: { color: colors.error },
+
+  // ── Gold accent ──
+  accentBase: {
+    backgroundColor: '#FFF7ED',
+    borderColor: '#FED7AA',
+    ...shadow.slight,
+  },
+  accentText: { color: '#92400E' },
+
+  // ── Success ──
+  successBase: {
+    backgroundColor: '#059669',
+    borderColor: '#065F46',
+    ...shadow.sm,
+  },
+  successText: { color: '#FFFFFF' },
+}
+
 function Button({
   label,
   onPress,
@@ -68,70 +133,7 @@ function Button({
 
 export default React.memo(Button);
 
-const styles = StyleSheet.create({
-  base: {
-    minHeight: 46,
-    borderRadius: radius.pill,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 11,
-    flexDirection: 'row',
-    borderWidth: 1.5,
-    overflow: 'hidden',
-  },
-  fullWidth: { width: '100%' },
-  pressed: { opacity: 0.92, transform: [{ scale: 0.97 }] },
-  disabled: { opacity: 0.45 },
-  content: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
-  iconSlotLeft: { marginRight: 2 },
-  iconSlotRight: { marginLeft: 2 },
-  text: { fontSize: 13, fontFamily: typography.fontHeadline, fontWeight: '700', letterSpacing: 0.2 },
-  textDisabled: { color: '#94A3B8' },
-
-  // ── Brand solid primary (blue in BUSEPT, METU green in ODTÜ) ──
-  primaryBase: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primaryDark,
-    ...shadow.sm,
-  },
-  primaryText: { color: '#FFFFFF' },
-
-  // ── Soft brand secondary ──
-  secondaryBase: {
-    backgroundColor: colors.primaryLight,
-    borderColor: colors.primarySoft,
-    ...shadow.slight,
-  },
-  secondaryText: { color: colors.primaryDark },
-
-  // ── Ghost ──
-  ghostBase: {
-    backgroundColor: colors.primaryUltraLight,
-    borderColor: 'transparent',
-  },
-  ghostText: { color: colors.primary },
-
-  // ── Error ──
-  errorGhostBase: { backgroundColor: colors.errorLight, borderColor: 'transparent' },
-  errorGhostText: { color: colors.error },
-
-  // ── Gold accent ──
-  accentBase: {
-    backgroundColor: '#FFF7ED',
-    borderColor: '#FED7AA',
-    ...shadow.slight,
-  },
-  accentText: { color: '#92400E' },
-
-  // ── Success ──
-  successBase: {
-    backgroundColor: '#059669',
-    borderColor: '#065F46',
-    ...shadow.sm,
-  },
-  successText: { color: '#FFFFFF' },
-});
+);
 
 const BUTTON_TONES = {
   primary: { base: styles.primaryBase, text: styles.primaryText, textColor: '#FFFFFF', iconColor: '#FFFFFF' },

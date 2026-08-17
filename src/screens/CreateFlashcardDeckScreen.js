@@ -4,6 +4,75 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#0F172A' },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(255,255,255,0.05)'
+  },
+  backBtn: { width: 44, height: 44, justifyContent: 'center', alignItems: 'center' },
+  headerTitle: { fontSize: 18, fontWeight: '800', color: '#fff' },
+  saveBtn: { backgroundColor: colors.secondary, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 12 },
+  saveBtnText: { color: colors.textOnSecondary, fontWeight: '800' },
+
+  scrollContent: { padding: 24 },
+  inputGroup: { marginBottom: 32 },
+  label: { fontSize: 12, fontWeight: '800', color: 'rgba(255,255,255,0.4)', letterSpacing: 1.5, marginBottom: 12, textTransform: 'uppercase' },
+  input: {
+      backgroundColor: 'rgba(255,255,255,0.05)',
+      borderRadius: 16,
+      padding: 16,
+      color: '#fff',
+      fontSize: 16,
+      borderWidth: 1,
+      borderColor: 'rgba(255,255,255,0.1)',
+      marginBottom: 8
+  },
+  addWordRow: { flexDirection: 'row', gap: 12, alignItems: 'center' },
+  addIconBtn: { width: 56, height: 56, borderRadius: 16, backgroundColor: colors.secondary, justifyContent: 'center', alignItems: 'center' },
+  inlineActions: { flexDirection: 'row', gap: 10, marginTop: 10 },
+  inlineBtn: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 6,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: 'rgba(255,255,255,0.12)',
+      backgroundColor: 'rgba(255,255,255,0.03)',
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+  },
+  inlineBtnDisabled: { opacity: 0.45 },
+  inlineBtnText: { color: '#E2E8F0', fontSize: 12, fontWeight: '700' },
+  inlineBtnTextDisabled: { color: 'rgba(255,255,255,0.42)' },
+  tip: { fontSize: 12, color: 'rgba(255,255,255,0.3)', lineHeight: 18, marginTop: 8 },
+
+  listSection: { marginTop: 10 },
+  sectionHeader: { fontSize: 16, fontWeight: '700', color: '#fff', marginBottom: 20 },
+  wordGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  wordTag: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: 'rgba(255,255,255,0.05)',
+      paddingLeft: 16,
+      paddingRight: 8,
+      paddingVertical: 8,
+      borderRadius: 12,
+      gap: 8,
+      borderWidth: 1,
+      borderColor: 'rgba(255,255,255,0.1)'
+  },
+  wordTagText: { color: '#fff', fontSize: 15, fontWeight: '600' },
+  
+  emptyState: { alignItems: 'center', marginTop: 40, opacity: 0.5 },
+  emptyText: { color: '#fff', marginTop: 12, fontSize: 14, fontWeight: '600' }
+}
+
 export default function CreateFlashcardDeckScreen({ navigation }) {
   const { addCustomDeck } = useAppState();
   const [title, setTitle] = useState('');
@@ -150,71 +219,4 @@ export default function CreateFlashcardDeckScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0F172A' },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    borderBottomWidth: 1,
-    borderColor: 'rgba(255,255,255,0.05)'
-  },
-  backBtn: { width: 44, height: 44, justifyContent: 'center', alignItems: 'center' },
-  headerTitle: { fontSize: 18, fontWeight: '800', color: '#fff' },
-  saveBtn: { backgroundColor: colors.secondary, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 12 },
-  saveBtnText: { color: colors.textOnSecondary, fontWeight: '800' },
-
-  scrollContent: { padding: 24 },
-  inputGroup: { marginBottom: 32 },
-  label: { fontSize: 12, fontWeight: '800', color: 'rgba(255,255,255,0.4)', letterSpacing: 1.5, marginBottom: 12, textTransform: 'uppercase' },
-  input: {
-      backgroundColor: 'rgba(255,255,255,0.05)',
-      borderRadius: 16,
-      padding: 16,
-      color: '#fff',
-      fontSize: 16,
-      borderWidth: 1,
-      borderColor: 'rgba(255,255,255,0.1)',
-      marginBottom: 8
-  },
-  addWordRow: { flexDirection: 'row', gap: 12, alignItems: 'center' },
-  addIconBtn: { width: 56, height: 56, borderRadius: 16, backgroundColor: colors.secondary, justifyContent: 'center', alignItems: 'center' },
-  inlineActions: { flexDirection: 'row', gap: 10, marginTop: 10 },
-  inlineBtn: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 6,
-      borderRadius: 10,
-      borderWidth: 1,
-      borderColor: 'rgba(255,255,255,0.12)',
-      backgroundColor: 'rgba(255,255,255,0.03)',
-      paddingHorizontal: 10,
-      paddingVertical: 8,
-  },
-  inlineBtnDisabled: { opacity: 0.45 },
-  inlineBtnText: { color: '#E2E8F0', fontSize: 12, fontWeight: '700' },
-  inlineBtnTextDisabled: { color: 'rgba(255,255,255,0.42)' },
-  tip: { fontSize: 12, color: 'rgba(255,255,255,0.3)', lineHeight: 18, marginTop: 8 },
-
-  listSection: { marginTop: 10 },
-  sectionHeader: { fontSize: 16, fontWeight: '700', color: '#fff', marginBottom: 20 },
-  wordGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  wordTag: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: 'rgba(255,255,255,0.05)',
-      paddingLeft: 16,
-      paddingRight: 8,
-      paddingVertical: 8,
-      borderRadius: 12,
-      gap: 8,
-      borderWidth: 1,
-      borderColor: 'rgba(255,255,255,0.1)'
-  },
-  wordTagText: { color: '#fff', fontSize: 15, fontWeight: '600' },
-  
-  emptyState: { alignItems: 'center', marginTop: 40, opacity: 0.5 },
-  emptyText: { color: '#fff', marginTop: 12, fontSize: 14, fontWeight: '600' }
-});
+);

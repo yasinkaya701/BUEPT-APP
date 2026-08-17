@@ -6,6 +6,62 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import { colors, spacing, typography } from '../theme/tokens';
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  web: {
+    flex: 1,
+  },
+  loaderWrap: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.background,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    padding: spacing.lg,
+    backgroundColor: 'rgba(15,23,42,0.2)',
+  },
+  errorCard: {
+    marginBottom: 0,
+  },
+  errorTitle: {
+    fontSize: typography.h3,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.xs,
+  },
+  errorBody: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.md,
+  },
+  fallbackScreen: {
+    paddingBottom: spacing.xl,
+  },
+  fallbackCard: {
+    marginBottom: 0,
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.sm,
+  },
+  body: {
+    fontSize: typography.body,
+    color: colors.muted,
+    marginBottom: spacing.md,
+  },
+  actions: {
+    gap: spacing.xs,
+  },
+}
+
 const FALLBACK_LINKS = [
   { id: 'calendar', label: 'Academic Calendar', url: 'https://akademiktakvim.bogazici.edu.tr/en' },
   { id: 'yadyok', label: 'YADYOK', url: 'https://yadyok.bogazici.edu.tr/en' },
@@ -131,58 +187,4 @@ export default function WebViewerScreen({ route }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  web: {
-    flex: 1,
-  },
-  loaderWrap: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.background,
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
-    padding: spacing.lg,
-    backgroundColor: 'rgba(15,23,42,0.2)',
-  },
-  errorCard: {
-    marginBottom: 0,
-  },
-  errorTitle: {
-    fontSize: typography.h3,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.xs,
-  },
-  errorBody: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.md,
-  },
-  fallbackScreen: {
-    paddingBottom: spacing.xl,
-  },
-  fallbackCard: {
-    marginBottom: 0,
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.sm,
-  },
-  body: {
-    fontSize: typography.body,
-    color: colors.muted,
-    marginBottom: spacing.md,
-  },
-  actions: {
-    gap: spacing.xs,
-  },
-});
+);

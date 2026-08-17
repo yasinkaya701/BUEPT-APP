@@ -5,6 +5,34 @@ import Screen from '../components/Screen';
 import { colors, spacing, typography } from '../theme/tokens';
 import { loadDraftSnapshots } from '../utils/essayStorage';
 
+const styles = StyleSheet.create({
+  content: {
+    paddingBottom: spacing.xl
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.md
+  },
+  h3: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.sm
+  },
+  body: {
+    fontSize: typography.body,
+    fontFamily: typography.fontBody
+  },
+  sub: {
+    fontSize: typography.small,
+    color: colors.muted
+  },
+  card: {
+    marginBottom: spacing.lg
+  }
+}
+
 export default function DraftsScreen({ navigation }) {
   const [drafts, setDrafts] = useState([]);
 
@@ -32,30 +60,4 @@ export default function DraftsScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  content: {
-    paddingBottom: spacing.xl
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.md
-  },
-  h3: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.sm
-  },
-  body: {
-    fontSize: typography.body,
-    fontFamily: typography.fontBody
-  },
-  sub: {
-    fontSize: typography.small,
-    color: colors.muted
-  },
-  card: {
-    marginBottom: spacing.lg
-  }
-});
+);

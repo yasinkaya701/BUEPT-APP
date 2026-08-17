@@ -9,6 +9,40 @@ import { useAppState } from '../context/AppState';
 import { speakEnglish } from '../utils/ttsEnglish';
 import { loadAiAccessConfig } from '../utils/appStorage';
 
+const styles = StyleSheet.create({
+    container: { paddingBottom: spacing.xl },
+    headerRow: { flexDirection: 'row', alignItems: 'center', paddingBottom: spacing.md },
+    backBtn: { padding: spacing.xs, marginRight: spacing.sm, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+    h1: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
+    h3: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
+    sub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase', marginBottom: spacing.xs },
+    card: { marginTop: spacing.md },
+    row: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.md },
+    hintTip: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primarySoft, padding: spacing.md, borderRadius: radius.md, marginBottom: spacing.md },
+    hintText: { fontSize: 13, color: colors.primaryDark, fontWeight: '700', marginLeft: spacing.sm },
+    passageRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginBottom: spacing.sm },
+    passageChip: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.secondary },
+    passageChipActive: { backgroundColor: colors.primary, borderColor: colors.primary },
+    passageChipText: { fontSize: typography.small, color: colors.text },
+    passageChipTextActive: { color: '#FFFFFF', fontWeight: '700' },
+    passageHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.sm },
+    passageTitle: { fontSize: 22, fontWeight: '900', color: colors.text, fontFamily: typography.fontHeadline },
+    levelBadge: { fontSize: typography.small, color: colors.primary, fontWeight: '700', backgroundColor: '#EFF6FF', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
+    passageBody: { fontSize: 16, color: colors.text, lineHeight: 28 },
+    interactiveWord: { color: colors.primary, fontWeight: '700', textDecorationLine: 'underline' },
+    controlsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginTop: spacing.md },
+    wpmText: { marginTop: spacing.xs, fontSize: typography.small, color: '#047857', fontWeight: '700' },
+    quizQuestion: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm, lineHeight: 22 },
+    quizScoreText: { fontSize: typography.body, fontWeight: '700', color: colors.primaryDark, marginBottom: spacing.sm },
+    body: { fontSize: typography.body, color: colors.text, lineHeight: 22, marginTop: 4 },
+    modalBg: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
+    modalContent: { backgroundColor: '#fff', borderTopLeftRadius: radius.xl, borderTopRightRadius: radius.xl, padding: spacing.xl, paddingBottom: 40, ...shadow.lg },
+    modalHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.md },
+    modalWordText: { fontSize: 24, fontWeight: '900', color: colors.primaryDark, flex: 1, textTransform: 'capitalize' },
+    modalDefText: { fontSize: 16, color: colors.text, lineHeight: 24 },
+    modalAudioIcon: { marginRight: 16 },
+}
+
 // ---------------- Passages ----------------
 const PASSAGE_GENERAL = `Economics is the social science that studies the production, distribution, and consumption of goods and services. Economics focuses on the behaviour and interactions of economic agents and how economies work. Microeconomics analyzes what's viewed as basic elements in the economy, including individual agents and markets, their interactions, and the outcomes of interactions. Individual agents may include, for example, households, firms, buyers, and sellers. Macroeconomics analyzes the economy as a system where production, consumption, saving, and investment interact, and factors affecting it: employment of the resources of labour, capital, and land, currency inflation, economic growth, and public policies that have impact on these elements.`;
 
@@ -340,36 +374,4 @@ export default function AdvancedReadingScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: { paddingBottom: spacing.xl },
-    headerRow: { flexDirection: 'row', alignItems: 'center', paddingBottom: spacing.md },
-    backBtn: { padding: spacing.xs, marginRight: spacing.sm, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    h1: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    h3: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
-    sub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase', marginBottom: spacing.xs },
-    card: { marginTop: spacing.md },
-    row: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.md },
-    hintTip: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primarySoft, padding: spacing.md, borderRadius: radius.md, marginBottom: spacing.md },
-    hintText: { fontSize: 13, color: colors.primaryDark, fontWeight: '700', marginLeft: spacing.sm },
-    passageRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginBottom: spacing.sm },
-    passageChip: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.secondary },
-    passageChipActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-    passageChipText: { fontSize: typography.small, color: colors.text },
-    passageChipTextActive: { color: '#FFFFFF', fontWeight: '700' },
-    passageHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.sm },
-    passageTitle: { fontSize: 22, fontWeight: '900', color: colors.text, fontFamily: typography.fontHeadline },
-    levelBadge: { fontSize: typography.small, color: colors.primary, fontWeight: '700', backgroundColor: '#EFF6FF', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
-    passageBody: { fontSize: 16, color: colors.text, lineHeight: 28 },
-    interactiveWord: { color: colors.primary, fontWeight: '700', textDecorationLine: 'underline' },
-    controlsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginTop: spacing.md },
-    wpmText: { marginTop: spacing.xs, fontSize: typography.small, color: '#047857', fontWeight: '700' },
-    quizQuestion: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm, lineHeight: 22 },
-    quizScoreText: { fontSize: typography.body, fontWeight: '700', color: colors.primaryDark, marginBottom: spacing.sm },
-    body: { fontSize: typography.body, color: colors.text, lineHeight: 22, marginTop: 4 },
-    modalBg: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
-    modalContent: { backgroundColor: '#fff', borderTopLeftRadius: radius.xl, borderTopRightRadius: radius.xl, padding: spacing.xl, paddingBottom: 40, ...shadow.lg },
-    modalHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.md },
-    modalWordText: { fontSize: 24, fontWeight: '900', color: colors.primaryDark, flex: 1, textTransform: 'capitalize' },
-    modalDefText: { fontSize: 16, color: colors.text, lineHeight: 24 },
-    modalAudioIcon: { marginRight: 16 },
-});
+);

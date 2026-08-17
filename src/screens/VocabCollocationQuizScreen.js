@@ -17,6 +17,122 @@ import { speakText } from '../hooks/useTts';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
 
+const styles = StyleSheet.create({
+  master: { flex: 1, backgroundColor: '#F8FAFC' },
+
+  // Header
+  header: {
+    paddingTop: 56,
+    paddingHorizontal: spacing.xl,
+    paddingBottom: spacing.sm,
+    backgroundColor: '#FFFFFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E2E8F0',
+  },
+  topRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginBottom: spacing.xs },
+  closeBtn: { padding: 4 },
+  progressTrack: { flex: 1, height: 10, backgroundColor: '#E2E8F0', borderRadius: 5, overflow: 'hidden' },
+  progressFill: { height: '100%', backgroundColor: '#8B5CF6', borderRadius: 5 },
+  streakBadge: {
+    flexDirection: 'row', alignItems: 'center',
+    backgroundColor: '#FFF1F2', paddingHorizontal: 8, paddingVertical: 4,
+    borderRadius: 12, borderWidth: 1, borderColor: '#FECDD3',
+  },
+  streakEmoji: { fontSize: 14, marginRight: 3 },
+  streakScore: { fontSize: 14, fontFamily: typography.fontHeadline, fontWeight: '800', color: '#E11D48' },
+  headerProgress: { fontSize: 12, color: '#94A3B8', textAlign: 'center', fontWeight: '600' },
+
+  scrollContent: { padding: spacing.xl, paddingBottom: 160 },
+
+  // Word card
+  wordCard: {
+    marginBottom: spacing.lg,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    borderRadius: 20,
+    padding: spacing.xl,
+    ...shadow.md,
+  },
+  questionLabel: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#8B5CF6',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: spacing.sm,
+  },
+  wordRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.xs },
+  bigWord: { fontSize: 32, fontFamily: typography.fontHeadline, fontWeight: '800', color: '#0F172A' },
+  speakIcon: { fontSize: 22 },
+  wordType: { fontSize: 12, color: '#8B5CF6', fontWeight: '600', marginBottom: spacing.xs },
+  wordDef: { fontSize: 14, color: '#475569', lineHeight: 20 },
+
+  // Options
+  optionsGrid: { gap: spacing.sm, marginBottom: spacing.md },
+  optionBtn: {
+    flexDirection: 'row', alignItems: 'center',
+    padding: 16, borderRadius: 14, borderWidth: 2,
+    ...shadow.sm,
+  },
+  optIcon: { marginRight: spacing.sm },
+  optDefault: { backgroundColor: '#FFFFFF', borderColor: '#E2E8F0' },
+  optSelected: { backgroundColor: '#EDE9FE', borderColor: '#8B5CF6' },
+  optCorrect: { backgroundColor: '#ECFDF5', borderColor: '#10B981' },
+  optIncorrect: { backgroundColor: '#FEF2F2', borderColor: '#EF4444' },
+  optDisabled: { backgroundColor: '#F8FAFC', borderColor: '#F1F5F9', opacity: 0.6 },
+  optionText: { flex: 1, fontSize: 16, fontFamily: typography.fontHeadline, fontWeight: '600' },
+  optTextDefault: { color: '#334155' },
+  optTextSelected: { color: '#6D28D9' },
+  optTextCorrect: { color: '#047857' },
+  optTextIncorrect: { color: '#B91C1C' },
+  optTextDisabled: { color: '#94A3B8' },
+
+  exampleCard: {
+    flexDirection: 'row', gap: spacing.sm, alignItems: 'flex-start',
+    backgroundColor: '#EDE9FE', borderWidth: 1, borderColor: '#DDD6FE',
+    borderRadius: 12, padding: spacing.md,
+  },
+  exampleText: { flex: 1, fontSize: 14, color: '#4C1D95', fontStyle: 'italic', lineHeight: 20 },
+
+  // Bottom bar
+  bottomBar: {
+    position: 'absolute', bottom: 0, left: 0, right: 0,
+    backgroundColor: '#FFFFFF', borderTopWidth: 1, borderTopColor: '#E2E8F0',
+    padding: spacing.xl, paddingBottom: 40, ...shadow.lg,
+  },
+  actionBtn: { height: 52 },
+  feedbackBanner: { borderRadius: 16, padding: spacing.lg },
+  bannerCorrect: { backgroundColor: '#ECFDF5' },
+  bannerIncorrect: { backgroundColor: '#FEF2F2' },
+  bannerTitle: { fontSize: 17, fontFamily: typography.fontHeadline, fontWeight: '800', marginBottom: spacing.md },
+  bannerTextCorrect: { color: '#047857' },
+  bannerTextIncorrect: { color: '#B91C1C' },
+  dualRow: { flexDirection: 'row', gap: spacing.sm },
+  dualBtn: { flex: 1 },
+
+  // Start/Finish
+  centeredContainer: { paddingBottom: 40, alignItems: 'center' },
+  emoji: { fontSize: 56, marginBottom: spacing.md },
+  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm, textAlign: 'center' },
+  sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.md, textAlign: 'center' },
+  label: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
+  card: { width: '100%', marginBottom: spacing.lg },
+  sizeRow: { flexDirection: 'row', gap: spacing.sm, justifyContent: 'center' },
+  sizeBtn: { paddingHorizontal: spacing.xl, paddingVertical: spacing.md, borderRadius: 14, borderWidth: 1.5, borderColor: colors.secondary },
+  sizeBtnActive: { backgroundColor: '#8B5CF6', borderColor: '#8B5CF6' },
+  sizeBtnText: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text },
+  sizeBtnTextActive: { color: '#fff' },
+  backBtn: { marginTop: spacing.sm },
+  actionRow: { gap: spacing.sm, width: '100%' },
+  bandEmoji: { fontSize: 60, textAlign: 'center', marginBottom: spacing.md },
+  bigScore: { fontSize: 64, fontFamily: typography.fontHeadline, textAlign: 'center' },
+  bandLabel: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.text, textAlign: 'center', marginBottom: spacing.xs },
+  missedRow: { paddingVertical: spacing.sm, borderBottomWidth: 1, borderBottomColor: '#F1F5F9' },
+  missedWord: { fontSize: 15, fontFamily: typography.fontHeadline, fontWeight: '700', color: '#E11D48' },
+  missedDef: { fontSize: 13, color: '#64748B' },
+}
+
 function shuffle(arr) {
   const result = Array.isArray(arr) ? [...arr] : [];
   for (let i = result.length - 1; i > 0; i--) {
@@ -447,118 +563,4 @@ export default function VocabCollocationQuizScreen({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  master: { flex: 1, backgroundColor: '#F8FAFC' },
-
-  // Header
-  header: {
-    paddingTop: 56,
-    paddingHorizontal: spacing.xl,
-    paddingBottom: spacing.sm,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E2E8F0',
-  },
-  topRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginBottom: spacing.xs },
-  closeBtn: { padding: 4 },
-  progressTrack: { flex: 1, height: 10, backgroundColor: '#E2E8F0', borderRadius: 5, overflow: 'hidden' },
-  progressFill: { height: '100%', backgroundColor: '#8B5CF6', borderRadius: 5 },
-  streakBadge: {
-    flexDirection: 'row', alignItems: 'center',
-    backgroundColor: '#FFF1F2', paddingHorizontal: 8, paddingVertical: 4,
-    borderRadius: 12, borderWidth: 1, borderColor: '#FECDD3',
-  },
-  streakEmoji: { fontSize: 14, marginRight: 3 },
-  streakScore: { fontSize: 14, fontFamily: typography.fontHeadline, fontWeight: '800', color: '#E11D48' },
-  headerProgress: { fontSize: 12, color: '#94A3B8', textAlign: 'center', fontWeight: '600' },
-
-  scrollContent: { padding: spacing.xl, paddingBottom: 160 },
-
-  // Word card
-  wordCard: {
-    marginBottom: spacing.lg,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    borderRadius: 20,
-    padding: spacing.xl,
-    ...shadow.md,
-  },
-  questionLabel: {
-    fontSize: 12,
-    fontWeight: '800',
-    color: '#8B5CF6',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: spacing.sm,
-  },
-  wordRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.xs },
-  bigWord: { fontSize: 32, fontFamily: typography.fontHeadline, fontWeight: '800', color: '#0F172A' },
-  speakIcon: { fontSize: 22 },
-  wordType: { fontSize: 12, color: '#8B5CF6', fontWeight: '600', marginBottom: spacing.xs },
-  wordDef: { fontSize: 14, color: '#475569', lineHeight: 20 },
-
-  // Options
-  optionsGrid: { gap: spacing.sm, marginBottom: spacing.md },
-  optionBtn: {
-    flexDirection: 'row', alignItems: 'center',
-    padding: 16, borderRadius: 14, borderWidth: 2,
-    ...shadow.sm,
-  },
-  optIcon: { marginRight: spacing.sm },
-  optDefault: { backgroundColor: '#FFFFFF', borderColor: '#E2E8F0' },
-  optSelected: { backgroundColor: '#EDE9FE', borderColor: '#8B5CF6' },
-  optCorrect: { backgroundColor: '#ECFDF5', borderColor: '#10B981' },
-  optIncorrect: { backgroundColor: '#FEF2F2', borderColor: '#EF4444' },
-  optDisabled: { backgroundColor: '#F8FAFC', borderColor: '#F1F5F9', opacity: 0.6 },
-  optionText: { flex: 1, fontSize: 16, fontFamily: typography.fontHeadline, fontWeight: '600' },
-  optTextDefault: { color: '#334155' },
-  optTextSelected: { color: '#6D28D9' },
-  optTextCorrect: { color: '#047857' },
-  optTextIncorrect: { color: '#B91C1C' },
-  optTextDisabled: { color: '#94A3B8' },
-
-  exampleCard: {
-    flexDirection: 'row', gap: spacing.sm, alignItems: 'flex-start',
-    backgroundColor: '#EDE9FE', borderWidth: 1, borderColor: '#DDD6FE',
-    borderRadius: 12, padding: spacing.md,
-  },
-  exampleText: { flex: 1, fontSize: 14, color: '#4C1D95', fontStyle: 'italic', lineHeight: 20 },
-
-  // Bottom bar
-  bottomBar: {
-    position: 'absolute', bottom: 0, left: 0, right: 0,
-    backgroundColor: '#FFFFFF', borderTopWidth: 1, borderTopColor: '#E2E8F0',
-    padding: spacing.xl, paddingBottom: 40, ...shadow.lg,
-  },
-  actionBtn: { height: 52 },
-  feedbackBanner: { borderRadius: 16, padding: spacing.lg },
-  bannerCorrect: { backgroundColor: '#ECFDF5' },
-  bannerIncorrect: { backgroundColor: '#FEF2F2' },
-  bannerTitle: { fontSize: 17, fontFamily: typography.fontHeadline, fontWeight: '800', marginBottom: spacing.md },
-  bannerTextCorrect: { color: '#047857' },
-  bannerTextIncorrect: { color: '#B91C1C' },
-  dualRow: { flexDirection: 'row', gap: spacing.sm },
-  dualBtn: { flex: 1 },
-
-  // Start/Finish
-  centeredContainer: { paddingBottom: 40, alignItems: 'center' },
-  emoji: { fontSize: 56, marginBottom: spacing.md },
-  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm, textAlign: 'center' },
-  sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.md, textAlign: 'center' },
-  label: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
-  card: { width: '100%', marginBottom: spacing.lg },
-  sizeRow: { flexDirection: 'row', gap: spacing.sm, justifyContent: 'center' },
-  sizeBtn: { paddingHorizontal: spacing.xl, paddingVertical: spacing.md, borderRadius: 14, borderWidth: 1.5, borderColor: colors.secondary },
-  sizeBtnActive: { backgroundColor: '#8B5CF6', borderColor: '#8B5CF6' },
-  sizeBtnText: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text },
-  sizeBtnTextActive: { color: '#fff' },
-  backBtn: { marginTop: spacing.sm },
-  actionRow: { gap: spacing.sm, width: '100%' },
-  bandEmoji: { fontSize: 60, textAlign: 'center', marginBottom: spacing.md },
-  bigScore: { fontSize: 64, fontFamily: typography.fontHeadline, textAlign: 'center' },
-  bandLabel: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.text, textAlign: 'center', marginBottom: spacing.xs },
-  missedRow: { paddingVertical: spacing.sm, borderBottomWidth: 1, borderBottomColor: '#F1F5F9' },
-  missedWord: { fontSize: 15, fontFamily: typography.fontHeadline, fontWeight: '700', color: '#E11D48' },
-  missedDef: { fontSize: 13, color: '#64748B' },
-});
+);

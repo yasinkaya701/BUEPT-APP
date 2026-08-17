@@ -4,20 +4,6 @@ import Button from '../components/Button';
 import Screen from '../components/Screen';
 import { colors, spacing, typography } from '../theme/tokens';
 
-export default function DraftRestoreScreen({ navigation, route }) {
-  const draftText = route?.params?.draftText || '';
-
-  return (
-    <Screen scroll contentStyle={styles.container}>
-      <Text style={styles.h1}>Restore Draft</Text>
-      <Text style={styles.body}>Do you want to restore this draft?</Text>
-      <Text style={styles.preview} numberOfLines={6}>{draftText}</Text>
-      <Button label="Restore" onPress={() => navigation.navigate('WritingEditor', { draftText })} />
-      <Button label="Cancel" variant="secondary" onPress={() => navigation.goBack()} />
-    </Screen>
-  );
-}
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl
@@ -38,4 +24,20 @@ const styles = StyleSheet.create({
     color: colors.muted,
     marginBottom: spacing.lg
   }
-});
+}
+
+export default function DraftRestoreScreen({ navigation, route }) {
+  const draftText = route?.params?.draftText || '';
+
+  return (
+    <Screen scroll contentStyle={styles.container}>
+      <Text style={styles.h1}>Restore Draft</Text>
+      <Text style={styles.body}>Do you want to restore this draft?</Text>
+      <Text style={styles.preview} numberOfLines={6}>{draftText}</Text>
+      <Button label="Restore" onPress={() => navigation.navigate('WritingEditor', { draftText })} />
+      <Button label="Cancel" variant="secondary" onPress={() => navigation.goBack()} />
+    </Screen>
+  );
+}
+
+);

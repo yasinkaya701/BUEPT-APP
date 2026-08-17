@@ -5,6 +5,48 @@ import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const styles = StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background },
+    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl, zIndex: 100 },
+    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
+    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+
+    cardContainer: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+    cardStackItem: { position: 'absolute', height: 450 },
+
+    matchCard: { padding: 0, overflow: 'hidden', height: '100%', backgroundColor: '#fff', borderRadius: radius.xl, ...shadow.lg },
+    heroWrap: { alignItems: 'center', padding: spacing.xl, backgroundColor: colors.primarySoft, borderBottomColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1 },
+    avatarWrap: { width: 90, height: 90, borderRadius: 45, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center', marginBottom: spacing.md, ...shadow.sm },
+    emojiText: { fontSize: 48 },
+    nameText: { fontSize: 28, fontFamily: typography.fontHeadline, fontWeight: '900', color: colors.primaryDark, marginBottom: 4 },
+    facultyText: { fontSize: 16, color: colors.primary, fontWeight: '700', marginBottom: 8 },
+    badgeLine: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.6)', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12, gap: 4 },
+    badgeText: { fontSize: 12, fontWeight: '800', color: colors.text, textTransform: 'uppercase' },
+
+    langsBox: { flexDirection: 'row', padding: spacing.lg, borderBottomColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1 },
+    langItem: { flex: 1, alignItems: 'center' },
+    langLabel: { fontSize: 11, fontWeight: '800', color: colors.muted, textTransform: 'uppercase', marginBottom: 4 },
+    langValue: { fontSize: 16, fontWeight: '800', color: colors.primaryDark, textAlign: 'center' },
+
+    bioBox: { padding: spacing.lg, flex: 1, justifyContent: 'center' },
+    bioHead: { fontSize: 13, fontWeight: '800', color: colors.text, marginBottom: spacing.sm },
+    bioText: { fontSize: 15, color: colors.muted, fontStyle: 'italic', lineHeight: 22 },
+
+    actionRow: { flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingBottom: spacing.xxl, paddingTop: spacing.md },
+    actionBtn: { width: 70, height: 70, borderRadius: 35, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center', borderWidth: 2, ...shadow.slight },
+    actionBtnError: { borderColor: colors.error },
+    actionBtnSuccess: { borderColor: colors.success },
+    actionBtnAccent: { borderColor: colors.accent, width: 60, height: 60, borderRadius: 30 },
+
+    langDivider: { width: 1, backgroundColor: 'rgba(0,0,0,0.1)', height: 30 },
+
+    noMoreCards: { alignItems: 'center', justifyContent: 'center', padding: spacing.xl },
+    noMoreTitle: { fontSize: typography.h2, fontWeight: '800', color: colors.primary, marginVertical: spacing.sm },
+    noMoreDesc: { fontSize: 14, color: colors.muted, textAlign: 'center', lineHeight: 20, marginBottom: spacing.xl },
+    refreshBtn: { backgroundColor: colors.primary, paddingHorizontal: spacing.xl, paddingVertical: spacing.md, borderRadius: radius.pill },
+    btnText: { color: '#fff', fontWeight: '800', fontSize: 16 }
+}
 
 const MATCHES = [
     { id: '1', name: 'Laura', from: 'Spain', faculty: 'Architecture', fluent: 'Spanish', learning: 'Turkish', avatar: '🇪🇸', bio: "Looking to practice Turkish for my exchange semester." },
@@ -176,45 +218,4 @@ const MatchCard = ({ item }) => (
     </Card>
 );
 
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.background },
-    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl, zIndex: 100 },
-    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
-
-    cardContainer: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-    cardStackItem: { position: 'absolute', height: 450 },
-
-    matchCard: { padding: 0, overflow: 'hidden', height: '100%', backgroundColor: '#fff', borderRadius: radius.xl, ...shadow.lg },
-    heroWrap: { alignItems: 'center', padding: spacing.xl, backgroundColor: colors.primarySoft, borderBottomColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1 },
-    avatarWrap: { width: 90, height: 90, borderRadius: 45, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center', marginBottom: spacing.md, ...shadow.sm },
-    emojiText: { fontSize: 48 },
-    nameText: { fontSize: 28, fontFamily: typography.fontHeadline, fontWeight: '900', color: colors.primaryDark, marginBottom: 4 },
-    facultyText: { fontSize: 16, color: colors.primary, fontWeight: '700', marginBottom: 8 },
-    badgeLine: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.6)', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12, gap: 4 },
-    badgeText: { fontSize: 12, fontWeight: '800', color: colors.text, textTransform: 'uppercase' },
-
-    langsBox: { flexDirection: 'row', padding: spacing.lg, borderBottomColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1 },
-    langItem: { flex: 1, alignItems: 'center' },
-    langLabel: { fontSize: 11, fontWeight: '800', color: colors.muted, textTransform: 'uppercase', marginBottom: 4 },
-    langValue: { fontSize: 16, fontWeight: '800', color: colors.primaryDark, textAlign: 'center' },
-
-    bioBox: { padding: spacing.lg, flex: 1, justifyContent: 'center' },
-    bioHead: { fontSize: 13, fontWeight: '800', color: colors.text, marginBottom: spacing.sm },
-    bioText: { fontSize: 15, color: colors.muted, fontStyle: 'italic', lineHeight: 22 },
-
-    actionRow: { flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingBottom: spacing.xxl, paddingTop: spacing.md },
-    actionBtn: { width: 70, height: 70, borderRadius: 35, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center', borderWidth: 2, ...shadow.slight },
-    actionBtnError: { borderColor: colors.error },
-    actionBtnSuccess: { borderColor: colors.success },
-    actionBtnAccent: { borderColor: colors.accent, width: 60, height: 60, borderRadius: 30 },
-
-    langDivider: { width: 1, backgroundColor: 'rgba(0,0,0,0.1)', height: 30 },
-
-    noMoreCards: { alignItems: 'center', justifyContent: 'center', padding: spacing.xl },
-    noMoreTitle: { fontSize: typography.h2, fontWeight: '800', color: colors.primary, marginVertical: spacing.sm },
-    noMoreDesc: { fontSize: 14, color: colors.muted, textAlign: 'center', lineHeight: 20, marginBottom: spacing.xl },
-    refreshBtn: { backgroundColor: colors.primary, paddingHorizontal: spacing.xl, paddingVertical: spacing.md, borderRadius: radius.pill },
-    btnText: { color: '#fff', fontWeight: '800', fontSize: 16 }
-});
+);

@@ -4,6 +4,93 @@ import { colors, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import LinearGradient from 'react-native-linear-gradient';
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#0F172A', // Dark navy fallback
+    },
+    backgroundImage: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+    },
+    contentContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 32,
+    },
+    brandContainer: {
+        alignItems: 'center',
+        marginBottom: 32,
+    },
+    glassRing: {
+        width: 140,
+        height: 140,
+        borderRadius: 70,
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.3)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 20 },
+        shadowOpacity: 0.5,
+        shadowRadius: 30,
+        elevation: 10,
+    },
+    solidCore: {
+        width: 110,
+        height: 110,
+        borderRadius: 55,
+        backgroundColor: colors.primary, // The signature blue
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: colors.primary,
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.6,
+        shadowRadius: 20,
+    },
+    bText: {
+        fontSize: 48,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '900',
+        color: '#FFFFFF',
+        letterSpacing: -2,
+    },
+    textBlock: {
+        alignItems: 'center',
+    },
+    titleText: {
+        fontSize: 42,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '900',
+        color: '#FFFFFF',
+        letterSpacing: 1,
+        textShadowColor: 'rgba(0, 0, 0, 0.75)',
+        textShadowOffset: { width: 0, height: 4 },
+        textShadowRadius: 10,
+    },
+    subBlock: {
+        alignItems: 'center',
+        marginTop: 16,
+    },
+    subBadge: {
+        backgroundColor: 'rgba(255, 255, 255, 0.15)',
+        paddingHorizontal: 20,
+        paddingVertical: 8,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.3)',
+    },
+    subText: {
+        fontSize: 14,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '800',
+        color: '#E2E8F0',
+        letterSpacing: 4,
+    }
+}
 
 export default function SplashAnimationScreen({ navigation }) {
     const { userToken, authReady, onboarded } = useAppState();
@@ -211,90 +298,4 @@ export default function SplashAnimationScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#0F172A', // Dark navy fallback
-    },
-    backgroundImage: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-    },
-    contentContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 32,
-    },
-    brandContainer: {
-        alignItems: 'center',
-        marginBottom: 32,
-    },
-    glassRing: {
-        width: 140,
-        height: 140,
-        borderRadius: 70,
-        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.3)',
-        justifyContent: 'center',
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 20 },
-        shadowOpacity: 0.5,
-        shadowRadius: 30,
-        elevation: 10,
-    },
-    solidCore: {
-        width: 110,
-        height: 110,
-        borderRadius: 55,
-        backgroundColor: colors.primary, // The signature blue
-        justifyContent: 'center',
-        alignItems: 'center',
-        shadowColor: colors.primary,
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.6,
-        shadowRadius: 20,
-    },
-    bText: {
-        fontSize: 48,
-        fontFamily: typography.fontHeadline,
-        fontWeight: '900',
-        color: '#FFFFFF',
-        letterSpacing: -2,
-    },
-    textBlock: {
-        alignItems: 'center',
-    },
-    titleText: {
-        fontSize: 42,
-        fontFamily: typography.fontHeadline,
-        fontWeight: '900',
-        color: '#FFFFFF',
-        letterSpacing: 1,
-        textShadowColor: 'rgba(0, 0, 0, 0.75)',
-        textShadowOffset: { width: 0, height: 4 },
-        textShadowRadius: 10,
-    },
-    subBlock: {
-        alignItems: 'center',
-        marginTop: 16,
-    },
-    subBadge: {
-        backgroundColor: 'rgba(255, 255, 255, 0.15)',
-        paddingHorizontal: 20,
-        paddingVertical: 8,
-        borderRadius: 20,
-        borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.3)',
-    },
-    subText: {
-        fontSize: 14,
-        fontFamily: typography.fontHeadline,
-        fontWeight: '800',
-        color: '#E2E8F0',
-        letterSpacing: 4,
-    }
-});
+);

@@ -8,6 +8,126 @@ import LogoMark from '../components/LogoMark';
 import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
+const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(10, 15, 40, 0.82)',
+  },
+  scrollContent: {
+    padding: spacing.lg,
+    paddingBottom: spacing.xxl,
+    flexGrow: 1,
+  },
+  scrollContentCompact: {
+    padding: spacing.md,
+  },
+  hero: {
+    marginBottom: spacing.lg,
+  },
+  heroBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(255, 255, 255, 0.14)',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 6,
+    borderRadius: 999,
+    marginBottom: spacing.md,
+  },
+  heroBadgeText: {
+    color: '#D7DEFF',
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: '#FFFFFF',
+    marginBottom: spacing.sm,
+  },
+  heroSub: {
+    fontSize: typography.body,
+    fontFamily: typography.fontBody,
+    color: '#C9D1E8',
+    lineHeight: 22,
+  },
+  showcase: {
+    gap: spacing.sm,
+    marginBottom: spacing.lg,
+  },
+  showcaseCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(215, 222, 255, 0.35)',
+    padding: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: spacing.md,
+  },
+  showcaseIconWrap: {
+    width: 42,
+    height: 42,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  showcaseTitle: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: 4,
+  },
+  showcaseBody: {
+    fontSize: typography.small,
+    fontFamily: typography.fontBody,
+    color: colors.muted,
+    lineHeight: 18,
+    flex: 1,
+  },
+  card: {
+    marginBottom: spacing.lg,
+  },
+  title: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.xs,
+    color: colors.text,
+  },
+  subtitle: {
+    fontSize: typography.small,
+    fontFamily: typography.fontBody,
+    color: colors.muted,
+    lineHeight: 19,
+    marginBottom: spacing.md,
+  },
+  chips: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+  },
+  ctaWrap: {
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  footerNote: {
+    fontSize: typography.small,
+    color: '#98A2C8',
+    textAlign: 'center',
+    lineHeight: 18,
+  },
+  xxl: {
+    paddingBottom: spacing.xxl,
+  },
+}
+
 const BG_IMAGE = require('../assets/images/real_south_gate.jpg');
 const levels = ['P1', 'P2', 'P3', 'P4'];
 const levelLabels = {
@@ -127,122 +247,4 @@ export default function OnboardingScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  bgImage: {
-    flex: 1,
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(10, 15, 40, 0.82)',
-  },
-  scrollContent: {
-    padding: spacing.lg,
-    paddingBottom: spacing.xxl,
-    flexGrow: 1,
-  },
-  scrollContentCompact: {
-    padding: spacing.md,
-  },
-  hero: {
-    marginBottom: spacing.lg,
-  },
-  heroBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    alignSelf: 'flex-start',
-    backgroundColor: 'rgba(255, 255, 255, 0.14)',
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 6,
-    borderRadius: 999,
-    marginBottom: spacing.md,
-  },
-  heroBadgeText: {
-    color: '#D7DEFF',
-    fontSize: 12,
-    fontWeight: '700',
-    letterSpacing: 0.6,
-    textTransform: 'uppercase',
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: '#FFFFFF',
-    marginBottom: spacing.sm,
-  },
-  heroSub: {
-    fontSize: typography.body,
-    fontFamily: typography.fontBody,
-    color: '#C9D1E8',
-    lineHeight: 22,
-  },
-  showcase: {
-    gap: spacing.sm,
-    marginBottom: spacing.lg,
-  },
-  showcaseCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(215, 222, 255, 0.35)',
-    padding: spacing.md,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: spacing.md,
-  },
-  showcaseIconWrap: {
-    width: 42,
-    height: 42,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
-  },
-  showcaseTitle: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: 4,
-  },
-  showcaseBody: {
-    fontSize: typography.small,
-    fontFamily: typography.fontBody,
-    color: colors.muted,
-    lineHeight: 18,
-    flex: 1,
-  },
-  card: {
-    marginBottom: spacing.lg,
-  },
-  title: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.xs,
-    color: colors.text,
-  },
-  subtitle: {
-    fontSize: typography.small,
-    fontFamily: typography.fontBody,
-    color: colors.muted,
-    lineHeight: 19,
-    marginBottom: spacing.md,
-  },
-  chips: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-  },
-  ctaWrap: {
-    gap: spacing.sm,
-    marginBottom: spacing.md,
-  },
-  footerNote: {
-    fontSize: typography.small,
-    color: '#98A2C8',
-    textAlign: 'center',
-    lineHeight: 18,
-  },
-  xxl: {
-    paddingBottom: spacing.xxl,
-  },
-});
+);

@@ -6,6 +6,48 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { speakEnglish, stopEnglishTts } from '../utils/ttsEnglish';
 
+const styles = StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background },
+    flex: { flex: 1 },
+    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
+    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
+    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+
+    scroll: { paddingHorizontal: spacing.xl },
+
+    playerCard: { padding: spacing.xl, alignItems: 'center', backgroundColor: '#fff', borderRadius: radius.xl, marginBottom: spacing.lg },
+    coverBox: { width: 120, height: 120, borderRadius: radius.lg, backgroundColor: colors.primarySoft, justifyContent: 'center', alignItems: 'center', marginBottom: spacing.md, ...shadow.slight },
+    trackTitle: { fontSize: 18, fontWeight: '800', color: colors.primaryDark, marginBottom: 4 },
+    trackSub: { fontSize: 13, color: colors.muted, fontWeight: '600', marginBottom: spacing.xl },
+
+    scrubberRow: { flexDirection: 'row', alignItems: 'center', width: '100%', marginBottom: spacing.xl, gap: spacing.sm },
+    timeText: { fontSize: 11, color: colors.muted, fontFamily: 'Courier', fontWeight: '800', width: 35, textAlign: 'center' },
+    progressBarBg: { flex: 1, height: 6, backgroundColor: 'rgba(0,0,0,0.05)', borderRadius: 3, justifyContent: 'center' },
+    progressBarFill: { height: '100%', backgroundColor: colors.primary, borderRadius: 3, position: 'absolute' },
+    progressKnob: { width: 14, height: 14, borderRadius: 7, backgroundColor: colors.primary, position: 'absolute', marginLeft: -7, ...shadow.slight },
+
+    controlsRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xxl },
+    playBtn: { width: 64, height: 64, borderRadius: 32, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center', ...shadow.md },
+    playIconPause: { marginLeft: 0 },
+    playIconPlay: { marginLeft: 4 },
+    sideBtn: { padding: spacing.sm },
+
+    sectionTitle: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: spacing.sm },
+    notesCard: { padding: 0, overflow: 'hidden', borderRadius: radius.lg, borderWidth: 1, borderColor: colors.secondary },
+    notesHeader: { flexDirection: 'row', backgroundColor: colors.primarySoft, borderBottomWidth: 1, borderBottomColor: colors.secondary },
+    cueCol: { flex: 1, padding: spacing.sm, borderRightWidth: 1, borderRightColor: colors.secondary },
+    notesCol: { flex: 2, padding: spacing.sm },
+    notesLabel: { fontSize: 11, fontWeight: '800', color: colors.primary, textAlign: 'center' },
+
+    notesBody: { flexDirection: 'row', height: 300, backgroundColor: '#fff' },
+    vDivider: { width: 1, backgroundColor: colors.secondary },
+    textArea: { padding: spacing.md, fontSize: 14, color: colors.text, lineHeight: 22 },
+    cueTextArea: { flex: 1 },
+    mainTextArea: { flex: 2 },
+    bottomSpacer: { height: 40 },
+}
+
 // Simulated lecture transcript
 const LECTURE_SCRIPT = "Welcome everyone to Introduction to Macroeconomics. Today we're going to discuss the concept of inflation. Now, inflation is defined as a general increase in prices and a fall in the purchasing value of money. It's essentially what happens when the money supply grows faster than the rate of economic output. As a fundamental principle, central banks attempt to limit inflation, aiming to keep the economy running smoothly. Take out your notes, because we will look at three historic examples...";
 
@@ -161,44 +203,4 @@ export default function LectureListeningLabScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.background },
-    flex: { flex: 1 },
-    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
-    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
-
-    scroll: { paddingHorizontal: spacing.xl },
-
-    playerCard: { padding: spacing.xl, alignItems: 'center', backgroundColor: '#fff', borderRadius: radius.xl, marginBottom: spacing.lg },
-    coverBox: { width: 120, height: 120, borderRadius: radius.lg, backgroundColor: colors.primarySoft, justifyContent: 'center', alignItems: 'center', marginBottom: spacing.md, ...shadow.slight },
-    trackTitle: { fontSize: 18, fontWeight: '800', color: colors.primaryDark, marginBottom: 4 },
-    trackSub: { fontSize: 13, color: colors.muted, fontWeight: '600', marginBottom: spacing.xl },
-
-    scrubberRow: { flexDirection: 'row', alignItems: 'center', width: '100%', marginBottom: spacing.xl, gap: spacing.sm },
-    timeText: { fontSize: 11, color: colors.muted, fontFamily: 'Courier', fontWeight: '800', width: 35, textAlign: 'center' },
-    progressBarBg: { flex: 1, height: 6, backgroundColor: 'rgba(0,0,0,0.05)', borderRadius: 3, justifyContent: 'center' },
-    progressBarFill: { height: '100%', backgroundColor: colors.primary, borderRadius: 3, position: 'absolute' },
-    progressKnob: { width: 14, height: 14, borderRadius: 7, backgroundColor: colors.primary, position: 'absolute', marginLeft: -7, ...shadow.slight },
-
-    controlsRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xxl },
-    playBtn: { width: 64, height: 64, borderRadius: 32, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center', ...shadow.md },
-    playIconPause: { marginLeft: 0 },
-    playIconPlay: { marginLeft: 4 },
-    sideBtn: { padding: spacing.sm },
-
-    sectionTitle: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: spacing.sm },
-    notesCard: { padding: 0, overflow: 'hidden', borderRadius: radius.lg, borderWidth: 1, borderColor: colors.secondary },
-    notesHeader: { flexDirection: 'row', backgroundColor: colors.primarySoft, borderBottomWidth: 1, borderBottomColor: colors.secondary },
-    cueCol: { flex: 1, padding: spacing.sm, borderRightWidth: 1, borderRightColor: colors.secondary },
-    notesCol: { flex: 2, padding: spacing.sm },
-    notesLabel: { fontSize: 11, fontWeight: '800', color: colors.primary, textAlign: 'center' },
-
-    notesBody: { flexDirection: 'row', height: 300, backgroundColor: '#fff' },
-    vDivider: { width: 1, backgroundColor: colors.secondary },
-    textArea: { padding: spacing.md, fontSize: 14, color: colors.text, lineHeight: 22 },
-    cueTextArea: { flex: 1 },
-    mainTextArea: { flex: 2 },
-    bottomSpacer: { height: 40 },
-});
+);

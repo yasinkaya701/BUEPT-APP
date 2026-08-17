@@ -5,6 +5,42 @@ import Card from '../components/Card';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const styles = StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background },
+    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
+    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
+    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+    createBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center', ...shadow.sm },
+
+    scroll: { paddingHorizontal: spacing.xl, paddingTop: spacing.sm },
+
+    postComposer: { padding: spacing.lg, borderRadius: radius.lg, marginBottom: spacing.xl, backgroundColor: '#fff', borderWidth: 2, borderColor: colors.primarySoft },
+    composerHead: { fontSize: 13, fontWeight: '800', color: colors.primary, textTransform: 'uppercase', marginBottom: spacing.md },
+    titleInput: { backgroundColor: 'rgba(0,0,0,0.04)', borderRadius: radius.md, padding: spacing.md, fontSize: 16, fontWeight: '700', color: colors.text, marginBottom: spacing.sm },
+    contentInput: { backgroundColor: 'rgba(0,0,0,0.04)', borderRadius: radius.md, padding: spacing.md, fontSize: 14, color: colors.text, height: 120, marginBottom: spacing.md },
+    submitBtn: { backgroundColor: colors.primary, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: spacing.md, borderRadius: radius.md },
+    submitBtnText: { color: '#fff', fontWeight: '800', fontSize: 15 },
+
+    threadCard: { padding: spacing.lg, borderRadius: radius.lg, marginBottom: spacing.md, backgroundColor: '#fff', ...shadow.slight },
+    threadMeta: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.sm },
+    authorBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primarySoft, paddingHorizontal: 8, paddingVertical: 4, borderRadius: radius.pill },
+    authorText: { fontSize: 11, fontWeight: '800', color: colors.primaryDark, marginLeft: 4 },
+    timeText: { fontSize: 11, color: colors.muted, fontWeight: '600' },
+    threadTitle: { fontSize: 18, fontWeight: '800', color: colors.text, marginBottom: spacing.xs, lineHeight: 24 },
+    threadContent: { fontSize: 14, color: colors.text, lineHeight: 20, opacity: 0.8, marginBottom: spacing.md },
+
+    threadActions: { flexDirection: 'row', borderTopWidth: 1, borderTopColor: 'rgba(0,0,0,0.05)', paddingTop: spacing.md, gap: spacing.md },
+    actionBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.02)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill },
+    actionBtnActive: { backgroundColor: 'rgba(231,76,60,0.1)' },
+    actionVal: { fontSize: 13, fontWeight: '700', color: colors.muted, marginLeft: 6 },
+    actionValActive: { color: colors.error },
+
+    flexFill: { flex: 1 },
+    submitIcon: { marginLeft: 8 },
+    bottomSpacer: { height: 60 }
+}
+
 const INITIAL_THREADS = [
     {
         id: '1',
@@ -153,38 +189,4 @@ export default function DiscussionForumsScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.background },
-    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
-    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
-    createBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center', ...shadow.sm },
-
-    scroll: { paddingHorizontal: spacing.xl, paddingTop: spacing.sm },
-
-    postComposer: { padding: spacing.lg, borderRadius: radius.lg, marginBottom: spacing.xl, backgroundColor: '#fff', borderWidth: 2, borderColor: colors.primarySoft },
-    composerHead: { fontSize: 13, fontWeight: '800', color: colors.primary, textTransform: 'uppercase', marginBottom: spacing.md },
-    titleInput: { backgroundColor: 'rgba(0,0,0,0.04)', borderRadius: radius.md, padding: spacing.md, fontSize: 16, fontWeight: '700', color: colors.text, marginBottom: spacing.sm },
-    contentInput: { backgroundColor: 'rgba(0,0,0,0.04)', borderRadius: radius.md, padding: spacing.md, fontSize: 14, color: colors.text, height: 120, marginBottom: spacing.md },
-    submitBtn: { backgroundColor: colors.primary, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: spacing.md, borderRadius: radius.md },
-    submitBtnText: { color: '#fff', fontWeight: '800', fontSize: 15 },
-
-    threadCard: { padding: spacing.lg, borderRadius: radius.lg, marginBottom: spacing.md, backgroundColor: '#fff', ...shadow.slight },
-    threadMeta: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.sm },
-    authorBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primarySoft, paddingHorizontal: 8, paddingVertical: 4, borderRadius: radius.pill },
-    authorText: { fontSize: 11, fontWeight: '800', color: colors.primaryDark, marginLeft: 4 },
-    timeText: { fontSize: 11, color: colors.muted, fontWeight: '600' },
-    threadTitle: { fontSize: 18, fontWeight: '800', color: colors.text, marginBottom: spacing.xs, lineHeight: 24 },
-    threadContent: { fontSize: 14, color: colors.text, lineHeight: 20, opacity: 0.8, marginBottom: spacing.md },
-
-    threadActions: { flexDirection: 'row', borderTopWidth: 1, borderTopColor: 'rgba(0,0,0,0.05)', paddingTop: spacing.md, gap: spacing.md },
-    actionBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.02)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill },
-    actionBtnActive: { backgroundColor: 'rgba(231,76,60,0.1)' },
-    actionVal: { fontSize: 13, fontWeight: '700', color: colors.muted, marginLeft: 6 },
-    actionValActive: { color: colors.error },
-
-    flexFill: { flex: 1 },
-    submitIcon: { marginLeft: 8 },
-    bottomSpacer: { height: 60 }
-});
+);

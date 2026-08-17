@@ -5,32 +5,6 @@ import Card from '../Card';
 import Button from '../Button';
 import { colors, spacing, typography, radius } from '../../theme/tokens';
 
-const TASKS_META = [
-    { key: 'reading', icon: 'book-outline', route: 'Reading', color: '#1D4ED8' },
-    { key: 'listening', icon: 'headset-outline', route: 'Listening', color: '#166534' },
-    { key: 'grammar', icon: 'create-outline', route: 'Grammar', color: '#9A3412' },
-];
-
-export default function DailyTasks({ adaptive, navigation }) {
-    return (
-        <Card style={styles.card}>
-            <Text style={styles.h3}>Daily Tasks</Text>
-            <Text style={styles.body}>Complete these three core tasks today.</Text>
-            {TASKS_META.map((item) => (
-                <View key={item.key} style={styles.taskCard}>
-                    <View style={styles.checkRow}>
-                        <View style={[styles.iconWrap, { backgroundColor: `${item.color}18` }]}>
-                            <Ionicons name={item.icon} size={16} color={item.color} />
-                        </View>
-                        <Text style={styles.checkItem}>{adaptive.daily[item.key]}</Text>
-                        <Button label="Start" variant="secondary" onPress={() => navigation.navigate(item.route)} style={styles.btnShadow} />
-                    </View>
-                </View>
-            ))}
-        </Card>
-    );
-}
-
 const styles = StyleSheet.create({
     card: {
         marginBottom: spacing.lg,
@@ -80,4 +54,32 @@ const styles = StyleSheet.create({
         minWidth: 84,
         height: 40,
     }
-});
+}
+
+const TASKS_META = [
+    { key: 'reading', icon: 'book-outline', route: 'Reading', color: '#1D4ED8' },
+    { key: 'listening', icon: 'headset-outline', route: 'Listening', color: '#166534' },
+    { key: 'grammar', icon: 'create-outline', route: 'Grammar', color: '#9A3412' },
+];
+
+export default function DailyTasks({ adaptive, navigation }) {
+    return (
+        <Card style={styles.card}>
+            <Text style={styles.h3}>Daily Tasks</Text>
+            <Text style={styles.body}>Complete these three core tasks today.</Text>
+            {TASKS_META.map((item) => (
+                <View key={item.key} style={styles.taskCard}>
+                    <View style={styles.checkRow}>
+                        <View style={[styles.iconWrap, { backgroundColor: `${item.color}18` }]}>
+                            <Ionicons name={item.icon} size={16} color={item.color} />
+                        </View>
+                        <Text style={styles.checkItem}>{adaptive.daily[item.key]}</Text>
+                        <Button label="Start" variant="secondary" onPress={() => navigation.navigate(item.route)} style={styles.btnShadow} />
+                    </View>
+                </View>
+            ))}
+        </Card>
+    );
+}
+
+);

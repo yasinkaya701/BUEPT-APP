@@ -9,359 +9,6 @@ import { generateVideoLesson, isVideoLessonApiConfigured } from '../utils/videoL
 import { useTts } from '../hooks/useTts';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
 
-const LEVELS = ['A2', 'B1', 'B2', 'C1'];
-const DURATIONS = [3, 4, 6, 8];
-const TOPIC_SUGGESTIONS = [
-  'BUEPT paraphrase strategy',
-  'Essay cohesion and coherence',
-  'Inference questions in academic reading',
-  'How to organize a speaking answer',
-  'Listening signposts in short lectures',
-];
-
-function clamp(n, min, max) {
-  return Math.max(min, Math.min(max, n));
-}
-
-function totalDurationSec(scenes = []) {
-  return scenes.reduce((sum, s) => sum + (s.durationSec || 0), 0);
-}
-
-export default function AILessonVideoStudioScreen({ navigation, route }) {
-  const [topic, setTopic] = useState('Essay Cohesion and Coherence');
-  const [level, setLevel] = useState('B1');
-  const [durationMin, setDurationMin] = useState(4);
-  const [loading, setLoading] = useState(false);
-  const [lesson, setLesson] = useState(null);
-  const [sceneIndex, setSceneIndex] = useState(0);
-  const [sceneElapsedSec, setSceneElapsedSec] = useState(0);
-  const [totalElapsedSec, setTotalElapsedSec] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [voiceOn, setVoiceOn] = useState(true);
-  const [error, setError] = useState('');
-
-  const tickRef = useRef(null);
-  const { speakWord, stopAll } = useTts();
-
-  const scenes = useMemo(() => lesson?.scenes || [], [lesson]);
-  const sourceMeta = useMemo(() => getAiSourceMeta(lesson?.source || (isVideoLessonApiConfigured() ? 'online-ready' : 'local-storyboard')), [lesson?.source]);
-  const totalSec = useMemo(() => totalDurationSec(scenes), [scenes]);
-  const currentScene = scenes[sceneIndex] || null;
-  const currentSceneDuration = currentScene?.durationSec || 1;
-  const sceneProgress = clamp((sceneElapsedSec / currentSceneDuration) * 100, 0, 100);
-  const totalProgress = totalSec ? clamp((totalElapsedSec / totalSec) * 100, 0, 100) : 0;
-  const lessonMinutes = useMemo(() => Math.max(1, Math.round(totalSec / 60)), [totalSec]);
-
-  useEffect(() => () => {
-    if (tickRef.current) clearInterval(tickRef.current);
-    stopAll();
-  }, [stopAll]);
-
-  useEffect(() => {
-    if (!isPlaying || !currentScene) return;
-
-    if (tickRef.current) clearInterval(tickRef.current);
-    tickRef.current = setInterval(() => {
-      setSceneElapsedSec((prev) => {
-        const next = prev + 1;
-        if (next >= currentSceneDuration) {
-          setSceneIndex((idx) => {
-            const nextIdx = idx + 1;
-            if (nextIdx >= scenes.length) {
-              setIsPlaying(false);
-              return idx;
-            }
-            return nextIdx;
-          });
-          return 0;
-        }
-        return next;
-      });
-      setTotalElapsedSec((prev) => {
-        if (prev >= totalSec) return totalSec;
-        return prev + 1;
-      });
-    }, 1000);
-
-    return () => {
-      if (tickRef.current) clearInterval(tickRef.current);
-    };
-  }, [isPlaying, currentScene, currentSceneDuration, scenes.length, totalSec]);
-
-  useEffect(() => {
-    if (!isPlaying || !voiceOn || !currentScene?.narration) return;
-    speakWord(currentScene.narration);
-  }, [isPlaying, voiceOn, currentScene, speakWord]);
-
-  useEffect(() => {
-    const incomingTopic = String(route?.params?.topic || '').trim();
-    if (incomingTopic) setTopic(incomingTopic);
-  }, [route?.params?.topic]);
-
-  const resetPlayback = () => {
-    setSceneIndex(0);
-    setSceneElapsedSec(0);
-    setTotalElapsedSec(0);
-    setIsPlaying(false);
-    stopAll();
-  };
-
-  const buildLesson = async () => {
-    const normalizedTopic = topic.trim();
-    if (!normalizedTopic) {
-      setError('Topic is required.');
-      return;
-    }
-    setError('');
-    setLoading(true);
-    try {
-      const generated = await generateVideoLesson({
-        topic: normalizedTopic,
-        level,
-        durationMin,
-      });
-      setLesson(generated);
-      setSceneIndex(0);
-      setSceneElapsedSec(0);
-      setTotalElapsedSec(0);
-      setIsPlaying(false);
-      stopAll();
-    } catch (e) {
-      setError('Video lesson generation failed. Try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const onPlayPause = () => {
-    if (!lesson || !scenes.length) return;
-    if (isPlaying) {
-      setIsPlaying(false);
-      stopAll();
-      return;
-    }
-    setIsPlaying(true);
-  };
-
-  const jumpToScene = (index) => {
-    const next = clamp(index, 0, scenes.length - 1);
-    setSceneIndex(next);
-    setSceneElapsedSec(0);
-    const elapsedBefore = scenes.slice(0, next).reduce((sum, s) => sum + (s.durationSec || 0), 0);
-    setTotalElapsedSec(elapsedBefore);
-    stopAll();
-  };
-
-  return (
-    <Screen scroll contentStyle={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Ionicons name="arrow-back" size={22} color={colors.primaryDark} />
-        </TouchableOpacity>
-        <View style={styles.headerTextWrap}>
-          <Text style={styles.h1}>AI Lesson Video Studio</Text>
-          <Text style={styles.sub}>Lesson storyboard, narration, and optional video endpoint</Text>
-        </View>
-      </View>
-
-      <Card style={styles.card}>
-        <Text style={styles.label}>Topic</Text>
-        <TextInput
-          value={topic}
-          onChangeText={setTopic}
-          style={styles.input}
-          placeholder="e.g. Paraphrase strategy for BUEPT"
-          placeholderTextColor={colors.muted}
-        />
-
-        <Text style={styles.label}>Level</Text>
-        <View style={styles.pillRow}>
-          {LEVELS.map((item) => {
-            const active = item === level;
-            return (
-              <TouchableOpacity key={item} style={[styles.pill, active && styles.pillActive]} onPress={() => setLevel(item)}>
-                <Text style={[styles.pillText, active && styles.pillTextActive]}>{item}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-
-        <Text style={styles.label}>Length (minutes)</Text>
-        <View style={styles.pillRow}>
-          {DURATIONS.map((item) => {
-            const active = item === durationMin;
-            return (
-              <TouchableOpacity key={item} style={[styles.pill, active && styles.pillActive]} onPress={() => setDurationMin(item)}>
-                <Text style={[styles.pillText, active && styles.pillTextActive]}>{item}m</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-
-        <Text style={styles.hint}>
-          Source: {isVideoLessonApiConfigured() ? 'Live lesson endpoint' : 'Local storyboard engine'}
-        </Text>
-        <View style={styles.pillRow}>
-          {TOPIC_SUGGESTIONS.map((item) => (
-            <TouchableOpacity key={item} style={styles.suggestionChip} onPress={() => setTopic(item)}>
-              <Text style={styles.suggestionText}>{item}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        <Button
-          label={loading ? 'Generating...' : 'Generate AI Lesson Video'}
-          onPress={buildLesson}
-          disabled={loading}
-        />
-
-        {error ? <Text style={styles.error}>{error}</Text> : null}
-      </Card>
-
-      {loading && (
-        <Card style={styles.loadingCard}>
-          <ActivityIndicator size="large" color={colors.primary} />
-          <Text style={styles.loadingText}>Building scenes, narration, and checkpoints...</Text>
-        </Card>
-      )}
-
-      {lesson && currentScene && (
-        <>
-          <Card style={styles.metaCard}>
-            <View style={styles.metaHeader}>
-              <View>
-                <Text style={styles.metaTitle}>{sourceMeta.label}</Text>
-                <Text style={styles.metaBody}>{sourceMeta.detail}</Text>
-              </View>
-              <View style={styles.metaBadge}>
-                <Text style={styles.metaBadgeText}>{lesson.source}</Text>
-              </View>
-            </View>
-            {lesson.diagnostic ? <Text style={styles.metaDiagnostic}>{lesson.diagnostic}</Text> : null}
-            <View style={styles.metaGrid}>
-              <View style={styles.metaTile}>
-                <Text style={styles.metaTileLabel}>Scenes</Text>
-                <Text style={styles.metaTileValue}>{scenes.length}</Text>
-              </View>
-              <View style={styles.metaTile}>
-                <Text style={styles.metaTileLabel}>Runtime</Text>
-                <Text style={styles.metaTileValue}>{lessonMinutes} min</Text>
-              </View>
-              <View style={styles.metaTile}>
-                <Text style={styles.metaTileLabel}>Level</Text>
-                <Text style={styles.metaTileValue}>{level}</Text>
-              </View>
-            </View>
-          </Card>
-
-          <Card style={styles.videoCard}>
-            <View style={styles.videoHeader}>
-              <Text style={styles.videoTitle}>{lesson.title}</Text>
-              <Text style={styles.sourceTag}>{lesson.source}</Text>
-            </View>
-            <Text style={styles.videoSummary}>{lesson.summary}</Text>
-
-            <View style={styles.progressWrap}>
-              <Text style={styles.progressLabel}>Total Progress {Math.round(totalProgress)}%</Text>
-              <View style={styles.progressTrack}>
-                <View style={[styles.progressFill, { width: `${totalProgress}%` }]} />
-              </View>
-            </View>
-
-            <View style={styles.sceneBoard}>
-              <Text style={styles.sceneTop}>Scene {sceneIndex + 1} / {scenes.length}</Text>
-              <Text style={styles.sceneHeading}>{currentScene.heading}</Text>
-              {currentScene.bullets.map((point) => (
-                <Text key={point} style={styles.scenePoint}>• {point}</Text>
-              ))}
-
-              <View style={styles.progressWrap}>
-                <Text style={styles.progressLabel}>Scene Progress {Math.round(sceneProgress)}%</Text>
-                <View style={styles.progressTrackScene}>
-                  <View style={[styles.progressFillScene, { width: `${sceneProgress}%` }]} />
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.controlsRow}>
-              <TouchableOpacity style={styles.controlBtn} onPress={() => jumpToScene(sceneIndex - 1)}>
-                <Ionicons name="play-skip-back" size={20} color={colors.primaryDark} />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.controlMain} onPress={onPlayPause}>
-                <Ionicons name={isPlaying ? 'pause' : 'play'} size={22} color="#fff" />
-                <Text style={styles.controlMainText}>{isPlaying ? 'Pause' : 'Play'}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.controlBtn} onPress={() => jumpToScene(sceneIndex + 1)}>
-                <Ionicons name="play-skip-forward" size={20} color={colors.primaryDark} />
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.controlsRow}>
-              <TouchableOpacity style={styles.softBtn} onPress={() => setVoiceOn((v) => !v)}>
-                <Ionicons name={voiceOn ? 'volume-high' : 'volume-mute'} size={18} color={colors.primaryDark} />
-                <Text style={styles.softBtnText}>{voiceOn ? 'Voice On' : 'Voice Off'}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.softBtn} onPress={resetPlayback}>
-                <Ionicons name="refresh" size={18} color={colors.primaryDark} />
-                <Text style={styles.softBtnText}>Restart</Text>
-              </TouchableOpacity>
-            </View>
-
-            {lesson.video?.videoUrl ? (
-              <View style={styles.videoLaunchWrap}>
-                <Text style={styles.videoMeta}>
-                  Video: {lesson.video.generated ? 'Generated video URL' : 'Storyboard only'} • {lesson.video.provider}
-                </Text>
-                <Button
-                  label="Watch Lesson Video"
-                  onPress={() => navigation.navigate('VideoLessonPlayer', {
-                    title: lesson.video.title || lesson.title,
-                    videoUrl: lesson.video.videoUrl,
-                    posterUrl: lesson.video.posterUrl,
-                    provider: lesson.video.provider,
-                    scenes: lesson.scenes || [],
-                  })}
-                />
-              </View>
-            ) : null}
-          </Card>
-
-          <Card style={styles.card}>
-            <Text style={styles.blockTitle}>Lesson Goals</Text>
-            {(lesson.learningGoals || []).map((item) => (
-              <Text key={item} style={styles.scenePoint}>• {item}</Text>
-            ))}
-            <Text style={[styles.blockTitle, styles.blockTitleGap]}>Key Terms</Text>
-            <View style={styles.termRow}>
-              {(lesson.keyTerms || []).map((term) => (
-                <View key={term} style={styles.termChip}>
-                  <Text style={styles.termText}>{term}</Text>
-                </View>
-              ))}
-            </View>
-          </Card>
-
-          <Card style={styles.card}>
-            <Text style={styles.blockTitle}>Narration + Checkpoint</Text>
-            <Text style={styles.narration}>{currentScene.narration}</Text>
-            <View style={styles.quizBox}>
-              <Text style={styles.quizLabel}>Quick Check</Text>
-              <Text style={styles.quizText}>{currentScene.quiz}</Text>
-            </View>
-          </Card>
-
-          <Card style={styles.card}>
-            <Text style={styles.blockTitle}>Practice Queue</Text>
-            {(lesson.practiceTasks || []).map((item, index) => (
-              <Text key={`${index}-${item}`} style={styles.scenePoint}>• {item}</Text>
-            ))}
-          </Card>
-        </>
-      )}
-    </Screen>
-  );
-}
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: 40,
@@ -732,4 +379,359 @@ const styles = StyleSheet.create({
     fontSize: typography.xsmall,
     color: colors.muted,
   },
-});
+}
+
+const LEVELS = ['A2', 'B1', 'B2', 'C1'];
+const DURATIONS = [3, 4, 6, 8];
+const TOPIC_SUGGESTIONS = [
+  'BUEPT paraphrase strategy',
+  'Essay cohesion and coherence',
+  'Inference questions in academic reading',
+  'How to organize a speaking answer',
+  'Listening signposts in short lectures',
+];
+
+function clamp(n, min, max) {
+  return Math.max(min, Math.min(max, n));
+}
+
+function totalDurationSec(scenes = []) {
+  return scenes.reduce((sum, s) => sum + (s.durationSec || 0), 0);
+}
+
+export default function AILessonVideoStudioScreen({ navigation, route }) {
+  const [topic, setTopic] = useState('Essay Cohesion and Coherence');
+  const [level, setLevel] = useState('B1');
+  const [durationMin, setDurationMin] = useState(4);
+  const [loading, setLoading] = useState(false);
+  const [lesson, setLesson] = useState(null);
+  const [sceneIndex, setSceneIndex] = useState(0);
+  const [sceneElapsedSec, setSceneElapsedSec] = useState(0);
+  const [totalElapsedSec, setTotalElapsedSec] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [voiceOn, setVoiceOn] = useState(true);
+  const [error, setError] = useState('');
+
+  const tickRef = useRef(null);
+  const { speakWord, stopAll } = useTts();
+
+  const scenes = useMemo(() => lesson?.scenes || [], [lesson]);
+  const sourceMeta = useMemo(() => getAiSourceMeta(lesson?.source || (isVideoLessonApiConfigured() ? 'online-ready' : 'local-storyboard')), [lesson?.source]);
+  const totalSec = useMemo(() => totalDurationSec(scenes), [scenes]);
+  const currentScene = scenes[sceneIndex] || null;
+  const currentSceneDuration = currentScene?.durationSec || 1;
+  const sceneProgress = clamp((sceneElapsedSec / currentSceneDuration) * 100, 0, 100);
+  const totalProgress = totalSec ? clamp((totalElapsedSec / totalSec) * 100, 0, 100) : 0;
+  const lessonMinutes = useMemo(() => Math.max(1, Math.round(totalSec / 60)), [totalSec]);
+
+  useEffect(() => () => {
+    if (tickRef.current) clearInterval(tickRef.current);
+    stopAll();
+  }, [stopAll]);
+
+  useEffect(() => {
+    if (!isPlaying || !currentScene) return;
+
+    if (tickRef.current) clearInterval(tickRef.current);
+    tickRef.current = setInterval(() => {
+      setSceneElapsedSec((prev) => {
+        const next = prev + 1;
+        if (next >= currentSceneDuration) {
+          setSceneIndex((idx) => {
+            const nextIdx = idx + 1;
+            if (nextIdx >= scenes.length) {
+              setIsPlaying(false);
+              return idx;
+            }
+            return nextIdx;
+          });
+          return 0;
+        }
+        return next;
+      });
+      setTotalElapsedSec((prev) => {
+        if (prev >= totalSec) return totalSec;
+        return prev + 1;
+      });
+    }, 1000);
+
+    return () => {
+      if (tickRef.current) clearInterval(tickRef.current);
+    };
+  }, [isPlaying, currentScene, currentSceneDuration, scenes.length, totalSec]);
+
+  useEffect(() => {
+    if (!isPlaying || !voiceOn || !currentScene?.narration) return;
+    speakWord(currentScene.narration);
+  }, [isPlaying, voiceOn, currentScene, speakWord]);
+
+  useEffect(() => {
+    const incomingTopic = String(route?.params?.topic || '').trim();
+    if (incomingTopic) setTopic(incomingTopic);
+  }, [route?.params?.topic]);
+
+  const resetPlayback = () => {
+    setSceneIndex(0);
+    setSceneElapsedSec(0);
+    setTotalElapsedSec(0);
+    setIsPlaying(false);
+    stopAll();
+  };
+
+  const buildLesson = async () => {
+    const normalizedTopic = topic.trim();
+    if (!normalizedTopic) {
+      setError('Topic is required.');
+      return;
+    }
+    setError('');
+    setLoading(true);
+    try {
+      const generated = await generateVideoLesson({
+        topic: normalizedTopic,
+        level,
+        durationMin,
+      });
+      setLesson(generated);
+      setSceneIndex(0);
+      setSceneElapsedSec(0);
+      setTotalElapsedSec(0);
+      setIsPlaying(false);
+      stopAll();
+    } catch (e) {
+      setError('Video lesson generation failed. Try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onPlayPause = () => {
+    if (!lesson || !scenes.length) return;
+    if (isPlaying) {
+      setIsPlaying(false);
+      stopAll();
+      return;
+    }
+    setIsPlaying(true);
+  };
+
+  const jumpToScene = (index) => {
+    const next = clamp(index, 0, scenes.length - 1);
+    setSceneIndex(next);
+    setSceneElapsedSec(0);
+    const elapsedBefore = scenes.slice(0, next).reduce((sum, s) => sum + (s.durationSec || 0), 0);
+    setTotalElapsedSec(elapsedBefore);
+    stopAll();
+  };
+
+  return (
+    <Screen scroll contentStyle={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+          <Ionicons name="arrow-back" size={22} color={colors.primaryDark} />
+        </TouchableOpacity>
+        <View style={styles.headerTextWrap}>
+          <Text style={styles.h1}>AI Lesson Video Studio</Text>
+          <Text style={styles.sub}>Lesson storyboard, narration, and optional video endpoint</Text>
+        </View>
+      </View>
+
+      <Card style={styles.card}>
+        <Text style={styles.label}>Topic</Text>
+        <TextInput
+          value={topic}
+          onChangeText={setTopic}
+          style={styles.input}
+          placeholder="e.g. Paraphrase strategy for BUEPT"
+          placeholderTextColor={colors.muted}
+        />
+
+        <Text style={styles.label}>Level</Text>
+        <View style={styles.pillRow}>
+          {LEVELS.map((item) => {
+            const active = item === level;
+            return (
+              <TouchableOpacity key={item} style={[styles.pill, active && styles.pillActive]} onPress={() => setLevel(item)}>
+                <Text style={[styles.pillText, active && styles.pillTextActive]}>{item}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+
+        <Text style={styles.label}>Length (minutes)</Text>
+        <View style={styles.pillRow}>
+          {DURATIONS.map((item) => {
+            const active = item === durationMin;
+            return (
+              <TouchableOpacity key={item} style={[styles.pill, active && styles.pillActive]} onPress={() => setDurationMin(item)}>
+                <Text style={[styles.pillText, active && styles.pillTextActive]}>{item}m</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+
+        <Text style={styles.hint}>
+          Source: {isVideoLessonApiConfigured() ? 'Live lesson endpoint' : 'Local storyboard engine'}
+        </Text>
+        <View style={styles.pillRow}>
+          {TOPIC_SUGGESTIONS.map((item) => (
+            <TouchableOpacity key={item} style={styles.suggestionChip} onPress={() => setTopic(item)}>
+              <Text style={styles.suggestionText}>{item}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <Button
+          label={loading ? 'Generating...' : 'Generate AI Lesson Video'}
+          onPress={buildLesson}
+          disabled={loading}
+        />
+
+        {error ? <Text style={styles.error}>{error}</Text> : null}
+      </Card>
+
+      {loading && (
+        <Card style={styles.loadingCard}>
+          <ActivityIndicator size="large" color={colors.primary} />
+          <Text style={styles.loadingText}>Building scenes, narration, and checkpoints...</Text>
+        </Card>
+      )}
+
+      {lesson && currentScene && (
+        <>
+          <Card style={styles.metaCard}>
+            <View style={styles.metaHeader}>
+              <View>
+                <Text style={styles.metaTitle}>{sourceMeta.label}</Text>
+                <Text style={styles.metaBody}>{sourceMeta.detail}</Text>
+              </View>
+              <View style={styles.metaBadge}>
+                <Text style={styles.metaBadgeText}>{lesson.source}</Text>
+              </View>
+            </View>
+            {lesson.diagnostic ? <Text style={styles.metaDiagnostic}>{lesson.diagnostic}</Text> : null}
+            <View style={styles.metaGrid}>
+              <View style={styles.metaTile}>
+                <Text style={styles.metaTileLabel}>Scenes</Text>
+                <Text style={styles.metaTileValue}>{scenes.length}</Text>
+              </View>
+              <View style={styles.metaTile}>
+                <Text style={styles.metaTileLabel}>Runtime</Text>
+                <Text style={styles.metaTileValue}>{lessonMinutes} min</Text>
+              </View>
+              <View style={styles.metaTile}>
+                <Text style={styles.metaTileLabel}>Level</Text>
+                <Text style={styles.metaTileValue}>{level}</Text>
+              </View>
+            </View>
+          </Card>
+
+          <Card style={styles.videoCard}>
+            <View style={styles.videoHeader}>
+              <Text style={styles.videoTitle}>{lesson.title}</Text>
+              <Text style={styles.sourceTag}>{lesson.source}</Text>
+            </View>
+            <Text style={styles.videoSummary}>{lesson.summary}</Text>
+
+            <View style={styles.progressWrap}>
+              <Text style={styles.progressLabel}>Total Progress {Math.round(totalProgress)}%</Text>
+              <View style={styles.progressTrack}>
+                <View style={[styles.progressFill, { width: `${totalProgress}%` }]} />
+              </View>
+            </View>
+
+            <View style={styles.sceneBoard}>
+              <Text style={styles.sceneTop}>Scene {sceneIndex + 1} / {scenes.length}</Text>
+              <Text style={styles.sceneHeading}>{currentScene.heading}</Text>
+              {currentScene.bullets.map((point) => (
+                <Text key={point} style={styles.scenePoint}>• {point}</Text>
+              ))}
+
+              <View style={styles.progressWrap}>
+                <Text style={styles.progressLabel}>Scene Progress {Math.round(sceneProgress)}%</Text>
+                <View style={styles.progressTrackScene}>
+                  <View style={[styles.progressFillScene, { width: `${sceneProgress}%` }]} />
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.controlsRow}>
+              <TouchableOpacity style={styles.controlBtn} onPress={() => jumpToScene(sceneIndex - 1)}>
+                <Ionicons name="play-skip-back" size={20} color={colors.primaryDark} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.controlMain} onPress={onPlayPause}>
+                <Ionicons name={isPlaying ? 'pause' : 'play'} size={22} color="#fff" />
+                <Text style={styles.controlMainText}>{isPlaying ? 'Pause' : 'Play'}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.controlBtn} onPress={() => jumpToScene(sceneIndex + 1)}>
+                <Ionicons name="play-skip-forward" size={20} color={colors.primaryDark} />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.controlsRow}>
+              <TouchableOpacity style={styles.softBtn} onPress={() => setVoiceOn((v) => !v)}>
+                <Ionicons name={voiceOn ? 'volume-high' : 'volume-mute'} size={18} color={colors.primaryDark} />
+                <Text style={styles.softBtnText}>{voiceOn ? 'Voice On' : 'Voice Off'}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.softBtn} onPress={resetPlayback}>
+                <Ionicons name="refresh" size={18} color={colors.primaryDark} />
+                <Text style={styles.softBtnText}>Restart</Text>
+              </TouchableOpacity>
+            </View>
+
+            {lesson.video?.videoUrl ? (
+              <View style={styles.videoLaunchWrap}>
+                <Text style={styles.videoMeta}>
+                  Video: {lesson.video.generated ? 'Generated video URL' : 'Storyboard only'} • {lesson.video.provider}
+                </Text>
+                <Button
+                  label="Watch Lesson Video"
+                  onPress={() => navigation.navigate('VideoLessonPlayer', {
+                    title: lesson.video.title || lesson.title,
+                    videoUrl: lesson.video.videoUrl,
+                    posterUrl: lesson.video.posterUrl,
+                    provider: lesson.video.provider,
+                    scenes: lesson.scenes || [],
+                  })}
+                />
+              </View>
+            ) : null}
+          </Card>
+
+          <Card style={styles.card}>
+            <Text style={styles.blockTitle}>Lesson Goals</Text>
+            {(lesson.learningGoals || []).map((item) => (
+              <Text key={item} style={styles.scenePoint}>• {item}</Text>
+            ))}
+            <Text style={[styles.blockTitle, styles.blockTitleGap]}>Key Terms</Text>
+            <View style={styles.termRow}>
+              {(lesson.keyTerms || []).map((term) => (
+                <View key={term} style={styles.termChip}>
+                  <Text style={styles.termText}>{term}</Text>
+                </View>
+              ))}
+            </View>
+          </Card>
+
+          <Card style={styles.card}>
+            <Text style={styles.blockTitle}>Narration + Checkpoint</Text>
+            <Text style={styles.narration}>{currentScene.narration}</Text>
+            <View style={styles.quizBox}>
+              <Text style={styles.quizLabel}>Quick Check</Text>
+              <Text style={styles.quizText}>{currentScene.quiz}</Text>
+            </View>
+          </Card>
+
+          <Card style={styles.card}>
+            <Text style={styles.blockTitle}>Practice Queue</Text>
+            {(lesson.practiceTasks || []).map((item, index) => (
+              <Text key={`${index}-${item}`} style={styles.scenePoint}>• {item}</Text>
+            ))}
+          </Card>
+        </>
+      )}
+    </Screen>
+  );
+}
+
+);

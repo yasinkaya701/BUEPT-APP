@@ -3,6 +3,128 @@ import { Text, StyleSheet, View, TextInput, TouchableOpacity } from 'react-nativ
 import Card from './Card';
 import { colors, spacing, typography } from '../theme/tokens';
 
+const styles = StyleSheet.create({
+  card: {
+    marginBottom: spacing.md,
+  },
+  title: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.xs,
+  },
+  subtitle: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.md,
+  },
+  block: {
+    marginBottom: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    borderRadius: 12,
+    padding: spacing.sm,
+    backgroundColor: colors.surface,
+  },
+  question: {
+    fontSize: typography.body,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.xs,
+    lineHeight: 22,
+  },
+  input: {
+    minHeight: 88,
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    borderRadius: 10,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.sm,
+    color: colors.text,
+    fontSize: typography.body,
+    backgroundColor: '#fff',
+  },
+  metaRow: {
+    marginTop: spacing.xs,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  wordCount: {
+    fontSize: 11,
+    color: colors.muted,
+  },
+  clearText: {
+    fontSize: 12,
+    color: colors.primary,
+    fontFamily: typography.fontHeadline,
+  },
+  actionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  verifyBtn: {
+    backgroundColor: colors.primaryLight,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  verifyText: {
+    fontSize: 12,
+    color: colors.primaryDark,
+    fontFamily: typography.fontHeadline,
+  },
+  clearBtn: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  feedbackBox: {
+    marginTop: spacing.sm,
+    padding: spacing.sm,
+    backgroundColor: '#F0F9FF',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#BAE6FD',
+  },
+  feedbackHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.xs,
+  },
+  scoreText: {
+    fontSize: typography.body,
+    fontFamily: typography.fontHeadline,
+    color: colors.primaryDark,
+  },
+  strengthText: {
+    fontSize: 12,
+    color: '#0369A1',
+    fontWeight: 'bold',
+  },
+  feedbackLabel: {
+    fontSize: 11,
+    fontFamily: typography.fontHeadline,
+    color: colors.muted,
+    marginTop: 4,
+  },
+  matchedText: {
+    fontSize: 12,
+    color: '#15803D',
+  },
+  missedText: {
+    fontSize: 12,
+    color: '#B91C1C',
+  },
+  modelText: {
+    fontSize: 12,
+    color: colors.text,
+    fontStyle: 'italic',
+    marginTop: 2,
+  },
+}
+
 function countWords(text) {
   if (!text || typeof text !== 'string') return 0;
   const tokens = text.trim().split(/\s+/).filter(Boolean);
@@ -153,124 +275,4 @@ export default function OpenEndedPracticeCard({
   );
 }
 
-const styles = StyleSheet.create({
-  card: {
-    marginBottom: spacing.md,
-  },
-  title: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.xs,
-  },
-  subtitle: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.md,
-  },
-  block: {
-    marginBottom: spacing.md,
-    borderWidth: 1,
-    borderColor: colors.secondary,
-    borderRadius: 12,
-    padding: spacing.sm,
-    backgroundColor: colors.surface,
-  },
-  question: {
-    fontSize: typography.body,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.xs,
-    lineHeight: 22,
-  },
-  input: {
-    minHeight: 88,
-    borderWidth: 1,
-    borderColor: colors.secondary,
-    borderRadius: 10,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.sm,
-    color: colors.text,
-    fontSize: typography.body,
-    backgroundColor: '#fff',
-  },
-  metaRow: {
-    marginTop: spacing.xs,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  wordCount: {
-    fontSize: 11,
-    color: colors.muted,
-  },
-  clearText: {
-    fontSize: 12,
-    color: colors.primary,
-    fontFamily: typography.fontHeadline,
-  },
-  actionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-  },
-  verifyBtn: {
-    backgroundColor: colors.primaryLight,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 6,
-  },
-  verifyText: {
-    fontSize: 12,
-    color: colors.primaryDark,
-    fontFamily: typography.fontHeadline,
-  },
-  clearBtn: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-  },
-  feedbackBox: {
-    marginTop: spacing.sm,
-    padding: spacing.sm,
-    backgroundColor: '#F0F9FF',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#BAE6FD',
-  },
-  feedbackHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.xs,
-  },
-  scoreText: {
-    fontSize: typography.body,
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDark,
-  },
-  strengthText: {
-    fontSize: 12,
-    color: '#0369A1',
-    fontWeight: 'bold',
-  },
-  feedbackLabel: {
-    fontSize: 11,
-    fontFamily: typography.fontHeadline,
-    color: colors.muted,
-    marginTop: 4,
-  },
-  matchedText: {
-    fontSize: 12,
-    color: '#15803D',
-  },
-  missedText: {
-    fontSize: 12,
-    color: '#B91C1C',
-  },
-  modelText: {
-    fontSize: 12,
-    color: colors.text,
-    fontStyle: 'italic',
-    marginTop: 2,
-  },
-});
+);

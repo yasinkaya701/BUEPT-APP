@@ -8,6 +8,127 @@ import { colors, spacing, typography } from '../theme/tokens';
 import exams from '../../data/buept_exams.json';
 import { buildExamSectionOpenEndedPrompts } from '../utils/openEndedPrompts';
 
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: spacing.xl
+  },
+  h1: {
+    flex: 1,
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: spacing.md
+  },
+  timerBadge: {
+    backgroundColor: '#FFF3E0',
+    borderColor: '#FF9800',
+    borderWidth: 1,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  timerText: {
+    color: '#E65100',
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+  },
+  h2: {
+    fontSize: typography.h2,
+    fontFamily: typography.fontHeadline,
+    marginTop: spacing.md,
+    marginBottom: spacing.sm
+  },
+  h3: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.sm
+  },
+  body: {
+    fontSize: typography.body,
+    fontFamily: typography.fontBody
+  },
+  card: {
+    marginBottom: spacing.lg
+  },
+  tabRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginBottom: spacing.md
+  },
+  qWrap: {
+    marginTop: spacing.md,
+    paddingTop: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: colors.border || '#E5E7EB',
+  },
+  row: {
+    flexDirection: 'row',
+    gap: spacing.sm
+  },
+  correct: {
+    marginTop: spacing.sm,
+    color: colors.success,
+    fontFamily: typography.fontBody
+  },
+  incorrect: {
+    marginTop: spacing.sm,
+    color: colors.error,
+    fontFamily: typography.fontBody
+  },
+  mistakeBtn: {
+    marginTop: spacing.xs,
+    alignSelf: 'flex-start',
+  },
+  score: {
+    marginTop: spacing.md,
+    fontSize: typography.h2,
+    fontFamily: typography.fontHeadline,
+    color: colors.primary,
+    textAlign: 'center'
+  },
+  actionRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    justifyContent: 'center',
+    marginTop: spacing.md
+  },
+  inputContainer: {
+    marginVertical: spacing.sm,
+  },
+  textInput: {
+    borderWidth: 2,
+    borderColor: colors.secondary,
+    borderRadius: 12,
+    padding: spacing.md,
+    fontSize: typography.body,
+    color: colors.text,
+    backgroundColor: colors.surface,
+    fontFamily: typography.fontBody,
+  },
+  inputCorrect: {
+    borderColor: '#1F8B4C',
+    backgroundColor: '#E8F5E9',
+  },
+  inputIncorrect: {
+    borderColor: '#B42318',
+    backgroundColor: '#FEF3F2',
+  },
+  formatHint: {
+    marginTop: spacing.xs,
+    marginHorizontal: spacing.lg,
+    marginBottom: spacing.md,
+    fontSize: 13,
+    color: colors.muted,
+    lineHeight: 18,
+    fontFamily: typography.fontBody,
+  },
+}
+
 const EXAM_DURATION = 150 * 60; // 150 minutes
 
 function keyIndex(items, key) {
@@ -538,123 +659,4 @@ export default function ExamDetailScreen({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: spacing.xl
-  },
-  h1: {
-    flex: 1,
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-  },
-  headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: spacing.md
-  },
-  timerBadge: {
-    backgroundColor: '#FFF3E0',
-    borderColor: '#FF9800',
-    borderWidth: 1,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  timerText: {
-    color: '#E65100',
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-  },
-  h2: {
-    fontSize: typography.h2,
-    fontFamily: typography.fontHeadline,
-    marginTop: spacing.md,
-    marginBottom: spacing.sm
-  },
-  h3: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.sm
-  },
-  body: {
-    fontSize: typography.body,
-    fontFamily: typography.fontBody
-  },
-  card: {
-    marginBottom: spacing.lg
-  },
-  tabRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-    marginBottom: spacing.md
-  },
-  qWrap: {
-    marginTop: spacing.md,
-    paddingTop: spacing.md,
-    borderTopWidth: 1,
-    borderTopColor: colors.border || '#E5E7EB',
-  },
-  row: {
-    flexDirection: 'row',
-    gap: spacing.sm
-  },
-  correct: {
-    marginTop: spacing.sm,
-    color: colors.success,
-    fontFamily: typography.fontBody
-  },
-  incorrect: {
-    marginTop: spacing.sm,
-    color: colors.error,
-    fontFamily: typography.fontBody
-  },
-  mistakeBtn: {
-    marginTop: spacing.xs,
-    alignSelf: 'flex-start',
-  },
-  score: {
-    marginTop: spacing.md,
-    fontSize: typography.h2,
-    fontFamily: typography.fontHeadline,
-    color: colors.primary,
-    textAlign: 'center'
-  },
-  actionRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    justifyContent: 'center',
-    marginTop: spacing.md
-  },
-  inputContainer: {
-    marginVertical: spacing.sm,
-  },
-  textInput: {
-    borderWidth: 2,
-    borderColor: colors.secondary,
-    borderRadius: 12,
-    padding: spacing.md,
-    fontSize: typography.body,
-    color: colors.text,
-    backgroundColor: colors.surface,
-    fontFamily: typography.fontBody,
-  },
-  inputCorrect: {
-    borderColor: '#1F8B4C',
-    backgroundColor: '#E8F5E9',
-  },
-  inputIncorrect: {
-    borderColor: '#B42318',
-    backgroundColor: '#FEF3F2',
-  },
-  formatHint: {
-    marginTop: spacing.xs,
-    marginHorizontal: spacing.lg,
-    marginBottom: spacing.md,
-    fontSize: 13,
-    color: colors.muted,
-    lineHeight: 18,
-    fontFamily: typography.fontBody,
-  },
-});
+);

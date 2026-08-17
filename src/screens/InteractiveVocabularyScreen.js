@@ -10,6 +10,227 @@ import { isDemoAiConfigured, requestDemoModule } from '../utils/demoAi';
 import { getWordEntry, getWordFamily } from '../utils/dictionary';
 import { getAiSourceMeta } from '../utils/aiWorkspace';
 
+const styles = StyleSheet.create({
+    container: { flex: 1 },
+    keyboard: { flex: 1 },
+    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
+    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+    heroCard: {
+        marginHorizontal: spacing.xl,
+        marginBottom: spacing.md,
+        backgroundColor: '#172554',
+        borderColor: '#172554',
+    },
+    heroHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        gap: spacing.md,
+        marginBottom: spacing.md,
+    },
+    heroCopy: {
+        flex: 1,
+    },
+    heroEyebrow: {
+        fontSize: typography.xsmall,
+        color: '#BFDBFE',
+        fontFamily: typography.fontHeadline,
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+        marginBottom: spacing.xs,
+    },
+    heroTitle: {
+        fontSize: typography.h3,
+        color: '#FFFFFF',
+        fontFamily: typography.fontHeadline,
+        marginBottom: spacing.xs,
+    },
+    heroBody: {
+        fontSize: typography.small,
+        color: '#DBEAFE',
+        lineHeight: 20,
+    },
+    heroMetric: {
+        minWidth: 84,
+        borderRadius: radius.lg,
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.14)',
+        backgroundColor: 'rgba(255,255,255,0.10)',
+        paddingHorizontal: spacing.sm,
+        paddingVertical: spacing.sm,
+        alignItems: 'center',
+    },
+    heroMetricValue: {
+        fontSize: typography.body,
+        color: '#FFFFFF',
+        fontFamily: typography.fontHeadline,
+    },
+    heroMetricLabel: {
+        marginTop: 2,
+        fontSize: typography.xsmall,
+        color: '#BFDBFE',
+        textTransform: 'uppercase',
+    },
+    heroActionRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: spacing.sm,
+        marginBottom: spacing.sm,
+    },
+    workspaceCard: {
+        marginHorizontal: spacing.xl,
+        marginBottom: spacing.md,
+        backgroundColor: '#F8FBFF',
+        borderColor: '#D7E4FA',
+    },
+    workspaceHead: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        gap: spacing.md,
+        marginBottom: spacing.sm,
+    },
+    workspaceCopy: {
+        flex: 1,
+    },
+    workspaceTitle: {
+        fontSize: typography.body,
+        color: colors.primaryDark,
+        fontFamily: typography.fontHeadline,
+        marginBottom: 4,
+    },
+    workspaceBody: {
+        fontSize: typography.small,
+        color: colors.muted,
+        lineHeight: 20,
+    },
+    workspaceMetric: {
+        minWidth: 84,
+        borderRadius: radius.lg,
+        borderWidth: 1,
+        borderColor: '#D7E4FA',
+        backgroundColor: '#FFFFFF',
+        paddingHorizontal: spacing.sm,
+        paddingVertical: spacing.sm,
+        alignItems: 'center',
+    },
+    workspaceMetricValue: {
+        fontSize: typography.body,
+        color: colors.primaryDark,
+        fontFamily: typography.fontHeadline,
+    },
+    workspaceMetricLabel: {
+        marginTop: 2,
+        fontSize: typography.xsmall,
+        color: colors.muted,
+        textTransform: 'uppercase',
+    },
+    quickChipRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: spacing.xs,
+    },
+    quickChip: {
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.16)',
+        backgroundColor: 'rgba(255,255,255,0.10)',
+        borderRadius: 999,
+        paddingHorizontal: spacing.sm,
+        paddingVertical: 6,
+    },
+    quickChipText: {
+        fontSize: typography.small,
+        color: '#DBEAFE',
+        fontFamily: typography.fontHeadline,
+    },
+    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
+    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+    sourceText: { fontSize: 12, color: colors.muted, marginTop: 2 },
+
+    searchWrap: { paddingHorizontal: spacing.xl, paddingVertical: spacing.md, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)' },
+    searchInputContainer: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.04)', borderRadius: radius.pill, height: 44, paddingRight: spacing.sm },
+    searchIcon: { marginLeft: spacing.md },
+    searchInput: { flex: 1, height: '100%', paddingHorizontal: spacing.sm, fontSize: 15, fontFamily: typography.fontHeadline, color: colors.text },
+    searchClearButton: { padding: spacing.sm },
+
+    list: { paddingHorizontal: spacing.xl, paddingTop: spacing.md, paddingBottom: spacing.xxl },
+
+    loadingBox: { padding: spacing.xxl, alignItems: 'center', justifyContent: 'center' },
+    loadingText: { marginTop: spacing.md, color: colors.primaryDark, fontWeight: '700' },
+    errorCard: {
+        backgroundColor: 'rgba(231,76,60,0.1)',
+        borderColor: colors.error,
+        borderWidth: 1,
+        padding: spacing.md,
+        alignItems: 'center',
+    },
+    errorIcon: { marginBottom: 8 },
+    errorText: { color: colors.error, fontSize: 13, textAlign: 'center' },
+
+    resultCard: { padding: spacing.xl, borderRadius: radius.lg },
+    topRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: spacing.md },
+    resultHeaderCopy: { flex: 1 },
+    titleRow: { flexDirection: 'row', alignItems: 'flex-end', gap: 8, marginBottom: 4 },
+    titleMetaRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+    wordText: { fontSize: 28, fontFamily: typography.fontHeadline, fontWeight: '900', color: colors.text, textTransform: 'capitalize' },
+    phoneticText: { fontSize: 13, color: colors.muted, fontFamily: 'Courier', marginBottom: 4 },
+    posBadge: { backgroundColor: colors.accent, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 },
+    posText: { fontSize: 10, fontWeight: '800', color: '#fff', textTransform: 'uppercase' },
+    transText: { fontSize: 15, color: colors.primary, fontWeight: '700' },
+    speakerBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: colors.primarySoft, justifyContent: 'center', alignItems: 'center' },
+
+    definitionBox: { backgroundColor: 'rgba(0,0,0,0.02)', borderRadius: radius.md, padding: spacing.md, marginBottom: spacing.md },
+    definitionTxt: { fontSize: 15, color: colors.text, lineHeight: 22, fontStyle: 'italic' },
+
+    divider: { height: 1, backgroundColor: 'rgba(0,0,0,0.05)', marginVertical: spacing.md },
+    resultQuickRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginBottom: spacing.md },
+    moduleMetaRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginBottom: spacing.md },
+    moduleMetaPill: { flexDirection: 'row', alignItems: 'center', gap: 5, borderWidth: 1, borderColor: '#D7E4FA', borderRadius: radius.pill, backgroundColor: '#F8FBFF', paddingHorizontal: 10, paddingVertical: 6 },
+    moduleMetaText: { fontSize: 11, color: colors.muted, fontWeight: '700' },
+
+    sectionRow: { marginBottom: spacing.lg },
+    sectionLabelRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: spacing.sm },
+    sectionLabel: { fontSize: 11, fontWeight: '800', color: colors.muted, textTransform: 'uppercase', letterSpacing: 0.5 },
+
+    // Word Family — list (Oxford / Cambridge style)
+    formsList: { borderRadius: radius.md, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(0,0,0,0.06)' },
+    formRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: spacing.md, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.04)' },
+    formRowMain: { backgroundColor: colors.primarySoft },
+    formRowLeft: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 },
+    formMainDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: colors.primary },
+    formWord: { fontSize: 15, fontWeight: '700', color: colors.text },
+    formWordMain: { color: colors.primaryDark, fontWeight: '900' },
+    formPosBadge: { borderWidth: 1, borderRadius: radius.sm, paddingHorizontal: 8, paddingVertical: 3 },
+    formPosText: { fontSize: 11, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.4 },
+    formSpeakerIcon: { marginLeft: spacing.sm, opacity: 0.4 },
+
+    // Synonyms / Antonyms
+    tagWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+    tag: { backgroundColor: colors.primarySoft, paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill },
+    tagTxt: { fontSize: 14, fontWeight: '700', color: colors.primaryDark },
+    antonymTag: { backgroundColor: 'rgba(231,76,60,0.1)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill },
+    antonymTagText: { fontSize: 14, fontWeight: '700', color: colors.error },
+    emptyText: { fontSize: 13, color: colors.muted, fontStyle: 'italic' },
+
+    // Example Sentences
+    exampleBox: { flexDirection: 'row', alignItems: 'flex-start', backgroundColor: 'rgba(59,130,246,0.04)', borderLeftWidth: 3, borderLeftColor: colors.primary, paddingVertical: spacing.md, paddingHorizontal: spacing.md, borderRadius: radius.sm, marginBottom: spacing.md },
+    exampleNumBadge: { width: 20, height: 20, borderRadius: 10, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center', marginRight: spacing.sm, marginTop: 2, flexShrink: 0 },
+    exampleNum: { fontSize: 11, fontWeight: '900', color: '#fff' },
+    exampleCopy: { flex: 1 },
+    exampleEn: { fontSize: 15, color: colors.text, lineHeight: 22, marginBottom: 4 },
+    exampleKeyword: { fontWeight: '900', color: colors.primaryDark, textDecorationLine: 'underline' },
+    exampleTr: { fontSize: 13, color: colors.muted, lineHeight: 18, fontStyle: 'italic' },
+    exampleSpeakerIcon: { marginLeft: 6, opacity: 0.5 },
+
+    // Empty State
+    emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 60, paddingHorizontal: spacing.xl },
+    emptyStateTitle: { fontSize: typography.h3, fontWeight: '800', color: colors.muted, marginTop: spacing.md, marginBottom: spacing.xs },
+    emptyStateDesc: { fontSize: 13, color: colors.muted, textAlign: 'center', lineHeight: 20, marginBottom: spacing.xl },
+    suggestionsWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, justifyContent: 'center' },
+    suggestionChip: { backgroundColor: colors.primarySoft, paddingHorizontal: 14, paddingVertical: 8, borderRadius: radius.pill },
+    suggestionTxt: { fontSize: 13, fontWeight: '700', color: colors.primaryDark },
+}
+
 const STARTER_TERMS = ['significant', 'analyze', 'equilibrium', 'synthesis'];
 
 // Word Family: shows how a word transforms across parts of speech
@@ -602,223 +823,4 @@ export default function InteractiveVocabularyScreen({ navigation, route }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: { flex: 1 },
-    keyboard: { flex: 1 },
-    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.sm, paddingHorizontal: spacing.xl },
-    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    heroCard: {
-        marginHorizontal: spacing.xl,
-        marginBottom: spacing.md,
-        backgroundColor: '#172554',
-        borderColor: '#172554',
-    },
-    heroHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        gap: spacing.md,
-        marginBottom: spacing.md,
-    },
-    heroCopy: {
-        flex: 1,
-    },
-    heroEyebrow: {
-        fontSize: typography.xsmall,
-        color: '#BFDBFE',
-        fontFamily: typography.fontHeadline,
-        textTransform: 'uppercase',
-        letterSpacing: 1,
-        marginBottom: spacing.xs,
-    },
-    heroTitle: {
-        fontSize: typography.h3,
-        color: '#FFFFFF',
-        fontFamily: typography.fontHeadline,
-        marginBottom: spacing.xs,
-    },
-    heroBody: {
-        fontSize: typography.small,
-        color: '#DBEAFE',
-        lineHeight: 20,
-    },
-    heroMetric: {
-        minWidth: 84,
-        borderRadius: radius.lg,
-        borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.14)',
-        backgroundColor: 'rgba(255,255,255,0.10)',
-        paddingHorizontal: spacing.sm,
-        paddingVertical: spacing.sm,
-        alignItems: 'center',
-    },
-    heroMetricValue: {
-        fontSize: typography.body,
-        color: '#FFFFFF',
-        fontFamily: typography.fontHeadline,
-    },
-    heroMetricLabel: {
-        marginTop: 2,
-        fontSize: typography.xsmall,
-        color: '#BFDBFE',
-        textTransform: 'uppercase',
-    },
-    heroActionRow: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: spacing.sm,
-        marginBottom: spacing.sm,
-    },
-    workspaceCard: {
-        marginHorizontal: spacing.xl,
-        marginBottom: spacing.md,
-        backgroundColor: '#F8FBFF',
-        borderColor: '#D7E4FA',
-    },
-    workspaceHead: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-        gap: spacing.md,
-        marginBottom: spacing.sm,
-    },
-    workspaceCopy: {
-        flex: 1,
-    },
-    workspaceTitle: {
-        fontSize: typography.body,
-        color: colors.primaryDark,
-        fontFamily: typography.fontHeadline,
-        marginBottom: 4,
-    },
-    workspaceBody: {
-        fontSize: typography.small,
-        color: colors.muted,
-        lineHeight: 20,
-    },
-    workspaceMetric: {
-        minWidth: 84,
-        borderRadius: radius.lg,
-        borderWidth: 1,
-        borderColor: '#D7E4FA',
-        backgroundColor: '#FFFFFF',
-        paddingHorizontal: spacing.sm,
-        paddingVertical: spacing.sm,
-        alignItems: 'center',
-    },
-    workspaceMetricValue: {
-        fontSize: typography.body,
-        color: colors.primaryDark,
-        fontFamily: typography.fontHeadline,
-    },
-    workspaceMetricLabel: {
-        marginTop: 2,
-        fontSize: typography.xsmall,
-        color: colors.muted,
-        textTransform: 'uppercase',
-    },
-    quickChipRow: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: spacing.xs,
-    },
-    quickChip: {
-        borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.16)',
-        backgroundColor: 'rgba(255,255,255,0.10)',
-        borderRadius: 999,
-        paddingHorizontal: spacing.sm,
-        paddingVertical: 6,
-    },
-    quickChipText: {
-        fontSize: typography.small,
-        color: '#DBEAFE',
-        fontFamily: typography.fontHeadline,
-    },
-    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
-    sourceText: { fontSize: 12, color: colors.muted, marginTop: 2 },
-
-    searchWrap: { paddingHorizontal: spacing.xl, paddingVertical: spacing.md, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)' },
-    searchInputContainer: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.04)', borderRadius: radius.pill, height: 44, paddingRight: spacing.sm },
-    searchIcon: { marginLeft: spacing.md },
-    searchInput: { flex: 1, height: '100%', paddingHorizontal: spacing.sm, fontSize: 15, fontFamily: typography.fontHeadline, color: colors.text },
-    searchClearButton: { padding: spacing.sm },
-
-    list: { paddingHorizontal: spacing.xl, paddingTop: spacing.md, paddingBottom: spacing.xxl },
-
-    loadingBox: { padding: spacing.xxl, alignItems: 'center', justifyContent: 'center' },
-    loadingText: { marginTop: spacing.md, color: colors.primaryDark, fontWeight: '700' },
-    errorCard: {
-        backgroundColor: 'rgba(231,76,60,0.1)',
-        borderColor: colors.error,
-        borderWidth: 1,
-        padding: spacing.md,
-        alignItems: 'center',
-    },
-    errorIcon: { marginBottom: 8 },
-    errorText: { color: colors.error, fontSize: 13, textAlign: 'center' },
-
-    resultCard: { padding: spacing.xl, borderRadius: radius.lg },
-    topRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: spacing.md },
-    resultHeaderCopy: { flex: 1 },
-    titleRow: { flexDirection: 'row', alignItems: 'flex-end', gap: 8, marginBottom: 4 },
-    titleMetaRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-    wordText: { fontSize: 28, fontFamily: typography.fontHeadline, fontWeight: '900', color: colors.text, textTransform: 'capitalize' },
-    phoneticText: { fontSize: 13, color: colors.muted, fontFamily: 'Courier', marginBottom: 4 },
-    posBadge: { backgroundColor: colors.accent, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 },
-    posText: { fontSize: 10, fontWeight: '800', color: '#fff', textTransform: 'uppercase' },
-    transText: { fontSize: 15, color: colors.primary, fontWeight: '700' },
-    speakerBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: colors.primarySoft, justifyContent: 'center', alignItems: 'center' },
-
-    definitionBox: { backgroundColor: 'rgba(0,0,0,0.02)', borderRadius: radius.md, padding: spacing.md, marginBottom: spacing.md },
-    definitionTxt: { fontSize: 15, color: colors.text, lineHeight: 22, fontStyle: 'italic' },
-
-    divider: { height: 1, backgroundColor: 'rgba(0,0,0,0.05)', marginVertical: spacing.md },
-    resultQuickRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginBottom: spacing.md },
-    moduleMetaRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginBottom: spacing.md },
-    moduleMetaPill: { flexDirection: 'row', alignItems: 'center', gap: 5, borderWidth: 1, borderColor: '#D7E4FA', borderRadius: radius.pill, backgroundColor: '#F8FBFF', paddingHorizontal: 10, paddingVertical: 6 },
-    moduleMetaText: { fontSize: 11, color: colors.muted, fontWeight: '700' },
-
-    sectionRow: { marginBottom: spacing.lg },
-    sectionLabelRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: spacing.sm },
-    sectionLabel: { fontSize: 11, fontWeight: '800', color: colors.muted, textTransform: 'uppercase', letterSpacing: 0.5 },
-
-    // Word Family — list (Oxford / Cambridge style)
-    formsList: { borderRadius: radius.md, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(0,0,0,0.06)' },
-    formRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: spacing.md, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.04)' },
-    formRowMain: { backgroundColor: colors.primarySoft },
-    formRowLeft: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 },
-    formMainDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: colors.primary },
-    formWord: { fontSize: 15, fontWeight: '700', color: colors.text },
-    formWordMain: { color: colors.primaryDark, fontWeight: '900' },
-    formPosBadge: { borderWidth: 1, borderRadius: radius.sm, paddingHorizontal: 8, paddingVertical: 3 },
-    formPosText: { fontSize: 11, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.4 },
-    formSpeakerIcon: { marginLeft: spacing.sm, opacity: 0.4 },
-
-    // Synonyms / Antonyms
-    tagWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-    tag: { backgroundColor: colors.primarySoft, paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill },
-    tagTxt: { fontSize: 14, fontWeight: '700', color: colors.primaryDark },
-    antonymTag: { backgroundColor: 'rgba(231,76,60,0.1)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill },
-    antonymTagText: { fontSize: 14, fontWeight: '700', color: colors.error },
-    emptyText: { fontSize: 13, color: colors.muted, fontStyle: 'italic' },
-
-    // Example Sentences
-    exampleBox: { flexDirection: 'row', alignItems: 'flex-start', backgroundColor: 'rgba(59,130,246,0.04)', borderLeftWidth: 3, borderLeftColor: colors.primary, paddingVertical: spacing.md, paddingHorizontal: spacing.md, borderRadius: radius.sm, marginBottom: spacing.md },
-    exampleNumBadge: { width: 20, height: 20, borderRadius: 10, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center', marginRight: spacing.sm, marginTop: 2, flexShrink: 0 },
-    exampleNum: { fontSize: 11, fontWeight: '900', color: '#fff' },
-    exampleCopy: { flex: 1 },
-    exampleEn: { fontSize: 15, color: colors.text, lineHeight: 22, marginBottom: 4 },
-    exampleKeyword: { fontWeight: '900', color: colors.primaryDark, textDecorationLine: 'underline' },
-    exampleTr: { fontSize: 13, color: colors.muted, lineHeight: 18, fontStyle: 'italic' },
-    exampleSpeakerIcon: { marginLeft: 6, opacity: 0.5 },
-
-    // Empty State
-    emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 60, paddingHorizontal: spacing.xl },
-    emptyStateTitle: { fontSize: typography.h3, fontWeight: '800', color: colors.muted, marginTop: spacing.md, marginBottom: spacing.xs },
-    emptyStateDesc: { fontSize: 13, color: colors.muted, textAlign: 'center', lineHeight: 20, marginBottom: spacing.xl },
-    suggestionsWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, justifyContent: 'center' },
-    suggestionChip: { backgroundColor: colors.primarySoft, paddingHorizontal: 14, paddingVertical: 8, borderRadius: radius.pill },
-    suggestionTxt: { fontSize: 13, fontWeight: '700', color: colors.primaryDark },
-});
+);

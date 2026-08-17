@@ -20,6 +20,426 @@ import SectionHeader from '../components/ui/SectionHeader';
 import FilterBar, { FilterChip } from '../components/ui/FilterBar';
 import ScoreRing from '../components/ui/ScoreRing';
 
+const styles = StyleSheet.create({
+    container: {
+        paddingBottom: spacing.xl,
+    },
+    headerSpacer: {
+        paddingTop: spacing.md,
+    },
+
+    listContent: {
+        paddingBottom: spacing.xxl + 84,
+        paddingHorizontal: spacing.lg,
+    },
+    listContentWide: {
+        paddingHorizontal: spacing.xl,
+    },
+    columnWrapper: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        gap: spacing.md,
+    },
+    itemWrap: {
+        marginBottom: 12,
+    },
+    itemWrapWide: {
+        width: '48%',
+    },
+    
+    // Hero Widget
+    heroCard: {
+        backgroundColor: '#172554',
+        borderColor: '#172554',
+        borderWidth: 1,
+        borderRadius: 16,
+        padding: spacing.xl,
+        marginBottom: spacing.md,
+        ...shadow.md,
+    },
+    heroTopRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        gap: spacing.md,
+        marginBottom: spacing.md,
+    },
+    heroIconWrap: {
+        width: 48,
+        height: 48,
+        borderRadius: 16,
+        backgroundColor: 'rgba(255,255,255,0.1)',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    heroCopy: {
+        flex: 1,
+    },
+    heroEyebrow: {
+        fontSize: typography.xsmall,
+        fontFamily: typography.fontHeadline,
+        color: '#BFDBFE',
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+        marginBottom: spacing.xs,
+    },
+    heroTitle: {
+        fontSize: typography.h2,
+        fontFamily: typography.fontHeadline,
+        color: '#FFFFFF',
+        marginBottom: spacing.xs,
+    },
+    heroBody: {
+        fontSize: typography.small,
+        color: '#DBEAFE',
+        lineHeight: 20,
+    },
+    heroCounter: {
+        minWidth: 90,
+        paddingHorizontal: spacing.sm,
+        paddingVertical: spacing.sm,
+        borderRadius: radius.lg,
+        backgroundColor: 'rgba(255,255,255,0.12)',
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.16)',
+        alignItems: 'center',
+    },
+    heroCounterValue: {
+        fontSize: 28,
+        lineHeight: 32,
+        color: '#FFFFFF',
+        fontFamily: typography.fontHeadline,
+    },
+    heroCounterLabel: {
+        marginTop: 2,
+        fontSize: typography.xsmall,
+        color: '#BFDBFE',
+        textTransform: 'uppercase',
+    },
+    heroActionRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: spacing.sm,
+    },
+    actionFlexBtn: {
+        flex: 1,
+    },
+    
+
+    cardInner: {
+        paddingHorizontal: spacing.sm,
+        paddingBottom: spacing.sm,
+    },
+
+    // AI Partner Card
+    partnerCard: {
+        marginBottom: spacing.md,
+        backgroundColor: '#F0F9FF',
+        borderColor: '#BAE6FD',
+        borderWidth: 1,
+        borderRadius: 16,
+        padding: spacing.lg,
+        ...shadow.sm,
+    },
+
+    partnerMetaRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: spacing.sm,
+        marginBottom: spacing.md,
+    },
+    partnerMetaPill: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 12,
+        padding: spacing.sm,
+        borderWidth: 1,
+        borderColor: '#E0F2FE',
+    },
+    partnerMetaLabel: {
+        fontSize: 11,
+        color: '#64748B',
+        textTransform: 'uppercase',
+        fontWeight: '700',
+        marginBottom: 4,
+    },
+    partnerMetaValue: {
+        fontSize: 18,
+        fontFamily: typography.fontHeadline,
+        color: '#0369A1',
+        fontWeight: '800',
+    },
+    quickStartRow: {
+        flexDirection: 'row',
+        gap: spacing.sm,
+        flexWrap: 'wrap',
+    },
+
+    // Pronunciation Highlight
+    pronunciationCard: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: spacing.md,
+        backgroundColor: '#FFFBEB',
+        borderColor: '#FEF3C7',
+        borderWidth: 1,
+        borderRadius: 16,
+        padding: spacing.md,
+        ...shadow.sm,
+    },
+    pronunciationIconWrap: {
+        width: 36,
+        height: 36,
+        borderRadius: 10,
+        backgroundColor: '#FEF3C7',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 12,
+    },
+    pronunciationTextContainer: {
+        flex: 1,
+    },
+    pronunciationTitle: {
+        fontSize: 15,
+        fontWeight: '700',
+        color: '#92400E',
+    },
+    pronunciationSub: {
+        fontSize: 13,
+        color: '#B45309',
+        marginTop: 2,
+    },
+
+    card: {
+        marginBottom: spacing.lg,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 16,
+        borderColor: '#E2E8F0',
+        borderWidth: 1,
+        padding: spacing.lg,
+        ...shadow.sm,
+    },
+
+    searchBox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#F8FAFC',
+        borderRadius: 12,
+        paddingHorizontal: spacing.md,
+        paddingVertical: 10,
+        borderWidth: 1,
+        borderColor: '#CBD5E1',
+        marginBottom: spacing.md,
+    },
+    searchInput: {
+        flex: 1,
+        marginLeft: 8,
+        fontSize: 15,
+        color: '#0F172A',
+        padding: 0,
+    },
+    
+    // Chips 
+    chipScroll: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: spacing.sm,
+    },
+    chipScrollTop: {
+        marginTop: 8,
+    },
+
+    featuredContainer: {
+        marginTop: spacing.md,
+        paddingTop: spacing.md,
+        borderTopWidth: 1,
+        borderTopColor: '#F1F5F9',
+    },
+    featuredLabel: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#64748B',
+        marginBottom: 8,
+    },
+    featuredBox: {
+        backgroundColor: '#F8FAFC',
+        padding: 12,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+    },
+    featuredBoxTitle: {
+        fontSize: 15,
+        fontWeight: '600',
+        color: '#0F172A',
+    },
+
+    listHeaderRow: {
+        marginBottom: spacing.sm,
+        paddingHorizontal: 4,
+    },
+    listHeaderTitle: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: colors.textOnDarkMuted,
+        textTransform: 'uppercase',
+        letterSpacing: 0.5,
+    },
+
+    // Task Item
+    taskItemWrap: {
+        flexGrow: 1,
+        flexBasis: 280,
+        minWidth: 0,
+        marginBottom: spacing.md,
+    },
+    taskRow: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+        minHeight: 188,
+        ...shadow.sm,
+        overflow: 'hidden',
+    },
+    taskRowBody: {
+        padding: spacing.lg,
+    },
+    taskRowHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        marginBottom: 4,
+    },
+    taskRowTitle: {
+        flex: 1,
+        fontSize: 16,
+        fontFamily: typography.fontHeadline,
+        fontWeight: '700',
+        color: '#0F172A',
+        marginRight: 12,
+    },
+    taskRowOpen: {
+        fontSize: 12,
+        fontWeight: '700',
+        color: '#1D4ED8',
+        backgroundColor: '#EFF6FF',
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 6,
+        overflow: 'hidden',
+    },
+    taskRowMeta: {
+        fontSize: 13,
+        color: '#64748B',
+        marginBottom: 12,
+    },
+    taskBadgeRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 6,
+        marginBottom: 10,
+    },
+    badge: {
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 6,
+    },
+    badgeBlue: { backgroundColor: '#EFF6FF' },
+    badgeBlueText: { color: '#1D4ED8' },
+    badgeText: {
+        fontSize: 11,
+        fontWeight: '700',
+        color: '#475569',
+        textTransform: 'uppercase',
+        letterSpacing: 0.5,
+    },
+    taskExplainLine: {
+        fontSize: 13,
+        color: '#475569',
+        fontStyle: 'italic',
+        lineHeight: 20,
+    },
+
+    emptyTitle: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: '#0F172A',
+        marginBottom: 8,
+    },
+    emptySub: {
+        fontSize: 14,
+        color: '#64748B',
+        marginBottom: 16,
+    },
+    targetBox: {
+        marginTop: 12,
+        padding: 12,
+        borderRadius: 10,
+        backgroundColor: '#F1F5F9',
+    },
+    targetLabel: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#334155',
+        marginBottom: 6,
+    },
+    targetLine: {
+        fontSize: 14,
+        color: '#0F172A',
+        lineHeight: 20,
+        marginBottom: 4,
+    },
+    micError: {
+        marginTop: 8,
+        fontSize: 13,
+        color: '#DC2626',
+        lineHeight: 18,
+    },
+    micButtonRow: {
+        marginTop: 12,
+        alignItems: 'flex-start',
+    },
+    micTranscriptBox: {
+        marginTop: 12,
+        padding: 12,
+        borderRadius: 10,
+        backgroundColor: '#F8FAFC',
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+        maxHeight: 160,
+    },
+    micTranscriptText: {
+        fontSize: 14,
+        color: '#334155',
+        lineHeight: 20,
+    },
+    micResultBox: {
+        marginTop: 12,
+        padding: 14,
+        borderRadius: 12,
+        backgroundColor: colors.primarySoft || '#EFF6FF',
+    },
+    micResultTitle: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: '#1D4ED8',
+        marginBottom: 4,
+    },
+    micResultSub: {
+        fontSize: 13,
+        color: '#334155',
+        lineHeight: 19,
+        marginBottom: 6,
+    },
+    micActionLine: {
+        fontSize: 13,
+        color: '#1E293B',
+        lineHeight: 19,
+    }
+}
+
 const LEVELS = ['ALL', 'P1', 'P2', 'P3', 'P4'];
 const LEVEL_LABELS = { ALL: 'All Levels', P1: 'P1 (A1)', P2: 'P2 (A2)', P3: 'P3 (B1)', P4: 'P4 (B2)' };
 
@@ -386,438 +806,4 @@ export default function SpeakingScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        paddingBottom: spacing.xl,
-    },
-    headerSpacer: {
-        paddingTop: spacing.md,
-    },
-
-    listContent: {
-        paddingBottom: spacing.xxl + 84,
-        paddingHorizontal: spacing.lg,
-    },
-    listContentWide: {
-        paddingHorizontal: spacing.xl,
-    },
-    columnWrapper: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        gap: spacing.md,
-    },
-    itemWrap: {
-        marginBottom: 12,
-    },
-    itemWrapWide: {
-        width: '48%',
-    },
-    
-    // Hero Widget
-    heroCard: {
-        backgroundColor: '#172554',
-        borderColor: '#172554',
-        borderWidth: 1,
-        borderRadius: 16,
-        padding: spacing.xl,
-        marginBottom: spacing.md,
-        ...shadow.md,
-    },
-    heroTopRow: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'flex-start',
-        gap: spacing.md,
-        marginBottom: spacing.md,
-    },
-    heroIconWrap: {
-        width: 48,
-        height: 48,
-        borderRadius: 16,
-        backgroundColor: 'rgba(255,255,255,0.1)',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    heroCopy: {
-        flex: 1,
-    },
-    heroEyebrow: {
-        fontSize: typography.xsmall,
-        fontFamily: typography.fontHeadline,
-        color: '#BFDBFE',
-        textTransform: 'uppercase',
-        letterSpacing: 1,
-        marginBottom: spacing.xs,
-    },
-    heroTitle: {
-        fontSize: typography.h2,
-        fontFamily: typography.fontHeadline,
-        color: '#FFFFFF',
-        marginBottom: spacing.xs,
-    },
-    heroBody: {
-        fontSize: typography.small,
-        color: '#DBEAFE',
-        lineHeight: 20,
-    },
-    heroCounter: {
-        minWidth: 90,
-        paddingHorizontal: spacing.sm,
-        paddingVertical: spacing.sm,
-        borderRadius: radius.lg,
-        backgroundColor: 'rgba(255,255,255,0.12)',
-        borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.16)',
-        alignItems: 'center',
-    },
-    heroCounterValue: {
-        fontSize: 28,
-        lineHeight: 32,
-        color: '#FFFFFF',
-        fontFamily: typography.fontHeadline,
-    },
-    heroCounterLabel: {
-        marginTop: 2,
-        fontSize: typography.xsmall,
-        color: '#BFDBFE',
-        textTransform: 'uppercase',
-    },
-    heroActionRow: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: spacing.sm,
-    },
-    actionFlexBtn: {
-        flex: 1,
-    },
-    
-
-    cardInner: {
-        paddingHorizontal: spacing.sm,
-        paddingBottom: spacing.sm,
-    },
-
-
-
-
-
-
-
-
-    // AI Partner Card
-    partnerCard: {
-        marginBottom: spacing.md,
-        backgroundColor: '#F0F9FF',
-        borderColor: '#BAE6FD',
-        borderWidth: 1,
-        borderRadius: 16,
-        padding: spacing.lg,
-        ...shadow.sm,
-    },
-
-
-
-    partnerMetaRow: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: spacing.sm,
-        marginBottom: spacing.md,
-    },
-    partnerMetaPill: {
-        flex: 1,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 12,
-        padding: spacing.sm,
-        borderWidth: 1,
-        borderColor: '#E0F2FE',
-    },
-    partnerMetaLabel: {
-        fontSize: 11,
-        color: '#64748B',
-        textTransform: 'uppercase',
-        fontWeight: '700',
-        marginBottom: 4,
-    },
-    partnerMetaValue: {
-        fontSize: 18,
-        fontFamily: typography.fontHeadline,
-        color: '#0369A1',
-        fontWeight: '800',
-    },
-    quickStartRow: {
-        flexDirection: 'row',
-        gap: spacing.sm,
-        flexWrap: 'wrap',
-    },
-
-    // Pronunciation Highlight
-    pronunciationCard: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: spacing.md,
-        backgroundColor: '#FFFBEB',
-        borderColor: '#FEF3C7',
-        borderWidth: 1,
-        borderRadius: 16,
-        padding: spacing.md,
-        ...shadow.sm,
-    },
-    pronunciationIconWrap: {
-        width: 36,
-        height: 36,
-        borderRadius: 10,
-        backgroundColor: '#FEF3C7',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginRight: 12,
-    },
-    pronunciationTextContainer: {
-        flex: 1,
-    },
-    pronunciationTitle: {
-        fontSize: 15,
-        fontWeight: '700',
-        color: '#92400E',
-    },
-    pronunciationSub: {
-        fontSize: 13,
-        color: '#B45309',
-        marginTop: 2,
-    },
-
-    card: {
-        marginBottom: spacing.lg,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 16,
-        borderColor: '#E2E8F0',
-        borderWidth: 1,
-        padding: spacing.lg,
-        ...shadow.sm,
-    },
-
-
-    searchBox: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#F8FAFC',
-        borderRadius: 12,
-        paddingHorizontal: spacing.md,
-        paddingVertical: 10,
-        borderWidth: 1,
-        borderColor: '#CBD5E1',
-        marginBottom: spacing.md,
-    },
-    searchInput: {
-        flex: 1,
-        marginLeft: 8,
-        fontSize: 15,
-        color: '#0F172A',
-        padding: 0,
-    },
-    
-    // Chips 
-    chipScroll: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: spacing.sm,
-    },
-    chipScrollTop: {
-        marginTop: 8,
-    },
-
-
-
-
-
-
-
-    featuredContainer: {
-        marginTop: spacing.md,
-        paddingTop: spacing.md,
-        borderTopWidth: 1,
-        borderTopColor: '#F1F5F9',
-    },
-    featuredLabel: {
-        fontSize: 13,
-        fontWeight: '700',
-        color: '#64748B',
-        marginBottom: 8,
-    },
-    featuredBox: {
-        backgroundColor: '#F8FAFC',
-        padding: 12,
-        borderRadius: 12,
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-    },
-    featuredBoxTitle: {
-        fontSize: 15,
-        fontWeight: '600',
-        color: '#0F172A',
-    },
-
-    listHeaderRow: {
-        marginBottom: spacing.sm,
-        paddingHorizontal: 4,
-    },
-    listHeaderTitle: {
-        fontSize: 14,
-        fontWeight: '700',
-        color: colors.textOnDarkMuted,
-        textTransform: 'uppercase',
-        letterSpacing: 0.5,
-    },
-
-    // Task Item
-    taskItemWrap: {
-        flexGrow: 1,
-        flexBasis: 280,
-        minWidth: 0,
-        marginBottom: spacing.md,
-    },
-    taskRow: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-        minHeight: 188,
-        ...shadow.sm,
-        overflow: 'hidden',
-    },
-    taskRowBody: {
-        padding: spacing.lg,
-    },
-    taskRowHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        marginBottom: 4,
-    },
-    taskRowTitle: {
-        flex: 1,
-        fontSize: 16,
-        fontFamily: typography.fontHeadline,
-        fontWeight: '700',
-        color: '#0F172A',
-        marginRight: 12,
-    },
-    taskRowOpen: {
-        fontSize: 12,
-        fontWeight: '700',
-        color: '#1D4ED8',
-        backgroundColor: '#EFF6FF',
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        borderRadius: 6,
-        overflow: 'hidden',
-    },
-    taskRowMeta: {
-        fontSize: 13,
-        color: '#64748B',
-        marginBottom: 12,
-    },
-    taskBadgeRow: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 6,
-        marginBottom: 10,
-    },
-    badge: {
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        borderRadius: 6,
-    },
-    badgeBlue: { backgroundColor: '#EFF6FF' },
-    badgeBlueText: { color: '#1D4ED8' },
-    badgeText: {
-        fontSize: 11,
-        fontWeight: '700',
-        color: '#475569',
-        textTransform: 'uppercase',
-        letterSpacing: 0.5,
-    },
-    taskExplainLine: {
-        fontSize: 13,
-        color: '#475569',
-        fontStyle: 'italic',
-        lineHeight: 20,
-    },
-
-    emptyTitle: {
-        fontSize: 16,
-        fontWeight: '700',
-        color: '#0F172A',
-        marginBottom: 8,
-    },
-    emptySub: {
-        fontSize: 14,
-        color: '#64748B',
-        marginBottom: 16,
-    },
-    targetBox: {
-        marginTop: 12,
-        padding: 12,
-        borderRadius: 10,
-        backgroundColor: '#F1F5F9',
-    },
-    targetLabel: {
-        fontSize: 13,
-        fontWeight: '700',
-        color: '#334155',
-        marginBottom: 6,
-    },
-    targetLine: {
-        fontSize: 14,
-        color: '#0F172A',
-        lineHeight: 20,
-        marginBottom: 4,
-    },
-    micError: {
-        marginTop: 8,
-        fontSize: 13,
-        color: '#DC2626',
-        lineHeight: 18,
-    },
-    micButtonRow: {
-        marginTop: 12,
-        alignItems: 'flex-start',
-    },
-    micTranscriptBox: {
-        marginTop: 12,
-        padding: 12,
-        borderRadius: 10,
-        backgroundColor: '#F8FAFC',
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-        maxHeight: 160,
-    },
-    micTranscriptText: {
-        fontSize: 14,
-        color: '#334155',
-        lineHeight: 20,
-    },
-    micResultBox: {
-        marginTop: 12,
-        padding: 14,
-        borderRadius: 12,
-        backgroundColor: colors.primarySoft || '#EFF6FF',
-    },
-    micResultTitle: {
-        fontSize: 16,
-        fontWeight: '700',
-        color: '#1D4ED8',
-        marginBottom: 4,
-    },
-    micResultSub: {
-        fontSize: 13,
-        color: '#334155',
-        lineHeight: 19,
-        marginBottom: 6,
-    },
-    micActionLine: {
-        fontSize: 13,
-        color: '#1E293B',
-        lineHeight: 19,
-    }
-});
+);

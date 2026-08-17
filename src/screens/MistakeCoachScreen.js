@@ -14,6 +14,166 @@ import Button from '../components/Button';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import { buildMistakeExplain, requestMistakeCoachReply } from '../utils/mistakeCoach';
 
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: spacing.xl,
+  },
+  h1: {
+    fontSize: typography.h1,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.xs,
+  },
+  sub: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: spacing.md,
+  },
+  h3: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: spacing.sm,
+  },
+  card: {
+    marginBottom: spacing.md,
+  },
+  questionText: {
+    fontSize: typography.body,
+    color: colors.text,
+    marginBottom: spacing.sm,
+  },
+  correct: {
+    color: colors.success,
+    fontSize: typography.small,
+    marginBottom: spacing.xs,
+  },
+  incorrect: {
+    color: colors.error,
+    fontSize: typography.small,
+    marginBottom: spacing.xs,
+  },
+  explain: {
+    color: colors.muted,
+    fontSize: typography.small,
+    marginTop: spacing.xs,
+  },
+  mistakeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: spacing.sm,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.08)',
+    marginBottom: spacing.sm,
+    backgroundColor: colors.surface,
+  },
+  mistakeRowActive: {
+    borderColor: colors.primary,
+    backgroundColor: colors.primarySoft,
+  },
+  mistakeIndex: {
+    fontSize: typography.h3,
+    fontFamily: typography.fontHeadline,
+    color: colors.primary,
+    marginRight: spacing.sm,
+  },
+  mistakeBody: {
+    flex: 1,
+  },
+  mistakeQuestion: {
+    fontSize: typography.small,
+    color: colors.text,
+    marginBottom: 2,
+  },
+  mistakeMeta: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+  },
+  quickRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.xs,
+    marginBottom: spacing.sm,
+  },
+  quickChip: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: radius.full,
+    backgroundColor: colors.primarySoft,
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.08)',
+  },
+  quickChipText: {
+    fontSize: typography.xsmall,
+    color: colors.primary,
+    fontFamily: typography.fontHeadline,
+  },
+  chatBox: {
+    maxHeight: 260,
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.08)',
+    borderRadius: radius.md,
+    padding: spacing.sm,
+    backgroundColor: colors.surface,
+  },
+  chatContent: {
+    paddingBottom: spacing.sm,
+  },
+  bubble: {
+    padding: spacing.sm,
+    borderRadius: radius.md,
+    marginBottom: spacing.sm,
+    ...shadow.slight,
+  },
+  bubbleAI: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.06)',
+  },
+  bubbleUser: {
+    alignSelf: 'flex-end',
+    backgroundColor: colors.primary,
+  },
+  bubbleText: {
+    fontSize: typography.small,
+  },
+  bubbleTextAI: {
+    color: colors.text,
+  },
+  bubbleTextUser: {
+    color: '#fff',
+  },
+  bubbleMeta: {
+    fontSize: typography.xsmall,
+    color: colors.muted,
+    marginTop: 4,
+  },
+  loadingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+  },
+  loadingText: {
+    color: colors.muted,
+    fontSize: typography.xsmall,
+  },
+  inputRow: {
+    marginTop: spacing.sm,
+    gap: spacing.sm,
+  },
+  input: {
+    minHeight: 44,
+    padding: spacing.sm,
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.1)',
+    borderRadius: radius.md,
+    fontSize: typography.small,
+    color: colors.text,
+    backgroundColor: colors.surface,
+  },
+}
+
 const DEFAULT_QUESTIONS = [
   'Why is my answer wrong?',
   'What clue proves the correct option?',
@@ -229,162 +389,4 @@ export default function MistakeCoachScreen({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: spacing.xl,
-  },
-  h1: {
-    fontSize: typography.h1,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.xs,
-  },
-  sub: {
-    fontSize: typography.small,
-    color: colors.muted,
-    marginBottom: spacing.md,
-  },
-  h3: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: spacing.sm,
-  },
-  card: {
-    marginBottom: spacing.md,
-  },
-  questionText: {
-    fontSize: typography.body,
-    color: colors.text,
-    marginBottom: spacing.sm,
-  },
-  correct: {
-    color: colors.success,
-    fontSize: typography.small,
-    marginBottom: spacing.xs,
-  },
-  incorrect: {
-    color: colors.error,
-    fontSize: typography.small,
-    marginBottom: spacing.xs,
-  },
-  explain: {
-    color: colors.muted,
-    fontSize: typography.small,
-    marginTop: spacing.xs,
-  },
-  mistakeRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: spacing.sm,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.08)',
-    marginBottom: spacing.sm,
-    backgroundColor: colors.surface,
-  },
-  mistakeRowActive: {
-    borderColor: colors.primary,
-    backgroundColor: colors.primarySoft,
-  },
-  mistakeIndex: {
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
-    color: colors.primary,
-    marginRight: spacing.sm,
-  },
-  mistakeBody: {
-    flex: 1,
-  },
-  mistakeQuestion: {
-    fontSize: typography.small,
-    color: colors.text,
-    marginBottom: 2,
-  },
-  mistakeMeta: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-  },
-  quickRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.xs,
-    marginBottom: spacing.sm,
-  },
-  quickChip: {
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderRadius: radius.full,
-    backgroundColor: colors.primarySoft,
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.08)',
-  },
-  quickChipText: {
-    fontSize: typography.xsmall,
-    color: colors.primary,
-    fontFamily: typography.fontHeadline,
-  },
-  chatBox: {
-    maxHeight: 260,
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.08)',
-    borderRadius: radius.md,
-    padding: spacing.sm,
-    backgroundColor: colors.surface,
-  },
-  chatContent: {
-    paddingBottom: spacing.sm,
-  },
-  bubble: {
-    padding: spacing.sm,
-    borderRadius: radius.md,
-    marginBottom: spacing.sm,
-    ...shadow.slight,
-  },
-  bubbleAI: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.06)',
-  },
-  bubbleUser: {
-    alignSelf: 'flex-end',
-    backgroundColor: colors.primary,
-  },
-  bubbleText: {
-    fontSize: typography.small,
-  },
-  bubbleTextAI: {
-    color: colors.text,
-  },
-  bubbleTextUser: {
-    color: '#fff',
-  },
-  bubbleMeta: {
-    fontSize: typography.xsmall,
-    color: colors.muted,
-    marginTop: 4,
-  },
-  loadingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs,
-  },
-  loadingText: {
-    color: colors.muted,
-    fontSize: typography.xsmall,
-  },
-  inputRow: {
-    marginTop: spacing.sm,
-    gap: spacing.sm,
-  },
-  input: {
-    minHeight: 44,
-    padding: spacing.sm,
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.1)',
-    borderRadius: radius.md,
-    fontSize: typography.small,
-    color: colors.text,
-    backgroundColor: colors.surface,
-  },
-});
+);

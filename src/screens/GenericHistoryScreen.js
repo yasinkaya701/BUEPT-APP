@@ -18,6 +18,181 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import { Sparkline } from '../components/ui';
 import { useAppState } from '../context/AppState';
 
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: spacing.xl,
+    paddingHorizontal: spacing.md,
+  },
+  header: {
+    alignItems: 'center',
+    paddingVertical: spacing.lg,
+  },
+  iconWrap: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.sm,
+  },
+  title: {
+    fontSize: typography.h2 || 22,
+    fontFamily: typography.fontHeadline,
+    color: colors.text,
+    marginBottom: 4,
+  },
+  count: {
+    fontSize: typography.small || 12,
+    color: colors.muted,
+  },
+  chartCard: {
+    marginBottom: spacing.lg,
+    padding: spacing.md,
+  },
+  chartAverage: {
+    fontSize: typography.small,
+    color: colors.textSecondary,
+    marginBottom: spacing.sm,
+    fontFamily: typography.fontHeadline,
+  },
+  sparklineWrap: {
+    alignItems: 'center',
+    marginTop: spacing.sm,
+  },
+  filterCard: {
+    marginBottom: spacing.lg,
+    padding: spacing.md,
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderWidth: 1,
+    borderRadius: radius.lg,
+  },
+  filterLabel: {
+    fontSize: typography.small,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    fontFamily: typography.fontHeadline,
+    marginBottom: spacing.xs,
+  },
+  pillRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  pill: {
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 6,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  pillText: {
+    fontSize: typography.xsmall,
+    fontFamily: typography.fontHeadline,
+  },
+  chartLabel: {
+    fontSize: typography.small || 12,
+    color: colors.muted,
+    marginBottom: spacing.sm,
+    fontFamily: typography.fontBody,
+  },
+  chartRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    height: 56,
+    gap: 6,
+  },
+  chartCol: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  chartBar: {
+    borderRadius: radius.sm || 4,
+    minHeight: 4,
+  },
+  chartFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 4,
+  },
+  chartFooterText: {
+    fontSize: 10,
+    color: colors.muted,
+  },
+  empty: {
+    alignItems: 'center',
+    paddingVertical: spacing.xxl || 48,
+    gap: spacing.md,
+  },
+  emptyText: {
+    fontSize: typography.body || 14,
+    color: colors.muted,
+    textAlign: 'center',
+    maxWidth: 260,
+    lineHeight: 22,
+    fontFamily: typography.fontBody,
+  },
+  card: {
+    marginBottom: spacing.md,
+  },
+  cardRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  cardLeft: {
+    flex: 1,
+    paddingRight: spacing.sm,
+  },
+  cardLabel: {
+    fontSize: typography.caption || 11,
+    fontFamily: typography.fontHeadline,
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 2,
+  },
+  cardDate: {
+    fontSize: typography.body || 14,
+    color: colors.text,
+    fontFamily: typography.fontHeadline,
+  },
+  cardDetail: {
+    fontSize: typography.small || 12,
+    color: colors.muted,
+    marginTop: 2,
+  },
+  cardRight: {
+    alignItems: 'flex-end',
+    gap: 4,
+  },
+  cardScore: {
+    fontSize: typography.h3 || 18,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+  },
+  scoreBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: radius.pill || 12,
+  },
+  scoreBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  cardFooter: {
+    marginTop: spacing.sm,
+    paddingTop: spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: colors.border || 'rgba(0,0,0,0.06)',
+  },
+  viewDetail: {
+    fontSize: typography.small || 12,
+    fontFamily: typography.fontHeadline,
+  },
+}
+
 const HISTORY_CONFIG = {
   reading: {
     title: 'Reading History',
@@ -262,177 +437,4 @@ export default function GenericHistoryScreen({ navigation, route }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: spacing.xl,
-    paddingHorizontal: spacing.md,
-  },
-  header: {
-    alignItems: 'center',
-    paddingVertical: spacing.lg,
-  },
-  iconWrap: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: spacing.sm,
-  },
-  title: {
-    fontSize: typography.h2 || 22,
-    fontFamily: typography.fontHeadline,
-    color: colors.text,
-    marginBottom: 4,
-  },
-  count: {
-    fontSize: typography.small || 12,
-    color: colors.muted,
-  },
-  chartCard: {
-    marginBottom: spacing.lg,
-    padding: spacing.md,
-  },
-  chartAverage: {
-    fontSize: typography.small,
-    color: colors.textSecondary,
-    marginBottom: spacing.sm,
-    fontFamily: typography.fontHeadline,
-  },
-  sparklineWrap: {
-    alignItems: 'center',
-    marginTop: spacing.sm,
-  },
-  filterCard: {
-    marginBottom: spacing.lg,
-    padding: spacing.md,
-    backgroundColor: colors.surface,
-    borderColor: colors.border,
-    borderWidth: 1,
-    borderRadius: radius.lg,
-  },
-  filterLabel: {
-    fontSize: typography.small,
-    color: colors.muted,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    fontFamily: typography.fontHeadline,
-    marginBottom: spacing.xs,
-  },
-  pillRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    marginBottom: spacing.sm,
-  },
-  pill: {
-    borderRadius: radius.pill,
-    paddingHorizontal: spacing.md,
-    paddingVertical: 6,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  pillText: {
-    fontSize: typography.xsmall,
-    fontFamily: typography.fontHeadline,
-  },
-  chartLabel: {
-    fontSize: typography.small || 12,
-    color: colors.muted,
-    marginBottom: spacing.sm,
-    fontFamily: typography.fontBody,
-  },
-  chartRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    height: 56,
-    gap: 6,
-  },
-  chartCol: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  chartBar: {
-    borderRadius: radius.sm || 4,
-    minHeight: 4,
-  },
-  chartFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 4,
-  },
-  chartFooterText: {
-    fontSize: 10,
-    color: colors.muted,
-  },
-  empty: {
-    alignItems: 'center',
-    paddingVertical: spacing.xxl || 48,
-    gap: spacing.md,
-  },
-  emptyText: {
-    fontSize: typography.body || 14,
-    color: colors.muted,
-    textAlign: 'center',
-    maxWidth: 260,
-    lineHeight: 22,
-    fontFamily: typography.fontBody,
-  },
-  card: {
-    marginBottom: spacing.md,
-  },
-  cardRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  cardLeft: {
-    flex: 1,
-    paddingRight: spacing.sm,
-  },
-  cardLabel: {
-    fontSize: typography.caption || 11,
-    fontFamily: typography.fontHeadline,
-    color: colors.muted,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginBottom: 2,
-  },
-  cardDate: {
-    fontSize: typography.body || 14,
-    color: colors.text,
-    fontFamily: typography.fontHeadline,
-  },
-  cardDetail: {
-    fontSize: typography.small || 12,
-    color: colors.muted,
-    marginTop: 2,
-  },
-  cardRight: {
-    alignItems: 'flex-end',
-    gap: 4,
-  },
-  cardScore: {
-    fontSize: typography.h3 || 18,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '800',
-  },
-  scoreBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: radius.pill || 12,
-  },
-  scoreBadgeText: {
-    fontSize: 11,
-    fontWeight: '700',
-  },
-  cardFooter: {
-    marginTop: spacing.sm,
-    paddingTop: spacing.sm,
-    borderTopWidth: 1,
-    borderTopColor: colors.border || 'rgba(0,0,0,0.06)',
-  },
-  viewDetail: {
-    fontSize: typography.small || 12,
-    fontFamily: typography.fontHeadline,
-  },
-});
+);

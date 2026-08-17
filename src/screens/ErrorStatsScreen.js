@@ -7,6 +7,110 @@ import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 import { speakText } from '../hooks/useTts';
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingBottom: spacing.md,
+    },
+    h1: {
+        fontSize: typography.h1,
+        fontFamily: typography.fontHeadline,
+        color: colors.text,
+        marginBottom: spacing.xs,
+    },
+    sub: {
+        fontSize: typography.small,
+        color: colors.muted,
+        marginBottom: spacing.md,
+    },
+    tabContainer: {
+        flexDirection: 'row',
+        backgroundColor: colors.surface,
+        padding: 4,
+        borderRadius: 12,
+        marginBottom: spacing.md,
+        borderWidth: 1,
+        borderColor: colors.secondary,
+    },
+    tabBtn: {
+        flex: 1,
+        paddingVertical: spacing.sm,
+        alignItems: 'center',
+        borderRadius: 8,
+    },
+    tabBtnActive: {
+        backgroundColor: colors.primary,
+    },
+    tabText: {
+        fontSize: typography.small,
+        fontFamily: typography.fontHeadline,
+        color: colors.text,
+    },
+    tabTextActive: {
+        color: '#fff',
+    },
+    listContainer: {
+        flex: 1,
+    },
+    emptyCard: {
+        alignItems: 'center',
+        padding: spacing.xl,
+        marginTop: spacing.lg,
+    },
+    emptyText: {
+        fontSize: typography.body,
+        color: colors.muted,
+        textAlign: 'center',
+        marginBottom: spacing.md,
+        lineHeight: 22,
+    },
+    clearRow: {
+        alignItems: 'flex-end',
+        marginBottom: spacing.sm,
+    },
+    listItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: colors.surface,
+        padding: spacing.md,
+        borderRadius: 14,
+        marginBottom: spacing.sm,
+        borderWidth: 1,
+        borderColor: colors.secondary,
+    },
+    wordInfo: {
+        flex: 1,
+        marginRight: spacing.sm,
+    },
+    wordText: {
+        fontSize: typography.h3,
+        fontFamily: typography.fontHeadline,
+        color: '#B71C1C', // red hue for errors
+        marginBottom: 2,
+    },
+    countText: {
+        fontSize: typography.small,
+        color: colors.muted,
+    },
+    actionRow: {
+        flexDirection: 'row',
+        gap: spacing.sm,
+    },
+    iconBtn: {
+        padding: 6,
+        backgroundColor: '#F5F5F5',
+        borderRadius: 8,
+    },
+    iconText: {
+        fontSize: 18,
+    },
+    arrowIcon: {
+        fontSize: 20,
+        color: colors.muted,
+    },
+}
+
 export default function ErrorStatsScreen({ navigation }) {
     const { errorWords, grammarErrors, clearErrorWords, clearGrammarErrors } = useAppState();
     const [activeTab, setActiveTab] = useState('words'); // 'words' | 'grammar'
@@ -118,106 +222,4 @@ export default function ErrorStatsScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingBottom: spacing.md,
-    },
-    h1: {
-        fontSize: typography.h1,
-        fontFamily: typography.fontHeadline,
-        color: colors.text,
-        marginBottom: spacing.xs,
-    },
-    sub: {
-        fontSize: typography.small,
-        color: colors.muted,
-        marginBottom: spacing.md,
-    },
-    tabContainer: {
-        flexDirection: 'row',
-        backgroundColor: colors.surface,
-        padding: 4,
-        borderRadius: 12,
-        marginBottom: spacing.md,
-        borderWidth: 1,
-        borderColor: colors.secondary,
-    },
-    tabBtn: {
-        flex: 1,
-        paddingVertical: spacing.sm,
-        alignItems: 'center',
-        borderRadius: 8,
-    },
-    tabBtnActive: {
-        backgroundColor: colors.primary,
-    },
-    tabText: {
-        fontSize: typography.small,
-        fontFamily: typography.fontHeadline,
-        color: colors.text,
-    },
-    tabTextActive: {
-        color: '#fff',
-    },
-    listContainer: {
-        flex: 1,
-    },
-    emptyCard: {
-        alignItems: 'center',
-        padding: spacing.xl,
-        marginTop: spacing.lg,
-    },
-    emptyText: {
-        fontSize: typography.body,
-        color: colors.muted,
-        textAlign: 'center',
-        marginBottom: spacing.md,
-        lineHeight: 22,
-    },
-    clearRow: {
-        alignItems: 'flex-end',
-        marginBottom: spacing.sm,
-    },
-    listItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: colors.surface,
-        padding: spacing.md,
-        borderRadius: 14,
-        marginBottom: spacing.sm,
-        borderWidth: 1,
-        borderColor: colors.secondary,
-    },
-    wordInfo: {
-        flex: 1,
-        marginRight: spacing.sm,
-    },
-    wordText: {
-        fontSize: typography.h3,
-        fontFamily: typography.fontHeadline,
-        color: '#B71C1C', // red hue for errors
-        marginBottom: 2,
-    },
-    countText: {
-        fontSize: typography.small,
-        color: colors.muted,
-    },
-    actionRow: {
-        flexDirection: 'row',
-        gap: spacing.sm,
-    },
-    iconBtn: {
-        padding: 6,
-        backgroundColor: '#F5F5F5',
-        borderRadius: 8,
-    },
-    iconText: {
-        fontSize: 18,
-    },
-    arrowIcon: {
-        fontSize: 20,
-        color: colors.muted,
-    },
-});
+);

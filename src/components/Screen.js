@@ -4,6 +4,38 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { spacing, motion, colors } from '../theme/tokens';
 
+const styles = StyleSheet.create({
+  container: { flex: 1, minHeight: 0, backgroundColor: colors.bg },
+  bgImageFull: { ...StyleSheet.absoluteFillObject, width: '100%', height: '100%', opacity: 1.0 },
+  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.5)' },
+  overlayWeb: { backgroundColor: 'rgba(2,8,23,0.85)' },
+  safe: { flex: 1, minHeight: 0, backgroundColor: '#F3F4F6' },
+  safeClear: { flex: 1, minHeight: 0, backgroundColor: 'transparent' },
+
+  // The scroll wrapper: flex:1 + minHeight:0 gives ScrollView a fixed height on web.
+  // Without minHeight:0, a flex child can grow beyond its parent and collapse the scroll.
+  scrollWrapper: {
+    flex: 1,
+    minHeight: 0,
+  },
+
+  // contentContainer inside ScrollView
+  scrollContent: { paddingBottom: spacing.xxl + 96, flexGrow: 1 },
+  scrollContentWeb: { paddingBottom: 72, flexGrow: 1 },
+
+  content: {
+    width: '100%',
+    alignSelf: 'center',
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.sm,
+  },
+  contentWide: { maxWidth: 1120, paddingHorizontal: spacing.xl },
+  contentWeb: { maxWidth: 1280, paddingHorizontal: spacing.lg, backgroundColor: colors.bg },
+  contentPhone: { paddingHorizontal: spacing.sm + 2 },
+  animatedFill: { flex: 1, minHeight: 0 },
+}
+
 const BG_IMAGE = require('../assets/images/boun_campus.png');
 
 export default function Screen({
@@ -107,34 +139,4 @@ export default function Screen({
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, minHeight: 0, backgroundColor: colors.bg },
-  bgImageFull: { ...StyleSheet.absoluteFillObject, width: '100%', height: '100%', opacity: 1.0 },
-  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.5)' },
-  overlayWeb: { backgroundColor: 'rgba(2,8,23,0.85)' },
-  safe: { flex: 1, minHeight: 0, backgroundColor: '#F3F4F6' },
-  safeClear: { flex: 1, minHeight: 0, backgroundColor: 'transparent' },
-
-  // The scroll wrapper: flex:1 + minHeight:0 gives ScrollView a fixed height on web.
-  // Without minHeight:0, a flex child can grow beyond its parent and collapse the scroll.
-  scrollWrapper: {
-    flex: 1,
-    minHeight: 0,
-  },
-
-  // contentContainer inside ScrollView
-  scrollContent: { paddingBottom: spacing.xxl + 96, flexGrow: 1 },
-  scrollContentWeb: { paddingBottom: 72, flexGrow: 1 },
-
-  content: {
-    width: '100%',
-    alignSelf: 'center',
-    paddingHorizontal: spacing.md,
-    paddingTop: spacing.sm,
-    paddingBottom: spacing.sm,
-  },
-  contentWide: { maxWidth: 1120, paddingHorizontal: spacing.xl },
-  contentWeb: { maxWidth: 1280, paddingHorizontal: spacing.lg, backgroundColor: colors.bg },
-  contentPhone: { paddingHorizontal: spacing.sm + 2 },
-  animatedFill: { flex: 1, minHeight: 0 },
-});
+);

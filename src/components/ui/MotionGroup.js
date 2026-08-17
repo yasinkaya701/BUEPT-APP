@@ -2,6 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { View, Animated, Easing, Platform, StyleSheet } from 'react-native';
 import { motion } from '../../theme/tokens';
 
+const styles = StyleSheet.create({
+  wrap: { width: '100%' },
+}
+
 /**
  * MotionGroup — staggered entrance for a row/column of cards or list items.
  *
@@ -69,6 +73,4 @@ export default function MotionGroup({ children, style, axis = 'row', stagger }) 
   );
 }
 
-const styles = StyleSheet.create({
-  wrap: { width: '100%' },
-});
+);

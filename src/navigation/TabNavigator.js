@@ -12,6 +12,255 @@ import DeveloperScreen from '../screens/DeveloperScreen';
 import LogoMark from '../components/LogoMark';
 import { colors, typography, spacing, radius, shadow } from '../theme/tokens';
 
+const styles = StyleSheet.create({
+  tabBar: {
+    position: 'absolute',
+    left: spacing.sm,
+    right: spacing.sm,
+    bottom: spacing.sm,
+    alignSelf: 'center',
+    maxWidth: 760,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.15)',
+    borderTopWidth: 1,
+    justifyContent: 'center',
+    zIndex: 9999,
+  },
+  tabBarWeb: {
+    position: 'absolute',
+    left: spacing.md,
+    right: spacing.md,
+    bottom: spacing.md,
+    alignSelf: 'center',
+    width: 'auto',
+    maxWidth: 1260,
+    borderRadius: 18,
+    backgroundColor: 'rgba(2, 6, 23, 0.78)',
+    borderWidth: 1,
+    borderColor: 'rgba(148, 163, 184, 0.35)',
+    justifyContent: 'center',
+    zIndex: 9999,
+    backdropFilter: 'blur(10px)',
+  },
+  tabBarWebWide: {
+    maxWidth: 1400,
+  },
+  sceneWebDesktop: {
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.lg,
+    paddingLeft: 304,
+    paddingRight: spacing.lg,
+  },
+  label: {
+    fontFamily: typography.fontHeadline,
+    marginTop: 2,
+    lineHeight: 15,
+    fontWeight: '700',
+    letterSpacing: 0.2,
+  },
+  itemStyle: {
+    borderRadius: 14,
+    marginHorizontal: 0,
+    minWidth: 0,
+    paddingVertical: 2,
+  },
+  itemStyleWeb: {
+    marginHorizontal: 2,
+    minHeight: 44,
+    justifyContent: 'center',
+  },
+  iconStyle: {
+    marginTop: 1,
+  },
+  iconWrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 30,
+    height: 24,
+    borderRadius: 12,
+  },
+  iconWrapDense: {
+    width: 24,
+    height: 24,
+  },
+  iconWrapActive: {
+    backgroundColor: 'rgba(255,255,255,0.15)',
+  },
+  iconEmoji: {
+    fontSize: 16,
+  },
+  iconEmojiDense: {
+    fontSize: 14,
+  },
+  iconEmojiActive: {
+    fontSize: 18,
+  },
+  iconEmojiMuted: {
+    opacity: 0.6,
+  },
+  tabButton: {
+    borderRadius: 14,
+  },
+  tabButtonPressed: {
+    opacity: 0.75,
+  },
+  webSidebar: {
+    position: 'absolute',
+    top: spacing.lg,
+    left: spacing.lg,
+    bottom: spacing.lg,
+    width: 264,
+    borderRadius: radius.xl,
+    padding: spacing.lg,
+    backgroundColor: 'rgba(8, 15, 35, 0.86)',
+    borderWidth: 1,
+    borderColor: 'rgba(148, 163, 184, 0.22)',
+    justifyContent: 'space-between',
+    ...shadow.premium,
+    zIndex: 2000,
+    backdropFilter: 'blur(14px)',
+  },
+  webSidebarHero: {
+    gap: spacing.sm,
+  },
+  webSidebarBrandRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  webSidebarBrandCopy: {
+    flex: 1,
+    gap: 2,
+  },
+  webSidebarEyebrow: {
+    color: 'rgba(191, 219, 254, 0.9)',
+    fontFamily: typography.fontHeadline,
+    fontSize: 12,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 1.1,
+  },
+  webSidebarBrandSubhead: {
+    color: 'rgba(226, 232, 240, 0.72)',
+    fontFamily: typography.fontBody,
+    fontSize: 12,
+    lineHeight: 16,
+  },
+  webSidebarTitle: {
+    color: colors.textOnDark,
+    fontFamily: typography.fontHeadline,
+    fontSize: 24,
+    fontWeight: '800',
+    lineHeight: 28,
+  },
+  webSidebarCopy: {
+    color: colors.textOnDarkMuted,
+    fontFamily: typography.fontBody,
+    fontSize: 14,
+    lineHeight: 21,
+  },
+  webSidebarList: {
+    flex: 1,
+    marginTop: spacing.lg,
+    minHeight: 0,
+  },
+  webSidebarListContent: {
+    gap: spacing.sm,
+    paddingBottom: spacing.xl,
+  },
+  webSidebarItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    borderRadius: radius.lg,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.02)',
+  },
+  webSidebarItemActive: {
+    backgroundColor: 'rgba(37, 99, 235, 0.24)',
+    borderColor: 'rgba(96, 165, 250, 0.4)',
+  },
+  webSidebarItemPressed: {
+    opacity: 0.82,
+  },
+  webSidebarItemIcon: {
+    width: 38,
+    height: 38,
+    borderRadius: radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+  },
+  webSidebarItemIconActive: {
+    backgroundColor: 'rgba(255,255,255,0.16)',
+  },
+  webSidebarItemTick: {
+    position: 'absolute',
+    right: spacing.sm,
+    top: '50%',
+    marginTop: -11,
+    width: 3,
+    height: 22,
+    borderRadius: 1.5,
+    backgroundColor: colors.primary,
+  },
+  webSidebarItemEmoji: {
+    fontSize: 18,
+  },
+  webSidebarItemEmojiActive: {
+    fontSize: 20,
+  },
+  webSidebarItemTextWrap: {
+    flex: 1,
+    minWidth: 0,
+  },
+  webSidebarItemLabel: {
+    color: colors.textOnDark,
+    fontFamily: typography.fontHeadline,
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  webSidebarItemLabelActive: {
+    color: '#FFFFFF',
+  },
+  webSidebarItemHint: {
+    marginTop: 2,
+    color: 'rgba(226, 232, 240, 0.72)',
+    fontFamily: typography.fontBody,
+    fontSize: 12,
+    lineHeight: 17,
+  },
+  webSidebarItemHintActive: {
+    color: 'rgba(255,255,255,0.88)',
+  },
+  webSidebarFooter: {
+    marginTop: spacing.lg,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    backgroundColor: 'rgba(15, 23, 42, 0.62)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+  },
+  webSidebarFooterTitle: {
+    color: colors.textOnDark,
+    fontFamily: typography.fontHeadline,
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  webSidebarFooterBody: {
+    marginTop: spacing.xs,
+    color: colors.textOnDarkMuted,
+    fontFamily: typography.fontBody,
+    fontSize: 12,
+    lineHeight: 18,
+  },
+}
+
 const Tab = createBottomTabNavigator();
 
 const TAB_ICONS = {
@@ -312,251 +561,4 @@ export default function TabNavigator() {
   );
 }
 
-const styles = StyleSheet.create({
-  tabBar: {
-    position: 'absolute',
-    left: spacing.sm,
-    right: spacing.sm,
-    bottom: spacing.sm,
-    alignSelf: 'center',
-    maxWidth: 760,
-    borderRadius: 20,
-    backgroundColor: 'rgba(0,0,0,0.55)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.15)',
-    borderTopWidth: 1,
-    justifyContent: 'center',
-    zIndex: 9999,
-  },
-  tabBarWeb: {
-    position: 'absolute',
-    left: spacing.md,
-    right: spacing.md,
-    bottom: spacing.md,
-    alignSelf: 'center',
-    width: 'auto',
-    maxWidth: 1260,
-    borderRadius: 18,
-    backgroundColor: 'rgba(2, 6, 23, 0.78)',
-    borderWidth: 1,
-    borderColor: 'rgba(148, 163, 184, 0.35)',
-    justifyContent: 'center',
-    zIndex: 9999,
-    backdropFilter: 'blur(10px)',
-  },
-  tabBarWebWide: {
-    maxWidth: 1400,
-  },
-  sceneWebDesktop: {
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.lg,
-    paddingLeft: 304,
-    paddingRight: spacing.lg,
-  },
-  label: {
-    fontFamily: typography.fontHeadline,
-    marginTop: 2,
-    lineHeight: 15,
-    fontWeight: '700',
-    letterSpacing: 0.2,
-  },
-  itemStyle: {
-    borderRadius: 14,
-    marginHorizontal: 0,
-    minWidth: 0,
-    paddingVertical: 2,
-  },
-  itemStyleWeb: {
-    marginHorizontal: 2,
-    minHeight: 44,
-    justifyContent: 'center',
-  },
-  iconStyle: {
-    marginTop: 1,
-  },
-  iconWrap: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 30,
-    height: 24,
-    borderRadius: 12,
-  },
-  iconWrapDense: {
-    width: 24,
-    height: 24,
-  },
-  iconWrapActive: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
-  },
-  iconEmoji: {
-    fontSize: 16,
-  },
-  iconEmojiDense: {
-    fontSize: 14,
-  },
-  iconEmojiActive: {
-    fontSize: 18,
-  },
-  iconEmojiMuted: {
-    opacity: 0.6,
-  },
-  tabButton: {
-    borderRadius: 14,
-  },
-  tabButtonPressed: {
-    opacity: 0.75,
-  },
-  webSidebar: {
-    position: 'absolute',
-    top: spacing.lg,
-    left: spacing.lg,
-    bottom: spacing.lg,
-    width: 264,
-    borderRadius: radius.xl,
-    padding: spacing.lg,
-    backgroundColor: 'rgba(8, 15, 35, 0.86)',
-    borderWidth: 1,
-    borderColor: 'rgba(148, 163, 184, 0.22)',
-    justifyContent: 'space-between',
-    ...shadow.premium,
-    zIndex: 2000,
-    backdropFilter: 'blur(14px)',
-  },
-  webSidebarHero: {
-    gap: spacing.sm,
-  },
-  webSidebarBrandRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-  },
-  webSidebarBrandCopy: {
-    flex: 1,
-    gap: 2,
-  },
-  webSidebarEyebrow: {
-    color: 'rgba(191, 219, 254, 0.9)',
-    fontFamily: typography.fontHeadline,
-    fontSize: 12,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 1.1,
-  },
-  webSidebarBrandSubhead: {
-    color: 'rgba(226, 232, 240, 0.72)',
-    fontFamily: typography.fontBody,
-    fontSize: 12,
-    lineHeight: 16,
-  },
-  webSidebarTitle: {
-    color: colors.textOnDark,
-    fontFamily: typography.fontHeadline,
-    fontSize: 24,
-    fontWeight: '800',
-    lineHeight: 28,
-  },
-  webSidebarCopy: {
-    color: colors.textOnDarkMuted,
-    fontFamily: typography.fontBody,
-    fontSize: 14,
-    lineHeight: 21,
-  },
-  webSidebarList: {
-    flex: 1,
-    marginTop: spacing.lg,
-    minHeight: 0,
-  },
-  webSidebarListContent: {
-    gap: spacing.sm,
-    paddingBottom: spacing.xl,
-  },
-  webSidebarItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    borderRadius: radius.lg,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.md,
-    backgroundColor: 'rgba(255,255,255,0.04)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.02)',
-  },
-  webSidebarItemActive: {
-    backgroundColor: 'rgba(37, 99, 235, 0.24)',
-    borderColor: 'rgba(96, 165, 250, 0.4)',
-  },
-  webSidebarItemPressed: {
-    opacity: 0.82,
-  },
-  webSidebarItemIcon: {
-    width: 38,
-    height: 38,
-    borderRadius: radius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.08)',
-  },
-  webSidebarItemIconActive: {
-    backgroundColor: 'rgba(255,255,255,0.16)',
-  },
-  webSidebarItemTick: {
-    position: 'absolute',
-    right: spacing.sm,
-    top: '50%',
-    marginTop: -11,
-    width: 3,
-    height: 22,
-    borderRadius: 1.5,
-    backgroundColor: colors.primary,
-  },
-  webSidebarItemEmoji: {
-    fontSize: 18,
-  },
-  webSidebarItemEmojiActive: {
-    fontSize: 20,
-  },
-  webSidebarItemTextWrap: {
-    flex: 1,
-    minWidth: 0,
-  },
-  webSidebarItemLabel: {
-    color: colors.textOnDark,
-    fontFamily: typography.fontHeadline,
-    fontSize: 15,
-    fontWeight: '700',
-  },
-  webSidebarItemLabelActive: {
-    color: '#FFFFFF',
-  },
-  webSidebarItemHint: {
-    marginTop: 2,
-    color: 'rgba(226, 232, 240, 0.72)',
-    fontFamily: typography.fontBody,
-    fontSize: 12,
-    lineHeight: 17,
-  },
-  webSidebarItemHintActive: {
-    color: 'rgba(255,255,255,0.88)',
-  },
-  webSidebarFooter: {
-    marginTop: spacing.lg,
-    borderRadius: radius.lg,
-    padding: spacing.md,
-    backgroundColor: 'rgba(15, 23, 42, 0.62)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
-  },
-  webSidebarFooterTitle: {
-    color: colors.textOnDark,
-    fontFamily: typography.fontHeadline,
-    fontSize: 13,
-    fontWeight: '800',
-  },
-  webSidebarFooterBody: {
-    marginTop: spacing.xs,
-    color: colors.textOnDarkMuted,
-    fontFamily: typography.fontBody,
-    fontSize: 12,
-    lineHeight: 18,
-  },
-});
+);

@@ -6,6 +6,39 @@ import { colors, spacing, typography, radius } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { isDemoAiConfigured, requestDemoModule } from '../utils/demoAi';
 
+const styles = StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background },
+    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
+    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
+    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+    sourceText: { fontSize: 12, color: colors.muted, marginTop: 2 },
+
+    scroll: { paddingHorizontal: spacing.xl },
+
+    builderCard: { padding: spacing.xl, borderRadius: radius.xl, backgroundColor: '#fff', marginBottom: spacing.xl },
+    builderHead: { fontSize: 16, fontWeight: '800', color: colors.primaryDark, marginBottom: spacing.lg },
+    inputLabel: { fontSize: 13, fontWeight: '700', color: colors.muted, marginBottom: 6 },
+    input: { backgroundColor: 'rgba(0,0,0,0.03)', padding: spacing.md, borderRadius: radius.md, fontSize: 15, color: colors.text, marginBottom: spacing.lg, borderWidth: 1, borderColor: 'rgba(0,0,0,0.05)' },
+
+    generateBtn: { backgroundColor: colors.primary, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: spacing.md, borderRadius: radius.md },
+    generateBtnText: { color: '#fff', fontWeight: '800', fontSize: 15 },
+
+    resultCard: { padding: spacing.lg, borderRadius: radius.xl, backgroundColor: '#fff', borderWidth: 2, borderColor: colors.primarySoft },
+    resultHeadRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.md },
+    resultHead: { fontSize: 14, fontWeight: '800', color: colors.primary },
+    copyBtn: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingVertical: 6, backgroundColor: 'rgba(0,0,0,0.05)', borderRadius: radius.pill },
+    copyBtnText: { fontSize: 12, fontWeight: '700', color: colors.text, marginLeft: 4 },
+
+    resultArea: { minHeight: 400, fontSize: 14, color: colors.text, lineHeight: 24, textAlignVertical: 'top' },
+
+    emptyState: { alignItems: 'center', paddingVertical: spacing.xxl },
+    emptyText: { fontSize: 13, color: colors.muted, textAlign: 'center', paddingHorizontal: 40, marginTop: spacing.md, lineHeight: 20 },
+    flexFill: { flex: 1 },
+    generateIcon: { marginLeft: 8 },
+    bottomSpacer: { height: 40 },
+}
+
 export default function AcademicWritingScreen({ navigation }) {
     const [topic, setTopic] = useState('');
     const [stance, setStance] = useState('');
@@ -132,35 +165,4 @@ In conclusion, the evidence strongly supports the assertion that ${stance.toLowe
     );
 }
 
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.background },
-    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
-    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
-    sourceText: { fontSize: 12, color: colors.muted, marginTop: 2 },
-
-    scroll: { paddingHorizontal: spacing.xl },
-
-    builderCard: { padding: spacing.xl, borderRadius: radius.xl, backgroundColor: '#fff', marginBottom: spacing.xl },
-    builderHead: { fontSize: 16, fontWeight: '800', color: colors.primaryDark, marginBottom: spacing.lg },
-    inputLabel: { fontSize: 13, fontWeight: '700', color: colors.muted, marginBottom: 6 },
-    input: { backgroundColor: 'rgba(0,0,0,0.03)', padding: spacing.md, borderRadius: radius.md, fontSize: 15, color: colors.text, marginBottom: spacing.lg, borderWidth: 1, borderColor: 'rgba(0,0,0,0.05)' },
-
-    generateBtn: { backgroundColor: colors.primary, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: spacing.md, borderRadius: radius.md },
-    generateBtnText: { color: '#fff', fontWeight: '800', fontSize: 15 },
-
-    resultCard: { padding: spacing.lg, borderRadius: radius.xl, backgroundColor: '#fff', borderWidth: 2, borderColor: colors.primarySoft },
-    resultHeadRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.md },
-    resultHead: { fontSize: 14, fontWeight: '800', color: colors.primary },
-    copyBtn: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingVertical: 6, backgroundColor: 'rgba(0,0,0,0.05)', borderRadius: radius.pill },
-    copyBtnText: { fontSize: 12, fontWeight: '700', color: colors.text, marginLeft: 4 },
-
-    resultArea: { minHeight: 400, fontSize: 14, color: colors.text, lineHeight: 24, textAlignVertical: 'top' },
-
-    emptyState: { alignItems: 'center', paddingVertical: spacing.xxl },
-    emptyText: { fontSize: 13, color: colors.muted, textAlign: 'center', paddingHorizontal: 40, marginTop: spacing.md, lineHeight: 20 },
-    flexFill: { flex: 1 },
-    generateIcon: { marginLeft: 8 },
-    bottomSpacer: { height: 40 },
-});
+);

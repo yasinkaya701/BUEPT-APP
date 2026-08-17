@@ -414,7 +414,9 @@ const styles = StyleSheet.create({
     borderColor: '#B42318',
     backgroundColor: '#FFEBEE',
   },
-});
+}
+
+);
 
 import { useTts } from '../hooks/useTts';
 import OpenEndedPracticeCard from '../components/OpenEndedPracticeCard';
@@ -1480,7 +1482,6 @@ export default function ListeningDetailScreen({ route, navigation }) {
             )
           ) : null}
         </Card>
-
 
         <OpenEndedPracticeCard
           title="Open-Ended Listening Questions"

@@ -5,30 +5,6 @@ import Screen from '../components/Screen';
 import { colors, spacing, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
 
-export default function MockHistoryScreen({ navigation }) {
-  const { mockHistory } = useAppState();
-
-  const openMock = (result) => {
-    navigation.navigate('MockResult', { result });
-  };
-
-  return (
-    <Screen scroll contentStyle={styles.content}>
-      <Text style={styles.h1}>Mock History</Text>
-      {mockHistory.length === 0 && <Text style={styles.body}>No mock results yet.</Text>}
-      {mockHistory.map((m) => (
-        <Pressable key={m.id} onPress={() => openMock(m.result)}>
-          <Card style={styles.card}>
-            <Text style={styles.h3}>Mock • {new Date(m.createdAt).toLocaleDateString()}</Text>
-            <Text style={styles.body}>Overall: {m.result.overall}/100</Text>
-            <Text style={styles.sub}>Listening {m.result.listening} • Reading {m.result.reading} • Writing {m.result.writing}</Text>
-          </Card>
-        </Pressable>
-      ))}
-    </Screen>
-  );
-}
-
 const styles = StyleSheet.create({
   content: {
     paddingBottom: spacing.xl
@@ -55,4 +31,30 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: spacing.lg
   }
-});
+}
+
+export default function MockHistoryScreen({ navigation }) {
+  const { mockHistory } = useAppState();
+
+  const openMock = (result) => {
+    navigation.navigate('MockResult', { result });
+  };
+
+  return (
+    <Screen scroll contentStyle={styles.content}>
+      <Text style={styles.h1}>Mock History</Text>
+      {mockHistory.length === 0 && <Text style={styles.body}>No mock results yet.</Text>}
+      {mockHistory.map((m) => (
+        <Pressable key={m.id} onPress={() => openMock(m.result)}>
+          <Card style={styles.card}>
+            <Text style={styles.h3}>Mock • {new Date(m.createdAt).toLocaleDateString()}</Text>
+            <Text style={styles.body}>Overall: {m.result.overall}/100</Text>
+            <Text style={styles.sub}>Listening {m.result.listening} • Reading {m.result.reading} • Writing {m.result.writing}</Text>
+          </Card>
+        </Pressable>
+      ))}
+    </Screen>
+  );
+}
+
+);

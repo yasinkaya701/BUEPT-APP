@@ -16,6 +16,75 @@ import { useAppState } from '../context/AppState';
 import examResources from '../../data/exam_resources.json';
 import prepProfile from '../../data/bogazici_prep_profile.json';
 
+const styles = StyleSheet.create({
+  container: { paddingBottom: 40 },
+
+  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },
+  sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.lg },
+
+  statsCard: { marginBottom: spacing.lg, backgroundColor: colors.primaryDark, borderColor: colors.primary },
+  statsTitle: { fontSize: typography.small, color: '#A8C0FF', fontFamily: typography.fontHeadline, marginBottom: spacing.md },
+  statsRow: { flexDirection: 'row', alignItems: 'center' },
+  statItem: { flex: 1, alignItems: 'center' },
+  statNum: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: '#fff' },
+  statLabel: { fontSize: typography.small, color: '#A8C0FF' },
+  statDivider: { width: 1, height: 36, backgroundColor: '#4A6A9A' },
+
+  sectionLabel: { fontSize: typography.small, color: colors.muted, fontFamily: typography.fontHeadline, marginBottom: spacing.sm },
+
+  modeRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.lg },
+  modeBtn: {
+    flex: 1, padding: spacing.md, borderRadius: 14, borderWidth: 1.5,
+    borderColor: colors.secondary, backgroundColor: colors.surface,
+  },
+  modeBtnActive: { backgroundColor: colors.primary, borderColor: colors.primary },
+  modeBtnLabel: { fontSize: typography.small, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: 2 },
+  modeBtnLabelActive: { color: '#fff' },
+  modeBtnDesc: { fontSize: 11, color: colors.muted, lineHeight: 16 },
+  modeBtnDescActive: { color: '#DDE8FF' },
+
+  tipsCard: { marginBottom: spacing.lg, backgroundColor: colors.surfaceAlt },
+  tipsTitle: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
+  structRow: { flexDirection: 'row', gap: spacing.sm, paddingVertical: spacing.xs, borderBottomWidth: 1, borderBottomColor: colors.secondary, alignItems: 'flex-start' },
+  structIcon: { fontSize: 16, width: 24 },
+  structSkill: { flex: 1, fontSize: typography.small, color: colors.text, fontFamily: typography.fontHeadline },
+  structTime: { fontSize: typography.small, color: colors.primary, width: 52, fontFamily: typography.fontHeadline },
+  structQs: { flex: 2, fontSize: typography.small, color: colors.muted, lineHeight: 18 },
+  subTaskHint: { marginTop: spacing.xs, marginLeft: spacing.xl, fontSize: typography.small, color: colors.muted, lineHeight: 17 },
+  policyHint: { marginTop: spacing.xs, fontSize: typography.small, color: colors.text, lineHeight: 18 },
+  policyHintMuted: { marginTop: spacing.sm, fontSize: typography.small, color: colors.muted, lineHeight: 18 },
+
+  examCard: { marginBottom: spacing.md },
+  examCardSelected: { borderColor: colors.primary, borderWidth: 2 },
+
+  examHeader: { marginBottom: spacing.sm },
+  examTitleRow: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: spacing.sm },
+  examTitle: { flex: 1, fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text },
+  diffBadge: { paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: 999, borderWidth: 1 },
+  diffText: { fontSize: 11, fontFamily: typography.fontHeadline },
+
+  bestBadge: { alignSelf: 'flex-start', paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: 999, marginTop: 4 },
+  bestGood: { backgroundColor: '#E8F5E9' },
+  bestFair: { backgroundColor: '#FFF3E0' },
+  bestText: { fontSize: 11, fontFamily: typography.fontHeadline, color: colors.text },
+
+  tagRow: { flexDirection: 'row', gap: spacing.xs, marginBottom: spacing.sm, flexWrap: 'wrap' },
+  tag: { backgroundColor: colors.secondary, paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: 999 },
+  tagText: { fontSize: 11, color: colors.primaryDark, fontFamily: typography.fontHeadline },
+
+  examDesc: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.sm, lineHeight: 18 },
+  startRow: { marginTop: spacing.sm },
+
+  card: { marginBottom: spacing.md },
+  resourceCard: { backgroundColor: colors.surfaceAlt },
+  resourceRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing.sm, borderBottomWidth: 1, borderBottomColor: colors.secondary },
+  resourceCopyWrap: { flex: 1, paddingRight: spacing.sm },
+  resourceText: { fontSize: typography.small, color: colors.primary, fontFamily: typography.fontHeadline },
+  resourceArrow: { fontSize: 20, color: colors.muted },
+  resourceHint: { marginTop: 2, fontSize: typography.xsmall, color: colors.muted },
+  resourceStamp: { marginTop: spacing.sm, fontSize: typography.xsmall, color: colors.muted },
+}
+
 const EXAM_MODES = [
   { key: 'timed', label: '⏱ Timed Mode', desc: 'Real exam conditions. Timer runs.' },
   { key: 'practice', label: '📖 Practice Mode', desc: 'No timer. Review at your own pace.' },
@@ -326,71 +395,4 @@ export default function ExamsScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { paddingBottom: 40 },
-
-  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },
-  sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.lg },
-
-  statsCard: { marginBottom: spacing.lg, backgroundColor: colors.primaryDark, borderColor: colors.primary },
-  statsTitle: { fontSize: typography.small, color: '#A8C0FF', fontFamily: typography.fontHeadline, marginBottom: spacing.md },
-  statsRow: { flexDirection: 'row', alignItems: 'center' },
-  statItem: { flex: 1, alignItems: 'center' },
-  statNum: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: '#fff' },
-  statLabel: { fontSize: typography.small, color: '#A8C0FF' },
-  statDivider: { width: 1, height: 36, backgroundColor: '#4A6A9A' },
-
-  sectionLabel: { fontSize: typography.small, color: colors.muted, fontFamily: typography.fontHeadline, marginBottom: spacing.sm },
-
-  modeRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.lg },
-  modeBtn: {
-    flex: 1, padding: spacing.md, borderRadius: 14, borderWidth: 1.5,
-    borderColor: colors.secondary, backgroundColor: colors.surface,
-  },
-  modeBtnActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-  modeBtnLabel: { fontSize: typography.small, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: 2 },
-  modeBtnLabelActive: { color: '#fff' },
-  modeBtnDesc: { fontSize: 11, color: colors.muted, lineHeight: 16 },
-  modeBtnDescActive: { color: '#DDE8FF' },
-
-  tipsCard: { marginBottom: spacing.lg, backgroundColor: colors.surfaceAlt },
-  tipsTitle: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.sm },
-  structRow: { flexDirection: 'row', gap: spacing.sm, paddingVertical: spacing.xs, borderBottomWidth: 1, borderBottomColor: colors.secondary, alignItems: 'flex-start' },
-  structIcon: { fontSize: 16, width: 24 },
-  structSkill: { flex: 1, fontSize: typography.small, color: colors.text, fontFamily: typography.fontHeadline },
-  structTime: { fontSize: typography.small, color: colors.primary, width: 52, fontFamily: typography.fontHeadline },
-  structQs: { flex: 2, fontSize: typography.small, color: colors.muted, lineHeight: 18 },
-  subTaskHint: { marginTop: spacing.xs, marginLeft: spacing.xl, fontSize: typography.small, color: colors.muted, lineHeight: 17 },
-  policyHint: { marginTop: spacing.xs, fontSize: typography.small, color: colors.text, lineHeight: 18 },
-  policyHintMuted: { marginTop: spacing.sm, fontSize: typography.small, color: colors.muted, lineHeight: 18 },
-
-  examCard: { marginBottom: spacing.md },
-  examCardSelected: { borderColor: colors.primary, borderWidth: 2 },
-
-  examHeader: { marginBottom: spacing.sm },
-  examTitleRow: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: spacing.sm },
-  examTitle: { flex: 1, fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text },
-  diffBadge: { paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: 999, borderWidth: 1 },
-  diffText: { fontSize: 11, fontFamily: typography.fontHeadline },
-
-  bestBadge: { alignSelf: 'flex-start', paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: 999, marginTop: 4 },
-  bestGood: { backgroundColor: '#E8F5E9' },
-  bestFair: { backgroundColor: '#FFF3E0' },
-  bestText: { fontSize: 11, fontFamily: typography.fontHeadline, color: colors.text },
-
-  tagRow: { flexDirection: 'row', gap: spacing.xs, marginBottom: spacing.sm, flexWrap: 'wrap' },
-  tag: { backgroundColor: colors.secondary, paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: 999 },
-  tagText: { fontSize: 11, color: colors.primaryDark, fontFamily: typography.fontHeadline },
-
-  examDesc: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.sm, lineHeight: 18 },
-  startRow: { marginTop: spacing.sm },
-
-  card: { marginBottom: spacing.md },
-  resourceCard: { backgroundColor: colors.surfaceAlt },
-  resourceRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing.sm, borderBottomWidth: 1, borderBottomColor: colors.secondary },
-  resourceCopyWrap: { flex: 1, paddingRight: spacing.sm },
-  resourceText: { fontSize: typography.small, color: colors.primary, fontFamily: typography.fontHeadline },
-  resourceArrow: { fontSize: 20, color: colors.muted },
-  resourceHint: { marginTop: 2, fontSize: typography.xsmall, color: colors.muted },
-  resourceStamp: { marginTop: spacing.sm, fontSize: typography.xsmall, color: colors.muted },
-});
+);

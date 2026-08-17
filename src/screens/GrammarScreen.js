@@ -10,341 +10,6 @@ import hardTasks from '../../data/grammar_tasks_hard.json';
 import testEnglishTasks from '../../data/test_english_grammar_tasks.json';
 import { useAppState } from '../context/AppState';
 
-const tasks = [...baseTasks, ...hardTasks, ...testEnglishTasks].map((item) => {
-  const id = String(item?.id || '');
-  const title = String(item?.title || '');
-  // Strip markdown markers so task cards never show raw '###' or '**' glyphs.
-  const explain = String(item?.explanation || item?.explain || '')
-    .replace(/#{1,6}\s+/g, '')
-    .replace(/\*\*(.+?)\*\*/g, '$1')
-    .replace(/\*(.+?)\*/g, '$1')
-    .replace(/^\s*-\s+/gm, '')
-    .replace(/\n{2,}/g, '. ')
-    .replace(/\n/g, ' ')
-    .trim();
-  const isTestEnglish = id.startsWith('g_te_') || id.startsWith('te_');
-  const isUoe = id.includes('_uoe_') || /use of english/i.test(title);
-  return {
-    ...item,
-    explain,
-    _search: `${title} ${explain}`.toLowerCase(),
-    _isTestEnglish: isTestEnglish,
-    _isUoe: isUoe,
-  };
-});
-
-function formatTaskMeta(item, questionCount) {
-  return [item?.level, item?.time, questionCount ? `${questionCount} questions` : null]
-    .filter(Boolean)
-    .join(' · ');
-}
-
-// UI Modules matching ReadingScreen
-function MetricTile({ value, label, accent = 'blue' }) {
-    return (
-      <View style={styles.metricTile}>
-        <View style={[styles.metricAccent, accent === 'teal' ? styles.metricAccentTeal : accent === 'amber' ? styles.metricAccentAmber : styles.metricAccentBlue]} />
-        <Text style={styles.metricValue}>{value}</Text>
-        <Text style={styles.metricLabel}>{label}</Text>
-      </View>
-    );
-}
-
-function FilterChip({ label, active, onPress, helper }) {
-    return (
-      <TouchableOpacity
-      accessibilityRole="button"
-      activeOpacity={0.88}
-      onPress={onPress}
-      hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
-      style={[styles.filterChip, active && styles.filterChipActive]}
-    >
-        <Text style={[styles.filterChipText, active && styles.filterChipTextActive]}>{label}</Text>
-        {helper ? <Text style={[styles.filterChipHelper, active && styles.filterChipHelperActive]}>{helper}</Text> : null}
-      </TouchableOpacity>
-    );
-}
-
-export default function GrammarScreen({ navigation, route }) {
-  const { width } = useWindowDimensions();
-  const isWide = width >= 960;
-  const { grammarHistory, grammarErrors } = useAppState();
-  const [levelFilter, setLevelFilter] = useState('ALL');
-  const [scopeFilter, setScopeFilter] = useState('ALL');
-  const [queryInput, setQueryInput] = useState('');
-  const [query, setQuery] = useState('');
-
-  useEffect(() => {
-    const preset = String(route?.params?.preset || '').toLowerCase();
-    if (preset === 'test_english') {
-      setScopeFilter('TEST_ENGLISH');
-      return;
-    }
-    if (preset === 'use_of_english') {
-      setScopeFilter('UOE');
-      return;
-    }
-    setScopeFilter('ALL');
-  }, [route?.params?.preset]);
-
-  useEffect(() => {
-    const handle = setTimeout(() => {
-      setQuery(queryInput);
-    }, 120);
-    return () => clearTimeout(handle);
-  }, [queryInput]);
-
-  const scopeCounts = useMemo(() => {
-    const testEnglish = tasks.filter((t) => t._isTestEnglish).length;
-    const uoe = tasks.filter((t) => t._isUoe).length;
-    return {
-      all: tasks.length,
-      standard: tasks.length - testEnglish,
-      testEnglish,
-      uoe,
-    };
-  }, []);
-
-  const stats = useMemo(() => {
-    let correct = 0;
-    let total = 0;
-    grammarHistory.forEach((h) => {
-      const s = Number(h?.result?.score || 0);
-      const t = Number(h?.result?.total || 0);
-      if (!t) return;
-      correct += s;
-      total += t;
-    });
-    const accuracy = total ? Math.round((correct / total) * 100) : null;
-    return { correct, total, accuracy, attempts: grammarHistory.length };
-  }, [grammarHistory]);
-
-  const latestTask = useMemo(() => {
-    const latestId = grammarHistory[0]?.result?.taskId;
-    return tasks.find((item) => item.id === latestId) || null;
-  }, [grammarHistory]);
-
-  const weakTopics = useMemo(() => {
-    return Object.entries(grammarErrors || {})
-      .map(([id, item]) => ({
-        id,
-        title: String(item?.title || '').trim() || id,
-        count: Number(item?.count || 0),
-      }))
-      .filter((item) => item.count > 0)
-      .sort((a, b) => b.count - a.count || a.title.localeCompare(b.title))
-      .slice(0, 4);
-  }, [grammarErrors]);
-
-  const filtered = useMemo(() => {
-    return tasks.filter((t) => {
-      const levelOk = levelFilter === 'ALL' || t.level === levelFilter;
-      const q = query.trim().toLowerCase();
-      const queryOk = !q || (t._search || '').includes(q);
-      const isTestEnglish = t._isTestEnglish;
-      const isUoe = t._isUoe;
-      const scopeOk = scopeFilter === 'ALL'
-        || (scopeFilter === 'STANDARD' && !isTestEnglish)
-        || (scopeFilter === 'TEST_ENGLISH' && isTestEnglish)
-        || (scopeFilter === 'UOE' && isUoe);
-      return levelOk && queryOk && scopeOk;
-    });
-  }, [levelFilter, query, scopeFilter]);
-
-  const resetFilters = useCallback(() => {
-    setLevelFilter('ALL');
-    setScopeFilter('ALL');
-    setQueryInput('');
-    setQuery('');
-  }, []);
-
-  const startTask = filtered[0] || tasks[0] || null;
-
-  const renderItem = useCallback(({ item }) => {
-    const questions = item.questions || [];
-    const hasCloze = questions.some((q) => q.type === 'cloze');
-    return (
-      <TouchableOpacity
-        accessibilityRole="button"
-        activeOpacity={0.9}
-        onPress={() => navigation.navigate('GrammarDetail', { taskId: item.id })}
-        hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
-        style={styles.taskRow}
-      >
-        <View style={styles.taskRowBody}>
-          <View style={styles.taskRowHeader}>
-            <Text style={styles.taskRowTitle}>{item.title}</Text>
-            <Text style={styles.taskRowOpen}>Practice</Text>
-          </View>
-          <Text style={styles.taskRowMeta}>{formatTaskMeta(item, questions.length)}</Text>
-
-          <View style={styles.taskBadgeRow}>
-            <View style={[styles.badge, styles.badgeBlue]}>
-              <Text style={[styles.badgeText, styles.badgeBlueText]}>{item.difficulty || 'core'}</Text>
-            </View>
-            <View style={[styles.badge, hasCloze ? styles.badgeGreen : styles.badgeSoft]}>
-              <Text style={[styles.badgeText, hasCloze ? styles.badgeGreenText : null]}>{hasCloze ? 'Cloze' : 'MCQ'}</Text>
-            </View>
-            {item._isTestEnglish ? (
-              <View style={[styles.badge, styles.badgeAmber]}>
-                <Text style={[styles.badgeText, styles.badgeAmberText]}>Test English</Text>
-              </View>
-            ) : null}
-          </View>
-          <Text style={styles.taskExplainLine} numberOfLines={2}>{item.explain || item.explanation}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }, [navigation]);
-
-  const renderEmpty = useCallback(() => (
-    <Card style={styles.card}>
-      <Text style={styles.emptyTitle}>No tasks match current filters</Text>
-      <Text style={styles.emptySub}>Try resetting level/scope filters or clear the search text.</Text>
-      <Button label="Reset Filters" variant="secondary" onPress={resetFilters} />
-    </Card>
-  ), [resetFilters]);
-
-  const renderListHeader = useCallback(() => (
-    <View style={styles.headerSpacer}>
-      <Text style={styles.h1}>Grammar</Text>
-      <Text style={styles.sub}>Targeted grammar practice with filters and quick history access.</Text>
-      <Card style={styles.heroCard} glow>
-        <View style={styles.heroTopRow}>
-            <View style={styles.heroIconWrap}>
-                <Ionicons name="create-outline" size={24} color="#BFDBFE" />
-            </View>
-            <View style={styles.heroCopy}>
-                <Text style={styles.heroEyebrow}>Grammar Studio</Text>
-                <Text style={styles.heroTitle}>Master Use of English and advanced rules.</Text>
-                <Text style={styles.heroBody}>Use the filters to lock to a level or Use of English bank.</Text>
-            </View>
-            <View style={styles.heroCounter}>
-                <Text style={styles.heroCounterValue}>{tasks.length}</Text>
-                <Text style={styles.heroCounterLabel}>Modules</Text>
-            </View>
-        </View>
-        <View style={styles.heroActionRow}>
-          <Button
-            label="Start Practice"
-            icon="play"
-            onPress={() => startTask && navigation.navigate('GrammarDetail', { taskId: startTask.id })}
-            disabled={!startTask}
-          />
-          <Button
-            label="Adaptive Drill"
-            icon="flask-outline"
-            variant="secondary"
-            onPress={() => navigation.navigate('GrammarDrill', { weakTopics })}
-          />
-          <Button
-            label="Use of English"
-            icon="book-outline"
-            variant="secondary"
-            onPress={() => setScopeFilter('UOE')}
-          />
-        </View>
-      </Card>
-
-      <View style={styles.metricGrid}>
-          <MetricTile value={stats.accuracy != null ? `${stats.accuracy}%` : '--'} label="Accuracy" accent="blue" />
-          <MetricTile value={String(stats.attempts)} label="Attempts" accent="teal" />
-          <MetricTile value={String(stats.total)} label="Questions" accent="amber" />
-      </View>
-
-      <Card style={styles.card}>
-        <View style={styles.sectionHead}>
-            <Text style={styles.sectionTitle}>Library & Filters</Text>
-        </View>
-        
-        <View style={styles.searchBox}>
-          <Ionicons name="search" size={18} color={colors.muted} />
-          <TextInput
-            style={styles.searchInput}
-            value={queryInput}
-            onChangeText={setQueryInput}
-            placeholder="Search tense, relative clauses..."
-            placeholderTextColor={colors.muted}
-            autoCapitalize="none"
-          />
-          {queryInput.length > 0 ? (
-            <TouchableOpacity onPress={() => setQueryInput('')}>
-              <Ionicons name="close-circle" size={17} color={colors.muted} />
-            </TouchableOpacity>
-          ) : null}
-        </View>
-
-        <View style={styles.chipScroll}>
-          {['ALL', 'P1', 'P2', 'P3', 'P4'].map((lv) => (
-              <FilterChip 
-                  key={lv} 
-                  label={lv === 'ALL' ? 'All Levels' : lv} 
-                  active={levelFilter === lv} 
-                  onPress={() => setLevelFilter(lv)} 
-              />
-          ))}
-        </View>
-
-        <View style={[styles.chipScroll, styles.chipScrollTop]}>
-          <FilterChip label="All Scope" helper={scopeCounts.all} active={scopeFilter === 'ALL'} onPress={() => setScopeFilter('ALL')} />
-          <FilterChip label="Standard" helper={scopeCounts.standard} active={scopeFilter === 'STANDARD'} onPress={() => setScopeFilter('STANDARD')} />
-          <FilterChip label="Use of English" helper={scopeCounts.uoe} active={scopeFilter === 'UOE'} onPress={() => setScopeFilter('UOE')} />
-          <FilterChip label="Test-English" helper={scopeCounts.testEnglish} active={scopeFilter === 'TEST_ENGLISH'} onPress={() => setScopeFilter('TEST_ENGLISH')} />
-        </View>
-
-        <View style={styles.actionRow}>
-            {latestTask ? (
-                <Button label="Resume Last Test" icon="play-circle-outline" onPress={() => navigation.navigate('GrammarDetail', { taskId: latestTask.id })} style={styles.actionFlexBtn} />
-            ) : null}
-        </View>
-
-        {weakTopics.length > 0 && (
-            <View style={styles.weakTopicsBanner}>
-                <Ionicons name="warning-outline" size={16} color="#B45309" />
-                <Text style={styles.weakTopicsLabel}>Suggested reviews:</Text>
-                <View style={styles.weakTopicChips}>
-                    {weakTopics.map(item => (
-                        <TouchableOpacity key={item.id} onPress={() => setQueryInput(item.title)} style={styles.weakNode}>
-                            <Text style={styles.weakNodeText}>{item.title}</Text>
-                        </TouchableOpacity>
-                    ))}
-                </View>
-                <View style={styles.actionRow}>
-                    <Button
-                        label={`Adaptive Drill (${weakTopics.length} topics)`}
-                        icon="flask-outline"
-                        variant="primary"
-                        onPress={() => navigation.navigate('GrammarDrill', { weakTopics })}
-                        style={styles.actionFlexBtn}
-                    />
-                </View>
-            </View>
-        )}
-      </Card>
-      
-      <View style={styles.listHeaderRow}>
-          <Text style={styles.listHeaderTitle}>{filtered.length} Grammar Modules Visible</Text>
-      </View>
-    </View>
-  ), [navigation, startTask, stats, queryInput, levelFilter, scopeFilter, scopeCounts, weakTopics, filtered.length, latestTask]);
-
-  return (
-    <Screen scroll animate contentStyle={styles.container}>
-      {renderListHeader()}
-      <View style={[styles.listContent, isWide && styles.listContentWide]}>
-          <View style={isWide ? styles.columnWrapper : null}>
-              {filtered.map((item) => (
-                  <View key={item.id} style={[styles.taskItemWrap, isWide && styles.taskItemWrapWide]}>
-                      {renderItem({ item })}
-                  </View>
-              ))}
-          </View>
-          {filtered.length === 0 ? renderEmpty() : null}
-      </View>
-    </Screen>
-  );
-}
-
 const styles = StyleSheet.create({
   container: {
     paddingBottom: spacing.xl,
@@ -735,4 +400,341 @@ const styles = StyleSheet.create({
       color: '#64748B',
       marginBottom: 16,
   }
+}
+
+const tasks = [...baseTasks, ...hardTasks, ...testEnglishTasks].map((item) => {
+  const id = String(item?.id || '');
+  const title = String(item?.title || '');
+  // Strip markdown markers so task cards never show raw '###' or '**' glyphs.
+  const explain = String(item?.explanation || item?.explain || '')
+    .replace(/#{1,6}\s+/g, '')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/^\s*-\s+/gm, '')
+    .replace(/\n{2,}/g, '. ')
+    .replace(/\n/g, ' ')
+    .trim();
+  const isTestEnglish = id.startsWith('g_te_') || id.startsWith('te_');
+  const isUoe = id.includes('_uoe_') || /use of english/i.test(title);
+  return {
+    ...item,
+    explain,
+    _search: `${title} ${explain}`.toLowerCase(),
+    _isTestEnglish: isTestEnglish,
+    _isUoe: isUoe,
+  };
 });
+
+function formatTaskMeta(item, questionCount) {
+  return [item?.level, item?.time, questionCount ? `${questionCount} questions` : null]
+    .filter(Boolean)
+    .join(' · ');
+}
+
+// UI Modules matching ReadingScreen
+function MetricTile({ value, label, accent = 'blue' }) {
+    return (
+      <View style={styles.metricTile}>
+        <View style={[styles.metricAccent, accent === 'teal' ? styles.metricAccentTeal : accent === 'amber' ? styles.metricAccentAmber : styles.metricAccentBlue]} />
+        <Text style={styles.metricValue}>{value}</Text>
+        <Text style={styles.metricLabel}>{label}</Text>
+      </View>
+    );
+}
+
+function FilterChip({ label, active, onPress, helper }) {
+    return (
+      <TouchableOpacity
+      accessibilityRole="button"
+      activeOpacity={0.88}
+      onPress={onPress}
+      hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
+      style={[styles.filterChip, active && styles.filterChipActive]}
+    >
+        <Text style={[styles.filterChipText, active && styles.filterChipTextActive]}>{label}</Text>
+        {helper ? <Text style={[styles.filterChipHelper, active && styles.filterChipHelperActive]}>{helper}</Text> : null}
+      </TouchableOpacity>
+    );
+}
+
+export default function GrammarScreen({ navigation, route }) {
+  const { width } = useWindowDimensions();
+  const isWide = width >= 960;
+  const { grammarHistory, grammarErrors } = useAppState();
+  const [levelFilter, setLevelFilter] = useState('ALL');
+  const [scopeFilter, setScopeFilter] = useState('ALL');
+  const [queryInput, setQueryInput] = useState('');
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    const preset = String(route?.params?.preset || '').toLowerCase();
+    if (preset === 'test_english') {
+      setScopeFilter('TEST_ENGLISH');
+      return;
+    }
+    if (preset === 'use_of_english') {
+      setScopeFilter('UOE');
+      return;
+    }
+    setScopeFilter('ALL');
+  }, [route?.params?.preset]);
+
+  useEffect(() => {
+    const handle = setTimeout(() => {
+      setQuery(queryInput);
+    }, 120);
+    return () => clearTimeout(handle);
+  }, [queryInput]);
+
+  const scopeCounts = useMemo(() => {
+    const testEnglish = tasks.filter((t) => t._isTestEnglish).length;
+    const uoe = tasks.filter((t) => t._isUoe).length;
+    return {
+      all: tasks.length,
+      standard: tasks.length - testEnglish,
+      testEnglish,
+      uoe,
+    };
+  }, []);
+
+  const stats = useMemo(() => {
+    let correct = 0;
+    let total = 0;
+    grammarHistory.forEach((h) => {
+      const s = Number(h?.result?.score || 0);
+      const t = Number(h?.result?.total || 0);
+      if (!t) return;
+      correct += s;
+      total += t;
+    });
+    const accuracy = total ? Math.round((correct / total) * 100) : null;
+    return { correct, total, accuracy, attempts: grammarHistory.length };
+  }, [grammarHistory]);
+
+  const latestTask = useMemo(() => {
+    const latestId = grammarHistory[0]?.result?.taskId;
+    return tasks.find((item) => item.id === latestId) || null;
+  }, [grammarHistory]);
+
+  const weakTopics = useMemo(() => {
+    return Object.entries(grammarErrors || {})
+      .map(([id, item]) => ({
+        id,
+        title: String(item?.title || '').trim() || id,
+        count: Number(item?.count || 0),
+      }))
+      .filter((item) => item.count > 0)
+      .sort((a, b) => b.count - a.count || a.title.localeCompare(b.title))
+      .slice(0, 4);
+  }, [grammarErrors]);
+
+  const filtered = useMemo(() => {
+    return tasks.filter((t) => {
+      const levelOk = levelFilter === 'ALL' || t.level === levelFilter;
+      const q = query.trim().toLowerCase();
+      const queryOk = !q || (t._search || '').includes(q);
+      const isTestEnglish = t._isTestEnglish;
+      const isUoe = t._isUoe;
+      const scopeOk = scopeFilter === 'ALL'
+        || (scopeFilter === 'STANDARD' && !isTestEnglish)
+        || (scopeFilter === 'TEST_ENGLISH' && isTestEnglish)
+        || (scopeFilter === 'UOE' && isUoe);
+      return levelOk && queryOk && scopeOk;
+    });
+  }, [levelFilter, query, scopeFilter]);
+
+  const resetFilters = useCallback(() => {
+    setLevelFilter('ALL');
+    setScopeFilter('ALL');
+    setQueryInput('');
+    setQuery('');
+  }, []);
+
+  const startTask = filtered[0] || tasks[0] || null;
+
+  const renderItem = useCallback(({ item }) => {
+    const questions = item.questions || [];
+    const hasCloze = questions.some((q) => q.type === 'cloze');
+    return (
+      <TouchableOpacity
+        accessibilityRole="button"
+        activeOpacity={0.9}
+        onPress={() => navigation.navigate('GrammarDetail', { taskId: item.id })}
+        hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
+        style={styles.taskRow}
+      >
+        <View style={styles.taskRowBody}>
+          <View style={styles.taskRowHeader}>
+            <Text style={styles.taskRowTitle}>{item.title}</Text>
+            <Text style={styles.taskRowOpen}>Practice</Text>
+          </View>
+          <Text style={styles.taskRowMeta}>{formatTaskMeta(item, questions.length)}</Text>
+
+          <View style={styles.taskBadgeRow}>
+            <View style={[styles.badge, styles.badgeBlue]}>
+              <Text style={[styles.badgeText, styles.badgeBlueText]}>{item.difficulty || 'core'}</Text>
+            </View>
+            <View style={[styles.badge, hasCloze ? styles.badgeGreen : styles.badgeSoft]}>
+              <Text style={[styles.badgeText, hasCloze ? styles.badgeGreenText : null]}>{hasCloze ? 'Cloze' : 'MCQ'}</Text>
+            </View>
+            {item._isTestEnglish ? (
+              <View style={[styles.badge, styles.badgeAmber]}>
+                <Text style={[styles.badgeText, styles.badgeAmberText]}>Test English</Text>
+              </View>
+            ) : null}
+          </View>
+          <Text style={styles.taskExplainLine} numberOfLines={2}>{item.explain || item.explanation}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }, [navigation]);
+
+  const renderEmpty = useCallback(() => (
+    <Card style={styles.card}>
+      <Text style={styles.emptyTitle}>No tasks match current filters</Text>
+      <Text style={styles.emptySub}>Try resetting level/scope filters or clear the search text.</Text>
+      <Button label="Reset Filters" variant="secondary" onPress={resetFilters} />
+    </Card>
+  ), [resetFilters]);
+
+  const renderListHeader = useCallback(() => (
+    <View style={styles.headerSpacer}>
+      <Text style={styles.h1}>Grammar</Text>
+      <Text style={styles.sub}>Targeted grammar practice with filters and quick history access.</Text>
+      <Card style={styles.heroCard} glow>
+        <View style={styles.heroTopRow}>
+            <View style={styles.heroIconWrap}>
+                <Ionicons name="create-outline" size={24} color="#BFDBFE" />
+            </View>
+            <View style={styles.heroCopy}>
+                <Text style={styles.heroEyebrow}>Grammar Studio</Text>
+                <Text style={styles.heroTitle}>Master Use of English and advanced rules.</Text>
+                <Text style={styles.heroBody}>Use the filters to lock to a level or Use of English bank.</Text>
+            </View>
+            <View style={styles.heroCounter}>
+                <Text style={styles.heroCounterValue}>{tasks.length}</Text>
+                <Text style={styles.heroCounterLabel}>Modules</Text>
+            </View>
+        </View>
+        <View style={styles.heroActionRow}>
+          <Button
+            label="Start Practice"
+            icon="play"
+            onPress={() => startTask && navigation.navigate('GrammarDetail', { taskId: startTask.id })}
+            disabled={!startTask}
+          />
+          <Button
+            label="Adaptive Drill"
+            icon="flask-outline"
+            variant="secondary"
+            onPress={() => navigation.navigate('GrammarDrill', { weakTopics })}
+          />
+          <Button
+            label="Use of English"
+            icon="book-outline"
+            variant="secondary"
+            onPress={() => setScopeFilter('UOE')}
+          />
+        </View>
+      </Card>
+
+      <View style={styles.metricGrid}>
+          <MetricTile value={stats.accuracy != null ? `${stats.accuracy}%` : '--'} label="Accuracy" accent="blue" />
+          <MetricTile value={String(stats.attempts)} label="Attempts" accent="teal" />
+          <MetricTile value={String(stats.total)} label="Questions" accent="amber" />
+      </View>
+
+      <Card style={styles.card}>
+        <View style={styles.sectionHead}>
+            <Text style={styles.sectionTitle}>Library & Filters</Text>
+        </View>
+        
+        <View style={styles.searchBox}>
+          <Ionicons name="search" size={18} color={colors.muted} />
+          <TextInput
+            style={styles.searchInput}
+            value={queryInput}
+            onChangeText={setQueryInput}
+            placeholder="Search tense, relative clauses..."
+            placeholderTextColor={colors.muted}
+            autoCapitalize="none"
+          />
+          {queryInput.length > 0 ? (
+            <TouchableOpacity onPress={() => setQueryInput('')}>
+              <Ionicons name="close-circle" size={17} color={colors.muted} />
+            </TouchableOpacity>
+          ) : null}
+        </View>
+
+        <View style={styles.chipScroll}>
+          {['ALL', 'P1', 'P2', 'P3', 'P4'].map((lv) => (
+              <FilterChip 
+                  key={lv} 
+                  label={lv === 'ALL' ? 'All Levels' : lv} 
+                  active={levelFilter === lv} 
+                  onPress={() => setLevelFilter(lv)} 
+              />
+          ))}
+        </View>
+
+        <View style={[styles.chipScroll, styles.chipScrollTop]}>
+          <FilterChip label="All Scope" helper={scopeCounts.all} active={scopeFilter === 'ALL'} onPress={() => setScopeFilter('ALL')} />
+          <FilterChip label="Standard" helper={scopeCounts.standard} active={scopeFilter === 'STANDARD'} onPress={() => setScopeFilter('STANDARD')} />
+          <FilterChip label="Use of English" helper={scopeCounts.uoe} active={scopeFilter === 'UOE'} onPress={() => setScopeFilter('UOE')} />
+          <FilterChip label="Test-English" helper={scopeCounts.testEnglish} active={scopeFilter === 'TEST_ENGLISH'} onPress={() => setScopeFilter('TEST_ENGLISH')} />
+        </View>
+
+        <View style={styles.actionRow}>
+            {latestTask ? (
+                <Button label="Resume Last Test" icon="play-circle-outline" onPress={() => navigation.navigate('GrammarDetail', { taskId: latestTask.id })} style={styles.actionFlexBtn} />
+            ) : null}
+        </View>
+
+        {weakTopics.length > 0 && (
+            <View style={styles.weakTopicsBanner}>
+                <Ionicons name="warning-outline" size={16} color="#B45309" />
+                <Text style={styles.weakTopicsLabel}>Suggested reviews:</Text>
+                <View style={styles.weakTopicChips}>
+                    {weakTopics.map(item => (
+                        <TouchableOpacity key={item.id} onPress={() => setQueryInput(item.title)} style={styles.weakNode}>
+                            <Text style={styles.weakNodeText}>{item.title}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+                <View style={styles.actionRow}>
+                    <Button
+                        label={`Adaptive Drill (${weakTopics.length} topics)`}
+                        icon="flask-outline"
+                        variant="primary"
+                        onPress={() => navigation.navigate('GrammarDrill', { weakTopics })}
+                        style={styles.actionFlexBtn}
+                    />
+                </View>
+            </View>
+        )}
+      </Card>
+      
+      <View style={styles.listHeaderRow}>
+          <Text style={styles.listHeaderTitle}>{filtered.length} Grammar Modules Visible</Text>
+      </View>
+    </View>
+  ), [navigation, startTask, stats, queryInput, levelFilter, scopeFilter, scopeCounts, weakTopics, filtered.length, latestTask]);
+
+  return (
+    <Screen scroll animate contentStyle={styles.container}>
+      {renderListHeader()}
+      <View style={[styles.listContent, isWide && styles.listContentWide]}>
+          <View style={isWide ? styles.columnWrapper : null}>
+              {filtered.map((item) => (
+                  <View key={item.id} style={[styles.taskItemWrap, isWide && styles.taskItemWrapWide]}>
+                      {renderItem({ item })}
+                  </View>
+              ))}
+          </View>
+          {filtered.length === 0 ? renderEmpty() : null}
+      </View>
+    </Screen>
+  );
+}
+
+);

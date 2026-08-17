@@ -10,6 +10,286 @@ import { speakText } from '../hooks/useTts';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import testEnglishVocabItems from '../../data/test_english_vocab_items.json';
 
+const styles = StyleSheet.create({
+  master: {
+    flex: 1,
+    backgroundColor: '#F8FAFC',
+  },
+  header: {
+    paddingTop: 60,
+    paddingHorizontal: spacing.xl,
+    paddingBottom: spacing.sm,
+    backgroundColor: '#FFFFFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E2E8F0',
+  },
+  topStats: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+  },
+  backBtn: {
+    padding: 4,
+  },
+  progressContainer: {
+    flex: 1,
+    height: 14,
+    backgroundColor: '#E2E8F0',
+    borderRadius: 7,
+    overflow: 'hidden',
+  },
+  progressTrack: {
+    flex: 1,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#10B981',
+    borderRadius: 7,
+  },
+  streakBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF1F2',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#FECDD3',
+  },
+  streakEmoji: {
+    fontSize: 14,
+    marginRight: 4,
+  },
+  streakScore: {
+    fontSize: 14,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+    color: '#E11D48',
+  },
+  container: {
+    paddingTop: spacing.xl,
+    paddingHorizontal: spacing.xl,
+    paddingBottom: 140, // space for bottom bar
+  },
+  questionSection: {
+    marginBottom: spacing.xl,
+  },
+  questionLabel: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#64748B',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: spacing.sm,
+  },
+  questionText: {
+    fontSize: 24,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '700',
+    color: '#0F172A',
+    lineHeight: 34,
+  },
+  optionsSection: {
+    gap: spacing.sm,
+  },
+  optionBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 18,
+    borderRadius: 16,
+    borderWidth: 2,
+    ...shadow.sm,
+  },
+  optDefault: {
+    backgroundColor: '#FFFFFF',
+    borderColor: '#E2E8F0',
+    shadowOpacity: 0.05,
+  },
+  optSelected: {
+    backgroundColor: '#EFF6FF',
+    borderColor: '#1D4ED8',
+  },
+  optCorrect: {
+    backgroundColor: '#ECFDF5',
+    borderColor: '#10B981',
+  },
+  optIncorrect: {
+    backgroundColor: '#FEF2F2',
+    borderColor: '#EF4444',
+  },
+  optDisabled: {
+    backgroundColor: '#F8FAFC',
+    borderColor: '#F1F5F9',
+    opacity: 0.6,
+  },
+  optionText: {
+    fontSize: 18,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '600',
+  },
+  optTextDefault: { color: '#334155' },
+  optTextSelected: { color: '#1D4ED8' },
+  optTextCorrect: { color: '#047857' },
+  optTextIncorrect: { color: '#B91C1C' },
+  optTextDisabled: { color: '#94A3B8' },
+  optionActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  speakerBtn: {
+    padding: 6,
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    borderRadius: 8,
+  },
+  exampleBox: {
+    marginTop: spacing.xl,
+    padding: spacing.md,
+    backgroundColor: '#EFF6FF',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#DBEAFE',
+    flexDirection: 'row',
+    gap: spacing.sm,
+    alignItems: 'flex-start',
+  },
+  exampleText: {
+    flex: 1,
+    fontSize: 15,
+    color: '#172554',
+    lineHeight: 22,
+    fontStyle: 'italic',
+  },
+  summarySection: {
+    alignItems: 'center',
+    paddingTop: spacing.md,
+  },
+  celebration: {
+    alignItems: 'center',
+    marginBottom: spacing.xl,
+  },
+  celebrationEmoji: {
+    fontSize: 64,
+    marginBottom: spacing.md,
+  },
+  celebrationTitle: {
+    fontSize: 28,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '900',
+    color: '#0F172A',
+    marginBottom: spacing.xs,
+  },
+  celebrationSub: {
+    fontSize: 16,
+    color: '#64748B',
+    fontWeight: '500',
+  },
+  statsCard: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    borderRadius: 20,
+    padding: 0, // internal row padding handles it
+    marginBottom: spacing.xl,
+  },
+  statRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  statItem: {
+    flex: 1,
+    padding: spacing.xl,
+    alignItems: 'center',
+  },
+  statDivider: {
+    width: 1,
+    height: '60%',
+    backgroundColor: '#E2E8F0',
+  },
+  statLabel: {
+    fontSize: 12,
+    textTransform: 'uppercase',
+    fontWeight: '800',
+    color: '#94A3B8',
+    marginBottom: 8,
+    letterSpacing: 1,
+  },
+  statValue: {
+    fontSize: 32,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '900',
+  },
+  missedSection: {
+    width: '100%',
+  },
+  missedTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#0F172A',
+    marginBottom: spacing.md,
+  },
+  missedRow: {
+    paddingVertical: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F5F9',
+  },
+  missedWord: {
+    fontSize: 16,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '700',
+    color: '#E11D48',
+    marginBottom: 4,
+  },
+  missedDef: {
+    fontSize: 14,
+    color: '#64748B',
+  },
+  bottomBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: spacing.xl,
+    paddingBottom: 40,
+    backgroundColor: '#FFFFFF',
+    borderTopWidth: 1,
+    borderTopColor: '#E2E8F0',
+    ...shadow.lg,
+  },
+  actionBtn: {
+    height: 56,
+  },
+  dualBtnRow: {
+    flexDirection: 'row',
+    gap: spacing.md,
+  },
+  dualBtn: {
+    flex: 1,
+    height: 52,
+  },
+  feedbackBanner: {
+    marginHorizontal: -spacing.xl,
+    marginTop: -spacing.xl,
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.lg,
+    paddingBottom: 40,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+  },
+  bannerCorrect: { backgroundColor: '#ECFDF5' },
+  bannerIncorrect: { backgroundColor: '#FEF2F2' },
+  bannerTitle: {
+    fontSize: 20,
+    fontFamily: typography.fontHeadline,
+    fontWeight: '800',
+    marginBottom: spacing.lg,
+  },
+  bannerTextCorrect: { color: '#047857' },
+  bannerTextIncorrect: { color: '#B91C1C' },
+}
 
 /** Fisher-Yates shuffle — inline fallback to guard against Metro resolution issues */
 function shuffle(arr) {
@@ -35,7 +315,6 @@ export default function VocabQuizScreen({ navigation, route }) {
       if (status === 'ready') setDictionaryReady(true);
     });
   }, []);
-
 
   const resolvePool = useCallback(() => {
     if (isTestEnglish) {
@@ -454,283 +733,4 @@ export default function VocabQuizScreen({ navigation, route }) {
   );
 }
 
-const styles = StyleSheet.create({
-  master: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-  },
-  header: {
-    paddingTop: 60,
-    paddingHorizontal: spacing.xl,
-    paddingBottom: spacing.sm,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E2E8F0',
-  },
-  topStats: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-  },
-  backBtn: {
-    padding: 4,
-  },
-  progressContainer: {
-    flex: 1,
-    height: 14,
-    backgroundColor: '#E2E8F0',
-    borderRadius: 7,
-    overflow: 'hidden',
-  },
-  progressTrack: {
-    flex: 1,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: '#10B981',
-    borderRadius: 7,
-  },
-  streakBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFF1F2',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#FECDD3',
-  },
-  streakEmoji: {
-    fontSize: 14,
-    marginRight: 4,
-  },
-  streakScore: {
-    fontSize: 14,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '800',
-    color: '#E11D48',
-  },
-  container: {
-    paddingTop: spacing.xl,
-    paddingHorizontal: spacing.xl,
-    paddingBottom: 140, // space for bottom bar
-  },
-  questionSection: {
-    marginBottom: spacing.xl,
-  },
-  questionLabel: {
-    fontSize: 14,
-    fontWeight: '800',
-    color: '#64748B',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: spacing.sm,
-  },
-  questionText: {
-    fontSize: 24,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '700',
-    color: '#0F172A',
-    lineHeight: 34,
-  },
-  optionsSection: {
-    gap: spacing.sm,
-  },
-  optionBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 18,
-    borderRadius: 16,
-    borderWidth: 2,
-    ...shadow.sm,
-  },
-  optDefault: {
-    backgroundColor: '#FFFFFF',
-    borderColor: '#E2E8F0',
-    shadowOpacity: 0.05,
-  },
-  optSelected: {
-    backgroundColor: '#EFF6FF',
-    borderColor: '#1D4ED8',
-  },
-  optCorrect: {
-    backgroundColor: '#ECFDF5',
-    borderColor: '#10B981',
-  },
-  optIncorrect: {
-    backgroundColor: '#FEF2F2',
-    borderColor: '#EF4444',
-  },
-  optDisabled: {
-    backgroundColor: '#F8FAFC',
-    borderColor: '#F1F5F9',
-    opacity: 0.6,
-  },
-  optionText: {
-    fontSize: 18,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '600',
-  },
-  optTextDefault: { color: '#334155' },
-  optTextSelected: { color: '#1D4ED8' },
-  optTextCorrect: { color: '#047857' },
-  optTextIncorrect: { color: '#B91C1C' },
-  optTextDisabled: { color: '#94A3B8' },
-  optionActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-  },
-  speakerBtn: {
-    padding: 6,
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 8,
-  },
-  exampleBox: {
-    marginTop: spacing.xl,
-    padding: spacing.md,
-    backgroundColor: '#EFF6FF',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#DBEAFE',
-    flexDirection: 'row',
-    gap: spacing.sm,
-    alignItems: 'flex-start',
-  },
-  exampleText: {
-    flex: 1,
-    fontSize: 15,
-    color: '#172554',
-    lineHeight: 22,
-    fontStyle: 'italic',
-  },
-  summarySection: {
-    alignItems: 'center',
-    paddingTop: spacing.md,
-  },
-  celebration: {
-    alignItems: 'center',
-    marginBottom: spacing.xl,
-  },
-  celebrationEmoji: {
-    fontSize: 64,
-    marginBottom: spacing.md,
-  },
-  celebrationTitle: {
-    fontSize: 28,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '900',
-    color: '#0F172A',
-    marginBottom: spacing.xs,
-  },
-  celebrationSub: {
-    fontSize: 16,
-    color: '#64748B',
-    fontWeight: '500',
-  },
-  statsCard: {
-    width: '100%',
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    borderRadius: 20,
-    padding: 0, // internal row padding handles it
-    marginBottom: spacing.xl,
-  },
-  statRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  statItem: {
-    flex: 1,
-    padding: spacing.xl,
-    alignItems: 'center',
-  },
-  statDivider: {
-    width: 1,
-    height: '60%',
-    backgroundColor: '#E2E8F0',
-  },
-  statLabel: {
-    fontSize: 12,
-    textTransform: 'uppercase',
-    fontWeight: '800',
-    color: '#94A3B8',
-    marginBottom: 8,
-    letterSpacing: 1,
-  },
-  statValue: {
-    fontSize: 32,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '900',
-  },
-  missedSection: {
-    width: '100%',
-  },
-  missedTitle: {
-    fontSize: 16,
-    fontWeight: '800',
-    color: '#0F172A',
-    marginBottom: spacing.md,
-  },
-  missedRow: {
-    paddingVertical: spacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
-  },
-  missedWord: {
-    fontSize: 16,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '700',
-    color: '#E11D48',
-    marginBottom: 4,
-  },
-  missedDef: {
-    fontSize: 14,
-    color: '#64748B',
-  },
-  bottomBar: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: spacing.xl,
-    paddingBottom: 40,
-    backgroundColor: '#FFFFFF',
-    borderTopWidth: 1,
-    borderTopColor: '#E2E8F0',
-    ...shadow.lg,
-  },
-  actionBtn: {
-    height: 56,
-  },
-  dualBtnRow: {
-    flexDirection: 'row',
-    gap: spacing.md,
-  },
-  dualBtn: {
-    flex: 1,
-    height: 52,
-  },
-  feedbackBanner: {
-    marginHorizontal: -spacing.xl,
-    marginTop: -spacing.xl,
-    paddingHorizontal: spacing.xl,
-    paddingTop: spacing.lg,
-    paddingBottom: 40,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-  },
-  bannerCorrect: { backgroundColor: '#ECFDF5' },
-  bannerIncorrect: { backgroundColor: '#FEF2F2' },
-  bannerTitle: {
-    fontSize: 20,
-    fontFamily: typography.fontHeadline,
-    fontWeight: '800',
-    marginBottom: spacing.lg,
-  },
-  bannerTextCorrect: { color: '#047857' },
-  bannerTextIncorrect: { color: '#B91C1C' },
-});
+);

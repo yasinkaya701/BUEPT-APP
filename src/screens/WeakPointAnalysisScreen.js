@@ -7,6 +7,46 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { isDemoAiConfigured, requestDemoModule } from '../utils/demoAi';
 import { useAppState } from '../context/AppState';
 
+const styles = StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background },
+    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
+    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
+    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
+    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
+    sourceText: { fontSize: 12, color: colors.muted, marginTop: 2 },
+
+    scroll: { paddingHorizontal: spacing.xl },
+    loadingRow: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.md },
+    loadingText: { marginLeft: 8, color: colors.primaryDark, fontSize: 12, fontWeight: '700' },
+    sectionHeader: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: spacing.md },
+
+    chartCard: { padding: spacing.xl, borderRadius: radius.xl, marginBottom: spacing.xxl, backgroundColor: '#fff' },
+    barRow: { marginBottom: spacing.lg, paddingBottom: spacing.lg, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)' },
+    barRowLast: { borderBottomWidth: 0, paddingBottom: 0, marginBottom: 0 },
+    barRowHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 },
+    barLabel: { fontSize: 13, fontWeight: '700', color: colors.text },
+    barVal: { fontSize: 13, fontWeight: '900' },
+    barBg: { height: 8, backgroundColor: 'rgba(0,0,0,0.04)', borderRadius: 4, overflow: 'hidden' },
+    barFill: { height: '100%', borderRadius: 4 },
+
+    alertHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.md, gap: spacing.sm },
+    alertHeaderText: { fontSize: 18, fontWeight: '900', color: colors.error },
+
+    weakCard: { padding: spacing.lg, borderRadius: radius.lg, marginBottom: spacing.md, borderWidth: 1, borderColor: 'rgba(231,76,60,0.3)' },
+    weakTop: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.sm, gap: spacing.md },
+    weakBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 6 },
+    weakBadgeDanger: { backgroundColor: 'rgba(231,76,60,0.1)' },
+    weakBadgeText: { fontSize: 13, fontWeight: '900', color: colors.error },
+    weakTitle: { fontSize: 16, fontWeight: '800', color: colors.text },
+    weakDesc: { fontSize: 14, color: colors.muted, lineHeight: 22, marginBottom: spacing.md },
+
+    fixBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primarySoft, alignSelf: 'flex-start', paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.pill },
+    fixBtnText: { fontSize: 12, fontWeight: '800', color: colors.primary },
+    fixBtnIcon: { marginLeft: 4 },
+
+    bottomSpacer: { height: 40 }
+}
+
 // Simulated complex historical data
 const HISTORICAL_DATA = {
     grammar: { score: 45, label: 'Grammar Accuracy' },
@@ -178,42 +218,4 @@ const BarChartRow = ({ label, animValue, target, isLast }) => {
     );
 };
 
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.background },
-    header: { flexDirection: 'row', alignItems: 'center', paddingTop: spacing.md, paddingBottom: spacing.lg, paddingHorizontal: spacing.xl },
-    backBtn: { padding: spacing.xs, marginRight: spacing.md, borderRadius: radius.round, backgroundColor: 'rgba(0,0,0,0.05)' },
-    pageTitle: { fontSize: typography.h2, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '800' },
-    pageSub: { fontSize: typography.xsmall, color: colors.accent, fontWeight: '700', textTransform: 'uppercase' },
-    sourceText: { fontSize: 12, color: colors.muted, marginTop: 2 },
-
-    scroll: { paddingHorizontal: spacing.xl },
-    loadingRow: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.md },
-    loadingText: { marginLeft: 8, color: colors.primaryDark, fontSize: 12, fontWeight: '700' },
-    sectionHeader: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: spacing.md },
-
-    chartCard: { padding: spacing.xl, borderRadius: radius.xl, marginBottom: spacing.xxl, backgroundColor: '#fff' },
-    barRow: { marginBottom: spacing.lg, paddingBottom: spacing.lg, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)' },
-    barRowLast: { borderBottomWidth: 0, paddingBottom: 0, marginBottom: 0 },
-    barRowHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 },
-    barLabel: { fontSize: 13, fontWeight: '700', color: colors.text },
-    barVal: { fontSize: 13, fontWeight: '900' },
-    barBg: { height: 8, backgroundColor: 'rgba(0,0,0,0.04)', borderRadius: 4, overflow: 'hidden' },
-    barFill: { height: '100%', borderRadius: 4 },
-
-    alertHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.md, gap: spacing.sm },
-    alertHeaderText: { fontSize: 18, fontWeight: '900', color: colors.error },
-
-    weakCard: { padding: spacing.lg, borderRadius: radius.lg, marginBottom: spacing.md, borderWidth: 1, borderColor: 'rgba(231,76,60,0.3)' },
-    weakTop: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.sm, gap: spacing.md },
-    weakBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 6 },
-    weakBadgeDanger: { backgroundColor: 'rgba(231,76,60,0.1)' },
-    weakBadgeText: { fontSize: 13, fontWeight: '900', color: colors.error },
-    weakTitle: { fontSize: 16, fontWeight: '800', color: colors.text },
-    weakDesc: { fontSize: 14, color: colors.muted, lineHeight: 22, marginBottom: spacing.md },
-
-    fixBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primarySoft, alignSelf: 'flex-start', paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.pill },
-    fixBtnText: { fontSize: 12, fontWeight: '800', color: colors.primary },
-    fixBtnIcon: { marginLeft: 4 },
-
-    bottomSpacer: { height: 40 }
-});
+);

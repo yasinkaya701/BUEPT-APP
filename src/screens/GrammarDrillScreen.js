@@ -16,6 +16,29 @@ import baseTasks from '../../data/grammar_tasks.json';
 import hardTasks from '../../data/grammar_tasks_hard.json';
 import testEnglishTasks from '../../data/test_english_grammar_tasks.json';
 
+const styles = StyleSheet.create({
+  container: { paddingBottom: spacing.xl, backgroundColor: colors.background || '#FFFFFF' },
+  headerRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.md },
+  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.textOnDark, flex: 1 },
+  h3: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },
+  sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.xs, lineHeight: 18 },
+  card: { marginBottom: spacing.md },
+  row: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: spacing.md },
+  qHead: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs },
+  qIndex: { fontSize: typography.xsmall, fontFamily: typography.fontHeadline, color: colors.primary, fontWeight: '800', textTransform: 'uppercase' },
+  qTitle: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.md, lineHeight: 22 },
+  optionGrid: { gap: spacing.xs },
+  explainBox: { marginTop: spacing.sm, backgroundColor: '#F8FAFC', borderRadius: radius.md, padding: spacing.sm, borderLeftWidth: 3, borderLeftColor: colors.primary },
+  explainLabel: { fontSize: typography.small, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '700', marginBottom: 4 },
+  explainText: { fontSize: typography.small, color: colors.text, lineHeight: 19 },
+  scoreText: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.primaryDark, marginBottom: spacing.xs },
+  levelBadge: { marginLeft: 'auto', fontSize: 11, fontFamily: typography.fontHeadline, color: '#047857', backgroundColor: '#ECFDF5', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999, overflow: 'hidden' },
+  levelMed: { color: '#B45309', backgroundColor: '#FEF3C7' },
+  levelHard: { color: '#B91C1C', backgroundColor: '#FEE2E2' },
+  progressTrack: { height: 6, backgroundColor: '#E5E7EB', borderRadius: 999, marginTop: spacing.xs, overflow: 'hidden' },
+  progressFill: { height: 6, backgroundColor: colors.primary, borderRadius: 999 },
+}
+
 const ALL_TASKS = [...baseTasks, ...hardTasks, ...testEnglishTasks];
 
 const DRILL_LENGTH = 10;
@@ -270,25 +293,4 @@ export default function GrammarDrillScreen({ navigation, route }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { paddingBottom: spacing.xl, backgroundColor: colors.background || '#FFFFFF' },
-  headerRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.md },
-  h1: { fontSize: typography.h1, fontFamily: typography.fontHeadline, color: colors.textOnDark, flex: 1 },
-  h3: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.xs },
-  sub: { fontSize: typography.small, color: colors.muted, marginBottom: spacing.xs, lineHeight: 18 },
-  card: { marginBottom: spacing.md },
-  row: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: spacing.md },
-  qHead: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs },
-  qIndex: { fontSize: typography.xsmall, fontFamily: typography.fontHeadline, color: colors.primary, fontWeight: '800', textTransform: 'uppercase' },
-  qTitle: { fontSize: typography.body, fontFamily: typography.fontHeadline, color: colors.text, marginBottom: spacing.md, lineHeight: 22 },
-  optionGrid: { gap: spacing.xs },
-  explainBox: { marginTop: spacing.sm, backgroundColor: '#F8FAFC', borderRadius: radius.md, padding: spacing.sm, borderLeftWidth: 3, borderLeftColor: colors.primary },
-  explainLabel: { fontSize: typography.small, fontFamily: typography.fontHeadline, color: colors.primaryDark, fontWeight: '700', marginBottom: 4 },
-  explainText: { fontSize: typography.small, color: colors.text, lineHeight: 19 },
-  scoreText: { fontSize: typography.h3, fontFamily: typography.fontHeadline, color: colors.primaryDark, marginBottom: spacing.xs },
-  levelBadge: { marginLeft: 'auto', fontSize: 11, fontFamily: typography.fontHeadline, color: '#047857', backgroundColor: '#ECFDF5', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999, overflow: 'hidden' },
-  levelMed: { color: '#B45309', backgroundColor: '#FEF3C7' },
-  levelHard: { color: '#B91C1C', backgroundColor: '#FEE2E2' },
-  progressTrack: { height: 6, backgroundColor: '#E5E7EB', borderRadius: 999, marginTop: spacing.xs, overflow: 'hidden' },
-  progressFill: { height: 6, backgroundColor: colors.primary, borderRadius: 999 },
-});
+);

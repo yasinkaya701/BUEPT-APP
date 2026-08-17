@@ -2,46 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { colors, typography, spacing, radius } from '../../theme/tokens';
 
-/**
- * Single filter chip (used inside FilterBar).
- */
-export function FilterChip({ label, active, onPress, helper, style }) {
-  return (
-    <TouchableOpacity
-      accessibilityRole="button"
-      activeOpacity={0.85}
-      onPress={onPress}
-      hitSlop={{ top: 10, bottom: 10, left: 8, right: 8 }}
-      style={[styles.chip, active && styles.chipActive, style]}
-    >
-      <Text style={[styles.chipText, active && styles.chipTextActive]}>{label}</Text>
-      {helper ? <Text style={[styles.helper, active && styles.helperActive]}>{helper}</Text> : null}
-    </TouchableOpacity>
-  );
-}
-
-/**
- * Horizontally scrollable filter bar with a label above it.
- * Shared by Vocab / Listening / Writing / Speaking filter surfaces.
- */
-export default function FilterBar({ label = null, children, style, scroll = false }) {
-  const inner = <View style={styles.row}>{children}</View>;
-  return (
-    <View style={[styles.wrap, style]}>
-      {label ? <Text style={styles.label}>{label}</Text> : null}
-      {scroll ? (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-          {inner}
-        </ScrollView>
-      ) : (
-        <View style={styles.scrollContent}>{inner}</View>
-      )}
-    </View>
-  );
-}
-
-FilterBar.Chip = FilterChip;
-
 const styles = StyleSheet.create({
   wrap: {
     marginBottom: spacing.md,
@@ -99,4 +59,46 @@ const styles = StyleSheet.create({
     color: colors.primary,
     backgroundColor: colors.surface,
   },
-});
+}
+
+/**
+ * Single filter chip (used inside FilterBar).
+ */
+export function FilterChip({ label, active, onPress, helper, style }) {
+  return (
+    <TouchableOpacity
+      accessibilityRole="button"
+      activeOpacity={0.85}
+      onPress={onPress}
+      hitSlop={{ top: 10, bottom: 10, left: 8, right: 8 }}
+      style={[styles.chip, active && styles.chipActive, style]}
+    >
+      <Text style={[styles.chipText, active && styles.chipTextActive]}>{label}</Text>
+      {helper ? <Text style={[styles.helper, active && styles.helperActive]}>{helper}</Text> : null}
+    </TouchableOpacity>
+  );
+}
+
+/**
+ * Horizontally scrollable filter bar with a label above it.
+ * Shared by Vocab / Listening / Writing / Speaking filter surfaces.
+ */
+export default function FilterBar({ label = null, children, style, scroll = false }) {
+  const inner = <View style={styles.row}>{children}</View>;
+  return (
+    <View style={[styles.wrap, style]}>
+      {label ? <Text style={styles.label}>{label}</Text> : null}
+      {scroll ? (
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+          {inner}
+        </ScrollView>
+      ) : (
+        <View style={styles.scrollContent}>{inner}</View>
+      )}
+    </View>
+  );
+}
+
+FilterBar.Chip = FilterChip;
+
+);
