@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   animatedFill: { flex: 1, minHeight: 0 },
 });
 
-const BG_IMAGE = require('../assets/images/boun_campus.png');
+const BG_IMAGE = require('../assets/images/boun_campus.webp');
 
 export default function Screen({
   children,

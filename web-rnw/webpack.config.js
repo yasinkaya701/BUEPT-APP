@@ -30,14 +30,14 @@ module.exports = (env = {}, argv = {}) => {
   const distDir = env.distDir || (variant === 'odtu' ? path.resolve(projectRoot, 'web-rnw/dist-odtu') : path.resolve(projectRoot, 'web-rnw/dist'));
   // publicPath: explicit override (web:rnw:build sets /BUEPT-APP/ for the
   // BUSEPT edition which GitHub Pages serves under the repo-name base path
-  // /BUEPT-APP/). The ODTÜ edition deploys as /BUEPT-ODTU/ within the SAME
-  // repo (staged by the CI 'Stage ODTÜ edition' step), so its assets must
-  // resolve under /BUEPT-ODTU/ — automatically applied when WEB_VARIANT=odtu.
+  // /BUEPT-APP/). The ODTÜ edition deploys from the SAME repository's GitHub
+  // Pages site nested under the BUSEPT base, so its assets must resolve
+  // under /BUEPT-APP/odtu/ — automatically applied when WEB_VARIANT=odtu.
   // Can still be overridden via WEB_PUBLIC_PATH for out-of-tree builds.
   const publicPath =
     env.publicPath ||
     process.env.WEB_PUBLIC_PATH ||
-    (variant === 'odtu' ? '/BUEPT-ODTU/' : '/BUEPT-APP/');
+    (variant === 'odtu' ? '/BUEPT-APP/odtu/' : '/BUEPT-APP/');
   const devHost = process.env.WEB_DEV_HOST || '127.0.0.1';
   const devPort = Number(process.env.WEB_DEV_PORT || 8090);
 
@@ -156,6 +156,43 @@ module.exports = (env = {}, argv = {}) => {
       client: {
         overlay: true,
       },
+    },
+    optimization: {
+      // Code-splitting: large vendor chunks (react, react-native-web, gesture
+      // handlers, icon glyph maps) are extracted into separately cached files
+      // so first-time visitors download ~4-6MB initially instead of ~16MB.
+      splitChunks: {
+        chunks: 'all',
+        maxInitialRequests: 8,
+        cacheGroups: {
+          vendorReact: {
+            test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+            name: 'vendor-react',
+            priority: 30,
+          },
+          vendorRnw: {
+            test: /[\\/]node_modules[\\/]react-native-web[\\/]/,
+            name: 'vendor-rnw',
+            priority: 25,
+          },
+          vendorGestures: {
+            test: /[\\/]node_modules[\\/](react-native-gesture-handler|react-native-screens|react-native-safe-area-context|react-native-svg)[\\/]/,
+            name: 'vendor-gestures',
+            priority: 20,
+          },
+          vendorIcons: {
+            test: /[\\/]node_modules[\\/]react-native-vector-icons[\\/]/,
+            name: 'vendor-icons',
+            priority: 15,
+          },
+          vendorDefault: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendor-thirdparty',
+            priority: 10,
+          },
+        },
+      },
+      runtimeChunk: 'single',
     },
     performance: {
       hints: false,

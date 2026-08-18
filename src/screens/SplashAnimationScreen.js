@@ -249,7 +249,7 @@ export default function SplashAnimationScreen({ navigation }) {
         <View style={styles.container}>
             <Animated.View style={[StyleSheet.absoluteFill, { opacity: bgFadeAnim, transform: [{ scale: bgScaleAnim }] }]}>
                 <ImageBackground
-                    source={require('../assets/images/real_south_gate.jpg')}
+                    source={require('../assets/images/real_south_gate.webp')}
                     style={styles.backgroundImage}
                     resizeMode="cover"
                 >

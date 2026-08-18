@@ -1,14 +1,6 @@
 import React, { useMemo } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text, StyleSheet, Pressable, useWindowDimensions, Platform, ScrollView, Animated } from 'react-native';
-import HomeScreen from '../screens/HomeScreen';
-import WritingScreen from '../screens/WritingScreen';
-import VocabScreen from '../screens/VocabScreen';
-import ListeningScreen from '../screens/ListeningScreen';
-import SpeakingScreen from '../screens/SpeakingScreen';
-import ReadingScreen from '../screens/ReadingScreen';
-import GrammarScreen from '../screens/GrammarScreen';
-import DeveloperScreen from '../screens/DeveloperScreen';
 import LogoMark from '../components/LogoMark';
 import { colors, typography, spacing, radius, shadow } from '../theme/tokens';
 
@@ -549,14 +541,14 @@ export default function TabNavigator() {
         tabBarButton: CustomTabBarButton,
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarButtonTestID: TAB_TEST_IDS.Home }} />
-      <Tab.Screen name="Reading" component={ReadingScreen} options={{ tabBarButtonTestID: TAB_TEST_IDS.Reading }} />
-      <Tab.Screen name="Grammar" component={GrammarScreen} options={{ tabBarButtonTestID: TAB_TEST_IDS.Grammar }} />
-      <Tab.Screen name="Writing" component={WritingScreen} options={{ tabBarButtonTestID: TAB_TEST_IDS.Writing }} />
-      <Tab.Screen name="Vocab" component={VocabScreen} options={{ tabBarButtonTestID: TAB_TEST_IDS.Vocab }} />
-      <Tab.Screen name="Listening" component={ListeningScreen} options={{ tabBarButtonTestID: TAB_TEST_IDS.Listening }} />
-      <Tab.Screen name="Speaking" component={SpeakingScreen} options={{ tabBarButtonTestID: TAB_TEST_IDS.Speaking }} />
-      <Tab.Screen name="Settings" component={DeveloperScreen} options={{ tabBarButtonTestID: 'tab-settings' }} />
+      <Tab.Screen name="Home" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-HomeScreen" */ '../screens/HomeScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Home }} />
+      <Tab.Screen name="Reading" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-ReadingScreen" */ '../screens/ReadingScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Reading }} />
+      <Tab.Screen name="Grammar" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-GrammarScreen" */ '../screens/GrammarScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Grammar }} />
+      <Tab.Screen name="Writing" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-WritingScreen" */ '../screens/WritingScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Writing }} />
+      <Tab.Screen name="Vocab" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-VocabScreen" */ '../screens/VocabScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Vocab }} />
+      <Tab.Screen name="Listening" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-ListeningScreen" */ '../screens/ListeningScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Listening }} />
+      <Tab.Screen name="Speaking" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-SpeakingScreen" */ '../screens/SpeakingScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Speaking }} />
+      <Tab.Screen name="Settings" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-DeveloperScreen" */ '../screens/DeveloperScreen'))}  options={{ tabBarButtonTestID: 'tab-settings' }} />
     </Tab.Navigator>
   );
 }

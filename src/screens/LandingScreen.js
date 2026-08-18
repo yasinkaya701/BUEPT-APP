@@ -396,7 +396,7 @@ export default function LandingScreen({ navigation }) {
   );
 
   const heroImg = useMemo(
-    () => (university.images && university.images.hero) || require('../assets/images/real_south_gate.jpg'),
+    () => (university.images && university.images.hero) || require('../assets/images/real_south_gate.webp'),
     [university],
   );
 

@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     switchLink: { color: colors.primary, fontWeight: '800' },
 });
 
-const BG_IMAGE = require('../assets/images/real_south_gate.jpg');
+const BG_IMAGE = require('../assets/images/real_south_gate.webp');
 
 export default function LoginScreen({ navigation }) {
     const { login, userProfile } = useAppState();

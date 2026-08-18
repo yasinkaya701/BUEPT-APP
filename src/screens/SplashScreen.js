@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const BG_IMAGE = require('../assets/images/boun_splash.png');
+const BG_IMAGE = require('../assets/images/boun_splash.webp');
 
 export default function SplashScreen({ onFinish }) {
   const bgOpacity = useRef(new Animated.Value(0)).current;

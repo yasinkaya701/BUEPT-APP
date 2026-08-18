@@ -180,8 +180,8 @@ export default function HomeScreen({ navigation }) {
   const isOdtu = uniKey === 'odtu';
   const heroBg = React.useMemo(
     () => (isOdtu
-      ? require('../assets/images/odtu_campus_panorama.jpg')
-      : require('../assets/images/real_north_campus.jpg')),
+      ? require('../assets/images/odtu_campus_panorama.webp')
+      : require('../assets/images/real_north_campus.webp')),
     [isOdtu]
   );
   const { width } = useWindowDimensions();
