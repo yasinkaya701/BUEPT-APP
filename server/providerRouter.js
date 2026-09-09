@@ -1,21 +1,50 @@
 'use strict';
 
 const DEFAULT_TIMEOUT_MS = 22000;
+const MIN_TIMEOUT_MS = 1000;
+const MAX_TIMEOUT_MS = 120000;
+const PROVIDER_ALIASES = new Map([
+  ['gemini', 'gemini'],
+  ['openai', 'openai'],
+  ['anthropic', 'anthropic'],
+  ['claude', 'anthropic'],
+]);
 
 function env(name, fallback = '') {
   const value = process.env?.[name];
   return typeof value === 'string' && value.trim() ? value.trim() : fallback;
 }
 
+function clampTimeout(value) {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed) || parsed <= 0) return DEFAULT_TIMEOUT_MS;
+  return Math.min(MAX_TIMEOUT_MS, Math.max(MIN_TIMEOUT_MS, Math.round(parsed)));
+}
+
 function withTimeout(ms = DEFAULT_TIMEOUT_MS) {
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), ms);
+  const timer = setTimeout(() => ctrl.abort(), clampTimeout(ms));
   return { signal: ctrl.signal, clear: () => clearTimeout(timer) };
 }
 
-async function readError(res) {
+async function captureUpstreamDetail(res) {
   const text = await res.text().catch(() => '');
   return String(text || '').slice(0, 1200);
+}
+
+function upstreamError(provider, status, detail = '') {
+  const code = status === 429 ? 'AI_RATE_LIMIT' : 'AI_UPSTREAM_ERROR';
+  const error = new Error(
+    status === 429
+      ? `${provider} is temporarily rate-limited.`
+      : `${provider} could not complete the request.`,
+  );
+  error.code = code;
+  error.status = status === 429 ? 429 : 502;
+  error.upstreamStatus = status;
+  // Kept only for server-side diagnostics. server/app.js never serializes it.
+  error.upstreamDetail = String(detail || '').slice(0, 1200);
+  return error;
 }
 
 function normalizeMessages(messages = []) {
@@ -29,7 +58,12 @@ function normalizeMessages(messages = []) {
 
 async function callGemini({ systemPrompt = '', messages = [], jsonFormat = false, signal }) {
   const apiKey = env('GEMINI_API_KEY');
-  if (!apiKey) throw Object.assign(new Error('GEMINI_API_KEY is not configured'), { code: 'AI_PROVIDER_NOT_CONFIGURED' });
+  if (!apiKey) {
+    throw Object.assign(new Error('Hosted Gemini is not configured.'), {
+      code: 'AI_PROVIDER_NOT_CONFIGURED',
+      status: 503,
+    });
+  }
   const model = env('BUEPT_GEMINI_MODEL', 'gemini-2.0-flash');
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
   const payload = {
@@ -47,12 +81,8 @@ async function callGemini({ systemPrompt = '', messages = [], jsonFormat = false
     body: JSON.stringify(payload),
     signal,
   });
-  if (!res.ok) {
-    const error = new Error(`Gemini upstream failed (${res.status}): ${await readError(res)}`);
-    error.code = res.status === 429 ? 'AI_RATE_LIMIT' : 'AI_UPSTREAM_ERROR';
-    error.status = res.status;
-    throw error;
-  }
+  if (!res.ok) throw upstreamError('Gemini', res.status, await captureUpstreamDetail(res));
+
   const json = await res.json();
   return {
     text: json?.candidates?.[0]?.content?.parts?.[0]?.text || '',
@@ -63,7 +93,12 @@ async function callGemini({ systemPrompt = '', messages = [], jsonFormat = false
 
 async function callOpenAI({ systemPrompt = '', messages = [], jsonFormat = false, signal }) {
   const apiKey = env('OPENAI_API_KEY');
-  if (!apiKey) throw Object.assign(new Error('OPENAI_API_KEY is not configured'), { code: 'AI_PROVIDER_NOT_CONFIGURED' });
+  if (!apiKey) {
+    throw Object.assign(new Error('Hosted OpenAI is not configured.'), {
+      code: 'AI_PROVIDER_NOT_CONFIGURED',
+      status: 503,
+    });
+  }
   const model = env('BUEPT_OPENAI_MODEL', 'gpt-4o-mini');
   const upstreamMessages = [];
   if (systemPrompt) upstreamMessages.push({ role: 'system', content: String(systemPrompt) });
@@ -77,12 +112,8 @@ async function callOpenAI({ systemPrompt = '', messages = [], jsonFormat = false
     body: JSON.stringify(payload),
     signal,
   });
-  if (!res.ok) {
-    const error = new Error(`OpenAI upstream failed (${res.status}): ${await readError(res)}`);
-    error.code = res.status === 429 ? 'AI_RATE_LIMIT' : 'AI_UPSTREAM_ERROR';
-    error.status = res.status;
-    throw error;
-  }
+  if (!res.ok) throw upstreamError('OpenAI', res.status, await captureUpstreamDetail(res));
+
   const json = await res.json();
   return {
     text: json?.choices?.[0]?.message?.content || '',
@@ -93,7 +124,12 @@ async function callOpenAI({ systemPrompt = '', messages = [], jsonFormat = false
 
 async function callAnthropic({ systemPrompt = '', messages = [], signal }) {
   const apiKey = env('ANTHROPIC_API_KEY');
-  if (!apiKey) throw Object.assign(new Error('ANTHROPIC_API_KEY is not configured'), { code: 'AI_PROVIDER_NOT_CONFIGURED' });
+  if (!apiKey) {
+    throw Object.assign(new Error('Hosted Anthropic is not configured.'), {
+      code: 'AI_PROVIDER_NOT_CONFIGURED',
+      status: 503,
+    });
+  }
   const model = env('BUEPT_ANTHROPIC_MODEL', 'claude-3-5-sonnet-latest');
   const payload = {
     model,
@@ -112,12 +148,8 @@ async function callAnthropic({ systemPrompt = '', messages = [], signal }) {
     body: JSON.stringify(payload),
     signal,
   });
-  if (!res.ok) {
-    const error = new Error(`Anthropic upstream failed (${res.status}): ${await readError(res)}`);
-    error.code = res.status === 429 ? 'AI_RATE_LIMIT' : 'AI_UPSTREAM_ERROR';
-    error.status = res.status;
-    throw error;
-  }
+  if (!res.ok) throw upstreamError('Anthropic', res.status, await captureUpstreamDetail(res));
+
   const json = await res.json();
   return {
     text: json?.content?.find?.((item) => item?.type === 'text')?.text || '',
@@ -126,9 +158,13 @@ async function callAnthropic({ systemPrompt = '', messages = [], signal }) {
   };
 }
 
+function normalizeProvider(value = '') {
+  return PROVIDER_ALIASES.get(String(value || '').trim().toLowerCase()) || '';
+}
+
 function configuredProvider() {
-  const explicit = env('BUEPT_AI_PROVIDER').toLowerCase();
-  if (explicit) return explicit;
+  const explicitRaw = env('BUEPT_AI_PROVIDER');
+  if (explicitRaw) return normalizeProvider(explicitRaw);
   if (env('GEMINI_API_KEY')) return 'gemini';
   if (env('OPENAI_API_KEY')) return 'openai';
   if (env('ANTHROPIC_API_KEY')) return 'anthropic';
@@ -138,16 +174,29 @@ function configuredProvider() {
 async function runHostedAi(input = {}) {
   const provider = configuredProvider();
   if (!provider) {
-    const error = new Error('Hosted AI is not configured on the server.');
-    error.code = 'AI_PROVIDER_NOT_CONFIGURED';
+    const explicit = env('BUEPT_AI_PROVIDER');
+    const error = new Error(
+      explicit
+        ? 'Hosted AI provider configuration is unsupported or incomplete.'
+        : 'Hosted AI is not configured on the server.',
+    );
+    error.code = explicit ? 'AI_PROVIDER_UNSUPPORTED' : 'AI_PROVIDER_NOT_CONFIGURED';
     error.status = 503;
     throw error;
   }
 
-  const timeout = withTimeout(Number(env('BUEPT_AI_TIMEOUT_MS', DEFAULT_TIMEOUT_MS)) || DEFAULT_TIMEOUT_MS);
+  const messages = normalizeMessages(input?.messages);
+  if (!messages.length) {
+    const error = new Error('Hosted AI requires at least one non-empty message.');
+    error.code = 'INVALID_AI_REQUEST';
+    error.status = 400;
+    throw error;
+  }
+
+  const timeout = withTimeout(env('BUEPT_AI_TIMEOUT_MS', String(DEFAULT_TIMEOUT_MS)));
   const request = {
     systemPrompt: String(input?.systemPrompt || ''),
-    messages: normalizeMessages(input?.messages),
+    messages,
     jsonFormat: Boolean(input?.jsonFormat),
     signal: timeout.signal,
   };
@@ -155,8 +204,9 @@ async function runHostedAi(input = {}) {
   try {
     if (provider === 'gemini') return await callGemini(request);
     if (provider === 'openai') return await callOpenAI(request);
-    if (provider === 'anthropic' || provider === 'claude') return await callAnthropic(request);
-    const error = new Error(`Unsupported hosted AI provider: ${provider}`);
+    if (provider === 'anthropic') return await callAnthropic(request);
+
+    const error = new Error('Hosted AI provider is unsupported.');
     error.code = 'AI_PROVIDER_UNSUPPORTED';
     error.status = 503;
     throw error;
@@ -174,6 +224,9 @@ async function runHostedAi(input = {}) {
 }
 
 module.exports = {
+  clampTimeout,
   configuredProvider,
+  normalizeMessages,
+  normalizeProvider,
   runHostedAi,
 };
