@@ -56,8 +56,36 @@ export function getRuntimeApiAccessConfig() {
   return { ...runtimeAccessConfig };
 }
 
+export function isHostedAiMode(config = null) {
+  const cfg = config || getRuntimeApiAccessConfig();
+  const mode = String(cfg?.mode || 'hosted').trim().toLowerCase();
+  const provider = String(cfg?.provider || 'hosted').trim().toLowerCase();
+  return mode === 'hosted' || provider === 'hosted';
+}
+
+export function isAiAccessConfigured(config = null) {
+  const cfg = config || getRuntimeApiAccessConfig();
+  if (isHostedAiMode(cfg)) {
+    return Boolean(resolveApiEndpoint('BUEPT_AI_API_URL', '/api/ai/chat'));
+  }
+
+  const provider = String(cfg?.provider || '').trim().toLowerCase();
+  if (provider === 'ollama') {
+    return Boolean(String(cfg?.ollamaUrl || '').trim() && String(cfg?.ollamaModel || '').trim());
+  }
+  if (provider === 'claude' || provider === 'anthropic') {
+    return Boolean(String(cfg?.claudeKey || '').trim());
+  }
+  if (provider === 'gemini' || provider === 'openai') {
+    return Boolean(String(cfg?.apiKey || '').trim());
+  }
+  return false;
+}
+
+// Legacy/custom backend authorization token only.
+// BYOK provider secrets must never be reused as credentials for app/backend endpoints.
 export function getRuntimeApiKey() {
-  return runtimeAccessConfig.apiKey || readRuntimeEnv('BUEPT_API_KEY', '').trim();
+  return readRuntimeEnv('BUEPT_API_KEY', '').trim();
 }
 
 function getScriptUrl() {
