@@ -7,6 +7,7 @@ import OpenEndedPracticeCard from '../components/OpenEndedPracticeCard';
 import { colors, spacing, typography } from '../theme/tokens';
 import exams from '../../data/buept_exams.json';
 import { buildExamSectionOpenEndedPrompts } from '../utils/openEndedPrompts';
+import { displayCorrectAnswer, gradeExam, gradeQuestion } from '../utils/answerGrading';
 
 const styles = StyleSheet.create({
   container: {
@@ -208,14 +209,8 @@ export default function ExamDetailScreen({ route, navigation }) {
     [allQuestions]);
 
   const check = useCallback(() => {
-    let correct = 0;
-    let total = 0;
-    allQuestions.forEach(({ key, q }) => {
-      const active = similar[key] || q;
-      total += 1;
-      if (answers[key] === active.answer) correct += 1;
-    });
-    setScore(`${correct} / ${total}`);
+    const result = gradeExam(allQuestions, answers, similar);
+    setScore(`${result.correct} / ${result.total}`);
     setChecked(true);
   }, [answers, allQuestions, similar]);
 
@@ -269,23 +264,20 @@ export default function ExamDetailScreen({ route, navigation }) {
     }
     return buildExamSectionOpenEndedPrompts(sec.grammar, 'grammar');
   }, [activeSection, sec.grammar, sec.listening, sec.reading]);
-  const renderFeedback = (active, key, contextLabel) => {
+  const renderFeedback = (active, key) => {
     if (!checked) return null;
     const selected = answers[key];
-    if (selected === undefined) {
+    const result = gradeQuestion(active, selected);
+    if (result.unanswered) {
       return <Text style={styles.incorrect}>No answer selected.</Text>;
     }
-    const correctValue = Array.isArray(active.answer) ? active.answer[0] : active.answer;
-    const isCorrect = Array.isArray(active.answer) 
-      ? active.answer.some(a => (selected || '').toString().trim().toLowerCase() === a.toString().trim().toLowerCase())
-      : (selected || '').toString().trim().toLowerCase() === (active.answer || '').toString().trim().toLowerCase();
 
     return (
       <>
-        <Text style={isCorrect ? styles.correct : styles.incorrect}>
-          {isCorrect ? 'Correct' : `Incorrect (Your answer: ${selected || '—'})`}
+        <Text style={result.correct ? styles.correct : styles.incorrect}>
+          {result.correct ? 'Correct' : `Incorrect (Your answer: ${String(selected)})`}
         </Text>
-        <Text style={styles.meta}>Correct: {active.options ? active.options[active.answer] : correctValue}</Text>
+        <Text style={styles.meta}>Correct: {displayCorrectAnswer(active) || '—'}</Text>
         <Text style={styles.meta}>{active.explain || ''}</Text>
       </>
     );
@@ -317,7 +309,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                 const key = `r${pi}_${qi}`;
                 const active = similar[key] || q;
                 const selected = answers[key];
-                const isWrong = checked && selected !== undefined && selected !== active.answer;
+                const isWrong = checked && !gradeQuestion(active, selected).correct;
                 return (
                   <View key={key} style={styles.qWrap}>
                     <Text style={styles.h3}>Q{keyIndex(readingQuestions, key)}. {active.q}</Text>
@@ -327,10 +319,9 @@ export default function ExamDetailScreen({ route, navigation }) {
                       style={[
                         styles.textInput,
                         checked && (
-                          (Array.isArray(active.answer) 
-                            ? active.answer.some(a => (answers[key] || '').trim().toLowerCase() === a.trim().toLowerCase())
-                            : (answers[key] || '').trim().toLowerCase() === (active.answer || '').trim().toLowerCase())
-                          ? styles.inputCorrect : styles.inputIncorrect
+                          gradeQuestion(active, answers[key]).correct
+                            ? styles.inputCorrect
+                            : styles.inputIncorrect
                         )
                       ]}
                       value={answers[key] || ''}
@@ -347,7 +338,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                       label={opt}
                       variant={
                         checked
-                          ? (oi === active.answer ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
+                          ? (gradeQuestion(active, oi).correct ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
                           : (answers[key] === oi ? 'primary' : 'secondary')
                       }
                       onPress={() => select(key, oi)}
@@ -394,7 +385,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                 const key = `r${i}`;
                 const active = similar[key] || q;
                 const selected = answers[key];
-                const isWrong = checked && selected !== undefined && selected !== active.answer;
+                const isWrong = checked && !gradeQuestion(active, selected).correct;
                 return (
                   <View key={key} style={styles.qWrap}>
                     <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
@@ -443,7 +434,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                 const key = `l${gi}_${qi}`;
                 const active = similar[key] || q;
                 const selected = answers[key];
-                const isWrong = checked && selected !== undefined && selected !== active.answer;
+                const isWrong = checked && !gradeQuestion(active, selected).correct;
                 return (
                   <View key={key} style={styles.qWrap}>
                     <Text style={styles.h3}>Q{keyIndex(listeningQuestions, key)}. {active.q}</Text>
@@ -453,10 +444,9 @@ export default function ExamDetailScreen({ route, navigation }) {
                       style={[
                         styles.textInput,
                         checked && (
-                          (Array.isArray(active.answer) 
-                            ? active.answer.some(a => (answers[key] || '').trim().toLowerCase() === a.trim().toLowerCase())
-                            : (answers[key] || '').trim().toLowerCase() === (active.answer || '').trim().toLowerCase())
-                          ? styles.inputCorrect : styles.inputIncorrect
+                          gradeQuestion(active, answers[key]).correct
+                            ? styles.inputCorrect
+                            : styles.inputIncorrect
                         )
                       ]}
                       value={answers[key] || ''}
@@ -473,7 +463,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                       label={opt}
                       variant={
                         checked
-                          ? (oi === active.answer ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
+                          ? (gradeQuestion(active, oi).correct ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
                           : (answers[key] === oi ? 'primary' : 'secondary')
                       }
                       onPress={() => select(key, oi)}
@@ -520,7 +510,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                 const key = `l${i}`;
                 const active = similar[key] || q;
                 const selected = answers[key];
-                const isWrong = checked && selected !== undefined && selected !== active.answer;
+                const isWrong = checked && !gradeQuestion(active, selected).correct;
                 return (
                   <View key={key} style={styles.qWrap}>
                     <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
@@ -571,7 +561,7 @@ export default function ExamDetailScreen({ route, navigation }) {
             const key = `g${i}`;
             const active = similar[key] || q;
             const selected = answers[key];
-            const isWrong = checked && selected !== undefined && selected !== active.answer;
+            const isWrong = checked && !gradeQuestion(active, selected).correct;
             return (
               <Card key={key} style={styles.card}>
                 <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
@@ -581,10 +571,9 @@ export default function ExamDetailScreen({ route, navigation }) {
                       style={[
                         styles.textInput,
                         checked && (
-                          (Array.isArray(active.answer) 
-                            ? active.answer.some(a => (answers[key] || '').trim().toLowerCase() === a.trim().toLowerCase())
-                            : (answers[key] || '').trim().toLowerCase() === (active.answer || '').trim().toLowerCase())
-                          ? styles.inputCorrect : styles.inputIncorrect
+                          gradeQuestion(active, answers[key]).correct
+                            ? styles.inputCorrect
+                            : styles.inputIncorrect
                         )
                       ]}
                       value={answers[key] || ''}
@@ -601,7 +590,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                       label={opt}
                       variant={
                         checked
-                          ? (oi === active.answer ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
+                          ? (gradeQuestion(active, oi).correct ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
                           : (answers[key] === oi ? 'primary' : 'secondary')
                       }
                       onPress={() => select(key, oi)}
