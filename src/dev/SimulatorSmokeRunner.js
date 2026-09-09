@@ -64,7 +64,7 @@ export default function SimulatorSmokeRunner({ navigationRef, currentRouteName }
         startedRef.current = 'complete';
         console.log('[SMOKE] completed all configured screens');
         appendSmokeEvent({ type: 'complete', at: new Date().toISOString(), total: DEV_SMOKE_TEST_STEPS.length });
-        navigationRef.navigate('MainTabs', { screen: 'Home' });
+        navigationRef.navigate('MainTabs', { screen: 'Today' });
         return;
       }
       const step = DEV_SMOKE_TEST_STEPS[index];
