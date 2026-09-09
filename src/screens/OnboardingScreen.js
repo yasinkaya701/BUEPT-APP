@@ -113,7 +113,7 @@ export default function OnboardingScreen({ navigation }) {
   const { university, uniKey } = useUniversity();
   const theme = getV2Theme(uniKey);
   const assets = getV2Assets(uniKey);
-  const { setLevel, setOnboarded } = useAppState();
+  const { setLevel } = useAppState();
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState('P2');
 
@@ -166,7 +166,8 @@ export default function OnboardingScreen({ navigation }) {
 
   const finish = (diagnostic) => {
     setLevel(selected);
-    setOnboarded(true);
+    // Onboarding is marked complete only after a local profile/demo session
+    // actually succeeds. Closing the app on Signup should not skip setup forever.
     navigation.replace('Signup', diagnostic ? { nextRoute: 'PlacementTest' } : undefined);
   };
 
