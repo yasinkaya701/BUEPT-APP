@@ -87,6 +87,9 @@
     "decode-uri-component": "0.5.0",
     "qs": "6.16.0",
     "xml2js": "0.6.2",
-    "fast-xml-parser": "5.10.1"
+    "fast-xml-parser": "5.10.1",
+    "picomatch": "2.3.2",
+    "@xmldom/xmldom": "0.8.13",
+    "xmldom": "npm:@xmldom/xmldom@0.8.13"
   }
 }
