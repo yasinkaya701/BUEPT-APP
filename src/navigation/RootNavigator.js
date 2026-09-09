@@ -99,6 +99,8 @@ export default function RootNavigator() {
           <Stack.Screen name="SynonymFinder" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-SynonymFinderScreen" */ '../screens/SynonymFinderScreen'))} options={{ title: 'Synonym Finder' }} />
           <Stack.Screen name="Essay" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-EssayScreen" */ '../screens/EssayScreen'))} options={{ title: 'Essay Writing' }} />
           <Stack.Screen name="ErrorStats" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-ErrorStatsScreen" */ '../screens/ErrorStatsScreen'))} options={{ title: 'Error Statistics' }} />
+          <Stack.Screen name="Settings" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-v2-settings" */ '../screens/v2/SettingsScreen'))} options={{ title: 'Settings' }} />
+          <Stack.Screen name="AISettings" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-v2-ai-settings" */ '../screens/v2/AISettingsScreen'))} options={{ title: 'AI Access' }} />
           <Stack.Screen name="Developer" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-DeveloperScreen" */ '../screens/DeveloperScreen'))} options={{ title: 'Developer' }} />
           <Stack.Screen name="ConfusingPronunciations" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-ConfusingPronunciationsScreen" */ '../screens/ConfusingPronunciationsScreen'))} options={{ title: 'Confusing Pronunciations' }} />
           <Stack.Screen name="DemoFeatures" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-DemoFeaturesScreen" */ '../screens/DemoFeaturesScreen'))} options={{ headerShown: false }} />
