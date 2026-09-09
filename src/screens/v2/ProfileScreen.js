@@ -67,9 +67,9 @@ export default function ProfileScreen({ navigation }) {
       <Text style={[styles.sectionTitle, { color: theme.text }]}>Settings</Text>
       <View style={styles.list}>
         <SettingRow theme={theme} icon="flag-outline" title="Study goal" body={`Current preparation level: ${level || 'P2'}`} action={() => navigation.navigate('StudyPlan')} />
-        <SettingRow theme={theme} icon="sparkles-outline" title="AI access" body={aiAccessConfig?.mode === 'hosted' ? 'Hosted BUEPT AI · no client secret required' : `${aiAccessConfig?.provider || 'Custom'} · session-only key`} action={() => navigation.navigate('Developer')} />
-        <SettingRow theme={theme} icon="shield-checkmark-outline" title="Privacy & local data" body="Local profile passwords are not collected. Legacy stored passwords are removed on hydration." action={() => navigation.navigate('Developer')} />
-        <SettingRow theme={theme} icon="construct-outline" title="Advanced diagnostics" body="Provider checks, local AI and developer tools." action={() => navigation.navigate('Developer')} />
+        <SettingRow theme={theme} icon="settings-outline" title="Settings" body="Privacy, accessibility and advanced product preferences." action={() => navigation.navigate('Settings')} />
+        <SettingRow theme={theme} icon="sparkles-outline" title="AI access" body={aiAccessConfig?.mode === 'hosted' ? 'Hosted BUEPT AI · no client secret required' : `${aiAccessConfig?.provider || 'Custom'} · session-only credential`} action={() => navigation.navigate('AISettings')} />
+        <SettingRow theme={theme} icon="shield-checkmark-outline" title="Privacy & local data" body="Local profile passwords are not collected. Legacy stored passwords are removed on hydration." action={() => navigation.navigate('Settings')} />
       </View>
 
       <SurfaceCard style={styles.safetyCard}>
