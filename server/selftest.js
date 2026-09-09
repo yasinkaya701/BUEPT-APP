@@ -35,6 +35,33 @@ async function main() {
     assert.strictEqual(missingMessages.status, 400);
     assert.strictEqual((await missingMessages.json()).error, 'INVALID_AI_REQUEST');
 
+    const oversized = await fetch(`${base}/api/ai/chat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Forwarded-For': '198.51.100.10',
+      },
+      body: JSON.stringify({
+        messages: [{ role: 'user', content: 'x'.repeat(32001) }],
+      }),
+    });
+    assert.strictEqual(oversized.status, 400);
+    assert.strictEqual((await oversized.json()).error, 'AI_REQUEST_TOO_LARGE');
+
+    let rateLimitedResponse = null;
+    for (let i = 0; i < 21; i += 1) {
+      rateLimitedResponse = await fetch(`${base}/api/ai/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Forwarded-For': '198.51.100.11',
+        },
+        body: JSON.stringify({ messages: [] }),
+      });
+    }
+    assert.strictEqual(rateLimitedResponse.status, 429);
+    assert.strictEqual((await rateLimitedResponse.json()).error, 'RATE_LIMITED');
+
     const sync = await fetch(`${base}/api/sync/status`);
     assert.strictEqual(sync.status, 503);
     assert.strictEqual((await sync.json()).error, 'SYNC_DISABLED');
