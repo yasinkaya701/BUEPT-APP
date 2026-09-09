@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingVi
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppState } from '../context/AppState';
+import { useUniversity } from '../context/UniversityContext';
 
 const styles = StyleSheet.create({
     bgImage: { flex: 1, width: '100%', height: '100%' },
@@ -75,11 +76,11 @@ const styles = StyleSheet.create({
     switchLink: { color: colors.primary, fontWeight: '800' },
 });
 
-const BG_IMAGE = require('../assets/images/real_south_gate.webp');
-
 export default function LoginScreen({ navigation }) {
     const { login, userProfile } = useAppState();
+    const { university } = useUniversity();
     const { height } = useWindowDimensions();
+    const backgroundImage = university?.images?.hero || require('../assets/images/real_south_gate.webp');
     const compact = height < 760;
     const savedAccountReady = Boolean(userProfile?.email);
     const [email, setEmail] = useState('');
@@ -117,7 +118,7 @@ export default function LoginScreen({ navigation }) {
     };
 
     return (
-        <ImageBackground source={BG_IMAGE} style={styles.bgImage} resizeMode="cover">
+        <ImageBackground source={backgroundImage} style={styles.bgImage} resizeMode="cover">
             <View style={styles.overlay} pointerEvents="none" />
             <KeyboardAvoidingView style={styles.flex} enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
                 <ScrollView
@@ -130,8 +131,8 @@ export default function LoginScreen({ navigation }) {
                         <View style={styles.logoWrap}>
                             <Ionicons name="school" size={48} color="#fff" />
                         </View>
-                        <Text style={styles.brandTitle}>BUEPT</Text>
-                        <Text style={styles.brandSub}>Boğaziçi University English Proficiency</Text>
+                        <Text style={styles.brandTitle}>{university?.shortName || 'BUEPT'}</Text>
+                        <Text style={styles.brandSub}>{university?.examName || 'University English Proficiency'}</Text>
                         <View style={styles.heroBadgeRow}>
                             <View style={styles.heroBadge}>
                                 <Ionicons name="shield-checkmark-outline" size={13} color="#fff" />
@@ -160,7 +161,7 @@ export default function LoginScreen({ navigation }) {
                                 </View>
                                 <View style={styles.statusPill}>
                                     <Ionicons name="desktop-outline" size={13} color={colors.primaryDark} />
-                                    <Text style={styles.statusPillText}>Presenter Ready</Text>
+                                    <Text style={styles.statusPillText}>Local-first</Text>
                                 </View>
                             </View>
 
@@ -196,7 +197,7 @@ export default function LoginScreen({ navigation }) {
                                 <Ionicons name="mail-outline" size={20} color={colors.muted} style={styles.inputIcon} />
                                 <TextInput
                                     style={styles.input}
-                                    placeholder="University Email (@boun.edu.tr)"
+                                    placeholder="University email"
                                     placeholderTextColor={colors.muted}
                                     autoCapitalize="none"
                                     keyboardType="email-address"
@@ -234,7 +235,7 @@ export default function LoginScreen({ navigation }) {
                                         <Ionicons name="sparkles-outline" size={18} color={colors.primaryDark} />
                                     </View>
                                     <View style={styles.presenterCopy}>
-                                        <Text style={styles.presenterTitle}>Presenter Shortcut</Text>
+                                        <Text style={styles.presenterTitle}>Demo workspace</Text>
                                         <Text style={styles.presenterBody}>
                                             Starts the demo dataset and opens the live demo hub automatically after sign-in.
                                         </Text>
