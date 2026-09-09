@@ -20,7 +20,10 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "postinstall": "node patches/patch-voice-androidx.js"
+    "postinstall": "node patches/patch-voice-androidx.js",
+    "api:check": "node --check web-api-server.js && node --check server/app.js && node --check server/providerRouter.js && node --check server/selftest.js",
+    "api:selftest": "node server/selftest.js",
+    "ci:v2": "npm run api:check && npm run api:selftest && npm run lint && npm test -- --runInBand && npm run web:rnw:build:root && npm run web:rnw:build:odtu"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",
