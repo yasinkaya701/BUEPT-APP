@@ -1,4 +1,4 @@
-import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders, executeDirectAiChat } from './runtimeApi';
+import { resolveApiEndpoint, getAiHeaders, executeDirectAiChat, isHostedAiMode, isAiAccessConfigured } from './runtimeApi';
 
 const DEMO_API_URL = resolveApiEndpoint('BUEPT_DEMO_AI_API_URL', '/api/module');
 
@@ -227,6 +227,10 @@ function buildLocalModulePayload(kind, payload = {}) {
 }
 
 export async function requestDemoModule(kind, payload = {}) {
+  // Generic legacy modules have deterministic local implementations.
+  // BYOK mode must not silently send their payload to the hosted backend.
+  if (!isHostedAiMode()) return buildLocalModulePayload(kind, payload);
+
   const data = await callDemoApi(kind, payload);
   if (data) return data;
   return buildLocalModulePayload(kind, payload);
@@ -332,53 +336,49 @@ function normalizeSpeakingPayload(payload = {}, fallbackText = '') {
 }
 
 export function isDemoAiConfigured(kind = 'generic') {
-  return !!getEndpoint(kind);
+  if (isHostedAiMode()) return Boolean(getEndpoint(kind));
+  return isAiAccessConfigured();
 }
 
 export async function generateSpeakingCoachReply({ text = '', history = [] } = {}) {
   const cleanTextValue = cleanText(text);
-  
-  try {
-    const formattedHistory = Array.isArray(history) ? history.map(m => ({ role: m.role, content: m.text })) : [];
-    const directReply = await executeDirectAiChat({
-      systemPrompt: `You are the Official BUEPT Speaking Coach.
-Evaluate the student's spoken response based on Boğaziçi University BUEPT standards (B2+/C1 level).
-Provide deep, actionable feedback including:
-1. Metrics: Estimated word count, fluency, and coherence.
-2. Strengths: What did the student do well?
-3. Weaknesses: Grammar/Pronunciation/Vocabulary gaps.
-4. Tips: Exactly 3 specific tips to reach the next level.
-Return your response as a JSON object.`,
-      messages: [...formattedHistory, { role: 'user', content: cleanTextValue }],
-      jsonFormat: true
-    });
-    
-    if (directReply) {
-      const parsed = JSON.parse(directReply);
-      return normalizeSpeakingPayload(parsed, cleanTextValue);
+  const localFallback = () => normalizeSpeakingPayload(buildSpeakingFallbackPayload(cleanTextValue), cleanTextValue);
+
+  if (!isHostedAiMode()) {
+    try {
+      const formattedHistory = Array.isArray(history)
+        ? history.slice(-8).map((item) => ({ role: item.role, content: item.text || item.content || '' }))
+        : [];
+      const directReply = await executeDirectAiChat({
+        systemPrompt: `You are an academic English speaking coach.
+Evaluate fluency, coherence, grammar, lexical range, and clarity.
+Return only JSON with text, band, metrics, scores, strengths, improvements, drills, and nextPrompt.
+Do not claim that speaking is an official scored BUSEPT section.`,
+        messages: [...formattedHistory, { role: 'user', content: cleanTextValue }],
+        jsonFormat: true,
+        capability: 'speaking_feedback',
+      });
+
+      if (directReply) {
+        const parsed = JSON.parse(directReply);
+        return normalizeSpeakingPayload(parsed, cleanTextValue);
+      }
+    } catch (error) {
+      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        console.warn('Selected speaking provider failed:', error?.message || String(error));
+      }
     }
-  } catch (err) {
-    if (typeof __DEV__ !== 'undefined' && __DEV__) {
-      console.warn('Direct speaking coach failed:', err);
-    }
-    const { getRuntimeApiAccessConfig } = require('./runtimeApi');
-    const cfg = getRuntimeApiAccessConfig();
-    if (cfg.provider === 'ollama' || cfg.apiKey) {
-      return normalizeSpeakingPayload({
-        text: `⚠️ Connection Failed: ${err.message}. If using Ollama, ensure it is running and CORS is enabled via OLLAMA_ORIGINS="*".`,
-        source: 'error'
-      }, cleanTextValue);
-    }
+    return localFallback();
   }
 
   const raw = await callDemoApi('speaking', {
     text: cleanTextValue,
     history: Array.isArray(history)
-      ? history.slice(-8).map((m) => ({ role: m.role, text: m.text || '' }))
+      ? history.slice(-8).map((item) => ({ role: item.role, text: item.text || item.content || '' }))
       : [],
   });
-  if (raw) return normalizeSpeakingPayload(raw, text);
-  return normalizeSpeakingPayload(buildSpeakingFallbackPayload(text), text);
+  if (raw) return normalizeSpeakingPayload(raw, cleanTextValue);
+  return localFallback();
 }
 
 function normalizeSlide(item = {}, index = 0) {
@@ -510,21 +510,32 @@ export async function generatePresentationDeck({
   const safeDuration = Number.isFinite(durationMin) ? durationMin : 10;
   const safeTone = cleanText(tone, 'Academic');
   const safeLevel = cleanText(level, 'B2');
-  
-  try {
-    const directReply = await executeDirectAiChat({
-      systemPrompt: 'You are an academic presentation generator. Return a JSON object with { "title": "...", "summary": "...", "slides": [{ "title": "...", "points": ["..."], "script": "...", "cues": "..." }] }',
-      messages: [{ role: 'user', content: `Topic: ${cleanTopic}\nDuration: ${safeDuration}m\nTone: ${safeTone}\nLevel: ${safeLevel}` }],
-      jsonFormat: true
-    });
-    
-    if (directReply) {
-      const parsed = JSON.parse(directReply);
-      return normalizePresentationPayload(parsed, cleanTopic);
-    }
-  } catch (err) {
-    if (typeof __DEV__ !== 'undefined' && __DEV__) {
-      console.warn('Direct presentation generation failed:', err);
+  const localFallback = (diagnostic = '') =>
+    buildFallbackDeck(cleanTopic, safeDuration, safeTone, safeLevel, diagnostic);
+
+  if (!isHostedAiMode()) {
+    try {
+      const directReply = await executeDirectAiChat({
+        systemPrompt: 'You are an academic presentation coach. Return only JSON with title, summary, slides, audience, opener, closer, deliveryNotes, transitions, and qaTips. Each slide must contain title, points, script, and cues.',
+        messages: [{
+          role: 'user',
+          content: `Topic: ${cleanTopic}\nDuration: ${safeDuration}m\nTone: ${safeTone}\nLevel: ${safeLevel}`,
+        }],
+        jsonFormat: true,
+        capability: 'presentation',
+      });
+
+      if (directReply) {
+        const parsed = JSON.parse(directReply);
+        const normalized = normalizePresentationPayload(parsed, cleanTopic);
+        if (normalized) return normalized;
+      }
+      return localFallback('The selected provider returned an invalid presentation.');
+    } catch (error) {
+      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        console.warn('Selected presentation provider failed:', error?.message || String(error));
+      }
+      return localFallback('The selected AI provider could not generate the presentation.');
     }
   }
 
@@ -534,28 +545,10 @@ export async function generatePresentationDeck({
     tone: safeTone,
     level: safeLevel,
   });
-
   const normalized = response?.ok ? normalizePresentationPayload(response.data, cleanTopic) : null;
   if (normalized) return normalized;
 
-  if (response?.fallback) {
-    const normalizedFallback = normalizePresentationPayload(response.fallback, cleanTopic);
-    if (normalizedFallback) {
-      return {
-        ...normalizedFallback,
-        diagnostic: cleanText(
-          response.detail || normalizedFallback.diagnostic,
-          'Live AI generation was unavailable, so a fallback deck was generated.'
-        ),
-      };
-    }
-  }
-
-  const detail = cleanText(
-    response?.detail || response?.error || '',
-    PRESENTATION_API_URL
-      ? 'Live AI generation was unavailable, so a local fallback deck was generated.'
-      : 'No live AI endpoint was available, so a local fallback deck was generated.'
+  return localFallback(
+    cleanText(response?.detail || response?.error || '', 'Hosted presentation generation was unavailable.'),
   );
-  return buildFallbackDeck(cleanTopic, safeDuration, safeTone, safeLevel, detail);
 }
