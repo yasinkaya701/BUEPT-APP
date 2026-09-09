@@ -1,617 +1,343 @@
-/**
- * LandingScreen.js — public marketing landing page for BUEPT-APP
- *
- * The first touchpoint for web visitors before sign-up. Follows the
- * "Midnight Sapphire" design language (real_south_gate hero, deep-navy
- * surfaces, gold accents) so the brand feels continuous from marketing
- * page into the app.
- *
- * Sections: header, hero with animated rise, stats band, feature grid,
- * "Nasıl Çalışıyor" steps, social-proof strips, other-university preview,
- * FAQ accordion, final CTA, footer. NO pricing (product decision).
- */
-import React, { useState, useCallback, useMemo } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  ImageBackground,
-  Pressable,
-  Platform,
-  Animated,
-  Easing,
-} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import React from 'react';
+import { ImageBackground, Platform, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { colors, typography, radius, spacing } from '../theme/tokens';
 import Button from '../components/Button';
-import Card from '../components/Card';
-import MotionGroup from '../components/ui/MotionGroup';
-import CountUp from '../components/ui/CountUp';
-import { UNIVERSITIES } from '../config/universities';
+import LogoMark from '../components/LogoMark';
+import SurfaceCard from '../components/v2/SurfaceCard';
 import { useUniversity } from '../context/UniversityContext';
+import { getV2Assets } from '../config/bueptAssets';
+import { getV2Theme, v2Radius, v2Shadow, v2Spacing, v2Typography } from '../theme/v2';
 
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-    backgroundColor: colors.headerDark,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.08)',
-  },
-  headerLeft: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  logoBadge: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logoText: { color: '#FFF', fontSize: 15, fontWeight: '900', fontFamily: typography.fontHeadline },
-  brandName: {
-    color: '#E2E8F0',
-    fontSize: 13,
-    fontWeight: '800',
-    letterSpacing: 3,
-    fontFamily: typography.fontHeadline,
-  },
-  headerRight: { flexDirection: 'row', gap: 8 },
-
-  hero: { minHeight: 520, padding: 28, justifyContent: 'center' },
-  heroOverlay: { ...StyleSheet.absoluteFillObject },
-  heroInner: { paddingTop: 40 },
-  pill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    alignSelf: 'flex-start',
-    backgroundColor: 'rgba(255,255,255,0.10)',
-    borderWidth: 1,
-    borderColor: 'rgba(245,158,11,0.45)',
-    borderRadius: radius.pill,
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    marginBottom: 18,
-  },
-  pillText: { color: colors.accentBright, fontSize: 11, fontWeight: '700', letterSpacing: 2 },
-  heroTitle: {
-    color: '#FFFFFF',
-    fontSize: 40,
-    fontWeight: '900',
-    fontFamily: typography.fontHeadline,
-    lineHeight: 48,
-    marginBottom: 14,
-  },
-  heroSub: { color: 'rgba(226,232,240,0.88)', fontSize: 16, lineHeight: 24, maxWidth: 560, marginBottom: 26 },
-  heroCtaRow: { flexDirection: 'row', gap: 12 },
-
-  statsBand: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    flexWrap: 'wrap',
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 26,
-    paddingHorizontal: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  statTile: { alignItems: 'center', padding: 10, ...(isWeb ? { width: '25%' } : { minWidth: '40%' }) },
-  statValue: {
-    fontSize: 32,
-    fontWeight: '900',
-    fontFamily: typography.fontHeadline,
-    color: colors.primary,
-  },
-  statSuffix: { fontSize: 13, color: colors.muted, marginTop: 2 },
-  statLabel: { fontSize: 13, color: colors.textSecondary, marginTop: 2 },
-
-  section: { padding: spacing.xxl, backgroundColor: '#FFFFFF' },
-  sectionAlt: { backgroundColor: colors.surfaceAlt },
-  sectionKicker: {
-    fontSize: 12,
-    fontWeight: '800',
-    letterSpacing: 3,
-    color: colors.primary,
-    marginBottom: 8,
-  },
-  sectionTitle: {
-    fontSize: 26,
-    fontWeight: '900',
-    fontFamily: typography.fontHeadline,
-    color: colors.primaryDeeper,
-    marginBottom: 22,
-  },
-
-  featureGrid: { gap: 14 },
-  featureCard: { padding: 18 },
-  featureIconWrap: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  featureTitle: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: 6 },
-  featureBody: { fontSize: 14, color: colors.textSecondary, lineHeight: 21 },
-
-  stepsGrid: { gap: 12 },
-  stepCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 14,
-    backgroundColor: '#FFFFFF',
-    borderRadius: radius.md,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: colors.borderLight,
-    marginBottom: 10,
-  },
-  stepNumBadge: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: colors.primaryLight,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  stepNum: { color: colors.primary, fontWeight: '900', fontSize: 14 },
-  stepTitle: { fontSize: 15, fontWeight: '800', color: colors.text, minWidth: 120 },
-  stepBody: { fontSize: 13, color: colors.textSecondary, flex: 1 },
-
-  proofStrip: {
-    backgroundColor: colors.primaryDeeper,
-    padding: spacing.lg,
-    gap: 12,
-  },
-  proofRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  proofText: { color: 'rgba(241,245,249,0.92)', fontSize: 13, flex: 1 },
-
-  otherSub: {
-    fontSize: 13,
-    color: colors.textSecondary,
-    lineHeight: 20,
-    marginBottom: 14,
-    maxWidth: 620,
-  },
-  otherGrid: { gap: 14 },
-  otherCard: { padding: 18, position: 'relative' },
-  otherBadge: {
-    alignSelf: 'flex-start',
-    borderRadius: radius.pill,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    marginBottom: 10,
-  },
-  otherBadgeText: { fontSize: 11, fontWeight: '800', letterSpacing: 1 },
-  otherName: { fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: 6 },
-  otherBlurb: { fontSize: 13, color: colors.textSecondary, lineHeight: 19, paddingRight: 60 },
-  comingBadge: {
-    position: 'absolute',
-    top: 18,
-    right: 18,
-    backgroundColor: colors.accentSoft,
-    borderRadius: radius.pill,
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-  },
-  comingText: { fontSize: 10, fontWeight: '800', color: colors.accent, letterSpacing: 1 },
-  liveBadge: {
-    position: 'absolute',
-    top: 18,
-    right: 18,
-    backgroundColor: colors.successSoft || '#e6f7ee',
-    borderRadius: radius.pill,
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-  },
-  liveText: { fontSize: 10, fontWeight: '800', color: colors.success, letterSpacing: 1 },
-
-  faqList: { gap: 10 },
-  faqCard: { padding: 16 },
-  faqHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  faqQuestion: { fontSize: 15, fontWeight: '700', color: colors.text, flex: 1, paddingRight: 12 },
-  faqAnswer: { fontSize: 14, color: colors.textSecondary, lineHeight: 21, marginTop: 10 },
-
-  finalCta: {
-    backgroundColor: colors.finalCta,
-    padding: spacing.xxl,
-    alignItems: 'center',
-  },
-  finalTitle: {
-    color: '#FFFFFF',
-    fontSize: 28,
-    fontWeight: '900',
-    fontFamily: typography.fontHeadline,
-    marginBottom: 10,
-  },
-  finalSub: {
-    color: 'rgba(226,232,240,0.88)',
-    fontSize: 15,
-    textAlign: 'center',
-    lineHeight: 22,
-    marginBottom: 22,
-    maxWidth: 520,
-  },
-  finalBtn: { minWidth: 280 },
-
-  footer: {
-    backgroundColor: colors.footerDark,
-    padding: spacing.xl,
-    alignItems: 'center',
-    gap: 6,
-  },
-  footerBrand: { color: '#E2E8F0', fontSize: 13, fontWeight: '800', letterSpacing: 3 },
-  footerCopy: { color: 'rgba(148,163,184,0.8)', fontSize: 11, textAlign: 'center' },
-});
-
-const isWeb = Platform.OS === 'web';
-const STATS_BY_UNI = {
-  buept: [
-    { value: 28000, suffix: '+', label: 'Soru bankası' },
-    { value: 40, suffix: '+', label: 'Tam mock sınav' },
-    { value: 4, suffix: '', label: 'AI puanlamalı beceri' },
-    { value: 3.5, suffix: ' saat', label: 'Resmi sınav replikası' },
-  ],
-  odtu: [
-    { value: 100, suffix: ' puan', label: 'Resmi 5 bölüm toplamı' },
-    { value: 32, suffix: ' puan', label: 'Okuma bölümü payı' },
-    { value: 8, suffix: '+', label: 'Tam ODTÜ formatlı mock' },
-    { value: 60, suffix: ' puan', label: 'Geçme notu (85+ muafiyet)' },
-  ],
-};
-const FEATURES_BY_UNI = {
-  buept: {
-    icon: 'headset-outline',
-    title: 'Resmi BUSEPT Formatı',
-    body: 'Selective + Careful Listening, Reading I/II ve iki essay — gerçek sınavın üç resmi bölümünün birebir kopyası. (Gerçek BUSEPT\'te Speaking yok; mülakat pratiği bonus olarak sunulur.)',
-    color: colors.skill.listening,
-    soft: colors.skillSoft.listening,
-  },
-  odtu: {
-    icon: 'headset-outline',
-    title: 'Resmi ODTÜ İYS Formatı',
-    body: 'Dinleme, okuma, not alma ve yazma tek oturumda; yüz yüze konuşma bölümüyle birlikte. Okuma puanın baskın (~32 puan) — ona göre çalış. Konuşma gerçek sınavda var; bonus değil.',
-    color: colors.skill.listening,
-    soft: colors.skillSoft.listening,
-  },
-};
-
-const FEATURES = [
-  {
-    icon: 'document-text-outline',
-    title: 'WASC Puanlı Essay Bankası',
-    body: 'Puanlanmış gerçek essay örnekleri ve WASC rubricine bağlı AI yazma değerlendirmesi.',
-    color: colors.skill.writing,
-    soft: colors.skillSoft.writing,
-  },
-  {
-    icon: 'mic-outline',
-    title: 'Gerçek Konuşma Değerlendirmesi',
-    body: '__UNI_SPEAKING__',
-    color: colors.skill.speaking,
-    soft: colors.skillSoft.speaking,
-  },
-  {
-    icon: 'layers-outline',
-    title: 'SRS Zayıf Kelime Motoru',
-    body: 'Mock sınavlarda kaçırılan kelimeler aralıklı tekrar kuyruğuna düşer. Zayıf alanlar hatırlatmayla kapanır.',
-    color: colors.skill.vocab,
-    soft: colors.skillSoft.vocab,
-  },
-  {
-    icon: 'calendar-outline',
-    title: 'Günlük Adaptif Plan',
-    body: 'Seviyene göre her gün otomatik iş planı. Progress takibi, badge sistemi ve zincir motivasyonu.',
-    color: colors.accent,
-    soft: colors.accentSoft,
-  },
-  {
-    icon: 'sparkles-outline',
-    title: 'AI Mock Üretici',
-    body: 'Gemini ile P1–P4 seviyelerinde sınırsız resmi format mock. LLM anahtarı olmadan da 4 hazır mock var.',
-    color: '#1D4ED8',
-    soft: colors.primaryLight,
-  },
-];
-
-const STEPS = [
-  { icon: 'clipboard-outline', title: 'Seviye tespiti', body: '10 dakikalık placement testiyle P seviyen belirilir.' },
-  { icon: 'list-outline', title: 'Günlük plan', body: 'Uygulama her gün dinleme, okuma ve kelime işleri atar.' },
-  { icon: 'school-outline', title: 'Mock sınav', body: 'Resmi formatta tam deneme; AI essay puanlaması ve konuşma provası.' },
-  { icon: 'refresh-outline', title: 'SRS tekrar', body: 'Yanlış soruların kelimeleri aralıklı tekrarla pekiştirilir.' },
-];
-const STEP3_BODY_BY_UNI = {
-  buept: 'Resmi formatta tam deneme; AI essay puanlaması ve bonus mülakat provası.',
-  odtu: 'Tek oturumda tam ODTÜ format denemesi: dinleme, okuma, not alma, essay ve yüz yüze konuşma provası.',
-};
-
-const FAQS = [
-  {
-    q: 'BUSEPT tam olarak nedir?',
-    a: 'Boğaziçi Üniversitesi YADYÖK tarafından düzenlenen İngilizce Yeterlilik Sınavı\'dır. Üç bölümden oluşur: Listening, Reading ve Writing. Writing ortalaması 56+, Listening + Reading toplamı 60+ olmalıdır; genel notunuz C (60–64) ve üzeriyse geçersiniz. Sonuçlar 2 yıl geçerlidir.'
-  },
-  {
-    q: 'Bu platform ücretsiz mi?',
-    a: 'Evet. Tüm çekirdek özellikler — soru bankası, mock sınavlar, placement testi, günlük plan ve SRS motoru — şu anda ücretsiz. AI mock üretimi için Gemini anahtarı yeterlidir.',
-  },
-  {
-    q: 'Mobil uygulamayı nereden indiririm?',
-    a: 'Android sürümü GitHub Releases sayfasında APK olarak yayında. iOS sürümü için Mac\'te tek komutla derleme mümkündür; mağaza yayını hazırlık aşamasındadır.',
-  },
-  {
-    q: 'LLM anahtarı olmadan kullanabilir miyim?',
-    a: 'Evet. P1–P4 seviyelerinde 4 tam resmi format offline mock hemen kullanılabilir. AI üretici, essay bankası ve gelişmiş puanlama Gemini anahtarı ister.',
-  },
-];
-
-const FAQS_ODTU = [
-  {
-    q: 'ODTÜ İYS (EPE) nasıl bir sınavdır?',
-    a: 'ODTÜ SFL\'nin resmi İngilizce Yeterlilik Sınavı 100 puan üzerinden değerlendirilir: While Listening (~25 dk, 24 puan), Careful Reading (60 dk, 32 puan), Not Alma (~15 dk, 9 puan), Bağımsız Yazma (35 dk, 20 puan) ve yüz yüze Konuşma mülakatı (2. gün, ~8 dk, 15 puan). Geçme notu 60/100; 85 ve üzeri sonraki İngilizce derslerinden muafiyet sağlar.',
-  },
-  {
-    q: 'Bu platform ücretsiz mi?',
-    a: 'Evet. Tüm çekirdek özellikler — ODTÜ formatlı mock sınavlar, günlük plan, SRS motoru ve not alma bloğu — şu anda ücretsiz. AI mock üretimi için Gemini anahtarı yeterlidir.',
-  },
-  {
-    q: 'Mobil uygulamayı nereden indiririm?',
-    a: 'Android sürümü GitHub Releases sayfasında APK olarak yayında. iOS sürümü için Mac\'te tek komutla derleme mümkündür; mağaza yayını hazırlık aşamasındadır.',
-  },
-  {
-    q: 'LLM anahtarı olmadan kullanabilir miyim?',
-    a: 'Evet. 4 tam ODTÜ formatlı offline mock hemen kullanılabilir. AI üretici, essay bankası ve gelişmiş puanlama Gemini anahtarı ister.',
-  },
-];
-
-const OTHER_UNIS = UNIVERSITIES.filter((u) => u.key !== 'buept' && u.key !== 'odtu').slice(0, 2);
-
-export default function LandingScreen({ navigation }) {
-  const { university, uniKey } = useUniversity();
-  const isOdtu = uniKey === 'odtu';
-  const STATS = STATS_BY_UNI[uniKey] || STATS_BY_UNI.buept;
-  const [openFaq, setOpenFaq] = useState(null);
-  const heroFade = useMemo(() => new Animated.Value(0), []);
-  const heroRise = useMemo(() => new Animated.Value(18), []);
-
-  React.useEffect(() => {
-    if (!isWeb) return;
-    Animated.parallel([
-      Animated.timing(heroFade, { toValue: 1, duration: 520, easing: Easing.out(Easing.quad), useNativeDriver: true }),
-      Animated.timing(heroRise, { toValue: 0, duration: 520, easing: Easing.out(Easing.quad), useNativeDriver: true }),
-    ]).start();
-  }, [heroFade, heroRise]);
-
-  const toggleFaq = useCallback((i) => setOpenFaq((o) => (o === i ? null : i)), []);
-
-  const steps = useMemo(
-    () =>
-      STEPS.map((s, i) => (i === 2 ? { ...s, body: STEP3_BODY_BY_UNI[uniKey] || s.body } : s)),
-    [uniKey],
-  );
-
-  const heroImg = useMemo(
-    () => (university.images && university.images.hero) || require('../assets/images/real_south_gate.webp'),
-    [university],
-  );
-
-  const featureFormat = FEATURES_BY_UNI[uniKey] || FEATURES_BY_UNI.buept;
-  const SPEAKING_BODY_BY_UNI = {
-    buept: 'Mülakat simülasyonu ile telaffuz, akıcılık ve içerik puanlaması. BUSEPT\'te speaking yok — bu, üniversite mülakatları ve genel pratik için bonus.',
-    odtu: 'Yüz yüze mülakat simülasyonu: 4 hazırlıksız + 1 hazırlıklı soru ile gerçek İYS konuşma bloğunun provası. Telaffuz, akıcılık ve içerik AI ile puanlanır.',
-  };
-  const features = [featureFormat, ...FEATURES.slice(1).map((f) => (f.body === '__UNI_SPEAKING__' ? { ...f, body: SPEAKING_BODY_BY_UNI[uniKey] || SPEAKING_BODY_BY_UNI.buept } : f))];
-  const FAQ_LIST = isOdtu ? FAQS_ODTU : FAQS;
-
-  const start = useCallback(() => {
-    if (isOdtu) {
-      // ODTÜ build: enter the app directly (placement test is Boğaziçi-specific).
-      navigation.navigate('TodayBoard');
-      return;
-    }
-    navigation.navigate('PlacementTest');
-  }, [navigation, isOdtu]);
-
+function FeatureCard({ icon, eyebrow, title, body, asset, theme }) {
   return (
-    <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
-      {/* ── Header ── */}
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <View style={[styles.logoBadge, { backgroundColor: university.accent }]}>
-            <Text style={styles.logoText}>{isOdtu ? 'MET' : 'BÜ'}</Text>
-          </View>
-          <Text style={styles.brandName}>{isOdtu ? 'ODTÜ PREP' : 'BOĞAZİÇİ PREP'}</Text>
+    <SurfaceCard style={styles.featureCard}>
+      <ImageBackground
+        source={asset?.source}
+        accessibilityLabel={asset?.alt}
+        resizeMode="cover"
+        style={styles.featureMedia}
+        imageStyle={styles.featureMediaImage}
+      >
+        <View style={styles.featureOverlay} />
+        <View style={styles.featureIcon}>
+          <Ionicons name={icon} size={21} color={theme.primary} />
         </View>
-        <View style={styles.headerRight}>
-          <Button label="Giriş Yap" variant="ghost" onPress={() => navigation.navigate('Login')} />
-          <Button label="Hemen Başla" onPress={start} />
-        </View>
-      </View>
-
-      {/* ── Hero ── */}
-      <ImageBackground source={heroImg} style={styles.hero} resizeMode="cover">
-        <LinearGradient colors={['rgba(13, 18, 37, 0.82)', 'rgba(13, 18, 37, 0.94)']} style={styles.heroOverlay} />
-        <Animated.View style={[styles.heroInner, { opacity: heroFade, transform: [{ translateY: heroRise }] }]}>
-          <View style={styles.pill}>
-            <Ionicons name="school-outline" size={13} color={colors.accentBright} />
-            <Text style={styles.pillText}>
-              {isOdtu ? 'ODTÜ İYS/EPE İÇİN · RESMİ SFL FORMATI' : 'BUSEPT\'E ÖZEL · YADYÖK FORMATI'}
-            </Text>
-          </View>
-          <Text style={styles.heroTitle}>
-            {isOdtu ? 'ODTÜ İYS\'e hazırlığın' : 'BUSEPT\'e hazırlığın'}{'\n'}tek platformu
-          </Text>
-          <Text style={styles.heroSub}>
-            {isOdtu
-              ? 'Resmi sınavın birebir replikası: dinleme, okuma, not alma, essay ve yüz yüze konuşma. AI puanlamayla gerçek sınavdan önce her bölümü provaya al.'
-              : 'Resmi sınavın birebir replikası: dinleme, okuma ve iki essay.\nAI puanlamayla gerçek sınavdan önce her bölümü provaya al.'}
-          </Text>
-          <View style={styles.heroCtaRow}>
-            <Button label="Hemen Başla" icon="play" onPress={start} />
-            <Button label="Tanıtım Turu" variant="ghost" onPress={() => navigation.navigate('DemoFeatures')} />
-          </View>
-        </Animated.View>
       </ImageBackground>
-
-      {/* ── Stats band ── */}
-      <View style={styles.statsBand}>
-        {STATS.map((s, i) => (
-          <View key={i} style={styles.statTile}>
-            <CountUp value={s.value === 3.5 ? '3.5 saat' : String(s.value)} textStyle={styles.statValue} />
-            <Text style={styles.statSuffix}>{s.suffix || '+'}</Text>
-            <Text style={styles.statLabel}>{s.label}</Text>
-          </View>
-        ))}
+      <View style={styles.featureBody}>
+        <Text style={[styles.eyebrow, { color: theme.primary }]}>{eyebrow}</Text>
+        <Text style={[styles.featureTitle, { color: theme.text }]}>{title}</Text>
+        <Text style={[styles.body, { color: theme.muted }]}>{body}</Text>
       </View>
-
-      {/* ── Features ── */}
-      <View style={styles.section}>
-        <Text style={styles.sectionKicker}>ÖZELLİKLER</Text>
-        <Text style={styles.sectionTitle}>Her beceri için sınav kalitesinde araç</Text>
-        <View style={styles.featureGrid}>
-          <MotionGroup stagger={70}>
-            {features.map((f, i) => (
-              <Card key={i} style={styles.featureCard}>
-                <View style={[styles.featureIconWrap, { backgroundColor: f.soft }]}>
-                  <Ionicons name={f.icon} size={22} color={f.color} />
-                </View>
-                <Text style={styles.featureTitle}>{f.title}</Text>
-                <Text style={styles.featureBody}>{f.body}</Text>
-              </Card>
-            ))}
-          </MotionGroup>
-        </View>
-      </View>
-
-      {/* ── How it works ── */}
-      <View style={[styles.section, styles.sectionAlt]}>
-        <Text style={styles.sectionKicker}>NASIL ÇALIŞIYOR</Text>
-        <Text style={styles.sectionTitle}>Dört adımda sınava hazır</Text>
-        <View style={styles.stepsGrid}>
-          <MotionGroup stagger={80}>
-            {steps.map((s, i) => (
-              <View key={i} style={styles.stepCard}>
-                <View style={styles.stepNumBadge}>
-                  <Text style={styles.stepNum}>{i + 1}</Text>
-                </View>
-                <Ionicons name={s.icon} size={20} color={colors.primary} />
-                <Text style={styles.stepTitle}>{s.title}</Text>
-                <Text style={styles.stepBody}>{s.body}</Text>
-              </View>
-            ))}
-          </MotionGroup>
-        </View>
-      </View>
-
-      {/* ── Social proof strip ── */}
-      <View style={styles.proofStrip}>
-        <View style={styles.proofRow}>
-          <Ionicons name="checkmark-circle" size={18} color={colors.success} />
-          <Text style={styles.proofText}>
-            {isOdtu ? 'ODTÜ İYS formatına birebir uyarlanmış dijital hazırlık platformu' : 'Boğaziçi\'ne özgü ilk ve tek dijital hazırlık platformu'}
-          </Text>
-        </View>
-        <View style={styles.proofRow}>
-          <Ionicons name="checkmark-circle" size={18} color={colors.success} />
-          <Text style={styles.proofText}>APK üretim derlemesi doğrulandı — offline mock&apos;lar anahtarsız çalışır</Text>
-        </View>
-        <View style={styles.proofRow}>
-          <Ionicons name="checkmark-circle" size={18} color={colors.success} />
-          <Text style={styles.proofText}>36/36 test, 0 lint hatası — her release doğrulanarak yayına</Text>
-        </View>
-      </View>
-
-      {/* ── Other universities ── */}
-      <View style={styles.section}>
-        <Text style={styles.sectionKicker}>GENİŞLEME</Text>
-        <Text style={styles.sectionTitle}>
-          {isOdtu ? 'Aynı altyapı, diğer üniversiteler' : 'Aynı platform, diğer üniversiteler'}
-        </Text>
-        <Text style={styles.otherSub}>
-          {isOdtu
-            ? 'Boğaziçi (BUSEPT) versiyonu ayrı bir sitede yayında; YTÜ, İTÜ, Sabancı ve Bilkent çok yakında bu altyapıda.'
-            : 'YTÜ-EPE, İTÜ-EPE, Sabancı PE ve Bilkent PPE altyapı hazır — resmi format duyurulduğunda aynı platformdan açılır.'}
-        </Text>
-        <View style={styles.otherGrid}>
-          <MotionGroup stagger={70}>
-            {OTHER_UNIS.map((u) => (
-              <Card key={u.key} style={styles.otherCard}>
-                <View style={[styles.otherBadge, { backgroundColor: u.accentSoft }]}>
-                  <Text style={[styles.otherBadgeText, { color: u.accent }]}>{u.shortName}</Text>
-                </View>
-                <Text style={styles.otherName}>{u.name}</Text>
-                <Text style={styles.otherBlurb}>{u.blurb}</Text>
-                <View style={styles.comingBadge}>
-                  <Text style={styles.comingText}>Yakında</Text>
-                </View>
-              </Card>
-            ))}
-          </MotionGroup>
-        </View>
-      </View>
-
-      {/* ── FAQ ── */}
-      <View style={[styles.section, styles.sectionAlt]}>
-        <Text style={styles.sectionKicker}>SSS</Text>
-        <Text style={styles.sectionTitle}>Sık sorulanlar</Text>
-        <View style={styles.faqList}>
-          {FAQ_LIST.map((f, i) => (
-            <Pressable
-              key={i}
-              onPress={() => toggleFaq(i)}
-              accessibilityRole="button"
-              accessibilityLabel={f.q}
-            >
-              <Card style={styles.faqCard}>
-                <View style={styles.faqHead}>
-                  <Text style={styles.faqQuestion}>{f.q}</Text>
-                  <Ionicons
-                    name={openFaq === i ? 'chevron-up' : 'chevron-down'}
-                    size={16}
-                    color={colors.muted}
-                  />
-                </View>
-                {openFaq === i && <Text style={styles.faqAnswer}>{f.a}</Text>}
-              </Card>
-            </Pressable>
-          ))}
-        </View>
-      </View>
-
-      {/* ── Final CTA ── */}
-      <View style={styles.finalCta}>
-        <Text style={styles.finalTitle}>
-          {isOdtu ? 'ODTÜ İYS\'e hazır mısın?' : 'BUSEPT\'e hazır mısın?'}
-        </Text>
-        <Text style={styles.finalSub}>
-          {isOdtu
-            ? 'İlk ODTÜ formatlı mock sınavınla başla: dinleme, okuma, not alma ve essay. Günlük planın aynı gün hazır.'
-            : 'Placement testinle başla, 10 dakikada seviyeni öğren. Günlük planın ve ilk mock sınavın aynı gün hazır.'}
-        </Text>
-        <Button
-          label={isOdtu ? 'İlk Mock Sınava Başla' : 'Placement Testine Başla'}
-          icon="school-outline"
-          onPress={start}
-          style={styles.finalBtn}
-        />
-      </View>
-
-      {/* ── Footer ── */}
-      <View style={styles.footer}>
-        <Text style={styles.footerBrand}>{isOdtu ? 'ODTÜ PREP' : 'BOĞAZİÇİ PREP'}</Text>
-        <Text style={styles.footerCopy}>
-          {isOdtu
-            ? 'Resmi ODTÜ veya SFL ile bağlantısı yoktur; bağımsız bir hazırlık aracıdır.'
-            : 'Resmi Boğaziçi Üniversitesi veya YADYÖK ile bağlantısı yoktur; bağımsız bir hazırlık aracıdır.'}
-        </Text>
-        <Text style={styles.footerCopy}>© 2026 BUEPT-APP — Açık kaynak · GitHub&apos;da yayında</Text>
-      </View>
-    </ScrollView>
+    </SurfaceCard>
   );
 }
 
+function JourneyStep({ number, icon, title, body, theme, last }) {
+  return (
+    <View style={styles.journeyItem}>
+      <View style={[styles.journeyIcon, { backgroundColor: theme.primarySoft }]}>
+        <Ionicons name={icon} size={21} color={theme.primary} />
+      </View>
+      <View style={styles.journeyCopy}>
+        <Text style={[styles.journeyNumber, { color: theme.primary }]}>0{number}</Text>
+        <Text style={[styles.journeyTitle, { color: theme.text }]}>{title}</Text>
+        <Text style={[styles.body, { color: theme.muted }]}>{body}</Text>
+      </View>
+      {!last ? <View style={[styles.journeyLine, { backgroundColor: theme.border }]} /> : null}
+    </View>
+  );
+}
+
+export default function LandingScreen({ navigation }) {
+  const { width } = useWindowDimensions();
+  const compact = width < 820;
+  const { university, uniKey } = useUniversity();
+  const theme = getV2Theme(uniKey);
+  const assets = getV2Assets(uniKey);
+  const isBuept = uniKey === 'buept';
+
+  const start = () => navigation.navigate('Onboarding');
+  const title = isBuept ? 'Your Path to\nBoğaziçi Begins Here.' : `A clearer path to\n${university?.shortName || 'your proficiency exam'}.`;
+  const subtitle = isBuept
+    ? 'A focused BUSEPT preparation workspace for Listening, Reading and Writing — with grammar, vocabulary, mocks and progress working around those real exam needs.'
+    : `A focused preparation workspace built around ${university?.examName || 'your university proficiency exam'}.`;
+
+  return (
+    <View style={[styles.root, { backgroundColor: theme.canvas }]}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={[styles.header, { backgroundColor: theme.surface, borderBottomColor: theme.border }]}>
+          <View style={styles.brand}>
+            <LogoMark size={42} label={isBuept ? 'BÜ' : 'MET'} />
+            <View>
+              <Text style={[styles.brandTitle, { color: theme.text }]}>{university?.shortName || 'BUEPT-APP'}</Text>
+              <Text style={[styles.brandSub, { color: theme.muted }]}>Practice. Improve. Go further.</Text>
+            </View>
+          </View>
+          <View style={styles.headerActions}>
+            <Button label="Continue" variant="ghost" onPress={() => navigation.navigate('Login')} />
+            <Button label="Get started" onPress={start} />
+          </View>
+        </View>
+
+        <View style={styles.page}>
+          <ImageBackground
+            source={assets.campus.southGate.source}
+            accessibilityLabel={assets.campus.southGate.alt}
+            resizeMode="cover"
+            style={[styles.hero, compact && styles.heroCompact]}
+            imageStyle={styles.heroImage}
+          >
+            <View style={[StyleSheet.absoluteFill, { backgroundColor: theme.heroOverlay }]} />
+            <View style={[styles.heroContent, compact && styles.heroContentCompact]}>
+              <View style={styles.heroPill}>
+                <Ionicons name="school-outline" size={14} color="#FFFFFF" />
+                <Text style={styles.heroPillText}>{isBuept ? 'BUSEPT · BOĞAZİÇİ PREP' : `${university?.shortName || 'PREP'} · EXAM PREP`}</Text>
+              </View>
+              <Text style={[styles.heroTitle, compact && styles.heroTitleCompact]}>{title}</Text>
+              <Text style={styles.heroBody}>{subtitle}</Text>
+              <View style={styles.heroActions}>
+                <Button label="Start your journey" icon="arrow-forward" onPress={start} />
+                <Button label="I have a local profile" variant="secondary" onPress={() => navigation.navigate('Login')} />
+              </View>
+            </View>
+            {!compact ? (
+              <View style={[styles.heroQuote, v2Shadow.card]}>
+                <Text style={styles.quoteMark}>“</Text>
+                <Text style={styles.quoteText}>{isBuept ? 'Same questions.\nA brighter you.' : 'Practice with purpose.\nSee the next step.'}</Text>
+              </View>
+            ) : null}
+          </ImageBackground>
+
+          <View style={[styles.promiseStrip, { backgroundColor: theme.surface, borderColor: theme.border }, v2Shadow.card]}>
+            {[
+              ['locate-outline', 'Diagnostic', 'Know your starting point'],
+              ['list-outline', 'Personalized plan', 'Focus on what matters'],
+              ['document-text-outline', 'Mock exams', 'Practice the real pressure'],
+              ['bar-chart-outline', 'Progress', 'See what changed'],
+            ].map(([icon, label, body]) => (
+              <View key={label} style={styles.promiseItem}>
+                <View style={[styles.promiseIcon, { backgroundColor: theme.primarySoft }]}>
+                  <Ionicons name={icon} size={19} color={theme.primary} />
+                </View>
+                <View style={styles.promiseCopy}>
+                  <Text style={[styles.promiseTitle, { color: theme.text }]}>{label}</Text>
+                  <Text style={[styles.promiseBody, { color: theme.muted }]}>{body}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+
+          <View style={styles.sectionHeading}>
+            <Text style={[styles.eyebrow, { color: theme.primary }]}>THE PRODUCT</Text>
+            <Text style={[styles.sectionTitle, { color: theme.text }]}>Everything important, in the right layer.</Text>
+            <Text style={[styles.sectionBody, { color: theme.muted }]}>
+              The new experience removes the feature wall. Today tells you what to do; Practice builds skills; Mock simulates the exam; Progress explains the trend.
+            </Text>
+          </View>
+
+          <View style={[styles.featureGrid, compact && styles.stack]}>
+            <FeatureCard
+              theme={theme}
+              icon="locate-outline"
+              eyebrow="DIAGNOSTIC"
+              title="Know your starting point"
+              body="Build a baseline before the app starts recommending work."
+              asset={assets.campus.northCampus}
+            />
+            <FeatureCard
+              theme={theme}
+              icon="list-outline"
+              eyebrow="DAILY PLAN"
+              title="A plan built around you"
+              body="Recent performance determines the next useful practice instead of exposing every tool at once."
+              asset={assets.campus.sunset}
+            />
+            <FeatureCard
+              theme={theme}
+              icon="document-text-outline"
+              eyebrow="MOCK EXAM"
+              title="A focused real-test mode"
+              body="When the mock begins, unrelated navigation, gamification and marketing disappear."
+              asset={assets.editorial.mock}
+            />
+            <FeatureCard
+              theme={theme}
+              icon="bar-chart-outline"
+              eyebrow="PROGRESS"
+              title="See the story, not just the score"
+              body="Skill mastery, mock results, streaks and recommendations live in one readable progress surface."
+              asset={assets.editorial.progress}
+            />
+          </View>
+
+          <View style={[styles.visualBand, compact && styles.stack]}>
+            <ImageBackground
+              source={assets.campus.bosphorus.source}
+              accessibilityLabel={assets.campus.bosphorus.alt}
+              resizeMode="cover"
+              style={styles.visualPhoto}
+              imageStyle={styles.visualPhotoImage}
+            >
+              <View style={styles.visualOverlay} />
+              <View style={styles.visualCopy}>
+                <Text style={styles.visualEyebrow}>{isBuept ? 'BOĞAZİÇİ, NOT GENERIC CAMPUS ART' : 'REAL CAMPUS IDENTITY'}</Text>
+                <Text style={styles.visualTitle}>{isBuept ? 'A real sense of place.' : 'Your university stays recognizable.'}</Text>
+                <Text style={styles.visualBody}>
+                  {isBuept
+                    ? 'The interface uses real campus photography already in the product instead of fabricated European-university imagery or AI text baked into pictures.'
+                    : 'The visual layer follows the active university edition and never leaks Boğaziçi branding into the ODTÜ build.'}
+                </Text>
+              </View>
+            </ImageBackground>
+            <View style={[styles.editorialCard, { backgroundColor: theme.primaryDark }]}>
+              <Text style={styles.editorialQuote}>{isBuept ? '“Discipline today,\nBoğaziçi tomorrow.”' : '“Small steps.\nClear progress.”'}</Text>
+              <Text style={styles.editorialMeta}>{isBuept ? 'KNOWLEDGE · PEOPLE · POSSIBILITIES' : 'PREPARE · PRACTICE · PROGRESS'}</Text>
+            </View>
+          </View>
+
+          <View style={[styles.journeySection, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+            <View style={styles.sectionHeadingNoTop}>
+              <Text style={[styles.eyebrow, { color: theme.primary }]}>YOUR JOURNEY</Text>
+              <Text style={[styles.sectionTitle, { color: theme.text }]}>From uncertainty to the next clear action.</Text>
+            </View>
+            <View style={[styles.journey, compact && styles.stack]}>
+              <JourneyStep number={1} icon="locate-outline" title="Find the baseline" body="Estimate your level, then validate it with a diagnostic." theme={theme} />
+              <JourneyStep number={2} icon="list-outline" title="Build the plan" body="Turn weak signals into a short daily plan." theme={theme} />
+              <JourneyStep number={3} icon="book-outline" title="Practice deeply" body="Work inside a consistent skill layout." theme={theme} />
+              <JourneyStep number={4} icon="document-text-outline" title="Simulate the exam" body="Take a focused mock when the timing is useful." theme={theme} />
+              <JourneyStep number={5} icon="bar-chart-outline" title="Adjust" body="Use progress to choose what happens next." theme={theme} last />
+            </View>
+          </View>
+
+          <ImageBackground
+            source={assets.campus.sunset.source}
+            accessibilityLabel={assets.campus.sunset.alt}
+            resizeMode="cover"
+            style={styles.finalCta}
+            imageStyle={styles.finalImage}
+          >
+            <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(8,23,42,0.66)' }]} />
+            <View style={styles.finalCopy}>
+              <Text style={styles.finalTitle}>Ready for a calmer preparation system?</Text>
+              <Text style={styles.finalBody}>Start with the five-step setup. You can create a local profile with no password and choose whether to take the diagnostic immediately.</Text>
+              <View style={styles.heroActions}>
+                <Button label="Get started" icon="arrow-forward" onPress={start} />
+                <Button label="Continue" variant="secondary" onPress={() => navigation.navigate('Login')} />
+              </View>
+            </View>
+          </ImageBackground>
+
+          <View style={styles.footer}>
+            <View style={styles.brand}>
+              <LogoMark size={34} label={isBuept ? 'BÜ' : 'MET'} />
+              <Text style={[styles.footerBrand, { color: theme.text }]}>{university?.shortName || 'BUEPT-APP'}</Text>
+            </View>
+            <Text style={[styles.disclaimer, { color: theme.muted }]}>
+              Independent preparation tool. Not an official service of {university?.name || 'the university'}.
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  root: { flex: 1 },
+  header: {
+    minHeight: 74,
+    borderBottomWidth: 1,
+    paddingHorizontal: v2Spacing.lg,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: v2Spacing.md,
+  },
+  brand: { flexDirection: 'row', alignItems: 'center', gap: v2Spacing.sm },
+  brandTitle: { fontSize: 17, fontWeight: '900' },
+  brandSub: { fontSize: 11, marginTop: 2 },
+  headerActions: { flexDirection: 'row', gap: v2Spacing.sm },
+  page: { width: '100%', maxWidth: 1440, alignSelf: 'center', padding: v2Spacing.lg },
+  hero: {
+    minHeight: 580,
+    borderRadius: v2Radius.xl,
+    overflow: 'hidden',
+    padding: v2Spacing.xxl,
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  heroCompact: { minHeight: 560, padding: v2Spacing.lg },
+  heroImage: { borderRadius: v2Radius.xl },
+  heroContent: { maxWidth: 760 },
+  heroContentCompact: { maxWidth: '100%' },
+  heroPill: {
+    alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 7,
+    paddingHorizontal: 12, paddingVertical: 7, borderRadius: 999,
+    backgroundColor: 'rgba(255,255,255,0.14)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.28)',
+    marginBottom: v2Spacing.lg,
+  },
+  heroPillText: { color: '#FFFFFF', fontSize: 10, fontWeight: '900', letterSpacing: 1.2 },
+  heroTitle: { color: '#FFFFFF', fontSize: 58, lineHeight: 62, fontWeight: '900', letterSpacing: -2 },
+  heroTitleCompact: { fontSize: 41, lineHeight: 45, letterSpacing: -1.2 },
+  heroBody: { color: 'rgba(255,255,255,0.93)', fontSize: 17, lineHeight: 26, maxWidth: 700, marginTop: v2Spacing.lg },
+  heroActions: { flexDirection: 'row', flexWrap: 'wrap', gap: v2Spacing.sm, marginTop: v2Spacing.xl },
+  heroQuote: {
+    position: 'absolute', right: v2Spacing.xl, bottom: v2Spacing.xl,
+    width: 250, borderRadius: v2Radius.lg, padding: v2Spacing.lg,
+    backgroundColor: 'rgba(255,255,255,0.94)',
+  },
+  quoteMark: { color: '#2563EB', fontSize: 28, lineHeight: 28, fontWeight: '900' },
+  quoteText: { color: '#102A56', fontSize: 19, lineHeight: 25, fontWeight: '800' },
+  promiseStrip: {
+    marginTop: -26, marginHorizontal: v2Spacing.lg, minHeight: 104, borderRadius: v2Radius.lg,
+    borderWidth: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center',
+    padding: v2Spacing.md, zIndex: 4,
+  },
+  promiseItem: { flex: 1, minWidth: 180, flexDirection: 'row', alignItems: 'center', gap: v2Spacing.sm, padding: v2Spacing.sm },
+  promiseIcon: { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  promiseCopy: { flex: 1 },
+  promiseTitle: { fontSize: 13, fontWeight: '900' },
+  promiseBody: { fontSize: 11, marginTop: 2 },
+  sectionHeading: { marginTop: 82, marginBottom: v2Spacing.xl, maxWidth: 820 },
+  sectionHeadingNoTop: { marginBottom: v2Spacing.xl, maxWidth: 820 },
+  eyebrow: { fontSize: 10, fontWeight: '900', letterSpacing: 1.5, marginBottom: 8 },
+  sectionTitle: { fontSize: 34, lineHeight: 39, fontWeight: '900', letterSpacing: -0.8 },
+  sectionBody: { fontSize: 15, lineHeight: 23, marginTop: 10 },
+  body: { fontSize: 13, lineHeight: 20 },
+  featureGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: v2Spacing.lg },
+  stack: { flexDirection: 'column' },
+  featureCard: { width: '48%', padding: 0, overflow: 'hidden' },
+  featureMedia: { height: 190, padding: v2Spacing.md, justifyContent: 'flex-end' },
+  featureMediaImage: { borderTopLeftRadius: v2Radius.lg, borderTopRightRadius: v2Radius.lg },
+  featureOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(8,23,42,0.12)' },
+  featureIcon: { width: 46, height: 46, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.95)' },
+  featureBody: { padding: v2Spacing.lg },
+  featureTitle: { fontSize: 20, fontWeight: '900', marginBottom: 7 },
+  visualBand: { flexDirection: 'row', gap: v2Spacing.lg, marginTop: 82 },
+  visualPhoto: { flex: 1.5, minHeight: 340, borderRadius: v2Radius.xl, overflow: 'hidden', justifyContent: 'flex-end' },
+  visualPhotoImage: { borderRadius: v2Radius.xl },
+  visualOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(8,23,42,0.47)' },
+  visualCopy: { padding: v2Spacing.xl, maxWidth: 620 },
+  visualEyebrow: { color: '#DBEAFE', fontSize: 10, fontWeight: '900', letterSpacing: 1.4 },
+  visualTitle: { color: '#FFFFFF', fontSize: 31, fontWeight: '900', marginTop: 7 },
+  visualBody: { color: 'rgba(255,255,255,0.9)', fontSize: 14, lineHeight: 22, marginTop: 9 },
+  editorialCard: { flex: 0.6, minHeight: 340, borderRadius: v2Radius.xl, padding: v2Spacing.xl, justifyContent: 'space-between' },
+  editorialQuote: { color: '#FFFFFF', fontSize: 28, lineHeight: 36, fontWeight: '700' },
+  editorialMeta: { color: '#93C5FD', fontSize: 10, fontWeight: '900', letterSpacing: 1.5 },
+  journeySection: { marginTop: 82, borderWidth: 1, borderRadius: v2Radius.xl, padding: v2Spacing.xl },
+  journey: { flexDirection: 'row', gap: v2Spacing.md },
+  journeyItem: { flex: 1, minWidth: 160, position: 'relative' },
+  journeyIcon: { width: 48, height: 48, borderRadius: 16, alignItems: 'center', justifyContent: 'center', marginBottom: v2Spacing.md },
+  journeyCopy: { position: 'relative', zIndex: 2 },
+  journeyNumber: { fontSize: 10, fontWeight: '900', letterSpacing: 1.2 },
+  journeyTitle: { fontSize: 16, fontWeight: '900', marginVertical: 5 },
+  journeyLine: { position: 'absolute', top: 24, left: 58, right: -20, height: 1, zIndex: 0 },
+  finalCta: { minHeight: 330, marginTop: 82, borderRadius: v2Radius.xl, overflow: 'hidden', justifyContent: 'center' },
+  finalImage: { borderRadius: v2Radius.xl },
+  finalCopy: { padding: v2Spacing.xxl, maxWidth: 780 },
+  finalTitle: { color: '#FFFFFF', fontSize: 36, lineHeight: 42, fontWeight: '900' },
+  finalBody: { color: 'rgba(255,255,255,0.9)', fontSize: 15, lineHeight: 23, marginTop: v2Spacing.md },
+  footer: { minHeight: 110, marginTop: v2Spacing.xl, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: v2Spacing.lg },
+  footerBrand: { fontSize: 15, fontWeight: '900' },
+  disclaimer: { fontSize: 11, flex: 1, textAlign: 'right' },
+});
