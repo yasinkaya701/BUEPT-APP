@@ -6,6 +6,7 @@ on:
       - feat/buept-v2-production-rebuild
     paths:
       - package.json
+      - .github/workflows/refresh-v2-lock.yml
 
 permissions:
   contents: write
