@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, Platform, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { ImageBackground, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../components/Button';
 import LogoMark from '../components/LogoMark';
