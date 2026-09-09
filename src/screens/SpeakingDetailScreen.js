@@ -453,24 +453,8 @@ function buildImprovedSpeakingDraft(text = '', fb = null) {
 }
 
 export default function SpeakingDetailScreen({ route }) {
-  const { prompt: item } = route.params || {};
-
-  // Safety net: if the screen is opened without a prompt (e.g. a deep link or programmatic nav),
-  // render a calm empty state instead of throwing "Cannot read properties of undefined (reading 'prompt')".
-  if (!item || (!item.prompt && !item.title)) {
-    return (
-      <Screen scrollable>
-        <View style={styles.content}>
-          <Card style={styles.card}>
-            <Text style={styles.title}>Speaking Practice</Text>
-            <Text style={styles.subTextMuted}>
-              No speaking prompt was loaded for this session. Open the Speaking section and pick a prompt to start practicing.
-            </Text>
-          </Card>
-        </View>
-      </Screen>
-    );
-  }
+  const item = route?.params?.prompt || {};
+  const hasPrompt = Boolean(item.prompt || item.title);
 
   const [notes, setNotes] = useState('');
   const [feedback, setFeedback] = useState(null);
@@ -675,6 +659,21 @@ export default function SpeakingDetailScreen({ route }) {
     const fluencyStats = React.useMemo(() => buildFluencyStats(notes, timer), [notes, timer]);
     const selfCheckDone = Object.values(selfCheck).filter(Boolean).length;
     const isFocusMode = uiMode === 'focus';
+
+    if (!hasPrompt) {
+        return (
+            <Screen scroll>
+                <View style={styles.content}>
+                    <Card style={styles.card}>
+                        <Text style={styles.title}>Speaking Practice</Text>
+                        <Text style={styles.subTextMuted}>
+                            No speaking prompt was loaded for this session. Open the Speaking section and pick a prompt to start practicing.
+                        </Text>
+                    </Card>
+                </View>
+            </Screen>
+        );
+    }
 
     return (
         <Screen scroll contentStyle={styles.content}>
