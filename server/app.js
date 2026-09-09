@@ -1,5 +1,6 @@
 'use strict';
 
+const { Buffer } = require('buffer');
 const { runHostedAi, configuredProvider } = require('./providerRouter');
 
 const MAX_BODY_BYTES = 1024 * 1024;
@@ -138,12 +139,16 @@ function parseJsonText(text) {
   if (!raw) return null;
   try {
     return JSON.parse(raw);
-  } catch (_) {
-    const fenced = raw.match(/\`\`\`(?:json)?\s*([\s\S]*?)\`\`\`/i);
-    if (!fenced?.[1]) return null;
+  } catch (parseError) {
+    const fence = String.fromCharCode(96).repeat(3);
+    if (!raw.startsWith(fence)) return null;
+    const firstNewline = raw.indexOf('\n');
+    const lastFence = raw.lastIndexOf(fence);
+    if (firstNewline < 0 || lastFence <= firstNewline) return null;
+    const candidate = raw.slice(firstNewline + 1, lastFence).trim();
     try {
-      return JSON.parse(fenced[1]);
-    } catch (_) {
+      return JSON.parse(candidate);
+    } catch (fencedParseError) {
       return null;
     }
   }
