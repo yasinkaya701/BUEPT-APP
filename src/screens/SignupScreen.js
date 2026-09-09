@@ -41,7 +41,6 @@ export default function SignupScreen({ navigation }) {
     const { register } = useAppState();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [faculty, setFaculty] = useState('');
     const [error, setError] = useState('');
     const [submitting, setSubmitting] = useState(false);
@@ -49,7 +48,7 @@ export default function SignupScreen({ navigation }) {
     const handleSignup = async () => {
         setError('');
         setSubmitting(true);
-        const result = await register({ name, email, password, faculty });
+        const result = await register({ name, email, faculty });
         setSubmitting(false);
         if (!result?.ok) {
             setError(result?.error || 'Account could not be created.');
@@ -62,7 +61,7 @@ export default function SignupScreen({ navigation }) {
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color={colors.primaryDark} />
                 </TouchableOpacity>
-                <Text style={styles.headerText}>Create Account</Text>
+                <Text style={styles.headerText}>Create Local Profile</Text>
             </View>
 
             <KeyboardAvoidingView style={styles.flex} enabled={Platform.OS !== 'web'} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
@@ -107,28 +106,22 @@ export default function SignupScreen({ navigation }) {
                         ))}
                     </ScrollView>
 
-                    <Text style={styles.inputLabel}>Password</Text>
-                    <View style={styles.inputWrap}>
-                        <Ionicons name="lock-closed-outline" size={20} color={colors.muted} style={styles.inputIcon} />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Create a strong password"
-                            placeholderTextColor={colors.muted}
-                            secureTextEntry
-                            value={password}
-                            onChangeText={setPassword}
-                        />
+                    <View style={[styles.inputWrap, { alignItems: 'flex-start', paddingVertical: spacing.md }]}>
+                        <Ionicons name="shield-checkmark-outline" size={20} color={colors.primary} style={styles.inputIcon} />
+                        <Text style={{ flex: 1, color: colors.muted, lineHeight: 20 }}>
+                            This creates a local learning profile only. BUEPT-APP does not collect or store a password in this release.
+                        </Text>
                     </View>
 
                     {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
                     <TouchableOpacity style={[styles.loginBtn, submitting && styles.loginBtnDisabled]} onPress={handleSignup} disabled={submitting}>
-                        <Text style={styles.loginBtnText}>{submitting ? 'Creating Account...' : 'Register Now'}</Text>
+                        <Text style={styles.loginBtnText}>{submitting ? 'Creating Profile...' : 'Create Profile'}</Text>
                         <Ionicons name="checkmark-circle" size={20} color="#fff" style={styles.loginBtnIcon} />
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.switchBtn} onPress={() => navigation.navigate('Login')}>
-                        <Text style={styles.switchBtnText}>Already registered? <Text style={styles.switchLink}>Sign In</Text></Text>
+                        <Text style={styles.switchBtnText}>Already have a local profile? <Text style={styles.switchLink}>Continue</Text></Text>
                     </TouchableOpacity>
 
                 </ScrollView>
