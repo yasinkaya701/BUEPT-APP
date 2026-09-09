@@ -1,4 +1,4 @@
-import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders, executeDirectAiChat } from './runtimeApi';
+import { resolveApiEndpoint, getAiHeaders, executeDirectAiChat, isHostedAiMode } from './runtimeApi';
 
 const VIDEO_ENDPOINT = resolveApiEndpoint('BUEPT_VIDEO_LESSON_API_URL', '/api/video-lesson');
 
@@ -159,53 +159,69 @@ export async function generateVideoLesson({ topic, level = 'B1', durationMin = 4
   const normalizedTopic = clean(topic, 'Academic Writing');
   const normalizedLevel = clean(level, 'B1');
   const normalizedDuration = clampNumber(durationMin, 2, 12, 4);
+  const localFallback = (diagnostic = '') => ({
+    title: `${normalizedTopic}: AI Lesson Storyboard`,
+    summary: diagnostic
+      ? 'Live generation was unavailable, so the built-in storyboard engine created this lesson.'
+      : 'Generated locally from the built-in lesson engine.',
+    scenes: buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration }),
+    video: {
+      title: `${normalizedTopic}: Storyboard`,
+      videoUrl: '',
+      posterUrl: '',
+      provider: 'Local storyboard engine',
+      generated: false,
+    },
+    source: diagnostic ? 'local-storyboard-fallback' : 'local-storyboard',
+    learningGoals: buildLearningGoals(normalizedTopic, normalizedLevel),
+    keyTerms: deriveKeyTermsFromScenes(
+      buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration }),
+      normalizedTopic,
+    ),
+    practiceTasks: buildPracticeTasks(
+      buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration }),
+    ),
+    diagnostic,
+  });
 
-  if (!VIDEO_ENDPOINT) {
-    return {
-      title: `${normalizedTopic}: AI Lesson Storyboard`,
-      summary: 'Generated locally from the built-in lesson engine.',
-      scenes: buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration }),
-      video: {
-        title: `${normalizedTopic}: Storyboard`,
-        videoUrl: '',
-        posterUrl: '',
-        provider: 'AI storyboard only',
-        generated: false,
-      },
-      source: 'local-storyboard',
-      learningGoals: buildLearningGoals(normalizedTopic, normalizedLevel),
-      keyTerms: deriveKeyTermsFromScenes(buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration }), normalizedTopic),
-      practiceTasks: buildPracticeTasks(buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration })),
-      diagnostic: '',
-    };
+  // BYOK/local mode calls only the provider selected by the learner.
+  if (!isHostedAiMode()) {
+    try {
+      const directReply = await executeDirectAiChat({
+        systemPrompt: 'You are an academic lesson storyboard generator. Return only a JSON object with title, summary, scenes, learningGoals, keyTerms, and practiceTasks. Each scene must contain id, heading, bullets, narration, durationSec, and quiz.',
+        messages: [{
+          role: 'user',
+          content: `Topic: ${normalizedTopic}\nLevel: ${normalizedLevel}\nDuration: ${normalizedDuration} minutes`,
+        }],
+        jsonFormat: true,
+        capability: 'video_lesson',
+      });
+
+      if (directReply) {
+        const parsed = JSON.parse(directReply);
+        return normalizeLesson(parsed, normalizedTopic);
+      }
+      return localFallback('The selected provider returned an empty lesson.');
+    } catch (error) {
+      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        console.warn('Selected video lesson provider failed:', error?.message || String(error));
+      }
+      return localFallback('The selected AI provider could not generate the lesson.');
+    }
   }
 
-  try {
-    const directReply = await executeDirectAiChat({
-      systemPrompt: 'You are an academic video lesson storyboard generator. Return JSON object with { "title": "...", "summary": "...", "scenes": [{ "id": "...", "heading": "...", "bullets": ["..."], "narration": "...", "durationSec": 45, "quiz": "..." }], "learningGoals": ["..."], "keyTerms": ["..."], "practiceTasks": ["..."] }',
-      messages: [{ role: 'user', content: `Topic: ${normalizedTopic}\nLevel: ${normalizedLevel}\nDuration: ${normalizedDuration}m` }],
-      jsonFormat: true
-    });
-    
-    if (directReply) {
-      const parsed = JSON.parse(directReply);
-      return normalizeLesson(parsed, normalizedTopic);
-    }
-  } catch (err) {
-    if (typeof __DEV__ !== 'undefined' && __DEV__) {
-      console.warn('Direct video lesson generation failed:', err);
-    }
-  }
+  // Hosted mode uses the dedicated backend route exactly once.
+  if (!VIDEO_ENDPOINT) return localFallback('Hosted lesson generation is not configured.');
 
   const payload = {
     topic: normalizedTopic,
     level: normalizedLevel,
     durationMin: normalizedDuration,
     format: 'lesson_video_storyboard',
-    app: 'buept-mobile',
+    app: 'buept-app',
   };
-
   const timeout = withTimeout();
+
   try {
     const res = await fetch(VIDEO_ENDPOINT, {
       method: 'POST',
@@ -213,27 +229,16 @@ export async function generateVideoLesson({ topic, level = 'B1', durationMin = 4
       body: JSON.stringify(payload),
       signal: timeout.signal,
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
+    if (!res.ok) {
+      throw new Error(`Hosted lesson generation failed (${res.status})`);
+    }
+    const json = await res.json().catch(() => ({}));
     return normalizeLesson(json, normalizedTopic);
-  } catch (_) {
-    return {
-      title: `${normalizedTopic}: AI Lesson Storyboard`,
-      summary: 'Online generation failed, but a real local storyboard was created.',
-      scenes: buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration }),
-      video: {
-        title: `${normalizedTopic}: Storyboard`,
-        videoUrl: '',
-        posterUrl: '',
-        provider: 'AI storyboard only',
-        generated: false,
-      },
-      source: 'local-storyboard',
-      learningGoals: buildLearningGoals(normalizedTopic, normalizedLevel),
-      keyTerms: deriveKeyTermsFromScenes(buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration }), normalizedTopic),
-      practiceTasks: buildPracticeTasks(buildLocalLesson({ topic: normalizedTopic, level: normalizedLevel, durationMin: normalizedDuration })),
-      diagnostic: 'Live lesson generation failed, so the local storyboard engine created the lesson.',
-    };
+  } catch (error) {
+    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      console.warn('Hosted video lesson failed:', error?.message || String(error));
+    }
+    return localFallback('Hosted lesson generation was unavailable.');
   } finally {
     timeout.clear();
   }
