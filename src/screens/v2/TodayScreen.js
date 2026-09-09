@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button';
@@ -50,7 +50,13 @@ export default function TodayScreen({ navigation }) {
     mockHistory,
     streakDays,
     xp,
+    consumePostAuthRoute,
   } = useAppState();
+
+  useEffect(() => {
+    const nextRoute = consumePostAuthRoute?.();
+    if (nextRoute) navigation.navigate(nextRoute);
+  }, [consumePostAuthRoute, navigation]);
 
   const metrics = useMemo(() => {
     const reading = averageHistory(readingHistory);
