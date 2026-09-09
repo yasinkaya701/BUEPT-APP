@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 
 const FACULTIES = ["Engineering", "Economics", "Arts & Sciences", "Education", "Law"];
 
-export default function SignupScreen({ navigation }) {
+export default function SignupScreen({ navigation, route }) {
     const { register } = useAppState();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -48,7 +48,12 @@ export default function SignupScreen({ navigation }) {
     const handleSignup = async () => {
         setError('');
         setSubmitting(true);
-        const result = await register({ name, email, faculty });
+        const result = await register({
+            name,
+            email,
+            faculty,
+            nextRoute: route?.params?.nextRoute || null,
+        });
         setSubmitting(false);
         if (!result?.ok) {
             setError(result?.error || 'Account could not be created.');
