@@ -866,6 +866,7 @@ export function AppStateProvider({ children }) {
     name = '',
     email = '',
     faculty = '',
+    nextRoute = null,
   } = {}) => {
     const trimmedName = String(name || '').trim();
     const normalizedEmail = normalizeEmail(email);
@@ -890,7 +891,7 @@ export function AppStateProvider({ children }) {
     setUserProfile(profile);
     setAcademicFocus(deriveAcademicFocus(profile));
     setUserToken(normalizedEmail);
-    setPostAuthRoute(null);
+    setPostAuthRoute(typeof nextRoute === 'string' && nextRoute ? nextRoute : null);
     return { ok: true, mode: 'local-profile' };
   }, []);
 
