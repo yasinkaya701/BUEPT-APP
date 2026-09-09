@@ -13,7 +13,6 @@ permissions:
 
 jobs:
   refresh:
-    if: ${{ !startsWith(github.event.head_commit.message, 'chore: refresh npm lockfile') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
