@@ -1,4 +1,4 @@
-import { getRuntimeApiKey, resolveApiEndpoint, getRuntimeApiAccessConfig, getAiHeaders, executeDirectAiChat } from './runtimeApi';
+import { getRuntimeApiKey, resolveApiEndpoint, getRuntimeApiAccessConfig, getAiHeaders, executeDirectAiChat, isHostedAiMode } from './runtimeApi';
 
 const LT_ENDPOINT = 'https://api.languagetool.org/v2/check';
 
@@ -638,17 +638,19 @@ export async function requestWritingRevision({ text = '', prompt = '', level = '
 
   enforceRateLimit(source.length);
   const localFallback = buildLocalWritingRevision({ text: source, prompt, level, task });
+  const fallbackWithDiagnostic = (diagnostic) => ({
+    ...localFallback,
+    diagnostic: normalizeText(diagnostic || 'AI writing evaluation was unavailable.'),
+    source: 'local-writing-revision-fallback',
+  });
 
-  if (!WRITING_REVISION_ENDPOINT) {
-    writeCache(revisionCache, cacheKey, localFallback);
-    return localFallback;
-  }
+  // BYOK/local mode calls only the explicitly selected provider.
+  if (!isHostedAiMode()) {
+    try {
+      const directReply = await executeDirectAiChat({
+        systemPrompt: `You are an academic writing evaluator aligned with the supplied BUSEPT/WASC preparation criteria and IELTS writing criteria.
 
-  try {
-    const directReply = await executeDirectAiChat({
-      systemPrompt: `You are an expert dual-certified Academic Writing Examiner for Boğaziçi University (BUEPT) and IELTS.
-      
---- BUEPT CRITERIA ---
+--- BUSEPT PREPARATION CRITERIA ---
 ${BUEPT_FULL_RUBRIC}
 ${BUEPT_FULL_SAMPLES}
 
@@ -656,43 +658,54 @@ ${BUEPT_FULL_SAMPLES}
 ${IELTS_WRITING_RUBRIC}
 ${IELTS_WRITING_SAMPLES}
 
---- TASK ---
-Evaluate the student essay strictly according to BOTH BUEPT and IELTS standards.
-Identify every single mistake (grammar, lexical, structural) one by one.
-
-Return your feedback as a JSON object with strictly these keys:
+Evaluate only the student's supplied essay. Do not claim to be an official examiner.
+Return only JSON with these keys:
 {
-  "revisedText": "A fully corrected academic version of the essay maintaining original intent but fixing all errors and improving formal register.",
-  "bueptScore": (number 0-100),
-  "bueptBand": "E, VG, MA, A, D, NA, or FBA",
-  "ieltsScore": (number 0-9.0),
-  "ieltsBand": "Band 5, 6, 7, 8, 9",
-  "feedback": "Detailed, professional feedback in English explaining the logic behind both scores.",
+  "revisedText": "...",
+  "bueptScore": 0,
+  "bueptBand": "...",
+  "ieltsScore": 0,
+  "ieltsBand": "...",
+  "feedback": "...",
   "detailedMistakes": [
-    {
-      "original": "segment of original text with error",
-      "correction": "corrected version",
-      "rule": "grammar/vocab/style category",
-      "explanation": "why it was wrong and how to fix it"
-    }
+    { "original": "...", "correction": "...", "rule": "...", "explanation": "..." }
   ],
-  "strengths": ["list of 3 key strengths"],
-  "fixes": ["list of 3 priority areas for improvement"]
+  "strengths": ["..."],
+  "fixes": ["..."],
+  "rubricNotes": ["..."]
 }`,
-      messages: [{ role: 'user', content: `Task: ${task}\nPrompt: ${prompt}\nStudent Essay:\n${source}` }],
-      jsonFormat: true
-    });
-    
-    if (directReply) {
-      const parsed = JSON.parse(directReply);
-      const normalized = normalizeWritingRevisionResponse(parsed, localFallback);
-      writeCache(revisionCache, cacheKey, normalized);
-      return normalized;
+        messages: [{
+          role: 'user',
+          content: `Task: ${task}\nPrompt: ${prompt}\nStudent Essay:\n${source}`,
+        }],
+        jsonFormat: true,
+        capability: 'writing_revision',
+      });
+
+      if (directReply) {
+        const parsed = JSON.parse(directReply);
+        const normalized = normalizeWritingRevisionResponse(parsed, localFallback);
+        writeCache(revisionCache, cacheKey, normalized);
+        return normalized;
+      }
+      const fallback = fallbackWithDiagnostic('The selected provider returned an empty evaluation.');
+      writeCache(revisionCache, cacheKey, fallback);
+      return fallback;
+    } catch (error) {
+      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        console.warn('Selected writing provider failed:', error?.message || String(error));
+      }
+      const fallback = fallbackWithDiagnostic('The selected AI provider could not evaluate the essay.');
+      writeCache(revisionCache, cacheKey, fallback);
+      return fallback;
     }
-  } catch (err) {
-    if (typeof __DEV__ !== 'undefined' && __DEV__) {
-      console.warn('Direct writing revision failed:', err);
-    }
+  }
+
+  // Hosted mode uses the dedicated backend contract once.
+  if (!WRITING_REVISION_ENDPOINT) {
+    const fallback = fallbackWithDiagnostic('Hosted writing evaluation is not configured.');
+    writeCache(revisionCache, cacheKey, fallback);
+    return fallback;
   }
 
   try {
@@ -708,18 +721,18 @@ Return your feedback as a JSON object with strictly these keys:
           task: normalizeText(task) || 'essay',
         }),
       },
-      { retries: REQUEST_RETRIES, timeoutMs: REQUEST_TIMEOUT_MS, retryDelayMs: 500 }
+      { retries: REQUEST_RETRIES, timeoutMs: REQUEST_TIMEOUT_MS, retryDelayMs: 500 },
     );
 
     const normalized = normalizeWritingRevisionResponse(json, localFallback);
     writeCache(revisionCache, cacheKey, normalized);
     return normalized;
   } catch (error) {
-    const fallback = {
-      ...localFallback,
-      diagnostic: error?.message || 'Writing revision endpoint failed.',
-      source: 'local-writing-revision-fallback',
-    };
+    const fallback = fallbackWithDiagnostic(
+      error?.status === 429
+        ? 'Hosted writing evaluation is busy. Local feedback is shown instead.'
+        : 'Hosted writing evaluation was unavailable. Local feedback is shown instead.',
+    );
     writeCache(revisionCache, cacheKey, fallback);
     return fallback;
   }
