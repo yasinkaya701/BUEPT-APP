@@ -1,555 +1,185 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet, Pressable, useWindowDimensions, Platform, ScrollView, Animated } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import LogoMark from '../components/LogoMark';
-import { colors, typography, spacing, radius, shadow } from '../theme/tokens';
-
-const styles = StyleSheet.create({
-  tabBar: {
-    position: 'absolute',
-    left: spacing.sm,
-    right: spacing.sm,
-    bottom: spacing.sm,
-    alignSelf: 'center',
-    maxWidth: 760,
-    borderRadius: 20,
-    backgroundColor: 'rgba(0,0,0,0.55)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.15)',
-    borderTopWidth: 1,
-    justifyContent: 'center',
-    zIndex: 9999,
-  },
-  tabBarWeb: {
-    position: 'absolute',
-    left: spacing.md,
-    right: spacing.md,
-    bottom: spacing.md,
-    alignSelf: 'center',
-    width: 'auto',
-    maxWidth: 1260,
-    borderRadius: 18,
-    backgroundColor: 'rgba(2, 6, 23, 0.78)',
-    borderWidth: 1,
-    borderColor: 'rgba(148, 163, 184, 0.35)',
-    justifyContent: 'center',
-    zIndex: 9999,
-    backdropFilter: 'blur(10px)',
-  },
-  tabBarWebWide: {
-    maxWidth: 1400,
-  },
-  sceneWebDesktop: {
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.lg,
-    paddingLeft: 304,
-    paddingRight: spacing.lg,
-  },
-  label: {
-    fontFamily: typography.fontHeadline,
-    marginTop: 2,
-    lineHeight: 15,
-    fontWeight: '700',
-    letterSpacing: 0.2,
-  },
-  itemStyle: {
-    borderRadius: 14,
-    marginHorizontal: 0,
-    minWidth: 0,
-    paddingVertical: 2,
-  },
-  itemStyleWeb: {
-    marginHorizontal: 2,
-    minHeight: 44,
-    justifyContent: 'center',
-  },
-  iconStyle: {
-    marginTop: 1,
-  },
-  iconWrap: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 30,
-    height: 24,
-    borderRadius: 12,
-  },
-  iconWrapDense: {
-    width: 24,
-    height: 24,
-  },
-  iconWrapActive: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
-  },
-  iconEmoji: {
-    fontSize: 16,
-  },
-  iconEmojiDense: {
-    fontSize: 14,
-  },
-  iconEmojiActive: {
-    fontSize: 18,
-  },
-  iconEmojiMuted: {
-    opacity: 0.6,
-  },
-  tabButton: {
-    borderRadius: 14,
-  },
-  tabButtonPressed: {
-    opacity: 0.75,
-  },
-  webSidebar: {
-    position: 'absolute',
-    top: spacing.lg,
-    left: spacing.lg,
-    bottom: spacing.lg,
-    width: 264,
-    borderRadius: radius.xl,
-    padding: spacing.lg,
-    backgroundColor: 'rgba(8, 15, 35, 0.86)',
-    borderWidth: 1,
-    borderColor: 'rgba(148, 163, 184, 0.22)',
-    justifyContent: 'space-between',
-    ...shadow.premium,
-    zIndex: 2000,
-    backdropFilter: 'blur(14px)',
-  },
-  webSidebarHero: {
-    gap: spacing.sm,
-  },
-  webSidebarBrandRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-  },
-  webSidebarBrandCopy: {
-    flex: 1,
-    gap: 2,
-  },
-  webSidebarEyebrow: {
-    color: 'rgba(191, 219, 254, 0.9)',
-    fontFamily: typography.fontHeadline,
-    fontSize: 12,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 1.1,
-  },
-  webSidebarBrandSubhead: {
-    color: 'rgba(226, 232, 240, 0.72)',
-    fontFamily: typography.fontBody,
-    fontSize: 12,
-    lineHeight: 16,
-  },
-  webSidebarTitle: {
-    color: colors.textOnDark,
-    fontFamily: typography.fontHeadline,
-    fontSize: 24,
-    fontWeight: '800',
-    lineHeight: 28,
-  },
-  webSidebarCopy: {
-    color: colors.textOnDarkMuted,
-    fontFamily: typography.fontBody,
-    fontSize: 14,
-    lineHeight: 21,
-  },
-  webSidebarList: {
-    flex: 1,
-    marginTop: spacing.lg,
-    minHeight: 0,
-  },
-  webSidebarListContent: {
-    gap: spacing.sm,
-    paddingBottom: spacing.xl,
-  },
-  webSidebarItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    borderRadius: radius.lg,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.md,
-    backgroundColor: 'rgba(255,255,255,0.04)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.02)',
-  },
-  webSidebarItemActive: {
-    backgroundColor: 'rgba(37, 99, 235, 0.24)',
-    borderColor: 'rgba(96, 165, 250, 0.4)',
-  },
-  webSidebarItemPressed: {
-    opacity: 0.82,
-  },
-  webSidebarItemIcon: {
-    width: 38,
-    height: 38,
-    borderRadius: radius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.08)',
-  },
-  webSidebarItemIconActive: {
-    backgroundColor: 'rgba(255,255,255,0.16)',
-  },
-  webSidebarItemTick: {
-    position: 'absolute',
-    right: spacing.sm,
-    top: '50%',
-    marginTop: -11,
-    width: 3,
-    height: 22,
-    borderRadius: 1.5,
-    backgroundColor: colors.primary,
-  },
-  webSidebarItemEmoji: {
-    fontSize: 18,
-  },
-  webSidebarItemEmojiActive: {
-    fontSize: 20,
-  },
-  webSidebarItemTextWrap: {
-    flex: 1,
-    minWidth: 0,
-  },
-  webSidebarItemLabel: {
-    color: colors.textOnDark,
-    fontFamily: typography.fontHeadline,
-    fontSize: 15,
-    fontWeight: '700',
-  },
-  webSidebarItemLabelActive: {
-    color: '#FFFFFF',
-  },
-  webSidebarItemHint: {
-    marginTop: 2,
-    color: 'rgba(226, 232, 240, 0.72)',
-    fontFamily: typography.fontBody,
-    fontSize: 12,
-    lineHeight: 17,
-  },
-  webSidebarItemHintActive: {
-    color: 'rgba(255,255,255,0.88)',
-  },
-  webSidebarFooter: {
-    marginTop: spacing.lg,
-    borderRadius: radius.lg,
-    padding: spacing.md,
-    backgroundColor: 'rgba(15, 23, 42, 0.62)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
-  },
-  webSidebarFooterTitle: {
-    color: colors.textOnDark,
-    fontFamily: typography.fontHeadline,
-    fontSize: 13,
-    fontWeight: '800',
-  },
-  webSidebarFooterBody: {
-    marginTop: spacing.xs,
-    color: colors.textOnDarkMuted,
-    fontFamily: typography.fontBody,
-    fontSize: 12,
-    lineHeight: 18,
-  },
-});
+import { useUniversity } from '../context/UniversityContext';
+import { getV2Theme, v2Radius, v2Shadow, v2Spacing } from '../theme/v2';
 
 const Tab = createBottomTabNavigator();
+const DESKTOP_RAIL_WIDTH = 228;
 
-const TAB_ICONS = {
-  Home: '🏠',
-  Reading: '📖',
-  Grammar: '🧩',
-  Writing: '✍️',
-  Vocab: '📕',
-  Listening: '🎧',
-  Speaking: '🎤',
-  Settings: '⚙️',
+const META = {
+  Today: { label: 'Today', icon: 'home-outline', iconActive: 'home' },
+  Practice: { label: 'Practice', icon: 'book-outline', iconActive: 'book' },
+  MockHub: { label: 'Mock', icon: 'document-text-outline', iconActive: 'document-text' },
+  ProgressHub: { label: 'Progress', icon: 'bar-chart-outline', iconActive: 'bar-chart' },
+  Profile: { label: 'Profile', icon: 'person-outline', iconActive: 'person' },
 };
 
-const TAB_LABELS_DEFAULT = {
-  Home: 'Home',
-  Reading: 'Reading',
-  Grammar: 'Grammar',
-  Writing: 'Writing',
-  Vocab: 'Vocab',
-  Listening: 'Listening',
-  Speaking: 'Speaking',
-};
-
-const TAB_LABELS_COMPACT = {
-  Home: 'Home',
-  Reading: 'Read',
-  Grammar: 'Gram',
-  Writing: 'Write',
-  Vocab: 'Vocab',
-  Listening: 'Listen',
-  Speaking: 'Speak',
-};
-
-const TAB_TEST_IDS = {
-  Home: 'tab-home',
-  Reading: 'tab-reading',
-  Grammar: 'tab-grammar',
-  Writing: 'tab-writing',
-  Vocab: 'tab-vocab',
-  Listening: 'tab-listening',
-  Speaking: 'tab-speaking',
-};
-
-const TAB_ICON_RENDERERS = Object.fromEntries(
-  Object.entries(TAB_ICONS).map(([routeName, icon]) => ([
-    routeName,
-    ({ focused }) => <TabIcon icon={icon} focused={focused} />,
-  ]))
-);
-
-const TAB_ICON_RENDERERS_DENSE = Object.fromEntries(
-  Object.entries(TAB_ICONS).map(([routeName, icon]) => ([
-    routeName,
-    ({ focused }) => <TabIcon icon={icon} focused={focused} dense />,
-  ]))
-);
-
-function TabIcon({ icon, focused, dense = false }) {
-  return (
-    <View style={[styles.iconWrap, dense && styles.iconWrapDense, focused && styles.iconWrapActive]}>
-      <Text style={[styles.iconEmoji, dense && styles.iconEmojiDense, !focused && styles.iconEmojiMuted, focused && styles.iconEmojiActive]}>{icon}</Text>
-    </View>
-  );
-}
-
-function CustomTabBarButton({ children, onPress, onLongPress, style }) {
-  return (
-    <Pressable
-      onPress={onPress}
-      onLongPress={onLongPress}
-      hitSlop={{ top: 10, bottom: 10, left: 6, right: 6 }}
-      style={({ pressed }) => [
-        styles.tabButton,
-        style,
-        pressed && styles.tabButtonPressed,
-      ]}
-    >
-      {children}
-    </Pressable>
-  );
-}
-
-function WebSidebarTabBar({ state, descriptors, navigation, tabLabels }) {
-  const sidebarIndicator = React.useRef(new Animated.Value(0)).current;
-
-  React.useEffect(() => {
-    Animated.timing(sidebarIndicator, {
-      toValue: state.index,
-      duration: 220,
-      useNativeDriver: true,
-    }).start();
-  }, [state.index, sidebarIndicator]);
+function DesktopRail({ state, navigation }) {
+  const { university, uniKey } = useUniversity();
+  const theme = getV2Theme(uniKey);
 
   return (
-    <View style={styles.webSidebar}>
-      <View style={styles.webSidebarHero}>
-        <View style={styles.webSidebarBrandRow}>
-          <LogoMark size={54} label="BÜ" />
-          <View style={styles.webSidebarBrandCopy}>
-            <Text style={styles.webSidebarEyebrow}>Bosphorus-ready</Text>
-            <Text style={styles.webSidebarBrandSubhead}>Bogazici University</Text>
-          </View>
+    <View style={[styles.rail, { backgroundColor: theme.surface, borderRightColor: theme.border }, v2Shadow.card]}>
+      <View style={styles.brand}>
+        <LogoMark size={44} label={uniKey === 'odtu' ? 'ODTÜ' : 'BÜ'} />
+        <View style={styles.brandCopy}>
+          <Text style={[styles.brandTitle, { color: theme.text }]}>{university?.shortName || 'BUEPT'}</Text>
+          <Text style={[styles.brandSub, { color: theme.muted }]} numberOfLines={1}>{university?.name || 'University Prep'}</Text>
         </View>
-        <Text style={styles.webSidebarTitle}>BUEPT Web Campus</Text>
-        <Text style={styles.webSidebarCopy}>
-          Desktop workflow for reading, writing, vocab, and AI coaching in one place.
-        </Text>
       </View>
 
-      <ScrollView
-        style={styles.webSidebarList}
-        contentContainerStyle={styles.webSidebarListContent}
-        showsVerticalScrollIndicator={false}
-      >
+      <View style={styles.railNav}>
         {state.routes.map((route, index) => {
-          const descriptor = descriptors[route.key];
           const focused = state.index === index;
-          const label = tabLabels[route.name] || route.name;
-
-          const onPress = () => {
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            });
-
-            if (!focused && !event.defaultPrevented) {
-              navigation.navigate(route.name, route.params);
-            }
-          };
-
+          const meta = META[route.name] || { label: route.name, icon: 'ellipse-outline', iconActive: 'ellipse' };
           return (
-            <WebSidebarTabItem
+            <Pressable
               key={route.key}
-              routeName={route.name}
-              index={index}
-              focused={focused}
-              label={label}
-              descriptor={descriptor}
-              onPress={onPress}
-              sidebarIndicator={sidebarIndicator}
-            />
+              accessibilityRole="button"
+              accessibilityState={focused ? { selected: true } : {}}
+              onPress={() => {
+                const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+                if (!focused && !event.defaultPrevented) navigation.navigate(route.name, route.params);
+              }}
+              style={({ pressed }) => [
+                styles.railItem,
+                focused && { backgroundColor: theme.primarySoft },
+                pressed && styles.pressed,
+              ]}
+            >
+              <Ionicons name={focused ? meta.iconActive : meta.icon} size={20} color={focused ? theme.primary : theme.muted} />
+              <Text style={[styles.railLabel, { color: focused ? theme.primaryDark : theme.muted }]}>{meta.label}</Text>
+            </Pressable>
           );
         })}
-      </ScrollView>
+      </View>
 
-      <View style={styles.webSidebarFooter} pointerEvents="none">
-        <Text style={styles.webSidebarFooterTitle}>AI status</Text>
-        <Text style={styles.webSidebarFooterBody}>
-          Local fallback is always available. If the API comes online, modules upgrade automatically.
+      <View style={[styles.railFooter, { borderTopColor: theme.border }]}>
+        <Text style={[styles.footerEyebrow, { color: theme.primary }]}>FOCUS</Text>
+        <Text style={[styles.footerCopy, { color: theme.muted }]}>
+          {uniKey === 'odtu' ? 'Practice the next useful task.' : 'Prepare. Improve. Go further.'}
         </Text>
       </View>
     </View>
-  );
-}
-
-function WebSidebarTabItem({ routeName, index, focused, label, descriptor, onPress, sidebarIndicator }) {
-  const hover = React.useRef(new Animated.Value(0)).current;
-  const iconScale = hover.interpolate({ inputRange: [0, 1], outputRange: [1, 1.12] });
-  const activeIndicatorOpacity = sidebarIndicator.interpolate({
-    inputRange: [index - 1, index, index + 1],
-    outputRange: [0, 1, 0],
-    extrapolate: 'clamp',
-  });
-
-  const handleHoverIn = React.useCallback(() => {
-    Animated.timing(hover, { toValue: 1, duration: 180, useNativeDriver: true }).start();
-  }, [hover]);
-
-  const handleHoverOut = React.useCallback(() => {
-    Animated.timing(hover, { toValue: 0, duration: 180, useNativeDriver: true }).start();
-  }, [hover]);
-
-  return (
-    <Pressable
-      onPress={onPress}
-      onHoverIn={handleHoverIn}
-      onHoverOut={handleHoverOut}
-      testID={TAB_TEST_IDS[routeName]}
-      accessibilityRole="button"
-      style={({ pressed }) => [
-        styles.webSidebarItem,
-        focused && styles.webSidebarItemActive,
-        pressed && styles.webSidebarItemPressed,
-      ]}
-    >
-      <Animated.View style={[styles.webSidebarItemIcon, focused && styles.webSidebarItemIconActive, { transform: [{ scale: iconScale }] }]}>
-        <Text style={[styles.webSidebarItemEmoji, focused && styles.webSidebarItemEmojiActive]}>
-          {TAB_ICONS[routeName]}
-        </Text>
-      </Animated.View>
-      <View style={styles.webSidebarItemTextWrap}>
-        <Text style={[styles.webSidebarItemLabel, focused && styles.webSidebarItemLabelActive]}>
-          {label}
-        </Text>
-        <Text style={[styles.webSidebarItemHint, focused && styles.webSidebarItemHintActive]}>
-          {descriptor?.options?.title || `${label} workspace`}
-        </Text>
-      </View>
-      <Animated.View style={[styles.webSidebarItemTick, { opacity: activeIndicatorOpacity }]} />
-    </Pressable>
   );
 }
 
 export default function TabNavigator() {
   const { width } = useWindowDimensions();
-  const isWeb = Platform.OS === 'web';
-  const isWebDesktop = isWeb && width >= 1024;
-  const isTablet = width >= 768;
-  const isCompact = width < 520;
-
-  const tabLabels = useMemo(
-    () => (isCompact ? TAB_LABELS_COMPACT : TAB_LABELS_DEFAULT),
-    [isCompact]
-  );
-
-  const tabSizing = useMemo(
-    () => ({
-      barHeight: isWebDesktop ? 64 : isTablet ? 90 : 82,
-      barPaddingHorizontal: isWebDesktop ? 10 : isTablet ? 12 : 6,
-      barPaddingTop: isWebDesktop ? 8 : isTablet ? 8 : 7,
-      barPaddingBottom: isWebDesktop ? 8 : isTablet ? 12 : 10,
-      labelSize: isWebDesktop ? 14 : isTablet ? 13 : isCompact ? 11 : 12,
-      itemPaddingHorizontal: isWebDesktop ? 8 : isTablet ? 6 : 1,
-    }),
-    [isWebDesktop, isTablet, isCompact]
-  );
-
-  const computedTabBarStyle = useMemo(() => {
-    if (isWebDesktop) {
-      return [
-        styles.tabBarWeb,
-        width >= 1400 && styles.tabBarWebWide,
-        {
-          height: tabSizing.barHeight,
-          paddingHorizontal: tabSizing.barPaddingHorizontal,
-          paddingTop: tabSizing.barPaddingTop,
-          paddingBottom: tabSizing.barPaddingBottom,
-        },
-      ];
-    }
-
-    return [
-      styles.tabBar,
-      {
-        height: tabSizing.barHeight,
-        paddingHorizontal: tabSizing.barPaddingHorizontal,
-        paddingTop: tabSizing.barPaddingTop,
-        paddingBottom: tabSizing.barPaddingBottom,
-      },
-    ];
-  }, [isWebDesktop, tabSizing, width]);
+  const { uniKey } = useUniversity();
+  const theme = getV2Theme(uniKey);
+  const isDesktop = Platform.OS === 'web' && width >= 1024;
 
   return (
     <Tab.Navigator
-      initialRouteName="Home"
-      detachInactiveScreens={!isWeb}
-      tabBar={isWebDesktop ? (props) => <WebSidebarTabBar {...props} tabLabels={tabLabels} /> : undefined}
-      screenOptions={({ route }) => ({
-        headerShown: false,
-        lazy: true,
-        unmountOnBlur: false,
-        freezeOnBlur: !isWeb,
-        tabBarHideOnKeyboard: true,
-        animation: isWebDesktop ? 'none' : 'shift',
-        tabBarStyle: isWebDesktop ? { display: 'none' } : computedTabBarStyle,
-        // Critical for web: without flex:1 on the scene, ScrollViews collapse to 0 height
-        sceneStyle: [
-          { flex: 1 },
-          isWebDesktop ? styles.sceneWebDesktop : undefined,
-        ],
-        tabBarActiveTintColor: '#FFFFFF',
-        tabBarInactiveTintColor: 'rgba(255,255,255,0.6)',
-        tabBarLabel: tabLabels[route.name] || route.name,
-        tabBarLabelStyle: [styles.label, { fontSize: tabSizing.labelSize }],
-        tabBarIconStyle: styles.iconStyle,
-        tabBarItemStyle: [
-          styles.itemStyle,
-          isWebDesktop && styles.itemStyleWeb,
-          { paddingHorizontal: tabSizing.itemPaddingHorizontal },
-        ],
-        tabBarActiveBackgroundColor: 'transparent',
-        tabBarAllowFontScaling: false,
-        tabBarLabelPosition: isWebDesktop ? 'beside-icon' : 'below-icon',
-        tabBarIcon: isWebDesktop ? TAB_ICON_RENDERERS_DENSE[route.name] : TAB_ICON_RENDERERS[route.name],
-        tabBarButton: CustomTabBarButton,
-      })}
+      initialRouteName="Today"
+      tabBar={isDesktop ? (props) => <DesktopRail {...props} /> : undefined}
+      screenOptions={({ route }) => {
+        const meta = META[route.name] || {};
+        return {
+          headerShown: false,
+          sceneStyle: isDesktop ? { paddingLeft: DESKTOP_RAIL_WIDTH, backgroundColor: theme.canvas } : { backgroundColor: theme.canvas },
+          tabBarHideOnKeyboard: true,
+          tabBarActiveTintColor: theme.primary,
+          tabBarInactiveTintColor: theme.muted,
+          tabBarLabelStyle: styles.mobileLabel,
+          tabBarStyle: isDesktop
+            ? { display: 'none' }
+            : [
+                styles.mobileBar,
+                {
+                  backgroundColor: theme.surface,
+                  borderTopColor: theme.border,
+                },
+              ],
+          tabBarIcon: ({ color, focused, size }) => (
+            <Ionicons name={focused ? meta.iconActive : meta.icon} size={size || 21} color={color} />
+          ),
+          tabBarLabel: meta.label || route.name,
+        };
+      }}
     >
-      <Tab.Screen name="Home" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-HomeScreen" */ '../screens/HomeScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Home }} />
-      <Tab.Screen name="Reading" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-ReadingScreen" */ '../screens/ReadingScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Reading }} />
-      <Tab.Screen name="Grammar" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-GrammarScreen" */ '../screens/GrammarScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Grammar }} />
-      <Tab.Screen name="Writing" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-WritingScreen" */ '../screens/WritingScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Writing }} />
-      <Tab.Screen name="Vocab" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-VocabScreen" */ '../screens/VocabScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Vocab }} />
-      <Tab.Screen name="Listening" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-ListeningScreen" */ '../screens/ListeningScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Listening }} />
-      <Tab.Screen name="Speaking" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-SpeakingScreen" */ '../screens/SpeakingScreen'))}  options={{ tabBarButtonTestID: TAB_TEST_IDS.Speaking }} />
-      <Tab.Screen name="Settings" getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-DeveloperScreen" */ '../screens/DeveloperScreen'))}  options={{ tabBarButtonTestID: 'tab-settings' }} />
+      <Tab.Screen
+        name="Today"
+        getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-v2-today" */ '../screens/v2/TodayScreen'))}
+        options={{ tabBarButtonTestID: 'tab-today' }}
+      />
+      <Tab.Screen
+        name="Practice"
+        getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-v2-practice" */ '../screens/v2/PracticeHubScreen'))}
+        options={{ tabBarButtonTestID: 'tab-practice' }}
+      />
+      <Tab.Screen
+        name="MockHub"
+        getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-v2-mock" */ '../screens/v2/MockHubScreen'))}
+        options={{ tabBarButtonTestID: 'tab-mock' }}
+      />
+      <Tab.Screen
+        name="ProgressHub"
+        getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-v2-progress" */ '../screens/v2/ProgressHubScreen'))}
+        options={{ tabBarButtonTestID: 'tab-progress' }}
+      />
+      <Tab.Screen
+        name="Profile"
+        getComponent={() => React.lazy(() => import(/* webpackChunkName: "tab-v2-profile" */ '../screens/v2/ProfileScreen'))}
+        options={{ tabBarButtonTestID: 'tab-profile' }}
+      />
     </Tab.Navigator>
   );
 }
 
+const styles = StyleSheet.create({
+  rail: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: DESKTOP_RAIL_WIDTH,
+    borderRightWidth: 1,
+    paddingHorizontal: v2Spacing.md,
+    paddingTop: v2Spacing.lg,
+    zIndex: 20,
+  },
+  brand: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: v2Spacing.sm,
+    paddingHorizontal: v2Spacing.xs,
+    paddingBottom: v2Spacing.xl,
+  },
+  brandCopy: { flex: 1 },
+  brandTitle: { fontSize: 17, fontWeight: '900' },
+  brandSub: { fontSize: 11, marginTop: 2 },
+  railNav: { gap: 6 },
+  railItem: {
+    minHeight: 48,
+    borderRadius: v2Radius.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: v2Spacing.sm,
+    paddingHorizontal: v2Spacing.md,
+  },
+  railLabel: { fontSize: 14, fontWeight: '800' },
+  pressed: { opacity: 0.78 },
+  railFooter: {
+    marginTop: 'auto',
+    borderTopWidth: 1,
+    paddingHorizontal: v2Spacing.sm,
+    paddingVertical: v2Spacing.lg,
+  },
+  footerEyebrow: { fontSize: 10, fontWeight: '900', letterSpacing: 1.4 },
+  footerCopy: { fontSize: 12, lineHeight: 18, marginTop: 5, fontWeight: '600' },
+  mobileBar: {
+    minHeight: 66,
+    paddingTop: 7,
+    paddingBottom: 8,
+    borderTopWidth: 1,
+  },
+  mobileLabel: {
+    fontSize: 11,
+    fontWeight: '800',
+  },
+});
