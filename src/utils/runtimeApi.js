@@ -1,3 +1,4 @@
+/* global globalThis */
 import { NativeModules, Platform } from 'react-native';
 
 const DEFAULT_API_PORT = 8088;
