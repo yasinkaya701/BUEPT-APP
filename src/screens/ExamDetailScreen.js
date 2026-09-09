@@ -3,10 +3,10 @@ import { Text, StyleSheet, View, Alert, TextInput } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
 import Button from '../components/Button';
-import OpenEndedPracticeCard from '../components/OpenEndedPracticeCard';
 import { colors, spacing, typography } from '../theme/tokens';
 import exams from '../../data/buept_exams.json';
-import { buildExamSectionOpenEndedPrompts } from '../utils/openEndedPrompts';
+import { displayCorrectAnswer, gradeExam, gradeQuestion } from '../utils/answerGrading';
+import { useAppState } from '../context/AppState';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,23 +18,76 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontHeadline,
     color: colors.text,
   },
+  examShell: {
+    maxWidth: 980,
+    width: '100%',
+    alignSelf: 'center',
+  },
+  examTopBar: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#DCE7F5',
+    borderRadius: 22,
+    padding: spacing.lg,
+    marginBottom: spacing.md,
+  },
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: spacing.md
+    gap: spacing.md,
+    marginBottom: spacing.sm
+  },
+  examEyebrow: {
+    color: '#1D4ED8',
+    fontSize: 11,
+    fontWeight: '900',
+    letterSpacing: 1.3,
+    marginBottom: 5,
+  },
+  headerCopy: { flex: 1 },
+  examMeta: {
+    color: '#64748B',
+    fontSize: 13,
+    lineHeight: 18,
+  },
+  progressRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    marginTop: spacing.md,
+  },
+  progressTrack: {
+    flex: 1,
+    height: 8,
+    backgroundColor: '#DBEAFE',
+    borderRadius: 999,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#2563EB',
+    borderRadius: 999,
+  },
+  progressLabel: {
+    width: 88,
+    textAlign: 'right',
+    color: '#64748B',
+    fontSize: 12,
+    fontWeight: '800',
   },
   timerBadge: {
-    backgroundColor: '#FFF3E0',
-    borderColor: '#FF9800',
+    backgroundColor: '#08172A',
+    borderColor: '#08172A',
     borderWidth: 1,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 4,
-    borderRadius: 8,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 9,
+    borderRadius: 14,
   },
   timerText: {
-    color: '#E65100',
-    fontSize: typography.h3,
-    fontFamily: typography.fontHeadline,
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '900',
+    fontVariant: ['tabular-nums'],
   },
   h2: {
     fontSize: typography.h2,
@@ -58,7 +111,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: spacing.sm,
-    marginBottom: spacing.md
+    marginBottom: spacing.sm
+  },
+  sectionBar: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#DCE7F5',
+    borderRadius: 18,
+    padding: spacing.md,
+    marginBottom: spacing.md,
   },
   qWrap: {
     marginTop: spacing.md,
@@ -84,12 +145,26 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
     alignSelf: 'flex-start',
   },
+  scoreCard: {
+    marginTop: spacing.lg,
+    backgroundColor: '#EFF6FF',
+    borderColor: '#BFDBFE',
+    borderWidth: 1,
+    borderRadius: 18,
+    padding: spacing.lg,
+    alignItems: 'center',
+  },
   score: {
-    marginTop: spacing.md,
-    fontSize: typography.h2,
-    fontFamily: typography.fontHeadline,
-    color: colors.primary,
+    fontSize: 30,
+    fontWeight: '900',
+    color: '#102A56',
     textAlign: 'center'
+  },
+  scoreSub: {
+    marginTop: 4,
+    fontSize: 13,
+    color: '#64748B',
+    textAlign: 'center',
   },
   actionRow: {
     flexDirection: 'row',
@@ -164,9 +239,15 @@ export default function ExamDetailScreen({ route, navigation }) {
   const [score, setScore] = useState(null);
   const [similar, setSimilar] = useState({});
   const [checked, setChecked] = useState(false);
+  const { setIsFocusMode } = useAppState();
 
   const [timeLeft, setTimeLeft] = useState(EXAM_DURATION);
   const timerRef = useRef(null);
+
+  useEffect(() => {
+    setIsFocusMode(true);
+    return () => setIsFocusMode(false);
+  }, [setIsFocusMode]);
 
   const allQuestions = useMemo(() => {
     const sec = exam.sections;
@@ -208,14 +289,8 @@ export default function ExamDetailScreen({ route, navigation }) {
     [allQuestions]);
 
   const check = useCallback(() => {
-    let correct = 0;
-    let total = 0;
-    allQuestions.forEach(({ key, q }) => {
-      const active = similar[key] || q;
-      total += 1;
-      if (answers[key] === active.answer) correct += 1;
-    });
-    setScore(`${correct} / ${total}`);
+    const result = gradeExam(allQuestions, answers, similar);
+    setScore(`${result.correct} / ${result.total}`);
     setChecked(true);
   }, [answers, allQuestions, similar]);
 
@@ -258,34 +333,30 @@ export default function ExamDetailScreen({ route, navigation }) {
   };
 
   const sec = exam.sections;
-  const openEndedPrompts = useMemo(() => {
-    if (activeSection === 'reading') {
-      const passage0 = Array.isArray(sec.reading?.passages) ? sec.reading.passages[0] : undefined;
-      return buildExamSectionOpenEndedPrompts(passage0 || sec.reading, 'reading');
-    }
-    if (activeSection === 'listening') {
-      const group0 = Array.isArray(sec.listening?.groups) ? sec.listening.groups[0] : undefined;
-      return buildExamSectionOpenEndedPrompts(group0 || sec.listening, 'listening');
-    }
-    return buildExamSectionOpenEndedPrompts(sec.grammar, 'grammar');
-  }, [activeSection, sec.grammar, sec.listening, sec.reading]);
-  const renderFeedback = (active, key, contextLabel) => {
+  const sectionQuestions = activeSection === 'reading'
+    ? readingQuestions
+    : activeSection === 'listening'
+      ? listeningQuestions
+      : allQuestions.filter((item) => item.key.startsWith('g'));
+  const answeredInSection = sectionQuestions.filter((item) => answers[item.key] !== undefined && answers[item.key] !== '').length;
+  const sectionProgress = sectionQuestions.length
+    ? Math.round((answeredInSection / sectionQuestions.length) * 100)
+    : 0;
+
+  const renderFeedback = (active, key) => {
     if (!checked) return null;
     const selected = answers[key];
-    if (selected === undefined) {
+    const result = gradeQuestion(active, selected);
+    if (result.unanswered) {
       return <Text style={styles.incorrect}>No answer selected.</Text>;
     }
-    const correctValue = Array.isArray(active.answer) ? active.answer[0] : active.answer;
-    const isCorrect = Array.isArray(active.answer) 
-      ? active.answer.some(a => (selected || '').toString().trim().toLowerCase() === a.toString().trim().toLowerCase())
-      : (selected || '').toString().trim().toLowerCase() === (active.answer || '').toString().trim().toLowerCase();
 
     return (
       <>
-        <Text style={isCorrect ? styles.correct : styles.incorrect}>
-          {isCorrect ? 'Correct' : `Incorrect (Your answer: ${selected || '—'})`}
+        <Text style={result.correct ? styles.correct : styles.incorrect}>
+          {result.correct ? 'Correct' : `Incorrect (Your answer: ${String(selected)})`}
         </Text>
-        <Text style={styles.meta}>Correct: {active.options ? active.options[active.answer] : correctValue}</Text>
+        <Text style={styles.meta}>Correct: {displayCorrectAnswer(active) || '—'}</Text>
         <Text style={styles.meta}>{active.explain || ''}</Text>
       </>
     );
@@ -293,19 +364,34 @@ export default function ExamDetailScreen({ route, navigation }) {
 
   return (
     <Screen scroll contentStyle={styles.container}>
-      <View style={styles.headerRow}>
-        <Text style={styles.h1}>{exam.title}</Text>
-        <View style={styles.timerBadge}>
-          <Text style={styles.timerText}>{formatTime(timeLeft)}</Text>
+      <View style={styles.examShell}>
+        <View style={styles.examTopBar}>
+          <Text style={styles.examEyebrow}>FOCUSED EXAM MODE</Text>
+          <View style={styles.headerRow}>
+            <View style={styles.headerCopy}>
+              <Text style={styles.h1}>{exam.title}</Text>
+              <Text style={styles.examMeta}>Answer the active section, then move forward. Practice tools and global chat stay out of the exam surface.</Text>
+            </View>
+            <View style={styles.timerBadge}>
+              <Text style={styles.timerText}>{formatTime(timeLeft)}</Text>
+            </View>
+          </View>
+          <View style={styles.progressRow}>
+            <View style={styles.progressTrack}>
+              <View style={[styles.progressFill, { width: `${sectionProgress}%` }]} />
+            </View>
+            <Text style={styles.progressLabel}>{answeredInSection}/{sectionQuestions.length} answered</Text>
+          </View>
         </View>
-      </View>
 
-      <View style={styles.tabRow}>
-        <Button label="Reading" variant={activeSection === 'reading' ? 'primary' : 'secondary'} onPress={() => setActiveSection('reading')} />
-        <Button label="Listening" variant={activeSection === 'listening' ? 'primary' : 'secondary'} onPress={() => setActiveSection('listening')} />
-        <Button label="Grammar" variant={activeSection === 'grammar' ? 'primary' : 'secondary'} onPress={() => setActiveSection('grammar')} />
-      </View>
-      <Text style={styles.formatHint}>In the official BUSEPT exam, Listening runs in two tasks — Selective (main ideas, signposts) and Careful (details, qualifiers) — with each recording played once only. Reading covers two full texts with roughly ten questions each.</Text>
+        <View style={styles.sectionBar}>
+          <View style={styles.tabRow}>
+            <Button label="Reading" variant={activeSection === 'reading' ? 'primary' : 'secondary'} onPress={() => setActiveSection('reading')} />
+            <Button label="Listening" variant={activeSection === 'listening' ? 'primary' : 'secondary'} onPress={() => setActiveSection('listening')} />
+            <Button label="Grammar" variant={activeSection === 'grammar' ? 'primary' : 'secondary'} onPress={() => setActiveSection('grammar')} />
+          </View>
+          <Text style={styles.formatHint}>BUSEPT practice mode keeps the test surface focused. Listening and Reading use the exam-bank section structure; targeted grammar remains a supporting practice section when present in the selected mock.</Text>
+        </View>
 
       {activeSection === 'reading' && (
         <>
@@ -317,7 +403,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                 const key = `r${pi}_${qi}`;
                 const active = similar[key] || q;
                 const selected = answers[key];
-                const isWrong = checked && selected !== undefined && selected !== active.answer;
+                const isWrong = checked && !gradeQuestion(active, selected).correct;
                 return (
                   <View key={key} style={styles.qWrap}>
                     <Text style={styles.h3}>Q{keyIndex(readingQuestions, key)}. {active.q}</Text>
@@ -327,10 +413,9 @@ export default function ExamDetailScreen({ route, navigation }) {
                       style={[
                         styles.textInput,
                         checked && (
-                          (Array.isArray(active.answer) 
-                            ? active.answer.some(a => (answers[key] || '').trim().toLowerCase() === a.trim().toLowerCase())
-                            : (answers[key] || '').trim().toLowerCase() === (active.answer || '').trim().toLowerCase())
-                          ? styles.inputCorrect : styles.inputIncorrect
+                          gradeQuestion(active, answers[key]).correct
+                            ? styles.inputCorrect
+                            : styles.inputIncorrect
                         )
                       ]}
                       value={answers[key] || ''}
@@ -347,7 +432,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                       label={opt}
                       variant={
                         checked
-                          ? (oi === active.answer ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
+                          ? (gradeQuestion(active, oi).correct ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
                           : (answers[key] === oi ? 'primary' : 'secondary')
                       }
                       onPress={() => select(key, oi)}
@@ -394,7 +479,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                 const key = `r${i}`;
                 const active = similar[key] || q;
                 const selected = answers[key];
-                const isWrong = checked && selected !== undefined && selected !== active.answer;
+                const isWrong = checked && !gradeQuestion(active, selected).correct;
                 return (
                   <View key={key} style={styles.qWrap}>
                     <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
@@ -443,7 +528,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                 const key = `l${gi}_${qi}`;
                 const active = similar[key] || q;
                 const selected = answers[key];
-                const isWrong = checked && selected !== undefined && selected !== active.answer;
+                const isWrong = checked && !gradeQuestion(active, selected).correct;
                 return (
                   <View key={key} style={styles.qWrap}>
                     <Text style={styles.h3}>Q{keyIndex(listeningQuestions, key)}. {active.q}</Text>
@@ -453,10 +538,9 @@ export default function ExamDetailScreen({ route, navigation }) {
                       style={[
                         styles.textInput,
                         checked && (
-                          (Array.isArray(active.answer) 
-                            ? active.answer.some(a => (answers[key] || '').trim().toLowerCase() === a.trim().toLowerCase())
-                            : (answers[key] || '').trim().toLowerCase() === (active.answer || '').trim().toLowerCase())
-                          ? styles.inputCorrect : styles.inputIncorrect
+                          gradeQuestion(active, answers[key]).correct
+                            ? styles.inputCorrect
+                            : styles.inputIncorrect
                         )
                       ]}
                       value={answers[key] || ''}
@@ -473,7 +557,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                       label={opt}
                       variant={
                         checked
-                          ? (oi === active.answer ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
+                          ? (gradeQuestion(active, oi).correct ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
                           : (answers[key] === oi ? 'primary' : 'secondary')
                       }
                       onPress={() => select(key, oi)}
@@ -520,7 +604,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                 const key = `l${i}`;
                 const active = similar[key] || q;
                 const selected = answers[key];
-                const isWrong = checked && selected !== undefined && selected !== active.answer;
+                const isWrong = checked && !gradeQuestion(active, selected).correct;
                 return (
                   <View key={key} style={styles.qWrap}>
                     <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
@@ -571,7 +655,7 @@ export default function ExamDetailScreen({ route, navigation }) {
             const key = `g${i}`;
             const active = similar[key] || q;
             const selected = answers[key];
-            const isWrong = checked && selected !== undefined && selected !== active.answer;
+            const isWrong = checked && !gradeQuestion(active, selected).correct;
             return (
               <Card key={key} style={styles.card}>
                 <Text style={styles.h3}>Q{i + 1}. {active.q}</Text>
@@ -581,10 +665,9 @@ export default function ExamDetailScreen({ route, navigation }) {
                       style={[
                         styles.textInput,
                         checked && (
-                          (Array.isArray(active.answer) 
-                            ? active.answer.some(a => (answers[key] || '').trim().toLowerCase() === a.trim().toLowerCase())
-                            : (answers[key] || '').trim().toLowerCase() === (active.answer || '').trim().toLowerCase())
-                          ? styles.inputCorrect : styles.inputIncorrect
+                          gradeQuestion(active, answers[key]).correct
+                            ? styles.inputCorrect
+                            : styles.inputIncorrect
                         )
                       ]}
                       value={answers[key] || ''}
@@ -601,7 +684,7 @@ export default function ExamDetailScreen({ route, navigation }) {
                       label={opt}
                       variant={
                         checked
-                          ? (oi === active.answer ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
+                          ? (gradeQuestion(active, oi).correct ? 'primary' : (answers[key] === oi ? 'errorGhost' : 'secondary'))
                           : (answers[key] === oi ? 'primary' : 'secondary')
                       }
                       onPress={() => select(key, oi)}
@@ -642,19 +725,19 @@ export default function ExamDetailScreen({ route, navigation }) {
         </>
       )}
 
-      <OpenEndedPracticeCard
-        title={`Open-Ended ${activeSection[0].toUpperCase()}${activeSection.slice(1)} Practice`}
-        prompts={openEndedPrompts}
-        placeholder="Write your section response..."
-      />
-
       <View style={styles.actionRow}>
         {activeSection === 'reading' && <Button label="Next: Listening" onPress={() => setActiveSection('listening')} />}
         {activeSection === 'listening' && <Button label="Next: Grammar" onPress={() => setActiveSection('grammar')} />}
         {activeSection === 'grammar' && !checked && <Button label="Finish Exam & Check" onPress={check} />}
         {checked && <Button label="Close Exam" variant="secondary" onPress={() => navigation.goBack()} />}
       </View>
-      {score && <Text style={styles.score}>Final Score: {score}</Text>}
+      {score ? (
+        <View style={styles.scoreCard}>
+          <Text style={styles.score}>Final Score: {score}</Text>
+          <Text style={styles.scoreSub}>Review missed questions after leaving the focused exam surface.</Text>
+        </View>
+      ) : null}
+      </View>
     </Screen>
   );
 }

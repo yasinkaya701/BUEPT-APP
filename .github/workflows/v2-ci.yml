@@ -1,0 +1,56 @@
+name: BUEPT V2 Quality Gate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - feat/buept-v2-production-rebuild
+
+permissions:
+  contents: read
+
+concurrency:
+  group: buept-v2-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Production dependency audit
+        run: npm run audit:prod
+
+      - name: Backend syntax
+        run: npm run api:check
+
+      - name: Backend contract smoke
+        run: npm run api:selftest
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test -- --runInBand
+
+      - name: Build BUEPT web
+        run: npm run web:rnw:build:root
+        env:
+          BUEPT_API_BASE_URL: https://buept-api.vercel.app
+
+      - name: Build ODTU web
+        run: npm run web:rnw:build:odtu
+        env:
+          BUEPT_API_BASE_URL: https://buept-api.vercel.app

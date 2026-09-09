@@ -275,7 +275,10 @@ export default function TodayBoardScreen({ navigation }) {
           .sort((a, b) => Number(b[1]) - Number(a[1]))
           .map(([word, count]) => ({ word, count: Number(count) || 0 }))
       : [];
-  const mockResults = Array.isArray(mockHistory) ? mockHistory : [];
+  const mockResults = useMemo(
+    () => (Array.isArray(mockHistory) ? mockHistory : []),
+    [mockHistory],
+  );
 
   const completedToday = useMemo(() => getTodayMap(), []);
 

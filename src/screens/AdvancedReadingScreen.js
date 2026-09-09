@@ -7,7 +7,7 @@ import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppState } from '../context/AppState';
 import { speakEnglish } from '../utils/ttsEnglish';
-import { loadAiAccessConfig } from '../utils/appStorage';
+import { executeDirectAiChat } from '../utils/runtimeApi';
 
 const styles = StyleSheet.create({
     container: { paddingBottom: spacing.xl },
@@ -184,26 +184,18 @@ export default function AdvancedReadingScreen({ navigation }) {
     const aiExplain = async () => {
         if (!selectedWord) return;
         try {
-            const cfg = await loadAiAccessConfig();
-            const apiBase = cfg?.apiBase || cfg?.geminiApiBase;
-            const apiKey = cfg?.apiKey || cfg?.geminiKey;
-            if (!apiBase || !apiKey) {
-                Alert.alert('AI not configured', 'Set up your Gemini API key in Settings → AI Access first.');
-                return;
-            }
-            const res = await fetch(`${String(apiBase).replace(/\/$/, '')}/v1beta/models/gemini-2.0-flash:generateContent`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: `Explain the English word "${selectedWord.text}" briefly for a B1-B2 learner: part of speech, definition, one simple example sentence.` }] }],
-                    generationConfig: { maxOutputTokens: 300, temperature: 0.4 },
-                }),
+            const text = await executeDirectAiChat({
+                capability: 'reading_word_explanation',
+                systemPrompt: 'You are a concise academic English coach. Explain vocabulary for a B1-B2 learner without unnecessary prose.',
+                messages: [{
+                    role: 'user',
+                    content: `Explain the English word "${selectedWord.text}": part of speech, one clear definition, and one simple academic example sentence.`,
+                }],
             });
-            const json = await res.json();
-            const txt = json?.candidates?.[0]?.content?.parts?.[0]?.text || selectedWord.def;
-            setSelectedWord((prev) => ({ ...prev, def: txt }));
-        } catch (e) {
-            // keep the offline definition
+            if (text) setSelectedWord((prev) => ({ ...prev, def: text }));
+        } catch (error) {
+            // Offline dictionary remains available; provider errors are non-fatal here.
+            Alert.alert('AI explanation unavailable', 'The offline definition is still available. Check AI Access if you want hosted or BYOK explanations.');
         }
     };
 

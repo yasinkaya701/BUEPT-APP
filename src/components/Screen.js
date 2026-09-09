@@ -1,28 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Animated, Easing, ScrollView, StyleSheet, useWindowDimensions, View, Image, Platform } from 'react-native';
+import { Animated, Easing, Image, Platform, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { spacing, motion, colors } from '../theme/tokens';
 
 const styles = StyleSheet.create({
-  container: { flex: 1, minHeight: 0, backgroundColor: colors.bg },
-  bgImageFull: { ...StyleSheet.absoluteFillObject, width: '100%', height: '100%', opacity: 1.0 },
-  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.5)' },
-  overlayWeb: { backgroundColor: 'rgba(2,8,23,0.85)' },
-  safe: { flex: 1, minHeight: 0, backgroundColor: '#F3F4F6' },
-  safeClear: { flex: 1, minHeight: 0, backgroundColor: 'transparent' },
-
-  // The scroll wrapper: flex:1 + minHeight:0 gives ScrollView a fixed height on web.
-  // Without minHeight:0, a flex child can grow beyond its parent and collapse the scroll.
-  scrollWrapper: {
-    flex: 1,
-    minHeight: 0,
-  },
-
-  // contentContainer inside ScrollView
+  container: { flex: 1, minHeight: 0, backgroundColor: colors.bg || '#F7FAFF' },
+  bgImageFull: { ...StyleSheet.absoluteFillObject, width: '100%', height: '100%' },
+  safe: { flex: 1, minHeight: 0 },
+  scrollWrapper: { flex: 1, minHeight: 0 },
   scrollContent: { paddingBottom: spacing.xxl + 96, flexGrow: 1 },
   scrollContentWeb: { paddingBottom: 72, flexGrow: 1 },
-
   content: {
     width: '100%',
     alignSelf: 'center',
@@ -31,12 +19,10 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.sm,
   },
   contentWide: { maxWidth: 1120, paddingHorizontal: spacing.xl },
-  contentWeb: { maxWidth: 1280, paddingHorizontal: spacing.lg, backgroundColor: colors.bg },
+  contentWeb: { maxWidth: 1280, paddingHorizontal: spacing.lg },
   contentPhone: { paddingHorizontal: spacing.sm + 2 },
   animatedFill: { flex: 1, minHeight: 0 },
 });
-
-const BG_IMAGE = require('../assets/images/boun_campus.webp');
 
 export default function Screen({
   children,
@@ -45,6 +31,8 @@ export default function Screen({
   contentStyle,
   animate = false,
   noBg = false,
+  backgroundImage = null,
+  backgroundOverlay = 'rgba(8,23,42,0.58)',
 }) {
   const { width } = useWindowDimensions();
   const isWeb = Platform.OS === 'web';
@@ -54,12 +42,11 @@ export default function Screen({
   const fade = useRef(new Animated.Value(animate ? 0 : 1)).current;
   const translate = useRef(new Animated.Value(animate ? 8 : 0)).current;
 
-  // Force a re-render every time this screen comes into focus.
-  // Fixes the react-native-screens bug where native stack dismissal
-  // leaves the underlying screen's pointerEvents permanently frozen.
+  // Keep the existing focus refresh workaround, but make the visual background
+  // deterministic: clean canvas by default, campus media only when explicit.
   const [, setFocusTick] = useState(0);
   useFocusEffect(useCallback(() => {
-    setFocusTick(n => n + 1);
+    setFocusTick((n) => n + 1);
   }, []));
 
   useEffect(() => {
@@ -69,16 +56,16 @@ export default function Screen({
         toValue: 1,
         duration: motion.normal,
         easing: Easing.out(Easing.cubic),
-        useNativeDriver: shouldUseNativeDriver
+        useNativeDriver: shouldUseNativeDriver,
       }),
       Animated.timing(translate, {
         toValue: 0,
         duration: motion.normal,
         easing: Easing.out(Easing.cubic),
-        useNativeDriver: shouldUseNativeDriver
+        useNativeDriver: shouldUseNativeDriver,
       }),
     ]).start();
-  }, [animate, fade, translate, shouldUseNativeDriver]);
+  }, [animate, fade, shouldUseNativeDriver, translate]);
 
   const contentNode = (
     <Animated.View
@@ -90,7 +77,7 @@ export default function Screen({
         isPhone && styles.contentPhone,
         !scroll && styles.animatedFill,
         { opacity: fade, transform: [{ translateY: translate }] },
-        contentStyle,   // always apply — scroll screens use it inside ScrollView contentContainer
+        contentStyle,
       ]}
     >
       {children}
@@ -102,10 +89,7 @@ export default function Screen({
       style={styles.scrollWrapper}
       keyboardShouldPersistTaps="always"
       keyboardDismissMode="on-drag"
-      contentContainerStyle={[
-        styles.scrollContent,
-        isWeb && styles.scrollContentWeb,
-      ]}
+      contentContainerStyle={[styles.scrollContent, isWeb && styles.scrollContentWeb]}
       showsVerticalScrollIndicator={false}
       contentInsetAdjustmentBehavior="automatic"
       scrollEventThrottle={16}
@@ -116,26 +100,25 @@ export default function Screen({
     </ScrollView>
   ) : contentNode;
 
-  if (noBg) {
-    return (
-      <SafeAreaView style={[styles.safe, style]} pointerEvents="box-none">
-        {scrollNode}
-      </SafeAreaView>
-    );
-  }
-
-  if (!styles || !styles.container) {
-    return <View style={{ flex: 1, backgroundColor: colors?.bg || '#fff' }}>{scrollNode}</View>;
-  }
+  const canvasColor = noBg ? (colors.bg || '#F7FAFF') : (colors.bg || '#F7FAFF');
 
   return (
-    <View style={styles.container} pointerEvents="box-none">
-      <Image source={BG_IMAGE} style={styles.bgImageFull} resizeMode="cover" pointerEvents="none" />
-      <View style={[styles.overlay, isWeb && styles.overlayWeb]} pointerEvents="none" />
-      <SafeAreaView style={[styles.safeClear, style]} pointerEvents="box-none">
+    <View style={[styles.container, { backgroundColor: canvasColor }]} pointerEvents="box-none">
+      {backgroundImage ? (
+        <>
+          <Image source={backgroundImage} style={styles.bgImageFull} resizeMode="cover" pointerEvents="none" />
+          <View
+            style={[StyleSheet.absoluteFill, { backgroundColor: backgroundOverlay }]}
+            pointerEvents="none"
+          />
+        </>
+      ) : null}
+      <SafeAreaView
+        style={[styles.safe, { backgroundColor: backgroundImage ? 'transparent' : canvasColor }, style]}
+        pointerEvents="box-none"
+      >
         {scrollNode}
       </SafeAreaView>
     </View>
   );
 }
-

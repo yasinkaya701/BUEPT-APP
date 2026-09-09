@@ -17,10 +17,14 @@
     "netlify-build": "npm run web:rnw:build:root",
     "ios": "react-native run-ios",
     "ios:safe": "./scripts/run-ios-safe.sh",
-    "lint": "eslint .",
+    "lint": "eslint src server web-api-server.js api netlify web-rnw __tests__",
     "start": "react-native start",
     "test": "jest",
-    "postinstall": "node patches/patch-voice-androidx.js"
+    "postinstall": "node patches/patch-voice-androidx.js",
+    "api:check": "node --check web-api-server.js && node --check server/app.js && node --check server/providerRouter.js && node --check server/selftest.js",
+    "api:selftest": "node server/selftest.js",
+    "ci:v2": "npm run audit:prod && npm run api:check && npm run api:selftest && npm run lint && npm test -- --runInBand && npm run web:rnw:build:root && npm run web:rnw:build:odtu",
+    "audit:prod": "npm audit --omit=dev --audit-level=critical"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",
@@ -78,5 +82,16 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "overrides": {
+    "decode-uri-component": "0.5.0",
+    "qs": "6.16.0",
+    "xml2js": "0.6.2",
+    "fast-xml-parser": "5.10.1",
+    "picomatch": "2.3.2",
+    "@xmldom/xmldom": "0.8.15",
+    "xmldom": "npm:@xmldom/xmldom@0.8.15",
+    "nanoid": "3.3.18",
+    "shell-quote": "1.9.0"
   }
 }

@@ -13,9 +13,9 @@
  */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
-  fetchDirectGeminiChat,
-  getRuntimeApiKey,
+  executeDirectAiChat,
   getRuntimeApiAccessConfig,
+  isAiAccessConfigured,
 } from './runtimeApi';
 
 const MOCK_KEY = 'ai_mock_bank_v1';
@@ -381,51 +381,61 @@ export async function generateAiMock({ section = 'full', level = 'P3', onPartial
   if (!MOCK_LEVELS.some((l) => l.key === level)) {
     throw new Error(`Unknown level: ${level}`);
   }
-  const apiKey = getRuntimeApiKey();
-  if (!apiKey) throw new Error('Gemini API key is not configured. Add it in Settings → AI Access.');
-  const spec = buildGenerationSpec({ section, level, uni });
+  if (!isAiAccessConfigured()) {
+    throw new Error('AI access is not configured. Open Profile → AI access and choose Hosted or a BYOK provider.');
+  }
 
+  const spec = buildGenerationSpec({ section, level, uni });
   const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-  const timeout = setTimeout(() => { try { controller?.abort(); } catch (_) {} }, 120000);
+  const timeout = setTimeout(() => {
+    try { controller?.abort(); } catch (_) {}
+  }, 120000);
 
   try {
-    const rawText = await fetchDirectGeminiChat({
+    const rawText = await executeDirectAiChat({
       systemPrompt: spec.base,
       messages: [{ role: 'user', content: spec.prompt }],
       jsonFormat: true,
       signal: controller?.signal || null,
+      capability: 'mock_generation',
     });
-    clearTimeout(timeout);
+
     const parsed = sanitize(rawText);
     if (parsed && spec.validate(parsed)) {
       const exam = normalizeExam(parsed, section, level, uni);
-      if (exam) return { exam, source: 'online' };
+      if (exam) {
+        onPartial?.({ stage: 'validated', section, level, uni });
+        return { exam, source: 'ai' };
+      }
     }
-    // Retry once with a clearer retry instruction
-    const retryText = await fetchDirectGeminiChat({
+
+    const retryText = await executeDirectAiChat({
       systemPrompt: spec.base,
       messages: [
         { role: 'user', content: spec.prompt },
-        {
-          role: 'assistant',
-          content: rawText || 'I will provide the requested JSON.',
-        },
+        { role: 'assistant', content: rawText || 'I will provide the requested JSON.' },
         {
           role: 'user',
           content: 'The previous response could not be parsed as valid JSON. Return ONLY the requested JSON object with no prose, no markdown fences, and no trailing text.',
         },
       ],
       jsonFormat: true,
+      signal: controller?.signal || null,
+      capability: 'mock_generation',
     });
+
     const retryParsed = sanitize(retryText);
     if (retryParsed && spec.validate(retryParsed)) {
-      const exam = normalizeExam(retryParsed, section, level);
-      if (exam) return { exam, source: 'online' };
+      const exam = normalizeExam(retryParsed, section, level, uni);
+      if (exam) {
+        onPartial?.({ stage: 'validated_retry', section, level, uni });
+        return { exam, source: 'ai' };
+      }
     }
+
     throw new Error('The AI model did not return a valid exam. Please try again.');
-  } catch (e) {
+  } finally {
     clearTimeout(timeout);
-    throw e;
   }
 }
 
@@ -454,6 +464,5 @@ export async function addMockToBank(exam) {
 }
 
 export function isAiAccessAvailable() {
-  const cfg = getRuntimeApiAccessConfig();
-  return Boolean(cfg?.apiKey || getRuntimeApiKey());
+  return isAiAccessConfigured(getRuntimeApiAccessConfig());
 }

@@ -52,11 +52,19 @@ export default function RootNavigator() {
         // User is signed in
         <>
           <Stack.Screen name="MainTabs" component={TabNavigator} options={{ headerShown: false }} />
-          <Stack.Screen name="Reading" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-ReadingScreen" */ '../screens/ReadingScreen'))} options={{ title: 'Reading' }} />
+          <Stack.Screen name="Reading" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-v2-reading" */ '../screens/v2/SkillOverviewScreen'))} options={{ title: 'Reading' }} />
+          <Stack.Screen name="ReadingLibrary" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-ReadingLibrary" */ '../screens/ReadingScreen'))} options={{ title: 'Reading Library' }} />
           <Stack.Screen name="ReadingDetail" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-ReadingDetailScreen" */ '../screens/ReadingDetailScreen'))} options={{ title: 'Reading Practice' }} />
-          <Stack.Screen name="Listening" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-ListeningScreen" */ '../screens/ListeningScreen'))} options={{ title: 'Listening' }} />
+          <Stack.Screen name="Listening" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-v2-listening" */ '../screens/v2/SkillOverviewScreen'))} options={{ title: 'Listening' }} />
+          <Stack.Screen name="ListeningLibrary" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-ListeningLibrary" */ '../screens/ListeningScreen'))} options={{ title: 'Listening Library' }} />
           <Stack.Screen name="ListeningDetail" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-ListeningDetailScreen" */ '../screens/ListeningDetailScreen'))} options={{ title: 'Listening Practice' }} />
-          <Stack.Screen name="Grammar" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-GrammarScreen" */ '../screens/GrammarScreen'))} options={{ title: 'Grammar' }} />
+          <Stack.Screen name="Grammar" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-v2-grammar" */ '../screens/v2/SkillOverviewScreen'))} options={{ title: 'Grammar' }} />
+          <Stack.Screen name="GrammarLibrary" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-GrammarLibrary" */ '../screens/GrammarScreen'))} options={{ title: 'Grammar Library' }} />
+          <Stack.Screen name="Writing" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-v2-writing" */ '../screens/v2/SkillOverviewScreen'))} options={{ title: 'Writing' }} />
+          <Stack.Screen name="WritingLibrary" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-WritingLibrary" */ '../screens/WritingScreen'))} options={{ title: 'Writing Practice' }} />
+          <Stack.Screen name="Vocab" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-v2-vocabulary" */ '../screens/v2/VocabularyScreen'))} options={{ title: 'Vocabulary' }} />
+          <Stack.Screen name="VocabLab" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-VocabLab" */ '../screens/VocabScreen'))} options={{ title: 'Vocabulary Lab' }} />
+          <Stack.Screen name="Speaking" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-SpeakingScreen" */ '../screens/SpeakingScreen'))} options={{ title: 'Speaking Practice' }} />
           <Stack.Screen name="GrammarDetail" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-GrammarDetailScreen" */ '../screens/GrammarDetailScreen'))} options={{ title: 'Grammar Practice' }} />
           <Stack.Screen name="GrammarDrill" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-GrammarDrillScreen" */ '../screens/GrammarDrillScreen'))} options={{ title: 'Adaptive Drill' }} />
           <Stack.Screen name="GrammarSectionExam" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-GrammarSectionExamScreen" */ '../screens/GrammarSectionExamScreen'))} options={{ title: 'Grammar Section Exam' }} />
@@ -96,6 +104,8 @@ export default function RootNavigator() {
           <Stack.Screen name="SynonymFinder" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-SynonymFinderScreen" */ '../screens/SynonymFinderScreen'))} options={{ title: 'Synonym Finder' }} />
           <Stack.Screen name="Essay" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-EssayScreen" */ '../screens/EssayScreen'))} options={{ title: 'Essay Writing' }} />
           <Stack.Screen name="ErrorStats" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-ErrorStatsScreen" */ '../screens/ErrorStatsScreen'))} options={{ title: 'Error Statistics' }} />
+          <Stack.Screen name="Settings" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-v2-settings" */ '../screens/v2/SettingsScreen'))} options={{ title: 'Settings' }} />
+          <Stack.Screen name="AISettings" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-v2-ai-settings" */ '../screens/v2/AISettingsScreen'))} options={{ title: 'AI Access' }} />
           <Stack.Screen name="Developer" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-DeveloperScreen" */ '../screens/DeveloperScreen'))} options={{ title: 'Developer' }} />
           <Stack.Screen name="ConfusingPronunciations" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-ConfusingPronunciationsScreen" */ '../screens/ConfusingPronunciationsScreen'))} options={{ title: 'Confusing Pronunciations' }} />
           <Stack.Screen name="DemoFeatures" getComponent={() => React.lazy(() => import(/* webpackChunkName: "screen-DemoFeaturesScreen" */ '../screens/DemoFeaturesScreen'))} options={{ headerShown: false }} />

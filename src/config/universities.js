@@ -127,8 +127,8 @@ export const UNIVERSITIES = [
     shortName: 'ODTÜ-EPE',
     examName: 'ODTÜ İngilizce Yeterlik Sınavı (EPE / İYS)',
     adminName: 'Yabancı Diller Yüksekokulu (SFL)',
-    accent: '#15803d',
-    accentSoft: '#f0fdf4',
+    accent: '#8B1E2D',
+    accentSoft: '#F9E9EC',
     format: {
       sections: ['listening', 'reading', 'note-taking', 'writing', 'speaking'],
       passRule:

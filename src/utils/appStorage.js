@@ -33,7 +33,7 @@ const DEFAULT_WEEKLY_VOCAB_PROGRESS = {
 const DEFAULT_AI_ACCESS_CONFIG = {
   mode: 'hosted',
   baseUrl: '',
-  apiKey: '',
+  provider: 'hosted',
   label: 'Hosted BUEPT AI',
 };
 
@@ -160,18 +160,40 @@ export const saveWeeklyVocabProgress = (v) =>
 
 export async function loadAiAccessConfig() {
   const stored = await loadJson(KEYS.aiAccessConfig, DEFAULT_AI_ACCESS_CONFIG);
+  const {
+    apiKey: _legacyApiKey,
+    claudeKey: _legacyClaudeKey,
+    ...safeStored
+  } = stored || {};
+
+  // Provider secrets are session-only. Older releases persisted them in
+  // AsyncStorage/localStorage; overwrite that legacy record on hydration.
+  if (_legacyApiKey || _legacyClaudeKey) {
+    await saveJson(KEYS.aiAccessConfig, {
+      ...DEFAULT_AI_ACCESS_CONFIG,
+      ...safeStored,
+      baseUrl: String(safeStored.baseUrl || '').trim(),
+    });
+  }
+
   return {
     ...DEFAULT_AI_ACCESS_CONFIG,
-    ...(stored || {}),
-    baseUrl: String((stored && stored.baseUrl) || '').trim(),
-    apiKey: String((stored && stored.apiKey) || '').trim(),
+    ...safeStored,
+    baseUrl: String(safeStored.baseUrl || '').trim(),
+    apiKey: '',
+    claudeKey: '',
   };
 }
 
-export const saveAiAccessConfig = (v) =>
-  saveJson(KEYS.aiAccessConfig, {
+export const saveAiAccessConfig = (v) => {
+  const {
+    apiKey: _sessionApiKey,
+    claudeKey: _sessionClaudeKey,
+    ...safe
+  } = v || {};
+  return saveJson(KEYS.aiAccessConfig, {
     ...DEFAULT_AI_ACCESS_CONFIG,
-    ...(v || {}),
-    baseUrl: String((v && v.baseUrl) || '').trim(),
-    apiKey: String((v && v.apiKey) || '').trim(),
+    ...safe,
+    baseUrl: String(safe.baseUrl || '').trim(),
   });
+};

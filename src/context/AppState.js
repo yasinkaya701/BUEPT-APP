@@ -58,17 +58,31 @@ const STORAGE_CUSTOM_DECKS = '@buept_custom_decks_v1';
 async function loadCustomDecks() { try { const v = await AsyncStorage.getItem(STORAGE_CUSTOM_DECKS); return v ? JSON.parse(v) : []; } catch { return []; } }
 async function saveCustomDecks(d) { try { await AsyncStorage.setItem(STORAGE_CUSTOM_DECKS, JSON.stringify(d)); } catch { } }
 
+function sanitizeLocalProfile(profile) {
+  if (!profile || typeof profile !== 'object') return null;
+  const { password: _legacyPassword, ...safeProfile } = profile;
+  return safeProfile;
+}
+
 async function loadUserProfile() {
   try {
     const raw = await AsyncStorage.getItem(STORAGE_USER_PROFILE);
-    return raw ? JSON.parse(raw) : null;
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    const safe = sanitizeLocalProfile(parsed);
+    if (parsed?.password) {
+      // One-way migration: remove passwords stored by pre-V2 local profiles.
+      await AsyncStorage.setItem(STORAGE_USER_PROFILE, JSON.stringify(safe));
+    }
+    return safe;
   } catch {
     return null;
   }
 }
 async function saveUserProfile(profile) {
   try {
-    if (profile) await AsyncStorage.setItem(STORAGE_USER_PROFILE, JSON.stringify(profile));
+    const safe = sanitizeLocalProfile(profile);
+    if (safe) await AsyncStorage.setItem(STORAGE_USER_PROFILE, JSON.stringify(safe));
     else await AsyncStorage.removeItem(STORAGE_USER_PROFILE);
   } catch { }
 }
@@ -301,16 +315,20 @@ function buildDemoProfile() {
 }
 
 function normalizeAiConfig(config = {}) {
-  const mode = String(config?.mode || 'hosted').trim().toLowerCase() === 'custom' ? 'custom' : 'hosted';
+  const requestedMode = String(config?.mode || 'hosted').trim().toLowerCase();
+  const mode = requestedMode === 'custom' || requestedMode === 'byok' ? requestedMode : 'hosted';
   const baseUrl = String(config?.baseUrl || '').trim().replace(/\/+$/, '');
   return {
     mode,
     baseUrl,
-    provider: String(config?.provider || 'ollama').trim(),
+    provider: String(config?.provider || (mode === 'hosted' ? 'hosted' : 'gemini')).trim().toLowerCase(),
+    // Kept in memory for the current session. Persistence sanitization in
+    // appStorage deliberately removes provider secrets.
     apiKey: String(config?.apiKey || '').trim(),
+    claudeKey: String(config?.claudeKey || '').trim(),
     ollamaUrl: String(config?.ollamaUrl || 'http://localhost:11434').trim(),
-    ollamaModel: String(config?.ollamaModel || 'dolphin-llama3:8b').trim(),
-    label: String(config?.label || (mode === 'custom' ? 'Custom AI Endpoint' : 'Hosted BUEPT AI')).trim() || 'Hosted BUEPT AI',
+    ollamaModel: String(config?.ollamaModel || 'llama3.2:1b').trim(),
+    label: String(config?.label || (mode === 'hosted' ? 'Hosted BUEPT AI' : 'Custom AI')).trim() || 'Hosted BUEPT AI',
   };
 }
 
@@ -816,30 +834,29 @@ export function AppStateProvider({ children }) {
       }
 
       const email = normalizeEmail(payload.email);
-      const password = String(payload.password || '');
-      if (!email || !password) {
-        return { ok: false, error: 'Enter your university email and password.' };
+      if (!email) {
+        return { ok: false, error: 'Enter your university email.' };
       }
+
       const storedEmail = normalizeEmail(userProfile?.email);
       if (!storedEmail) {
-        return { ok: false, error: 'No account found on this device. Create one first.' };
+        return { ok: false, error: 'No local profile found on this device. Create one first.' };
       }
       if (storedEmail !== email) {
-        return { ok: false, error: 'This email does not match the saved account on this device.' };
+        return { ok: false, error: 'This email does not match the local profile on this device.' };
       }
-      if (String(userProfile?.password || '') !== password) {
-        return { ok: false, error: 'Incorrect password.' };
-      }
-      const nextProfile = {
+
+      const nextProfile = sanitizeLocalProfile({
         ...userProfile,
         lastLoginAt: new Date().toISOString(),
         mode: userProfile?.mode || 'standard',
-      };
+      });
       setUserProfile(nextProfile);
       setAcademicFocus(deriveAcademicFocus(nextProfile));
       setUserToken(email);
+      setOnboarded(true);
       setPostAuthRoute(nextRoute);
-      return { ok: true, mode: 'standard' };
+      return { ok: true, mode: 'local-profile' };
     }
 
     setUserToken(payload || 'student_token');
@@ -849,13 +866,12 @@ export function AppStateProvider({ children }) {
   const register = useCallback(async ({
     name = '',
     email = '',
-    password = '',
     faculty = '',
+    nextRoute = null,
   } = {}) => {
     const trimmedName = String(name || '').trim();
     const normalizedEmail = normalizeEmail(email);
     const normalizedFaculty = String(faculty || '').trim() || 'General';
-    const cleanPassword = String(password || '');
 
     if (trimmedName.length < 2) {
       return { ok: false, error: 'Enter your full name.' };
@@ -863,26 +879,23 @@ export function AppStateProvider({ children }) {
     if (!normalizedEmail.endsWith('.edu.tr') && !normalizedEmail.endsWith('@boun.edu.tr')) {
       return { ok: false, error: 'Use a valid university email.' };
     }
-    if (cleanPassword.length < 6) {
-      return { ok: false, error: 'Password must be at least 6 characters.' };
-    }
 
-    const profile = {
+    const profile = sanitizeLocalProfile({
       name: trimmedName,
       email: normalizedEmail,
-      password: cleanPassword,
       faculty: normalizedFaculty,
       role: 'Student',
       mode: 'standard',
       createdAt: new Date().toISOString(),
       lastLoginAt: new Date().toISOString(),
-    };
+    });
     setUserProfile(profile);
     setAcademicFocus(deriveAcademicFocus(profile));
     setUserToken(normalizedEmail);
-    setPostAuthRoute(null);
-    return { ok: true };
-  }, []);
+    setOnboarded(true);
+    setPostAuthRoute(typeof nextRoute === 'string' && nextRoute ? nextRoute : null);
+    return { ok: true, mode: 'local-profile' };
+  }, [setOnboarded]);
 
   const logout = useCallback(() => {
     setPostAuthRoute(null);

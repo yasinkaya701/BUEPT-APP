@@ -1,121 +1,169 @@
-# BUEPT-APP 🎓
+# BUEPT-APP
 
-**BUEPT-APP** is a comprehensive, open-source, and fully offline-capable mobile and web application built with React Native. It is specifically designed to help university students prepare for the **Boğaziçi University English Proficiency Test (BUEPT)**. 
+BUEPT-APP is a React Native + React Native Web preparation workspace for university English proficiency study. The primary edition targets **Boğaziçi University BUSEPT**; a separately built **ODTÜ / METU EPE** edition shares the same product architecture while keeping exam rules and branding isolated at build time.
 
-The application provides a seamless 1:1 UI parity across iOS, Android, and Web browsers, integrating state-of-the-art, **privacy-first AI features** to act as a 24/7 personal English tutor.
+## BUEPT V2 product model
 
----
+The V2 shell is intentionally small:
 
-## 🌟 Comprehensive Feature Set
+- **Today** — readiness, momentum and the next useful tasks.
+- **Practice** — Reading, Listening, Writing, Grammar and Vocabulary.
+- **Mock** — exam-bank entry, quick mocks, AI-generated mocks and history.
+- **Progress** — skill trends, mock signal, history and learning record.
+- **Profile** — account, privacy, AI access and advanced settings.
 
-### 1. Test Preparation Modules
-*   **📖 Reading:** Passages designed to mirror the exact lexical density and question types (Main Idea, Detail, Inference, Vocabulary in Context) of the actual BUEPT reading section.
-*   **🎧 Listening:** Integrated audio player simulating academic lectures and interviews. Students practice note-taking and answering complex multiple-choice questions.
-*   **✍️ Writing (Essay & Paragraph):** A full-featured text editor with live word counting, timed practice, and instant, AI-driven band score estimations and academic revisions.
-*   **🗣️ Speaking:** Voice-recording capabilities for simulated exam interviews. Get instant feedback on fluency, coherence, lexical resource, and grammatical range.
-*   **📝 Grammar & Vocabulary:** Targeted practice drills and flashcards for academic structures and high-frequency university vocabulary.
+The core BUSEPT scored experience is centered on **Listening, Reading and Writing**. Grammar and vocabulary support those skills. Speaking remains available as additional language practice and is not represented as an official scored BUSEPT section.
 
-### 2. Intelligent, Serverless AI Tutors
-*   **Mistake Coach:** An AI companion that analyzes exactly *why* you chose the wrong answer in a reading/listening test and provides a tailored explanation without giving away the correct answer immediately.
-*   **Writing & Speaking Evaluator:** Submit your essay or spoken response to receive a detailed breakdown of your strengths, areas of improvement, and a corrected version of your text.
-*   **Video Lesson & Presentation Generator:** Automatically generate academic presentation slides and lesson storyboards based on any given topic or weak point.
-*   **Interactive Chatbot:** A general-purpose English tutor available on the home screen to answer quick questions or simulate casual conversations.
+V2 uses a clean light canvas by default and explicit real-campus photography on editorial surfaces. The web and native apps share the same information architecture and design system while retaining platform-appropriate navigation and interaction behavior.
 
----
+## AI architecture
 
-## 🔒 The 100% Serverless, Privacy-First AI Architecture
+There are two explicit AI modes. The app never silently switches to another provider.
 
-BUEPT-APP introduces a revolutionary, fully decentralized AI infrastructure. **You are in complete control of your data.**
+### Hosted BUEPT AI
 
-By default, the application connects directly to the AI provider from your browser or device, **bypassing all centralized cloud backends**.
+Hosted mode is the default. Client applications call the BUEPT API, and provider credentials remain on the server.
 
-### How to Configure Your AI (Settings Menu)
+Supported server providers are selected with environment configuration:
 
-Navigate to the **Settings** tab in the app and select your preferred AI provider:
+- `BUEPT_AI_PROVIDER=gemini` with `GEMINI_API_KEY`
+- `BUEPT_AI_PROVIDER=openai` with `OPENAI_API_KEY`
+- `BUEPT_AI_PROVIDER=anthropic` with `ANTHROPIC_API_KEY`
 
-1.  **Ollama (100% Offline & Free):** 
-    *   Run AI models entirely on your own laptop. 
-    *   No internet connection required. Zero data leaves your device.
-    *   **Setup:** Download [Ollama](https://ollama.com/), run `ollama run llama3.2:1b` in your terminal, and enter `http://localhost:11434` as your URL in the app settings.
+Optional model overrides:
 
-2.  **OpenAI (Direct BYOK):** 
-    *   Select OpenAI and enter your own API key. 
-    *   The app communicates *directly* with `api.openai.com`. No intermediate proxies, ensuring maximum privacy and no third-party rate limits.
+- `BUEPT_GEMINI_MODEL`
+- `BUEPT_OPENAI_MODEL`
+- `BUEPT_ANTHROPIC_MODEL`
 
-3.  **Google Gemini (Direct BYOK):** 
-    *   Select Gemini and enter your API key. 
-    *   The app connects *directly* to Google's REST API (`generativelanguage.googleapis.com`).
+Hosted AI and search endpoints apply request-size limits and per-client rate limits. Tune them with:
 
-*(Note: If you leave the API key blank, the app will safely fall back to a shared, rate-limited public cloud proxy.)*
+- `BUEPT_AI_RATE_LIMIT_PER_MINUTE`
+- `BUEPT_SEARCH_RATE_LIMIT_PER_MINUTE`
+- `BUEPT_AI_TIMEOUT_MS`
 
----
+### BYOK / local mode
 
-## 🚀 Getting Started
+A user may explicitly select Gemini, OpenAI, Claude/Anthropic or Ollama in **Profile → AI access**.
 
-### Prerequisites
-*   Node.js (v18+)
-*   React Native development environment (Xcode for iOS, Android Studio for Android)
-*   *(Optional)* Ollama for local AI features.
+Provider credentials are session-only: normal app persistence deliberately removes API keys. BYOK requests go only to the provider the user selected. Ollama is supported for local inference; its endpoint and model are user-configurable.
 
-### Installation
+## Local profile and privacy
 
-Clone the repository and install the dependencies:
+This release uses a local learning profile, not cloud account authentication.
+
+- The app does **not** collect or store a local password.
+- Legacy plaintext password fields are removed during profile hydration.
+- Learning history, vocabulary and progress remain local by default.
+- Vocabulary cloud sync is disabled until authenticated user-scoped isolation exists.
+- The app must not be described as having secure cloud accounts until real server-side authentication is implemented.
+
+## Backend
+
+The canonical backend lives in:
+
+- `server/app.js` — request routing, CORS, validation, rate limiting and search.
+- `server/providerRouter.js` — hosted AI provider routing.
+- `web-api-server.js` — local Node HTTP adapter.
+- `api/index.js` — Vercel adapter.
+- `netlify/functions/api.js` — Netlify adapter.
+
+Useful endpoints:
+
+- `GET /api/health`
+- `GET /api/version`
+- `POST /api/ai/chat`
+- `GET /api/search?q=...`
+
+Cloud vocabulary sync endpoints intentionally return `SYNC_DISABLED`.
+
+## Development
+
+Requirements:
+
+- Node.js 20+
+- Xcode for iOS development
+- Android Studio / Android SDK for Android development
+
+Install dependencies:
 
 ```bash
-npm install
+npm ci
 ```
 
-### Running on Mobile (iOS / Android)
-
-Start the React Native Metro Bundler:
+Start Metro:
 
 ```bash
 npm start
 ```
 
-In a new terminal window, launch the application on your emulator or connected physical device:
+Run native apps:
 
 ```bash
-npm run android
-# or
 npm run ios
+npm run android
 ```
 
----
+Start React Native Web:
 
-## 🌐 Web Development (React Native Web)
-
-BUEPT-APP is meticulously optimized for the browser. It compiles React Native components into high-performance DOM elements, providing the exact same experience as the mobile app.
-
-**Start the local development server:**
 ```bash
 npm run web:rnw:start
 ```
 
-**Build for Production (Vercel / Netlify):**
+Start the local API:
+
+```bash
+npm run api:start
+```
+
+## Production builds
+
+BUEPT web:
+
 ```bash
 npm run web:rnw:build:root
 ```
 
-**Start the Web UI alongside Local AI (One-Click script):**
+ODTÜ web:
+
 ```bash
-./scripts/start-web-local-ai.sh
+npm run web:rnw:build:odtu
 ```
 
----
+Both editions:
 
-## 📦 Deployment
+```bash
+npm run web:rnw:build:all
+```
 
-The project is pre-configured for automated deployment on Vercel or Netlify. 
-Because the app relies on **Direct Client-to-Provider AI Fetching**, the compiled web bundle requires **NO backend Node.js server**. 
+Set `BUEPT_API_BASE_URL` when the web UI and API are deployed on different origins. `BUEPT_ALLOWED_ORIGINS` accepts a comma-separated list of allowed browser origins for the API.
 
-1. Push your code to the `main` branch.
-2. Link the repository to your Vercel or Netlify account.
-3. Set the build command to `npm run web:rnw:build:root` and the output directory to `dist` or `web-build`.
-4. The site is instantly live and fully operational worldwide.
+## Quality gates
 
----
+Run the same consolidated gate used for V2 development:
 
-## 📜 License
+```bash
+npm run ci:v2
+```
 
-This project is developed for educational purposes to assist students targeting the Boğaziçi University English Proficiency Test.
+The pull-request workflow separately verifies:
+
+1. production dependency audit for critical vulnerabilities,
+2. backend syntax,
+3. backend contract self-test,
+4. lint,
+5. unit tests,
+6. BUEPT production web build,
+7. ODTÜ production web build.
+
+The simulator smoke configuration is also locked to the five-area V2 navigation contract by unit tests.
+
+## Security release requirement
+
+A provider credential was present in older Git history. Removing it from current source does **not** revoke it. Before deploying V2, revoke/rotate that credential at the provider and configure the replacement only as a server-side deployment secret.
+
+Never commit provider credentials to this repository.
+
+## License
+
+This project is an independent educational preparation tool. It is not an official service of Boğaziçi University, ODTÜ/METU, YADYÖK or either university's School of Foreign Languages.
