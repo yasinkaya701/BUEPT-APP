@@ -4,6 +4,13 @@ const { Buffer } = require('buffer');
 const { runHostedAi, configuredProvider } = require('./providerRouter');
 
 const MAX_BODY_BYTES = 1024 * 1024;
+const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+const AI_RATE_LIMIT_PER_MINUTE = Math.max(1, Number(process.env.BUEPT_AI_RATE_LIMIT_PER_MINUTE || 20));
+const SEARCH_RATE_LIMIT_PER_MINUTE = Math.max(1, Number(process.env.BUEPT_SEARCH_RATE_LIMIT_PER_MINUTE || 30));
+const MAX_AI_MESSAGES = 24;
+const MAX_AI_SYSTEM_CHARS = 8000;
+const MAX_AI_TOTAL_MESSAGE_CHARS = 32000;
+const rateBuckets = new Map();
 const DEFAULT_ALLOWED_ORIGINS = [
   'https://yasinkaya701.github.io',
   'http://localhost:8090',
@@ -41,6 +48,71 @@ function sendJson(res, status, payload) {
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('Cache-Control', 'no-store');
   res.end(JSON.stringify(payload));
+}
+
+function clientAddress(req) {
+  const forwarded = String(req.headers?.['x-forwarded-for'] || '').split(',')[0].trim();
+  return forwarded || String(req.socket?.remoteAddress || req.connection?.remoteAddress || 'unknown');
+}
+
+function takeRateLimit(req, bucketName, limit) {
+  const now = Date.now();
+  const key = `${bucketName}:${clientAddress(req)}`;
+  let bucket = rateBuckets.get(key);
+  if (!bucket || bucket.resetAt <= now) {
+    bucket = { count: 0, resetAt: now + RATE_LIMIT_WINDOW_MS };
+    rateBuckets.set(key, bucket);
+  }
+  bucket.count += 1;
+
+  // Opportunistic cleanup keeps long-lived local/server processes bounded.
+  if (rateBuckets.size > 5000) {
+    for (const [entryKey, entry] of rateBuckets) {
+      if (entry.resetAt <= now) rateBuckets.delete(entryKey);
+    }
+  }
+
+  return {
+    allowed: bucket.count <= limit,
+    remaining: Math.max(0, limit - bucket.count),
+    retryAfterSec: Math.max(1, Math.ceil((bucket.resetAt - now) / 1000)),
+  };
+}
+
+function enforceRateLimit(req, res, requestId, bucketName, limit) {
+  const result = takeRateLimit(req, bucketName, limit);
+  res.setHeader('X-RateLimit-Limit', String(limit));
+  res.setHeader('X-RateLimit-Remaining', String(result.remaining));
+  if (result.allowed) return true;
+  res.setHeader('Retry-After', String(result.retryAfterSec));
+  sendJson(res, 429, {
+    error: 'RATE_LIMITED',
+    detail: 'Too many requests. Try again shortly.',
+    requestId,
+  });
+  return false;
+}
+
+function validateAiBody(body = {}) {
+  const messages = Array.isArray(body.messages) ? body.messages : [];
+  if (!messages.length) {
+    return { ok: false, error: 'INVALID_AI_REQUEST', detail: 'messages must contain at least one item' };
+  }
+  if (messages.length > MAX_AI_MESSAGES) {
+    return { ok: false, error: 'AI_REQUEST_TOO_LARGE', detail: `messages may contain at most ${MAX_AI_MESSAGES} items` };
+  }
+  const systemPrompt = String(body.systemPrompt || '');
+  if (systemPrompt.length > MAX_AI_SYSTEM_CHARS) {
+    return { ok: false, error: 'AI_REQUEST_TOO_LARGE', detail: 'systemPrompt is too large' };
+  }
+  const totalChars = messages.reduce(
+    (sum, item) => sum + String(item?.content || item?.text || '').length,
+    0,
+  );
+  if (totalChars > MAX_AI_TOTAL_MESSAGE_CHARS) {
+    return { ok: false, error: 'AI_REQUEST_TOO_LARGE', detail: 'message content is too large' };
+  }
+  return { ok: true, messages };
 }
 
 function safeRequestId(req) {
@@ -231,6 +303,7 @@ async function requestHandler(req, res) {
     }
 
     if (req.method === 'GET' && path === '/api/search') {
+      if (!enforceRateLimit(req, res, requestId, 'search', SEARCH_RATE_LIMIT_PER_MINUTE)) return;
       const url = new URL(req.url || '/', 'http://localhost');
       const query = String(url.searchParams.get('q') || '').trim();
       if (!query) {
@@ -252,16 +325,17 @@ async function requestHandler(req, res) {
     }
 
     if (req.method === 'POST' && path === '/api/ai/chat') {
+      if (!enforceRateLimit(req, res, requestId, 'ai', AI_RATE_LIMIT_PER_MINUTE)) return;
       const body = await readJsonBody(req);
-      const messages = Array.isArray(body.messages) ? body.messages : [];
-      if (!messages.length) {
-        sendJson(res, 400, { error: 'INVALID_AI_REQUEST', detail: 'messages must contain at least one item', requestId });
+      const validation = validateAiBody(body);
+      if (!validation.ok) {
+        sendJson(res, 400, { error: validation.error, detail: validation.detail, requestId });
         return;
       }
       const result = await runHostedAi({
-        capability: body.capability || 'general',
-        systemPrompt: body.systemPrompt || '',
-        messages,
+        capability: String(body.capability || 'general').slice(0, 80),
+        systemPrompt: String(body.systemPrompt || ''),
+        messages: validation.messages,
         jsonFormat: Boolean(body.jsonFormat),
       });
       sendJson(res, 200, { ...result, requestId });
@@ -270,6 +344,13 @@ async function requestHandler(req, res) {
 
     const legacy = req.method === 'POST' ? legacyAiInput(path, await readJsonBody(req)) : null;
     if (legacy) {
+      if (!enforceRateLimit(req, res, requestId, 'ai', AI_RATE_LIMIT_PER_MINUTE)) return;
+      const legacyValidation = validateAiBody(legacy);
+      if (!legacyValidation.ok) {
+        sendJson(res, 400, { error: legacyValidation.error, detail: legacyValidation.detail, requestId });
+        return;
+      }
+      legacy.messages = legacyValidation.messages;
       const result = await runHostedAi(legacy);
       const parsed = legacy.jsonFormat ? parseJsonText(result.text) : null;
       if (parsed && typeof parsed === 'object') {
