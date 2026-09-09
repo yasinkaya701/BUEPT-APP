@@ -1,4 +1,4 @@
-import { getRuntimeApiKey, resolveApiEndpoint, getAiHeaders, executeDirectAiChat } from './runtimeApi';
+import { resolveApiEndpoint, getAiHeaders, executeDirectAiChat, isHostedAiMode } from './runtimeApi';
 import { buildAIMessages } from './aiMessages';
 
 const CHAT_ENDPOINT = resolveApiEndpoint('BUEPT_CHAT_API_URL', '/api/chat');
@@ -95,56 +95,45 @@ export async function requestChatbotReply({ message, mode = 'coach', history = [
   if (!message) return null;
 
   const localFallback = buildLocalReply({ message, mode });
-  if (!CHAT_ENDPOINT) return localFallback;
-
   const payload = {
     message: String(message),
     mode,
     history: Array.isArray(history) ? history.slice(-15) : [],
-    app: 'buept-mobile',
+    app: 'buept-app',
   };
 
-  const timeout = withTimeout();
-  try {
-    const finalMessages = buildAIMessages(payload.history, payload.message);
+  // BYOK/local mode is strict: call only the provider the learner selected.
+  // A provider failure falls back to deterministic local coaching, never to
+  // the hosted BUEPT backend or a different AI company.
+  if (!isHostedAiMode()) {
+    const timeout = withTimeout();
+    try {
+      const finalMessages = buildAIMessages(payload.history, payload.message);
+      const directReply = await executeDirectAiChat({
+        systemPrompt: `You are BUEPT AI, a professional academic English coach.
+Keep the conversation focused on English proficiency preparation and respond in clear English.
+Give specific, actionable explanations and short next steps. Do not invent official exam rules.`,
+        messages: finalMessages,
+        signal: timeout.signal,
+        capability: 'chat',
+      });
 
-    const directReply = await executeDirectAiChat({
-      systemPrompt: `You are BUEPT AI, a professional academic coach for Boğaziçi University students. 
-You communicate ONLY in English to help students practice for their exams. 
-You are helpful, academic, and strictly focused on BUEPT exam preparation (Reading, Writing, Listening, Grammar).
-If the user communicates in any language other than English, you MUST politely insist on continuing in English to facilitate their language learning.`,
-      messages: finalMessages,
-      signal: timeout.signal
-    });
-    
-    if (directReply) {
-      return { text: String(directReply).trim(), source: 'direct-ai' };
-    }
-  } catch (err) {
-    if (typeof __DEV__ !== 'undefined' && __DEV__) {
-      console.warn('Direct AI request failed:', err);
-    }
-    // Offline fallback: serve from demoAi if Ollama is unreachable
-    const { getRuntimeApiAccessConfig } = require('./runtimeApi');
-    const cfg = getRuntimeApiAccessConfig();
-    if (cfg.provider === 'ollama' || cfg.apiKey) {
-      // Try to give a helpful response from local knowledge instead of an error
-      const offlineReply = buildLocalReply({ message: payload.message, mode: payload.mode });
-      if (offlineReply?.text) {
-        return { 
-          ...offlineReply, 
-          text: `⚡ Offline Mode: ${offlineReply.text}`, 
-          source: 'offline' 
-        };
+      if (directReply) {
+        return { text: String(directReply).trim(), source: 'byok' };
       }
-      return { 
-        text: `⚠️ AI bağlantısı kurulamadı. Ollama çalışıyor mu? (${err.message})`, 
-        source: 'error' 
-      };
+    } catch (error) {
+      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        console.warn('Selected AI provider failed:', error?.message || String(error));
+      }
+    } finally {
+      timeout.clear();
     }
-  } finally {
-    timeout.clear();
+    return { ...localFallback, source: 'local' };
   }
+
+  // Hosted mode uses exactly one backend contract. Do not first call
+  // /api/ai/chat and then retry through /api/chat; that used to double spend.
+  if (!CHAT_ENDPOINT) return localFallback;
 
   let lastErr = null;
   for (let attempt = 0; attempt <= DEFAULT_RETRIES; attempt += 1) {
@@ -157,24 +146,26 @@ If the user communicates in any language other than English, you MUST politely i
         signal: timeout.signal,
       });
       if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
+        const error = new Error(`Hosted chat failed (${res.status})`);
+        error.status = res.status;
+        throw error;
       }
-      const json = await res.json();
+      const json = await res.json().catch(() => ({}));
       const normalized = normalizeReply(json);
-      if (!normalized.text) return localFallback;
-      return normalized;
-    } catch (e) {
-      lastErr = e;
+      if (normalized.text) return normalized;
+      throw new Error('Hosted chat returned an empty response.');
+    } catch (error) {
+      lastErr = error;
       if (attempt < DEFAULT_RETRIES) {
-        await new Promise((r) => setTimeout(r, 450));
-        continue;
+        await new Promise((resolve) => setTimeout(resolve, 450));
       }
     } finally {
       timeout.clear();
     }
   }
+
   if (typeof __DEV__ !== 'undefined' && __DEV__ && lastErr) {
-    console.warn('chatbot online fallback failed:', lastErr?.message || String(lastErr));
+    console.warn('Hosted chat failed:', lastErr?.message || String(lastErr));
   }
-  return localFallback;
+  return { ...localFallback, source: 'local' };
 }
