@@ -18,9 +18,6 @@ if (Platform.OS === 'ios') {
   enableScreens(false);
 }
 
-// Web: linking is disabled to prevent 404s on GitHub Pages
-const LINKING_CONFIG = undefined;
-
 export default function App() {
   const navigationRef = useNavigationContainerRef();
   const [currentRouteName, setCurrentRouteName] = React.useState(null);
@@ -65,8 +62,6 @@ export default function App() {
       border: colors.secondary
     }
   };
-    const isMobileWeb = Platform.OS === 'web' && (typeof window !== 'undefined' && window.innerWidth < 768);
-    
     return (
     <AppErrorBoundary>
       <GestureHandlerRootView style={{ flex: 1, height: Platform.OS === 'web' ? '100%' : undefined }}>
