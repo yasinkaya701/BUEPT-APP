@@ -854,6 +854,7 @@ export function AppStateProvider({ children }) {
       setUserProfile(nextProfile);
       setAcademicFocus(deriveAcademicFocus(nextProfile));
       setUserToken(email);
+      setOnboarded(true);
       setPostAuthRoute(nextRoute);
       return { ok: true, mode: 'local-profile' };
     }
@@ -891,9 +892,10 @@ export function AppStateProvider({ children }) {
     setUserProfile(profile);
     setAcademicFocus(deriveAcademicFocus(profile));
     setUserToken(normalizedEmail);
+    setOnboarded(true);
     setPostAuthRoute(typeof nextRoute === 'string' && nextRoute ? nextRoute : null);
     return { ok: true, mode: 'local-profile' };
-  }, []);
+  }, [setOnboarded]);
 
   const logout = useCallback(() => {
     setPostAuthRoute(null);
