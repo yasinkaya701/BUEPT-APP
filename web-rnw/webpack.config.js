@@ -40,6 +40,12 @@ module.exports = (env = {}, argv = {}) => {
     (variant === 'odtu' ? '/BUEPT-APP/odtu/' : '/BUEPT-APP/');
   const devHost = process.env.WEB_DEV_HOST || '127.0.0.1';
   const devPort = Number(process.env.WEB_DEV_PORT || 8090);
+  // Only public, non-secret runtime settings may enter the browser bundle.
+  const publicRuntimeConfig = {
+    BUEPT_API_BASE_URL: String(process.env.BUEPT_API_BASE_URL || '').trim(),
+    BUEPT_SYNC_ENABLED: 'false',
+    BUEPT_BUILD_SHA: String(process.env.GITHUB_SHA || process.env.COMMIT_REF || '').trim(),
+  };
 
   return {
     mode,
@@ -114,6 +120,7 @@ module.exports = (env = {}, argv = {}) => {
         __DEV__: JSON.stringify(!isProd),
         'process.env.NODE_ENV': JSON.stringify(mode),
         __APP_VARIANT__: JSON.stringify(variant),
+        'globalThis.__BUEPT_RUNTIME_CONFIG__': JSON.stringify(publicRuntimeConfig),
         __OG_TITLE__: JSON.stringify(variant === 'odtu' ? 'ODTÜ-EPE Hazırlık — ODTÜ İYS/YDS Platformu' : 'BUEPT Hazırlık — Boğaziçi YADYÖK Platformu'),
         __OG_DESCRIPTION__: JSON.stringify(variant === 'odtu' ? 'ODTÜ İYS (İngilizce Yeterlilik Sınavı) hazırlığın tek platformu: dinleme, okuma, not alma ve yazma. AI puanlamayla gerçek sınavdan önce her bölümü provaya al.' : 'BUSEPT\'e hazırlığın tek platformu. Resmi sınavın birebir replikası: dinleme, okuma ve iki essay. AI puanlamayla gerçek sınavdan önce her bölümü provaya al.'),
       }),
