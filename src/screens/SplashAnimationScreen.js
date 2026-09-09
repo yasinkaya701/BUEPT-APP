@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { View, Animated, StyleSheet, Easing, ImageBackground, Platform } from 'react-native';
 import { colors, typography } from '../theme/tokens';
 import { useAppState } from '../context/AppState';
+import { useUniversity } from '../context/UniversityContext';
 import LinearGradient from 'react-native-linear-gradient';
 
 const styles = StyleSheet.create({
@@ -94,7 +95,12 @@ const styles = StyleSheet.create({
 
 export default function SplashAnimationScreen({ navigation }) {
     const { userToken, authReady, onboarded } = useAppState();
+    const { university, uniKey } = useUniversity();
     const isWeb = Platform.OS === 'web';
+    const isOdtu = uniKey === 'odtu';
+    const heroImage = university?.images?.hero || require('../assets/images/real_south_gate.webp');
+    const brandMark = isOdtu ? 'ODTÜ' : 'BÜ';
+    const brandTitle = isOdtu ? 'ODTÜ Prep' : 'Boğaziçi Prep';
     
     // Animation Values
     const bgFadeAnim = useRef(new Animated.Value(0)).current;
@@ -249,7 +255,7 @@ export default function SplashAnimationScreen({ navigation }) {
         <View style={styles.container}>
             <Animated.View style={[StyleSheet.absoluteFill, { opacity: bgFadeAnim, transform: [{ scale: bgScaleAnim }] }]}>
                 <ImageBackground
-                    source={require('../assets/images/real_south_gate.webp')}
+                    source={heroImage}
                     style={styles.backgroundImage}
                     resizeMode="cover"
                 >
@@ -266,8 +272,8 @@ export default function SplashAnimationScreen({ navigation }) {
                     transform: [{ scale: logoScaleAnim }]
                 }]}>
                     <View style={styles.glassRing}>
-                        <View style={styles.solidCore}>
-                            <Animated.Text style={styles.bText}>BÜ</Animated.Text>
+                        <View style={[styles.solidCore, { backgroundColor: university?.accent || colors.primary }]}>
+                            <Animated.Text style={[styles.bText, isOdtu && { fontSize: 28, letterSpacing: -1 }]}>{brandMark}</Animated.Text>
                         </View>
                     </View>
                 </Animated.View>
@@ -279,7 +285,7 @@ export default function SplashAnimationScreen({ navigation }) {
                         transform: [{ translateY: textSlideAnim }],
                     },
                 ]}>
-                    <Animated.Text style={styles.titleText}>Boğaziçi Prep</Animated.Text>
+                    <Animated.Text style={styles.titleText}>{brandTitle}</Animated.Text>
                 </Animated.View>
 
                 <Animated.View style={[
