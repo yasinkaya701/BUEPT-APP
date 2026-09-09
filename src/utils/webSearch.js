@@ -5,8 +5,9 @@
  */
 
 import { Platform } from 'react-native';
+import { resolveApiEndpoint } from './runtimeApi';
 
-const WEB_PROXY_URL = 'http://localhost:8088/api/search';
+const WEB_PROXY_URL = resolveApiEndpoint('BUEPT_SEARCH_API_URL', '/api/search');
 const DUCKDUCKGO_URL = 'https://api.duckduckgo.com/';
 
 export async function performWebSearch(query) {
@@ -18,6 +19,7 @@ export async function performWebSearch(query) {
 
     if (Platform.OS === 'web') {
       // Use server-side proxy to avoid CORS on web
+      if (!WEB_PROXY_URL) throw new Error('Search proxy is not configured');
       const res = await fetch(`${WEB_PROXY_URL}?q=${encodeURIComponent(safeQuery)}`);
       if (res.ok) {
         const data = await res.json();
