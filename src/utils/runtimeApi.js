@@ -1,33 +1,54 @@
 import { NativeModules, Platform } from 'react-native';
 
 const DEFAULT_API_PORT = 8088;
-// External API fallback used by GitHub Pages deployments that cannot host serverless routes.
 const STATIC_PROD_API_BASE_URL = 'https://buept-api.vercel.app';
+
 const runtimeAccessConfig = {
   mode: 'hosted',
   baseUrl: '',
-  apiKey: 'AIzaSyAaAbaervIT28OsrSf2rPmUzpyzOiPhjiA', // Provided by user (Gemini)
-  claudeKey: '',          // Anthropic Key
-  provider: 'gemini',     // Default to gemini
+  apiKey: '',
+  claudeKey: '',
+  provider: 'hosted',
   ollamaUrl: 'http://localhost:11434',
   ollamaModel: 'llama3.2:1b',
-  label: 'BUEPT AI Platform',
+  openaiModel: 'gpt-4o-mini',
+  geminiModel: 'gemini-2.0-flash',
+  claudeModel: 'claude-3-5-sonnet-latest',
+  label: 'Hosted BUEPT AI',
 };
 
+function readInjectedRuntimeConfig() {
+  try {
+    const cfg = typeof globalThis !== 'undefined' ? globalThis.__BUEPT_RUNTIME_CONFIG__ : null;
+    return cfg && typeof cfg === 'object' ? cfg : {};
+  } catch (_) {
+    return {};
+  }
+}
+
 export function readRuntimeEnv(name, fallback = '') {
+  const injected = readInjectedRuntimeConfig();
+  const injectedValue = injected?.[name];
+  if (typeof injectedValue === 'string' && injectedValue.trim()) return injectedValue.trim();
+  if (typeof injectedValue === 'boolean') return injectedValue ? 'true' : 'false';
+
   const value = typeof process !== 'undefined' && process.env ? process.env[name] : '';
   return typeof value === 'string' && value.trim() ? value.trim() : fallback;
 }
 
 export function setRuntimeApiAccessConfig(next = {}) {
-  runtimeAccessConfig.mode       = String(next?.mode     || 'hosted').trim() || 'hosted';
-  runtimeAccessConfig.baseUrl    = String(next?.baseUrl  || '').trim();
-  runtimeAccessConfig.apiKey     = String(next?.apiKey   || '').trim();
-  runtimeAccessConfig.claudeKey   = String(next?.claudeKey || '').trim();
-  runtimeAccessConfig.provider   = String(next?.provider || 'gemini').trim() || 'gemini';
-  runtimeAccessConfig.ollamaUrl  = String(next?.ollamaUrl  || 'http://localhost:11434').trim();
-  runtimeAccessConfig.ollamaModel= String(next?.ollamaModel || 'llama3.2:1b').trim();
-  runtimeAccessConfig.label      = String(next?.label    || '').trim() || 'BUEPT AI Platform';
+  const requestedMode = String(next?.mode || 'hosted').trim().toLowerCase();
+  runtimeAccessConfig.mode = requestedMode === 'custom' || requestedMode === 'byok' ? requestedMode : 'hosted';
+  runtimeAccessConfig.baseUrl = String(next?.baseUrl || '').trim().replace(/\/+$/, '');
+  runtimeAccessConfig.apiKey = String(next?.apiKey || '').trim();
+  runtimeAccessConfig.claudeKey = String(next?.claudeKey || '').trim();
+  runtimeAccessConfig.provider = String(next?.provider || (runtimeAccessConfig.mode === 'hosted' ? 'hosted' : 'gemini')).trim().toLowerCase();
+  runtimeAccessConfig.ollamaUrl = String(next?.ollamaUrl || 'http://localhost:11434').trim();
+  runtimeAccessConfig.ollamaModel = String(next?.ollamaModel || 'llama3.2:1b').trim();
+  runtimeAccessConfig.openaiModel = String(next?.openaiModel || 'gpt-4o-mini').trim();
+  runtimeAccessConfig.geminiModel = String(next?.geminiModel || 'gemini-2.0-flash').trim();
+  runtimeAccessConfig.claudeModel = String(next?.claudeModel || 'claude-3-5-sonnet-latest').trim();
+  runtimeAccessConfig.label = String(next?.label || '').trim() || (runtimeAccessConfig.mode === 'hosted' ? 'Hosted BUEPT AI' : 'Custom AI');
 }
 
 export function getRuntimeApiAccessConfig() {
@@ -67,49 +88,27 @@ export function getDefaultApiBaseUrl(port = DEFAULT_API_PORT) {
   if (runtimeBase) return runtimeBase;
 
   const explicitBase = readRuntimeEnv('BUEPT_API_BASE_URL', '').trim();
-  if (explicitBase) return explicitBase;
+  if (explicitBase) return explicitBase.replace(/\/+$/, '');
 
   if (Platform.OS === 'web') {
     try {
       const origin = typeof window !== 'undefined' ? String(window.location?.origin || '').trim() : '';
       const host = typeof window !== 'undefined' ? String(window.location?.hostname || '').trim().toLowerCase() : '';
-      const webPort = typeof window !== 'undefined' ? String(window.location?.port || '').trim() : '';
-      const isLocalHost = host === 'localhost' || host === '127.0.0.1';
       const isGithubPagesHost = host.endsWith('github.io');
 
       if (typeof __DEV__ !== 'undefined' && __DEV__) {
         return origin || '';
       }
-
-      if (isLocalHost && webPort === String(port)) {
-        return origin || '';
-      }
-
-      if (isLocalHost) {
-        return origin || '';
-      }
-
-      // GitHub Pages can only host the frontend, so keep using the dedicated API host there.
-      if (isGithubPagesHost) {
-        return readRuntimeEnv('BUEPT_API_BASE_URL', STATIC_PROD_API_BASE_URL).trim() || '';
-      }
-
-      // Full-stack web deploys (Vercel/Netlify/local server) should use same-origin /api routes.
-      if (origin) {
-        return origin;
-      }
+      if (isGithubPagesHost) return STATIC_PROD_API_BASE_URL;
+      if (origin) return origin;
     } catch (_) {
-      return readRuntimeEnv('BUEPT_API_BASE_URL', STATIC_PROD_API_BASE_URL).trim() || '';
+      return STATIC_PROD_API_BASE_URL;
     }
-
-    return readRuntimeEnv('BUEPT_API_BASE_URL', STATIC_PROD_API_BASE_URL).trim() || '';
+    return STATIC_PROD_API_BASE_URL;
   }
 
-  // In production, only use an explicit API base (public backend).
-  // This keeps the app keyless/offline by default on all phones.
   if (typeof __DEV__ === 'undefined' || !__DEV__) {
-    const prodBase = readRuntimeEnv('BUEPT_API_BASE_URL', STATIC_PROD_API_BASE_URL).trim();
-    return prodBase || '';
+    return STATIC_PROD_API_BASE_URL;
   }
   return `http://${getDevHost()}:${port}`;
 }
@@ -119,7 +118,7 @@ export function resolveApiEndpoint(envName, fallbackPath = '', { port = DEFAULT_
   if (explicit) return explicit;
 
   const baseOverride = String(runtimeAccessConfig.baseUrl || '').trim() || readRuntimeEnv('BUEPT_API_BASE_URL');
-  const base = baseOverride || getDefaultApiBaseUrl(port);
+  const base = (baseOverride || getDefaultApiBaseUrl(port)).replace(/\/+$/, '');
   if (!base) return '';
   if (!fallbackPath) return base;
   return `${base}${fallbackPath.startsWith('/') ? fallbackPath : `/${fallbackPath}`}`;
@@ -127,43 +126,70 @@ export function resolveApiEndpoint(envName, fallbackPath = '', { port = DEFAULT_
 
 export function getAiHeaders(extra = {}) {
   const cfg = getRuntimeApiAccessConfig();
-  const byok = String(cfg?.apiKey || '').trim();
-  const prov = String(cfg?.provider || 'gemini').trim();
-  const runtimeKey = runtimeAccessConfig.apiKey || readRuntimeEnv('BUEPT_API_KEY', '').trim();
-  
-  const headers = { ...extra, 'X-Client-Provider': prov };
-  if (runtimeKey) {
-    headers.Authorization = `Bearer ${runtimeKey}`;
+  const provider = String(cfg?.provider || 'hosted').trim().toLowerCase();
+  const headers = { ...extra, 'X-Client-Provider': provider };
+
+  if (provider === 'ollama') {
+    headers['X-Client-Ollama-Url'] = String(cfg?.ollamaUrl || 'http://localhost:11434').trim();
+    headers['X-Client-Ollama-Model'] = String(cfg?.ollamaModel || 'llama3.2:1b').trim();
   }
-  if (byok) headers['X-Client-Api-Key'] = byok;
-  if (prov === 'ollama') {
-    const url = String(cfg?.ollamaUrl || 'http://localhost:11434').trim();
-    const model = String(cfg?.ollamaModel || 'llama3.2:1b').trim();
-    headers['X-Client-Ollama-Url'] = url;
-    headers['X-Client-Ollama-Model'] = model;
-  }
+
+  // Never forward a browser/mobile BYOK secret to the hosted BUEPT API.
+  // Direct provider helpers below send credentials only to the selected provider.
   return headers;
 }
 
-export async function fetchDirectOllamaChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null, configOverride = null }) {
+async function readErrorBody(res) {
+  const text = await res.text().catch(() => '');
+  return String(text || '').slice(0, 800);
+}
+
+export async function requestHostedAiChat({
+  systemPrompt = '',
+  messages = [],
+  jsonFormat = false,
+  signal = null,
+  capability = 'general',
+}) {
+  const endpoint = resolveApiEndpoint('BUEPT_AI_API_URL', '/api/ai/chat');
+  if (!endpoint) throw new Error('Hosted BUEPT AI is not configured.');
+
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Client-Provider': 'hosted' },
+    body: JSON.stringify({ capability, systemPrompt, messages, jsonFormat }),
+    signal,
+  });
+
+  if (!res.ok) {
+    const detail = await readErrorBody(res);
+    const error = new Error(`Hosted BUEPT AI failed (${res.status})${detail ? `: ${detail}` : ''}`);
+    error.status = res.status;
+    throw error;
+  }
+
+  const payload = await res.json().catch(() => ({}));
+  return payload?.text ?? payload?.content ?? payload?.message ?? '';
+}
+
+export async function fetchDirectOllamaChat({
+  systemPrompt = '',
+  messages = [],
+  jsonFormat = false,
+  signal = null,
+  configOverride = null,
+}) {
   const cfg = configOverride || getRuntimeApiAccessConfig();
-  const ollamaUrl = (cfg.ollamaUrl || 'http://localhost:11434').trim().replace(/\/+$/, '');
-  const model = (cfg.ollamaModel || 'llama3.2:1b').trim();
+  const ollamaUrl = String(cfg.ollamaUrl || 'http://localhost:11434').trim().replace(/\/+$/, '');
+  const model = String(cfg.ollamaModel || 'llama3.2:1b').trim();
   const endpoint = `${ollamaUrl}/api/chat`;
 
   const ollamaMessages = [];
   if (systemPrompt) ollamaMessages.push({ role: 'system', content: systemPrompt });
-  messages.forEach(m => ollamaMessages.push({ role: m.role || 'user', content: m.content || m.text || '' }));
+  messages.forEach((m) => ollamaMessages.push({ role: m.role || 'user', content: m.content || m.text || '' }));
 
-  const payload = {
-    model,
-    messages: ollamaMessages,
-    stream: false,
-  };
-  
-  if (jsonFormat) {
-    payload.format = 'json';
-  }
+  const payload = { model, messages: ollamaMessages, stream: false };
+  if (jsonFormat) payload.format = 'json';
 
   const res = await fetch(endpoint, {
     method: 'POST',
@@ -173,218 +199,157 @@ export async function fetchDirectOllamaChat({ systemPrompt = '', messages = [], 
   });
 
   if (!res.ok) {
-    const errText = await res.text().catch(() => '');
-    throw new Error(`Ollama direct fetch failed: ${res.status} ${errText}`);
+    throw new Error(`Ollama request failed (${res.status}): ${await readErrorBody(res)}`);
   }
 
   const json = await res.json();
   return json?.message?.content || '';
 }
 
-export async function fetchDirectGeminiChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null, apiKeyOverride = null }) {
+export async function fetchDirectGeminiChat({
+  systemPrompt = '',
+  messages = [],
+  jsonFormat = false,
+  signal = null,
+  apiKeyOverride = null,
+  modelOverride = null,
+}) {
   const cfg = getRuntimeApiAccessConfig();
   const apiKey = String(apiKeyOverride || cfg.apiKey || '').trim();
   if (!apiKey) throw new Error('Gemini API key is missing.');
 
-  // Intra-provider model fallback: 3.1 Pro -> 3.1 Flash -> 3 Pro -> 3 Flash -> 1.5 Pro -> 1.5 Flash
-  const models = [
-    'gemini-3.1-pro', 
-    'gemini-2.0-pro-exp',
-    'gemini-2.0-flash-thinking-exp',
-    'gemini-1.5-pro', 
-    'gemini-2.0-flash-exp',
-    'gemini-2.0-flash',
-    'gemini-3.1-flash', 
-    'gemini-3.1-flash-lite',
-    'gemini-3-pro', 
-    'gemini-3-flash',
-    'gemini-1.5-flash'
-  ];
-  let lastErr = null;
+  const model = String(modelOverride || cfg.geminiModel || 'gemini-2.0-flash').trim();
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const contents = messages.map((m) => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content || m.text || '' }],
+  }));
+  const payload = { contents };
 
-  for (const model of models) {
-    try {
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+  if (systemPrompt) payload.systemInstruction = { parts: [{ text: systemPrompt }] };
+  if (jsonFormat) payload.generationConfig = { responseMimeType: 'application/json' };
 
-      const contents = messages.map(m => ({
-        role: m.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: m.content || m.text || '' }]
-      }));
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    signal,
+  });
 
-      const payload = { contents };
-
-      if (systemPrompt) {
-        payload.systemInstruction = {
-          parts: [{ text: systemPrompt }]
-        };
-      }
-
-      if (jsonFormat) {
-        payload.generationConfig = {
-          responseMimeType: 'application/json'
-        };
-      }
-
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal,
-      });
-
-      if (!res.ok) {
-        const errText = await res.text().catch(() => '');
-        throw new Error(`Gemini (${model}) failed: ${res.status} ${errText}`);
-      }
-
-      const json = await res.json();
-      return json?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    } catch (e) {
-      lastErr = e;
-    }
+  if (!res.ok) {
+    throw new Error(`Gemini request failed (${res.status}): ${await readErrorBody(res)}`);
   }
-  
-  throw lastErr || new Error('Gemini models failed.');
+
+  const json = await res.json();
+  return json?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 }
 
-export async function fetchDirectOpenAIChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null, apiKeyOverride = null }) {
+export async function fetchDirectOpenAIChat({
+  systemPrompt = '',
+  messages = [],
+  jsonFormat = false,
+  signal = null,
+  apiKeyOverride = null,
+  modelOverride = null,
+}) {
   const cfg = getRuntimeApiAccessConfig();
   const apiKey = String(apiKeyOverride || cfg.apiKey || '').trim();
   if (!apiKey) throw new Error('OpenAI API key is missing.');
 
-  const endpoint = 'https://api.openai.com/v1/chat/completions';
-  
-  // Intra-provider model fallback: 4o -> 4o-mini -> 3.5
-  const models = ['gpt-4o', 'gpt-4o-mini', 'gpt-3.5-turbo'];
-  let lastErr = null;
+  const model = String(modelOverride || cfg.openaiModel || 'gpt-4o-mini').trim();
+  const oaiMessages = [];
+  if (systemPrompt) oaiMessages.push({ role: 'system', content: systemPrompt });
+  messages.forEach((m) => oaiMessages.push({ role: m.role || 'user', content: m.content || m.text || '' }));
 
-  for (const model of models) {
-    try {
-      const oaiMessages = [];
-      if (systemPrompt) oaiMessages.push({ role: 'system', content: systemPrompt });
-      messages.forEach(m => oaiMessages.push({ role: m.role || 'user', content: m.content || m.text || '' }));
+  const payload = { model, messages: oaiMessages };
+  if (jsonFormat) payload.response_format = { type: 'json_object' };
 
-      const payload = {
-        model,
-        messages: oaiMessages,
-      };
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
+    body: JSON.stringify(payload),
+    signal,
+  });
 
-      if (jsonFormat) {
-        payload.response_format = { type: 'json_object' };
-      }
-
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify(payload),
-        signal,
-      });
-
-      if (!res.ok) {
-        const errText = await res.text().catch(() => '');
-        throw new Error(`OpenAI (${model}) failed: ${res.status} ${errText}`);
-      }
-
-      const json = await res.json();
-      return json?.choices?.[0]?.message?.content || '';
-    } catch (e) {
-      lastErr = e;
-    }
+  if (!res.ok) {
+    throw new Error(`OpenAI request failed (${res.status}): ${await readErrorBody(res)}`);
   }
 
-  throw lastErr || new Error('OpenAI models failed.');
+  const json = await res.json();
+  return json?.choices?.[0]?.message?.content || '';
 }
 
-export async function fetchDirectClaudeChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null, apiKeyOverride = null }) {
+export async function fetchDirectClaudeChat({
+  systemPrompt = '',
+  messages = [],
+  jsonFormat = false,
+  signal = null,
+  apiKeyOverride = null,
+  modelOverride = null,
+}) {
   const cfg = getRuntimeApiAccessConfig();
   const apiKey = String(apiKeyOverride || cfg.claudeKey || '').trim();
   if (!apiKey) throw new Error('Claude API key is missing.');
 
-  const endpoint = 'https://api.anthropic.com/v1/messages';
-  
-  // Intra-provider model fallback: 3.5 Sonnet -> 3 Opus
-  const models = ['claude-3-5-sonnet-20240620', 'claude-3-opus-20240229'];
-  let lastErr = null;
+  const model = String(modelOverride || cfg.claudeModel || 'claude-3-5-sonnet-latest').trim();
+  const anthropicMessages = messages.map((m) => ({
+    role: m.role === 'assistant' ? 'assistant' : 'user',
+    content: m.content || m.text || '',
+  }));
 
-  for (const model of models) {
-    try {
-      const anthropicMessages = messages.map(m => ({
-        role: m.role || 'user',
-        content: m.content || m.text || ''
-      }));
+  const payload = { model, max_tokens: 4096, messages: anthropicMessages };
+  if (systemPrompt) payload.system = systemPrompt;
 
-      const payload = {
-        model,
-        max_tokens: 4096,
-        messages: anthropicMessages,
-      };
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify(payload),
+    signal,
+  });
 
-      if (systemPrompt) {
-        payload.system = systemPrompt;
-      }
-
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01'
-        },
-        body: JSON.stringify(payload),
-        signal,
-      });
-
-      if (!res.ok) {
-        const errText = await res.text().catch(() => '');
-        throw new Error(`Claude (${model}) failed: ${res.status} ${errText}`);
-      }
-
-      const json = await res.json();
-      return json?.content?.[0]?.text || '';
-    } catch (e) {
-      lastErr = e;
-    }
+  if (!res.ok) {
+    throw new Error(`Claude request failed (${res.status}): ${await readErrorBody(res)}`);
   }
 
-  throw lastErr || new Error('Claude models failed.');
+  const json = await res.json();
+  const text = json?.content?.find?.((item) => item?.type === 'text')?.text;
+  if (jsonFormat && typeof text !== 'string') return '';
+  return text || '';
 }
 
-export async function executeDirectAiChat({ systemPrompt = '', messages = [], jsonFormat = false, signal = null }) {
+export async function executeDirectAiChat({
+  systemPrompt = '',
+  messages = [],
+  jsonFormat = false,
+  signal = null,
+  capability = 'general',
+}) {
   const cfg = getRuntimeApiAccessConfig();
-  const mainProvider = cfg.provider || 'gemini';
-  
-  // Define fallback order: Primary -> Others
-  const providers = ['gemini', 'claude', 'openai', 'ollama'];
-  const ordered = [mainProvider, ...providers.filter(p => p !== mainProvider)];
+  const mode = String(cfg.mode || 'hosted').trim().toLowerCase();
+  const provider = String(cfg.provider || 'hosted').trim().toLowerCase();
 
-  let lastError = null;
-
-  for (const prov of ordered) {
-    try {
-      if (prov === 'gemini') {
-        const key = prov === cfg.provider ? cfg.apiKey : 'AIzaSyAaAbaervIT28OsrSf2rPmUzpyzOiPhjiA';
-        if (!key) continue;
-        return await fetchDirectGeminiChat({ systemPrompt, messages, jsonFormat, signal, apiKeyOverride: key });
-      }
-      if (prov === 'claude') {
-        if (!cfg.claudeKey) continue;
-        return await fetchDirectClaudeChat({ systemPrompt, messages, jsonFormat, signal });
-      }
-      if (prov === 'openai') {
-        if (!cfg.apiKey || cfg.provider !== 'openai') continue;
-        return await fetchDirectOpenAIChat({ systemPrompt, messages, jsonFormat, signal });
-      }
-      if (prov === 'ollama') {
-        return await fetchDirectOllamaChat({ systemPrompt, messages, jsonFormat, signal });
-      }
-    } catch (e) {
-      lastError = e;
-    }
+  if (mode === 'hosted' || provider === 'hosted') {
+    return requestHostedAiChat({ systemPrompt, messages, jsonFormat, signal, capability });
   }
 
-  if (lastError) throw lastError;
-  return null;
+  // Privacy rule: use only the provider the user explicitly selected.
+  // Never silently fail over to another company/provider.
+  if (provider === 'gemini') {
+    return fetchDirectGeminiChat({ systemPrompt, messages, jsonFormat, signal });
+  }
+  if (provider === 'openai') {
+    return fetchDirectOpenAIChat({ systemPrompt, messages, jsonFormat, signal });
+  }
+  if (provider === 'claude' || provider === 'anthropic') {
+    return fetchDirectClaudeChat({ systemPrompt, messages, jsonFormat, signal });
+  }
+  if (provider === 'ollama') {
+    return fetchDirectOllamaChat({ systemPrompt, messages, jsonFormat, signal });
+  }
+
+  throw new Error(`Unsupported AI provider: ${provider || 'unknown'}`);
 }
