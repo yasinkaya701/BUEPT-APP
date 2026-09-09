@@ -154,6 +154,47 @@ function parseJsonText(text) {
   }
 }
 
+async function runWebSearch(query) {
+  const q = String(query || '').trim().slice(0, 300);
+  if (!q) return { context: '' };
+
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 8000);
+  try {
+    const endpoint = `https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`;
+    const upstream = await fetch(endpoint, {
+      method: 'GET',
+      headers: { 'User-Agent': 'BUEPT-APP/2.0 educational-search' },
+      signal: ctrl.signal,
+    });
+    if (!upstream.ok) {
+      const error = new Error(`Search upstream failed (${upstream.status})`);
+      error.code = 'SEARCH_UPSTREAM_ERROR';
+      error.status = 502;
+      throw error;
+    }
+    const data = await upstream.json();
+    const lines = [];
+    if (data?.AbstractText) lines.push(`Abstract: ${String(data.AbstractText).slice(0, 2400)}`);
+    if (data?.Answer) lines.push(`Answer: ${String(data.Answer).slice(0, 800)}`);
+    const related = Array.isArray(data?.RelatedTopics) ? data.RelatedTopics : [];
+    related.slice(0, 5).forEach((topic) => {
+      if (topic?.Text) lines.push(`- ${String(topic.Text).slice(0, 700)}`);
+    });
+    return { context: lines.join('\n').slice(0, 6000) };
+  } catch (error) {
+    if (error?.name === 'AbortError') {
+      const timeoutError = new Error('Search request timed out.');
+      timeoutError.code = 'SEARCH_TIMEOUT';
+      timeoutError.status = 504;
+      throw timeoutError;
+    }
+    throw error;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function requestHandler(req, res) {
   const requestId = safeRequestId(req);
   res.setHeader('X-Request-Id', requestId);
@@ -186,6 +227,18 @@ async function requestHandler(req, res) {
         version: env('VERCEL_GIT_COMMIT_SHA', env('COMMIT_REF', 'development')).slice(0, 12),
         requestId,
       });
+      return;
+    }
+
+    if (req.method === 'GET' && path === '/api/search') {
+      const url = new URL(req.url || '/', 'http://localhost');
+      const query = String(url.searchParams.get('q') || '').trim();
+      if (!query) {
+        sendJson(res, 400, { error: 'INVALID_SEARCH_QUERY', detail: 'q is required', requestId });
+        return;
+      }
+      const result = await runWebSearch(query);
+      sendJson(res, 200, { ...result, requestId });
       return;
     }
 
