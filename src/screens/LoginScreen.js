@@ -83,7 +83,6 @@ export default function LoginScreen({ navigation }) {
     const compact = height < 760;
     const savedAccountReady = Boolean(userProfile?.email);
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const savedAccountLabel = useMemo(
@@ -100,7 +99,7 @@ export default function LoginScreen({ navigation }) {
     const handleLogin = async () => {
         setError('');
         setSubmitting(true);
-        const result = await login({ email, password });
+        const result = await login({ email });
         setSubmitting(false);
         if (!result?.ok) {
             setError(result?.error || 'Sign in failed.');
@@ -154,9 +153,9 @@ export default function LoginScreen({ navigation }) {
                         <View style={[styles.glassCard, compact && styles.glassCardCompact]}>
                             <View style={styles.sectionHeader}>
                                 <View style={styles.flexOne}>
-                                    <Text style={styles.formTitle}>Sign In</Text>
+                                    <Text style={styles.formTitle}>Continue</Text>
                                     <Text style={styles.formSub}>
-                                        Use the saved local account on this device, or launch the live demo hub directly.
+                                        Continue with the local learning profile on this device, or open the demo workspace.
                                     </Text>
                                 </View>
                                 <View style={styles.statusPill}>
@@ -188,7 +187,7 @@ export default function LoginScreen({ navigation }) {
                                     <Ionicons name="person-add-outline" size={18} color={colors.primaryDark} />
                                     <View style={styles.infoCopy}>
                                         <Text style={styles.infoTitle}>No local account on this device</Text>
-                                        <Text style={styles.infoBody}>Create one once, then future sign-ins stay local and fast.</Text>
+                                        <Text style={styles.infoBody}>Create a local learning profile. No password is stored on this device.</Text>
                                     </View>
                                 </View>
                             )}
@@ -208,19 +207,12 @@ export default function LoginScreen({ navigation }) {
                                 />
                             </View>
 
-                            <View style={styles.inputWrap}>
-                                <Ionicons name="lock-closed-outline" size={20} color={colors.muted} style={styles.inputIcon} />
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Password"
-                                    placeholderTextColor={colors.muted}
-                                    secureTextEntry
-                                    returnKeyType="done"
-                                    value={password}
-                                    onChangeText={setPassword}
-                                    onSubmitEditing={handleLogin}
-                                    autoComplete="password"
-                                />
+                            <View style={styles.infoCard}>
+                                <Ionicons name="shield-checkmark-outline" size={18} color={colors.primaryDark} />
+                                <View style={styles.infoCopy}>
+                                    <Text style={styles.infoTitle}>Local profile — no password stored</Text>
+                                    <Text style={styles.infoBody}>This release keeps your learning profile on this device. Cloud authentication will be introduced separately; no local password is collected or saved.</Text>
+                                </View>
                             </View>
 
                             {error ? (
@@ -231,7 +223,7 @@ export default function LoginScreen({ navigation }) {
                             ) : null}
 
                             <TouchableOpacity style={[styles.loginBtn, submitting && styles.loginBtnDisabled]} onPress={handleLogin} disabled={submitting}>
-                                <Text style={styles.loginBtnText}>{submitting ? 'Signing In...' : 'Sign In'}</Text>
+                                <Text style={styles.loginBtnText}>{submitting ? 'Opening Profile...' : 'Continue'}</Text>
                                 <Ionicons name="arrow-forward" size={18} color="#fff" style={styles.loginBtnIcon} />
                             </TouchableOpacity>
 
@@ -260,7 +252,7 @@ export default function LoginScreen({ navigation }) {
                             </View>
 
                             <TouchableOpacity style={styles.switchBtn} onPress={() => navigation.navigate('Signup')}>
-                                <Text style={styles.switchBtnText}>New Student? <Text style={styles.switchLink}>Create Account</Text></Text>
+                                <Text style={styles.switchBtnText}>New here? <Text style={styles.switchLink}>Create Local Profile</Text></Text>
                             </TouchableOpacity>
                         </View>
                     </View>
