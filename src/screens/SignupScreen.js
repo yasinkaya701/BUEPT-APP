@@ -4,6 +4,7 @@ import Screen from '../components/Screen';
 import { colors, spacing, typography, radius, shadow } from '../theme/tokens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppState } from '../context/AppState';
+import { useUniversity } from '../context/UniversityContext';
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
@@ -35,10 +36,12 @@ const styles = StyleSheet.create({
     switchLink: { color: colors.primary, fontWeight: '800' },
 });
 
-const FACULTIES = ["Engineering", "Economics", "Arts & Sciences", "Education", "Law"];
+const ACADEMIC_AREAS = ["Engineering", "Economics & Admin", "Arts & Sciences", "Education", "Other"];
 
 export default function SignupScreen({ navigation, route }) {
     const { register } = useAppState();
+    const { university, uniKey } = useUniversity();
+    const emailPlaceholder = uniKey === 'odtu' ? 'student@metu.edu.tr' : 'student@boun.edu.tr';
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [faculty, setFaculty] = useState('');
@@ -89,7 +92,7 @@ export default function SignupScreen({ navigation, route }) {
                         <Ionicons name="mail-outline" size={20} color={colors.muted} style={styles.inputIcon} />
                         <TextInput
                             style={styles.input}
-                            placeholder="ahmet@boun.edu.tr"
+                            placeholder={emailPlaceholder}
                             placeholderTextColor={colors.muted}
                             autoCapitalize="none"
                             keyboardType="email-address"
@@ -98,9 +101,9 @@ export default function SignupScreen({ navigation, route }) {
                         />
                     </View>
 
-                    <Text style={styles.inputLabel}>Choose Faculty</Text>
+                    <Text style={styles.inputLabel}>Academic Area</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.facultyScroll}>
-                        {FACULTIES.map(fac => (
+                        {ACADEMIC_AREAS.map(fac => (
                             <TouchableOpacity
                                 key={fac}
                                 style={[styles.facultyBtn, faculty === fac && styles.facultyBtnActive]}
@@ -114,7 +117,7 @@ export default function SignupScreen({ navigation, route }) {
                     <View style={[styles.inputWrap, { alignItems: 'flex-start', paddingVertical: spacing.md }]}>
                         <Ionicons name="shield-checkmark-outline" size={20} color={colors.primary} style={styles.inputIcon} />
                         <Text style={{ flex: 1, color: colors.muted, lineHeight: 20 }}>
-                            This creates a local learning profile only. BUEPT-APP does not collect or store a password in this release.
+                            This creates a local learning profile for {university?.shortName || 'this edition'}. No password is collected or stored in this release.
                         </Text>
                     </View>
 
